@@ -1,0 +1,53 @@
+version: '3.1'
+services:
+  easymeets_core:
+    build:
+      context: ./backend
+      dockerfile: ./EasyMeets.Core/Dockerfile
+      args:
+        - PROJECT_PORT=5050
+    container_name: 'easymeets_core'
+    restart: on-failure
+    ports:
+        - "5050:5050"
+    networks:
+        - back
+    environment:
+        ASPNETCORE_ENVIRONMENT: 'Development'
+        ConnectionStrings__easymeetsCoreDBConnection: 'Server=sql_server;Database=EasyMeetsCoreDB;User ID=SA;Password=MySecretPassword!'
+
+  easymeets_notifier:
+      build:
+        context: ./backend
+        dockerfile: ./EasyMeets.Notifier/Dockerfile
+        args:
+          - PROJECT_PORT=5070
+      container_name: 'easymeets_notifier'
+      restart: on-failure
+      ports:
+          - "5070:5070"
+      networks:
+          - back
+      environment:
+          ASPNETCORE_ENVIRONMENT: 'Development'
+
+  easymeets_client:
+    depends_on:
+        - easymeets_core
+        - easymeets_notifier
+    build:
+        context: ./frontend
+        dockerfile: Dockerfile.dev
+    container_name: 'easymeets_frontend'
+    restart: on-failure
+    ports:
+        - "4200:80"
+    networks:
+        - back
+        - front
+
+networks:
+    back:
+        driver: bridge
+    front:
+        driver: bridge
