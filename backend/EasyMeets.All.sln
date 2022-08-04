@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Notifier.WebAPI", "EasyMeets.Notifier\EasyMeets.Notifier.WebAPI\EasyMeets.Notifier.WebAPI.csproj", "{093D275F-9FAC-4C20-B662-DFAAEADCFFA4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Core.WebAPI", "EasyMeets.Core\EasyMeets.Core.WebAPI\EasyMeets.Core.WebAPI.csproj", "{71412846-9AD6-44FB-935B-4DBF84804CCE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Core.Common", "EasyMeets.Core\EasyMeets.Core.Common\EasyMeets.Core.Common.csproj", "{4976E905-86BD-4E7F-96F4-DABDF752F6C9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Core.BLL", "EasyMeets.Core\EasyMeets.Core.BLL\EasyMeets.Core.BLL.csproj", "{B5B76FBE-53C6-4C84-A24F-B4C195F22296}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Core.DAL", "EasyMeets.Core\EasyMeets.Core.DAL\EasyMeets.Core.DAL.csproj", "{362BD70C-D988-433E-9F73-7415A2C0F669}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{093D275F-9FAC-4C20-B662-DFAAEADCFFA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{093D275F-9FAC-4C20-B662-DFAAEADCFFA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{093D275F-9FAC-4C20-B662-DFAAEADCFFA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{093D275F-9FAC-4C20-B662-DFAAEADCFFA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71412846-9AD6-44FB-935B-4DBF84804CCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71412846-9AD6-44FB-935B-4DBF84804CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71412846-9AD6-44FB-935B-4DBF84804CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71412846-9AD6-44FB-935B-4DBF84804CCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4976E905-86BD-4E7F-96F4-DABDF752F6C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4976E905-86BD-4E7F-96F4-DABDF752F6C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4976E905-86BD-4E7F-96F4-DABDF752F6C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4976E905-86BD-4E7F-96F4-DABDF752F6C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5B76FBE-53C6-4C84-A24F-B4C195F22296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5B76FBE-53C6-4C84-A24F-B4C195F22296}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5B76FBE-53C6-4C84-A24F-B4C195F22296}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5B76FBE-53C6-4C84-A24F-B4C195F22296}.Release|Any CPU.Build.0 = Release|Any CPU
+		{362BD70C-D988-433E-9F73-7415A2C0F669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{362BD70C-D988-433E-9F73-7415A2C0F669}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{362BD70C-D988-433E-9F73-7415A2C0F669}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{362BD70C-D988-433E-9F73-7415A2C0F669}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2BC64448-468D-4CDB-A06B-C16BA9D6A9AC}
+	EndGlobalSection
+EndGlobal
