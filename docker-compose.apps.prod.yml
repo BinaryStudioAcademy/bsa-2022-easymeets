@@ -1,0 +1,51 @@
+version: '3.1'
+services:
+
+    easymeets_core:
+        image: tatihutii/easymeets_core:latest
+        container_name: 'easymeets_core'
+        restart: on-failure
+        networks:
+            - back
+        ports:
+            - "5050:5050"
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Production
+        env_file:
+            - /etc/environment
+        volumes:
+           - ./resources:/app/Resources
+
+    easymeets_notifier:
+        image: tatihutii/easymeets_notifier:latest
+        container_name: 'easymeets_notifier'
+        restart: on-failure
+        networks:
+            - back
+        ports:
+            - "5070:5070"
+        environment:
+            ASPNETCORE_ENVIRONMENT: 'Production'
+        env_file:
+            - /etc/environment
+
+    easymeets_frontend:
+        depends_on:
+            - easymeets_core
+            - easymeets_notifier
+        image: tatihutii/easymeets_frontend:latest
+        container_name: 'easymeets_frontend'
+        restart: on-failure
+        networks:
+            - back
+            - front
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - /etc/letsencrypt:/etc/letsencrypt
+networks:
+    back:
+        driver: bridge
+    front:
+        driver: bridge
