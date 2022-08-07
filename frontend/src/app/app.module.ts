@@ -10,7 +10,13 @@ import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
     declarations: [AppComponent],
-    imports: [BrowserModule, SharedModule, AppRoutingModule, AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule],
+    imports: [
+        BrowserModule,
+        SharedModule,
+        AppRoutingModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule,
+    ],
     providers: [],
     bootstrap: [AppComponent],
 })

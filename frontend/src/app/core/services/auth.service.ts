@@ -42,7 +42,7 @@ export class AuthService {
     public isLoggedIn() {
         const currentUser = localStorage.getItem('user');
 
-        if (currentUser === null) {
+        if (!currentUser) {
             return false;
         }
         const userData = JSON.parse(currentUser!) as User;
