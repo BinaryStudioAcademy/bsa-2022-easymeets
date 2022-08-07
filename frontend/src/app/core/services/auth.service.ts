@@ -24,22 +24,34 @@ export class AuthService {
     }
 
     public signIn(email: string, password: string) {
-        return this.afAuth
-            .signInWithEmailAndPassword(email, password);
+        return this.afAuth.signInWithEmailAndPassword(email, password);
     }
 
     public resetPassword(email: string) {
-        return this.afAuth
-            .sendPasswordResetEmail(email);
+        return this.afAuth.sendPasswordResetEmail(email);
     }
 
     public loginWithGoogle() {
         return this.loginWithProvider(new auth.GoogleAuthProvider());
     }
 
+    public signOut() {
+        return this.afAuth.signOut().then(() => localStorage.removeItem('user'));
+    }
+
+    public isLoggedIn() {
+        const currentUser = localStorage.getItem('user');
+
+        if (currentUser === null) {
+            return false;
+        }
+        const userData = JSON.parse(currentUser!) as User;
+
+        return userData.emailVerified;
+    }
+
     private loginWithProvider(provider: auth.GoogleAuthProvider | auth.GithubAuthProvider | auth.FacebookAuthProvider) {
-        return this.afAuth
-            .signInWithPopup(provider);
+        return this.afAuth.signInWithPopup(provider);
     }
 
     private sendEmailVerification() {
