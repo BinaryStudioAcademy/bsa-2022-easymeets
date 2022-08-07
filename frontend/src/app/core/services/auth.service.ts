@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import * as auth from 'firebase/auth';
 import firebase from 'firebase/compat';
 import User = firebase.User;
 
@@ -30,6 +31,15 @@ export class AuthService {
     public resetPassword(email: string) {
         return this.afAuth
             .sendPasswordResetEmail(email);
+    }
+
+    public loginWithGoogle() {
+        return this.loginWithProvider(new auth.GoogleAuthProvider());
+    }
+
+    private loginWithProvider(provider: auth.GoogleAuthProvider | auth.GithubAuthProvider | auth.FacebookAuthProvider) {
+        return this.afAuth
+            .signInWithPopup(provider);
     }
 
     private sendEmailVerification() {
