@@ -22,7 +22,17 @@ export class AuthService {
             .then(() => this.sendEmailVerification());
     }
 
-    public sendEmailVerification() {
+    public signIn(email: string, password: string) {
+        return this.afAuth
+            .signInWithEmailAndPassword(email, password);
+    }
+
+    public resetPassword(email: string) {
+        return this.afAuth
+            .sendPasswordResetEmail(email);
+    }
+
+    private sendEmailVerification() {
         return this.afAuth.currentUser
             .then((u) => u!.sendEmailVerification());
     }
