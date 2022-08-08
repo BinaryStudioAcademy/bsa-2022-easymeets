@@ -154,11 +154,11 @@ erDiagram
     datetime UpdatedAt
   }
 
-  Questions ||--o{ AvailabilitySlot : AvailabilitySlotId
-  Questions {
+  Question ||--o{ AvailabilitySlot : AvailabilitySlotId
+  Question {
     int Id
     int AvailabilitySlotId
-    nvarchar QuestionText
+    nvarchar Text
     boolean IsDeleted
     datetime CreatedAt
     datetime UpdatedAt
