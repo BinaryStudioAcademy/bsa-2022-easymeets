@@ -22,11 +22,32 @@ header
   img
     width: 92px
     height: 33px
+    margin-right: 50px
     
-  nav
-    margin-left: 20%
-    display: block
+  .nav
+    display: flex
     float: left
+    margin-left: 20%
+
+    .tab
+      box-sizing: border-box
+      display: flex
+      flex-direction: row
+      justify-content: center
+      align-items: center
+      padding: 8px 12px
+      gap: 8px
+      width: 108px
+      height: 68px
+      background: #FFFFFF
+      border-bottom: 2px solid #FFFFFF
+      flex: none
+      order: 0
+      align-self: stretch
+      flex-grow: 1
+
+      &.active
+        border-bottom: 2px solid #4C7DE7
 
     a
       width: 76px
@@ -36,15 +57,13 @@ header
       font-weight: 700
       font-size: 14px
       line-height: 20px
-      text-decoration: none
+      display: flex
+      align-items: center
+      text-align: center
       color: #4C7DE7
       flex: none
       order: 1
       flex-grow: 0
-      margin: 4 4
+      text-decoration: none
 
-      &.active, &:hover
-        color: white
-
-    @media screen and (min-width: 800px)
-      display: block
+    
