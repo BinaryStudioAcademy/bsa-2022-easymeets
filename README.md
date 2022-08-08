@@ -89,3 +89,7 @@ This is a list of the required environment variables:
 #### MSSQL Server
 
 **SA_PASSWORD** - MSSQL Server "SA" user password
+
+## Database scheme
+
+![database scheme](./database-scheme.png)
