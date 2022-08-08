@@ -10,6 +10,10 @@ const routes: Routes = [
         path: 'main',
         loadChildren: () => import('./modules/main/main.module').then((m) => m.MainModule),
     },
+    {
+        path: 'availability',
+        loadChildren: () => import('./modules/availability/availability.module').then((m) => m.AvailabilityModule),
+    },
     { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
