@@ -20,15 +20,20 @@ export class AuthService {
     public signUp(email: string, password: string) {
         return this.afAuth
             .createUserWithEmailAndPassword(email, password)
-            .then(() => this.sendEmailVerification());
+            .then(() => this.sendEmailVerification())
+            .catch((error) => this.handleAuthError(error));
     }
 
     public signIn(email: string, password: string) {
-        return this.afAuth.signInWithEmailAndPassword(email, password);
+        return this.afAuth
+            .signInWithEmailAndPassword(email, password)
+            .catch((error) => this.handleAuthError(error));
     }
 
     public resetPassword(email: string) {
-        return this.afAuth.sendPasswordResetEmail(email);
+        return this.afAuth
+            .sendPasswordResetEmail(email)
+            .catch((error) => this.handleAuthError(error));
     }
 
     public loginWithGoogle() {
@@ -36,7 +41,10 @@ export class AuthService {
     }
 
     public signOut() {
-        return this.afAuth.signOut().then(() => localStorage.removeItem('user'));
+        return this.afAuth
+            .signOut()
+            .then(() => localStorage.removeItem('user'))
+            .catch((error) => this.handleAuthError(error));
     }
 
     public isLoggedIn() {
@@ -51,11 +59,19 @@ export class AuthService {
     }
 
     private loginWithProvider(provider: auth.GoogleAuthProvider | auth.GithubAuthProvider | auth.FacebookAuthProvider) {
-        return this.afAuth.signInWithPopup(provider);
+        return this.afAuth
+            .signInWithPopup(provider)
+            .catch((error) => this.handleAuthError(error));
     }
 
     private sendEmailVerification() {
         return this.afAuth.currentUser
-            .then((u) => u!.sendEmailVerification());
+            .then((u) => u!.sendEmailVerification())
+            .catch((error) => this.handleAuthError(error));
+    }
+
+    private handleAuthError(error: Error) {
+        // eslint-disable-next-line no-alert
+        window.alert(error.message);
     }
 }
