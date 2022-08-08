@@ -1,15 +1,16 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {environment} from "@env/environment";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from '@env/environment';
+import { Observable } from 'rxjs';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class HttpInternalService {
     public baseUrl: string = environment.coreUrl;
+
     public headers = new HttpHeaders();
 
-    constructor(private http: HttpClient) {
-    }
+    // eslint-disable-next-line no-empty-function
+    constructor(private http: HttpClient) {}
 
     public getHeaders(): HttpHeaders {
         return this.headers;
@@ -47,6 +48,7 @@ export class HttpInternalService {
         if (url.startsWith('http://') || url.startsWith('https://')) {
             return url;
         }
+
         return this.baseUrl + url;
     }
 }
