@@ -1,27 +1,24 @@
 hr
     border: 0
-    border-top: 1px solid #eef0f4
+    border-top: 3px solid #eef0f4
 li
     list-style: none
 
 .card-container
-    height: 160px
     background-color: #fff
     padding: 1em
-
-.slot-content
-    display: flex
-    flex-direction: column
-    justify-content: center
-
-.slot-header
-    height: 10%
-    display: flex
-    align-items: center
-    justify-content: space-between
-    p
-        font-size: 0.8em
-        color: #d2d2d2
+    .slot-content
+        display: flex
+        flex-direction: column
+        justify-content: center
+        .slot-header
+            height: 10%
+            display: flex
+            align-items: center
+            justify-content: space-between
+            p
+                font-size: 0.8em
+                color: #d2d2d2
 
 .time-options
     height: 10%
@@ -30,25 +27,41 @@ li
     justify-content: flex-start
     p
         font-size: 1.2em
+        margin: 0.4em 0 0.4em 0
         font-weight: bold
         color: #687282
 
-.link
+.options
     display: flex
-    align-items: flex-end
+    justify-content: space-between
+    align-items: center
     font-size: 0.8em
-    a
-        color: #808896
-    .copy-icon
-        width: 20px
-        height: 20px
-        margin-right: 0.7em
+    margin: 1em 0 0 0
+    .link
+        display: flex
+        align-items: center
+        a
+            color: #808896
+        .icon
+            width: 18px
+            height: 18px
+            margin-right: 0.7em
+            filter: invert(94%) sepia(3%) saturate(1127%) hue-rotate(185deg) brightness(88%) contrast(86%)
+    .menu-icon
+        color: #a7a7a7
+        outline: none
+        border: none
+        background-color: #fff
+        cursor: pointer
+        width: 18px
+        height: 18px
 
 .meeting-details
     display: flex
     flex-direction: column
     p
         color: #a7a7a7
+        font-size: 1em
     .avatar
         width: 30px
         height: 30px
