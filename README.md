@@ -46,20 +46,20 @@ erDiagram
       nvarchar ImagePath
       nvarchar Country
       nvarchar TimeZone
+      boolean IsBanned
+      boolean IsDeleted
       datetime CreatedAt
       datetime UpdatedAt
   }
 
-  Event ||--o{ User : CreatorId
-  Event ||--o{ Team : TeamId
-  Event {
-      int Id
-      nvarchar Name
-      string Description
-      int Duration
-      datetime EventStartTime
-      int CreatorId
+  TeamMember ||--o{ User : UserId
+  TeamMember ||--o{ Team : TeamId
+  TeamMember {
+      int UserId
+      int Role
+      int Status
       int TeamId
+      boolean IsDeleted
       datetime CreatedAt
       datetime UpdatedAt
   }
@@ -68,111 +68,132 @@ erDiagram
       int Id
       nvarchar LogoPath
       nvarchar Name
-      nvarchar Email
       nvarchar PageLink
       nvarchar TimeZone
       string Description
+      boolean IsDeleted
       datetime CreatedAt
       datetime UpdatedAt
   }
 
-  TeamCalendar ||--o{ Team : FromTeamId
-  TeamCalendar ||--o{ Team : VisibleForTeamId
-  TeamCalendar ||--o{ Calendar : CalendarId
-  TeamCalendar {
-      int Id
-      int FromTeamId
-      int VisibleForTeamId
+  CalendarVisibleForTeam ||--o{ Calendar : CalendarId
+  CalendarVisibleForTeam ||--o{ Team : TeamId
+  CalendarVisibleForTeam {
       int CalendarId
-      boolean CheckForConflicts
-      datetime CreatedAt
-      datetime UpdatedAt
+      int TeamId
   }
 
   Calendar ||--o{ User : UserId
-  Calendar {
+  Calendar ||--o{ Team : AddEventFromTeamId
+  Calendar{
       int Id
-      nvarchar Email
+      boolean CheckForConflicts
       int UserId
+      boolean IsDeleted
+      int AddEventFromTeamId
       datetime CreatedAt
       datetime UpdatedAt
   }
 
-  ExternalAttendee ||--o{ Event : EventId
-  ExternalAttendee {
-      int Id
+  TeamMemberMeeting ||--o{ User : UserTeamId
+  TeamMemberMeeting ||--o{ Meeting : EventId
+  TeamMemberMeeting {
+      int UserTeamId
       int EventId
-      time EventTime
+      int Priority
+  }
+
+  Meeting ||--o{ User : AuthorId
+  Meeting ||--o{ Team : TeamId
+  Meeting ||--o{ Location : LocationId
+  Meeting {
+      int Id
       nvarchar Name
-      nvarchar Email
+      nvarchar Description
+      int Duration
+      datetime StartTime
+      int AuthorId
+      int TeamId
+      int LocationId
+      boolean IsDeleted
       datetime CreatedAt
       datetime UpdatedAt
+  }
+
+  Location {
+    int Id
+    nvarchar Name
+  }
+
+  UserSlot ||--o{ User : UserId
+  UserSlot ||--o{ AvailabilitySlot : AvailabilitySlotId
+  UserSlot {
+    int UserId
+    int AvailabilitySlotId
+  }
+
+  AvailabilitySlot ||--o{ Location : LocationId
+  AvailabilitySlot ||--o{ AdvansedSlotSettings : AdvansedSlotSettingsId
+  AvailabilitySlot{
+    int Id
+    nvarchar Name
+    nvarchar Description
+    nvarchar Link
+    int State
+    int Type
+    int Size
+    int LocationId
+    boolean IsDeleted
+    int AuthorId
+    int TeamId
+    boolean IsEnabled
+    boolean IsVisible
+    int Frequency
+    int AdvansedSlotSettingsId
+    datetime CreatedAt
+    datetime UpdatedAt
+  }
+
+  Questions ||--o{ AvailabilitySlot : AvailabilitySlotId
+  Questions {
+    int Id
+    int AvailabilitySlotId
+    nvarchar QuestionText
+    boolean IsDeleted
+    datetime CreatedAt
+    datetime UpdatedAt
+  }
+
+  AdvansedSlotSettings {
+    int Id
+    int ActivityType
+    int Days
+    datetime StartDate
+    datetime EndDate
+    int MaxNumberOfBookings
+    int PaddingBeforeMeeting
+    int BookersScheduleBlockingTimeoreMeetingInHours
+    int Color
+  }
+
+  ExternalAttendee ||--o{ AvailabilitySlot : AvailabilitySlotId
+  ExternalAttendee{
+    int Id
+    int AvailabilitySlotId
+    datetime EventTime
+    nvarchar Name
+    nvarchar Email
+    boolean IsDeleted
+    datetime CreatedAt
+    datetime UpdatedAt
   }
 
   ExternalAttendeeAvailability ||--o{ ExternalAttendee : ExternalAttendeeId
-  ExternalAttendeeAvailability {
-      int Id
-      int ExternalAttendeeId
-      datetime StartEvent
-      datetime EndEvent
-  }
-
-  TeamMemberEvent ||--o{ Event : EventId
-  TeamMemberEvent ||--o{ Team : UserTeamId
-  TeamMemberEvent {
-      int EventId
-      int UserTeamId
-      datetime CreatedAt
-      datetime UpdatedAt
-  }
-
-  UserTeam ||--o{ User : UserId
-  UserTeam ||--o{ Team : TeamId
-  UserTeam ||--o{ Role : RoleId
-  UserTeam {
-      int UserId
-      int RoleId
-      int TeamId
-      int Status
-      datetime CreatedAt
-      datetime UpdatedAt
-  }
-
-  Role {
-      int Id
-      string Name
-      datetime CreatedAt
-      datetime UpdatedAt
-  }
-
-  Question ||--o{ AvailabilitySlot : AvailabilitySlotId
-  Question {
-      int Id
-      int AvailabilitySlotId
-      string QuestionText
-      datetime CreatedAt
-      datetime UpdatedAt
-  }
-
-  AvailabilitySlot ||--o{ MeetingLocation : MeetingLocationId
-  AvailabilitySlot {
-      int Id
-      nvarchar Name
-      string Description
-      string Link
-      int State
-      int Type
-      int Size
-      int LocationId
-      datetime CreatedAt
-      datetime UpdatedAt
-  }
-
-  MeetingLocation {
-      int Id
-      string Name
-      datetime CreatedAt
-      datetime UpdatedAt
+  ExternalAttendeeAvailability{
+    int Id
+    int ExternalAttendeeId
+    datetime StartDate
+    datetime EndDate
   }
 ```
 
