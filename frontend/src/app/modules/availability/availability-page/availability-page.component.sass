@@ -7,30 +7,31 @@
     background-color: #eef0f4
 
 .teams-container
-    width: 75%
+    width: 80%
     height: 45%
-
     display: flex
     flex-direction: column
     align-items: flex-start
-    .availability-slot
-        width: 100%
-        height: 100%
-        display: grid
-        align-items: center
-        grid-gap: 1em
-        grid-auto-flow: column
+
+.availability-slot
+    width: 100%
+    height: 100%
+    display: grid
+    grid-template-columns: repeat(auto-fill, 32%)
+    align-items: flex-start
+    grid-gap: 1.2em
 
 .team-info
     display: flex
     flex-direction: column
     align-items: flex-start
-    margin-top: 1em
+    margin: 1em 0 1em 0
     .team-name
         color: #808896
         display: flex
         flex-direction: row
         align-items: center
+        margin-top: 1em
         .copy-icon
             width: 20px
             height: 20px
