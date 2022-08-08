@@ -20,9 +20,20 @@
                 <img src="assets/copy_icon.png" class="icon" />
                 <a href="#">Link.com/heorhii</a>
             </div>
-            <mat-select class="fas fa-ellipsis menu-icon">
-                <mat-option> Hello </mat-option>
-            </mat-select>
+            <div>
+                <div class="drop-down-menu">
+                    <button class="fas fa-ellipsis menu-icon" [matMenuTriggerFor]="menu"></button>
+
+                    <mat-menu #menu="matMenu" yPosition="above">
+                        <button mat-menu-item>Edit</button>
+                        <button mat-menu-item>Share</button>
+                        <button mat-menu-item>View bookings</button>
+                        <button mat-menu-item>Delete</button>
+                        <button mat-menu-item>Duplicate</button>
+                        <button mat-menu-item>Select</button>
+                    </mat-menu>
+                </div>
+            </div>
         </div>
     </div>
 </mat-card>

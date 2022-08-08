@@ -63,11 +63,16 @@ li
         color: #a7a7a7
         font-size: 1em
     .avatar
-        width: 30px
-        height: 30px
+        width: 25px
+        height: 25px
         border-radius: 20px
 
 .avatar-list
-    display: grid
-    grid-gap: 0.1em
-    grid-auto-flow: column
+    display: flex
+    flex-direction: row
+
+.mat-list-base .mat-list-item, .mat-list-base .mat-list-option
+    width: 15%
+
+.mat-list-item-content span
+    padding: 0
