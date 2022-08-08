@@ -52,7 +52,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles/index.sass"
+              "src/styles/index.sass",
+              "src/app/shared/styles/common-page-styles.sass"
             ],
             "scripts": []
           },
