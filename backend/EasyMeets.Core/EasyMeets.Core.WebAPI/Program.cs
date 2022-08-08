@@ -34,6 +34,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseEasyMeetsCoreContext();
+
 app.UseMiddleware<GenericExceptionHandlerMiddleware>();
 
 app.UseCors(opt => opt
