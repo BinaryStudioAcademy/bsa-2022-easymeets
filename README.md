@@ -38,10 +38,141 @@ _Tip: If you want to connect to the specific service outside of docker, then use
 
 ```mermaid
 erDiagram
-  Simple {
-      long id
-      string Title
-      string Body
+  User {
+      int Id
+      nvarchar Name
+      nvarchar Email
+      nvarchar PhoneNumber
+      nvarchar ImagePath
+      nvarchar Country
+      nvarchar TimeZone
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  Event ||--o{ User : CreatorId
+  Event ||--o{ Team : TeamId
+  Event {
+      int Id
+      nvarchar Name
+      string Description
+      int Duration
+      datetime EventStartTime
+      int CreatorId
+      int TeamId
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  Team {
+      int Id
+      nvarchar LogoPath
+      nvarchar Name
+      nvarchar Email
+      nvarchar PageLink
+      nvarchar TimeZone
+      string Description
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  TeamCalendar ||--o{ Team : FromTeamId
+  TeamCalendar ||--o{ Team : VisibleForTeamId
+  TeamCalendar ||--o{ Calendar : CalendarId
+  TeamCalendar {
+      int Id
+      int FromTeamId
+      int VisibleForTeamId
+      int CalendarId
+      boolean CheckForConflicts
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  Calendar ||--o{ User : UserId
+  Calendar {
+      int Id
+      nvarchar Email
+      int UserId
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  ExternalAttendee ||--o{ Event : EventId
+  ExternalAttendee {
+      int Id
+      int EventId
+      time EventTime
+      nvarchar Name
+      nvarchar Email
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  ExternalAttendeeAvailability ||--o{ ExternalAttendee : ExternalAttendeeId
+  ExternalAttendeeAvailability {
+      int Id
+      int ExternalAttendeeId
+      datetime StartEvent
+      datetime EndEvent
+  }
+
+  TeamMemberEvent ||--o{ Event : EventId
+  TeamMemberEvent ||--o{ Team : UserTeamId
+  TeamMemberEvent {
+      int EventId
+      int UserTeamId
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  UserTeam ||--o{ User : UserId
+  UserTeam ||--o{ Team : TeamId
+  UserTeam ||--o{ Role : RoleId
+  UserTeam {
+      int UserId
+      int RoleId
+      int TeamId
+      int Status
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  Role {
+      int Id
+      string Name
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  Question ||--o{ AvailabilitySlot : AvailabilitySlotId
+  Question {
+      int Id
+      int AvailabilitySlotId
+      string QuestionText
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  AvailabilitySlot ||--o{ MeetingLocation : MeetingLocationId
+  AvailabilitySlot {
+      int Id
+      nvarchar Name
+      string Description
+      string Link
+      int State
+      int Type
+      int Size
+      int LocationId
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  MeetingLocation {
+      int Id
+      string Name
+      datetime CreatedAt
+      datetime UpdatedAt
   }
 ```
 
@@ -89,7 +220,3 @@ This is a list of the required environment variables:
 #### MSSQL Server
 
 **SA_PASSWORD** - MSSQL Server "SA" user password
-
-## Database scheme
-
-![database scheme](./database-scheme.png)
