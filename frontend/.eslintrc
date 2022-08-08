@@ -9,6 +9,9 @@
             }
         }
     },
+    "env": {
+        "browser": true
+    },
     "overrides": [
         {
             "files": ["*.ts"],
