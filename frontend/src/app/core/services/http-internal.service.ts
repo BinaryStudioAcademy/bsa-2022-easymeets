@@ -5,26 +5,26 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class HttpInternalService {
-    public baseUrl: string = environment.coreUrl;
+    private baseUrl: string = environment.coreUrl;
 
-    public headers = new HttpHeaders();
+    private headers = new HttpHeaders();
 
     // eslint-disable-next-line no-empty-function
     constructor(private http: HttpClient) {}
 
-    public getHeaders(): HttpHeaders {
+    private getHeaders(): HttpHeaders {
         return this.headers;
     }
 
-    public getHeader(key: string): string {
+    private getHeader(key: string): string {
         return this.headers.get(key) as string;
     }
 
-    public setHeader(key: string, value: string): void {
+    private setHeader(key: string, value: string): void {
         this.headers.set(key, value);
     }
 
-    public deleteHeader(key: string): void {
+    private deleteHeader(key: string): void {
         this.headers.delete(key);
     }
 
@@ -44,7 +44,7 @@ export class HttpInternalService {
         return this.http.delete<T>(this.buildUrl(url), { headers: this.getHeaders(), params: httpParams });
     }
 
-    public buildUrl(url: string): string {
+    private buildUrl(url: string): string {
         if (url.startsWith('http://') || url.startsWith('https://')) {
             return url;
         }
