@@ -55,7 +55,6 @@
               "src/assets"
             ],
             "styles": [
-              "src/custom-theme.scss",
               "src/styles/index.sass"
             ],
             "scripts": []
