@@ -8,6 +8,8 @@ import { Component, Input, OnInit } from '@angular/core';
 export class SlotComponent implements OnInit {
     @Input() public slot: { time: string; user: string; link: string; meetingPlace: string; avatars: Array<string> };
 
+    public isChecked: boolean = true;
+
     // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
     ngOnInit(): void {}
 }

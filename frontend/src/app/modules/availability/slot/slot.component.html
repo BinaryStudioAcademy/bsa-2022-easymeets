@@ -2,7 +2,7 @@
     <div class="slot-content">
         <div class="slot-header">
             <p>Availability slots for</p>
-            <mat-slide-toggle></mat-slide-toggle>
+            <mat-slide-toggle [checked]="this.isChecked"></mat-slide-toggle>
         </div>
         <div class="time-options">
             <p>{{ this.slot.time }} meeting</p>
