@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
@@ -6,7 +6,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
     templateUrl: './slot.component.html',
     styleUrls: ['./slot.component.sass'],
 })
-export class SlotComponent implements OnInit {
+export class SlotComponent {
     @Input() public slot: {
         time: string;
         user: string;
@@ -19,11 +19,7 @@ export class SlotComponent implements OnInit {
 
     public isDisabled: boolean = false;
 
-    // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-    ngOnInit(): void {}
-
     public toggle(event: MatSlideToggleChange) {
-        console.log('toggle', event.checked);
         this.isChecked = event.checked;
     }
 }
