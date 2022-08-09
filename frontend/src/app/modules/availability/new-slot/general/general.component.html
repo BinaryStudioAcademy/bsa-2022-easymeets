@@ -110,5 +110,9 @@
                 </div>
             </div>
         </div>
+        <div class="input-container">
+            <input type="checkbox" [(ngModel)]="hideFromCommon" [disabled]="!addAdvanced">
+            <p class="input-message">Hide this Availability Slots card from Common Booking Page</p>
+        </div>
     </div>
 </div>

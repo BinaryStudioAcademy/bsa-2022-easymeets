@@ -36,5 +36,7 @@ export class GeneralComponent {
 
     public selectedBookingMeetingDifference: string = this.minBookingMeetingDifferences[0];
 
+    public hideFromCommon: boolean = false;
+
     public addAdvanced: boolean = true;
 }
