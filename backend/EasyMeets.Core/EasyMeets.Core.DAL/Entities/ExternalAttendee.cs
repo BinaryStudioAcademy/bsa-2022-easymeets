@@ -1,6 +1,6 @@
 namespace EasyMeets.Core.DAL.Entities;
 
-public class ExternalAttendee : AuditEntity<int>
+public class ExternalAttendee : Entity<int>
 {
     public int AvailabilitySlotId { get; set; }
     public DateTime EventTime { get; set; }

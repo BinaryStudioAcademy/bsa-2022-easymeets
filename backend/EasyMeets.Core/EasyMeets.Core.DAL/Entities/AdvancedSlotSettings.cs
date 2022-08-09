@@ -2,7 +2,7 @@ using System.Drawing;
 
 namespace EasyMeets.Core.DAL.Entities;
 
-public class AdvancedSlotSettings : AuditEntity<int>
+public class AdvancedSlotSettings : Entity<int>
 {
     public int ActivityType { get; set; }
     public int Days { get; set; }

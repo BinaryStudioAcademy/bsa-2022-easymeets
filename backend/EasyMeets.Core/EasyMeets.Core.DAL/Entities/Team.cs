@@ -1,6 +1,6 @@
 namespace EasyMeets.Core.DAL.Entities;
 
-public class Team : AuditEntity<int>
+public class Team : Entity<int>
 {
     public string LogoPath { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;

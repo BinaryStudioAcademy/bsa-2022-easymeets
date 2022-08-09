@@ -2,7 +2,6 @@ namespace EasyMeets.Core.DAL.Entities;
 
 public class AvailabilitySlot : AuditEntity<int>
 {
-    public int AuthorId { get; set; }
     public int TeamId { get; set; }
     public int LocationId { get; set; }
     public int? AdvancedSlotSettingsId { get; set; }

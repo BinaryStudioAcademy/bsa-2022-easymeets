@@ -1,6 +1,6 @@
 namespace EasyMeets.Core.DAL.Entities;
 
-public class Location : AuditEntity<int>
+public class Location : Entity<int>
 {
     public string Name { get; set; } = string.Empty;
     
