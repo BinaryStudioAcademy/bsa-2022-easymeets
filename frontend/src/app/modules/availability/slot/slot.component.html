@@ -1,16 +1,16 @@
-<mat-card class="card-container" *ngIf="this.isChecked">
+<mat-card class="card-container" *ngIf="isChecked">
     <div class="slot-content">
         <div class="slot-header">
             <p>Availability slots for</p>
-            <mat-slide-toggle [checked]="this.isChecked" (change)="toggle($event)"></mat-slide-toggle>
+            <mat-slide-toggle [checked]="isChecked" (change)="toggle($event)"></mat-slide-toggle>
         </div>
         <div class="time-options">
-            <p>{{ this.slot.time }} meeting</p>
+            <p>{{ slot.time }} meeting</p>
         </div>
         <div class="meeting-details">
-            <p>{{ this.slot.time }}, {{ this.slot.user }}, {{ this.slot.meetingPlace }}</p>
+            <p>{{ slot.time }}, {{ slot.user }}, {{ slot.meetingPlace }}</p>
             <div class="avatar-list">
-                <div *ngFor="let _avatar of this.slot.avatars">
+                <div *ngFor="let _avatar of slot.avatars">
                     <img [src]="_avatar" class="avatar" />
                 </div>
             </div>
@@ -19,7 +19,7 @@
         <div class="options">
             <div class="link">
                 <img src="assets/copy_icon.png" class="icon" />
-                <a href="#">{{ this.slot.link }}</a>
+                <a href="#">{{ slot.link }}</a>
             </div>
             <div>
                 <div>
@@ -41,19 +41,19 @@
         </div>
     </div>
 </mat-card>
-<mat-card class="card-container card-container-disabled" *ngIf="!this.isChecked">
+<mat-card class="card-container card-container-disabled" *ngIf="!isChecked">
     <div class="slot-content">
         <div class="slot-header">
             <p>Availability slots for</p>
-            <mat-slide-toggle [checked]="this.isChecked" (change)="toggle($event)"></mat-slide-toggle>
+            <mat-slide-toggle [checked]="isChecked" (change)="toggle($event)"></mat-slide-toggle>
         </div>
         <div class="time-options">
-            <p>{{ this.slot.time }} meeting</p>
+            <p>{{ slot.time }} meeting</p>
         </div>
         <div class="meeting-details">
-            <p>{{ this.slot.time }}, {{ this.slot.user }}, {{ this.slot.meetingPlace }}</p>
+            <p>{{ slot.time }}, {{ slot.user }}, {{ slot.meetingPlace }}</p>
             <div class="avatar-list">
-                <div *ngFor="let _avatar of this.slot.avatars">
+                <div *ngFor="let _avatar of slot.avatars">
                     <img [src]="_avatar" class="avatar" />
                 </div>
             </div>
@@ -62,7 +62,7 @@
         <div class="options">
             <div class="link">
                 <img src="assets/copy_icon.png" class="icon" />
-                <a href="#">{{ this.slot.link }}</a>
+                <a href="#">{{ slot.link }}</a>
             </div>
             <div>
                 <div class="drop-down-menu">
