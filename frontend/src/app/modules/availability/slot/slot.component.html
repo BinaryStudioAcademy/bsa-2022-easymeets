@@ -5,20 +5,21 @@
             <mat-slide-toggle></mat-slide-toggle>
         </div>
         <div class="time-options">
-            <p>30 min meeting</p>
+            <p>{{ this.slot.time }} meeting</p>
         </div>
         <div class="meeting-details">
-            <p>30 min meeting, Heorhii Matviichuk, Meet</p>
-            <mat-list class="avatar-list">
-                <mat-list-item><img src="assets/bulochka.PNG" class="avatar" /></mat-list-item>
-                <mat-list-item><img src="assets/bulochka.PNG" class="avatar" /></mat-list-item>
-            </mat-list>
+            <p>{{ this.slot.time }}, {{ this.slot.user }}, {{ this.slot.meetingPlace }}</p>
+            <div class="avatar-list">
+                <div *ngFor="let _avatar of this.slot.avatars">
+                    <img [src]="_avatar" class="avatar" />
+                </div>
+            </div>
         </div>
         <hr />
         <div class="options">
             <div class="link">
                 <img src="assets/copy_icon.png" class="icon" />
-                <a href="#">Link.com/heorhii</a>
+                <a href="#">{{ this.slot.link }}</a>
             </div>
             <div>
                 <div class="drop-down-menu">

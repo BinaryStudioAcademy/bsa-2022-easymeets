@@ -6,11 +6,8 @@
                 <img src="assets/copy_icon.png" class="copy-icon" />
             </div>
         </div>
-        <div class="availability-slot">
-            <app-slot></app-slot>
-            <app-slot></app-slot>
-            <app-slot></app-slot>
-            <app-slot></app-slot>
+        <div class="availability-slot" *ngFor="let _slot of slots">
+            <app-slot [slot]="_slot"></app-slot>
         </div>
     </div>
 </mat-card>
