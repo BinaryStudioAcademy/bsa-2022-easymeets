@@ -1,6 +1,6 @@
 header
   display: block
-  position: absolute
+  position: fixed
   top: 0
   left: 0
   width: 100%
@@ -46,27 +46,37 @@ header
       align-self: stretch
       flex-grow: 1
 
-      &.active
-        border-bottom: 2px solid #4C7DE7
-
     a
-      width: 76px
+      width: 61px
       height: 20px
       font-family: 'Inter'
       font-style: normal
-      font-weight: 700
+      font-weight: 400
       font-size: 14px
       line-height: 20px
       display: flex
       align-items: center
       text-align: center
-      color: #4C7DE7
-      flex: none
-      order: 1
-      flex-grow: 0
+      color: #667080
       text-decoration: none
+    
+    .tab-active
+      width: 123px
+      border-bottom: 2px solid #4C7DE7
+
+    .tab-active a
+     width: 75px
+     font-weight: 700
+     color: #4C7DE7
+
+    .tab-active a:hover
+     background-color: #E3ECFF
+
+  .hover-drop-icon:hover
+    background-color: #F0F1F3
 
   .button
+    float: right
     display: flex
     flex-direction: row
     justify-content: center
@@ -77,7 +87,6 @@ header
     width: 133px
     height: 50px
     left: 75%
-    border-radius: 4px
     
     .label
       width: 95px
@@ -94,18 +103,16 @@ header
       order: 1
       flex-grow: 0
 
-      .pop-up-icon img
+      .pop-up-icon
         width: 5.98px
         height: 3.83px
         margin-right: auto
+        padding: 2px
     
     .arrow-drop-down img
       position: absolute
       width: 20px
       height: 20px
-      flex: none
-      order: 2
-      flex-grow: 0
 
   .dropdown
     position: relative
@@ -113,13 +120,14 @@ header
     float: left
 
   .drop-icon
-    background-color: yellow
+    background-color: white
     color: white
     padding: 10px
     border: none
     cursor: pointer
     margin-left: 10px
-    border-radius: 100%
+    width: 133px
+    border-radius: 4px
 
   .dropdown-content
     display: none
@@ -140,16 +148,29 @@ header
     align-items: flex-start
     padding: 4px 8px
     gap: 10px
-    width: 155px
+    width: 146px
     height: 28px
-    flex: none
-    order: 0
-    align-self: stretch
-    flex-grow: 0
     text-decoration: none
 
+  .dropdown-content__btn
+    background-color: #4C7DE7
+    display: flex
+    flex-direction: row
+    justify-content: center
+    align-items: center
+    border-radius: 4px
+
+  .dropdown-content__btn span
+    color: #FFFFFF
+
+  .dropdown-content .dropdown-content__btn:hover
+    background-color: #13398D
+
+  .dropdown-content .dropdown-content__item:hover
+    background-color: #F0F1F3
+
   .dropdown-content__label
-    width: 55px
+    width: 85px
     height: 20px
     font-family: 'Inter'
     font-style: normal
@@ -157,30 +178,23 @@ header
     font-size: 14px
     line-height: 20px
     color: #667080
+    margin: 3px 5px 2px 0px
 
   .dropdown-content img
     width: 16px
     height: 16px
-    margin: 2px 5px
+    margin: 5px 0px 2px 5px
 
-  .dropdown:hover .dropdown-content
+  .dropdown:active .dropdown-content
     display: block
-
-  .drop-icon:hover
-    background-color: yellow
-
-  .dropdown-logout a
-    color: red
-    border-top: 2px solid yellow
 
   .dropdown-icon
     margin-left: auto
 
   .avatar
-    float: right
+    float: leff
     padding: 0px
     gap: 8px
-    position: absolute
     left: 85%
     top: 22px
 
@@ -189,3 +203,4 @@ header
       height: 30px
       border: 3px solid #4C7DE7
       border-radius: 100%
+      margin-left: 0
