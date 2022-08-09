@@ -9,4 +9,7 @@ public class TeamMember
     public Role Role { get; set; }
     public int Status { get; set; }
     public bool IsDeleted { get; set; }
+
+    public User User { get; set; }
+    public Team Team { get; set; }
 }

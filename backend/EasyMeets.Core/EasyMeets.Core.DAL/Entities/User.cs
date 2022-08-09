@@ -9,4 +9,10 @@ public class User : AuditEntity<int>
     public string? Country { get; set; }
     public string? TimeZone { get; set; }
     public bool IsBanned { get; set; }
+
+    public ICollection<TeamMember> TeamMembers { get; set; }
+    public ICollection<Calendar> Calendars { get; set; }
+    public ICollection<TeamMemberMeeting> TeamMeetings { get; set; }
+    public ICollection<UserSlot> UserSlots { get; set; }
+    public ICollection<AvailabilitySlot> AvailabilitySlots { get; set; }
 }

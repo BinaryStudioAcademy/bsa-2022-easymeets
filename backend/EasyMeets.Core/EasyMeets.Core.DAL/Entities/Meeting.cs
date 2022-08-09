@@ -9,4 +9,9 @@ public class Meeting : AuditEntity<int>
     public string Description { get; set; } = string.Empty;
     public int Duration { get; set; }
     public DateTime StartTime { get; set; }
+    
+    public Team Team { get; set; }
+    public User Author { get; set; }
+    public Location Location { get; set; }
+    public ICollection<TeamMemberMeeting> TeamMeetings { get; set; }
 }

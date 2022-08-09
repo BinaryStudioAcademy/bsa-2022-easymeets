@@ -14,4 +14,12 @@ public class AvailabilitySlot : AuditEntity<int>
     public int Size { get; set; }
     public bool IsEnabled { get; set; }
     public bool IsVisible { get; set; }
+
+    public User Author { get; set; }
+    public Team Team { get; set; }
+    public Location Location { get; set; }
+    public AdvancedSlotSettings AdvancedSlotSettings { get; set; }
+    public ICollection<ExternalAttendee> ExternalAttendees { get; set; }
+    public ICollection<UserSlot> UserSlots { get; set; }
+    public ICollection<Question> Questions { get; set; }
 }
