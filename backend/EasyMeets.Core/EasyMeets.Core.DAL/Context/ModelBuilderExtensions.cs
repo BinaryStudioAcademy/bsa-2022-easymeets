@@ -39,6 +39,8 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.Entity<TeamMemberMeeting>().HasData(GenerateTeamMemberMeetings());
             modelBuilder.Entity<ExternalAttendee>().HasData(GenerateExternalAttendee());
             modelBuilder.Entity<ExternalAttendeeAvailability>().HasData(GenerateExternalAttendeeAvailabilities());
+            modelBuilder.Entity<CalendarVisibleForTeam>().HasData(GenerateCalendarVisibleForTeams());
+            modelBuilder.Entity<UserSlot>().HasData(GenerateUserSlots());
         }
 
         private static IList<User> GenerateUsers(int count = 10)
@@ -223,6 +225,28 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
                 .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
                 .RuleFor(u => u.IsDeleted, f => false)
+                .Generate(count);
+        }
+        
+        private static IList<CalendarVisibleForTeam> GenerateCalendarVisibleForTeams(int count = 10)
+        {
+            int calendarId = 1;
+            int teamId = 1;
+            
+            return new Faker<CalendarVisibleForTeam>()
+                .RuleFor(u => u.CalendarId, f => calendarId++)
+                .RuleFor(u => u.TeamId, f => teamId++)
+                .Generate(count);
+        }
+        
+        private static IList<UserSlot> GenerateUserSlots(int count = 10)
+        {
+            int userId = 1;
+            int slotId = 1;
+            
+            return new Faker<UserSlot>()
+                .RuleFor(u => u.UserId, f => userId++)
+                .RuleFor(u => u.AvailabilitySlotId, f => slotId++)
                 .Generate(count);
         }
 
