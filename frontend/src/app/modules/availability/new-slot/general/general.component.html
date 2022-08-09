@@ -3,7 +3,7 @@
         <div class="input-container">
             <p class="input-description">Slot size (Meeting Duration)</p>
             <div class="input">
-                <select [(ngModel)]="selectedSlotSize" name="slotSize">
+                <select [(ngModel)]="settings.slotSize" name="slotSize">
                     <option *ngFor="let slotSize of slotSizes" [value]="slotSize">{{slotSize}}</option>
                 </select>
             </div>
@@ -11,7 +11,7 @@
         <div class="input-container">
             <p class="input-description">Frequency of Available Slots</p>
             <div class="input">
-                <select [(ngModel)]="selectedFrequency" name="slotFrequency">
+                <select [(ngModel)]="settings.slotFrequency" name="slotFrequency">
                     <option *ngFor="let slotFrequency of slotsFrequencies"
                             [value]="slotFrequency">{{slotFrequency}}</option>
                 </select>
@@ -20,13 +20,13 @@
         <div class="input-container">
             <p class="input-description">Meeting Name</p>
             <div class="input">
-                <input [(ngModel)]="meetingName" type="text" matInput>
+                <input [(ngModel)]="settings.meetingName" type="text" matInput>
             </div>
         </div>
         <div class="input-container">
             <p class="input-description">Meeting Location</p>
             <div class="input">
-                <select [(ngModel)]="selectedLocation" name="meetingLocation">
+                <select [(ngModel)]="settings.meetingLocation" name="meetingLocation">
                     <option *ngFor="let meetingLocation of meetingLocations"
                             [value]="meetingLocation">{{meetingLocation}}</option>
                 </select>
@@ -45,24 +45,24 @@
     <div class="inputs-grid">
         <div class="input-container">
             <p class="input-description">Slot Activity Time</p>
-            <mat-radio-group [(ngModel)]="selectedSlotActivity" [disabled]="!addAdvanced">
+            <mat-radio-group [(ngModel)]="settings.slotActivityOption" [disabled]="!addAdvanced">
                 <mat-radio-button *ngFor="let slotActivity of slotActivityOptions"
                                   [value]="slotActivity">{{slotActivity}}</mat-radio-button>
             </mat-radio-group>
             <div class="input">
-                <input [(ngModel)]="slotActivityValue" type="text" matInput>
+                <input [(ngModel)]="settings.slotActivityValue" type="text" matInput>
             </div>
         </div>
         <div class="input-container">
             <p class="input-description">Max. Number of Bookings per One Slot</p>
             <div class="input">
-                <input [(ngModel)]="maxBookings" type="text" matInput [disabled]="!addAdvanced">
+                <input [(ngModel)]="settings.maxBookings" type="text" matInput [disabled]="!addAdvanced">
             </div>
         </div>
         <div class="input-container">
             <p class="input-description">Paddings Before & After Meeting</p>
             <div class="input">
-                <select [(ngModel)]="selectedMeetingPadding" name="meetingPadding" [disabled]="!addAdvanced">
+                <select [(ngModel)]="settings.meetingPadding" name="meetingPadding" [disabled]="!addAdvanced">
                     <option *ngFor="let meetingPadding of meetingPaddings"
                             [value]="meetingPadding">{{meetingPadding}}</option>
                 </select>
@@ -71,7 +71,7 @@
         <div class="input-container">
             <p class="input-description">Bookers can't schedule before Meeting start</p>
             <div class="input">
-                <select [(ngModel)]="selectedBookingMeetingDifference"
+                <select [(ngModel)]="settings.minBookingMeetingDifference"
                         name="bookingMeetingDifference"
                         [disabled]="!addAdvanced">
                     <option *ngFor="let bookingMeetingDifference of minBookingMeetingDifferences"
@@ -111,7 +111,7 @@
             </div>
         </div>
         <div class="checkbox-container">
-            <input type="checkbox" [(ngModel)]="hideFromCommon" [disabled]="!addAdvanced">
+            <input type="checkbox" [(ngModel)]="settings.hideFromCommon" [disabled]="!addAdvanced">
             <span class="input-message">Hide this Availability Slots card from Common Booking Page</span>
         </div>
     </div>
