@@ -12,7 +12,7 @@ public class AdvancedSlotSettings : Entity<int>
     public int MaxNumberOfBookings { get; set; }
     public int PaddingBeforeMeeting { get; set; }
     public int BookingScheduleBlockingTimeMeetingInHours { get; set; }
-    public Color Color { get; set; }
+    public int Color { get; set; }
 
     public AvailabilitySlot AvailabilitySlot { get; set; }
 }

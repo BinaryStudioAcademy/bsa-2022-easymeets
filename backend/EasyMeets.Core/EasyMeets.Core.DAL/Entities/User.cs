@@ -3,6 +3,7 @@ namespace EasyMeets.Core.DAL.Entities;
 public class User : Entity<int>
 {
     public string Name { get; set; } = string.Empty;
+    public int Role { get; set; }
     public string Email { get; set; } = string.Empty;
     public string? PhoneNumber { get; set; }
     public string? ImagePath { get; set; }

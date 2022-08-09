@@ -9,11 +9,23 @@ namespace EasyMeets.Core.DAL.Context
         public static void Configure(this ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SampleConfig).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AdvancedSlotSettingsConfig).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AvailabilitySlotConfig).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CalendarConfig).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ExternalAttendeeAvailabilityConfig).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ExternalAttendeeConfig).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(LocationConfig).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(MeetingConfig).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(QuestionsConfig).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamConfig).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamMemberConfig).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamMemberMeetingConfig).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfig).Assembly);
         }
 
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Sample>().HasData(GenerateSamples());
+            // modelBuilder.Entity<Sample>().HasData(GenerateSamples());
         }
 
         private static IList<Sample> GenerateSamples(int count = 10)
