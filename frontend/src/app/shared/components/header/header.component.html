@@ -12,8 +12,10 @@
     </div>
     <div class="button">
         <div class="dropdown">
-            <button class="drop-icon hover-drop-icon" (click)="onSelectDropdown(1)">
-                <div class="label">Binary Team<img class="pop-up-icon" src="assets/header/header-pop-up.png" /></div>
+            <button class="drop-icon hover-drop-icon">
+                <div class="label" (click)="onSelectDropdown(1)">
+                    Binary Team<img class="pop-up-icon" src="assets/header/header-pop-up.png" />
+                </div>
             </button>
             <div class="dropdown-content" id="dropdown-content-1">
                 <a class="dropdown-content__item" routerLink="#">
@@ -40,9 +42,11 @@
         </div>
     </div>
     <div style="left: 88%" class="button">
-        <div class="dropdown" (click)="onSelectDropdown(2)">
+        <div class="dropdown">
             <button class="drop-icon">
-                <div class="avatar"><img src="assets/header/header-ava-template.png" /></div>
+                <div class="avatar">
+                    <img (click)="onSelectDropdown(2)" src="assets/header/header-ava-template.png" />
+                </div>
             </button>
             <div class="dropdown-content" id="dropdown-content-2">
                 <a class="dropdown-content__item" routerLink="#">
