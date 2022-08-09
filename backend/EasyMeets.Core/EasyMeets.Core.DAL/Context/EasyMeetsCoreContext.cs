@@ -23,6 +23,21 @@ namespace EasyMeets.Core.DAL.Context
 
         public EasyMeetsCoreContext(DbContextOptions<EasyMeetsCoreContext> options) : base(options)
         {
+            Samples = Set<Sample>();
+            AdvancedSlotSettings = Set<AdvancedSlotSettings>();
+            AvailabilitySlots = Set<AvailabilitySlot>();
+            Calendars = Set<Calendar>();
+            CalendarVisibleForTeams = Set<CalendarVisibleForTeam>();
+            ExternalAttendees = Set<ExternalAttendee>();
+            ExternalAttendeeAvailabilities = Set<ExternalAttendeeAvailability>();
+            Locations = Set<Location>();
+            Meetings = Set<Meeting>();
+            Questions = Set<Question>();
+            Teams = Set<Team>();
+            TeamMembers = Set<TeamMember>();
+            TeamMemberMeetings = Set<TeamMemberMeeting>();
+            Users = Set<User>();
+            UserSlot = Set<UserSlot>();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
