@@ -2,6 +2,16 @@ namespace EasyMeets.Core.DAL.Entities;
 
 public class User : Entity<long>
 {
+    public User()
+    {
+        TeamMembers = new List<TeamMember>();
+        Calendars = new List<Calendar>();
+        CreatedMeetings = new List<Meeting>();
+        TeamMeetings = new List<TeamMemberMeeting>();
+        Slots = new List<UserSlot>();
+        CreatedSlots = new List<AvailabilitySlot>();
+    }
+    
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string? PhoneNumber { get; set; }
