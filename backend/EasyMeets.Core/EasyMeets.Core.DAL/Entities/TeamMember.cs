@@ -4,8 +4,8 @@ namespace EasyMeets.Core.DAL.Entities;
 
 public class TeamMember : Entity<long>
 {
-    public int UserId { get; set; }
-    public int TeamId { get; set; }
+    public long UserId { get; set; }
+    public long TeamId { get; set; }
     public Role Role { get; set; }
     public Status Status { get; set; }
     public bool IsDeleted { get; set; }

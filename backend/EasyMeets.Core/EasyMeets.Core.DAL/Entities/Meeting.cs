@@ -2,8 +2,8 @@ namespace EasyMeets.Core.DAL.Entities;
 
 public class Meeting : AuditEntity<long>
 {
-    public int TeamId { get; set; }
-    public int LocationId { get; set; }
+    public long TeamId { get; set; }
+    public long LocationId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public int Duration { get; set; }
