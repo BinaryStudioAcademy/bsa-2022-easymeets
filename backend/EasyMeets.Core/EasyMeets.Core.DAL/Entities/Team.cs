@@ -10,7 +10,7 @@ public class Team : Entity<int>
     
     public ICollection<Calendar> ExportEventsToCalendars { get; set; }
     public ICollection<TeamMember> TeamMembers { get; set; }
-    public ICollection<CalendarVisibleForTeam> VisibleCalendars { get; set; }
+    public ICollection<Calendar> VisibleCalendars { get; set; }
     public ICollection<AvailabilitySlot> AvailabilitySlots { get; set; }
     public ICollection<Meeting> Meetings { get; set; }
 }

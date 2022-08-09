@@ -29,12 +29,12 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok(sample);
         }
 
-        // [HttpGet("user/{userId}")]
-        // public async Task<ActionResult<ICollection<SampleDto>>> GetByUserAsync(int userId)
-        // {
-        //     var samples = await _sampleService.GetUserSamplesAsync(userId);
-        //     return Ok(samples);
-        // }
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<ICollection<SampleDto>>> GetByUserAsync(int userId)
+        {
+            var samples = await _sampleService.GetUserSamplesAsync(userId);
+            return Ok(samples);
+        }
 
         [HttpPost]
         public async Task<ActionResult<SampleDto>> CreateAsync(NewSampleDto sampleDto)

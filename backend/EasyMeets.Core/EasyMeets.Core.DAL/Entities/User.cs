@@ -12,7 +12,9 @@ public class User : Entity<int>
 
     public ICollection<TeamMember> TeamMembers { get; set; }
     public ICollection<Calendar> Calendars { get; set; }
+    public ICollection<Meeting> CreatedMeetings { get; set; }
     public ICollection<TeamMemberMeeting> TeamMeetings { get; set; }
-    public ICollection<UserSlot> UserSlots { get; set; }
-    public ICollection<AvailabilitySlot> AvailabilitySlots { get; set; }
+    public ICollection<AvailabilitySlot> Slots { get; set; }
+    
+    public ICollection<AvailabilitySlot> CreatedSlots { get; set; }
 }

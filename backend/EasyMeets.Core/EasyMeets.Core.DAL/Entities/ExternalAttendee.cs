@@ -7,6 +7,6 @@ public class ExternalAttendee : Entity<int>
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
 
-    public AvailabilitySlot TypeAvailabilitySlot { get; set; }
+    public AvailabilitySlot AvailabilitySlot { get; set; }
     public ICollection<ExternalAttendeeAvailability> ExternalAttendeeAvailabilities { get; set; }
 }
