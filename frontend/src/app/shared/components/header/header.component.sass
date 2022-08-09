@@ -42,9 +42,7 @@ header
       background: #FFFFFF
       border-bottom: 2px solid #FFFFFF
       flex: none
-      order: 0
       align-self: stretch
-      flex-grow: 1
 
     a
       width: 61px
@@ -104,9 +102,8 @@ header
       align-items: center
       color: #667080
       flex: none
-      order: 1
-      flex-grow: 0
       padding-left: 5%
+      cursor: pointer
 
       .pop-up-icon
         width: 5.98px
@@ -129,7 +126,6 @@ header
     color: white
     padding: 10px
     border: none
-    cursor: pointer
     margin-left: 10px
     width: 133px
     border-radius: 4px
@@ -206,7 +202,29 @@ header
       border: 3px solid #4C7DE7
       border-radius: 100%
       margin-left: -50%
+      cursor: pointer
 
   @media screen and (max-width: 1150px)
    .logo img
     margin-left: -5%
+   .drop-icon .label
+    margin-left: -15% 
+  
+  @media screen and (max-width: 980px)
+   .logo img
+    margin-left: -10% 
+   .drop-icon .label
+    margin-left: -30% 
+
+  @media screen and (max-width: 870px)
+   .logo img
+    margin-left: -15%  
+   .drop-icon .label
+    margin-left: -45%  
+
+  @media screen and (max-width: 630px)
+   .drop-icon .label
+    display: none
+   .drop-icon .avatar
+    margin-left: -20%
+
