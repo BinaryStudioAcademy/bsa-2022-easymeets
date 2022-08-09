@@ -1,8 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { GeneralComponent } from './new-slot/general/general.component';
+
 @NgModule({
-    declarations: [],
+    declarations: [
+        GeneralComponent,
+    ],
     imports: [
         CommonModule,
     ],
