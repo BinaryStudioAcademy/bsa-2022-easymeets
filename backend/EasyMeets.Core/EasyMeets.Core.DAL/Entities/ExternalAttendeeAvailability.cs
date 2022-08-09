@@ -1,10 +1,10 @@
 namespace EasyMeets.Core.DAL.Entities;
 
-public class ExternalAttendeeAvailability : Entity<int>
+public class ExternalAttendeeAvailability : Entity<long>
 {
     public int ExternalAttendeeId { get; set; }
-    public DateTime StartEvent { get; set; }
-    public DateTime EndEvent { get; set; }
+    public DateTimeOffset StartEvent { get; set; }
+    public DateTimeOffset EndEvent { get; set; }
 
     public ExternalAttendee ExternalAttendee { get; set; }
 }

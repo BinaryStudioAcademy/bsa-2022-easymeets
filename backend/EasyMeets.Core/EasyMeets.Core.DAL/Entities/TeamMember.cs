@@ -2,7 +2,7 @@ using EasyMeets.Core.DAL.Entities.Enums;
 
 namespace EasyMeets.Core.DAL.Entities;
 
-public class TeamMember
+public class TeamMember : Entity<long>
 {
     public int UserId { get; set; }
     public int TeamId { get; set; }

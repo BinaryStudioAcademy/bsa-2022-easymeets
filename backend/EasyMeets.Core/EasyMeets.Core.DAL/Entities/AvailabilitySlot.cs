@@ -2,7 +2,7 @@ using EasyMeets.Core.DAL.Entities.Enums;
 
 namespace EasyMeets.Core.DAL.Entities;
 
-public class AvailabilitySlot : AuditEntity<int>
+public class AvailabilitySlot : AuditEntity<long>
 {
     public int TeamId { get; set; }
     public int LocationId { get; set; }

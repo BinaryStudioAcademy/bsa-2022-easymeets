@@ -1,6 +1,6 @@
 namespace EasyMeets.Core.DAL.Entities;
 
-public class User : Entity<int>
+public class User : Entity<long>
 {
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;

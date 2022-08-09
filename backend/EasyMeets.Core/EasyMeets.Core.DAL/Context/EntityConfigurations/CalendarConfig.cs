@@ -8,9 +8,15 @@ public class CalendarConfig : IEntityTypeConfiguration<Calendar>
 {
     public void Configure(EntityTypeBuilder<Calendar> builder)
     {
+        builder.Property(c => c.UserId)
+            .IsRequired();
+        
+        builder.Property(c => c.AddEventsFromTeamId)
+            .IsRequired();
+        
         builder.HasOne(c => c.User)
             .WithMany(u => u.Calendars)
-            .HasForeignKey(c => c.CreatedBy)
+            .HasForeignKey(c => c.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(c => c.ImportEventsFromTeam)

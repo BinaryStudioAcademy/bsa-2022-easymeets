@@ -54,8 +54,6 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.PhoneNumber, f => f.Person.Phone.ClampLength(1, 10))
                 .RuleFor(u => u.ImagePath, f => f.Internet.Avatar())
                 .RuleFor(u => u.IsBanned, f => false)
-                .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
-                .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
@@ -70,8 +68,6 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.PageLink, f => f.Internet.Url())
                 .RuleFor(u => u.TimeZone, f => f.Date.TimeZoneString().ClampLength(1, 9))
                 .RuleFor(u => u.Description, f => f.Lorem.Text().ClampLength(1, 299))
-                .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
-                .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
@@ -124,8 +120,6 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.PaddingBeforeMeeting, f => f.Random.Int(1, 15))
                 .RuleFor(u => u.BookingScheduleBlockingTimeMeetingInHours, f => f.Random.Int(1, 5))
                 .RuleFor(u => u.Color, f => (Color)f.Random.Int(1, 8))
-                .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
-                .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
@@ -179,8 +173,6 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AvailabilitySlotId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.Text, f => f.Lorem.Text().ClampLength(50, 300))
-                .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
-                .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
@@ -207,8 +199,6 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Name, f => f.Person.FullName)
                 .RuleFor(u => u.Email, f => f.Person.Email)
                 .RuleFor(u => u.EventTime, f => f.Date.Future())
-                .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
-                .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
@@ -222,8 +212,6 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.ExternalAttendeeId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.StartEvent, f => DateTime.Now.AddDays(1))
                 .RuleFor(u => u.EndEvent, f => DateTime.Now.AddDays(2))
-                .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
-                .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
@@ -259,40 +247,30 @@ namespace EasyMeets.Core.DAL.Context
                 {
                     Id = 1,
                     Name = "Zoom",
-                    CreatedAt = DateTime.Today,
-                    UpdatedAt = DateTime.Today,
                     IsDeleted = false
                 },
                 new()
                 {
                     Id = 2,
                     Name = "GoogleMeet",
-                    CreatedAt = DateTime.Today,
-                    UpdatedAt = DateTime.Today,
                     IsDeleted = false
                 },
                 new()
                 {
                     Id = 3,
                     Name = "Discord",
-                    CreatedAt = DateTime.Today,
-                    UpdatedAt = DateTime.Today,
                     IsDeleted = false
                 },
                 new()
                 {
                     Id = 4,
                     Name = "Skype",
-                    CreatedAt = DateTime.Today,
-                    UpdatedAt = DateTime.Today,
                     IsDeleted = false
                 },
                 new()
                 {
                     Id = 5,
                     Name = "Slack",
-                    CreatedAt = DateTime.Today,
-                    UpdatedAt = DateTime.Today,
                     IsDeleted = false
                 }
             };

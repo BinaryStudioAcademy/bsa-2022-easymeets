@@ -1,7 +1,8 @@
 namespace EasyMeets.Core.DAL.Entities;
 
-public class Calendar : AuditEntity<int>
+public class Calendar : AuditEntity<long>
 {
+    public int UserId { get; set; }
     public int? AddEventsFromTeamId { get; set; }
     public bool CheckForConflicts { get; set; }
     

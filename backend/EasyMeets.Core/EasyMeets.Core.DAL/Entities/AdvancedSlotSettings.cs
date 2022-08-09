@@ -2,13 +2,13 @@ using EasyMeets.Core.DAL.Entities.Enums;
 
 namespace EasyMeets.Core.DAL.Entities;
 
-public class AdvancedSlotSettings : Entity<int>
+public class AdvancedSlotSettings : Entity<long>
 {
     public int AvailabilitySlotId { get; set; }
     public ActivityType ActivityType { get; set; }
     public int Days { get; set; }
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
+    public DateTimeOffset StartDate { get; set; }
+    public DateTimeOffset EndDate { get; set; }
     public int MaxNumberOfBookings { get; set; }
     public int PaddingBeforeMeeting { get; set; }
     public int BookingScheduleBlockingTimeMeetingInHours { get; set; }
