@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Slot } from '@core/interfaces/slot-interface';
 
 @Component({
     selector: 'app-team',
@@ -6,7 +7,7 @@ import { Component } from '@angular/core';
     styleUrls: ['./team.component.sass'],
 })
 export class TeamComponent {
-    public slots: Array<{ time: string; user: string; link: string; meetingPlace: string; avatars: Array<string> }> = [
+    public slots: Array<Slot> = [
         {
             time: '30 min',
             user: 'Heorhii Matviichuk',

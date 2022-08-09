@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { Slot } from '@core/interfaces/slot-interface';
 
 @Component({
     selector: 'app-slot',
@@ -7,13 +8,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
     styleUrls: ['./slot.component.sass'],
 })
 export class SlotComponent {
-    @Input() public slot: {
-        time: string;
-        user: string;
-        link: string;
-        meetingPlace: string;
-        avatars: Array<string>;
-    };
+    @Input() public slot: Slot;
 
     public isChecked: boolean = true;
 
