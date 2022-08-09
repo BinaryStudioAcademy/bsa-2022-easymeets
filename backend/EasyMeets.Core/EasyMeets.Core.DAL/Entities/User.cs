@@ -14,7 +14,6 @@ public class User : Entity<int>
     public ICollection<Calendar> Calendars { get; set; }
     public ICollection<Meeting> CreatedMeetings { get; set; }
     public ICollection<TeamMemberMeeting> TeamMeetings { get; set; }
-    public ICollection<AvailabilitySlot> Slots { get; set; }
-    
+    public ICollection<UserSlot> Slots { get; set; }
     public ICollection<AvailabilitySlot> CreatedSlots { get; set; }
 }

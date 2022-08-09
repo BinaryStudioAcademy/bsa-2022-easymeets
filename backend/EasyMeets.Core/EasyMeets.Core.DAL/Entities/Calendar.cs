@@ -7,6 +7,6 @@ public class Calendar : AuditEntity<int>
     
     public User User { get; set; }
     public Team? ImportEventsFromTeam { get; set; }
-    public ICollection<Team> VisibleForTeams { get; set; }
+    public ICollection<CalendarVisibleForTeam> VisibleForTeams { get; set; }
     
 }

@@ -21,6 +21,6 @@ public class AvailabilitySlot : AuditEntity<int>
     public Location Location { get; set; }
     public AdvancedSlotSettings AdvancedSlotSettings { get; set; }
     public ICollection<ExternalAttendee> ExternalAttendees { get; set; }
-    public ICollection<User> Members { get; set; }
+    public ICollection<UserSlot> Members { get; set; }
     public ICollection<Question> Questions { get; set; }
 }

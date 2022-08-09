@@ -17,9 +17,5 @@ public class CalendarConfig : IEntityTypeConfiguration<Calendar>
             .WithMany(t => t.ExportEventsToCalendars)
             .HasForeignKey(c => c.AddEventsFromTeamId)
             .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasMany(c => c.VisibleForTeams)
-            .WithMany(t => t.VisibleCalendars)
-            .UsingEntity(j => j.ToTable("CalendarVisibleForTeam"));
     }
 }

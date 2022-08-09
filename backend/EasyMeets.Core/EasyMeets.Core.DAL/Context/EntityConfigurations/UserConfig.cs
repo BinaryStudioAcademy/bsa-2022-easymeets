@@ -27,9 +27,5 @@ public class UserConfig : IEntityTypeConfiguration<User>
         
         builder.Property(u => u.TimeZone)
             .HasMaxLength(10);
-
-        builder.HasMany(u => u.Slots)
-            .WithMany(s => s.Members)
-            .UsingEntity(j => j.ToTable("UserSlot"));
     }
 }
