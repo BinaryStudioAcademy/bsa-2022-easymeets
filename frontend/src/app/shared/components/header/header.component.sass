@@ -66,4 +66,126 @@ header
       flex-grow: 0
       text-decoration: none
 
+  .button
+    display: flex
+    flex-direction: row
+    justify-content: center
+    align-items: center
+    padding: 8px 12px
+    gap: 4px
+    position: absolute
+    width: 133px
+    height: 50px
+    left: 75%
+    border-radius: 4px
     
+    .label
+      width: 95px
+      height: 20px
+      font-family: 'Inter'
+      font-style: normal
+      font-weight: 700
+      font-size: 14px
+      line-height: 20px
+      display: flex
+      align-items: center
+      color: #667080
+      flex: none
+      order: 1
+      flex-grow: 0
+
+      .pop-up-icon img
+        width: 5.98px
+        height: 3.83px
+        margin-right: auto
+    
+    .arrow-drop-down img
+      position: absolute
+      width: 20px
+      height: 20px
+      flex: none
+      order: 2
+      flex-grow: 0
+
+  .dropdown
+    position: relative
+    margin: 0
+    float: left
+
+  .drop-icon
+    background-color: yellow
+    color: white
+    padding: 10px
+    border: none
+    cursor: pointer
+    margin-left: 10px
+    border-radius: 100%
+
+  .dropdown-content
+    display: none
+    position: absolute
+    right: 0
+    z-index: 15
+    padding: 8px 4px
+    gap: 4px
+    width: 163px
+    height: 140px
+    background: #FFFFFF
+    border: 2px solid #BEC5D0
+    border-radius: 4px
+
+  .dropdown-content a
+    display: flex
+    flex-direction: row
+    align-items: flex-start
+    padding: 4px 8px
+    gap: 10px
+    width: 155px
+    height: 28px
+    flex: none
+    order: 0
+    align-self: stretch
+    flex-grow: 0
+    text-decoration: none
+
+  .dropdown-content__label
+    width: 55px
+    height: 20px
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
+    font-size: 14px
+    line-height: 20px
+    color: #667080
+
+  .dropdown-content img
+    width: 16px
+    height: 16px
+    margin: 2px 5px
+
+  .dropdown:hover .dropdown-content
+    display: block
+
+  .drop-icon:hover
+    background-color: yellow
+
+  .dropdown-logout a
+    color: red
+    border-top: 2px solid yellow
+
+  .dropdown-icon
+    margin-left: auto
+
+  .avatar
+    float: right
+    padding: 0px
+    gap: 8px
+    position: absolute
+    left: 85%
+    top: 22px
+
+    img
+      width: 30px
+      height: 30px
+      border: 3px solid #4C7DE7
+      border-radius: 100%
