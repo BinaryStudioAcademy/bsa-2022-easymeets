@@ -8,8 +8,6 @@ public class UserSlotConfig : IEntityTypeConfiguration<UserSlot>
 {
     public void Configure(EntityTypeBuilder<UserSlot> builder)
     {
-        builder.HasKey(t => new { t.UserId, t.AvailabilitySlotId });
-        
         builder.Property(us => us.UserId)
             .IsRequired();
         

@@ -8,7 +8,6 @@ public class CalendarVisibleForTeamConfig : IEntityTypeConfiguration<CalendarVis
 {
     public void Configure(EntityTypeBuilder<CalendarVisibleForTeam> builder)
     {
-        builder.HasKey(t => new { t.CalendarId, t.TeamId });
         builder.Property(c => c.CalendarId)
             .IsRequired();
         

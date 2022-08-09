@@ -8,8 +8,6 @@ public class TeamMemberConfig : IEntityTypeConfiguration<TeamMember>
 {
     public void Configure(EntityTypeBuilder<TeamMember> builder)
     {
-        builder.HasKey(t => new { t.UserId, t.TeamId });
-
         builder.Property(t => t.UserId)
             .IsRequired();
         

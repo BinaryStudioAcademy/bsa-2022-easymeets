@@ -8,8 +8,6 @@ public class TeamMemberMeetingConfig : IEntityTypeConfiguration<TeamMemberMeetin
 {
     public void Configure(EntityTypeBuilder<TeamMemberMeeting> builder)
     {
-        builder.HasKey(m => new { m.MemberId, m.EventId });
-        
         builder.Property(m => m.MemberId)
             .IsRequired();
         
