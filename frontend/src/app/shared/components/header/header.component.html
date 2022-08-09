@@ -4,51 +4,51 @@
     <div class="logo"><img src="assets/header-logo.png" /></div>
     <div class="nav">
         <div class="tab tab-active">
-            <a href="">Availability</a>
+            <a routerLink="#">Availability</a>
         </div>
         <div class="tab">
-            <a href="">Bookings</a>
+            <a routerLink="#">Bookings</a>
         </div>
     </div>
     <div class="button">
         <div class="dropdown">
-            <button class="drop-icon hover-drop-icon">
+            <button class="drop-icon hover-drop-icon" (click)="onSelectDropdown(1)">
                 <div class="label">Binary Team<img class="pop-up-icon" src="assets/header-pop-up.png" /></div>
             </button>
-            <div class="dropdown-content">
-                <a class="dropdown-content__item" href="#">
+            <div class="dropdown-content" id="dropdown-content-1">
+                <a class="dropdown-content__item" routerLink="#">
                     <img src="assets/header-pop-up__team.png" /><span class="dropdown-content__label">Binary Team</span>
                 </a>
-                <a class="dropdown-content__item" href="#">
+                <a class="dropdown-content__item" routerLink="#">
                     <img src="assets/header-pop-up__team.png" /><span class="dropdown-content__label">Team 2</span>
                 </a>
-                <a class="dropdown-content__item" href="#">
+                <a class="dropdown-content__item" routerLink="#">
                     <img src="assets/header-pop-up__team.png" /><span class="dropdown-content__label">Team 3</span>
                 </a>
-                <a class="dropdown-content__btn" href="#">
+                <a class="dropdown-content__btn" routerLink="#">
                     <img src="assets/header-pop-up__plus.png" /><span class="dropdown-content__label">New Team</span>
                 </a>
             </div>
         </div>
     </div>
-    <div style="left: 82%" class="button">
-        <div class="dropdown">
+    <div style="left: 88%" class="button">
+        <div class="dropdown" (click)="onSelectDropdown(2)">
             <button class="drop-icon">
                 <div class="avatar"><img src="assets/header-ava-template.png" /></div>
             </button>
-            <div class="dropdown-content">
-                <a class="dropdown-content__item" href="#">
+            <div class="dropdown-content" id="dropdown-content-2">
+                <a class="dropdown-content__item" routerLink="#">
                     <img src="assets/header-pop-up__account.png" /><span class="dropdown-content__label">Account</span>
                 </a>
-                <a class="dropdown-content__item" href="#">
+                <a class="dropdown-content__item" routerLink="#">
                     <img src="assets/header-pop-up__integrations.png" /><span class="dropdown-content__label"
                         >Integrations</span
                     >
                 </a>
-                <a class="dropdown-content__item" href="#">
+                <a class="dropdown-content__item" routerLink="#">
                     <img src="assets/header-pop-up__team.png" /><span class="dropdown-content__label">Team</span>
                 </a>
-                <a class="dropdown-content__item" href="#">
+                <a class="dropdown-content__item" routerLink="#">
                     <img src="assets/header-pop-up__logout.png" /><span class="dropdown-content__label">Logout</span>
                 </a>
             </div>

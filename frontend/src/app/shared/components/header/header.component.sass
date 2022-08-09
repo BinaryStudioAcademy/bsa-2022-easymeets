@@ -1,6 +1,7 @@
 header
-  display: block
   position: fixed
+  display: flex
+  flex-direction: row
   top: 0
   left: 0
   width: 100%
@@ -54,12 +55,16 @@ header
       font-weight: 400
       font-size: 14px
       line-height: 20px
-      display: flex
       align-items: center
       text-align: center
       color: #667080
       text-decoration: none
+      border-radius: 3px
     
+    .tab a:hover
+     background-color: #F0F1F2
+     border: 5px solid #F0F1F2
+
     .tab-active
       width: 123px
       border-bottom: 2px solid #4C7DE7
@@ -71,6 +76,7 @@ header
 
     .tab-active a:hover
      background-color: #E3ECFF
+     border: 5px solid #E3ECFF
 
   .hover-drop-icon:hover
     background-color: #F0F1F3
@@ -86,10 +92,10 @@ header
     position: absolute
     width: 133px
     height: 50px
-    left: 75%
+    left: 77%
     
     .label
-      width: 95px
+      width: 105px
       height: 20px
       font-family: 'Inter'
       font-style: normal
@@ -102,12 +108,13 @@ header
       flex: none
       order: 1
       flex-grow: 0
+      padding-left: 5%
 
       .pop-up-icon
         width: 5.98px
         height: 3.83px
         margin-right: auto
-        padding: 2px
+        padding-left: 15%
     
     .arrow-drop-down img
       position: absolute
@@ -185,7 +192,10 @@ header
     height: 16px
     margin: 5px 0px 2px 5px
 
-  .dropdown:active .dropdown-content
+  /*.dropdown:active .dropdown-content
+    display: block*/
+  
+  .dropdown-content:hover
     display: block
 
   .dropdown-icon
@@ -195,12 +205,16 @@ header
     float: leff
     padding: 0px
     gap: 8px
-    left: 85%
-    top: 22px
+    width: 100%
+    padding-top: 4px
 
     img
       width: 30px
       height: 30px
       border: 3px solid #4C7DE7
       border-radius: 100%
-      margin-left: 0
+      margin-left: -50%
+
+  @media screen and (max-width: 1150px)
+   .logo img
+    margin-left: -5%
