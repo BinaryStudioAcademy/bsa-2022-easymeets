@@ -77,11 +77,9 @@ namespace EasyMeets.Core.DAL.Migrations
                 name: "Locations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -93,15 +91,13 @@ namespace EasyMeets.Core.DAL.Migrations
                 name: "Teams",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LogoPath = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PageLink = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     TimeZone = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -113,7 +109,7 @@ namespace EasyMeets.Core.DAL.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -122,8 +118,6 @@ namespace EasyMeets.Core.DAL.Migrations
                     Country = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     TimeZone = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     IsBanned = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -135,11 +129,11 @@ namespace EasyMeets.Core.DAL.Migrations
                 name: "AvailabilitySlots",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TeamId = table.Column<int>(type: "int", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: false),
-                    AdvancedSlotSettingsId = table.Column<int>(type: "int", nullable: true),
+                    TeamId = table.Column<long>(type: "bigint", nullable: false),
+                    LocationId = table.Column<long>(type: "bigint", nullable: false),
+                    AdvancedSlotSettingsId = table.Column<long>(type: "bigint", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     Link = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
@@ -148,10 +142,10 @@ namespace EasyMeets.Core.DAL.Migrations
                     Frequency = table.Column<int>(type: "int", nullable: false),
                     IsEnabled = table.Column<bool>(type: "bit", nullable: false),
                     IsVisible = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -180,14 +174,15 @@ namespace EasyMeets.Core.DAL.Migrations
                 name: "Calendars",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AddEventsFromTeamId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    AddEventsFromTeamId = table.Column<long>(type: "bigint", nullable: false),
                     CheckForConflicts = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,8 +194,8 @@ namespace EasyMeets.Core.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Calendars_Users_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_Calendars_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -210,18 +205,18 @@ namespace EasyMeets.Core.DAL.Migrations
                 name: "Meetings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TeamId = table.Column<int>(type: "int", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: false),
+                    TeamId = table.Column<long>(type: "bigint", nullable: false),
+                    LocationId = table.Column<long>(type: "bigint", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: false)
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -250,15 +245,17 @@ namespace EasyMeets.Core.DAL.Migrations
                 name: "TeamMembers",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    TeamId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    TeamId = table.Column<long>(type: "bigint", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamMembers", x => new { x.UserId, x.TeamId });
+                    table.PrimaryKey("PK_TeamMembers", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TeamMembers_Teams_TeamId",
                         column: x => x.TeamId,
@@ -277,19 +274,17 @@ namespace EasyMeets.Core.DAL.Migrations
                 name: "AdvancedSlotSettings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AvailabilitySlotId = table.Column<int>(type: "int", nullable: false),
+                    AvailabilitySlotId = table.Column<long>(type: "bigint", nullable: false),
                     ActivityType = table.Column<int>(type: "int", nullable: false),
                     Days = table.Column<int>(type: "int", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    EndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     MaxNumberOfBookings = table.Column<int>(type: "int", nullable: false),
                     PaddingBeforeMeeting = table.Column<int>(type: "int", nullable: false),
                     BookingScheduleBlockingTimeMeetingInHours = table.Column<int>(type: "int", nullable: false),
                     Color = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -307,14 +302,12 @@ namespace EasyMeets.Core.DAL.Migrations
                 name: "ExternalAttendees",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AvailabilitySlotId = table.Column<int>(type: "int", nullable: false),
-                    EventTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AvailabilitySlotId = table.Column<long>(type: "bigint", nullable: false),
+                    EventTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -332,12 +325,10 @@ namespace EasyMeets.Core.DAL.Migrations
                 name: "Questions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AvailabilitySlotId = table.Column<int>(type: "int", nullable: false),
+                    AvailabilitySlotId = table.Column<long>(type: "bigint", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -355,12 +346,15 @@ namespace EasyMeets.Core.DAL.Migrations
                 name: "UserSlot",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    AvailabilitySlotId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    AvailabilitySlotId = table.Column<long>(type: "bigint", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserSlot", x => new { x.UserId, x.AvailabilitySlotId });
+                    table.PrimaryKey("PK_UserSlot", x => x.Id);
                     table.ForeignKey(
                         name: "FK_UserSlot_AvailabilitySlots_AvailabilitySlotId",
                         column: x => x.AvailabilitySlotId,
@@ -379,12 +373,15 @@ namespace EasyMeets.Core.DAL.Migrations
                 name: "CalendarVisibleForTeams",
                 columns: table => new
                 {
-                    CalendarId = table.Column<int>(type: "int", nullable: false),
-                    TeamId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CalendarId = table.Column<long>(type: "bigint", nullable: false),
+                    TeamId = table.Column<long>(type: "bigint", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CalendarVisibleForTeams", x => new { x.CalendarId, x.TeamId });
+                    table.PrimaryKey("PK_CalendarVisibleForTeams", x => x.Id);
                     table.ForeignKey(
                         name: "FK_CalendarVisibleForTeams_Calendars_CalendarId",
                         column: x => x.CalendarId,
@@ -403,13 +400,16 @@ namespace EasyMeets.Core.DAL.Migrations
                 name: "TeamMemberMeetings",
                 columns: table => new
                 {
-                    MemberId = table.Column<int>(type: "int", nullable: false),
-                    EventId = table.Column<int>(type: "int", nullable: false),
-                    Priority = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MemberId = table.Column<long>(type: "bigint", nullable: false),
+                    EventId = table.Column<long>(type: "bigint", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamMemberMeetings", x => new { x.MemberId, x.EventId });
+                    table.PrimaryKey("PK_TeamMemberMeetings", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TeamMemberMeetings_Meetings_EventId",
                         column: x => x.EventId,
@@ -428,13 +428,11 @@ namespace EasyMeets.Core.DAL.Migrations
                 name: "ExternalAttendeeAvailabilities",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ExternalAttendeeId = table.Column<int>(type: "int", nullable: false),
-                    StartEvent = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndEvent = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExternalAttendeeId = table.Column<long>(type: "bigint", nullable: false),
+                    StartEvent = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    EndEvent = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -475,9 +473,14 @@ namespace EasyMeets.Core.DAL.Migrations
                 column: "AddEventsFromTeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Calendars_CreatedBy",
+                name: "IX_Calendars_UserId",
                 table: "Calendars",
-                column: "CreatedBy");
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CalendarVisibleForTeams_CalendarId",
+                table: "CalendarVisibleForTeams",
+                column: "CalendarId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CalendarVisibleForTeams_TeamId",
@@ -520,14 +523,29 @@ namespace EasyMeets.Core.DAL.Migrations
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TeamMemberMeetings_MemberId",
+                table: "TeamMemberMeetings",
+                column: "MemberId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TeamMembers_TeamId",
                 table: "TeamMembers",
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TeamMembers_UserId",
+                table: "TeamMembers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserSlot_AvailabilitySlotId",
                 table: "UserSlot",
                 column: "AvailabilitySlotId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserSlot_UserId",
+                table: "UserSlot",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

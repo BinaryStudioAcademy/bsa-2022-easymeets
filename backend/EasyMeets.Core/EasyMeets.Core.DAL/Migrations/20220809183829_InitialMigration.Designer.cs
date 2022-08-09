@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyMeets.Core.DAL.Migrations
 {
     [DbContext(typeof(EasyMeetsCoreContext))]
-    [Migration("20220809165628_InitialMigration")]
+    [Migration("20220809183829_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,17 +26,17 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.AdvancedSlotSettings", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<int>("ActivityType")
                         .HasColumnType("int");
 
-                    b.Property<int>("AvailabilitySlotId")
-                        .HasColumnType("int");
+                    b.Property<long>("AvailabilitySlotId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("BookingScheduleBlockingTimeMeetingInHours")
                         .HasColumnType("int");
@@ -44,14 +44,11 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<int>("Color")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("Days")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("EndDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -62,11 +59,8 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<int>("PaddingBeforeMeeting")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("StartDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -78,20 +72,20 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.AvailabilitySlot", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<int?>("AdvancedSlotSettingsId")
-                        .HasColumnType("int");
+                    b.Property<long?>("AdvancedSlotSettingsId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -115,8 +109,8 @@ namespace EasyMeets.Core.DAL.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<int>("LocationId")
-                        .HasColumnType("int");
+                    b.Property<long>("LocationId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -126,8 +120,8 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<int>("Size")
                         .HasColumnType("int");
 
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
+                    b.Property<long>("TeamId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -148,14 +142,15 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Calendar", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<int?>("AddEventsFromTeamId")
-                        .HasColumnType("int");
+                    b.Property<long?>("AddEventsFromTeamId")
+                        .IsRequired()
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("CheckForConflicts")
                         .HasColumnType("bit");
@@ -163,8 +158,8 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -172,24 +167,38 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddEventsFromTeamId");
 
-                    b.HasIndex("CreatedBy");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Calendars");
                 });
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.CalendarVisibleForTeam", b =>
                 {
-                    b.Property<int>("CalendarId")
-                        .HasColumnType("int");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.HasKey("CalendarId", "TeamId");
+                    b.Property<long>("CalendarId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("TeamId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CalendarId");
 
                     b.HasIndex("TeamId");
 
@@ -198,25 +207,22 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ExternalAttendee", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<int>("AvailabilitySlotId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<long>("AvailabilitySlotId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<DateTime>("EventTime")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("EventTime")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -225,9 +231,6 @@ namespace EasyMeets.Core.DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -238,29 +241,23 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ExternalAttendeeAvailability", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("EndEvent")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTime>("EndEvent")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ExternalAttendeeId")
-                        .HasColumnType("int");
+                    b.Property<long>("ExternalAttendeeId")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("StartEvent")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("StartEvent")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -271,14 +268,11 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Location", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -288,9 +282,6 @@ namespace EasyMeets.Core.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
                     b.ToTable("Locations");
@@ -298,18 +289,18 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Meeting", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedBy")
+                    b.Property<long?>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -322,19 +313,19 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LocationId")
-                        .HasColumnType("int");
+                    b.Property<long>("LocationId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("StartTime")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
+                    b.Property<long>("TeamId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -352,17 +343,14 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Question", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<int>("AvailabilitySlotId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<long>("AvailabilitySlotId")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -371,9 +359,6 @@ namespace EasyMeets.Core.DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -417,14 +402,11 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Team", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -454,9 +436,6 @@ namespace EasyMeets.Core.DAL.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
@@ -464,11 +443,11 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.TeamMember", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -479,45 +458,61 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "TeamId");
+                    b.Property<long>("TeamId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("TeamId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("TeamMembers");
                 });
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.TeamMemberMeeting", b =>
                 {
-                    b.Property<int>("MemberId")
-                        .HasColumnType("int");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("EventId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("MemberId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");
 
-                    b.HasKey("MemberId", "EventId");
+                    b.HasKey("Id");
 
                     b.HasIndex("EventId");
+
+                    b.HasIndex("MemberId");
 
                     b.ToTable("TeamMemberMeetings");
                 });
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("Country")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -547,9 +542,6 @@ namespace EasyMeets.Core.DAL.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -557,15 +549,26 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.UserSlot", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("AvailabilitySlotId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.HasKey("UserId", "AvailabilitySlotId");
+                    b.Property<long>("AvailabilitySlotId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("AvailabilitySlotId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserSlot");
                 });
@@ -612,12 +615,14 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.HasOne("EasyMeets.Core.DAL.Entities.Team", "ImportEventsFromTeam")
                         .WithMany("ExportEventsToCalendars")
                         .HasForeignKey("AddEventsFromTeamId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("EasyMeets.Core.DAL.Entities.User", "User")
                         .WithMany("Calendars")
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ImportEventsFromTeam");
 
