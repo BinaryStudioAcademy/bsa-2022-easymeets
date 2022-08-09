@@ -46,10 +46,7 @@
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "sass",
                         "assets": ["src/favicon.ico", "src/assets"],
-                        "styles": [
-                            "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-                            "src/styles/index.sass"
-                        ],
+                        "styles": ["src/styles/index.sass", "src/app/shared/styles/common-page-styles.sass"],
                         "scripts": []
                     },
                     "configurations": {
@@ -112,10 +109,7 @@
                         "karmaConfig": "karma.conf.js",
                         "inlineStyleLanguage": "sass",
                         "assets": ["src/favicon.ico", "src/assets"],
-                        "styles": [
-                            "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-                            "src/styles.sass"
-                        ],
+                        "styles": ["src/styles.sass"],
                         "scripts": []
                     }
                 },
