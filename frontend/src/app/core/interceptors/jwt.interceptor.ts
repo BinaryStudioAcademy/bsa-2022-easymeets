@@ -9,11 +9,11 @@ export class JwtInterceptor implements HttpInterceptor {
     // eslint-disable-next-line no-empty-function
     constructor(private authService: AuthService) {}
 
-    public intercept(req: HttpRequest<any>, next: HttpHandler) {
+    public intercept(req: HttpRequest<unknown>, next: HttpHandler) {
         return from(this.handleAccess(req, next));
     }
 
-    private async handleAccess(req: HttpRequest<any>, next: HttpHandler) {
+    private async handleAccess(req: HttpRequest<unknown>, next: HttpHandler) {
         const accessToken = await this.authService.getCurrentToken();
 
         if (accessToken) {
