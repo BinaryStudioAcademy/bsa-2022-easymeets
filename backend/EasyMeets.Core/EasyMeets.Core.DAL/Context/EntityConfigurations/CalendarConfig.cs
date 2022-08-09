@@ -10,6 +10,7 @@ public class CalendarConfig : IEntityTypeConfiguration<Calendar>
     {
         builder.HasOne(c => c.User)
             .WithMany(u => u.Calendars)
+            .HasForeignKey(c => c.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(c => c.ImportEventsFromTeam)

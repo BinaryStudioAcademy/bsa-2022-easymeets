@@ -25,10 +25,7 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
         builder.Property(s => s.Link)
             .IsRequired()
             .HasMaxLength(300);
-        
-        builder.Property(s => s.State)
-            .IsRequired();
-        
+
         builder.Property(s => s.Type)
             .IsRequired();
         

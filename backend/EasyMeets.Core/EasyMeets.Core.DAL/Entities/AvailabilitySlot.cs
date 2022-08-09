@@ -1,3 +1,5 @@
+using EasyMeets.Core.DAL.Entities.Enums;
+
 namespace EasyMeets.Core.DAL.Entities;
 
 public class AvailabilitySlot : AuditEntity<int>
@@ -8,8 +10,7 @@ public class AvailabilitySlot : AuditEntity<int>
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Link { get; set; } = string.Empty;
-    public int State { get; set; }
-    public int Type { get; set; }
+    public SlotType Type { get; set; }
     public int Size { get; set; }
     public int Frequency { get; set; }
     public bool IsEnabled { get; set; }
