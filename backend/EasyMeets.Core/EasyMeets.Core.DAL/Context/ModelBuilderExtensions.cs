@@ -49,7 +49,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.Name, f => f.Person.FullName)
                 .RuleFor(u => u.Email, f => f.Person.Email)
-                .RuleFor(u => u.PhoneNumber, f => f.Person.Phone)
+                .RuleFor(u => u.PhoneNumber, f => f.Person.Phone.ClampLength(1, 10))
                 .RuleFor(u => u.ImagePath, f => f.Internet.Avatar())
                 .RuleFor(u => u.IsBanned, f => false)
                 .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
@@ -76,9 +76,11 @@ namespace EasyMeets.Core.DAL.Context
         
         private static IList<TeamMember> GenerateTeamMembers(int count = 10)
         {
+            int userId = 1;
+            int teamId = 1;
             return new Faker<TeamMember>()
-                .RuleFor(u => u.UserId, f => f.Random.Int(1, 10))
-                .RuleFor(u => u.TeamId, f => f.Random.Int(1, 10))
+                .RuleFor(u => u.UserId, f => userId++)
+                .RuleFor(u => u.TeamId, f => teamId++)
                 .RuleFor(u => u.Role, f => (Role)f.Random.Int(1, 2))
                 .RuleFor(u => u.Status, f => (Status)f.Random.Int(1, 2))
                 .RuleFor(u => u.IsDeleted, f => false)
@@ -92,9 +94,10 @@ namespace EasyMeets.Core.DAL.Context
             return new Faker<Meeting>()
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50))
-                .RuleFor(u => u.Description, f => f.Lorem.Text().ClampLength(1, 300))
+                .RuleFor(u => u.Description, f => f.Lorem.Text().ClampLength(1, 50))
                 .RuleFor(u => u.TeamId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.LocationId, f => f.Random.Int(1, 5))
+                .RuleFor(u => u.CreatedBy, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.Duration, f => f.Random.Int(10, 60))
                 .RuleFor(u => u.StartTime, f => f.Date.Future())
                 .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
@@ -106,10 +109,11 @@ namespace EasyMeets.Core.DAL.Context
         private static IList<AdvancedSlotSettings> GenerateSlotSettingsList(int count = 10)
         {
             int id = 1;
+            int slotId = 1;
             
             return new Faker<AdvancedSlotSettings>()
                 .RuleFor(u => u.Id, f => id++)
-                .RuleFor(u => u.AvailabilitySlotId, f => id)
+                .RuleFor(u => u.AvailabilitySlotId, f => slotId++)
                 .RuleFor(u => u.ActivityType, f => (ActivityType)f.Random.Int(1, 3))
                 .RuleFor(u => u.Days, f => f.Random.Int(1, 30))
                 .RuleFor(u => u.StartDate, f => DateTime.Today.AddDays(1))
@@ -127,12 +131,15 @@ namespace EasyMeets.Core.DAL.Context
         private static IList<AvailabilitySlot> GenerateAvailabilitySlots(int count = 10)
         {
             int id = 1;
+            int settingsId = 1;
+            int authorId = 1;
             
             return new Faker<AvailabilitySlot>()
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.TeamId, f => f.Random.Int(1, 10))
+                .RuleFor(u => u.CreatedBy, f => authorId++)
                 .RuleFor(u => u.LocationId, f => f.Random.Int(1, 5))
-                .RuleFor(u => u.AdvancedSlotSettingsId, f => id)
+                .RuleFor(u => u.AdvancedSlotSettingsId, f => settingsId++)
                 .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50))
                 .RuleFor(u => u.Description, f => f.Lorem.Text().ClampLength(1, 300))
                 .RuleFor(u => u.Link, f => f.Internet.Url().ClampLength(1, 30))
@@ -154,7 +161,7 @@ namespace EasyMeets.Core.DAL.Context
             return new Faker<Calendar>()
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AddEventsFromTeamId, f => f.Random.Int(1, 10))
-                .RuleFor(u => u.UserId, f => f.Random.Int(1, 10))
+                .RuleFor(u => u.CreatedBy, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.CheckForConflicts, f => false)
                 .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
                 .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
@@ -178,11 +185,12 @@ namespace EasyMeets.Core.DAL.Context
         
         private static IList<TeamMemberMeeting> GenerateTeamMemberMeetings(int count = 10)
         {
-            int id = 1;
+            int memberId = 1;
+            int eventId = 1;
             
             return new Faker<TeamMemberMeeting>()
-                .RuleFor(u => u.MemberId, f => f.Random.Int(1, 10))
-                .RuleFor(u => u.EventId, f => f.Random.Int(1, 10))
+                .RuleFor(u => u.MemberId, f => memberId++)
+                .RuleFor(u => u.EventId, f => eventId++)
                 .RuleFor(u => u.Priority, f => f.Random.Int(1, 10))
                 .Generate(count);
         }
