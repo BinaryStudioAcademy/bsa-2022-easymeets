@@ -6,7 +6,7 @@
                 <div class="inputStartBlock">
                     <p>productname.com/</p>
                 </div>
-                <input class="inputItem" style="width: 210px" [(ngModel)]="linkChoice"/>
+                <input class="inputItem" style="width: 210px" [(ngModel)]="linkChoice" />
             </div>
         </div>
 
@@ -14,24 +14,24 @@
             <p class="title">Welcome Message</p>
 
             <textarea class="textAreaMessage" [(ngModel)]="welcomeMessage"></textarea>
-
         </div>
 
         <div>
             <p class="title">Language</p>
-            <select name="select" class="selectBlock">
+            <select name="select" class="selectBlock" [(ngModel)]="languageSelect">
                 <!--Supplement an id here instead of using 'name'-->
-                <option value="value1" selected>English</option>
-                <option value="value2">Ukrainian</option>
+                <option value="English" selected>English</option>
+                <option value="Ukrainian">Ukrainian</option>
             </select>
         </div>
+
         <div>
             <p class="title">Allowed bookings per Day</p>
-            <select name="select" class="selectBlock">
+            <select name="select" class="selectBlock" [(ngModel)]="allowBookingSelect">
                 <!--Supplement an id here instead of using 'name'-->
-                <option value="value1">1</option>
-                <option value="value2" selected>2</option>
-                <option value="value3">3</option>
+                <option value="one">1</option>
+                <option value="two" selected>2</option>
+                <option value="three">3</option>
             </select>
         </div>
     </div>
@@ -42,13 +42,10 @@
         <p>Allow Booker to add additional guests</p>
     </div>
 
-    <mat-radio-group
-      aria-labelledby="example-radio-group-label"
-      class="example-radio-group"
-      [(ngModel)]="zoneChoice">
-      <mat-radio-button class="example-radio-button" *ngFor="let season of timeZoneChoices" [value]="season">
-        {{season}}
-      </mat-radio-button>
+    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="zoneChoice">
+        <mat-radio-button class="example-radio-button" *ngFor="let season of timeZoneChoices" [value]="season">
+            {{ season }}
+        </mat-radio-button>
     </mat-radio-group>
 
     <div class="checkRowContainer">

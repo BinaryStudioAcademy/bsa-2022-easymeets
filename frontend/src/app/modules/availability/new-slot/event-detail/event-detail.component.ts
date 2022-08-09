@@ -16,4 +16,8 @@ export class EventDetailComponent {
     linkChoice: string;
 
     welcomeMessage: string;
+
+    languageSelect: string;
+
+    allowBookingSelect: string;
 }
