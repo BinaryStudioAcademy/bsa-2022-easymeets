@@ -37,11 +37,11 @@ export class HttpInternalService {
     }
 
     private setHeader(key: string, value: string): void {
-        this.headers.set(key, value);
+        this.headers = this.headers.set(key, value);
     }
 
     private deleteHeader(key: string): void {
-        this.headers.delete(key);
+        this.headers = this.headers.delete(key);
     }
 
     private buildUrl(url: string): string {
