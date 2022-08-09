@@ -6,14 +6,17 @@
                 <div class="inputStartBlock">
                     <p>productname.com/</p>
                 </div>
-                <input class="inputItem" style="width: 210px" />
+                <input class="inputItem" style="width: 210px" [(ngModel)]="linkChoice"/>
             </div>
         </div>
+
         <div>
             <p class="title">Welcome Message</p>
 
-            <textarea class="textAreaMessage"></textarea>
+            <textarea class="textAreaMessage" [(ngModel)]="welcomeMessage"></textarea>
+
         </div>
+
         <div>
             <p class="title">Language</p>
             <select name="select" class="selectBlock">
@@ -47,7 +50,6 @@
         {{season}}
       </mat-radio-button>
     </mat-radio-group>
-    <div>Your favorite season is: {{zoneChoice}}</div>
 
     <div class="checkRowContainer">
         <label class="form-switch"> <input type="checkbox" /> <i></i> </label>
