@@ -28,13 +28,6 @@ export class TeamComponent implements OnInit {
             meetingPlace: 'Zoom',
             avatars: ['assets/bulochka.PNG', 'assets/bulochka.PNG', 'assets/bulochka.PNG'],
         },
-        {
-            time: '30 min',
-            user: 'Heorhii Matviichuk',
-            link: 'Link.com/heorhii',
-            meetingPlace: 'Meet',
-            avatars: ['assets/bulochka.PNG'],
-        },
     ];
 
     // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
