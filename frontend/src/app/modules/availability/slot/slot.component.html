@@ -22,15 +22,19 @@
                 <a href="#">{{ this.slot.link }}</a>
             </div>
             <div>
-                <div class="drop-down-menu">
+                <div>
                     <button class="fas fa-ellipsis menu-icon" [matMenuTriggerFor]="menu"></button>
-                    <mat-menu #menu="matMenu">
-                        <button mat-menu-item>Edit</button>
-                        <button mat-menu-item>Share</button>
-                        <button mat-menu-item>View bookings</button>
-                        <button mat-menu-item>Delete</button>
-                        <button mat-menu-item>Duplicate</button>
-                        <button mat-menu-item>Select</button>
+                    <mat-menu #menu="matMenu" class="drop-down-menu">
+                        <button mat-menu-item class="btn edit"><i class="fa-solid fa-pen"></i>Edit</button>
+                        <button mat-menu-item class="btn share">
+                            <i class="fa-solid fa-arrow-up-from-bracket"></i>Share
+                        </button>
+                        <button mat-menu-item class="btn bookings">
+                            <i class="fa-solid fa-calendar"></i>View bookings
+                        </button>
+                        <button mat-menu-item class="btn delete"><i class="fa-solid fa-trash"></i>Delete</button>
+                        <button mat-menu-item class="btn duplicate"><i class="fa-solid fa-clone"></i>Duplicate</button>
+                        <button mat-menu-item class="btn select"><i class="fa-solid fa-plus"></i>Select</button>
                     </mat-menu>
                 </div>
             </div>
@@ -62,16 +66,7 @@
             </div>
             <div>
                 <div class="drop-down-menu">
-                    <button class="fas fa-ellipsis menu-icon" [matMenuTriggerFor]="menu"></button>
-
-                    <mat-menu #menu="matMenu" yPosition="above">
-                        <button mat-menu-item>Edit</button>
-                        <button mat-menu-item>Share</button>
-                        <button mat-menu-item>View bookings</button>
-                        <button mat-menu-item>Delete</button>
-                        <button mat-menu-item>Duplicate</button>
-                        <button mat-menu-item>Select</button>
-                    </mat-menu>
+                    <button class="fas fa-ellipsis menu-icon"></button>
                 </div>
             </div>
         </div>
