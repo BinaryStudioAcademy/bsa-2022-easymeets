@@ -1,1 +1,34 @@
-<p>general works!</p>
+<div class="main-settings">
+    <div class="inputs-grid">
+        <div class="input-container">
+            <p class="input-description">Slot size (Meeting Duration)</p>
+            <div class="input">
+                <select [(ngModel)]="selectedSlotSize" name="slotSize">
+                    <option *ngFor="let slotSize of slotSizes" [value]="slotSize">{{slotSize}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="input-container">
+            <p class="input-description">Frequency of Available Slots</p>
+            <div class="input">
+                <select [(ngModel)]="selectedFrequency" name="slotFrequency">
+                    <option *ngFor="let slotFrequency of slotsFrequencies" [value]="slotFrequency">{{slotFrequency}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="input-container">
+            <p class="input-description">Meeting Name</p>
+            <div class="input">
+                <input [(ngModel)]="meetingName" type="text" matInput>
+            </div>
+        </div>
+        <div class="input-container">
+            <p class="input-description">Meeting Location</p>
+            <div class="input">
+                <select [(ngModel)]="selectedLocation" name="meetingLocation">
+                    <option *ngFor="let meetingLocation of meetingLocations" [value]="meetingLocation">{{meetingLocation}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
