@@ -19,4 +19,6 @@ export class GeneralComponent {
     public selectedLocation: string = this.meetingLocations[0];
 
     public meetingName: string;
+
+    public addAdvanced: boolean = true;
 }

@@ -4,8 +4,10 @@
 
 .inputs-grid
     display: grid
-    grid-template-rows: 50% 50%
     grid-template-columns: 50% 50%
+    grid-template-rows: repeat(auto-fit, minmax(50px, 1fr))
+    align-items: end
+    justify-items: start
 
 .input-container
     margin: 20px
@@ -24,3 +26,12 @@ select, input
 .input-description
     font-weight: bold
     margin-bottom: 5px
+
+.show-advanced-container
+    display: flex
+    flex-direction: row
+    margin: 20px
+
+.form-switch
+    align-self: center
+    margin-right: 5px
