@@ -39,4 +39,43 @@
     </label>
     <p>Advanced settings</p>
 </div>
-
+<div class="advanced-settings" [ngClass]="{'disabled': !addAdvanced}">
+    <div class="inputs-grid">
+        <div class="input-container">
+            <p class="input-description">Slot Activity Time</p>
+            <mat-radio-group [(ngModel)]="selectedSlotActivity" [disabled]="!addAdvanced">
+                <mat-radio-button *ngFor="let slotActivity of slotActivityOptions" [value]="slotActivity">{{slotActivity}}</mat-radio-button>
+            </mat-radio-group>
+            <div class="input">
+                <input [(ngModel)]="slotActivityValue" type="text" matInput>
+            </div>
+        </div>
+        <div class="input-container">
+            <p class="input-description">Max. Number of Bookings per One Slot</p>
+            <div class="input">
+                <input [(ngModel)]="maxBookings" type="text" matInput [disabled]="!addAdvanced">
+            </div>
+        </div>
+        <div class="input-container">
+            <p class="input-description">Paddings Before & After Meeting</p>
+            <div class="input">
+                <select [(ngModel)]="selectedMeetingPadding" name="meetingPadding" [disabled]="!addAdvanced">
+                    <option *ngFor="let meetingPadding of meetingPaddings" [value]="meetingPadding">{{meetingPadding}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="input-container">
+            <p class="input-description">Bookers can't schedule before Meeting start</p>
+            <div class="input">
+                <select [(ngModel)]="selectedBookingMeetingDifference"
+                        name="bookingMeetingDifference"
+                        [disabled]="!addAdvanced">
+                    <option *ngFor="let bookingMeetingDifference of minBookingMeetingDifferences"
+                            [value]="bookingMeetingDifference">
+                        {{bookingMeetingDifference}}
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
