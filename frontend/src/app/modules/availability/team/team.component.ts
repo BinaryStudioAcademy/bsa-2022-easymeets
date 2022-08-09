@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-team',
     templateUrl: './team.component.html',
     styleUrls: ['./team.component.sass'],
 })
-export class TeamComponent implements OnInit {
+export class TeamComponent {
     public slots: Array<{ time: string; user: string; link: string; meetingPlace: string; avatars: Array<string> }> = [
         {
             time: '30 min',
@@ -29,7 +29,4 @@ export class TeamComponent implements OnInit {
             avatars: ['assets/bulochka.PNG', 'assets/bulochka.PNG', 'assets/bulochka.PNG'],
         },
     ];
-
-    // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-    ngOnInit(): void {}
 }
