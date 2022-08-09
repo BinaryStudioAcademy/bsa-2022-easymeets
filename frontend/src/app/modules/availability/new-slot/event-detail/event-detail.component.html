@@ -1,1 +1,58 @@
-<p>event-detail works!</p>
+<div>
+    <div>
+        <div>
+            <p class="title">Link</p>
+            <div class="inputBlock">
+                <div class="inputStartBlock">
+                    <p>productname.com/</p>
+                </div>
+                <input class="inputItem" style="width: 210px" />
+            </div>
+        </div>
+        <div>
+            <p class="title">Welcome Message</p>
+
+            <textarea class="textAreaMessage"></textarea>
+        </div>
+        <div>
+            <p class="title">Language</p>
+            <select name="select" class="selectBlock">
+                <!--Supplement an id here instead of using 'name'-->
+                <option value="value1" selected>English</option>
+                <option value="value2">Ukrainian</option>
+            </select>
+        </div>
+        <div>
+            <p class="title">Allowed bookings per Day</p>
+            <select name="select" class="selectBlock">
+                <!--Supplement an id here instead of using 'name'-->
+                <option value="value1">1</option>
+                <option value="value2" selected>2</option>
+                <option value="value3">3</option>
+            </select>
+        </div>
+    </div>
+    <div class="checkRowContainer">
+        <form>
+            <input type="checkbox" class="squareCheckBox" />
+        </form>
+        <p>Allow Booker to add additional guests</p>
+    </div>
+
+    <mat-radio-group
+      aria-labelledby="example-radio-group-label"
+      class="example-radio-group"
+      [(ngModel)]="zoneChoice">
+      <mat-radio-button class="example-radio-button" *ngFor="let season of timeZoneChoices" [value]="season">
+        {{season}}
+      </mat-radio-button>
+    </mat-radio-group>
+    <div>Your favorite season is: {{zoneChoice}}</div>
+
+    <div class="checkRowContainer">
+        <label class="form-switch"> <input type="checkbox" /> <i></i> </label>
+        <p>Lock the timezone (best for in-person events)</p>
+    </div>
+
+    <input class="selectBlock" />
+</div>

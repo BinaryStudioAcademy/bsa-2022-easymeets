@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-event-detail',
     templateUrl: './event-detail.component.html',
     styleUrls: ['./event-detail.component.sass'],
 })
-export class EventDetailComponent implements OnInit {
-    constructor() {}
+export class EventDetailComponent {
+    timeZoneChoices: string[] = ['Automatically detect and show the times in Bookers time zone',
+        'Lock the timezone (best for in-person events)'];
 
-    ngOnInit(): void {}
+    zoneChoice: string;
 }
