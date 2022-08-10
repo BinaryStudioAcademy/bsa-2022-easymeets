@@ -285,7 +285,7 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/material@^14.1.1":
+"@angular/material@14.1.1":
   version "14.1.1"
   resolved "https://registry.yarnpkg.com/@angular/material/-/material-14.1.1.tgz#fd8021addad113476d29ac279e23aa2a86022e08"
   integrity sha512-HU83cgnAayItSXhyMdu1+edXj2DMjGXndvFicf300JtyliyjFmVzuM78O7hIJWLhT4Mohh/GkTlOSp4sc8xXhQ==
