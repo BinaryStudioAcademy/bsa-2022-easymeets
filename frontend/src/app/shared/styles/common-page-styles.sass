@@ -1,0 +1,223 @@
+@import '../../../styles/color-variables'
+@import url("https://fonts.googleapis.com/css?family=Inter")
+
+html,
+body
+    height: 100%
+    margin: 0
+
+body
+    font-family: sans-serif
+    width: 100%
+    height: 100%
+
+.form-switch
+    display: inline-block
+    line-height: 30px
+    cursor: pointer
+    -webkit-tap-highlight-color: transparent
+    i
+        position: relative
+        display: inline-block
+        width: 46px
+        height: 26px
+        margin-left: .75em
+        margin-top: -.15em
+        border-radius: 23px
+        vertical-align: middle
+        transition: all 0.3s linear
+        background-color: $alto
+        &::before
+            content: ""
+            position: absolute
+            left: 0
+            width: 42px
+            height: 22px
+            background-color: $gallery
+            border-radius: 11px
+            transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1)
+            transition: all 0.25s linear
+
+        &::after
+            content: ""
+            position: absolute
+            left: 0
+            width: 22px
+            height: 22px
+            background-color: $white-color
+            border-radius: 11px
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24)
+            transform: translate3d(2px, 2px, 0)
+            transition: all 0.2s ease-in-out
+
+    &:active
+        i
+            &::after
+                width: 28px
+                transform: translate3d(2px, 2px, 0)
+
+        input
+            &:checked
+                +
+                i
+                    &::after
+                        transform: translate3d(16px, 2px, 0)
+
+    input
+        display: none
+        &:checked
+            +
+            i
+                background-color: $royal-blue
+                &::before
+                    transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0)
+
+                    &::after
+                        transform: translate3d(22px, 2px, 0)
+
+.inputBlock
+    display: flex
+    flex-direction: row
+    border-radius: 4px
+    align-items: center
+
+.inputStartBlock
+    background: $mercury
+    text-align: center
+    padding: 7px
+    height: 26px
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 4px 0 0 4px
+    border: 1px solid $loblolly
+    p
+        font-size: 14px
+        color: $pale-sky
+
+.inputItem
+    background: $white-color
+    border: 2px solid $loblolly
+    border-left: none
+    border-radius: 0 4px 4px 0
+    height: 36px
+    flex: none
+    order: 1
+    align-self: stretch
+    flex-grow: 0
+    width: 327px
+
+.addGuest
+    background: $white-color
+    cursor: pointer
+    border: 2px solid $loblolly
+    border-radius: 4px
+    padding: 8px 50px
+    max-width: 175px
+    width: 100%
+    font-weight: 700
+    font-size: 12px
+    line-height: 20px
+    display: flex
+    align-items: center
+    text-align: center
+    justify-content: center
+    color: $pale-sky
+
+.squareCheckBox
+    width: 16px
+    height: 16px
+
+.guest
+    background: $white-color
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16)
+    border-radius: 4px
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: space-between
+    max-width: 360px
+    width: 100%
+    padding: 11px 23px
+
+.guestImgBlock
+    background-size: contain
+    width: 51px
+    height: 51px
+    border-radius: 50%
+
+.guestInfo
+    display: flex
+    flex-direction: row
+    align-items: center
+    gap: 20px
+    p
+        font-weight: 400
+        font-size: 14px
+        line-height: 20px
+        color: $pale-sky
+
+.selectColorBlock
+    display: flex
+    flex-direction: column
+    gap: 14px
+    p
+        font-style: normal
+        font-weight: 700
+        font-size: 14px
+        line-height: 20px
+        color: $pale-sky
+
+.colorsRow
+    display: flex
+    flex-direction: row
+    align-items: center
+    gap: 14px
+
+.colorButton
+    width: 27px
+    height: 25px
+    display: flex
+    align-items: center
+    justify-content: center
+    text-align: center
+    border-radius: 50%
+    input[type="radio"]
+        margin-bottom: 2px
+        margin-right: 5px
+
+#dark-blue-color
+    background: $fiord
+
+#light-red-color
+    background: $cinnabar
+
+#light-green-color
+    background: $fuel-yellow
+
+#yellow-green-color
+    background: $inch-worm
+
+#aqua-color
+    background: $picton-blue
+
+#blue-color
+    background: $royal-blue
+
+#light-purple-color
+    background: $lavender
+
+#red-color
+    background: $maroon-flush
+
+input[type="radio"]
+    -webkit-appearance: none
+    -moz-appearance: none
+    appearance: none
+    width: 10px
+    height: 10px
+    background-clip: content-box
+    background-color: transparent
+    border-radius: 50%
+    &:checked
+        background-color: white
