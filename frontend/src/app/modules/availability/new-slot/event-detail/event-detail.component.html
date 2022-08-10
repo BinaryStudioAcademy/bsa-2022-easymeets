@@ -15,18 +15,16 @@
     </div>
 
     <div class="input-container">
-        <p class="input-description">Language</p>
-        <select [(ngModel)]="langChoice" name="langChoice">
-            <option *ngFor="let langChoice of languages" [value]="langChoice">{{ langChoice }}</option>
-        </select>
+        <p class="title text-inside">Language</p>
+    <select name="select" class="selectBlock" [(ngModel)]="languageSelect">
+        <option selected *ngFor="let languageSelect of languages" [value]="languageSelect">{{languageSelect}}</option>
+    </select>
     </div>
 
     <div class="input-container">
         <p class="input-description">Allowed bookings per Day</p>
         <select name="select" class="selectBlock" [(ngModel)]="allowBookingSelect">
-            <option value="one">1</option>
-            <option value="two" selected>2</option>
-            <option value="three">3</option>
+            <option selected *ngFor="let allowBookingSelect of allowedBooking" [value]="allowBookingSelect">{{allowBookingSelect}}</option>
         </select>
     </div>
 

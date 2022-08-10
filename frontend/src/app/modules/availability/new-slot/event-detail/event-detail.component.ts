@@ -16,6 +16,12 @@ export class EventDetailComponent {
         'Ukrainian',
     ];
 
+    allowedBooking: string[] = [
+        '1',
+        '2',
+        '3',
+    ];
+
     public zoneChoice: string;
 
     public linkChoice: string = 'heorhim';
@@ -24,13 +30,11 @@ export class EventDetailComponent {
 
     public languageSelect: string = 'English';
 
-    public allowBookingSelect: string = 'two';
+    public allowBookingSelect: string = '2';
 
     public isAllowBooker: boolean;
 
     public basicChoice: boolean = true;
-
-    public langChoice: string = 'English';
 
     public passwordProtect: boolean = true;
 
