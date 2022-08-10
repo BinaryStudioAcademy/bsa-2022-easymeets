@@ -1,12 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
     selector: 'app-calendars-page',
     templateUrl: './calendars-page.component.html',
     styleUrls: ['./calendars-page.component.sass'],
 })
-export class CalendarsPageComponent implements OnInit {
-    constructor() {}
+export class CalendarsPageComponent {
+    toppings = new FormControl('');
 
-    ngOnInit(): void {}
+    toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+
+    public displayedColumns: string[] = ['$implicit', 'index', 'count', 'first', 'last', 'even', 'odd'];
+
+    public data: string[] = ['one', 'two', 'three', 'four', 'five'];
 }
