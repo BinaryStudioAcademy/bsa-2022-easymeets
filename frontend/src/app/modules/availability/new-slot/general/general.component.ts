@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GeneralAvailabilitySettings } from '@core/models/generalAvailabilitySettings';
+import { IGeneralAvailabilitySettings } from '@core/models/generalAvailabilitySettings';
 
 @Component({
     selector: 'app-general',
@@ -7,7 +7,7 @@ import { GeneralAvailabilitySettings } from '@core/models/generalAvailabilitySet
     styleUrls: ['./general.component.sass'],
 })
 export class GeneralComponent implements OnInit {
-    public settings: GeneralAvailabilitySettings;
+    public settings: IGeneralAvailabilitySettings;
 
     public slotSizes: string[] = ['30 min', '60 min'];
 

@@ -1,4 +1,4 @@
-export interface GeneralAvailabilitySettings {
+export interface IGeneralAvailabilitySettings {
     slotSize: string;
 
     slotFrequency: string;
