@@ -13,5 +13,5 @@ public class NewAvailabilitySlotDto
     public int Frequency { get; set; }
     public bool IsEnabled { get; set; }
     public bool IsVisible { get; set; }
-    public AdvancedSlotSettingsDto? AdvancedSettings { get; set; }
+    public NewAdvancedSlotSettingsDto? AdvancedSettings { get; set; }
 }
