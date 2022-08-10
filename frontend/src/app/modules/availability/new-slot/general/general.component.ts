@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IGeneralAvailabilitySettings } from '@core/models/generalAvailabilitySettings';
+import { IGeneralAvailabilitySettings } from '@core/models/IGeneralAvailabilitySettings';
 
 @Component({
     selector: 'app-general',
