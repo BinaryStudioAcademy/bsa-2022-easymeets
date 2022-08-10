@@ -11,6 +11,11 @@ export class EventDetailComponent {
         'Lock the timezone (best for in-person events)',
     ];
 
+    languages: string[] = [
+        'English',
+        'Ukrainian',
+    ];
+
     public zoneChoice: string;
 
     public linkChoice: string = 'heorhim';
@@ -24,6 +29,8 @@ export class EventDetailComponent {
     public isAllowBooker: boolean;
 
     public basicChoice: boolean = true;
+
+    public langChoice: string = 'English';
 
     public passwordProtect: boolean = true;
 
