@@ -1,3 +1,5 @@
+@import '../../../../../styles/color-variables'
+
 .title
   font-weight: 700
   font-size: 14px
@@ -54,3 +56,9 @@
 .passwordProtect
     margin-left: 5px
 
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle
+    border-color: $royal-blue
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle
+    color: $royal-blue
+    background-color: $royal-blue

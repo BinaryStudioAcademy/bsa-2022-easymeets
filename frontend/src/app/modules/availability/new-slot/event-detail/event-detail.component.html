@@ -35,11 +35,10 @@
             </select>
         </div>
     </div>
-    <div class="checkRowContainer">
-        <form>
-            <input type="checkbox" class="squareCheckBox" />
-        </form>
-        <p>Allow Booker to add additional guests</p>
+
+    <div class="checkbox-container">
+        <input type="checkbox" [(ngModel)]="isAllowBooker" [disabled]="!basicChoice">
+        <span class="input-message"><p>Allow Booker to add additional guests</p></span>
     </div>
 
     <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="zoneChoice">
@@ -49,8 +48,9 @@
     </mat-radio-group>
 
     <div class="checkRowContainer">
-        <label class="form-switch"> <input type="checkbox" /> <i></i> </label>
-        <p>Lock the timezone (best for in-person events)</p>
+        <div class="passwordContainer"><label class="form-switch"> <input type="checkbox" /> <i></i> </label>
+        <p class="passwordProtect">Password protection</p>
+    </div>
     </div>
 
     <input class="selectBlock" />
