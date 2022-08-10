@@ -3,10 +3,14 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
     declarations: [],
@@ -20,6 +24,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         MatListModule,
         MatSelectModule,
         MatMenuModule,
+        MatSnackBarModule,
+        MatDividerModule,
+        MatInputModule,
+        MatRadioModule,
     ],
     exports: [
         FormsModule,
@@ -31,6 +39,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         MatListModule,
         MatSelectModule,
         MatMenuModule,
+        MatSnackBarModule,
+        MatDividerModule,
+        MatInputModule,
+        MatRadioModule,
     ],
 })
 export class MaterialModule {}
