@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
     styleUrls: ['./event-detail.component.sass'],
 })
 export class EventDetailComponent {
-    timeZoneChoices: string[] = [
+    public timeZoneChoices: string[] = [
         'Automatically detect and show the times in Bookers time zone',
         'Lock the timezone (best for in-person events)',
     ];
@@ -17,7 +17,11 @@ export class EventDetailComponent {
 
     welcomeMessage: string;
 
-    languageSelect: string;
+    public languageSelect: string = 'English';
 
-    allowBookingSelect: string;
+    public allowBookingSelect: string = 'two';
+
+    isAllowBooker: boolean;
+
+    public basicChoice: boolean = true;
 }
