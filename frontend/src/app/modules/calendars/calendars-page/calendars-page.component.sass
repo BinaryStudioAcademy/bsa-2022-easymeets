@@ -1,10 +1,28 @@
-table
+.container
     width: 80%
     margin: 0 auto
+
+table
+    width: 100%
     box-shadow: none
+    margin-bottom: 50px
+
+.connect-new
+    width: 100%
+    height: 40px
+    font-size: 18px
+    font-weight: bold
+    background-color: #fff
+    border: 2px solid #000
+    cursor: pointer
+    margin-bottom: 50px
+    margin-top: 50px
 
 .mat-header-cell
     background-color: #eef0f4
+    font-weight: bold
+    font-size: 14px
+    height: 10px
 
 .example-additional-selection
     opacity: 0.75
@@ -19,3 +37,25 @@ table
 
 :host::ng-deep.mat-select-value
     margin-bottom: 5px
+
+:host::ng-deep th
+    height: 20px
+
+.update-references
+    display: block
+    margin: 0 auto
+    height: 40px
+    width: 200px
+    font-size: 16px
+    font-weight: bold
+    border: none
+    background-color: #eef0f4
+
+.mat-select-trigger
+    height: 30px
+
+:host::ng-deep .mat-form-field-underline
+    display: none
+
+:host::ng-deep.mat-form-field-appearance-fill .mat-form-field-infix
+    padding: 0
