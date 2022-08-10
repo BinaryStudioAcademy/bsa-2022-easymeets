@@ -12,11 +12,11 @@ export enum DropDownTypes {
     host: {
         '(document:click)': 'onClick($event)',
     },
-    selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.sass'],
+    selector: 'app-header-item',
+    templateUrl: './header-item.component.html',
+    styleUrls: ['./header-item.component.sass'],
 })
-export class HeaderComponent {
+export class HeaderItemComponent {
     // eslint-disable-next-line no-empty-function
     constructor(private _eref: ElementRef) {}
 
