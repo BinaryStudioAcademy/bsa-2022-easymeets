@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { CheckOption } from '@core/interfaces/check-option';
+import { Team } from '@core/interfaces/team-interface';
 import { UserCalendar } from '@core/interfaces/user-calendar';
 
 @Component({
@@ -11,6 +11,8 @@ import { UserCalendar } from '@core/interfaces/user-calendar';
 export class CalendarsPageComponent implements OnInit {
     userCalendars: UserCalendar[];
 
+    allTeams: Team[];
+
     checkOptions: CheckOption[];
 
     ngOnInit(): void {
@@ -20,60 +22,58 @@ export class CalendarsPageComponent implements OnInit {
             { id: 3, name: 'Work Team 3', isSelected: false },
         ];
 
+        this.allTeams = teams;
+
         this.userCalendars = [
             {
                 id: 1,
                 email: 'email@email.com',
-                teamsFor: teams,
-                teamFrom: teams,
+                teamsFor: null,
+                teamFrom: null,
                 checkForConflicts: false,
             },
             {
                 id: 2,
                 email: 'email@email.com',
-                teamsFor: teams,
-                teamFrom: teams,
+                teamsFor: null,
+                teamFrom: null,
                 checkForConflicts: false,
             },
             {
                 id: 3,
                 email: 'email@email.com',
-                teamsFor: teams,
-                teamFrom: teams,
+                teamsFor: null,
+                teamFrom: null,
                 checkForConflicts: false,
             },
             {
                 id: 4,
                 email: 'email@email.com',
-                teamsFor: teams,
-                teamFrom: teams,
+                teamsFor: null,
+                teamFrom: null,
                 checkForConflicts: false,
             },
             {
                 id: 5,
                 email: 'email@email.com',
-                teamsFor: teams,
-                teamFrom: teams,
+                teamsFor: null,
+                teamFrom: null,
                 checkForConflicts: false,
             },
             {
                 id: 6,
                 email: 'email@email.com',
-                teamsFor: teams,
-                teamFrom: teams,
+                teamsFor: null,
+                teamFrom: null,
                 checkForConflicts: false,
             },
         ];
 
         this.checkOptions = [
-            { name: 'Yes', isSelected: false },
-            { name: 'No', isSelected: true },
+            { name: 'Yes', value: true },
+            { name: 'No', value: false },
         ];
     }
-
-    teamsFor = new FormControl('');
-
-    teamsFrom = new FormControl('');
 
     displayedColumns: string[] = ['connected-calendars', 'events-for', 'events-from', 'check'];
 }

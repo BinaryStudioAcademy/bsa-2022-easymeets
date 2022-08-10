@@ -13,16 +13,14 @@
             <th mat-header-cell *matHeaderCellDef>Event names visible for</th>
             <td mat-cell *matCellDef="let element">
                 <mat-form-field appearance="fill">
-                    <mat-select multiple>
-                        <mat-select-trigger>
-                            {{'None' || teamsFor.value?.[0]}}
-                            <span *ngIf="(teamsFor.value?.length || 0) > 1" class="example-additional-selection">
-                                {{ teamsFor.value?.length }} Teams
-                            </span>
-                        </mat-select-trigger>
-                        <mat-option *ngFor="let team of element.teamsFor" [value]="team.name">{{
-                            team.name
-                        }}</mat-option>
+                    <mat-label *ngIf="element.teamsFor === null || element.teamsFor.length === 0">None</mat-label>
+                    <mat-select
+                        [(ngModel)]="element.teamsFor"
+                        (ngModelChange)="(element.teamsFor)"
+                        name="selectedTeams"
+                        multiple
+                    >
+                        <mat-option *ngFor="let team of allTeams" [value]="team.name">{{ team.name }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </td>
@@ -33,8 +31,9 @@
             <th mat-header-cell *matHeaderCellDef>Add event from</th>
             <td mat-cell *matCellDef="let element">
                 <mat-form-field appearance="fill">
-                    <mat-select name="check">
-                        <mat-option *ngFor="let team of element.teamFrom" [value]="team.name">
+                    <mat-label *ngIf="element.teamFrom === null">None</mat-label>
+                    <mat-select [(ngModel)]="element.teamFrom" (ngModelChange)="(element.teamFrom)">
+                        <mat-option *ngFor="let team of allTeams" [value]="team.name">
                             {{ team.name }}
                         </mat-option>
                     </mat-select>
@@ -47,8 +46,8 @@
             <th mat-header-cell *matHeaderCellDef>Check for conflicts</th>
             <td mat-cell *matCellDef="let element">
                 <mat-form-field appearance="fill">
-                    <mat-select name="check">
-                        <mat-option *ngFor="let option of checkOptions" [value]="option.name">
+                    <mat-select [(ngModel)]="element.checkForConflicts" (ngModelChange)="(element.checkForConflicts)">
+                        <mat-option *ngFor="let option of checkOptions" [value]="option.value">
                             {{ option.name }}
                         </mat-option>
                     </mat-select>

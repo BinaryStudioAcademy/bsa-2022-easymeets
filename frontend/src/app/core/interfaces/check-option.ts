@@ -1,4 +1,4 @@
 export interface CheckOption {
     name: string;
-    isSelected: boolean;
+    value: boolean;
 }
