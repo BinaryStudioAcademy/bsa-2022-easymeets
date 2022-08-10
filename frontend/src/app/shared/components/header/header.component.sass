@@ -1,3 +1,5 @@
+@import 'src/styles/color-variables'
+
 header
   position: fixed
   display: flex
@@ -7,7 +9,7 @@ header
   width: 100%
   height: 68px
   z-index: 10
-  background: #FFFFFF
+  background: $white
   box-shadow: 0px 4px 4px rgb(0, 0, 0, 0.08)
 
   .logo
@@ -39,8 +41,8 @@ header
       padding: 8px 12px
       width: 108px
       height: 68px
-      background: #FFFFFF
-      border-bottom: 2px solid #FFFFFF
+      background: $white
+      border-bottom: 2px solid $white
       flex: none
       align-self: stretch
 
@@ -54,29 +56,30 @@ header
       line-height: 20px
       align-items: center
       text-align: center
-      color: #667080
+      color: $dark-gray
+
       text-decoration: none
       border-radius: 3px
     
     .tab a:hover
-     background-color: #F0F1F2
-     border: 5px solid #F0F1F2
+     background-color: $athens-gray
+     border: 5px solid $athens-gray
 
     .tab-active
       width: 123px
-      border-bottom: 2px solid #4C7DE7
+      border-bottom: 2px solid $royal-blue
 
     .tab-active a
      width: 75px
      font-weight: 700
-     color: #4C7DE7
+     color: $royal-blue
 
     .tab-active a:hover
-     background-color: #E3ECFF
-     border: 5px solid #E3ECFF
+     background-color: $light-blue
+     border: 5px solid $light-blue
 
   .hover-drop-icon:hover
-    background-color: #F0F1F3
+    background-color: $gallery
 
   .button
     float: right
@@ -100,7 +103,8 @@ header
       line-height: 20px
       display: flex
       align-items: center
-      color: #667080
+      color: $dark-gray
+
       flex: none
       padding-left: 5%
       cursor: pointer
@@ -138,8 +142,8 @@ header
     padding: 8px 4px
     width: 163px
     height: 140px
-    background: #FFFFFF
-    border: 2px solid #BEC5D0
+    background: $white
+    border: 2px solid $loblolly
     border-radius: 4px
 
   .dropdown-content a
@@ -152,7 +156,7 @@ header
     text-decoration: none
 
   .dropdown-content-btn
-    background-color: #4C7DE7
+    background-color: $royal-blue
     display: flex
     flex-direction: row
     justify-content: center
@@ -160,13 +164,13 @@ header
     border-radius: 4px
 
   .dropdown-content-btn span
-    color: #FFFFFF
+    color: $white
 
   .dropdown-content .dropdown-content-btn:hover
-    background-color: #13398D
+    background-color: $dark-blue
 
   .dropdown-content .dropdown-content-item:hover
-    background-color: #F0F1F3
+    background-color: $gallery
 
   .dropdown-content-label
     width: 85px
@@ -176,7 +180,7 @@ header
     font-weight: 400
     font-size: 14px
     line-height: 20px
-    color: #667080
+    color: $dark-gray
     margin: 3px 5px 2px 0px
 
   .dropdown-content img
@@ -199,7 +203,7 @@ header
     img
       width: 30px
       height: 30px
-      border: 3px solid #4C7DE7
+      border: 3px solid $royal-blue
       border-radius: 100%
       margin-left: -50%
       cursor: pointer
