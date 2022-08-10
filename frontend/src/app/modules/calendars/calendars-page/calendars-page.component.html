@@ -1,11 +1,16 @@
 <div class="container">
-    <button class="connect-new">Connect New Calendars</button>
+    <button class="connect-new"><mat-icon>add</mat-icon> Connect New Calendars</button>
 
     <table mat-table [dataSource]="userCalendars" class="mat-elevation-z8">
         <!-- Emails Column -->
         <ng-container matColumnDef="connected-calendars">
             <th mat-header-cell *matHeaderCellDef>Connected Calendar</th>
-            <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+            <td mat-cell *matCellDef="let element">
+                <div class="email-wrapper">
+                    <mat-icon class="cancel">cancel</mat-icon>
+                    <div class="email">{{ element.email }}</div>
+                </div>
+            </td>
         </ng-container>
 
         <!-- Events for Column -->
@@ -27,7 +32,7 @@
                         <mat-select-trigger
                             *ngIf="element.teamsFor?.length >= 2 && element.teamsFor?.length !== allTeams.length"
                         >
-                            {{ element.teamsFor?.length }} teams
+                            {{ element.teamsFor?.length }} Teams
                         </mat-select-trigger>
                         <mat-select-trigger *ngIf="element.teamsFor?.length === allTeams.length">
                             All teams
