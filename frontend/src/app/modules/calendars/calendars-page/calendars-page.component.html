@@ -18,7 +18,7 @@
             <th mat-header-cell *matHeaderCellDef>Event names visible for</th>
             <td mat-cell *matCellDef="let element">
                 <mat-form-field appearance="fill">
-                    <mat-label *ngIf="element.teamsFor === null || element.teamsFor.length === 0">None</mat-label>
+                    <mat-label *ngIf="!element.teamsFor?.length">None</mat-label>
                     <mat-select
                         [(ngModel)]="element.teamsFor"
                         (ngModelChange)="(element.teamsFor)"
@@ -48,7 +48,7 @@
             <th mat-header-cell *matHeaderCellDef>Add event from</th>
             <td mat-cell *matCellDef="let element">
                 <mat-form-field appearance="fill">
-                    <mat-label *ngIf="element.teamFrom === null">None</mat-label>
+                    <mat-label *ngIf="!element.teamFrom">None</mat-label>
                     <mat-select [(ngModel)]="element.teamFrom" (ngModelChange)="(element.teamFrom)">
                         <mat-option *ngFor="let team of allTeams" [value]="team.name">
                             {{ team.name }}
