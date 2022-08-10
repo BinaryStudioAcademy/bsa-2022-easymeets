@@ -11,17 +11,21 @@ export class EventDetailComponent {
         'Lock the timezone (best for in-person events)',
     ];
 
-    zoneChoice: string;
+    public zoneChoice: string;
 
-    linkChoice: string;
+    public linkChoice: string = 'heorhim';
 
-    welcomeMessage: string;
+    public welcomeMessage: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 
     public languageSelect: string = 'English';
 
     public allowBookingSelect: string = 'two';
 
-    isAllowBooker: boolean;
+    public isAllowBooker: boolean;
 
     public basicChoice: boolean = true;
+
+    public passwordProtect: boolean = true;
+
+    public passwordInput: string = 'Meeting123';
 }

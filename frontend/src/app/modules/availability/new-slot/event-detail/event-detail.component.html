@@ -42,16 +42,16 @@
     </div>
 
     <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="zoneChoice">
-        <mat-radio-button class="example-radio-button" *ngFor="let season of timeZoneChoices" [value]="season">
+        <mat-radio-button disableRipple class="example-radio-button" *ngFor="let season of timeZoneChoices" [value]="season">
             {{ season }}
         </mat-radio-button>
     </mat-radio-group>
 
     <div class="checkRowContainer">
-        <div class="passwordContainer"><label class="form-switch"> <input type="checkbox" /> <i></i> </label>
+        <div class="passwordContainer"><label class="form-switch"> <input type="checkbox" [(ngModel)]="passwordProtect"> <i></i> </label>
         <p class="passwordProtect">Password protection</p>
     </div>
     </div>
 
-    <input class="selectBlock" />
+    <input class="selectBlock" [(ngModel)]="passwordInput"/>
 </div>
