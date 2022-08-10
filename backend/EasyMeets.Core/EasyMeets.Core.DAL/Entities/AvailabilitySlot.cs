@@ -6,10 +6,6 @@ public class AvailabilitySlot : AuditEntity<long>
 {
     public AvailabilitySlot()
     {
-        Author = new User();
-        Team = new Team();
-        Location = new Location();
-        AdvancedSlotSettings = new AdvancedSlotSettings();
         ExternalAttendees = new List<ExternalAttendee>();
         Members = new List<UserSlot>();
         Questions = new List<Question>();
@@ -26,10 +22,10 @@ public class AvailabilitySlot : AuditEntity<long>
     public bool IsEnabled { get; set; }
     public bool IsVisible { get; set; }
 
-    public User Author { get; set; }
-    public Team Team { get; set; }
-    public Location Location { get; set; }
-    public AdvancedSlotSettings AdvancedSlotSettings { get; set; }
+    public User Author { get; set; } = null!;
+    public Team Team { get; set; } = null!;
+    public Location Location { get; set; } = null!;
+    public AdvancedSlotSettings AdvancedSlotSettings { get; set; } = null!;
     public ICollection<ExternalAttendee> ExternalAttendees { get; set; }
     public ICollection<UserSlot> Members { get; set; }
     public ICollection<Question> Questions { get; set; }
