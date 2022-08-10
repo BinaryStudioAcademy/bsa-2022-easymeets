@@ -11,11 +11,11 @@
     <div class="button">
         <div class="dropdown">
             <button class="drop-icon hover-drop-icon">
-                <div class="label" (click)="onSelectDropdown(1)">
+                <div class="label" (click)="onSelectDropdown(DropDownTypesEnum.TeamsDD)">
                     Binary Team<img class="pop-up-icon" src="assets/header/header-pop-up.png" />
                 </div>
             </button>
-            <div class="dropdown-content" id="dropdown-content-1">
+            <div class="dropdown-content" id="dropdown-content-teams">
                 <a class="dropdown-content-item" routerLink="#">
                     <img src="assets/header/header-pop-up__team.png" />
                     <span class="dropdown-content-label">Binary Team</span>
@@ -39,10 +39,13 @@
         <div class="dropdown">
             <button class="drop-icon">
                 <div class="avatar">
-                    <img (click)="onSelectDropdown(2)" src="assets/header/header-ava-template.png" />
+                    <img
+                        (click)="onSelectDropdown(DropDownTypesEnum.AccountDD)"
+                        src="assets/header/header-ava-template.png"
+                    />
                 </div>
             </button>
-            <div class="dropdown-content" id="dropdown-content-2">
+            <div class="dropdown-content" id="dropdown-content-account">
                 <a class="dropdown-content-item" routerLink="#">
                     <img src="assets/header/header-pop-up__account.png" />
                     <span class="dropdown-content-label">Account</span>
