@@ -2,11 +2,38 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
     declarations: [],
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatSnackBarModule],
-    exports: [FormsModule, ReactiveFormsModule, CommonModule, MatButtonModule, MatSnackBarModule],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatButtonModule,
+        MatSlideToggleModule,
+        MatListModule,
+        MatSelectModule,
+        MatMenuModule,
+        MatSnackBarModule,
+    ],
+    exports: [
+        FormsModule,
+        ReactiveFormsModule,
+        CommonModule,
+        MatCardModule,
+        MatButtonModule,
+        MatSlideToggleModule,
+        MatListModule,
+        MatSelectModule,
+        MatMenuModule,
+        MatSnackBarModule,
+    ],
 })
 export class MaterialModule {}
