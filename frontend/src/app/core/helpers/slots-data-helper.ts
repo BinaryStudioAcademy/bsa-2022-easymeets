@@ -23,3 +23,7 @@ export const getDefaultSlots = (): Array<Slot> => [
         avatars: ['assets/bulochka.PNG', 'assets/bulochka.PNG', 'assets/bulochka.PNG'],
     },
 ];
+
+// export class Hello {
+//     hello: string;
+// }
