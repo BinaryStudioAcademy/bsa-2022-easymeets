@@ -1,9 +1,9 @@
-import { Team } from './team-interface';
+import { ITeam } from './team-interface';
 
-export interface UserCalendar {
+export interface IUserCalendar {
     id: number;
     email: string;
-    teamsFor: Team[] | null;
-    teamFrom: Team | null;
+    teamsFor: ITeam[] | null;
+    teamFrom: ITeam | null;
     checkForConflicts: boolean;
 }

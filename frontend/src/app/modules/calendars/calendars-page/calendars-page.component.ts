@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CheckOption } from '@core/interfaces/check-option';
-import { Team } from '@core/interfaces/team-interface';
-import { UserCalendar } from '@core/interfaces/user-calendar';
+import { ICheckOption } from '@core/interfaces/check-option';
+import { ITeam } from '@core/interfaces/team-interface';
+import { IUserCalendar } from '@core/interfaces/user-calendar';
 
 @Component({
     selector: 'app-calendars-page',
@@ -9,11 +9,11 @@ import { UserCalendar } from '@core/interfaces/user-calendar';
     styleUrls: ['./calendars-page.component.sass'],
 })
 export class CalendarsPageComponent implements OnInit {
-    userCalendars: UserCalendar[];
+    userCalendars: IUserCalendar[];
 
-    allTeams: Team[];
+    allTeams: ITeam[];
 
-    checkOptions: CheckOption[];
+    checkOptions: ICheckOption[];
 
     ngOnInit(): void {
         const teams = [
