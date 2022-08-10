@@ -1,42 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { IEventDetailSettings } from '@core/models/IEventDetailSettings';
 
 @Component({
     selector: 'app-event-detail',
     templateUrl: './event-detail.component.html',
     styleUrls: ['./event-detail.component.sass'],
 })
-export class EventDetailComponent {
-    timeZoneChoices: string[] = [
+export class EventDetailComponent implements OnInit {
+    public settings: IEventDetailSettings;
+
+    public timeZoneChoices: string[] = [
         'Automatically detect and show the times in Bookers time zone',
         'Lock the timezone (best for in-person events)',
     ];
 
-    languages: string[] = [
+    public languages: string[] = [
         'English',
         'Ukrainian',
     ];
 
-    allowedBooking: string[] = [
+    public allowedBooking: string[] = [
         '1',
         '2',
         '3',
     ];
 
-    public zoneChoice: string;
-
-    public linkChoice: string = 'heorhim';
-
-    public welcomeMessage: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-
-    public languageSelect: string = 'English';
-
-    public allowBookingSelect: string = '2';
-
-    public isAllowBooker: boolean;
-
-    public basicChoice: boolean = true;
-
-    public passwordProtect: boolean = true;
-
-    public passwordInput: string = 'Meeting123';
+    ngOnInit(): void {
+        this.settings = {
+            zoneChoice: '',
+            linkChoice: 'heornim',
+            welcomeMessage: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            languageSelect: 'English',
+            allowBookingSelect: '2',
+            isAllowBooker: false,
+            basicChoice: true,
+            passwordProtect: true,
+            passwordInput: 'Meeting123',
+        };
+    }
 }
