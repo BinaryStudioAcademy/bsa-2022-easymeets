@@ -1,0 +1,76 @@
+@import '../../../../styles/color-variables'
+
+hr
+    border: 0
+    border-top: 3px solid $athens-gray
+
+.card-container-disabled
+    opacity: 0.7
+
+.card-container
+    background-color: $white-color
+    padding: 1em
+    .slot-content
+        display: flex
+        flex-direction: column
+        justify-content: center
+        .slot-header
+            height: 10%
+            display: flex
+            align-items: center
+            justify-content: space-between
+            p
+                font-size: 0.8em
+                color: $alto
+
+.time-options
+    height: 10%
+    display: flex
+    align-items: flex-start
+    justify-content: flex-start
+    p
+        font-size: 1.2em
+        margin: 0.4em 0 0.4em 0
+        font-weight: bold
+        color: $pale-sky
+
+.options
+    display: flex
+    justify-content: space-between
+    align-items: center
+    font-size: 0.8em
+    margin: 1em 0 0 0
+    .link
+        display: flex
+        align-items: center
+        a
+            color: $regent-gray
+        .icon
+            width: 18px
+            height: 18px
+            margin-right: 0.7em
+            filter: invert(94%) sepia(3%) saturate(1127%) hue-rotate(185deg) brightness(88%) contrast(86%)
+    .menu-icon
+        color: $silver-chalice
+        outline: none
+        border: none
+        background-color: $white-color
+        cursor: pointer
+        width: 18px
+        height: 18px
+
+.meeting-details
+    display: flex
+    flex-direction: column
+    p
+        color: $silver-chalice
+        font-size: 1em
+    .avatar
+        width: 30px
+        height: 30px
+        border-radius: 20px
+        margin-right: 0.8em
+
+.avatar-list
+    display: flex
+    align-items: center

@@ -1,0 +1,220 @@
+body
+	font-family: sans-serif
+	display: flex
+	flex-direction: column
+	align-items: center
+	justify-content: center
+	gap: 20px
+
+.form-switch
+	display: inline-block
+	line-height: 30px
+	cursor: pointer
+	-webkit-tap-highlight-color: transparent
+	i
+		position: relative
+		display: inline-block
+		width: 46px
+		height: 26px
+		margin-left: .75em
+		margin-top: -.15em
+		border-radius: 23px
+		vertical-align: middle
+		transition: all 0.3s linear
+		background-color: #ddd
+		&::before
+			content: ""
+			position: absolute
+			left: 0
+			width: 42px
+			height: 22px
+			background-color: #eee
+			border-radius: 11px
+			transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1)
+			transition: all 0.25s linear
+
+		&::after
+			content: ""
+			position: absolute
+			left: 0
+			width: 22px
+			height: 22px
+			background-color: #fff
+			border-radius: 11px
+			box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24)
+			transform: translate3d(2px, 2px, 0)
+			transition: all 0.2s ease-in-out
+
+
+	&:active
+		i
+			&::after
+				width: 28px
+				transform: translate3d(2px, 2px, 0)
+
+
+		input
+			&:checked
+				+
+					i
+						&::after
+							transform: translate3d(16px, 2px, 0)
+
+	input
+		display: none
+		&:checked
+			+
+				i
+					background-color: #4C7DE7
+					&::before
+						transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0)
+
+					&::after
+						transform: translate3d(22px, 2px, 0)
+
+.inputBlock
+	display: flex
+	flex-direction: row
+	border-radius: 4px
+	align-items: center
+
+.inputStartBlock
+	background: #E1E1E1
+	text-align: center
+	padding: 7px
+	height: 26px
+	display: flex
+	align-items: center
+	justify-content: center
+	border-radius: 4px 0 0 4px
+	border: 1px solid #BEC5D0
+	p
+		font-size: 14px
+		color: #667080
+
+
+.inputItem
+	background: #FFFFFF
+	border: 2px solid #BEC5D0
+	border-left: none
+	border-radius: 0 4px 4px 0
+	height: 36px
+	flex: none
+	order: 1
+	align-self: stretch
+	flex-grow: 0
+	width: 327px
+
+.addGuest
+	background: #FFFFFF
+	cursor: pointer
+	border: 2px solid #BEC5D0
+	border-radius: 4px
+	padding: 8px 50px
+	max-width: 175px
+	width: 100%
+	font-weight: 700
+	font-size: 12px
+	line-height: 20px
+	display: flex
+	align-items: center
+	text-align: center
+	justify-content: center
+	color: #667080
+
+.squareCheckBox
+	width: 16px
+	height: 16px
+
+.guest
+	background: #FFFFFF
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16)
+	border-radius: 4px
+	display: flex
+	flex-direction: row
+	align-items: center
+	justify-content: space-between
+	max-width: 360px
+	width: 100%
+	padding: 11px 23px
+
+.guestImgBlock
+	background-size: contain
+	width: 51px
+	height: 51px
+	border-radius: 50%
+
+.guestInfo
+	display: flex
+	flex-direction: row
+	align-items: center
+	gap: 20px
+	p
+		font-weight: 400
+		font-size: 14px
+		line-height: 20px
+		color: #667080
+
+
+.selectColorBlock
+	display: flex
+	flex-direction: column
+	gap: 14px
+	p
+		font-style: normal
+		font-weight: 700
+		font-size: 14px
+		line-height: 20px
+		color: #667080
+
+
+.colorsRow
+	display: flex
+	flex-direction: row
+	align-items: center
+	gap: 14px
+
+.colorButton
+	width: 25px
+	height: 25px
+	display: flex
+	align-items: center
+	justify-content: center
+	text-align: center
+	border-radius: 50%
+
+#dark-blue-color
+	background: rgb(70, 89, 114)
+
+#light-red-color
+	background: #EA4D4D
+
+#light-green-color
+	background: #E6B12A
+
+#yellow-green-color
+	background: #BCE31C
+
+#aqua-color
+	background: #2FD6ED
+
+#blue-color
+	background: #365BDC
+
+#light-purple-color
+	background: #CA42E0
+
+#red-color
+	background: #CF244D
+
+input[type="radio"]
+	-webkit-appearance: none
+	-moz-appearance: none
+	appearance: none
+	width: 10px
+	height: 10px
+	background-clip: content-box
+	background-color: transparent
+	border-radius: 50%
+	&:checked
+		background-color: white
