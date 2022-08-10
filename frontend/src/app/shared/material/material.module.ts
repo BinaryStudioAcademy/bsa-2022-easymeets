@@ -10,6 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
     declarations: [],
@@ -23,6 +24,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         MatListModule,
         MatSelectModule,
         MatMenuModule,
+        MatSnackBarModule,
         MatDividerModule,
         MatInputModule,
         MatRadioModule,
@@ -37,6 +39,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         MatListModule,
         MatSelectModule,
         MatMenuModule,
+        MatSnackBarModule,
         MatDividerModule,
         MatInputModule,
         MatRadioModule,

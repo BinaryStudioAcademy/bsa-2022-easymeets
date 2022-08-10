@@ -2,7 +2,7 @@ using EasyMeets.Core.WebAPI.Extentions;
 using EasyMeets.Core.WebAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
-
+ 
 // Add services to the container.
 builder.Configuration
     .SetBasePath(builder.Environment.ContentRootPath)
