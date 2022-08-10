@@ -17,9 +17,9 @@ export class CalendarsPageComponent implements OnInit {
 
     ngOnInit(): void {
         const teams = [
-            { id: 1, name: 'Binary Team', isSelected: false },
-            { id: 2, name: 'Work 2', isSelected: false },
-            { id: 3, name: 'Work Team 3', isSelected: false },
+            { id: 1, name: 'Binary Team' },
+            { id: 2, name: 'Work 2' },
+            { id: 3, name: 'Work Team 3' },
         ];
 
         this.allTeams = teams;
