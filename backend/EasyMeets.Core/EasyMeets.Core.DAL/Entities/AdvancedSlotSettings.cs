@@ -4,10 +4,6 @@ namespace EasyMeets.Core.DAL.Entities;
 
 public class AdvancedSlotSettings : Entity<long>
 {
-    public AdvancedSlotSettings()
-    {
-        AvailabilitySlot = new AvailabilitySlot();
-    }
     public long AvailabilitySlotId { get; set; }
     public ActivityType ActivityType { get; set; }
     public int Days { get; set; }
@@ -18,5 +14,5 @@ public class AdvancedSlotSettings : Entity<long>
     public int BookingScheduleBlockingTimeMeetingInHours { get; set; }
     public Color Color { get; set; }
 
-    public AvailabilitySlot AvailabilitySlot { get; set; }
+    public AvailabilitySlot AvailabilitySlot { get; set; } = null!;
 }

@@ -4,7 +4,6 @@ public class Calendar : AuditEntity<long>
 {
     public Calendar()
     {
-        User = new User();
         VisibleForTeams = new List<CalendarVisibleForTeam>();
     }
     
@@ -12,7 +11,7 @@ public class Calendar : AuditEntity<long>
     public long? AddEventsFromTeamId { get; set; }
     public bool CheckForConflicts { get; set; }
     
-    public User User { get; set; }
+    public User User { get; set; } = null!;
     public Team? ImportEventsFromTeam { get; set; }
     public ICollection<CalendarVisibleForTeam> VisibleForTeams { get; set; }
 
