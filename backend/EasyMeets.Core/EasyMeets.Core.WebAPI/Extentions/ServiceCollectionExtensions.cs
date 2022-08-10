@@ -20,6 +20,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddTransient<ISampleService, SampleService>();
+            services.AddTransient<IAvailabilityService, AvailabilityService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
