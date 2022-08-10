@@ -4,7 +4,6 @@ public class ExternalAttendee : Entity<long>
 {
     public ExternalAttendee()
     {
-        AvailabilitySlot = new AvailabilitySlot();
         ExternalAttendeeAvailabilities = new List<ExternalAttendeeAvailability>();
     }
     public long AvailabilitySlotId { get; set; }
@@ -12,6 +11,6 @@ public class ExternalAttendee : Entity<long>
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
 
-    public AvailabilitySlot AvailabilitySlot { get; set; }
+    public AvailabilitySlot AvailabilitySlot { get; set; } = null!;
     public ICollection<ExternalAttendeeAvailability> ExternalAttendeeAvailabilities { get; set; }
 }
