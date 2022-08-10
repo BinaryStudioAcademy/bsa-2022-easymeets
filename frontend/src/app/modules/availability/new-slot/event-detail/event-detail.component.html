@@ -1,54 +1,52 @@
 <div class="container">
-    <div>
-            <p class="title text-inside">Link</p>
-            <div class="inputBlock">
-                <div class="inputStartBlock">
-                    <p class="productName">productname.com/</p>
-                </div>
-                <input class="inputItem" [(ngModel)]="linkChoice" />
-            </div>
-
-            <p class="title text-inside">Welcome Message</p>
-
-            <textarea class="textAreaMessage" [(ngModel)]="welcomeMessage"></textarea>
-
-            <p class="title text-inside">Language</p>
-            <select name="select" class="selectBlock" [(ngModel)]="languageSelect">
-                <!--Supplement an id here instead of using 'name'-->
-                <option value="English" selected>English</option>
-                <option value="Ukrainian">Ukrainian</option>
-            </select>
-
-            <p class="title text-inside">Allowed bookings per Day</p>
-            <select name="select" class="selectBlock" [(ngModel)]="allowBookingSelect">
-                <!--Supplement an id here instead of using 'name'-->
-                <option value="one">1</option>
-                <option value="two" selected>2</option>
-                <option value="three">3</option>
-            </select>
+    <p class="title text-inside">Link</p>
+    <div class="inputBlock">
+        <div class="inputStartBlock">
+            <p class="productName">productname.com/</p>
         </div>
+        <input class="inputItem" [(ngModel)]="linkChoice" />
+    </div>
 
-        <div class="checkbox-container">
-            <input type="checkbox" [(ngModel)]="isAllowBooker" [disabled]="!basicChoice" />
-            <span class="input-message text-inside"><p>Allow Booker to add additional guests</p></span>
-        </div>
+    <p class="title text-inside">Welcome Message</p>
 
-    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="zoneChoice">
-        <mat-radio-button
-            disableRipple
-            class="example-radio-button"
-            *ngFor="let season of timeZoneChoices"
-            [value]="season"
-        >
-            {{ season }}
-        </mat-radio-button>
-    </mat-radio-group>
+    <textarea class="textAreaMessage" [(ngModel)]="welcomeMessage"></textarea>
 
-    <div class="checkRowContainer">
-        <div class="passwordContainer">
-            <label class="form-switch"> <input type="checkbox" [(ngModel)]="passwordProtect" /> <i></i> </label>
-            <p class="passwordProtect ">Password protection</p>
-        </div>
+    <p class="title text-inside">Language</p>
+    <select name="select" class="selectBlock" [(ngModel)]="languageSelect">
+        <!--Supplement an id here instead of using 'name'-->
+        <option value="English" selected>English</option>
+        <option value="Ukrainian">Ukrainian</option>
+    </select>
+
+    <p class="title text-inside">Allowed bookings per Day</p>
+    <select name="select" class="selectBlock" [(ngModel)]="allowBookingSelect">
+        <!--Supplement an id here instead of using 'name'-->
+        <option value="one">1</option>
+        <option value="two" selected>2</option>
+        <option value="three">3</option>
+    </select>
+</div>
+
+<div class="checkbox-container">
+    <input type="checkbox" [(ngModel)]="isAllowBooker" [disabled]="!basicChoice" />
+    <span class="input-message text-inside"><p>Allow Booker to add additional guests</p></span>
+</div>
+
+<mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="zoneChoice">
+    <mat-radio-button
+        disableRipple
+        class="example-radio-button"
+        *ngFor="let season of timeZoneChoices"
+        [value]="season"
+    >
+        {{ season }}
+    </mat-radio-button>
+</mat-radio-group>
+
+<div class="checkRowContainer">
+    <div class="passwordContainer">
+        <label class="form-switch"> <input type="checkbox" [(ngModel)]="passwordProtect" /> <i></i> </label>
+        <p class="passwordProtect">Password protection</p>
     </div>
     <input class="selectBlock" [(ngModel)]="passwordInput" />
 </div>
