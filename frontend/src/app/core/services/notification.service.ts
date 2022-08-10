@@ -7,11 +7,19 @@ export class NotificationService {
         this.snackBar = inject(MatSnackBar);
     }
 
-    public showErrorMessage(error: any) {
-        this.snackBar.open(error, '', { duration: 3000, panelClass: 'error-snack-bar' });
+    public showErrorMessage(error: string) {
+        this.snackBar.open(error, '', { duration: 2500, panelClass: 'error-snack-bar' });
     }
 
-    public showUsualMessage(message: any) {
-        this.snackBar.open(message, '', { duration: 3000, panelClass: 'usual-snack-bar' });
+    public showInfoMessage(message: string) {
+        this.snackBar.open(message, '', { duration: 2500, panelClass: 'info-snack-bar' });
+    }
+
+    public showWarningMessage(message: string) {
+        this.snackBar.open(message, '', { duration: 2500, panelClass: 'warning-snack-bar' });
+    }
+
+    public showSuccessMessage(message: string) {
+        this.snackBar.open(message, '', { duration: 2500, panelClass: 'success-snack-bar' });
     }
 }
