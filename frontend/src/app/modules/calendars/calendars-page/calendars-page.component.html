@@ -23,8 +23,7 @@
                         [(ngModel)]="element.teamsFor"
                         (ngModelChange)="(element.teamsFor)"
                         name="selectedTeams"
-                        multiple
-                    >
+                        multiple>
                         <mat-select-trigger *ngIf="element.teamsFor?.length < 2">
                             {{ element.teamsFor ? element.teamsFor[0] : '' }}
                             {{ element.teamsFor?.length === allTeams.length ? 'All teams' : '' }}
