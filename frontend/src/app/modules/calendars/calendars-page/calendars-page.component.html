@@ -20,6 +20,18 @@
                         name="selectedTeams"
                         multiple
                     >
+                        <mat-select-trigger *ngIf="element.teamsFor?.length < 2">
+                            {{ element.teamsFor ? element.teamsFor[0] : '' }}
+                            {{ element.teamsFor?.length === allTeams.length ? 'All teams' : '' }}
+                        </mat-select-trigger>
+                        <mat-select-trigger
+                            *ngIf="element.teamsFor?.length >= 2 && element.teamsFor?.length !== allTeams.length"
+                        >
+                            {{ element.teamsFor?.length }} teams
+                        </mat-select-trigger>
+                        <mat-select-trigger *ngIf="element.teamsFor?.length === allTeams.length">
+                            All teams
+                        </mat-select-trigger>
                         <mat-option *ngFor="let team of allTeams" [value]="team.name">{{ team.name }}</mat-option>
                     </mat-select>
                 </mat-form-field>
