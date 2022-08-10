@@ -31,9 +31,8 @@ namespace EasyMeets.Core.BLL.Services
                 advancedSettings.AvailabilitySlotId = entity.Id;
                 await _context.AdvancedSlotSettings.AddAsync(advancedSettings);
                 entity.AdvancedSlotSettingsId = advancedSettings.Id;
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
         }
     }
 }
