@@ -12,8 +12,9 @@ export class AvailabilityPageComponent {
 
     public loadingSlots: boolean;
 
-    // eslint-disable-next-line no-empty-function
-    constructor(private availabilitySlotService: AvailabilityService) {}
+    constructor(private availabilitySlotService: AvailabilityService) {
+        this.getAvailabilitySlots();
+    }
 
     public getAvailabilitySlots() {
         this.loadingSlots = true;
@@ -22,12 +23,8 @@ export class AvailabilityPageComponent {
             .subscribe(
                 (resp) => {
                     this.loadingSlots = false;
+
                     this.availabilitySlots = resp;
-                },
-                (error) => {
-                    this.loadingSlots = false;
-                    // eslint-disable-next-line no-console
-                    console.log(error);
                 },
             );
     }
