@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using EasyMeets.Core.BLL.Interfaces;
-using EasyMeets.Core.Common.DTO;
+using EasyMeets.Core.BLL.Interfaces; 
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;

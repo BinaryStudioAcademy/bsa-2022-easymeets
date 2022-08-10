@@ -1,13 +1,9 @@
-﻿using EasyMeets.Core.BLL.Interfaces;
-using EasyMeets.Core.Common.DTO;
-using EasyMeets.Core.DAL.Entities;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using EasyMeets.Core.BLL.Interfaces; 
+using EasyMeets.Core.DAL.Entities; 
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
-{
-   // [Authorize]
+{ 
     [ApiController]
     [Route("[controller]")]
     public class AvailabilityController : ControllerBase
