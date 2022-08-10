@@ -7,11 +7,13 @@ import { FormControl } from '@angular/forms';
     styleUrls: ['./calendars-page.component.sass'],
 })
 export class CalendarsPageComponent {
-    toppings = new FormControl('');
+    teamsFor = new FormControl('');
 
-    toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+    teamsFrom = new FormControl('');
 
-    public displayedColumns: string[] = ['$implicit', 'index', 'count', 'first', 'last', 'even', 'odd'];
+    teamsList: string[] = ['Binary Team', 'Work 2', 'Work Team 3'];
+
+    public displayedColumns: string[] = ['connected-calendars', 'events-for', 'events-from', 'check'];
 
     public data: string[] = ['one', 'two', 'three', 'four', 'five'];
 }
