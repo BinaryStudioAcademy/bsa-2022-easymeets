@@ -2,7 +2,6 @@
 
 public class NewAdvancedSlotSettingsDto
 {
-    public long AvailabilitySlotId { get; set; }
     public int ActivityType { get; set; }
     public int Days { get; set; }
     public DateTimeOffset StartDate { get; set; }
