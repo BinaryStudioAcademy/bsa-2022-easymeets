@@ -1,8 +1,11 @@
+using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.BLL.Services;
 using EasyMeets.Core.WebAPI.Extentions;
 using EasyMeets.Core.WebAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddTransient<IAvailabilityService, AvailabilityService>();
 // Add services to the container.
 builder.Configuration
     .SetBasePath(builder.Environment.ContentRootPath)
