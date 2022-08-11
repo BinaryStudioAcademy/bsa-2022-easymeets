@@ -4,6 +4,7 @@ namespace EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 
 public class NewAdvancedSlotSettingsDto
 {
+    public long Id { get; set; }
     public ActivityType ActivityType { get; set; }
     public int Days { get; set; }
     public DateTimeOffset StartDate { get; set; }

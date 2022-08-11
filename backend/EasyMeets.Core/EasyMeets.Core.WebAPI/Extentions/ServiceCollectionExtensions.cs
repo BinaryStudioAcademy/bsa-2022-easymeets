@@ -26,6 +26,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
         public static void AddAutoMapper(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetAssembly(typeof(SampleProfile)));
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(AvailabilityProfile)));
         }
 
         public static void AddValidation(this IServiceCollection services)
