@@ -1,4 +1,6 @@
-﻿namespace EasyMeets.Core.Common.DTO.Availability;
+﻿using EasyMeets.Core.Common.Enums;
+
+namespace EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 
 public class NewAvailabilitySlotDto
 {
@@ -7,7 +9,7 @@ public class NewAvailabilitySlotDto
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Link { get; set; } = string.Empty;
-    public int Type { get; set; }
+    public SlotType Type { get; set; }
     public int Size { get; set; }
     public int Frequency { get; set; }
     public bool IsEnabled { get; set; }
