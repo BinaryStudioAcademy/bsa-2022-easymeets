@@ -8,7 +8,7 @@
             <p>{{ slot.size }} min meeting</p>
         </div>
         <div class="meeting-details">
-            <p>{{ slot.size }} min, {{ slot.user.name }}, {{ slot.location.name }}</p>
+            <p>{{ slot.size }} min, {{ slot.location.name }}</p>
             <div class="avatar-list">
                 <div *ngFor="let _avatar of slot.members">
                     <img [src]="_avatar.imagePath" class="avatar" />
@@ -51,7 +51,7 @@
             <p>{{ slot.size }} min meeting</p>
         </div>
         <div class="meeting-details">
-            <p>{{ slot.size }} min, {{ slot.user.name }}, {{ slot.location.name }}</p>
+            <p>{{ slot.size }} min, {{ slot.location.name }}</p>
             <div class="avatar-list">
                 <div *ngFor="let _avatar of slot.members">
                     <img [src]="_avatar.imagePath" class="avatar" />

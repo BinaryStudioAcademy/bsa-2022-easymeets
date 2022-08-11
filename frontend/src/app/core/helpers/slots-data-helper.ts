@@ -1,5 +1,5 @@
 import { Slot } from '@core/interfaces/slot-interface';
-import { TeamWithSlot } from '@core/models/team-with-slot';
+import { TeamWithSlots } from '@core/models/team-with-slot';
 
 export const getDefaultSlots = (): Array<Slot> => [
     {
@@ -25,7 +25,7 @@ export const getDefaultSlots = (): Array<Slot> => [
     },
 ];
 
-export const getDefaultTeams = (): Array<TeamWithSlot> => [
+export const getDefaultTeams = (): Array<TeamWithSlots> => [
     {
         name: 'Heorhii Matviichuk',
         pageLink: 'link://dsasdasfs',

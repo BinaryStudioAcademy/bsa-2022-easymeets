@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AvailabilitySlot } from '@core/models/availiability-slot';
-import { TeamWithSlot } from '@core/models/team-with-slot';
+import { TeamWithSlots } from '@core/models/team-with-slot';
 
 @Component({
     selector: 'app-team',
@@ -8,7 +8,7 @@ import { TeamWithSlot } from '@core/models/team-with-slot';
     styleUrls: ['./team.component.sass'],
 })
 export class TeamComponent implements OnInit {
-    @Input() public team: TeamWithSlot;
+    @Input() public team: TeamWithSlots;
 
     public slots: Array<AvailabilitySlot>;
 
