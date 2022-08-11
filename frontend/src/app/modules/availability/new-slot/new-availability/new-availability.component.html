@@ -1,1 +1,25 @@
-<p>new-availability works!</p>
+<div class="container">
+    <div class="new-availability-header">
+        <p class="new-availability-header">New Availability Slots</p>
+        <label class="form-switch">
+            <input type="checkbox" [(ngModel)]="isActive"> <i></i>
+        </label>
+        <p>Active</p>
+        <div class="slot-button-container">
+            <button mat-flat-button>Cancel</button>
+            <button mat-flat-button color="primary">Save changes</button>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="sidebar">
+            <app-side-menu [groups]="sideMenuGroups"></app-side-menu>
+            <div class="delete-slots-container">
+                <mat-icon>delete_outline</mat-icon>
+                <p class="delete-slots-label">Delete availability slots</p>
+            </div>
+        </div>
+        <div class="menu-item-container">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

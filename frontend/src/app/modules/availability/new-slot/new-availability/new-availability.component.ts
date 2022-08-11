@@ -9,6 +9,8 @@ import { SideMenuGroup } from '@core/interfaces/sideMenu/sideMenuGroup';
 export class NewAvailabilityComponent implements OnInit {
     public sideMenuGroups: SideMenuGroup[];
 
+    public isActive: boolean = true;
+
     ngOnInit(): void {
         this.initializeSideMenu();
     }
