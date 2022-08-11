@@ -109,8 +109,7 @@ namespace EasyMeets.Core.DAL.Context
         private static IList<AdvancedSlotSettings> GenerateSlotSettingsList(int count = 10)
         {
             var id = 1;
-            var slotId = 1;
-            
+
             return new Faker<AdvancedSlotSettings>()
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.ActivityType, f => (ActivityType)f.Random.Int(1, 3))
