@@ -1,0 +1,44 @@
+<form class="signin-form form" [formGroup]="signInForm" (ngSubmit)="onSignIn()">
+    <div class="form-inputs flex-col">
+        <mat-label class="outside-label bold" for="email">Email:</mat-label>
+        <mat-form-field appearance="outline">
+            <input matInput id="email" type="email" formControlName="email" placeholder="email@email.com" />
+            <mat-error *ngIf="signInForm.controls['email'].hasError('required')">You must enter a value</mat-error>
+            <mat-error *ngIf="signInForm.controls['email'].hasError('email')">Not a valid email</mat-error>
+        </mat-form-field>
+        <mat-label class="outside-label bold">Password:</mat-label>
+        <mat-form-field appearance="outline">
+            <input
+                matInput
+                id="password"
+                [type]="hidePassword ? 'password' : 'text'"
+                formControlName="password"
+                placeholder="●●●●●●●●●●"
+                required
+            />
+            <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hidePassword"
+            >
+                <mat-icon color="primary">{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="signInForm.controls.password.invalid">
+                {{ checkErrors('password') }}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="form-actions flex-col h-align-center">
+        <button class="full-width" mat-flat-button color="primary" type="submit" [disabled]="!signInForm.valid">
+            Sign In
+        </button>
+        <p class="bold">or</p>
+        <button mat-raised-button class="social-google-btn" type="button" (click)="onSignInWithGoogle()">
+            <mat-icon svgIcon="google-sign-in"></mat-icon>
+            Sign in with Google
+        </button>
+    </div>
+</form>
