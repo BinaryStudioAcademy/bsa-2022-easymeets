@@ -25,8 +25,7 @@ builder.Services.AddCors();
 builder.Services.AddHealthChecks();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
-//TODO: remove wrong adress
-builder.WebHost.UseUrls("https://*:5050");
+builder.WebHost.UseUrls("http://*:5050");
 
 var app = builder.Build();
 
