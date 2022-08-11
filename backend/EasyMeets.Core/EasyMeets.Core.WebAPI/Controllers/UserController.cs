@@ -1,12 +1,11 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
-using EasyMeets.Core.Common.DTO.Base;
 using EasyMeets.Core.Common.DTO.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
@@ -33,13 +32,6 @@ namespace EasyMeets.Core.WebAPI.Controllers
         {
             await _userService.UpdateUserPreferences(user);
             return NoContent();
-        }
-
-        [HttpPost("upload")]
-        public async Task<ActionResult<BaseDto>> UploadImage([FromBody] ImageDto image)
-        {
-            //TODO Use Azure Blob Storage for save user photo and update ImagePath in user entity
-            return Ok();
         }
     }
 }

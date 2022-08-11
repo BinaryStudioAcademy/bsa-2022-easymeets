@@ -1,3 +1,5 @@
+using EasyMeets.Core.Common.Enums;
+
 namespace EasyMeets.Core.DAL.Entities;
 
 public class User : Entity<long>
@@ -6,10 +8,10 @@ public class User : Entity<long>
     public string Email { get; set; } = string.Empty;
     public string? PhoneNumber { get; set; }
     public string? ImagePath { get; set; }
-    public string? Language { get; set; }
-    public string? TimeFormat { get; set; }
-    public string? DateFormat { get; set; }
-    public string? Country { get; set; }
+    public Language Language { get; set; }
+    public TimeFormat TimeFormat { get; set; }
+    public DateFormat DateFormat { get; set; }
+    public Country Country { get; set; }
     public string? TimeZone { get; set; }
     public bool IsBanned { get; set; }
 

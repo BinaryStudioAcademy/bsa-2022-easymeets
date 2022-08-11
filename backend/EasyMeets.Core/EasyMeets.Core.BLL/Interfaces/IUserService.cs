@@ -4,7 +4,7 @@ namespace EasyMeets.Core.BLL.Interfaces
 {
     public interface IUserService
     {
-        Task<UserDto> GetUserPreferences(long userId);
+        Task<UserDto?> GetUserPreferences(long userId);
         Task UpdateUserPreferences(UserDto user);
     }
 }

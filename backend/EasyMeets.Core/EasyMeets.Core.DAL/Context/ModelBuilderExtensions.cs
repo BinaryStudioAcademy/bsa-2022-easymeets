@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using Bogus.Extensions;
+using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Entities;
 using EasyMeets.Core.DAL.Entities.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -53,9 +54,10 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Email, f => f.Person.Email)
                 .RuleFor(u => u.PhoneNumber, f => f.Person.Phone.ClampLength(1, 10))
                 .RuleFor(u => u.ImagePath, f => f.Internet.Avatar())
-                .RuleFor(u => u.Language, f => "ENG")
-                .RuleFor(u => u.DateFormat, f => "24h")
-                .RuleFor(u => u.TimeFormat, f => "DD/MM/YYYY")
+                .RuleFor(u => u.Language, f => Language.Pl)
+                .RuleFor(u => u.DateFormat, f => DateFormat.MDYY)
+                .RuleFor(u => u.TimeFormat, f => TimeFormat.Thh)
+                .RuleFor(u => u.Country, f => Country.Ukraine)
                 .RuleFor(u => u.IsBanned, f => false)
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);

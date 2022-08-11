@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using EasyMeets.Core.BLL.Exceptions;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.User;
 using EasyMeets.Core.DAL.Context;
@@ -13,9 +12,13 @@ namespace EasyMeets.Core.BLL.Services
         public UserService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper)
         { }
 
-        public async Task<UserDto> GetUserPreferences(long userId)
+        public async Task<UserDto?> GetUserPreferences(long userId)
         {
             var user = await _context.Users.FirstOrDefaultAsync(_ => _.Id == userId);
+            if (user is null)
+            {
+                return default;
+            }
             return _mapper.Map<UserDto>(user);
         }
 
@@ -24,7 +27,7 @@ namespace EasyMeets.Core.BLL.Services
             var userEntity = await GetUserById(userDto.Id);
             if (userEntity is null)
             {
-                throw new NotFoundException(nameof(User), userDto.Id);
+                throw new KeyNotFoundException("User doesn't exist");
             }
 
             userEntity.Name = userDto.UserName;
@@ -41,7 +44,7 @@ namespace EasyMeets.Core.BLL.Services
 
         private async Task<User?> GetUserById(long id)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id) ?? throw new KeyNotFoundException("User doesn't exist");
         }
     }
 }
