@@ -9,16 +9,16 @@ namespace EasyMeets.Core.WebAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IAvailabilityService _availabilityService;
-        public UserController(IAvailabilityService availabilityService)
+        private readonly IUserService _userService;
+        public UserController(IUserService userService)
         {
-            _availabilityService = availabilityService;
+            _userService = userService;
         }
 
         [HttpGet("current/{id}")]
         public async Task<ActionResult<UserDto>> GetCurrentUserAsync(int id)
         {
-            var availabilitySlots = await _availabilityService.GetCurrentUserForAvailabilityPageAsync(id);
+            var availabilitySlots = await _userService.GetCurrentUserForAvailabilityPageAsync(id);
             return Ok(availabilitySlots);
         }
     }
