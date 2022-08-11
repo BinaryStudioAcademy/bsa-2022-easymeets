@@ -18,7 +18,7 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(x => x.Location)
                 .Include(x => x.Author)
                 .Include(x => x.Members)
-                .ToListAsync();
+                .ToListAsync(); 
             var availabilitySlotsDto = _mapper.Map<ICollection<AvailabilitySlotDto>>(availabilitySlots);
             return availabilitySlotsDto;
         }
