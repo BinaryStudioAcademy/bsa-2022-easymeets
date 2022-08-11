@@ -24,10 +24,17 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        public async Task<ActionResult<ICollection<AvailabilitySlotDto>>> GetAllAvailabilitySlotsForTeamAsync()
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ICollection<AvailabilitySlotDto>>> GetAllAvailabilitySlotsForTeamAsync(int id)
         {
-            var availabilitySlots = await _availabilityService.GetAllAvailabilitySlotsGroupByTeamsAsync();
+            var availabilitySlots = await _availabilityService.GetAllAvailabilitySlotsGroupByTeamsAsync(id);
+            return Ok(availabilitySlots);
+        }
+
+        [HttpGet("personal/{id}")]
+        public async Task<ActionResult<ICollection<AvailabilitySlotDto>>> GetAllUserAvailabilitySlotsAsync(int id)
+        {
+            var availabilitySlots = await _availabilityService.GetAllUserAvailabilitySlotsAsync(id);
             return Ok(availabilitySlots);
         }
     }
