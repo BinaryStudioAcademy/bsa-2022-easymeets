@@ -113,7 +113,6 @@ namespace EasyMeets.Core.DAL.Context
             
             return new Faker<AdvancedSlotSettings>()
                 .RuleFor(u => u.Id, f => id++)
-                .RuleFor(u => u.AvailabilitySlotId, f => slotId++)
                 .RuleFor(u => u.ActivityType, f => (ActivityType)f.Random.Int(1, 3))
                 .RuleFor(u => u.Days, f => f.Random.Int(1, 30))
                 .RuleFor(u => u.StartDate, f => DateTime.Today.AddDays(1))
