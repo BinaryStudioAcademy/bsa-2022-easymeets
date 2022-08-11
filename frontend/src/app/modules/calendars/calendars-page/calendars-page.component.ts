@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { getDefaultOptions } from '@core/helpers/options-helper';
 import { getDefaultTeams } from '@core/helpers/teams-helper';
 import { getDefaultCalendars } from '@core/helpers/users-calendar-helper';
-import { ICheckOption } from '@core/interfaces/check-option';
+import { ICheckOption } from '@core/interfaces/check-option-interface';
 import { ITeam } from '@core/interfaces/team-interface';
-import { IUserCalendar } from '@core/interfaces/user-calendar';
+import { IUserCalendar } from '@core/interfaces/user-calendar-interface';
 
 @Component({
     selector: 'app-calendars-page',

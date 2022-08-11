@@ -1,4 +1,4 @@
-import { IUserCalendar } from '@core/interfaces/user-calendar';
+import { IUserCalendar } from '@core/interfaces/user-calendar-interface';
 
 export const getDefaultCalendars = (): IUserCalendar[] => [
     {
