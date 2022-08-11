@@ -1,4 +1,4 @@
-﻿export interface IConfirmButtonOptions {
+export interface IConfirmButtonOptions {
     class: string;
     label: string;
 }
