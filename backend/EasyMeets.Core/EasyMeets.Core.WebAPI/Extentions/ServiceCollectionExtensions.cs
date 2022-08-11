@@ -22,11 +22,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
 
             services.AddTransient<ISampleService, SampleService>();
             services.AddTransient<IAvailabilityService, AvailabilityService>();
-        }
-
-        public static void RegisterUploadService(this IServiceCollection services)
-        {
-            services.AddSingleton<IUploadFileService, UploadFileService>();
+            services.AddTransient<IUploadFileService, UploadFileService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)

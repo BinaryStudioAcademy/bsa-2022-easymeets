@@ -19,10 +19,16 @@ namespace EasyMeets.Core.BLL.Services
             var blob = _container.GetBlobClient(fileName);
 
             await blob.UploadAsync(filePath);
+            var imageUrl = blob.Uri.ToString();
 
             var user = await _context.Users.FindAsync(userId);
 
-            user.ImagePath = "";
+            if (user is null)
+            {
+                throw new Exception("User not found.");
+            }
+
+            user.ImagePath = imageUrl;
 
             _context.Update(user);
             await _context.SaveChangesAsync();
