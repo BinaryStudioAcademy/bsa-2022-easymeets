@@ -17,6 +17,7 @@ builder.Services.AddEasyMeetsCoreContext(builder.Configuration);
 builder.Services.ConfigureJwt(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.RegisterCustomServices();
+builder.Services.RegisterUploadService();
 builder.Services.AddAutoMapper();
 builder.Services.AddSwaggerGen();
 builder.Services.AddValidation();

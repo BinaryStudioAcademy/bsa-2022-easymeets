@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Azure.Storage.Blobs;
 
 namespace EasyMeets.Core.WebAPI.Extentions
 {
@@ -21,6 +22,12 @@ namespace EasyMeets.Core.WebAPI.Extentions
 
             services.AddTransient<ISampleService, SampleService>();
             services.AddTransient<IAvailabilityService, AvailabilityService>();
+        }
+
+        public static void RegisterUploadService(this IServiceCollection services)
+        {
+            services.AddSingleton(x => new BlobServiceClient(Environment.GetEnvironmentVariable("AzureBlogStorageConnectionString")));
+            services.AddSingleton<IUploadFileService, UploadFileService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
