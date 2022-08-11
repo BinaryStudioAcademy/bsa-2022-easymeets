@@ -44,7 +44,10 @@ erDiagram
       nvarchar Email
       nvarchar PhoneNumber
       nvarchar ImagePath
-      nvarchar Country
+      int Country
+      int Language
+      int TimeFormat
+      int DateFormat
       nvarchar TimeZone
       boolean IsBanned
       boolean IsDeleted
