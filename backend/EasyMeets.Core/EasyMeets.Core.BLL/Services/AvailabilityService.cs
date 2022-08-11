@@ -22,17 +22,15 @@ namespace EasyMeets.Core.BLL.Services
             var entity = _mapper.Map<AvailabilitySlot>(slotDto);
             
             await _context.AvailabilitySlots.AddAsync(entity);
-
-            await _context.SaveChangesAsync();
             
             if (slotDto.AdvancedSettings is not null)
             {
                 var advancedSettings = _mapper.Map<AdvancedSlotSettings>(slotDto.AdvancedSettings);
-                advancedSettings.AvailabilitySlotId = entity.Id;
+                advancedSettings.AvailabilitySlot = entity;
                 await _context.AdvancedSlotSettings.AddAsync(advancedSettings);
-                entity.AdvancedSlotSettingsId = advancedSettings.Id;
-                await _context.SaveChangesAsync();
+                entity.AdvancedSlotSettings = advancedSettings;
             }
+            await _context.SaveChangesAsync();
         }
     }
 }
