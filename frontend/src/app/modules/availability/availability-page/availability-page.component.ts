@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AvailabilitySlot } from '@core/models/availiability-slot';
+import { getDefaultTeams } from '@core/helpers/slots-data-helper';
+import { TeamWithSlot } from '@core/models/team-with-slot';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 
 @Component({
@@ -8,30 +9,26 @@ import { AvailabilitySlotService } from '@core/services/availability-slot.servic
     styleUrls: ['./availability-page.component.sass'],
 })
 export class AvailabilityPageComponent {
-    public availabilitySlots: AvailabilitySlot[];
+    public teams: Array<TeamWithSlot>;
 
     public loadingSlots: boolean;
 
     constructor(private availabilitySlotService: AvailabilitySlotService) {
         this.getAllAvailabilitySlotsForTeam();
+        this.teams = getDefaultTeams();
     }
 
     public getAllAvailabilitySlotsForTeam() {
-        // eslint-disable-next-line no-debugger
-        debugger;
         this.loadingSlots = true;
         this.availabilitySlotService
             .getAvailabilitySlots()
             .subscribe(
                 (resp) => {
                     this.loadingSlots = false;
-                    // eslint-disable-next-line no-debugger
-                    debugger;
-                    this.availabilitySlots = resp;
+                    console.log(resp);
+                    //this.availabilitySlots = resp;
                 },
                 (error) => {
-                    // eslint-disable-next-line no-debugger
-                    debugger;
                     console.log(error);
                 },
             );

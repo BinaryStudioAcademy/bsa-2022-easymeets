@@ -1,16 +1,18 @@
-import { Component } from '@angular/core';
-import { getDefaultSlots } from '@core/helpers/slots-data-helper';
-import { Slot } from '@core/interfaces/slot-interface';
+import { Component, Input, OnInit } from '@angular/core';
+import { AvailabilitySlot } from '@core/models/availiability-slot';
+import { TeamWithSlot } from '@core/models/team-with-slot';
 
 @Component({
     selector: 'app-team',
     templateUrl: './team.component.html',
     styleUrls: ['./team.component.sass'],
 })
-export class TeamComponent {
-    public slots: Array<Slot>;
+export class TeamComponent implements OnInit {
+    @Input() public team: TeamWithSlot;
 
-    constructor() {
-        this.slots = getDefaultSlots();
+    public slots: Array<AvailabilitySlot>;
+
+    ngOnInit(): void {
+        this.slots = this.team.availabilitySlots;
     }
 }

@@ -1,17 +1,17 @@
-<mat-card class="card-container" *ngIf="isChecked">
+<mat-card class="card-container" *ngIf="slot.isEnabled">
     <div class="slot-content">
         <div class="slot-header">
             <p>Availability slots for</p>
-            <mat-slide-toggle [checked]="isChecked" (change)="toggle($event)"></mat-slide-toggle>
+            <mat-slide-toggle [checked]="slot.isEnabled" (change)="toggle($event)"></mat-slide-toggle>
         </div>
         <div class="time-options">
-            <p>{{ slot.time }} meeting</p>
+            <p>{{ slot.size }} min meeting</p>
         </div>
         <div class="meeting-details">
-            <p>{{ slot.time }}, {{ slot.user }}, {{ slot.meetingPlace }}</p>
+            <p>{{ slot.size }} min, {{ slot.user.name }}, {{ slot.location.name }}</p>
             <div class="avatar-list">
-                <div *ngFor="let _avatar of slot.avatars">
-                    <img [src]="_avatar" class="avatar" />
+                <div *ngFor="let _avatar of slot.members">
+                    <img [src]="_avatar.imagePath" class="avatar" />
                 </div>
             </div>
         </div>
@@ -41,20 +41,20 @@
         </div>
     </div>
 </mat-card>
-<mat-card class="card-container card-container-disabled" *ngIf="!isChecked">
+<mat-card class="card-container card-container-disabled" *ngIf="!slot.isEnabled">
     <div class="slot-content">
         <div class="slot-header">
             <p>Availability slots for</p>
-            <mat-slide-toggle [checked]="isChecked" (change)="toggle($event)"></mat-slide-toggle>
+            <mat-slide-toggle [checked]="slot.isEnabled"></mat-slide-toggle>
         </div>
         <div class="time-options">
-            <p>{{ slot.time }} meeting</p>
+            <p>{{ slot.size }} min meeting</p>
         </div>
         <div class="meeting-details">
-            <p>{{ slot.time }}, {{ slot.user }}, {{ slot.meetingPlace }}</p>
+            <p>{{ slot.size }} min, {{ slot.user.name }}, {{ slot.location.name }}</p>
             <div class="avatar-list">
-                <div *ngFor="let _avatar of slot.avatars">
-                    <img [src]="_avatar" class="avatar" />
+                <div *ngFor="let _avatar of slot.members">
+                    <img [src]="_avatar.imagePath" class="avatar" />
                 </div>
             </div>
         </div>
