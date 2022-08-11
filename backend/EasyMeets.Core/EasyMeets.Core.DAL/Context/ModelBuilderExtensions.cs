@@ -206,7 +206,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AvailabilitySlotId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.Name, f => f.Person.FullName)
-                .RuleFor(u => u.Email, f => f.Person.Email)
+                .RuleFor(u => u.Email, f => f.Person.Email.ClampLength(30))
                 .RuleFor(u => u.EventTime, f => f.Date.Future())
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
