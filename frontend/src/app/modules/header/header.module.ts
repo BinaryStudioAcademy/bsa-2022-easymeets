@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
-import { MatSelectModule } from 'src/app/shared/material/material.module';
+import { MatSelectModule } from '@shared/material/material.module';
 
 import { HeaderItemComponent } from './header-item/header-item.component';
 
