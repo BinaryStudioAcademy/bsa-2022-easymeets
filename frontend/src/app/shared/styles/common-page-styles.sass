@@ -45,29 +45,27 @@ body
 			transform: translate3d(2px, 2px, 0)
 			transition: all 0.2s ease-in-out
 
-
 	&:active
 		i
 			&::after
 				width: 28px
 				transform: translate3d(2px, 2px, 0)
 
-
 		input
 			&:checked
 				+
-					i
-						&::after
-							transform: translate3d(16px, 2px, 0)
+				i
+					&::after
+						transform: translate3d(16px, 2px, 0)
 
 	input
 		display: none
 		&:checked
 			+
-				i
-					background-color: #4C7DE7
-					&::before
-						transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0)
+			i
+				background-color: #4C7DE7
+				&::before
+					transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0)
 
 					&::after
 						transform: translate3d(22px, 2px, 0)
@@ -91,7 +89,6 @@ body
 	p
 		font-size: 14px
 		color: #667080
-
 
 .input-item
 	background: #FFFFFF
@@ -155,7 +152,6 @@ body
 		line-height: 20px
 		color: #667080
 
-
 .selectColorBlock
 	display: flex
 	flex-direction: column
@@ -166,7 +162,6 @@ body
 		font-size: 14px
 		line-height: 20px
 		color: #667080
-
 
 .colorsRow
 	display: flex
@@ -182,6 +177,25 @@ body
 	justify-content: center
 	text-align: center
 	border-radius: 50%
+
+.mat-form-field-underline
+	display: none
+
+.mat-form-field-appearance-fill .mat-form-field-infix
+	padding: 0
+
+.mat-form-field-appearance-fill .mat-form-field-flex
+	background-color: #fff
+	padding: 0
+
+.mat-form-field-wrapper
+	padding-bottom: 5px
+
+.mat-select-value
+	margin-bottom: 5px
+
+th
+	height: 20px
 
 #dark-blue-color
 	background: rgb(70, 89, 114)
