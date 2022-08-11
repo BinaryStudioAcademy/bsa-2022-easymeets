@@ -1,4 +1,4 @@
-﻿import { IConfirmButtonOptions } from './IConfirmButtonOptions';
+import { IConfirmButtonOptions } from './IConfirmButtonOptions';
 
 export interface IConfirmDialogData {
     title: string;
