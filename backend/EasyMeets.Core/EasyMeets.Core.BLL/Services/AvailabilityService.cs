@@ -34,10 +34,22 @@ namespace EasyMeets.Core.BLL.Services
             var userSlots = await _context.Users
                  .Where(x => x.Id == id)
                  .Include(x => x.CreatedSlots)
+                    .ThenInclude(x => x.Members)
+                    .ThenInclude(x => x.User)
+                 .Include(x => x.CreatedSlots)
+                    .ThenInclude(x => x.Location)
+                 .Where(x => x.CreatedSlots.Any(x => x.Type == SlotType.Personal))
                  .SelectMany(x => x.CreatedSlots)
                  .ToListAsync();
             var userSlotsDto = _mapper.Map<ICollection<AvailabilitySlotDto>>(userSlots);
             return userSlotsDto;
+        }
+
+        public async Task<UserDto> GetCurrentUserForAvailabilityPageAsync(int id)
+        {
+            var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            var currentUserDto = _mapper.Map<UserDto>(currentUser);
+            return currentUserDto;
         }
 
         public async Task CreateAvailabilitySlot(NewAvailabilitySlotDto slotDto)
