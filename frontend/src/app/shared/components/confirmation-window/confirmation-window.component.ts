@@ -1,7 +1,7 @@
 import { Component, Inject, Input } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ConfirmButtonOptions } from '@core/models/ConfirmButtonOptions';
-import { ConfirmDialogData } from '@core/models/ConfirmDialogData';
+import { IConfirmButtonOptions } from '@core/models/IConfirmButtonOptions';
+import { IConfirmDialogData } from '@core/models/IConfirmDialogData';
 
 @Component({
     selector: 'app-confirmation-window',
@@ -9,22 +9,22 @@ import { ConfirmDialogData } from '@core/models/ConfirmDialogData';
     styleUrls: ['./confirmation-window.component.sass'],
 })
 export class ConfirmationWindowComponent {
-    @Input() public confirmDialogData: ConfirmDialogData;
+    @Input() public confirmDialogData: IConfirmDialogData;
 
     public title: string;
 
     public message: string;
 
-    public acceptButtonOptions: ConfirmButtonOptions;
+    public acceptButtonOptions: IConfirmButtonOptions;
 
-    public cancelButtonOptions: ConfirmButtonOptions;
+    public cancelButtonOptions: IConfirmButtonOptions;
 
     public isHasAcceptButton: boolean;
 
     public isHasCancelButton: boolean;
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogData,
+        @Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData,
     ) {
         this.title = data.title;
         this.message = data.message;
