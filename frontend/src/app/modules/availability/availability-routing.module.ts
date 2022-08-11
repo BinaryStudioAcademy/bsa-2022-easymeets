@@ -14,14 +14,16 @@ const routes: Routes = [
     {
         path: 'new',
         component: NewAvailabilityComponent,
-    },
-    {
-        path: 'new/general',
-        component: GeneralComponent,
-    },
-    {
-        path: 'new/event-details',
-        component: EventDetailComponent,
+        children: [
+            {
+                path: 'general',
+                component: GeneralComponent,
+            },
+            {
+                path: 'event-details',
+                component: EventDetailComponent,
+            },
+        ],
     },
 ];
 
