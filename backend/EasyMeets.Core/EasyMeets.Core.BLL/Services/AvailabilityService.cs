@@ -5,24 +5,41 @@ using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.DAL.Entities;
-using EasyMeets.Core.Common.Enums; 
+using EasyMeets.Core.Common.Enums;
 
 namespace EasyMeets.Core.BLL.Services
 {
     public class AvailabilityService : BaseService, IAvailabilityService
     {
-        public AvailabilityService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) { }
-        public async Task<ICollection<AvailabilitySlotDto>> GetAllAvailabilitySlotsForTeamAsync()
+        public AvailabilityService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) { } 
+        public async Task<ICollection<AvailabilitySlotsGroupByTeamsDto>> GetAllAvailabilitySlotsGroupByTeamsAsync()
         {
-            var availabilitySlots = await _context.AvailabilitySlots
-                .Where(x => x.Type == SlotType.Team)
-                .Include(x => x.Team)
-                .Include(x => x.Location)
-                .Include(x => x.Author)
-                .Include(x => x.Members)
+            var teamsWithSlots = await _context.Teams
+                .Include(x => x.AvailabilitySlots)
+                    .ThenInclude(x => x.Members)
+                .Include(x => x.AvailabilitySlots)
+                    .ThenInclude(x => x.Location)
+                .Include(x => x.AvailabilitySlots)
+                    .ThenInclude(x => x.Author)
+                .Where(x => x.AvailabilitySlots.Count(x => x.Type == SlotType.Team) > 0)
                 .ToListAsync();
-            var availabilitySlotsDto = _mapper.Map<ICollection<AvailabilitySlotDto>>(availabilitySlots);
-            return availabilitySlotsDto;
+            var teamsWithSlotsDto = _mapper.Map<ICollection<AvailabilitySlotsGroupByTeamsDto>>(teamsWithSlots);
+            return teamsWithSlotsDto;
+        }
+
+        public async Task<ICollection<AvailabilitySlotsGroupByTeamsDto>> GetAllAvailabilitySlotsGroupByUserAsync()
+        {
+            var teamsWithSlots = await _context.Teams
+                .Include(x => x.AvailabilitySlots)
+                    .ThenInclude(x => x.Members)
+                .Include(x => x.AvailabilitySlots)
+                    .ThenInclude(x => x.Location)
+                .Include(x => x.AvailabilitySlots)
+                    .ThenInclude(x => x.Author)
+                .Where(x => x.AvailabilitySlots.Count(x => x.Type == SlotType.Personal) > 0)
+                .ToListAsync();
+            var teamsWithSlotsDto = _mapper.Map<ICollection<AvailabilitySlotsGroupByTeamsDto>>(teamsWithSlots);
+            return teamsWithSlotsDto;
         }
 
         public async Task CreateAvailabilitySlot(NewAvailabilitySlotDto slotDto)

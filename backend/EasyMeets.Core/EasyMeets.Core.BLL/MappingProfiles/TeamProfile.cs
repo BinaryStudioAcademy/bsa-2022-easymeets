@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using EasyMeets.Core.Common.DTO;
+using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.DAL.Entities;
 
 namespace EasyMeets.Core.BLL.MappingProfiles
@@ -8,8 +8,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
     {
         public TeamProfile()
         {
-            CreateMap<Team, TeamDto>();
-            CreateMap<TeamDto, Team>();
+            CreateMap<Team, AvailabilitySlotsGroupByTeamsDto>();
+            CreateMap<AvailabilitySlotsGroupByTeamsDto, Team>();
         }
     }
 }
