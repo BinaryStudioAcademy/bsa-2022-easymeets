@@ -14,24 +14,27 @@ namespace EasyMeets.Core.BLL.Services
         {
         }
 
-        public async Task UploadFileBlobAsync(string filePath, string fileName, int userId)
+        public async Task<string> UploadFileBlobAsync(string filePath, string fileName, int userId)
         {
             var blob = _container.GetBlobClient(fileName);
 
             await blob.UploadAsync(filePath);
+
             var imageUrl = blob.Uri.ToString();
 
-            var user = await _context.Users.FindAsync(userId);
+            var user = await _context.Users.FindAsync((long)userId);
 
             if (user is null)
             {
-                throw new Exception("User not found.");
+                throw new NullReferenceException();
             }
 
             user.ImagePath = imageUrl;
 
             _context.Update(user);
             await _context.SaveChangesAsync();
+
+            return user.ImagePath;
         }
     }
 }
