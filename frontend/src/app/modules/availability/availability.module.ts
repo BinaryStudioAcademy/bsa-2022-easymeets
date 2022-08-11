@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SideMenuModule } from '@modules/side-menu/side-menu.module';
 import { MaterialModule } from '@shared/material/material.module';
 
 import { AvailabilityPageComponent } from './availability-page/availability-page.component';
@@ -19,6 +20,6 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         EventDetailComponent,
         NewAvailabilityComponent,
     ],
-    imports: [CommonModule, AvailabilityRoutingModule, MaterialModule],
+    imports: [CommonModule, AvailabilityRoutingModule, MaterialModule, SideMenuModule],
 })
 export class AvailabilityModule {}
