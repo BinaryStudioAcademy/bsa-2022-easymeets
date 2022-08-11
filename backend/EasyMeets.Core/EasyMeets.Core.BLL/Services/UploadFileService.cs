@@ -31,7 +31,7 @@ namespace EasyMeets.Core.BLL.Services
 
             user.ImagePath = imageUrl;
 
-            _context.Update(user);
+            _context.Users.Update(user);
             await _context.SaveChangesAsync();
 
             return user.ImagePath;
