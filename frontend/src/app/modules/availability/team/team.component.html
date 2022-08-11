@@ -2,7 +2,7 @@
     <div class="team-info">
         <div class="team-name">
             <div><h3>{{team.name}}</h3></div>
-            <img src="assets/copy_icon.png" class="copy-icon" />
+            <img src="assets/copy_icon.png" class="copy-icon" *ngIf="spinnerService.isLoading$ | async"/>
         </div>
     </div>
     <div class="availability-slot">
