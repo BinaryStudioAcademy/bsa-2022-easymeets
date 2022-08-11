@@ -13,7 +13,7 @@ namespace EasyMeets.Core.Common.DTO.Availability
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Link { get; set; } = string.Empty;
-        //public SlotType Type { get; set; }
+        public SlotTypeDto Type { get; set; }
         public int Size { get; set; }
         public bool IsEnabled { get; set; }
 
