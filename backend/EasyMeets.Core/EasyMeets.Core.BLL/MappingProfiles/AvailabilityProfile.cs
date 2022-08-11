@@ -12,7 +12,6 @@ public class AvailabilityProfile : Profile
         CreateMap<NewAvailabilitySlotDto, AvailabilitySlot>()
             .ForMember(s => s.TeamId, opt => opt.MapFrom(src => src.GeneralDetails!.TeamId))
             .ForMember(s => s.LocationId, opt => opt.MapFrom(src => src.GeneralDetails!.LocationId))
-            .ForMember(s => s.AdvancedSlotSettingsId, opt => opt.MapFrom(src => src.AdvancedSettings.Id))
             .ForMember(s => s.Name, opt => opt.MapFrom(src => src.GeneralDetails!.Name))
             .ForMember(s => s.WelcomeMessage, opt => opt.MapFrom(src => src.EventDetails!.WelcomeMessage))
             .ForMember(s => s.Link, opt => opt.MapFrom(src => src.EventDetails!.Link))
