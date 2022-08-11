@@ -7,18 +7,18 @@ import { SideMenuGroup } from '@core/interfaces/sideMenu/sideMenuGroup';
     styleUrls: ['./new-availability.component.sass'],
 })
 export class NewAvailabilityComponent implements OnInit {
-    public sideMenuGroup: SideMenuGroup;
+    public sideMenuGroups: SideMenuGroup[];
 
     ngOnInit(): void {
         this.initializeSideMenu();
     }
 
     private initializeSideMenu() {
-        this.sideMenuGroup = {
+        this.sideMenuGroups = [{
             items: [
                 { text: 'General', routerLink: 'general' },
                 { text: 'Booking page', routerLink: 'event-details' },
             ],
-        };
+        }];
     }
 }
