@@ -3,6 +3,7 @@ import { AvailabilitySlot } from '@core/models/availiability-slot';
 import { TeamWithSlots } from '@core/models/team-with-slot';
 import { User } from '@core/models/user';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
+import { UserService } from '@core/services/user.service';
 
 @Component({
     selector: 'app-availability-page',
@@ -16,7 +17,7 @@ export class AvailabilityPageComponent {
 
     public userSlots: Array<AvailabilitySlot>;
 
-    constructor(private availabilitySlotService: AvailabilitySlotService) {
+    constructor(private availabilitySlotService: AvailabilitySlotService, private userService: UserService) {
         this.getCurrentUser();
     }
 
@@ -41,13 +42,15 @@ export class AvailabilityPageComponent {
     }
 
     public getCurrentUser() {
-        this.availabilitySlotService
-            .getCurrentUser(1)
+        this.userService
+            .getCurrentUserById(5)
             .subscribe(
                 (resp) => {
-                    this.currentUser = resp;
-                    this.getAllAvailabilitySlotsForTeam();
-                    this.getAllUsersAvailabilitySlots();
+                    if (resp) {
+                        this.currentUser = resp;
+                        this.getAllAvailabilitySlotsForTeam();
+                        this.getAllUsersAvailabilitySlots();
+                    }
                 },
             );
     }

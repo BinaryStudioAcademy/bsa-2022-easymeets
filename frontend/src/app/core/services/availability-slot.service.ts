@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AvailabilitySlot } from '@core/models/availiability-slot';
 import { TeamWithSlots } from '@core/models/team-with-slot';
-import { User } from '@core/models/user';
 
 import { HttpInternalService } from './http-internal.service';
 
@@ -20,9 +19,5 @@ export class AvailabilitySlotService {
 
     public getAllUsersAvailabilitySlots(currentUserId: number) {
         return this.httpService.getRequest<AvailabilitySlot[]>(`${this.routePrefix}/personal/${currentUserId}`);
-    }
-
-    public getCurrentUser(currentUserId: number) {
-        return this.httpService.getRequest<User>(`/user/current/${currentUserId}`);
     }
 }
