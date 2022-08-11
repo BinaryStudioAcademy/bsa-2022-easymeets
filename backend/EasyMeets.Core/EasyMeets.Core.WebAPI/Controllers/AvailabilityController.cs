@@ -24,7 +24,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("team/{id}")]
         public async Task<ActionResult<ICollection<AvailabilitySlotDto>>> GetAllAvailabilitySlotsForTeamAsync(int id)
         {
             var availabilitySlots = await _availabilityService.GetAllAvailabilitySlotsGroupByTeamsAsync(id);
