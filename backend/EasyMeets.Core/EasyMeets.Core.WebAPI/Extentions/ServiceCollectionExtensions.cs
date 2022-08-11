@@ -26,7 +26,6 @@ namespace EasyMeets.Core.WebAPI.Extentions
 
         public static void RegisterUploadService(this IServiceCollection services)
         {
-            services.AddSingleton(x => new BlobServiceClient(Environment.GetEnvironmentVariable("AzureBlogStorageConnectionString")));
             services.AddSingleton<IUploadFileService, UploadFileService>();
         }
 
