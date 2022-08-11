@@ -13,10 +13,10 @@ export class AvailabilityPageComponent {
     public loadingSlots: boolean;
 
     constructor(private availabilitySlotService: AvailabilityService) {
-        this.getAvailabilitySlots();
+        this.getAllAvailabilitySlotsForTeam();
     }
 
-    public getAvailabilitySlots() {
+    public getAllAvailabilitySlotsForTeam() {
         this.loadingSlots = true;
         this.availabilitySlotService
             .getAvailabilitySlots()
