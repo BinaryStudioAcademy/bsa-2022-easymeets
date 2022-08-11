@@ -1,0 +1,11 @@
+<div class="wrapper">
+    <h1 mat-dialog-title>{{title}}</h1>
+    <div mat-dialog-content [align]="'center'">
+        {{message}}
+    </div>
+    <div mat-dialog-actions [align]="'center'">
+        <button [ngClass]="cancelButtonOptions.class" *ngIf="isHasCancelButton" mat-flat-button mat-dialog-close>{{cancelButtonOptions.label}}</button>
+        <button [ngClass]="acceptButtonOptions.class" *ngIf="isHasAcceptButton" mat-flat-button mat-dialog-close>{{acceptButtonOptions.label}}</button>
+    </div>
+</div>
+
