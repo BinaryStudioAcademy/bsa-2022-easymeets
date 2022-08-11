@@ -4,6 +4,6 @@ namespace EasyMeets.Core.BLL.Interfaces
 {
     public interface IAvailabilityService
     {
-        public Task<ICollection<AvailabilitySlotDto>> GetAllAvailabilitySlotsAsync();
+        public Task<ICollection<AvailabilitySlotDto>> GetAllAvailabilitySlotsForTeamAsync();
     }
 }

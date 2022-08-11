@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Availability;
-using EasyMeets.Core.DAL.Context; 
+using EasyMeets.Core.DAL.Context;
+using EasyMeets.Core.DAL.Entities.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyMeets.Core.BLL.Services
@@ -9,15 +10,16 @@ namespace EasyMeets.Core.BLL.Services
     public class AvailabilityService : BaseService, IAvailabilityService
     {
         public AvailabilityService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) { }
-        public async Task<ICollection<AvailabilitySlotDto>> GetAllAvailabilitySlotsAsync()
+        public async Task<ICollection<AvailabilitySlotDto>> GetAllAvailabilitySlotsForTeamAsync()
         {
             var availabilitySlots = await _context.AvailabilitySlots
-                .Include(x=>x.Team)
-                .Include(x=>x.Location)
-                .Include(x=>x.Author)
+                .Where(x => x.Type == SlotType.Team)
+                .Include(x => x.Team)
+                .Include(x => x.Location)
+                .Include(x => x.Author)
                 .Include(x => x.Members)
                 .ToListAsync();
-           var availabilitySlotsDto = _mapper.Map<ICollection<AvailabilitySlotDto>>(availabilitySlots);
+            var availabilitySlotsDto = _mapper.Map<ICollection<AvailabilitySlotDto>>(availabilitySlots);
             return availabilitySlotsDto;
         }
     }
