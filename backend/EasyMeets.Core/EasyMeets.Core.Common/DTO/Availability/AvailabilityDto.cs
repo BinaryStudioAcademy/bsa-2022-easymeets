@@ -1,10 +1,5 @@
 ﻿using EasyMeets.Core.Common.DTO.Common;
-using EasyMeets.Core.Common.DTO.Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EasyMeets.Core.Common.Enums; 
 
 namespace EasyMeets.Core.Common.DTO.Availability
 {
@@ -13,7 +8,7 @@ namespace EasyMeets.Core.Common.DTO.Availability
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Link { get; set; } = string.Empty;
-        public SlotTypeDto Type { get; set; }
+        public SlotType Type { get; set; }
         public int Size { get; set; }
         public bool IsEnabled { get; set; } 
         public UserDto Author { get; set; } = null!;

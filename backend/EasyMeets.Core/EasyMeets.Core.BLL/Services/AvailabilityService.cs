@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Availability;
-using EasyMeets.Core.DAL.Context;
-using EasyMeets.Core.DAL.Entities.Enums;
-using Microsoft.EntityFrameworkCore;
+using EasyMeets.Core.DAL.Context; 
+using Microsoft.EntityFrameworkCore; 
+using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+using EasyMeets.Core.DAL.Entities;
+using EasyMeets.Core.Common.Enums;
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -21,6 +23,22 @@ namespace EasyMeets.Core.BLL.Services
                 .ToListAsync(); 
             var availabilitySlotsDto = _mapper.Map<ICollection<AvailabilitySlotDto>>(availabilitySlots);
             return availabilitySlotsDto;
+        }
+
+        public async Task CreateAvailabilitySlot(NewAvailabilitySlotDto slotDto)
+        {
+            var entity = _mapper.Map<AvailabilitySlot>(slotDto);
+            
+            await _context.AvailabilitySlots.AddAsync(entity);
+            
+            if (slotDto.AdvancedSettings is not null)
+            {
+                var advancedSettings = _mapper.Map<AdvancedSlotSettings>(slotDto.AdvancedSettings);
+                advancedSettings.AvailabilitySlot = entity;
+                await _context.AdvancedSlotSettings.AddAsync(advancedSettings);
+                entity.AdvancedSlotSettings = advancedSettings;
+            }
+            await _context.SaveChangesAsync();
         }
     }
 }
