@@ -1,5 +1,6 @@
 @import 'src/styles/color-variables'
 @import 'src/styles/material'
+@import 'src/styles/screen-variables'
 
 header
   position: fixed
@@ -27,7 +28,7 @@ header
       width: 92px
       height: 33px
       margin-right: 50px
-    
+
   .nav
     display: flex
     float: left
@@ -61,24 +62,24 @@ header
 
       text-decoration: none
       border-radius: 3px
-    
+
     .tab a:hover
-     background-color: $athens-gray
-     border: 5px solid $athens-gray
-     cursor: pointer
+      background-color: $athens-gray
+      border: 5px solid $athens-gray
+      cursor: pointer
 
     .tab-active
       width: 123px
       border-bottom: 2px solid $royal-blue
 
     .tab-active a
-     width: 75px
-     font-weight: 700
-     color: $royal-blue
+      width: 75px
+      font-weight: 700
+      color: $royal-blue
 
     .tab-active a:hover
-     background-color: $light-blue
-     border: 5px solid $light-blue
+      background-color: $light-blue
+      border: 5px solid $light-blue
 
   .avatar
     padding: 0px
@@ -90,16 +91,16 @@ header
       height: 30px
       border: 3px solid $royal-blue
       border-radius: 100%
-      cursor: pointer  
+      cursor: pointer
 
-  @media screen and (max-width: 1150px)
-   .logo img
-    margin-left: -5%
-  
-  @media screen and (max-width: 980px)
-   .logo img
-    margin-left: -10% 
+  @media screen and ($desktop-min-width)
+  .logo img
+    margin-left: -10%
 
-  @media screen and (max-width: 870px)
-   .logo img
-    margin-left: -15%  
+  @media screen and ($tablet-min-width)
+  .logo img
+    margin-left: -25%
+
+  @media screen and ($phone-min-width)
+  .logo img
+    margin-left: -50%
