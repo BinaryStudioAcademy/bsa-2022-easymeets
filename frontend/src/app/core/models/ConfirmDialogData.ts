@@ -2,7 +2,10 @@
 
 export interface ConfirmDialogData {
     title: string;
+
     message: string;
+
     acceptButton?: ConfirmButtonOptions;
+
     cancelButton?: ConfirmButtonOptions;
 }
