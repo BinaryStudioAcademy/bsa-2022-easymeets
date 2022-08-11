@@ -42,7 +42,7 @@ export class AvailabilityPageComponent {
 
     public getCurrentUser() {
         this.availabilitySlotService
-            .getCurrentUser(4)
+            .getCurrentUser(1)
             .subscribe(
                 (resp) => {
                     this.currentUser = resp;

@@ -12,8 +12,6 @@ export class SlotComponent {
 
     @Input() public hasOwner: boolean;
 
-    public owner: any;
-
     public isChecked: boolean = true;
 
     public toggle(event: MatSlideToggleChange) {

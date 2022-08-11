@@ -6,9 +6,10 @@
         </div>
         <div class="time-options">
             <p>{{ slot.name }}</p>
+            <img *ngIf="slot.isVisible" src="assets/private_icon.png"/>
         </div>
         <div class="meeting-details">
-            <p *ngIf="hasOwner">{{ slot.size }} min, {{slot.author.name}} members, {{ slot.location.name }}</p>
+            <p *ngIf="hasOwner">{{ slot.size }} min, {{slot.author.name}}, {{ slot.location.name }}</p>
             <p *ngIf="!hasOwner">{{ slot.size }} min, 1 of {{slot.members.length}} members, {{ slot.location.name }}</p>
             <div class="avatar-list">
                 <div *ngFor="let _avatar of slot.members">
@@ -52,7 +53,8 @@
             <p>{{ slot.size }} min meeting</p>
         </div>
         <div class="meeting-details">
-            <p>{{ slot.size }} min, {{ slot.location.name }}</p>
+            <p *ngIf="hasOwner">{{ slot.size }} min, {{slot.author.name}}, {{ slot.location.name }}</p>
+            <p *ngIf="!hasOwner">{{ slot.size }} min, 1 of {{slot.members.length}} members, {{ slot.location.name }}</p>
             <div class="avatar-list">
                 <div *ngFor="let _avatar of slot.members">
                     <img [src]="_avatar.imagePath" class="avatar" />
