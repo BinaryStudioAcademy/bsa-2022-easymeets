@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { SideMenuModule } from './components/side-menu/side-menu.module';
 
 @NgModule({
     imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, RouterModule],
@@ -18,7 +17,6 @@ import { SideMenuModule } from './components/side-menu/side-menu.module';
         RouterModule,
         LoadingSpinnerComponent,
         NotFoundComponent,
-        SideMenuModule,
     ],
 })
 export class SharedModule {}
