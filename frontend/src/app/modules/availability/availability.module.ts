@@ -7,8 +7,8 @@ import { EventDetailComponent } from './new-slot/event-detail/event-detail.compo
 import { GeneralComponent } from './new-slot/general/general.component';
 import { SlotComponent } from './slot/slot.component';
 import { TeamComponent } from './team/team.component';
-import { AvailabilityRoutingModule } from './availability-routing.module';
 import { UserSlotComponent } from './user-slot/user-slot.component';
+import { AvailabilityRoutingModule } from './availability-routing.module';
 
 @NgModule({
     declarations: [AvailabilityPageComponent, SlotComponent, TeamComponent, GeneralComponent, EventDetailComponent, UserSlotComponent],
