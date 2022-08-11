@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { getDefaultTeams } from '@core/helpers/slots-data-helper';
 import { TeamWithSlots } from '@core/models/team-with-slot';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 
@@ -15,7 +14,7 @@ export class AvailabilityPageComponent {
 
     constructor(private availabilitySlotService: AvailabilitySlotService) {
         this.getAllAvailabilitySlotsForTeam();
-        this.teams = getDefaultTeams();
+        // this.teams = getDefaultTeams();
     }
 
     public getAllAvailabilitySlotsForTeam() {

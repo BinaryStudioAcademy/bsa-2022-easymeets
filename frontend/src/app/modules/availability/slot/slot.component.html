@@ -5,10 +5,10 @@
             <mat-slide-toggle [checked]="slot.isEnabled" (change)="toggle($event)"></mat-slide-toggle>
         </div>
         <div class="time-options">
-            <p>{{ slot.size }} min meeting</p>
+            <p>{{ slot.name }}</p>
         </div>
         <div class="meeting-details">
-            <p>{{ slot.size }} min, {{ slot.location.name }}</p>
+            <p>{{ slot.size }} min, 1 of {{slot.members.length}} members, {{ slot.location.name }}</p>
             <div class="avatar-list">
                 <div *ngFor="let _avatar of slot.members">
                     <img [src]="_avatar.imagePath" class="avatar" />

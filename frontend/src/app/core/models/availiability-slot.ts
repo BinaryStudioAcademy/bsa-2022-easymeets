@@ -3,7 +3,7 @@ import { User } from './user';
 
 export interface AvailabilitySlot {
     name: string;
-    user: User;
+    author: User;
     size: number;
     link: string;
     isEnabled: boolean
