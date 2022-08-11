@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthPageComponent } from './auth-page/auth-page.component';
-import { SignInFormComponent } from './sign-in-form/sign-in-form.component';
-import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
+import { AuthPageComponent } from './components/auth-page/auth-page.component';
+import { ForgotFormComponent } from './components/forgot-form/forgot-form.component';
+import { SignInFormComponent } from './components/sign-in-form/sign-in-form.component';
+import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.component';
 
 const routes: Routes = [
     {
@@ -11,12 +12,21 @@ const routes: Routes = [
         component: AuthPageComponent,
         children: [
             {
+                path: '',
+                redirectTo: 'signin',
+                pathMatch: 'full',
+            },
+            {
                 path: 'signin',
                 component: SignInFormComponent,
             },
             {
                 path: 'signup',
                 component: SignUpFormComponent,
+            },
+            {
+                path: 'forgot',
+                component: ForgotFormComponent,
             },
         ],
     },
@@ -28,7 +38,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class AuthRoutingModule { }
+export class AuthRoutingModule {}
