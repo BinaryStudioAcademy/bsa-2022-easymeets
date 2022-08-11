@@ -48,7 +48,7 @@ erDiagram
       int Language
       int TimeFormat
       int DateFormat
-      nvarchar TimeZone
+      int TimeZone
       boolean IsBanned
       boolean IsDeleted
       datetime CreatedAt

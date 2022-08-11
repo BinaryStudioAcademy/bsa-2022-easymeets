@@ -29,15 +29,7 @@ namespace EasyMeets.Core.BLL.Services
             {
                 throw new KeyNotFoundException("User doesn't exist");
             }
-
-            userEntity.Name = userDto.UserName;
-            userEntity.PhoneNumber = userDto.Phone;
-            userEntity.Country = userDto.Country;
-            userEntity.Language = userDto.Language;
-            userEntity.DateFormat = userDto.DateFormat;
-            userEntity.TimeFormat = userDto.TimeFormat;
-            userEntity.TimeZone = userDto.TimeZone;
-
+            _mapper.Map<UserDto, User>(userDto, userEntity);
             _context.Users.Update(userEntity);
             await _context.SaveChangesAsync();
         }
