@@ -1,5 +1,5 @@
-﻿using EasyMeets.Core.BLL.Interfaces; 
-using EasyMeets.Core.DAL.Entities; 
+﻿using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.Common.DTO.Availability; 
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
@@ -15,7 +15,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ICollection<AvailabilitySlot>>> GetAllAsync()
+        public async Task<ActionResult<ICollection<AvailabilitySlotDto>>> GetAllAsync()
         {
             var availabilitySlots = await _availabilityService.GetAllAvailabilitySlotsAsync();
             return Ok(availabilitySlots);

@@ -1,4 +1,6 @@
-﻿using AutoMapper; 
+﻿using AutoMapper;
+using EasyMeets.Core.Common.DTO.Availability;
+using EasyMeets.Core.DAL.Entities;
 
 namespace EasyMeets.Core.BLL.MappingProfiles
 {
@@ -6,6 +8,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
     {
         public AvailabilityProfile()
         {
+            CreateMap<AvailabilitySlot, AvailabilitySlotDto>();
+            CreateMap<AvailabilitySlotDto, AvailabilitySlot>();
         }
     }
 }
