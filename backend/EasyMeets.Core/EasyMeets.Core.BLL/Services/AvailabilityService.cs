@@ -5,8 +5,7 @@ using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.DAL.Entities;
-using EasyMeets.Core.Common.Enums;
-using EasyMeets.Core.Common.DTO;
+using EasyMeets.Core.Common.Enums; 
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -25,7 +24,9 @@ namespace EasyMeets.Core.BLL.Services
                 .Where(x => x.AvailabilitySlots.Any(x => x.Type == SlotType.Team))
                 .Where(x => x.AvailabilitySlots.Any(x => x.Members.Any(x => x.UserId == id)))
                 .ToListAsync();
+
             var teamsWithSlotsDto = _mapper.Map<ICollection<AvailabilitySlotsGroupByTeamsDto>>(teamsWithSlots);
+
             return teamsWithSlotsDto;
         }
 
@@ -41,7 +42,9 @@ namespace EasyMeets.Core.BLL.Services
                  .Where(x => x.CreatedSlots.Any(x => x.Type == SlotType.Personal))
                  .SelectMany(x => x.CreatedSlots)
                  .ToListAsync();
+
             var userSlotsDto = _mapper.Map<ICollection<AvailabilitySlotDto>>(userSlots);
+
             return userSlotsDto;
         } 
 

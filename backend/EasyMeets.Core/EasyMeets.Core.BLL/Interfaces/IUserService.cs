@@ -1,9 +1,9 @@
-﻿using EasyMeets.Core.Common.DTO;
+﻿using EasyMeets.Core.Common.DTO.User;
 
 namespace EasyMeets.Core.BLL.Interfaces
 {
     public interface IUserService
     {
-        public Task<UserDto> GetCurrentUserForAvailabilityPageAsync(int id);
+        public Task<UserDto> GetCurrentUserAsync(int id);
     }
 }

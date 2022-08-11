@@ -43,7 +43,7 @@ export class AvailabilityPageComponent {
 
     public getCurrentUser() {
         this.userService
-            .getCurrentUserById(5)
+            .getCurrentUserById(4)
             .subscribe(
                 (resp) => {
                     if (resp) {

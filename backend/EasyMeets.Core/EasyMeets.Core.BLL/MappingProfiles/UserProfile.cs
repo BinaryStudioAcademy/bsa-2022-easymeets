@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using EasyMeets.Core.Common.DTO;
+using EasyMeets.Core.Common.DTO.User;
 using EasyMeets.Core.DAL.Entities;
 
 namespace EasyMeets.Core.BLL.MappingProfiles
