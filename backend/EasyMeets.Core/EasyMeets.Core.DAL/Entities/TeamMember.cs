@@ -1,4 +1,4 @@
-using EasyMeets.Core.DAL.Entities.Enums;
+using EasyMeets.Core.Common.Enums;
 
 namespace EasyMeets.Core.DAL.Entities;
 
