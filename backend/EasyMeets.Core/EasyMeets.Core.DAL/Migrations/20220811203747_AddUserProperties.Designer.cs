@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyMeets.Core.DAL.Migrations
 {
     [DbContext(typeof(EasyMeetsCoreContext))]
-    [Migration("20220811192816_AddUserProperty")]
-    partial class AddUserProperty
+    [Migration("20220811203747_AddUserProperties")]
+    partial class AddUserProperties
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -546,9 +546,9 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<int>("TimeFormat")
                         .HasColumnType("int");
 
-                    b.Property<string>("TimeZone")
+                    b.Property<int>("TimeZone")
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

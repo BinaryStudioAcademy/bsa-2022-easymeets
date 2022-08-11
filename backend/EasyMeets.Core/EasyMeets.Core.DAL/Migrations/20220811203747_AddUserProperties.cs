@@ -4,10 +4,22 @@
 
 namespace EasyMeets.Core.DAL.Migrations
 {
-    public partial class AddUserProperty : Migration
+    public partial class AddUserProperties : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterColumn<int>(
+                name: "TimeZone",
+                table: "Users",
+                type: "int",
+                maxLength: 10,
+                nullable: false,
+                defaultValue: 0,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(10)",
+                oldMaxLength: 10,
+                oldNullable: true);
+
             migrationBuilder.AlterColumn<int>(
                 name: "Country",
                 table: "Users",
@@ -54,6 +66,16 @@ namespace EasyMeets.Core.DAL.Migrations
             migrationBuilder.DropColumn(
                 name: "TimeFormat",
                 table: "Users");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "TimeZone",
+                table: "Users",
+                type: "nvarchar(10)",
+                maxLength: 10,
+                nullable: true,
+                oldClrType: typeof(int),
+                oldType: "int",
+                oldMaxLength: 10);
 
             migrationBuilder.AlterColumn<string>(
                 name: "Country",

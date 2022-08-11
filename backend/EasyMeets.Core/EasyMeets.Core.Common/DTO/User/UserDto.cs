@@ -1,4 +1,5 @@
 ﻿using EasyMeets.Core.Common.Enums;
+using TimeZone = EasyMeets.Core.Common.Enums.TimeZone;
 
 namespace EasyMeets.Core.Common.DTO.User
 {
@@ -12,6 +13,6 @@ namespace EasyMeets.Core.Common.DTO.User
         public DateFormat DateFormat { get; set; }
         public Country Country { get; set; }
         public string Phone { get; set; }
-        public string TimeZone { get; set; }
+        public TimeZone TimeZone { get; set; }
     }
 }

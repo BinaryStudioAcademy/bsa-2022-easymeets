@@ -57,6 +57,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Language, f => Language.Pl)
                 .RuleFor(u => u.DateFormat, f => DateFormat.MDYY)
                 .RuleFor(u => u.TimeFormat, f => TimeFormat.Thh)
+                .RuleFor(u => u.TimeZone, f => Common.Enums.TimeZone.UTCPLUS0200_HELSINKI_KYIV_RIGA_SOFIA_TALLINN_VILNIUS)
                 .RuleFor(u => u.Country, f => Country.Ukraine)
                 .RuleFor(u => u.IsBanned, f => false)
                 .RuleFor(u => u.IsDeleted, f => false)
