@@ -22,7 +22,8 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(x => x.Location)
                 .Include(x => x.AvailabilitySlots)
                     .ThenInclude(x => x.Author)
-                .Where(x => x.AvailabilitySlots.Count(x => x.Type == SlotType.Team) > 0)
+                .Where(x => x.AvailabilitySlots.Any(x => x.Type == SlotType.Team))
+                .Where(x => x.AvailabilitySlots.Any(x => x.Members.Any(x => x.UserId == id)))
                 .ToListAsync();
             var teamsWithSlotsDto = _mapper.Map<ICollection<AvailabilitySlotsGroupByTeamsDto>>(teamsWithSlots);
             return teamsWithSlotsDto;
