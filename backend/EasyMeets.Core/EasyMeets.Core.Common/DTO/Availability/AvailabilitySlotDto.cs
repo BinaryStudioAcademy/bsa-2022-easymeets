@@ -3,7 +3,7 @@ using EasyMeets.Core.Common.Enums;
 
 namespace EasyMeets.Core.Common.DTO.Availability
 {
-    public class AvailabilitySlotDto : EntityDto<int>
+    public class AvailabilitySlotDto : EntityDto<long>
     {
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;

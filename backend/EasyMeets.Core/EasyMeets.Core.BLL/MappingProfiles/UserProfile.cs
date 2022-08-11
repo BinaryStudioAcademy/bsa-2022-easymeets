@@ -9,7 +9,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
         public UserProfile()
         {
             CreateMap<User, UserDto>();
-            CreateMap<UserDto, User>(); 
+            CreateMap<UserDto, User>();
+            CreateMap<UserSlot, User>();
         }
     }
 }
