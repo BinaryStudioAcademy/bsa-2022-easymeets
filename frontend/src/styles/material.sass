@@ -1,0 +1,114 @@
+/* Add styles for Angular Material components here */
+
+/* Example */
+/* Change the color of bar under active tab in mat-tab-group */
+/*
+ *.mat-tab-group.mat-primary .mat-ink-bar
+ *    background-color: red
+ */
+@import 'src/styles/color-variables'
+
+.mat-menu-panel
+    border: 1px solid $pale-sky
+    height: 200px
+    display: flex
+    justify-content: center
+
+.mat-menu-panel .mat-menu-item
+    padding-left: 5px
+    display: flex
+    flex-direction: row
+    align-items: center
+    font-size: 1em
+    color: $pale-sky
+    height: 30px
+    width: 150px
+
+.mat-menu-panel .mat-menu-item i
+    margin: 0.5em
+
+snack-bar-container
+    &.error-snack-bar
+        background: $red
+        text-align: center
+    &.success-snack-bar
+        background: $light-green
+        text-align: center
+    &.warning-snack-bar
+        background: $light-orange
+        text-align: center
+    &.info-snack-bar
+        background: $picton-blue
+        text-align: center
+    & span
+        width: 100%
+
+.mat-form-field
+    padding: 8px 12px
+    position: absolute
+    width: 133px
+    height: 50px
+    left: 77%
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 700
+    font-size: 14px
+    line-height: 20px
+    color: $dark-gray
+    cursor: pointer
+
+.mat-select-panel .mat-option
+    display: flex
+    flex-direction: row
+    align-items: flex-start
+    margin: 4px 8px
+    height: 30px !important
+    width: 155px !important
+    text-decoration: none
+
+    span
+        font-family: 'Inter'
+        font-style: normal
+        font-weight: 400
+        font-size: 14px
+        line-height: 20px
+        color: $dark-gray
+
+    img
+        width: 20px
+        height: 20px
+        padding: 5px
+        margin-bottom: -8px
+
+.mat-select-panel .mat-option.mat-option-btn
+    background-color: $royal-blue
+    border-radius: 4px
+    
+    span
+        color: $white
+
+.mat-select-panel .mat-option.mat-option-btn:hover
+    background-color: $dark-blue
+
+.mat-form-field-appearance-fill .mat-form-field-flex
+    background-color: $white
+    margin-top: -3%
+
+.mat-select-panel
+    min-width: 163px !important
+    height: 140px !important
+    border: 2px solid $loblolly
+    box-shadow: none
+
+.mat-select-panel:not([class*=mat-elevation-z])
+    box-shadow: none !important
+
+.mat-form-field-underline
+    display: none
+
+.hide-select-arrow .mat-select-arrow
+    display: none
+
+.mat-form-field-label-img.mat-form-field-type-mat-select .mat-form-field-label
+    align-content: center
+    margin-top: -15px

@@ -1,4 +1,5 @@
 @import 'src/styles/color-variables'
+@import 'src/styles/material'
 
 header
   position: fixed
@@ -64,6 +65,7 @@ header
     .tab a:hover
      background-color: $athens-gray
      border: 5px solid $athens-gray
+     cursor: pointer
 
     .tab-active
       width: 123px
@@ -78,184 +80,26 @@ header
      background-color: $light-blue
      border: 5px solid $light-blue
 
-  .hover-drop-icon:hover
-    background-color: $gallery
-
-  .button
-    float: right
-    display: flex
-    flex-direction: row
-    justify-content: center
-    align-items: center
-    padding: 8px 12px
-    position: absolute
-    width: 133px
-    height: 50px
-    left: 77%
-    
-  .label
-    width: 105px
-    height: 20px
-    font-family: 'Inter'
-    font-style: normal
-    font-weight: 700
-    font-size: 14px
-    line-height: 20px
-    display: flex
-    align-items: center
-    color: $dark-gray
-    flex: none
-    padding-left: 5%
-    cursor: pointer
-
-    .pop-up-icon
-      width: 5.98px
-      height: 3.83px
-      margin-right: auto
-      padding-left: 15%
-    
-    .arrow-drop-down img
-      position: absolute
-      width: 20px
-      height: 20px
-
-  .dropdown
-    position: relative
-    margin: 0
-    float: left
-
-  .drop-icon
-    background-color: white
-    color: white
-    padding: 10px
-    border: none
-    margin-left: 10px
-    width: 133px
-    border-radius: 4px
-
-  .dropdown-content
-    display: none
-    position: absolute
-    right: 0
-    z-index: 15
-    padding: 8px 4px
-    width: 163px
-    height: 140px
-    background: $white
-    border: 2px solid $loblolly
-    border-radius: 4px
-
-  .dropdown-content a
-    display: flex
-    flex-direction: row
-    align-items: flex-start
-    padding: 4px 8px
-    width: 146px
-    height: 28px
-    text-decoration: none
-
-  .dropdown-content-btn
-    background-color: $royal-blue
-    display: flex
-    flex-direction: row
-    justify-content: center
-    align-items: center
-    border-radius: 4px
-
-  .dropdown-content-btn span
-    color: $white
-
-  .dropdown-content .dropdown-content-btn:hover
-    background-color: $dark-blue
-
-  .dropdown-content .dropdown-content-item:hover
-    background-color: $gallery
-
-  .dropdown-content-label
-    width: 85px
-    height: 20px
-    font-family: 'Inter'
-    font-style: normal
-    font-weight: 400
-    font-size: 14px
-    line-height: 20px
-    color: $dark-gray
-    margin: 3px 5px 2px 0px
-
-  .dropdown-content img
-    width: 16px
-    height: 16px
-    margin: 5px
-  
-  .dropdown-content:hover
-    display: block
-
-  .dropdown-icon
-    margin-left: auto
-
   .avatar
-    float: leff
     padding: 0px
     width: 100%
-    padding-top: 4px
+    height: 150px
 
     img
       width: 30px
       height: 30px
       border: 3px solid $royal-blue
       border-radius: 100%
-      margin-left: -50%
-      cursor: pointer
+      cursor: pointer  
 
   @media screen and (max-width: 1150px)
    .logo img
     margin-left: -5%
-   .drop-icon .label
-    margin-left: -15% 
   
   @media screen and (max-width: 980px)
    .logo img
     margin-left: -10% 
-   .drop-icon .label
-    margin-left: -30% 
 
   @media screen and (max-width: 870px)
    .logo img
     margin-left: -15%  
-   .drop-icon .label
-    margin-left: -45%  
-
-  @media screen and (max-width: 630px)
-   .drop-icon .label
-    display: none
-   .drop-icon .avatar
-    margin-left: -20%
-
-  .mat-select
-    width: 120px
-    color: $dark-gray
-    box-sizing: border-box
-    justify-content: center
-    align-items: center
-    
-  .hover-mat-label:hover
-    background-color: $gallery
-
-  .mat-form-field
-    float: right
-    display: flex
-    flex-direction: row
-    justify-content: center
-    align-items: center
-    padding: 8px 12px
-    position: absolute
-    width: 133px
-    height: 50px
-    left: 77%
-    font-family: 'Inter'
-    font-style: normal
-    font-weight: 700
-    font-size: 14px
-    line-height: 20px
-    color: $dark-gray
-    cursor: pointer
