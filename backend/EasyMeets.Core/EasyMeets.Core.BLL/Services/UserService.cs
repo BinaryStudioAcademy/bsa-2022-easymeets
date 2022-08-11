@@ -17,7 +17,7 @@ namespace EasyMeets.Core.BLL.Services
             var user = await _context.Users.FirstOrDefaultAsync(_ => _.Id == userId);
             if (user is null)
             {
-                return default;
+                throw new KeyNotFoundException("User doesn't exist");
             }
             return _mapper.Map<UserDto>(user);
         }
@@ -25,16 +25,12 @@ namespace EasyMeets.Core.BLL.Services
         public async Task UpdateUserPreferences(UserDto userDto)
         {
             var userEntity = await GetUserById(userDto.Id);
-            if (userEntity is null)
-            {
-                throw new KeyNotFoundException("User doesn't exist");
-            }
             _mapper.Map<UserDto, User>(userDto, userEntity);
             _context.Users.Update(userEntity);
             await _context.SaveChangesAsync();
         }
 
-        private async Task<User?> GetUserById(long id)
+        private async Task<User> GetUserById(long id)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id) ?? throw new KeyNotFoundException("User doesn't exist");
         }
