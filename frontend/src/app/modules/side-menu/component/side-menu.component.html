@@ -1,0 +1,13 @@
+<mat-nav-list>
+    <ng-container *ngFor="let group of groups">
+        <div class="group-header" *ngIf="group.header" mat-subheader>{{ group.header }}</div>
+        <a
+            mat-list-item
+            *ngFor="let item of group.items"
+            [routerLink]="item.routerLink"
+            routerLinkActive="side-list-item-active"
+        >
+            {{ item.text }}
+        </a>
+    </ng-container>
+</mat-nav-list>
