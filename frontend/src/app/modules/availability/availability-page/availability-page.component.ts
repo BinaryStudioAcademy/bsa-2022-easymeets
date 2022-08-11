@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AvailabilitySlot } from '@core/models/availiability-slot';
 import { TeamWithSlots } from '@core/models/team-with-slot';
+import { User } from '@core/models/user';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 
 @Component({
@@ -11,29 +12,42 @@ import { AvailabilitySlotService } from '@core/services/availability-slot.servic
 export class AvailabilityPageComponent {
     public teams: Array<TeamWithSlots>;
 
+    public currentUser: User;
+
     public userSlots: Array<AvailabilitySlot>;
 
-    public loadingSlots: boolean;
-
     constructor(private availabilitySlotService: AvailabilitySlotService) {
-        this.getAllAvailabilitySlotsForTeam();
+        this.getCurrentUser();
     }
 
     public getAllAvailabilitySlotsForTeam() {
-        this.loadingSlots = true;
         this.availabilitySlotService
-            .getAvailabilitySlotsGroupByTeams(4)
+            .getAvailabilitySlotsGroupByTeams(this.currentUser.id)
             .subscribe(
                 (resp) => {
-                    // eslint-disable-next-line no-debugger
-                    debugger;
-                    this.loadingSlots = false;
-                    console.log(resp);
                     this.teams = resp;
-                    console.log(this.teams);
                 },
-                (error) => {
-                    console.log(error);
+            );
+    }
+
+    public getAllUsersAvailabilitySlots() {
+        this.availabilitySlotService
+            .getAllUsersAvailabilitySlots(this.currentUser.id)
+            .subscribe(
+                (resp) => {
+                    this.userSlots = resp;
+                },
+            );
+    }
+
+    public getCurrentUser() {
+        this.availabilitySlotService
+            .getCurrentUser(4)
+            .subscribe(
+                (resp) => {
+                    this.currentUser = resp;
+                    this.getAllAvailabilitySlotsForTeam();
+                    this.getAllUsersAvailabilitySlots();
                 },
             );
     }

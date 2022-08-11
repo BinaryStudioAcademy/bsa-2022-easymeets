@@ -7,7 +7,7 @@
     </div>
     <div class="availability-slot">
         <div *ngFor="let _slot of slots">
-            <app-slot [slot]="_slot"></app-slot>
+            <app-slot [slot]="_slot" [hasOwner]="false"></app-slot>
         </div>
     </div>
 </div>

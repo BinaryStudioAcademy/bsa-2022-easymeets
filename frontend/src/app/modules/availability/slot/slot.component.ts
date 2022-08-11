@@ -10,6 +10,8 @@ import { AvailabilitySlot } from '@core/models/availiability-slot';
 export class SlotComponent {
     @Input() public slot: AvailabilitySlot;
 
+    @Input() public hasOwner: boolean;
+
     public owner: any;
 
     public isChecked: boolean = true;
