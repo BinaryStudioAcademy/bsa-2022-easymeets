@@ -1,4 +1,4 @@
-namespace EasyMeets.Core.DAL.Entities.Enums;
+namespace EasyMeets.Core.Common.Enums;
 
 public enum Status
 {
