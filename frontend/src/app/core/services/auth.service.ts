@@ -58,6 +58,10 @@ export class AuthService {
         return userData.emailVerified;
     }
 
+    public getCurrentToken() {
+        return this.currentUser?.getIdToken();
+    }
+
     private loginWithProvider(provider: auth.GoogleAuthProvider | auth.GithubAuthProvider | auth.FacebookAuthProvider) {
         return this.afAuth
             .signInWithPopup(provider)

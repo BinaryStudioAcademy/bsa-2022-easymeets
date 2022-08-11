@@ -19,7 +19,7 @@ Frontend:
 
 ## Links:
 
-- [Website]()
+- [Website](https://bsa-easymeets.westeurope.cloudapp.azure.com)
 - [Trello Board](https://trello.com/b/8iNdzdLQ/easymeets)
 
 ## Building sources
@@ -38,10 +38,162 @@ _Tip: If you want to connect to the specific service outside of docker, then use
 
 ```mermaid
 erDiagram
-  Simple {
-      long id
-      string Title
-      string Body
+  User {
+      int Id
+      nvarchar Name
+      nvarchar Email
+      nvarchar PhoneNumber
+      nvarchar ImagePath
+      nvarchar Country
+      nvarchar TimeZone
+      boolean IsBanned
+      boolean IsDeleted
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  TeamMember ||--o{ User : UserId
+  TeamMember ||--o{ Team : TeamId
+  TeamMember {
+      int UserId
+      int Role
+      int Status
+      int TeamId
+      boolean IsDeleted
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  Team {
+      int Id
+      nvarchar LogoPath
+      nvarchar Name
+      nvarchar PageLink
+      nvarchar TimeZone
+      string Description
+      boolean IsDeleted
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  CalendarVisibleForTeam ||--o{ Calendar : CalendarId
+  CalendarVisibleForTeam ||--o{ Team : TeamId
+  CalendarVisibleForTeam {
+      int CalendarId
+      int TeamId
+  }
+
+  Calendar ||--o{ User : UserId
+  Calendar ||--o{ Team : AddEventFromTeamId
+  Calendar{
+      int Id
+      boolean CheckForConflicts
+      int UserId
+      boolean IsDeleted
+      int AddEventFromTeamId
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  TeamMemberMeeting ||--o{ User : UserTeamId
+  TeamMemberMeeting ||--o{ Meeting : EventId
+  TeamMemberMeeting {
+      int UserTeamId
+      int EventId
+      int Priority
+  }
+
+  Meeting ||--o{ User : AuthorId
+  Meeting ||--o{ Team : TeamId
+  Meeting ||--o{ Location : LocationId
+  Meeting {
+      int Id
+      nvarchar Name
+      nvarchar Description
+      int Duration
+      datetime StartTime
+      int AuthorId
+      int TeamId
+      int LocationId
+      boolean IsDeleted
+      datetime CreatedAt
+      datetime UpdatedAt
+  }
+
+  Location {
+    int Id
+    nvarchar Name
+  }
+
+  UserSlot ||--o{ User : UserId
+  UserSlot ||--o{ AvailabilitySlot : AvailabilitySlotId
+  UserSlot {
+    int UserId
+    int AvailabilitySlotId
+  }
+
+  AvailabilitySlot ||--o{ Location : LocationId
+  AvailabilitySlot ||--o{ AdvansedSlotSettings : AdvansedSlotSettingsId
+  AvailabilitySlot{
+    int Id
+    nvarchar Name
+    nvarchar Description
+    nvarchar Link
+    int State
+    int Type
+    int Size
+    int LocationId
+    boolean IsDeleted
+    int AuthorId
+    int TeamId
+    boolean IsEnabled
+    boolean IsVisible
+    int Frequency
+    int AdvansedSlotSettingsId
+    datetime CreatedAt
+    datetime UpdatedAt
+  }
+
+  Question ||--o{ AvailabilitySlot : AvailabilitySlotId
+  Question {
+    int Id
+    int AvailabilitySlotId
+    nvarchar Text
+    boolean IsDeleted
+    datetime CreatedAt
+    datetime UpdatedAt
+  }
+
+  AdvansedSlotSettings {
+    int Id
+    int ActivityType
+    int Days
+    datetime StartDate
+    datetime EndDate
+    int MaxNumberOfBookings
+    int PaddingBeforeMeeting
+    int BookersScheduleBlockingTimeoreMeetingInHours
+    int Color
+  }
+
+  ExternalAttendee ||--o{ AvailabilitySlot : AvailabilitySlotId
+  ExternalAttendee{
+    int Id
+    int AvailabilitySlotId
+    datetime EventTime
+    nvarchar Name
+    nvarchar Email
+    boolean IsDeleted
+    datetime CreatedAt
+    datetime UpdatedAt
+  }
+
+  ExternalAttendeeAvailability ||--o{ ExternalAttendee : ExternalAttendeeId
+  ExternalAttendeeAvailability{
+    int Id
+    int ExternalAttendeeId
+    datetime StartDate
+    datetime EndDate
   }
 ```
 

@@ -2,7 +2,7 @@ using EasyMeets.Core.WebAPI.Extentions;
 using EasyMeets.Core.WebAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
-
+ 
 // Add services to the container.
 builder.Configuration
     .SetBasePath(builder.Environment.ContentRootPath)
@@ -14,6 +14,7 @@ builder.Configuration
 builder.Services.AddControllers();
 builder.Services.AddEasyMeetsCoreContext(builder.Configuration);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.ConfigureJwt(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.RegisterCustomServices();
 builder.Services.AddAutoMapper();
@@ -33,6 +34,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseEasyMeetsCoreContext();
 
 app.UseMiddleware<GenericExceptionHandlerMiddleware>();
 

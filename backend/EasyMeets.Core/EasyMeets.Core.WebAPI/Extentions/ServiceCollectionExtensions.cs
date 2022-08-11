@@ -6,6 +6,8 @@ using EasyMeets.Core.WebAPI.Validators;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EasyMeets.Core.WebAPI.Extentions
 {
@@ -18,6 +20,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddTransient<ISampleService, SampleService>();
+            services.AddTransient<IAvailabilityService, AvailabilityService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
@@ -39,6 +42,25 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 options.UseSqlServer(
                     connectionsString,
                     opt => opt.MigrationsAssembly(typeof(EasyMeetsCoreContext).Assembly.GetName().Name)));
+        }
+
+        public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
+        {
+            var authority = configuration["Jwt:Firebase:ValidIssuer"];
+            var audience = configuration["Jwt:Firebase:ValidAudience"];
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = authority;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = authority,
+                        ValidateAudience = true,
+                        ValidAudience = audience,
+                        ValidateLifetime = true
+                    };
+                });
         }
     }
 }
