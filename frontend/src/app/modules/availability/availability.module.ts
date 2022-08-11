@@ -8,9 +8,10 @@ import { GeneralComponent } from './new-slot/general/general.component';
 import { SlotComponent } from './slot/slot.component';
 import { TeamComponent } from './team/team.component';
 import { AvailabilityRoutingModule } from './availability-routing.module';
+import { UserSlotComponent } from './user-slot/user-slot.component';
 
 @NgModule({
-    declarations: [AvailabilityPageComponent, SlotComponent, TeamComponent, GeneralComponent, EventDetailComponent],
+    declarations: [AvailabilityPageComponent, SlotComponent, TeamComponent, GeneralComponent, EventDetailComponent, UserSlotComponent],
     imports: [CommonModule, AvailabilityRoutingModule, MaterialModule],
 })
 export class AvailabilityModule {}

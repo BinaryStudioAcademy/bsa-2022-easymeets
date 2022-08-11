@@ -12,7 +12,7 @@ export class AvailabilitySlotService {
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService) {}
 
-    public getAvailabilitySlotsGroupByTeams() {
-        return this.httpService.getRequest<TeamWithSlots[]>(`${this.routePrefix}`);
+    public getAvailabilitySlotsGroupByTeams(currentUserId: number) {
+        return this.httpService.getRequest<TeamWithSlots[]>(`${this.routePrefix}/${currentUserId}`);
     }
 }
