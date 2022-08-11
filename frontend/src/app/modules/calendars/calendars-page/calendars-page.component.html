@@ -28,9 +28,7 @@
                             {{ element.teamsFor ? element.teamsFor[0] : '' }}
                             {{ element.teamsFor?.length === allTeams.length ? 'All teams' : '' }}
                         </mat-select-trigger>
-                        <mat-select-trigger
-                            *ngIf="element.teamsFor?.length >= 2 && element.teamsFor?.length !== allTeams.length"
-                        >
+                        <mat-select-trigger *ngIf="element.teamsFor?.length >= 2 && element.teamsFor?.length !== allTeams.length">
                             {{ element.teamsFor?.length }} Teams
                         </mat-select-trigger>
                         <mat-select-trigger *ngIf="element.teamsFor?.length === allTeams.length">
