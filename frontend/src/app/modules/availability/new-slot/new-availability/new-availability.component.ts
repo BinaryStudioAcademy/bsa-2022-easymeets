@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { getNewAvailabilityMenu } from '@core/helpers/new-availability-menu-helper';
 import { SideMenuGroup } from '@core/interfaces/sideMenu/sideMenuGroup';
 
 @Component({
@@ -16,11 +17,6 @@ export class NewAvailabilityComponent implements OnInit {
     }
 
     private initializeSideMenu() {
-        this.sideMenuGroups = [{
-            items: [
-                { text: 'General', routerLink: 'general' },
-                { text: 'Booking page', routerLink: 'event-details' },
-            ],
-        }];
+        this.sideMenuGroups = getNewAvailabilityMenu();
     }
 }
