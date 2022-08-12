@@ -19,7 +19,7 @@ Frontend:
 
 ## Links:
 
-- [Website]()
+- [Website](https://bsa-easymeets.westeurope.cloudapp.azure.com)
 - [Trello Board](https://trello.com/b/8iNdzdLQ/easymeets)
 
 ## Building sources
@@ -44,8 +44,11 @@ erDiagram
       nvarchar Email
       nvarchar PhoneNumber
       nvarchar ImagePath
-      nvarchar Country
-      nvarchar TimeZone
+      int Country
+      int Language
+      int TimeFormat
+      int DateFormat
+      int TimeZone
       boolean IsBanned
       boolean IsDeleted
       datetime CreatedAt

@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="input-container">
+        <p class="input-description">Link</p>
+        <div class="input-block">
+            <div class="input-start">
+                <p class="productName">productname.com/</p>
+            </div>
+            <input class="input-item" [(ngModel)]="settings.linkChoice" />
+        </div>
+    </div>
+
+    <div class="input-container">
+        <p class="input-description">Welcome Message</p>
+        <textarea class="input-message" [(ngModel)]="settings.welcomeMessage"></textarea>
+    </div>
+
+    <div class="input-container">
+        <p class="title text-inside">Language</p>
+        <select name="select" class="selectBlock" [(ngModel)]="settings.languageSelect">
+            <option selected *ngFor="let languageSelect of languages" [value]="languageSelect">
+                {{ languageSelect }}
+            </option>
+        </select>
+    </div>
+
+    <div class="input-container">
+        <p class="input-description">Allowed bookings per Day</p>
+        <select name="select" class="selectBlock" [(ngModel)]="settings.allowBookingSelect">
+            <option selected *ngFor="let allowBookingSelect of allowedBooking" [value]="allowBookingSelect">
+                {{ allowBookingSelect }}
+            </option>
+        </select>
+    </div>
+
+    <div class="input-container">
+        <div class="input-checkbox">
+            <input type="checkbox" [(ngModel)]="settings.isAllowBooker" [disabled]="!settings.basicChoice" />
+            <span class="input-description checkbox-text"><p>Allow Booker to add additional guests</p></span>
+        </div>
+    </div>
+
+    <div class="input-container">
+        <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="example-radio-group"
+            [(ngModel)]="settings.zoneChoice">
+            <mat-radio-button disableRipple class="example-radio-button" *ngFor="let season of timeZoneChoices" [value]="season">
+                {{ season }}
+            </mat-radio-button>
+        </mat-radio-group>
+    </div>
+
+    <div class="input-container">
+        <div class="input-password">
+            <label class="form-switch"> <input type="checkbox" [(ngModel)]="settings.passwordProtect" /> <i></i> </label>
+            <p class="input-field">Password protection</p>
+        </div>
+        <input class="selectBlock" [(ngModel)]="settings.passwordInput" />
+    </div>
+</div>
