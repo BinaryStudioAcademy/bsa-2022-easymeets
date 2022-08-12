@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.DAL.Entities;
 using EasyMeets.Core.Common.Enums; 
+using EasyMeets.Core.Common.DTO.User; 
+using EasyMeets.Core.Common.DTO.Location;
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -21,13 +23,52 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(x => x.Location)
                 .Include(x => x.AvailabilitySlots)
                     .ThenInclude(x => x.Author)
-                .Where(x => x.AvailabilitySlots.Any(x => x.Type == SlotType.Team))
-                .Where(x => x.AvailabilitySlots.Any(x => x.Members.Any(x => x.UserId == id)))
+                .Where(x => x.AvailabilitySlots.Any(x => x.Type == SlotType.Team) && x.AvailabilitySlots.Any(x => x.Members.Any(x => x.UserId == id)))
+                .Select(x =>
+                    new AvailabilitySlotsGroupByTeamsDto
+                    {
+                        Name = x.Name,
+                        PageLink = x.PageLink,
+                        AvailabilitySlots = x.AvailabilitySlots
+                            .Select(y =>
+                                new AvailabilitySlotDto
+                                {
+                                    Id = y.Id,
+                                    Name = y.Name,
+                                    Link = y.Link,
+                                    Type = y.Type,
+                                    Size = y.Size,
+                                    IsEnabled = y.IsEnabled,
+                                    Author =
+                                        new UserDto
+                                        {
+                                            Id = y.Author.Id,
+                                            UserName = y.Author.Name,
+                                            Email = y.Author.Email,
+                                            Image = y.Author.ImagePath,
+                                            Phone = y.Author.PhoneNumber
+                                        },
+                                    Location = new LocationDto
+                                    {
+                                        Name = y.Location.Name,
+                                    },
+                                    Members = y.Members
+                                        .Select(m =>
+                                         new UserDto
+                                         {
+                                             Id = m.User.Id,
+                                             UserName = m.User.Name,
+                                             Email = m.User.Email,
+                                             Image = m.User.ImagePath,
+                                             Phone = m.User.PhoneNumber
+                                         })
+                                        .ToList()
+                                })
+                            .ToList()
+                    })
                 .ToListAsync();
 
-            var teamsWithSlotsDto = _mapper.Map<ICollection<AvailabilitySlotsGroupByTeamsDto>>(teamsWithSlots);
-
-            return teamsWithSlotsDto;
+            return teamsWithSlots;
         }
 
         public async Task<ICollection<AvailabilitySlotDto>> GetAllUserAvailabilitySlotsAsync(int id)
@@ -46,7 +87,7 @@ namespace EasyMeets.Core.BLL.Services
             var userSlotsDto = _mapper.Map<ICollection<AvailabilitySlotDto>>(userSlots);
 
             return userSlotsDto;
-        } 
+        }
 
         public async Task CreateAvailabilitySlot(NewAvailabilitySlotDto slotDto)
         {
