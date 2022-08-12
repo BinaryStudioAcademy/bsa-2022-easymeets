@@ -1,9 +1,7 @@
 <div class="container">
     <div class="new-availability-header">
         <p class="new-availability-header-label">New Availability Slots</p>
-        <label class="form-switch">
-            <input type="checkbox" [(ngModel)]="isActive"> <i></i>
-        </label>
+        <mat-slide-toggle [checked]="isActive" (change)="isActive = !isActive"></mat-slide-toggle>
         <p>Active</p>
         <p class="slot-link">link.com/page123</p>
         <div class="slot-button-container">
