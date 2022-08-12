@@ -1,7 +1,7 @@
 export interface User {
     id: number
-    name: string
+    userName: string
     email?: string
     phoneNumber?: string
-    imagePath?: string
+    image?: string
 }
