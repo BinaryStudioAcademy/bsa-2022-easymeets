@@ -8,9 +8,6 @@ public class AdvancedSlotSettingsConfig : IEntityTypeConfiguration<AdvancedSlotS
 {
     public void Configure(EntityTypeBuilder<AdvancedSlotSettings> builder)
     {
-        builder.Property(s => s.AvailabilitySlotId)
-            .IsRequired();
-        
         builder.Property(s => s.ActivityType)
             .IsRequired();
         
@@ -19,20 +16,22 @@ public class AdvancedSlotSettingsConfig : IEntityTypeConfiguration<AdvancedSlotS
         
         builder.Property(s => s.StartDate)
             .IsRequired();
-        
-        builder.Property(s => s.EndDate)
-            .IsRequired();
-        
+
         builder.Property(s => s.MaxNumberOfBookings)
             .IsRequired();
         
-        builder.Property(s => s.PaddingBeforeMeeting)
+        builder.Property(s => s.PaddingMeeting)
             .IsRequired();
         
-        builder.Property(s => s.BookingScheduleBlockingTimeMeetingInHours)
+        builder.Property(s => s.MinBookingMeetingDifference)
             .IsRequired();
         
         builder.Property(s => s.Color)
             .IsRequired();
+        
+        builder.HasOne(s => s.AvailabilitySlot)
+            .WithOne(ad => ad.AdvancedSlotSettings)
+            .HasForeignKey<AvailabilitySlot>(s => s.AdvancedSlotSettingsId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
