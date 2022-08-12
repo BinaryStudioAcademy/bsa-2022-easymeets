@@ -1,4 +1,4 @@
-﻿using EasyMeets.Core.BLL.Interfaces; 
+﻿using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability; 
 using Microsoft.AspNetCore.Mvc;
