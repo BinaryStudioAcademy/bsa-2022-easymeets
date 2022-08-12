@@ -13,8 +13,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export { MatSelectModule } from '@angular/material/select';
 
@@ -34,9 +34,9 @@ export { MatSelectModule } from '@angular/material/select';
         MatDividerModule,
         MatInputModule,
         MatRadioModule,
-        BrowserAnimationsModule,
         MatFormFieldModule,
         MatIconModule,
+        MatTableModule,
         MatTabsModule,
     ],
     exports: [
@@ -53,9 +53,9 @@ export { MatSelectModule } from '@angular/material/select';
         MatDividerModule,
         MatInputModule,
         MatRadioModule,
-        BrowserAnimationsModule,
         MatFormFieldModule,
         MatIconModule,
+        MatTableModule,
         MatTabsModule,
     ],
 })
