@@ -1,0 +1,59 @@
+<header>
+    <div class="logo"><img src="assets/header/header-logo.png" /></div>
+    <div class="nav">
+        <div class="tab tab-active">
+            <a routerLink="#">Availability</a>
+        </div>
+        <div class="tab">
+            <a routerLink="#">Bookings</a>
+        </div>
+    </div>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Binary Team</mat-label>
+        <mat-select disableRipple>
+            <mat-option routerLink="#">
+                <img src="assets/header/header-pop-up__team.png" />
+                <span>Binary Team</span>
+            </mat-option>
+            <mat-option routerLink="#">
+                <img src="assets/header/header-pop-up__team.png" />
+                <span>Team 2</span>
+            </mat-option>
+            <mat-option routerLink="#">
+                <img src="assets/header/header-pop-up__team.png" />
+                <span>Team 3</span>
+            </mat-option>
+            <mat-option class="mat-option-btn" routerLink="#">
+                <img src="assets/header/header-pop-up__plus.png" />
+                <span>New Team</span>
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="mat-form-field-label-img" appearance="fill">
+        <mat-label>
+            <div class="avatar">
+                <img src="assets/header/header-ava-template.png" />
+            </div>
+        </mat-label>
+        <mat-select disableRipple class="hide-select-arrow">
+            <mat-option routerLink="#">
+                <img src="assets/header/header-pop-up__account.png" />
+                <span>Account</span>
+            </mat-option>
+            <mat-option routerLink="#">
+                <img src="assets/header/header-pop-up__integrations.png" />
+                <span>Integrations</span>
+            </mat-option>
+            <mat-option routerLink="#">
+                <img src="assets/header/header-pop-up__team.png" />
+                <span>Team</span>
+            </mat-option>
+            <mat-option routerLink="#">
+                <img src="assets/header/header-pop-up__logout.png" />
+                <span>Logout</span>
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</header>
