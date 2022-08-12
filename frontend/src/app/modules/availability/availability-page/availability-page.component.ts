@@ -11,11 +11,13 @@ import { UserService } from '@core/services/user.service';
     styleUrls: ['./availability-page.component.sass'],
 })
 export class AvailabilityPageComponent {
-    public teams: Array<TeamWithSlots>;
+    public teams: TeamWithSlots[];
 
     public currentUser: User;
 
-    public userSlots: Array<AvailabilitySlot>;
+    public userSlots: AvailabilitySlot[];
+
+    public currentUserId: number = 4;
 
     constructor(private availabilitySlotService: AvailabilitySlotService, private userService: UserService) {
         this.getCurrentUser();
@@ -43,7 +45,7 @@ export class AvailabilityPageComponent {
 
     public getCurrentUser() {
         this.userService
-            .getCurrentUserById(4)
+            .getCurrentUserById(this.currentUserId)
             .subscribe(
                 (resp) => {
                     if (resp) {

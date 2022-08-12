@@ -9,5 +9,5 @@ export interface AvailabilitySlot {
     isEnabled: boolean
     isVisible: boolean
     location: Location
-    members: Array<User>
+    members: User[]
 }
