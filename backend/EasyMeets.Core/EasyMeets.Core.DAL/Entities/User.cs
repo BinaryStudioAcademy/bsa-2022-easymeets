@@ -11,8 +11,8 @@ public class User : Entity<long>
     public Language Language { get; set; }
     public TimeFormat TimeFormat { get; set; }
     public DateFormat DateFormat { get; set; }
-    public Country Country { get; set; }
-    public Common.Enums.TimeZone TimeZone { get; set; }
+    public Country? Country { get; set; }
+    public Common.Enums.TimeZone? TimeZone { get; set; }
     public bool IsBanned { get; set; }
 
     public ICollection<TeamMember> TeamMembers { get; set; } = new List<TeamMember>();
