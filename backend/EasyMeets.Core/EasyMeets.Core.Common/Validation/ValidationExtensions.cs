@@ -12,6 +12,13 @@ public static class ValidationExtensions
 
     public static bool IsValidEmail(this string value)
     {
-        return Regex.IsMatch(value, @"^([a-zA-z0-9]+([._\-][a-zA-z0-9]+)?)+@([a-zA-z0-9]+([.\-][a-zA-Z0-9]+)?)+\.[a-zA-Z]{2,4}$");
+        var pattern = @"^([a-zA-z0-9]+([._\-][a-zA-z0-9]+)?)+@([a-zA-z0-9]+([.\-][a-zA-Z0-9]+)?)+\.[a-zA-Z]{2,4}$";
+        return Regex.IsMatch(value, pattern);
+    }
+
+    public static bool IsValidUsername(this string value)
+    {
+        var pattern = @"^[\w\d]+[\w\d\- ]+$";
+        return Regex.IsMatch(value, pattern);
     }
 }
