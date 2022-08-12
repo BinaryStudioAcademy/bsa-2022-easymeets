@@ -23,6 +23,10 @@ const routes: Routes = [
                 path: 'event-details',
                 component: EventDetailComponent,
             },
+            {
+                path: '**',
+                redirectTo: 'general',
+            },
         ],
     },
 ];
