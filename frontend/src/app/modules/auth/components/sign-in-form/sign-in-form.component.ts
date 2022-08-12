@@ -16,16 +16,17 @@ export class SignInFormComponent {
         password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     });
 
+    // eslint-disable-next-line no-empty-function
     constructor(private authService: AuthService, private router: Router) {}
 
     public onSignIn(): void {
-        this.authService.signIn(this.signInForm.value.email!, this.signInForm.value.password!)
+        this.authService
+            .signIn(this.signInForm.value.email!, this.signInForm.value.password!)
             .then(() => this.router.navigateByUrl('main'));
     }
 
     public onSignInWithGoogle(): void {
-        this.authService.loginWithGoogle()
-            .then(() => this.router.navigateByUrl('main'));
+        this.authService.loginWithGoogle().then(() => this.router.navigateByUrl('main'));
     }
 
     public checkErrors(control: string): string | undefined {
@@ -37,10 +38,11 @@ export class SignInFormComponent {
     private getErrorMessage(errors: ValidationErrors): string | undefined {
         if (errors['required']) {
             return 'Password is required!';
-        } if (errors['minlength']) {
+        }
+        if (errors['minlength']) {
             return 'Password should be longer than 6 characters!';
         }
 
-        return;
+        return undefined;
     }
 }

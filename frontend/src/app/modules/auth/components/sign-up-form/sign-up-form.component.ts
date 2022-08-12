@@ -25,6 +25,7 @@ export class SignUpFormComponent {
         },
     );
 
+    // eslint-disable-next-line no-empty-function
     constructor(private authService: AuthService, private router: Router) {}
 
     public onSignUp(): void {
@@ -51,6 +52,6 @@ export class SignUpFormComponent {
             return 'Password should be longer than 6 characters!';
         }
 
-        return;
+        return undefined;
     }
 }
