@@ -36,9 +36,7 @@
 </div>
 <mat-divider></mat-divider>
 <div class="show-advanced-container">
-    <label class="form-switch">
-        <input type="checkbox" [(ngModel)]="addAdvanced"> <i></i>
-    </label>
+    <mat-slide-toggle [checked]="addAdvanced" (change)="addAdvanced = !addAdvanced"></mat-slide-toggle>
     <p class="advanced-settings-label">Advanced settings</p>
 </div>
 <div class="advanced-settings" [ngClass]="{'disabled': !addAdvanced}">
