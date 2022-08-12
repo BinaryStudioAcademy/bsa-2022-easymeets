@@ -1,4 +1,4 @@
-﻿using EasyMeets.Core.BLL.MappingProfiles;
+using EasyMeets.Core.BLL.MappingProfiles;
 using EasyMeets.Core.BLL.Services;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.BLL.Interfaces;
@@ -23,6 +23,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddTransient<ISampleService, SampleService>();
             services.AddTransient<IAvailabilityService, AvailabilityService>();
             services.AddTransient<IUploadFileService, UploadFileService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)

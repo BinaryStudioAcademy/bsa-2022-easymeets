@@ -1,0 +1,67 @@
+@import '../../../../../styles/color-variables'
+*
+    box-sizing: border-box
+
+.container
+    height: 100vh
+    width: 100vw
+    display: flex
+    flex-direction: column
+    justify-items: center
+    padding: 0 100px 90px 100px
+
+    background-color: $athens-gray
+
+.new-availability-header
+    display: flex
+    flex-direction: row
+    justify-content: flex-start
+    align-items: center
+    padding: 20px 0
+    p
+        margin: 0 25px 0 0
+    .slot-link
+        color: $royal-blue
+        text-decoration: underline
+    .new-availability-header-label
+        font-size: 20px
+        font-weight: bold
+        color: $dark-gray
+    mat-slide-toggle
+        margin-right: 10px
+    .slot-button-container
+        margin-left: auto
+        display: flex
+        gap: 20px
+
+.main-content
+    background-color: white
+    height: calc(100% - 75px)
+    display: flex
+    flex-direction: row
+    .sidebar:nth-child(1)
+        width: 25%
+    .menu-item-container:nth-child(2)
+        width: 75%
+
+.sidebar
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    app-side-menu
+        width: 100%
+        margin: 0 10px
+    .delete-slots-wrapper
+        width: 100%
+        margin: auto 0 40px 0
+        display: grid
+        grid-template-columns: 100%
+        grid-template-rows: 100%
+        .delete-slots-container
+            display: grid
+            grid-template-columns: 10% 90%
+            justify-self: center
+            p
+                height: 24px
+                line-height: 24px
+                margin: 0 0 0 10px
