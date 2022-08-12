@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { IConfirmButtonOptions } from '@core/models/IConfirmButtonOptions';
-import { IConfirmDialogData } from '@core/models/IConfirmDialogData';
+import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
+import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
 
 @Component({
     selector: 'app-confirmation-window',
