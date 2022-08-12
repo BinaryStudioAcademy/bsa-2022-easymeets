@@ -92,12 +92,20 @@ header
 		border-radius: 100%
 		cursor: pointer
 
+label:hover
+	cursor: pointer
+
 ::ng-deep .mat-menu-panel
 	height: 140px
 
-.floating
-	margin-left: auto
-	width: 100px
+::ng-deep .mat-icon-button
+	height: 100% !important
+	margin-left: 5% !important
+	margin-right: 10% !important
+
+::ng-deep .mat-button
+	margin-left: auto !important
+	margin-right: -5% !important
 
 @media screen and ($desktop-min-width)
 .logo img
