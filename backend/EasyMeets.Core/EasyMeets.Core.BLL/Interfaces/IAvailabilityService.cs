@@ -1,5 +1,4 @@
-﻿using EasyMeets.Core.Common.DTO;
-using EasyMeets.Core.Common.DTO.Availability;
+﻿using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 
 namespace EasyMeets.Core.BLL.Interfaces
