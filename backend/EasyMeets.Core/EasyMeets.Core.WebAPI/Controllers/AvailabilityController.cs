@@ -17,6 +17,18 @@ namespace EasyMeets.Core.WebAPI.Controllers
         {
             _availabilityService = availabilityService;
         }
+        
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AvailabilitySlotDto>> GetAvailabilitySlotById(long id)
+        {
+            return Ok(await _availabilityService.GetAvailabilitySlotById(id));
+        }
+        
+        [HttpGet]
+        public async Task<ActionResult<AvailabilitySlotDto>> GetAvailabilitySlots()
+        {
+            return Ok(await _availabilityService.GetAvailabilitySlots());
+        }
 
         [HttpPost]
         public async Task<IActionResult> CreateAvailabilitySlot([FromBody] NewAvailabilitySlotDto slotDto)

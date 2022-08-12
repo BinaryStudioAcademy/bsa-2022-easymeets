@@ -10,6 +10,9 @@ public class AvailabilityProfile : Profile
     public AvailabilityProfile()
     {
         CreateMap<NewAdvancedSlotSettingsDto, AdvancedSlotSettings>();
+
+        CreateMap<AvailabilitySlotDto, AvailabilitySlot>();
+        CreateMap<AvailabilitySlot, AvailabilitySlotDto>();
         CreateMap<NewAvailabilitySlotDto, AvailabilitySlot>();
     }
 }

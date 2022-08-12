@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -32,6 +33,21 @@ namespace EasyMeets.Core.BLL.Services
                 entity.AdvancedSlotSettings = advancedSettings;
             }
             await _context.SaveChangesAsync();
+        }
+        
+        public async Task<AvailabilitySlotDto> GetAvailabilitySlotById(long id)
+        {
+            var availabilitySlot = await _context.AvailabilitySlots.FirstOrDefaultAsync(_ => _.Id == id);
+            if (availabilitySlot is null)
+            {
+                throw new KeyNotFoundException("Availability slot doesn't exist");
+            }
+            return _mapper.Map<AvailabilitySlotDto>(availabilitySlot);
+        }
+        
+        public async Task<List<AvailabilitySlotDto>> GetAvailabilitySlots()
+        {
+            return _mapper.Map<List<AvailabilitySlotDto>>(await _context.AvailabilitySlots.ToListAsync());
         }
     }
 }

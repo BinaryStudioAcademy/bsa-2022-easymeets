@@ -21,7 +21,6 @@ export class EditAvailabilityPageComponent implements OnInit {
     constructor(private router: Router, private activateRoute: ActivatedRoute) {
         this.subscription = activateRoute.params.subscribe(params => {
             this.id = params['id'];
-            console.log(this.id);
         });
     }
 
