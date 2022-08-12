@@ -1,12 +1,12 @@
 <form class="signin-form form" [formGroup]="signInForm" (ngSubmit)="onSignIn()">
     <div class="form-inputs flex-col">
-        <mat-label class="outside-label bold" for="email">Email:</mat-label>
+        <mat-label class="outside-label bold" for="email">Email</mat-label>
         <mat-form-field appearance="outline">
             <input matInput id="email" type="email" formControlName="email" placeholder="email@email.com" />
             <mat-error *ngIf="signInForm.controls['email'].hasError('required')">You must enter a value</mat-error>
             <mat-error *ngIf="signInForm.controls['email'].hasError('email')">Not a valid email</mat-error>
         </mat-form-field>
-        <mat-label class="outside-label bold">Password:</mat-label>
+        <mat-label class="outside-label bold">Password</mat-label>
         <mat-form-field appearance="outline">
             <input
                 matInput
@@ -36,7 +36,7 @@
             Sign In
         </button>
         <p class="bold">or</p>
-        <button mat-raised-button class="social-google-btn" type="button" (click)="onSignInWithGoogle()">
+        <button mat-raised-button class="social-google-btn full-width" type="button" (click)="onSignInWithGoogle()">
             <mat-icon svgIcon="google-sign-in"></mat-icon>
             Sign in with Google
         </button>

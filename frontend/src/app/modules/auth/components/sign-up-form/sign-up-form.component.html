@@ -1,17 +1,17 @@
 <form class="signup-form form" [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
     <div class="form-inputs flex-col">
-        <mat-label class="outside-label bold">Email:</mat-label>
+        <mat-label class="outside-label bold">Email</mat-label>
         <mat-form-field appearance="outline">
             <input matInput id="email" type="email" formControlName="email" placeholder="email@email.com" required />
             <mat-error *ngIf="signUpForm.controls['email'].hasError('required')">You must enter a value</mat-error>
             <mat-error *ngIf="signUpForm.controls['email'].hasError('email')">Not a valid email</mat-error>
         </mat-form-field>
-        <mat-label class="outside-label bold">Name:</mat-label>
+        <mat-label class="outside-label bold">Name</mat-label>
         <mat-form-field appearance="outline">
             <input matInput id="name" type="text" formControlName="name" placeholder="Jack White" required />
             <mat-error *ngIf="signUpForm.controls['name'].hasError('required')">You must enter a value</mat-error>
         </mat-form-field>
-        <mat-label class="outside-label bold">Password:</mat-label>
+        <mat-label class="outside-label bold">Password</mat-label>
         <mat-form-field appearance="outline">
             <input
                 matInput
@@ -35,7 +35,7 @@
                 {{ checkErrors('password') }}
             </mat-error>
         </mat-form-field>
-        <mat-label class="outside-label bold">Repeat password:</mat-label>
+        <mat-label class="outside-label bold">Repeat password</mat-label>
         <mat-form-field appearance="outline">
             <input
                 matInput
@@ -66,7 +66,7 @@
             Register
         </button>
         <p class="bold">or</p>
-        <button mat-raised-button class="social-google-btn" type="button" (click)="onSignInWithGoogle()">
+        <button mat-raised-button class="social-google-btn full-width" type="button" (click)="onSignInWithGoogle()">
             <mat-icon svgIcon="google-sign-in"></mat-icon>
             Sign in with Google
         </button>
