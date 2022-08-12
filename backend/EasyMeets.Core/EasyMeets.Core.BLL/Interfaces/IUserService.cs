@@ -1,9 +1,10 @@
-﻿using EasyMeets.Core.Common.DTO.User;
-
+﻿using EasyMeets.Core.Common.DTO.User; 
 namespace EasyMeets.Core.BLL.Interfaces
 {
     public interface IUserService
     {
-        public Task<UserDto> GetCurrentUserAsync(int id);
+        Task<UserDto?> GetUserPreferences(long userId);
+        Task UpdateUserPreferences(UserDto user);
+        Task<UserDto> GetCurrentUserAsync(int id);
     }
 }
