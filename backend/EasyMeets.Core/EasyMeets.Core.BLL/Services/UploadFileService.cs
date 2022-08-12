@@ -14,7 +14,7 @@ namespace EasyMeets.Core.BLL.Services
         {
         }
 
-        public async Task<string> UploadFileBlobAsync(string filePath, string fileName, long userId)
+        public async Task<string> UploadFileBlobAsync(string? filePath, string? fileName, long userId)
         {
             var blob = _container.GetBlobClient(fileName);
 
