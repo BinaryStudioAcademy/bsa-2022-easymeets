@@ -21,6 +21,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
 
             services.AddTransient<ISampleService, SampleService>();
             services.AddTransient<IAvailabilityService, AvailabilityService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
