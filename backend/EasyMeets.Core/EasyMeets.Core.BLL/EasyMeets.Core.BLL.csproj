@@ -16,4 +16,8 @@
     <ProjectReference Include="..\EasyMeets.Core.DAL\EasyMeets.Core.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
+
 </Project>
