@@ -5,6 +5,9 @@ import { GeneralComponent } from '@modules/availability/new-slot/general/general
 import { NewAvailabilityComponent } from '@modules/availability/new-slot/new-availability/new-availability.component';
 
 import { AvailabilityPageComponent } from './availability-page/availability-page.component';
+import {
+    EditAvailabilityComponent,
+} from '@modules/availability/edit-slot/edit-availability/edit-availability.component';
 
 const routes: Routes = [
     {
@@ -14,6 +17,24 @@ const routes: Routes = [
     {
         path: 'new',
         component: NewAvailabilityComponent,
+        children: [
+            {
+                path: 'general',
+                component: GeneralComponent,
+            },
+            {
+                path: 'event-details',
+                component: EventDetailComponent,
+            },
+            {
+                path: '**',
+                redirectTo: 'general',
+            },
+        ],
+    },
+    {
+        path: 'edit',
+        component: EditAvailabilityComponent,
         children: [
             {
                 path: 'general',
