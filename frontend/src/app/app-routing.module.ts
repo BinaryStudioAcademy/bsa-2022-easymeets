@@ -18,6 +18,10 @@ const routes: Routes = [
         path: 'user',
         loadChildren: () => import('./modules/user/user.module').then((m) => m.UserModule),
     },
+    {
+        path: 'calendars',
+        loadChildren: () => import('./modules/calendars/calendar.module').then((m) => m.CalendarModule),
+    },
     { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 

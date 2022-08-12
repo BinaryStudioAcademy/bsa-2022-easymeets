@@ -9,74 +9,68 @@ body
     gap: 20px
 
 .form-switch
-    display: inline-block
-    line-height: 30px
-    cursor: pointer
-    -webkit-tap-highlight-color: transparent
+	display: inline-block
+	line-height: 30px
+	cursor: pointer
+	-webkit-tap-highlight-color: transparent
+	i
+		position: relative
+		display: inline-block
+		width: 46px
+		height: 26px
+		margin-left: .75em
+		margin-top: -.15em
+		border-radius: 23px
+		vertical-align: middle
+		transition: all 0.3s linear
+		background-color: #ddd
+		&::before
+			content: ""
+			position: absolute
+			left: 0
+			width: 42px
+			height: 22px
+			background-color: #eee
+			border-radius: 11px
+			transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1)
+			transition: all 0.25s linear
 
-    i
-        position: relative
-        display: inline-block
-        width: 46px
-        height: 26px
-        margin-left: .75em
-        margin-top: -.15em
-        border-radius: 23px
-        vertical-align: middle
-        transition: all 0.3s linear
-        background-color: #ddd
+		&::after
+			content: ""
+			position: absolute
+			left: 0
+			width: 22px
+			height: 22px
+			background-color: #fff
+			border-radius: 11px
+			box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24)
+			transform: translate3d(2px, 2px, 0)
+			transition: all 0.2s ease-in-out
 
-        &::before
-            content: ""
-            position: absolute
-            left: 0
-            width: 42px
-            height: 22px
-            background-color: #eee
-            border-radius: 11px
-            transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1)
-            transition: all 0.25s linear
+	&:active
+		i
+			&::after
+				width: 28px
+				transform: translate3d(2px, 2px, 0)
 
-        &::after
-            content: ""
-            position: absolute
-            left: 0
-            width: 22px
-            height: 22px
-            background-color: #fff
-            border-radius: 11px
-            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24)
-            transform: translate3d(2px, 2px, 0)
-            transition: all 0.2s ease-in-out
+		input
+			&:checked
+				+
+				i
+					&::after
+						transform: translate3d(16px, 2px, 0)
 
+	input
+		display: none
+		&:checked
+			+
+			i
+				background-color: #4C7DE7
+				&::before
+					transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0)
 
-    &:active
-        i
-            &::after
-                width: 28px
-                transform: translate3d(2px, 2px, 0)
-
-
-        input
-            &:checked
-                +
-                i
-                    &::after
-                        transform: translate3d(16px, 2px, 0)
-
-    input
-        display: none
-
-        &:checked
-            +
-            i
-                background-color: #4C7DE7
-
-                &::before
-                    transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0)
-
-                &::after
-                    transform: translate3d(22px, 2px, 0)
+					&::after
+						transform: translate3d(22px, 2px, 0)
 
 .input-block
     display: flex
@@ -98,7 +92,6 @@ body
     p
         font-size: 14px
         color: #667080
-
 
 .input-item
     background: #FFFFFF
@@ -163,7 +156,6 @@ body
         line-height: 20px
         color: #667080
 
-
 .selectColorBlock
     display: flex
     flex-direction: column
@@ -175,7 +167,6 @@ body
         font-size: 14px
         line-height: 20px
         color: #667080
-
 
 .colorsRow
     display: flex
