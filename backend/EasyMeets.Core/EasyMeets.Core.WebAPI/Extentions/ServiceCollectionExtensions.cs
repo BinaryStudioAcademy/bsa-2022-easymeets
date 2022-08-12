@@ -1,4 +1,4 @@
-﻿using EasyMeets.Core.BLL.MappingProfiles;
+using EasyMeets.Core.BLL.MappingProfiles;
 using EasyMeets.Core.BLL.Services;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.BLL.Interfaces;
@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Azure.Storage.Blobs;
 
 namespace EasyMeets.Core.WebAPI.Extentions
 {
@@ -21,6 +22,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
 
             services.AddTransient<ISampleService, SampleService>();
             services.AddTransient<IAvailabilityService, AvailabilityService>();
+            services.AddTransient<IUploadFileService, UploadFileService>();
             services.AddTransient<IUserService, UserService>();
         }
 
