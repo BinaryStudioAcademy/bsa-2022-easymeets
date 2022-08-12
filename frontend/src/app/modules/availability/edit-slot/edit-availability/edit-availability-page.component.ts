@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { getNewAvailabilityMenu } from '@core/helpers/new-availability-menu-helper';
 import { SideMenuGroup } from '@core/interfaces/sideMenu/sideMenuGroup';
-import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-new-availability',
-    templateUrl: './edit-availability.component.html',
-    styleUrls: ['./edit-availability.component.sass'],
+    selector: 'app-edit-availability-page',
+    templateUrl: './edit-availability-page.component.html',
+    styleUrls: ['./edit-availability-page.component.sass'],
 })
-export class EditAvailabilityComponent implements OnInit {
+export class EditAvailabilityPageComponent implements OnInit {
     public sideMenuGroups: SideMenuGroup[];
 
     public isActive: boolean = true;

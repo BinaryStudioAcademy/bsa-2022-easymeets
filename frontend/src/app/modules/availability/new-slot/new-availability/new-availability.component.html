@@ -5,15 +5,15 @@
         <p>Active</p>
         <p class="slot-link">link.com/page123</p>
         <div class="slot-button-container">
-            <button mat-flat-button>Cancel</button>
-            <button mat-flat-button color="primary">Save changes</button>
+            <button mat-flat-button (click)="cancelClick.emit()">Cancel</button>
+            <button mat-flat-button color="primary" (click)="saveChangesClick.emit()">Save changes</button>
         </div>
     </div>
     <div class="main-content">
         <div class="sidebar">
             <app-side-menu [groups]="sideMenuGroups"></app-side-menu>
             <div class="delete-slots-wrapper">
-                <div class="delete-slots-container">
+                <div class="delete-slots-container" (click)="deleteClick.emit()">
                     <mat-icon>delete_outline</mat-icon>
                     <p class="delete-slots-label">Delete availability slots</p>
                 </div>

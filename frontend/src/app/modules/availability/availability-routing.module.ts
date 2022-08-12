@@ -6,8 +6,8 @@ import { NewAvailabilityComponent } from '@modules/availability/new-slot/new-ava
 
 import { AvailabilityPageComponent } from './availability-page/availability-page.component';
 import {
-    EditAvailabilityComponent,
-} from '@modules/availability/edit-slot/edit-availability/edit-availability.component';
+    EditAvailabilityPageComponent,
+} from '@modules/availability/edit-slot/edit-availability/edit-availability-page.component';
 
 const routes: Routes = [
     {
@@ -34,7 +34,7 @@ const routes: Routes = [
     },
     {
         path: 'edit',
-        component: EditAvailabilityComponent,
+        component: EditAvailabilityPageComponent,
         children: [
             {
                 path: 'general',

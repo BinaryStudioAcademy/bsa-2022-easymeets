@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { EditAvailabilityComponent } from '@modules/availability/edit-slot/edit-availability/edit-availability.component';
+import { EditAvailabilityPageComponent } from '@modules/availability/edit-slot/edit-availability/edit-availability-page.component';
 import { SideMenuModule } from '@modules/side-menu/side-menu.module';
 import { MaterialModule } from '@shared/material/material.module';
 
@@ -20,7 +20,7 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         GeneralComponent,
         EventDetailComponent,
         NewAvailabilityComponent,
-        EditAvailabilityComponent,
+        EditAvailabilityPageComponent,
     ],
     imports: [CommonModule, AvailabilityRoutingModule, MaterialModule, SideMenuModule],
 })
