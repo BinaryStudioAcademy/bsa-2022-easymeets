@@ -14,6 +14,6 @@ namespace EasyMeets.Core.Common.DTO.Availability
         public bool IsEnabled { get; set; } 
         public UserDto Author { get; set; } = null!; 
         public LocationDto Location { get; set; } = null!;
-        public ICollection<UserDto> Members { get; set; }
+        public ICollection<UserDto> Members { get; set; } = null!;
     }
 }
