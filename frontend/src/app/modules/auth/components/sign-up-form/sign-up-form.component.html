@@ -4,7 +4,7 @@
         <mat-form-field appearance="outline">
             <input matInput id="email" type="email" formControlName="email" placeholder="email@email.com" required />
             <mat-error *ngIf="signUpForm.controls['email'].hasError('required')">You must enter a value</mat-error>
-            <mat-error *ngIf="signUpForm.controls['email'].hasError('email')">Not a valid email</mat-error>
+            <mat-error *ngIf="signUpForm.controls['email'].hasError('email')">Email format is invalid</mat-error>
         </mat-form-field>
         <mat-label class="outside-label bold">Name</mat-label>
         <mat-form-field appearance="outline">
