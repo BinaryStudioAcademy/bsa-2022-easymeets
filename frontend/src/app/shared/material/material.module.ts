@@ -12,9 +12,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-export { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
     declarations: [],
@@ -32,7 +29,6 @@ export { MatSelectModule } from '@angular/material/select';
         MatDividerModule,
         MatInputModule,
         MatRadioModule,
-        BrowserAnimationsModule,
         MatIconModule,
     ],
     exports: [
@@ -49,7 +45,6 @@ export { MatSelectModule } from '@angular/material/select';
         MatDividerModule,
         MatInputModule,
         MatRadioModule,
-        BrowserAnimationsModule,
         MatIconModule,
     ],
 })
