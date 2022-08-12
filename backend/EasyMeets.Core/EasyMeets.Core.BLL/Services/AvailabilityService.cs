@@ -34,19 +34,15 @@ namespace EasyMeets.Core.BLL.Services
                                 new AvailabilitySlotDto
                                 {
                                     Id = y.Id,
-                                    Name = y.Name,
-                                    Link = y.Link,
+                                    Name = y.Name, 
                                     Type = y.Type,
                                     Size = y.Size,
                                     IsEnabled = y.IsEnabled,
                                     Author =
                                         new UserDto
-                                        {
-                                            Id = y.Author.Id,
-                                            UserName = y.Author.Name,
-                                            Email = y.Author.Email,
-                                            Image = y.Author.ImagePath,
-                                            Phone = y.Author.PhoneNumber
+                                        { 
+                                            UserName = y.Author.Name, 
+                                            Image = y.Author.ImagePath, 
                                         },
                                     Location = new LocationDto
                                     {
@@ -55,12 +51,9 @@ namespace EasyMeets.Core.BLL.Services
                                     Members = y.Members
                                         .Select(m =>
                                          new UserDto
-                                         {
-                                             Id = m.User.Id,
-                                             UserName = m.User.Name,
-                                             Email = m.User.Email,
-                                             Image = m.User.ImagePath,
-                                             Phone = m.User.PhoneNumber
+                                         { 
+                                             UserName = m.User.Name, 
+                                             Image = m.User.ImagePath, 
                                          })
                                         .ToList()
                                 })
