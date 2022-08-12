@@ -1,5 +1,5 @@
-import { Component, Inject, Input } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IConfirmButtonOptions } from '@core/models/IConfirmButtonOptions';
 import { IConfirmDialogData } from '@core/models/IConfirmDialogData';
 
@@ -9,8 +9,6 @@ import { IConfirmDialogData } from '@core/models/IConfirmDialogData';
     styleUrls: ['./confirmation-window.component.sass'],
 })
 export class ConfirmationWindowComponent {
-    @Input() public confirmDialogData: IConfirmDialogData;
-
     public title: string;
 
     public message: string;
@@ -25,6 +23,7 @@ export class ConfirmationWindowComponent {
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData,
+        private dialogRef: MatDialogRef<ConfirmationWindowComponent>,
     ) {
         this.title = data.title;
         this.message = data.message;
@@ -38,5 +37,13 @@ export class ConfirmationWindowComponent {
             this.isHasCancelButton = true;
             this.cancelButtonOptions = data.cancelButton;
         }
+    }
+
+    cancel() {
+        this.dialogRef.close(false);
+    }
+
+    accept() {
+        this.dialogRef.close(true);
     }
 }
