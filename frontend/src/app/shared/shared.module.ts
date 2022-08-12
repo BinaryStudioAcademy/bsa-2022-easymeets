@@ -24,7 +24,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 export class SharedModule {
     constructor(sanitizer: DomSanitizer, matIconRegistry: MatIconRegistry) {
         matIconRegistry.addSvgIcon(
-            'google-sign-in',
+            'google-logo',
             sanitizer.bypassSecurityTrustResourceUrl('./assets/icons/google-logo.svg'),
         );
     }
