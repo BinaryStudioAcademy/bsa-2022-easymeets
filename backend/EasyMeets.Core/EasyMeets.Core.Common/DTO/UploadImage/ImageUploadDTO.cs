@@ -2,8 +2,8 @@
 {
     public class ImageUploadDTO
     {
-        public string filePath { get; set; }
-        public string fileName { get; set; }
-        public int userId { get; set; }
+        public string? FilePath { get; set; }
+        public string? FileName { get; set; }
+        public int UserId { get; set; }
     }
 }
