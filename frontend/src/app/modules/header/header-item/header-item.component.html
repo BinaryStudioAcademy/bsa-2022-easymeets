@@ -31,29 +31,50 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="mat-form-field-label-img" appearance="fill">
-        <mat-label>
-            <div class="avatar">
-                <img src="assets/header/header-ava-template.png" />
-            </div>
-        </mat-label>
-        <mat-select disableRipple class="hide-select-arrow">
-            <mat-option routerLink="#">
-                <i class="fa-solid fa-user"></i>
-                <span>Account</span>
-            </mat-option>
-            <mat-option routerLink="#">
-                <i class="fa-solid fa-screwdriver-wrench"></i>
-                <span>Integrations</span>
-            </mat-option>
-            <mat-option routerLink="#">
-                <i class="fa-solid fa-people-group"></i>
-                <span>Team</span>
-            </mat-option>
-            <mat-option routerLink="#">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Logout</span>
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
+    <!--
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="">
+        Binary Team
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="#">
+            <i class="fa-solid fa-user"></i>
+            <span>Account</span>
+        </button>
+        <button mat-menu-item routerLink="#">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            <span>Integrations</span>
+        </button>
+        <button mat-menu-item routerLink="#">
+            <i class="fa-solid fa-people-group"></i>
+            <span>Team</span>
+        </button>
+        <button mat-menu-item routerLink="#">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </button>
+    </mat-menu>
+    -->
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="">
+        <div class="avatar">
+            <img src="assets/header/header-ava-template.png" />
+        </div>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="#">
+            <i class="fa-solid fa-user"></i>
+            <span>Account</span>
+        </button>
+        <button mat-menu-item routerLink="#">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            <span>Integrations</span>
+        </button>
+        <button mat-menu-item routerLink="#">
+            <i class="fa-solid fa-people-group"></i>
+            <span>Team</span>
+        </button>
+        <button mat-menu-item routerLink="#">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </button>
+    </mat-menu>
 </header>
