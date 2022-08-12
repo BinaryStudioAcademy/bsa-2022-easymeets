@@ -2,6 +2,6 @@
 {
     public interface IUploadFileService
     {
-        public Task<string> UploadFileBlobAsync(string filePath, string fileName, int userId);
+        public Task<string> UploadFileBlobAsync(string filePath, string fileName, long userId);
     }
 }

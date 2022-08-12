@@ -20,7 +20,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> UploadImageAsync(ImageUploadDTO imageUploadDTO)
         {
-            var imageUrl = await _uploadFileService.UploadFileBlobAsync(imageUploadDTO.filePath, imageUploadDTO.fileName, imageUploadDTO.userId);
+            var imageUrl = await _uploadFileService.UploadFileBlobAsync(imageUploadDTO.FilePath, imageUploadDTO.FileName, imageUploadDTO.UserId);
 
             if (imageUrl is null)
             {

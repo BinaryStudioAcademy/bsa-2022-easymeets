@@ -14,7 +14,7 @@ namespace EasyMeets.Core.BLL.Services
         {
         }
 
-        public async Task<string> UploadFileBlobAsync(string filePath, string fileName, int userId)
+        public async Task<string> UploadFileBlobAsync(string filePath, string fileName, long userId)
         {
             var blob = _container.GetBlobClient(fileName);
 
@@ -22,7 +22,7 @@ namespace EasyMeets.Core.BLL.Services
 
             var imageUrl = blob.Uri.ToString();
 
-            var user = await _context.Users.FindAsync((long)userId);
+            var user = await _context.Users.FindAsync(userId);
 
             if (user is null)
             {
