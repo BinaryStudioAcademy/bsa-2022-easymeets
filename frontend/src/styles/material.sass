@@ -28,6 +28,15 @@
 .mat-menu-panel .mat-menu-item i
     margin: 0.5em
 
+.mat-menu-panel .mat-menu-item.mat-menu-btn
+    background-color: $royal-blue
+    border-radius: 4px
+    color: $white
+    justify-content: center
+
+.mat-menu-panel .mat-menu-item.mat-menu-btn:hover
+    background-color: $dark-blue
+
 snack-bar-container
     &.error-snack-bar
         background: $red
@@ -118,13 +127,6 @@ snack-bar-container
         height: 20px
         padding: 5px
         margin-bottom: -8px
-
-.mat-select-panel .mat-option.mat-option-btn
-    background-color: $royal-blue
-    border-radius: 4px
-
-    span
-        color: $white
 
 .mat-select-panel .mat-option.mat-option-btn:hover
     background-color: $dark-blue
