@@ -12,6 +12,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
     declarations: [],
@@ -30,6 +31,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatInputModule,
         MatRadioModule,
         MatIconModule,
+        MatTableModule,
     ],
     exports: [
         FormsModule,
@@ -46,6 +48,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatInputModule,
         MatRadioModule,
         MatIconModule,
+        MatTableModule,
     ],
 })
 export class MaterialModule {}
