@@ -10,10 +10,9 @@
     flex-direction: column
     justify-items: center
     padding: 0 100px 90px 100px
-
     background-color: $athens-gray
 
-.new-availability-header
+.user-settings-header
     display: flex
     flex-direction: row
     justify-content: flex-start
@@ -24,7 +23,7 @@
     .slot-link
         color: $royal-blue
         text-decoration: underline
-    .new-availability-header-label
+    .user-settings-header-label
         font-size: 20px
         font-weight: bold
         color: $dark-gray
@@ -39,34 +38,43 @@
     background-color: white
     display: flex
     flex-direction: row
+    justify-content: center
+    padding: 0 20px
     .sidebar:nth-child(1)
         width: 25%
     .menu-item-container:nth-child(2)
         width: 75%
 
 .sidebar
+    position: relative
     display: flex
     flex-direction: column
     align-items: flex-start
-    app-side-menu
+    border-right: 2px solid $athens-gray
     width: 100%
     margin: 0 10px
+    padding-bottom: 80px
     .delete-slots-wrapper
+        position: absolute
+        left: 10px
+        bottom: 40px
+        display: inline-block
+        vertical-align: bottom
         width: 100%
-        margin-top: 20px
-        display: grid
-        grid-template-columns: 100%
-        grid-template-rows: 100%
+        display: flex
+        align-items: center
         .delete-slots-container
-            display: grid
-            grid-template-columns: 10% 90%
-            justify-self: center
+            display: flex
+            align-items: center
             cursor: pointer
             color: $silver-chalice
             p
                 height: 24px
                 line-height: 24px
-                margin: 0 0 0 10px
+                margin: 6px 0 0 10px
 
 .side-menu-wrapper
     width: 100%
+
+.icon
+    font-size: 28px

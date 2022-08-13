@@ -19,7 +19,7 @@ const routes: Routes = [
                 component: UserProfilePageComponent,
             },
             {
-                path: 'integrations/calendar',
+                path: 'integrations/calendars',
                 component: CalendarsPageComponent,
             },
         ],
