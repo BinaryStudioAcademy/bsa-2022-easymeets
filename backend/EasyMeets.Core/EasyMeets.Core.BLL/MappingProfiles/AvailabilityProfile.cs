@@ -10,8 +10,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
         public AvailabilityProfile()
         {
             CreateMap<AvailabilitySlot, AvailabilitySlotDto>()
-                .ForMember(dest => dest.Members,opt=> opt.MapFrom(src => src.Members.Select(x=>x.User)));
-            CreateMap<AvailabilitySlotDto, AvailabilitySlot>(); 
+                .ForMember(dest => dest.Members, opt => opt.MapFrom(src => src.Members.Select(x => x.User)));
+            CreateMap<AvailabilitySlotDto, AvailabilitySlot>();
 
             CreateMap<NewAdvancedSlotSettingsDto, AdvancedSlotSettings>();
             CreateMap<NewAvailabilitySlotDto, AvailabilitySlot>()
@@ -30,6 +30,6 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             .ForMember(s => s.AllowToAddGuests, opt => opt.MapFrom(src => src.EventDetails!.AllowToAddGuests))
             .ForMember(s => s.PasswordProtection, opt => opt.MapFrom(src => src.EventDetails!.PasswordProtection))
             .ForMember(s => s.TimeZoneVisibility, opt => opt.MapFrom(src => src.EventDetails!.TimeZoneVisibility));
-        } 
+        }
     }
-} 
+}
