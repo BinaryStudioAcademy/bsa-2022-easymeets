@@ -5,8 +5,10 @@
             <mat-slide-toggle [checked]="slot.isEnabled" (change)="toggle($event)"></mat-slide-toggle>
         </div>
         <div class="time-options">
-            <p>{{ slot.name }}</p>
-            <img *ngIf="slot.isVisible" src="assets/private_icon.png"/>
+            <div>
+                <p >{{ slot.name }}</p>
+                <i *ngIf="true" class="fa-solid fa-eye-slash"></i>
+            </div>
         </div>
         <div class="meeting-details">
             <p *ngIf="hasOwner">{{ slot.size }} min, {{slot.author.userName}}, {{ slot.location.name }}</p>
