@@ -5,7 +5,7 @@ using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.DAL.Entities;
-using EasyMeets.Core.Common.Enums; 
+using EasyMeets.Core.Common.Enums;
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -21,7 +21,6 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(x => x.Location)
                 .Include(x => x.AvailabilitySlots)
                     .ThenInclude(x => x.Author)
-                .Where(x => x.AvailabilitySlots.Any(x => x.Type == SlotType.Team) && x.AvailabilitySlots.Any(x => x.Members.Any(x => x.UserId == id)))
                 .Select(x =>
                     new AvailabilitySlotsGroupByTeamsDto
                     {
@@ -35,11 +34,12 @@ namespace EasyMeets.Core.BLL.Services
                             Type = y.Type,
                             Size = y.Size,
                             IsEnabled = y.IsEnabled,
-                            AuthorName = y.Author.Name, 
+                            AuthorName = y.Author.Name,
                             LocationName = y.Location.Name,
                             Members = y.Members.Select(m =>
                                 new AvailabilitySlotMemberDto
                                 {
+                                    Id = m.User.Id,
                                     MemberUserName = m.User.Name,
                                     MemberImage = m.User.ImagePath,
                                 })
@@ -47,6 +47,7 @@ namespace EasyMeets.Core.BLL.Services
                         })
                         .ToList()
                     })
+                .Where(x => x.AvailabilitySlots.Any(x => x.Type == SlotType.Team) && x.AvailabilitySlots.Any(x => x.Members.Any(x => x.Id == id)))
                 .ToListAsync();
 
             return teamsWithSlots;
