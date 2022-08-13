@@ -18,7 +18,7 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
             .IsRequired()
             .HasMaxLength(50);
         
-        builder.Property(s => s.Description)
+        builder.Property(s => s.WelcomeMessage)
             .IsRequired()
             .HasMaxLength(300);
         
@@ -34,6 +34,22 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
         
         builder.Property(s => s.Frequency)
             .IsRequired();
+        
+        builder.Property(s => s.Language)
+            .IsRequired()
+            .HasMaxLength(20);
+
+        builder.Property(s => s.BookingsPerDay)
+            .IsRequired();
+
+        builder.Property(s => s.AllowToAddGuests)
+            .IsRequired();
+
+        builder.Property(s => s.TimeZoneVisibility)
+            .IsRequired();
+        
+        builder.Property(s => s.PasswordProtection)
+            .HasMaxLength(20);
 
         builder.HasOne(s => s.Author)
             .WithMany(u => u.CreatedSlots)
@@ -49,10 +65,5 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
             .WithMany(l => l.AvailabilitySlots)
             .HasForeignKey(s => s.LocationId)
             .OnDelete(DeleteBehavior.Restrict);
-        
-        builder.HasOne(s => s.AdvancedSlotSettings)
-            .WithOne(ad => ad.AvailabilitySlot)
-            .HasForeignKey<AdvancedSlotSettings>(s => s.AvailabilitySlotId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -1,12 +1,6 @@
 ﻿using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.DAL.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +26,7 @@ namespace EasyMeets.Core.BLL.Services
                 await _context.AdvancedSlotSettings.AddAsync(advancedSettings);
                 entity.AdvancedSlotSettings = advancedSettings;
             }
+            
             await _context.SaveChangesAsync();
         }
         

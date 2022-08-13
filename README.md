@@ -39,7 +39,7 @@ _Tip: If you want to connect to the specific service outside of docker, then use
 ```mermaid
 erDiagram
   User {
-      int Id
+      bigint Id
       nvarchar Name
       nvarchar Email
       nvarchar PhoneNumber
@@ -51,47 +51,44 @@ erDiagram
       int TimeZone
       boolean IsBanned
       boolean IsDeleted
-      datetime CreatedAt
-      datetime UpdatedAt
   }
 
   TeamMember ||--o{ User : UserId
   TeamMember ||--o{ Team : TeamId
   TeamMember {
-      int UserId
+      bigint Id
+      bigint UserId
       int Role
       int Status
-      int TeamId
+      bigint TeamId
       boolean IsDeleted
-      datetime CreatedAt
-      datetime UpdatedAt
   }
 
   Team {
-      int Id
+      bigint Id
       nvarchar LogoPath
       nvarchar Name
       nvarchar PageLink
       nvarchar TimeZone
       string Description
       boolean IsDeleted
-      datetime CreatedAt
-      datetime UpdatedAt
   }
 
   CalendarVisibleForTeam ||--o{ Calendar : CalendarId
   CalendarVisibleForTeam ||--o{ Team : TeamId
   CalendarVisibleForTeam {
-      int CalendarId
-      int TeamId
+      bigint Id
+      bigint CalendarId
+      bigint TeamId
+      bool IsDeleted
   }
 
   Calendar ||--o{ User : UserId
   Calendar ||--o{ Team : AddEventFromTeamId
   Calendar{
-      int Id
+      bigint Id
       boolean CheckForConflicts
-      int UserId
+      bigint UserId
       boolean IsDeleted
       int AddEventFromTeamId
       datetime CreatedAt
@@ -101,102 +98,109 @@ erDiagram
   TeamMemberMeeting ||--o{ User : UserTeamId
   TeamMemberMeeting ||--o{ Meeting : EventId
   TeamMemberMeeting {
-      int UserTeamId
+      bigint Id
+      bigint UserTeamId
       int EventId
       int Priority
+      bool IsDeleted
   }
 
   Meeting ||--o{ User : AuthorId
   Meeting ||--o{ Team : TeamId
   Meeting ||--o{ Location : LocationId
   Meeting {
-      int Id
+      bigint Id
       nvarchar Name
       nvarchar Description
       int Duration
       datetime StartTime
-      int AuthorId
-      int TeamId
-      int LocationId
+      bigint AuthorId
+      bigint TeamId
+      bigint LocationId
       boolean IsDeleted
       datetime CreatedAt
       datetime UpdatedAt
   }
 
   Location {
-    int Id
+    bigint Id
     nvarchar Name
+    bool IsDeleted
   }
 
   UserSlot ||--o{ User : UserId
   UserSlot ||--o{ AvailabilitySlot : AvailabilitySlotId
   UserSlot {
-    int UserId
-    int AvailabilitySlotId
+    bigint Id
+    bigint UserId
+    bigint AvailabilitySlotId
+    bool IsDeleted
   }
 
   AvailabilitySlot ||--o{ Location : LocationId
   AvailabilitySlot ||--o{ AdvansedSlotSettings : AdvansedSlotSettingsId
   AvailabilitySlot{
-    int Id
+    bigint Id
     nvarchar Name
-    nvarchar Description
+    nvarchar WelcomeMessage
     nvarchar Link
     int State
     int Type
     int Size
-    int LocationId
+    bigint LocationId
     boolean IsDeleted
-    int AuthorId
-    int TeamId
+    bigint AuthorId
+    bigint TeamId
     boolean IsEnabled
     boolean IsVisible
     int Frequency
-    int AdvansedSlotSettingsId
+    bigint AdvansedSlotSettingsId
+    nvarchar Language
+    int BookingsPerDay
+    bool AllowToAddGuests
+    nvarchar PasswordProtection
+    bool TimeZoneVisibility
     datetime CreatedAt
     datetime UpdatedAt
   }
 
-  Question ||--o{ AvailabilitySlot : AvailabilitySlotId
-  Question {
-    int Id
-    int AvailabilitySlotId
-    nvarchar Text
+  Questions ||--o{ AvailabilitySlot : AvailabilitySlotId
+  Questions {
+    bigint Id
+    bigint AvailabilitySlotId
+    nvarchar QuestionText
     boolean IsDeleted
-    datetime CreatedAt
-    datetime UpdatedAt
   }
 
   AdvansedSlotSettings {
-    int Id
+    bigint Id
     int ActivityType
     int Days
     datetime StartDate
-    datetime EndDate
     int MaxNumberOfBookings
-    int PaddingBeforeMeeting
-    int BookersScheduleBlockingTimeoreMeetingInHours
+    int PaddingMeeting
+    int MinBookingMeetingDifference
     int Color
+    bool IsDeleted
   }
 
   ExternalAttendee ||--o{ AvailabilitySlot : AvailabilitySlotId
   ExternalAttendee{
-    int Id
-    int AvailabilitySlotId
+    bigint Id
+    bigint AvailabilitySlotId
     datetime EventTime
     nvarchar Name
     nvarchar Email
     boolean IsDeleted
-    datetime CreatedAt
-    datetime UpdatedAt
   }
 
   ExternalAttendeeAvailability ||--o{ ExternalAttendee : ExternalAttendeeId
   ExternalAttendeeAvailability{
-    int Id
-    int ExternalAttendeeId
+    bigint Id
+    bigint ExternalAttendeeId
     datetime StartDate
     datetime EndDate
+    bool IsDeleted
   }
 ```
 
