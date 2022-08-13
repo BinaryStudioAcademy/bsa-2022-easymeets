@@ -1,8 +1,10 @@
+using System.ComponentModel.DataAnnotations;
 using EasyMeets.Core.Common.Enums;
+using EasyMeets.Core.Common.Validation;
 
 namespace EasyMeets.Core.DAL.Entities;
 
-public class AvailabilitySlot : AuditEntity<long>
+public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
 {
     public AvailabilitySlot()
     {
@@ -34,4 +36,21 @@ public class AvailabilitySlot : AuditEntity<long>
     public ICollection<ExternalAttendee> ExternalAttendees { get; set; }
     public ICollection<UserSlot> Members { get; set; }
     public ICollection<Question> Questions { get; set; }
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!Name.IsValidUsername() || Name.Length is < 1 or > 50)
+        {
+            yield return new ValidationResult("Invalid meeting name");
+        }
+
+        if (Size < 1)
+        {
+            yield return new ValidationResult("Slot size must be a natural number");
+        }
+
+        if (Frequency < 1)
+        {
+            yield return new ValidationResult("Slot frequency must be a natural number");
+        }
+    }
 }
