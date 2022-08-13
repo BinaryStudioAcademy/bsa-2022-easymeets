@@ -52,5 +52,10 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
         {
             yield return new ValidationResult("Slot frequency must be a natural number");
         }
+
+        if (PasswordProtection is not null && !PasswordProtection.IsValidPassword())
+        {
+            yield return new ValidationResult("Invalid password format");
+        }
     }
 }
