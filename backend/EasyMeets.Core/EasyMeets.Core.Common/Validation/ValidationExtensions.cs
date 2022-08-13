@@ -33,4 +33,10 @@ public static class ValidationExtensions
         var pattern = @"^/[a-zA-Z\d\-]+\d*$";
         return Regex.IsMatch(value, pattern);
     }
+
+    public static bool IsValidPassword(this string value)
+    {
+        var pattern = @"^[^ ]+$";
+        return Regex.IsMatch(value, pattern);
+    }
 }
