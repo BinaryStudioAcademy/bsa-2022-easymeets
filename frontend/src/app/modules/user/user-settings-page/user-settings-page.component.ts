@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { getUserSettingsMenuItems } from '@core/helpers/user-settings-menu-helper';
+import { SideMenuGroup } from '@core/interfaces/sideMenu/sideMenuGroup';
 
 @Component({
     selector: 'app-user-settings-page',
@@ -6,7 +8,15 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./user-settings-page.component.sass'],
 })
 export class UserSettingsPageComponent implements OnInit {
-    constructor() {}
+    public sideMenuGroups: SideMenuGroup[];
 
-    ngOnInit(): void {}
+    public isActive: boolean = true;
+
+    ngOnInit(): void {
+        this.initializeSideMenu();
+    }
+
+    private initializeSideMenu() {
+        this.sideMenuGroups = getUserSettingsMenuItems();
+    }
 }

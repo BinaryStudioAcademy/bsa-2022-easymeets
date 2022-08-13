@@ -1,1 +1,21 @@
-<p>user-settings-page works!</p>
+<div class="container">
+    <div class="new-availability-header">
+        <p class="new-availability-header-label">Settings</p>
+    </div>
+    <div class="main-content">
+        <div class="sidebar">
+            <div class="side-menu-wrapper">
+                <app-side-menu [groups]="sideMenuGroups"></app-side-menu>
+            </div>
+            <div class="delete-slots-wrapper">
+                <div class="delete-slots-container">
+                    <mat-icon>delete_outline</mat-icon>
+                    <p class="delete-slots-label">Delete account</p>
+                </div>
+            </div>
+        </div>
+        <div class="menu-item-container">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
