@@ -62,10 +62,12 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(x => x.User)
                  .Include(x => x.CreatedSlots)
                     .ThenInclude(x => x.Location)
-                 .Where(x => x.CreatedSlots.Any(x => x.Type == SlotType.Personal))
                  .SelectMany(x => x.CreatedSlots)
+                 .Where(x => x.Type == SlotType.Personal)
                  .ToListAsync();
+
             var userSlotsDto = _mapper.Map<ICollection<AvailabilitySlotDto>>(userSlots);
+
             return userSlotsDto;
         }
 
