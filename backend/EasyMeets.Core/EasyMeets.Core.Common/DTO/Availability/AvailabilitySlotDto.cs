@@ -9,8 +9,7 @@ namespace EasyMeets.Core.Common.DTO.Availability
         public SlotType Type { get; set; }
         public int Size { get; set; }
         public bool IsEnabled { get; set; }
-        public string AuthorName { get; set; } = string.Empty;
-        public string? AuthorImage { get; set; } = string.Empty;
+        public string AuthorName { get; set; } = string.Empty; 
         public string LocationName { get; set; } = string.Empty;
         public ICollection<AvailabilitySlotMemberDto> Members { get; set; } = null!;
     }

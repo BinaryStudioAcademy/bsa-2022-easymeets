@@ -2,7 +2,7 @@
 {
     public class AvailabilitySlotMemberDto
     {
-        public string? Image { get; set; }
-        public string? UserName { get; set; }
+        public string? MemberImage { get; set; }
+        public string? MemberUserName { get; set; }
     }
 }
