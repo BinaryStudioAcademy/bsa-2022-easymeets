@@ -4,7 +4,7 @@ export const getUserSettingsMenuItems = (): SideMenuGroup[] => [
     {
         header: 'Account',
         items: [
-            { text: 'Personal', routerLink: 'personal' },
+            { text: 'Personal', routerLink: 'account/personal' },
             { text: 'Login & Password', routerLink: 'default-route' },
             { text: 'Payments', routerLink: 'default-route' },
         ],
@@ -12,7 +12,7 @@ export const getUserSettingsMenuItems = (): SideMenuGroup[] => [
     {
         header: 'Intergations',
         items: [
-            { text: 'Calendars', routerLink: 'default-route' },
+            { text: 'Calendars', routerLink: 'integrations/calendar' },
             { text: 'Video Conferencing', routerLink: 'default-route' },
             { text: 'Mailing', routerLink: 'default-route' },
             { text: 'API & Tokens', routerLink: 'default-route' },
