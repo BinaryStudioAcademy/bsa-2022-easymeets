@@ -121,6 +121,7 @@ namespace EasyMeets.Core.BLL.Services
                 await _context.AdvancedSlotSettings.AddAsync(advancedSettings);
                 entity.AdvancedSlotSettings = advancedSettings;
             }
+            
             await _context.SaveChangesAsync();
         }
     }

@@ -9,51 +9,50 @@
         </div>
     </div>
 
-    <mat-form-field appearance="fill">
-        <mat-label>Binary Team</mat-label>
-        <mat-select disableRipple>
-            <mat-option routerLink="#">
-                <img src="assets/header/header-pop-up__team.png" />
-                <span>Binary Team</span>
-            </mat-option>
-            <mat-option routerLink="#">
-                <img src="assets/header/header-pop-up__team.png" />
-                <span>Team 2</span>
-            </mat-option>
-            <mat-option routerLink="#">
-                <img src="assets/header/header-pop-up__team.png" />
-                <span>Team 3</span>
-            </mat-option>
-            <mat-option class="mat-option-btn" routerLink="#">
-                <img src="assets/header/header-pop-up__plus.png" />
-                <span>New Team</span>
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
+    <button mat-button [matMenuTriggerFor]="menuTeam">
+        <label>Binary Team</label>
+        <i class="fa-solid fa-caret-down"></i>
+    </button>
+    <mat-menu #menuTeam="matMenu">
+        <button mat-menu-item routerLink="#">
+            <i class="fa-solid fa-people-group"></i>
+            <span>Binary Team</span>
+        </button>
+        <button mat-menu-item routerLink="#">
+            <i class="fa-solid fa-people-group"></i>
+            <span>Team 2</span>
+        </button>
+        <button mat-menu-item routerLink="#">
+            <i class="fa-solid fa-people-group"></i>
+            <span>Team 3</span>
+        </button>
+        <button class="mat-menu-btn" mat-menu-item routerLink="#">
+            <i class="fa-solid fa-plus"></i>
+            <span>New Team</span>
+        </button>
+    </mat-menu>
 
-    <mat-form-field class="mat-form-field-label-img" appearance="fill">
-        <mat-label>
-            <div class="avatar">
-                <img src="assets/header/header-ava-template.png" />
-            </div>
-        </mat-label>
-        <mat-select disableRipple class="hide-select-arrow">
-            <mat-option routerLink="#">
-                <img src="assets/header/header-pop-up__account.png" />
-                <span>Account</span>
-            </mat-option>
-            <mat-option routerLink="#">
-                <img src="assets/header/header-pop-up__integrations.png" />
-                <span>Integrations</span>
-            </mat-option>
-            <mat-option routerLink="#">
-                <img src="assets/header/header-pop-up__team.png" />
-                <span>Team</span>
-            </mat-option>
-            <mat-option routerLink="#">
-                <img src="assets/header/header-pop-up__logout.png" />
-                <span>Logout</span>
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
+    <button mat-icon-button [matMenuTriggerFor]="menuAvatar">
+        <div class="avatar">
+            <img src="assets/header/header-ava-template.png" />
+        </div>
+    </button>
+    <mat-menu #menuAvatar="matMenu">
+        <button mat-menu-item routerLink="#">
+            <i class="fa-solid fa-user"></i>
+            <span>Account</span>
+        </button>
+        <button mat-menu-item routerLink="#">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            <span>Integrations</span>
+        </button>
+        <button mat-menu-item routerLink="#">
+            <i class="fa-solid fa-people-group"></i>
+            <span>Team</span>
+        </button>
+        <button mat-menu-item routerLink="#">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </button>
+    </mat-menu>
 </header>
