@@ -6,10 +6,6 @@ import { UserProfilePageComponent } from '@modules/user/user-profile-page/user-p
 import { UserSettingsPageComponent } from './user-settings-page/user-settings-page.component';
 
 const routes: Routes = [
-    // {
-    //     path: '',
-    //     component: UserProfilePageComponent,
-    // },
     {
         path: '',
         component: UserSettingsPageComponent,
