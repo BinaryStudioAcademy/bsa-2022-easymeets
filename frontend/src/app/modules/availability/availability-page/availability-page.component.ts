@@ -17,7 +17,7 @@ export class AvailabilityPageComponent {
 
     public userSlots: AvailabilitySlot[];
 
-    public currentUserId: number = 1;
+    public currentUserId: number = 4;
 
     constructor(private availabilitySlotService: AvailabilitySlotService, private userService: UserService) {
         this.getCurrentUser();

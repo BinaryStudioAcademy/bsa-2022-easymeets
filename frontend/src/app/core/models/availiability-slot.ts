@@ -1,13 +1,12 @@
-import { Location } from './location';
-import { User } from './user';
+import { availabilitySlotMember } from './availability-slot-member';
 
 export interface AvailabilitySlot {
     name: string;
-    author: User;
+    authorName: string;
     size: number;
     link: string;
     isEnabled: boolean
     isVisible: boolean
-    location: Location
-    members: User[]
+    locationName: string
+    members: availabilitySlotMember[]
 }

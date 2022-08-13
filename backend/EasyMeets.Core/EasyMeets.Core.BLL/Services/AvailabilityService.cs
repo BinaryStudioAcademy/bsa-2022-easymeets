@@ -5,16 +5,14 @@ using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.DAL.Entities;
-using EasyMeets.Core.Common.Enums;
-using EasyMeets.Core.Common.DTO.User;
-using EasyMeets.Core.Common.DTO.Location;
+using EasyMeets.Core.Common.Enums; 
 
 namespace EasyMeets.Core.BLL.Services
 {
     public class AvailabilityService : BaseService, IAvailabilityService
     {
         public AvailabilityService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) { }
-        public async Task<ICollection<AvailabilitySlotsGroupByTeamsDto>> GetAllAvailabilitySlotsGroupByTeamsAsync(int id)
+        public async Task<ICollection<AvailabilitySlotsGroupByTeamsDto>> GetAllAvailabilitySlotsGroupByTeamsAsync(long id)
         {
             var teamsWithSlots = await _context.Teams
                 .Include(x => x.AvailabilitySlots)
@@ -29,44 +27,34 @@ namespace EasyMeets.Core.BLL.Services
                     {
                         Name = x.Name,
                         PageLink = x.PageLink,
-                        AvailabilitySlots = x.AvailabilitySlots
-                            .Select(y =>
-                                new AvailabilitySlotDto
+                        AvailabilitySlots = x.AvailabilitySlots.Select(y =>
+                        new AvailabilitySlotDto
+                        {
+                            Id = y.Id,
+                            Name = y.Name,
+                            Type = y.Type,
+                            Size = y.Size,
+                            IsEnabled = y.IsEnabled,
+                            AuthorName = y.Author.Name, 
+                            LocationName = y.Location.Name,
+                            Members = y.Members.Select(m =>
+                                new AvailabilitySlotMemberDto
                                 {
-                                    Id = y.Id,
-                                    Name = y.Name,
-                                    Type = y.Type,
-                                    Size = y.Size,
-                                    IsEnabled = y.IsEnabled,
-                                    Author =
-                                        new UserDto
-                                        {
-                                            UserName = y.Author.Name,
-                                            Image = y.Author.ImagePath,
-                                        },
-                                    Location = new LocationDto
-                                    {
-                                        Name = y.Location.Name,
-                                    },
-                                    Members = y.Members
-                                        .Select(m =>
-                                         new UserDto
-                                         {
-                                             UserName = m.User.Name,
-                                             Image = m.User.ImagePath,
-                                         })
-                                        .ToList()
+                                    MemberUserName = m.User.Name,
+                                    MemberImage = m.User.ImagePath,
                                 })
                             .ToList()
+                        })
+                        .ToList()
                     })
                 .ToListAsync();
 
             return teamsWithSlots;
         }
 
-        public async Task<ICollection<AvailabilitySlotDto>> GetAllUserAvailabilitySlotsAsync(int id)
+        public async Task<ICollection<AvailabilitySlotDto>> GetAllUserAvailabilitySlotsAsync(long id)
         {
-            var userSlots = await _context.Users
+            ICollection<AvailabilitySlot> userSlots = await _context.Users
                  .Where(x => x.Id == id)
                  .Include(x => x.CreatedSlots)
                     .ThenInclude(x => x.Members)
@@ -75,37 +63,9 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(x => x.Location)
                  .Where(x => x.CreatedSlots.Any(x => x.Type == SlotType.Personal))
                  .SelectMany(x => x.CreatedSlots)
-                 .Select(y =>
-                    new AvailabilitySlotDto
-                    {
-                        Id = y.Id,
-                        Name = y.Name,
-                        Type = y.Type,
-                        Size = y.Size,
-                        IsEnabled = y.IsEnabled,
-                        Author =
-                            new UserDto
-                            {
-                                UserName = y.Author.Name,
-                                Image = y.Author.ImagePath,
-                            },
-                        Location = 
-                            new LocationDto
-                            {
-                                Name = y.Location.Name,
-                            },
-                        Members = y.Members
-                            .Select(m =>
-                                new UserDto
-                                {
-                                    UserName = m.User.Name,
-                                    Image = m.User.ImagePath,
-                                })
-                            .ToList()
-                    })
-                 .ToListAsync(); 
-
-            return userSlots;
+                 .ToListAsync();
+            var userSlotsDto = _mapper.Map<ICollection<AvailabilitySlotDto>>(userSlots);
+            return userSlotsDto;
         }
 
         public async Task CreateAvailabilitySlot(NewAvailabilitySlotDto slotDto)
@@ -121,7 +81,7 @@ namespace EasyMeets.Core.BLL.Services
                 await _context.AdvancedSlotSettings.AddAsync(advancedSettings);
                 entity.AdvancedSlotSettings = advancedSettings;
             }
-            
+
             await _context.SaveChangesAsync();
         }
     }

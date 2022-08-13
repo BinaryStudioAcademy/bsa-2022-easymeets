@@ -5,15 +5,17 @@
             <mat-slide-toggle [checked]="slot.isEnabled" (change)="toggle($event)"></mat-slide-toggle>
         </div>
         <div class="time-options">
-            <p>{{ slot.name }}</p>
-            <img *ngIf="slot.isVisible" src="assets/private_icon.png"/>
+            <div>
+                <p >{{ slot.name }}</p>
+                <i *ngIf="true" class="fa-solid fa-eye-slash"></i>
+            </div>
         </div>
         <div class="meeting-details">
-            <p *ngIf="hasOwner">{{ slot.size }} min, {{slot.author.userName}}, {{ slot.location.name }}</p>
-            <p *ngIf="!hasOwner">{{ slot.size }} min, 1 of {{slot.members.length}} members, {{ slot.location.name }}</p>
+            <p *ngIf="hasOwner">{{ slot.size }} min, {{slot.authorName}}, {{ slot.locationName }}</p>
+            <p *ngIf="!hasOwner">{{ slot.size }} min, 1 of {{slot.members.length}} members, {{ slot.locationName }}</p>
             <div class="avatar-list">
-                <div *ngFor="let _avatar of slot.members">
-                    <img [src]="_avatar.image" class="avatar" />
+                <div *ngFor="let member of slot.members">
+                    <img [src]="member.memberImage" class="avatar" />
                 </div>
             </div>
         </div>
@@ -53,11 +55,11 @@
             <p>{{ slot.size }} min meeting</p>
         </div>
         <div class="meeting-details">
-            <p *ngIf="hasOwner">{{ slot.size }} min, {{slot.author.userName}}, {{ slot.location.name }}</p>
-            <p *ngIf="!hasOwner">{{ slot.size }} min, 1 of {{slot.members.length}} members, {{ slot.location.name }}</p>
+            <p *ngIf="hasOwner">{{ slot.size }} min, {{slot.authorName}}, {{ slot.locationName }}</p>
+            <p *ngIf="!hasOwner">{{ slot.size }} min, 1 of {{slot.members.length}} members, {{ slot.locationName }}</p>
             <div class="avatar-list">
-                <div *ngFor="let _avatar of slot.members">
-                    <img [src]="_avatar.image" class="avatar" />
+                <div *ngFor="let member of slot.members">
+                    <img [src]="member.memberImage" class="avatar" />
                 </div>
             </div>
         </div>
