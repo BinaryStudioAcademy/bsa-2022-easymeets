@@ -7,7 +7,7 @@
         <div class="time-options">
             <div>
                 <p >{{ slot.name }}</p>
-                <i *ngIf="true" class="fa-solid fa-eye-slash"></i>
+                <i *ngIf="slot.isVisible" class="fa-solid fa-eye-slash"></i>
             </div>
         </div>
         <div class="meeting-details">
