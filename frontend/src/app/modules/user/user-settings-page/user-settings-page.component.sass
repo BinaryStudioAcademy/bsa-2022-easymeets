@@ -1,4 +1,5 @@
 @import '../../../../styles/color-variables'
+@import '../../../../styles/screen-variables'
 
 *
     box-sizing: border-box
@@ -11,6 +12,8 @@
     justify-items: center
     padding: 0 100px 90px 100px
     background-color: $athens-gray
+    @media screen and ( max-width: $tablet-min-width  )
+        padding: 0 30px 40px 30px
 
 .user-settings-header
     display: flex
@@ -31,11 +34,17 @@
     flex-direction: row
     justify-content: center
     padding: 0 20px
+    @media screen and ( max-width: $desktop-min-width  )
+        flex-direction: column
     .sidebar
         width: 25%
+        @media screen and ( max-width: $desktop-min-width  )
+            width: 100%
     .menu-item-container
         width: 75%
         padding: 20px 0
+        @media screen and ( max-width: $desktop-min-width  )
+            width: 100%
 
 .sidebar
     position: relative
@@ -46,6 +55,8 @@
     width: 100%
     margin: 0 10px
     padding-bottom: 80px
+    @media screen and ( max-width: $desktop-min-width  )
+        border-right: none
     .delete-account-wrapper
         position: absolute
         left: 10px
