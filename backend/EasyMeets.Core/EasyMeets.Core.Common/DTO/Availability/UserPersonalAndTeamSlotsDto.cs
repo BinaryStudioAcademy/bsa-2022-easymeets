@@ -1,8 +1,8 @@
 ﻿namespace EasyMeets.Core.Common.DTO.Availability
 {
-    public class UserPersonalAndTeamSlots
+    public class UserPersonalAndTeamSlotsDto
     {
-        public UserPersonalAndTeamSlots(ICollection<AvailabilitySlotDto> userSlots, ICollection<AvailabilitySlotsGroupByTeamsDto> teamsSlots)
+        public UserPersonalAndTeamSlotsDto(ICollection<AvailabilitySlotDto> userSlots, ICollection<AvailabilitySlotsGroupByTeamsDto> teamsSlots)
         {
             UserSlots = userSlots;
             TeamSlots = teamsSlots;

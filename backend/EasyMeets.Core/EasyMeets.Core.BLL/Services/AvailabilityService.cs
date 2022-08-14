@@ -14,7 +14,7 @@ namespace EasyMeets.Core.BLL.Services
     {
         public AvailabilityService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) { }
 
-        public async Task<UserPersonalAndTeamSlots> GetUserPersonalAndTeamSlotsAsync(long id)
+        public async Task<UserPersonalAndTeamSlotsDto> GetUserPersonalAndTeamSlotsAsync(long id)
         {
             var availabilitySlots = await _context.AvailabilitySlots
                 .Include(x => x.Members)
@@ -62,7 +62,7 @@ namespace EasyMeets.Core.BLL.Services
                 })
                 .ToList();
 
-            var availabilitySlotsGroupByTeamsAndUser = new UserPersonalAndTeamSlots(userSlots, availabilitySlotsGroupByTeams);
+            var availabilitySlotsGroupByTeamsAndUser = new UserPersonalAndTeamSlotsDto(userSlots, availabilitySlotsGroupByTeams);
 
             return availabilitySlotsGroupByTeamsAndUser;
         }

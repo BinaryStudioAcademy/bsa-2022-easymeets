@@ -5,7 +5,7 @@ namespace EasyMeets.Core.BLL.Interfaces
 {
     public interface IAvailabilityService
     { 
-        Task<UserPersonalAndTeamSlots> GetUserPersonalAndTeamSlotsAsync(long id);
+        Task<UserPersonalAndTeamSlotsDto> GetUserPersonalAndTeamSlotsAsync(long id);
         Task CreateAvailabilitySlot(NewAvailabilitySlotDto slotDto);
     }
 }
