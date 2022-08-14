@@ -12,7 +12,7 @@
     </div>
     <div class="availability-slot">
         <div *ngFor="let _slot of teamSlots.availabilitySlots">
-            <app-slot [slot]="_slot"></app-slot>
+            <app-slot [slot]="_slot" [team]="teamSlots.team"></app-slot>
         </div>
     </div>
 </div>

@@ -16,5 +16,5 @@ export interface ISlot {
     frequency: number;
     isEnabled: boolean;
     isVisible: boolean;
-    members: IUser[];
+    members?: IUser[];
 }
