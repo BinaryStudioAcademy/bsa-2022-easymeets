@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+using EasyMeets.Core.Common.Validation;
+
 namespace EasyMeets.Core.DAL.Entities;
 
-public class Team : Entity<long>
+public class Team : Entity<long>, IValidatableObject
 {
     public Team()
     {
@@ -21,4 +24,21 @@ public class Team : Entity<long>
     public ICollection<CalendarVisibleForTeam> VisibleCalendars { get; set; }
     public ICollection<AvailabilitySlot> AvailabilitySlots { get; set; }
     public ICollection<Meeting> Meetings { get; set; }
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!Name.IsValidUsername() || Name.Length is < 3 or > 50)
+        {
+            yield return new ValidationResult("Invalid team name");
+        }
+
+        if (!PageLink.IsValidTeamLink())
+        {
+            yield return new ValidationResult("Invalid team link");
+        }
+
+        if (!string.IsNullOrEmpty(Description) && Description.Length > 300)
+        {
+            yield return new ValidationResult("Too long team description");
+        }
+    }
 }
