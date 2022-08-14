@@ -6,69 +6,65 @@ using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.DAL.Entities;
 using EasyMeets.Core.Common.Enums;
+using System.Linq;
 
 namespace EasyMeets.Core.BLL.Services
 {
     public class AvailabilityService : BaseService, IAvailabilityService
     {
         public AvailabilityService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) { }
-        public async Task<ICollection<AvailabilitySlotsGroupByTeamsDto>> GetAllAvailabilitySlotsGroupByTeamsAsync(long id)
+
+        public async Task<UserPersonalAndTeamSlots> GetUserPersonalAndTeamSlotsAsync(long id)
         {
-            var teamsWithSlots = await _context.Teams
-                .Include(x => x.AvailabilitySlots)
-                    .ThenInclude(x => x.Members)
-                .Include(x => x.AvailabilitySlots)
-                    .ThenInclude(x => x.Location)
-                .Include(x => x.AvailabilitySlots)
-                    .ThenInclude(x => x.Author)
-                .Select(x =>
-                    new AvailabilitySlotsGroupByTeamsDto
+            var availabilitySlots = await _context.AvailabilitySlots
+                .Include(x => x.Members)
+                    .ThenInclude(x => x.User)
+                .Include(x => x.Location)
+                .Include(x => x.Author)
+                .Include(x => x.Team)
+                .Where(x => x.CreatedBy == id && x.Members.Any(x => x.UserId == id))
+                .Select(y =>
+                    new AvailabilitySlotDto
                     {
-                        Name = x.Name,
-                        PageLink = x.PageLink,
-                        AvailabilitySlots = x.AvailabilitySlots.Select(y =>
-                        new AvailabilitySlotDto
-                        {
-                            Id = y.Id,
-                            Name = y.Name,
-                            Type = y.Type,
-                            Size = y.Size,
-                            IsEnabled = y.IsEnabled,
-                            AuthorName = y.Author.Name,
-                            LocationName = y.Location.Name,
-                            Members = y.Members.Select(m =>
-                                new AvailabilitySlotMemberDto
-                                {
-                                    Id = m.User.Id,
-                                    MemberUserName = m.User.Name,
-                                    MemberImage = m.User.ImagePath,
-                                })
-                            .ToList()
-                        })
-                        .ToList()
+                        Id = y.Id,
+                        Name = y.Name,
+                        Type = y.Type,
+                        Size = y.Size,
+                        IsEnabled = y.IsEnabled,
+                        AuthorName = y.Author.Name,
+                        TeamName = y.Team.Name,
+                        LocationName = y.Location.Name,
+                        Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.Members)
                     })
-                .Where(x => x.AvailabilitySlots.Any(x => x.Type == SlotType.Team) && x.AvailabilitySlots.Any(x => x.Members.Any(x => x.Id == id)))
                 .ToListAsync();
 
-            return teamsWithSlots;
-        }
+            var userSlots = availabilitySlots.Where(x => x.Type == SlotType.Personal).ToList();
+            var availabilitySlotsGroupByTeams = availabilitySlots
+                .Where(x => x.Type == SlotType.Team)
+                .GroupBy(x => x.TeamName)
+                .Select(x =>
+                new AvailabilitySlotsGroupByTeamsDto
+                {
+                    Name = x.Key,
+                    AvailabilitySlots = x.Select(y =>
+                    new AvailabilitySlotDto
+                    {
+                        Id = y.Id,
+                        Name = y.Name,
+                        Type = y.Type,
+                        Size = y.Size,
+                        IsEnabled = y.IsEnabled,
+                        AuthorName = y.AuthorName,
+                        LocationName = y.LocationName,
+                        Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.Members)
+                    })
+                        .ToList()
+                })
+                .ToList();
 
-        public async Task<ICollection<AvailabilitySlotDto>> GetAllUserAvailabilitySlotsAsync(long id)
-        {
-            ICollection<AvailabilitySlot> userSlots = await _context.Users
-                 .Where(x => x.Id == id)
-                 .Include(x => x.CreatedSlots)
-                    .ThenInclude(x => x.Members)
-                    .ThenInclude(x => x.User)
-                 .Include(x => x.CreatedSlots)
-                    .ThenInclude(x => x.Location)
-                 .SelectMany(x => x.CreatedSlots)
-                 .Where(x => x.Type == SlotType.Personal)
-                 .ToListAsync();
+            var availabilitySlotsGroupByTeamsAndUser = new UserPersonalAndTeamSlots(userSlots, availabilitySlotsGroupByTeams);
 
-            var userSlotsDto = _mapper.Map<ICollection<AvailabilitySlotDto>>(userSlots);
-
-            return userSlotsDto;
+            return availabilitySlotsGroupByTeamsAndUser;
         }
 
         public async Task CreateAvailabilitySlot(NewAvailabilitySlotDto slotDto)
