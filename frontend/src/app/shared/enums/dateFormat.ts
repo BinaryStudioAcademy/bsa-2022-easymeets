@@ -1,5 +1,5 @@
 export enum DateFormat {
-    DDMMYYYY,
-    MMDDYYYY,
-    MDYY
+    DDMMYYYY = 'DDMMYYYY',
+    MMDDYYYY = 'MMDDYYYY',
+    MDYY = 'MDYY',
 }

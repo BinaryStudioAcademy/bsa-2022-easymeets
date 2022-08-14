@@ -1,73 +1,82 @@
-<div class="wrapper">
+<form class="wrapper" [formGroup]="userForm" (ngSubmit)="OnSubmit(userForm)">
     <div class="item">
         <div class="user-avatar-block">
             <img class="user-avatar">
-            <button class="upload-picture-button">Upload Picture</button>
+            <button type="button" class="upload-picture-button" mat-flat-button>Upload Picture</button>
         </div>
     </div>
-    <form class="item">
+    <div class="item">
         <label>
             <div>Name</div>
         </label>
         <div>
-            <input value="Heorhii Matvichuk">
+            <input type="text" formControlName="userName">
         </div>
-    </form>
-    <form class="item">
+    </div>
+    <div class="item">
         <label>
             <div>Language</div>
         </label>
-        <div>
-            <input value="Text">
-        </div>
-    </form>
+        <mat-select formControlName="language">
+            <mat-option *ngFor="let name of languageKeys" [value]="languageKeys.indexOf(name)">
+                {{languageValues[languageKeys.indexOf(name)]}}
+            </mat-option>
+        </mat-select>
+    </div>
     <div class="item">
         <div class="input-block">
-            <form>
+            <div>
                 <label>
                     <div>Time Format</div>
                 </label>
-                <div>
-                    <input value="24h">
-                </div>
-            </form>
-            <form>
+                <mat-select formControlName="timeFormat">
+                    <mat-option *ngFor="let name of timeFormatKeys" [value]="timeFormatKeys.indexOf(name)">
+                        {{timeFormatValues[timeFormatKeys.indexOf(name)]}}
+                    </mat-option>
+                </mat-select>
+            </div>
+            <div>
                 <label>
                     <div>Date Format</div>
                 </label>
-                <div>
-                    <input value="DD/MM/YYYY">
-                </div>
-            </form>
+                <mat-select formControlName="dateFormat">
+                    <mat-option *ngFor="let name of dateFormatKeys" [value]="dateFormatKeys.indexOf(name)">
+                        {{dateFormatValues[dateFormatKeys.indexOf(name)]}}
+                    </mat-option>
+                </mat-select>
+            </div>
         </div>
     </div>
-    <form class="item">
+    <div class="item">
         <label>
             <div>Country</div>
         </label>
-        <div>
-            <input value="Text">
-        </div>
-    </form>
-    <form class="item">
+        <mat-select formControlName="country">
+            <mat-option *ngFor="let name of countryKeys" [value]="countryKeys.indexOf(name)">
+                {{countryValues[countryKeys.indexOf(name)]}}
+            </mat-option>
+        </mat-select>
+    </div>
+    <div class="item">
         <label>
             <div>Phone Number</div>
         </label>
         <div>
-            <input value="+38 (011) 123 21 31">
-        </div>
-    </form>
-    <form class="item">
-        <label>
-            <div>Time Zone</div>
-        </label>
-        <div>
-            <input value="Eastern Europe">
-        </div>
-    </form>
-    <div class="item">
-        <div class="update-preferences-button">
-            <button>Update Preferences</button>
+            <input formControlName="phone">
         </div>
     </div>
-</div>
+    <div class="item">
+        <label>Time Zone</label>
+        <mat-select formControlName="timeZone">
+            <mat-option *ngFor="let name of timeZoneKeys" [value]="timeZoneKeys.indexOf(name)">
+                {{timeZoneValues[timeZoneKeys.indexOf(name)]}}
+            </mat-option>
+        </mat-select>
+    </div>
+    <div class="item">
+        <div class="update-preferences-button">
+            <button mat-flat-button type="submit">Update Preferences</button>
+        </div>
+    </div>
+</form>
+

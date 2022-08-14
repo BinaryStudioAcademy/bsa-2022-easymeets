@@ -16,7 +16,7 @@
     align-items: center
     justify-content: space-around
 
-input
+input, .mat-select
     margin-top: 5px
     color: $dark-gray
     font-size: 15px
@@ -32,13 +32,14 @@ input
     width: 100%
 
     .input-block
+        width: 100%
         display: flex
         align-items: center
         justify-content: space-between
         gap: 50px
 
-        input
-            width: 100%
+        input, .mat-select
+            width: 150px
 
 .user-avatar
     background-color: $light-gray
@@ -66,3 +67,12 @@ button
 
 label
     font-weight: 600
+
+::ng-deep .item
+    .mat-select
+        align-items: center
+        display: flex
+
+    .mat-select-value
+        color: $dark-gray
+        font-size: 15px
