@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
-import { Slot } from '@core/interfaces/slot-interface';
+import { ISlot } from '@core/interfaces/slot/slot-interface';
 
 @Component({
     selector: 'app-slot',
@@ -9,7 +9,7 @@ import { Slot } from '@core/interfaces/slot-interface';
     styleUrls: ['./slot.component.sass'],
 })
 export class SlotComponent {
-    @Input() public slot: Slot;
+    @Input() public slot: ISlot;
 
     public isChecked: boolean = true;
 

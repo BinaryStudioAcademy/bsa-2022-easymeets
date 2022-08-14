@@ -11,6 +11,7 @@ import { NewAvailabilityComponent } from './new-slot/new-availability/new-availa
 import { SlotComponent } from './slot/slot.component';
 import { TeamComponent } from './team/team.component';
 import { AvailabilityRoutingModule } from './availability-routing.module';
+import { SharedModule } from "@shared/shared.module";
 
 @NgModule({
     declarations: [
@@ -22,6 +23,6 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         NewAvailabilityComponent,
         EditAvailabilityPageComponent,
     ],
-    imports: [CommonModule, AvailabilityRoutingModule, MaterialModule, SideMenuModule],
+    imports: [CommonModule, AvailabilityRoutingModule, MaterialModule, SideMenuModule, SharedModule],
 })
 export class AvailabilityModule {}

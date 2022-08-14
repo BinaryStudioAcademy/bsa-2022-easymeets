@@ -1,6 +1,6 @@
-import { Slot } from '@core/interfaces/slot-interface';
+import { ISlot } from '@core/interfaces/slot/slot-interface';
 
-export const getDefaultSlots = (): Array<Slot> => [
+export const getDefaultSlots = (): Array<ISlot> => [
     {
         id: 1,
         time: '30 min',
