@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { EditAvailabilityPageComponent } from '@modules/availability/edit-slot/edit-availability/edit-availability-page.component';
 import { SideMenuModule } from '@modules/side-menu/side-menu.module';
 import { MaterialModule } from '@shared/material/material.module';
+import { SharedModule } from '@shared/shared.module';
 
 import { AvailabilityPageComponent } from './availability-page/availability-page.component';
 import { EventDetailComponent } from './new-slot/event-detail/event-detail.component';
@@ -11,7 +12,6 @@ import { NewAvailabilityComponent } from './new-slot/new-availability/new-availa
 import { SlotComponent } from './slot/slot.component';
 import { TeamComponent } from './team/team.component';
 import { AvailabilityRoutingModule } from './availability-routing.module';
-import { SharedModule } from "@shared/shared.module";
 
 @NgModule({
     declarations: [

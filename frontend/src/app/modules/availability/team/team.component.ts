@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { getDefaultSlots } from '@core/helpers/slots-data-helper';
-import { ISlot } from '@core/interfaces/slot/slot-interface';
+import { Component, Input } from '@angular/core';
+import { ITeamSlots } from '@core/interfaces/slot/team-slots-interface';
 
 @Component({
     selector: 'app-team',
@@ -8,9 +7,8 @@ import { ISlot } from '@core/interfaces/slot/slot-interface';
     styleUrls: ['./team.component.sass'],
 })
 export class TeamComponent {
-    public slots: Array<ISlot>;
+    @Input()
+    public teamSlots: ITeamSlots;
 
-    constructor() {
-        this.slots = getDefaultSlots();
-    }
+    constructor() {}
 }

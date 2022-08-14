@@ -1,5 +1,4 @@
-import { IUser } from "@core/interfaces/user/user-interface";
-import { TimeZone } from "@core/enums/time-zone.enum";
+import { IUser } from '@core/interfaces/user/user-interface';
 
 export interface ITeam {
     id: number;

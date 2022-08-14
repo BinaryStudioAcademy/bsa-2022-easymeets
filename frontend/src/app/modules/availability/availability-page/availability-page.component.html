@@ -1,6 +1,7 @@
 <div class="container">
-    <div class="teams-container">
-        <app-team></app-team>
-        <app-team></app-team>
+    <app-loading-spinner>
+    </app-loading-spinner>
+    <div class="teams-container" *ngFor="let teamSlots of slotsResponse?.teamAvailabilitySlotsWithTeams ?? []">
+        <app-team [teamSlots]="teamSlots"></app-team>
     </div>
 </div>

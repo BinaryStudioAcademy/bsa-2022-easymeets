@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, delay } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SpinnerService {
     private isLoading$$ = new BehaviorSubject<boolean>(false);
 
-    isLoading$ = this.isLoading$$.asObservable();
+    isLoading$ = this.isLoading$$
+        .asObservable()
+        .pipe(delay(0));
 
     show = () => this.isLoading$$.next(true);
 
