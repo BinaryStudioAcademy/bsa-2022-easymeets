@@ -1,4 +1,5 @@
-﻿using EasyMeets.Core.Common.Enums;
+﻿using EasyMeets.Core.Common.DTO.User;
+using EasyMeets.Core.Common.Enums;
 
 namespace EasyMeets.Core.Common.DTO.Availability;
 
@@ -17,4 +18,5 @@ public class AvailabilitySlotDto
     public int Frequency { get; set; }
     public bool IsEnabled { get; set; }
     public bool IsVisible { get; set; }
+    public IEnumerable<UserDto>? Members { get; set; }
 }

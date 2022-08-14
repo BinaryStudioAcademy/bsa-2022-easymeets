@@ -8,12 +8,12 @@
             <p>{{ slot.size }} meeting</p>
         </div>
         <div class="meeting-details">
-            <p>{{ slot.size }}, * of * Team Members together, {{ slot.location?.name ?? '' }}</p>
-<!--            <div class="avatar-list">-->
-<!--                <div *ngFor="let _avatar of slot.avatars">-->
-<!--                    <img [src]="_avatar" class="avatar" />-->
-<!--                </div>-->
-<!--            </div>-->
+            <p>{{ slot.size }}, {{ "slot.user" }}, {{ slot.location?.name ?? '' }}</p>
+            <div class="avatar-list">
+                <div *ngFor="let member of slot.members">
+                    <img [src]="member.image" class="avatar" />
+                </div>
+            </div>
         </div>
         <hr />
         <div class="options">
@@ -51,12 +51,12 @@
             <p>{{ slot.size }} meeting</p>
         </div>
         <div class="meeting-details">
-            <p>{{ slot.size }}, * of * Team Members together, {{ slot.location?.name ?? '' }}</p>
-<!--            <div class="avatar-list">-->
-<!--                <div *ngFor="let _avatar of slot.avatars">-->
-<!--                    <img [src]="_avatar" class="avatar" />-->
-<!--                </div>-->
-<!--            </div>-->
+            <p>{{ slot.size }}, {{ "slot.user" }}, {{ slot.location?.name ?? '' }}</p>
+            <div class="avatar-list">
+                <div *ngFor="let member of slot.members">
+                    <img [src]="member.image" class="avatar" />
+                </div>
+            </div>
         </div>
         <hr />
         <div class="options">

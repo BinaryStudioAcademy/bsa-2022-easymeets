@@ -1,5 +1,6 @@
 import { SlotType } from "@core/enums/slot-type.enum";
 import { ILocation } from "@core/interfaces/location.interface";
+import { IUser } from "@core/interfaces/user/user-interface";
 
 export interface ISlot {
     id: number;
@@ -15,4 +16,5 @@ export interface ISlot {
     frequency: number;
     isEnabled: boolean;
     isVisible: boolean;
+    members: IUser[];
 }

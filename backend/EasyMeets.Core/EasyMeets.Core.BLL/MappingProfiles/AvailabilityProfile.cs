@@ -26,7 +26,8 @@ public class AvailabilityProfile : Profile
             .ForMember(s => s.AllowToAddGuests, opt => opt.MapFrom(src => src.EventDetails!.AllowToAddGuests))
             .ForMember(s => s.PasswordProtection, opt => opt.MapFrom(src => src.EventDetails!.PasswordProtection))
             .ForMember(s => s.TimeZoneVisibility, opt => opt.MapFrom(src => src.EventDetails!.TimeZoneVisibility));
-        CreateMap<AvailabilitySlot, AvailabilitySlotDto>();
+        CreateMap<AvailabilitySlot, AvailabilitySlotDto>()
+            .ForMember(s => s.Members, opt => opt.MapFrom(src => src.Members.Select(userSlot => userSlot.User)));
         CreateMap<AvailabilitySlotDto, AvailabilitySlot>();
     }
 }

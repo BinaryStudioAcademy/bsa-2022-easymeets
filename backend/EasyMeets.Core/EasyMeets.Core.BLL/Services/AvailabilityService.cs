@@ -51,6 +51,8 @@ namespace EasyMeets.Core.BLL.Services
                     .Where(slot => slot.Type == SlotType.Personal)
                     .Include(slot => slot.Author)
                     .Include(slot => slot.Location)
+                    .Include(slot => slot.Members)
+                    .ThenInclude(userSlot => userSlot.User)
                     .ToListAsync())
                  .GroupBy(slot => slot.Author)
                  .Select(slots => new AuthorSlotsDto
@@ -68,6 +70,8 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(team => team.TeamMembers)
                     .ThenInclude(member => member.User)
                     .Include(slot => slot.Location)
+                    .Include(slot => slot.Members)
+                    .ThenInclude(userSlot => userSlot.User)
                     .ToListAsync())
                 .GroupBy(slot => slot.Team)
                 .Select(slots => new TeamSlotsDto
