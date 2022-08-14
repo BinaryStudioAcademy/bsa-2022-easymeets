@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EasyMeets.Core.Common.DTO.Availability;
-using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+﻿using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 
 namespace EasyMeets.Core.BLL.Interfaces
 {
