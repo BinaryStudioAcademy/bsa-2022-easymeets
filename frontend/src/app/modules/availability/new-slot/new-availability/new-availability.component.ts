@@ -1,6 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { getNewAvailabilityMenu } from '@core/helpers/new-availability-menu-helper';
 import { SideMenuGroup } from '@core/interfaces/sideMenu/sideMenuGroup';
+import { ISlot } from "@core/interfaces/slot/slot-interface";
 
 @Component({
     selector: 'app-new-availability',
@@ -17,6 +18,10 @@ export class NewAvailabilityComponent implements OnInit {
     public sideMenuGroups: SideMenuGroup[];
 
     public isActive: boolean = true;
+
+    @Input() public slot?: ISlot;
+
+    @Input() public title: string;
 
     ngOnInit(): void {
         this.initializeSideMenu();

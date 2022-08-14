@@ -12,6 +12,9 @@ import { NewAvailabilityComponent } from './new-slot/new-availability/new-availa
 import { SlotComponent } from './slot/slot.component';
 import { SlotsBlockComponent } from './slots-block/slots-block.component';
 import { AvailabilityRoutingModule } from './availability-routing.module';
+import {
+    NewAvailabilityPageComponent
+} from "@modules/availability/new-slot/new-availability-page/new-availability-page.component";
 
 @NgModule({
     declarations: [
@@ -22,6 +25,7 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         EventDetailComponent,
         NewAvailabilityComponent,
         EditAvailabilityPageComponent,
+        NewAvailabilityPageComponent,
     ],
     imports: [CommonModule, AvailabilityRoutingModule, MaterialModule, SideMenuModule, SharedModule],
 })

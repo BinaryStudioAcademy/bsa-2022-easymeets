@@ -21,6 +21,8 @@ export class EditAvailabilityPageComponent implements OnInit, AfterViewInit {
 
     private subscription: Subscription;
 
+    public slot?: ISlot;
+
     constructor(
         private router: Router,
         private activateRoute: ActivatedRoute,
@@ -48,6 +50,7 @@ export class EditAvailabilityPageComponent implements OnInit, AfterViewInit {
                 .getRequest<ISlot>(`/availability/${this.id}`)
                 .subscribe(slotResponse => {
                     console.log(slotResponse);
+                    this.slot = slotResponse;
                     this.spinnerService.hide();
                 });
         });

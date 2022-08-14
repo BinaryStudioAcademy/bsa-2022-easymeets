@@ -8,6 +8,9 @@ import { GeneralComponent } from '@modules/availability/new-slot/general/general
 import { NewAvailabilityComponent } from '@modules/availability/new-slot/new-availability/new-availability.component';
 
 import { AvailabilityPageComponent } from './availability-page/availability-page.component';
+import {
+    NewAvailabilityPageComponent
+} from "@modules/availability/new-slot/new-availability-page/new-availability-page.component";
 
 const routes: Routes = [
     {
@@ -16,7 +19,7 @@ const routes: Routes = [
     },
     {
         path: 'new',
-        component: NewAvailabilityComponent,
+        component: NewAvailabilityPageComponent,
         children: [
             {
                 path: 'general',
