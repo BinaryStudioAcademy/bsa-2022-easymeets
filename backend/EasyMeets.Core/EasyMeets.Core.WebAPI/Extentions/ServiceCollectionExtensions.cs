@@ -33,6 +33,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 cfg.AddProfile<SampleProfile>();
                 cfg.AddProfile<AvailabilityProfile>();
                 cfg.AddProfile<UserProfile>();
+                cfg.AddProfile<TeamProfile>();
             });
             
         }

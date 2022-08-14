@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Availability;
+using EasyMeets.Core.Common.DTO.Availability.AvailabilitySlotsResponse;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+using EasyMeets.Core.Common.DTO.Team;
+using EasyMeets.Core.Common.DTO.User;
+using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,9 +45,41 @@ namespace EasyMeets.Core.BLL.Services
             return _mapper.Map<AvailabilitySlotDto>(availabilitySlot);
         }
         
-        public async Task<List<AvailabilitySlotDto>> GetAvailabilitySlots()
+        private async Task<IEnumerable<AuthorSlotsDto>> GetPersonalAvailabilitySlotsWithAuthors()
         {
-            return _mapper.Map<List<AvailabilitySlotDto>>(await _context.AvailabilitySlots.ToListAsync());
+            return (await _context.AvailabilitySlots
+                    .Where(slot => slot.Type == SlotType.Personal)
+                    .Include(slot => slot.Author)
+                    .ToListAsync())
+                 .GroupBy(slot => slot.Author)
+                 .Select(slots => new AuthorSlotsDto
+                 {
+                     Author = _mapper.Map<UserDto>(slots.Key),
+                     AvailabilitySlots = _mapper.Map<List<AvailabilitySlotDto>>(slots.ToList())
+                 });
+        }
+        
+        private async Task<IEnumerable<TeamSlotsDto>> GetTeamAvailabilitySlotsWithTeams()
+        {
+            return (await _context.AvailabilitySlots
+                    .Where(slot => slot.Type == SlotType.Team)
+                    .Include(slot => slot.Team)
+                    .ToListAsync())
+                .GroupBy(slot => slot.Team)
+                .Select(slots => new TeamSlotsDto
+                {
+                    Team = _mapper.Map<TeamDto>(slots.Key),
+                    AvailabilitySlots = _mapper.Map<List<AvailabilitySlotDto>>(slots.ToList())
+                });
+        }
+
+        public async Task<AvailabilitySlotsResponseDto> GetAvailabilitySlotsResponseDto()
+        {
+            return new AvailabilitySlotsResponseDto
+            {
+                PersonalAvailabilitySlotsWithAuthors = await GetPersonalAvailabilitySlotsWithAuthors(),
+                TeamAvailabilitySlotsWithTeams = await GetTeamAvailabilitySlotsWithTeams()
+            };
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Availability;
+using EasyMeets.Core.Common.DTO.Availability.AvailabilitySlotsResponse;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class AvailabilityController : ControllerBase
@@ -26,7 +26,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<AvailabilitySlotDto>> GetAvailabilitySlots()
         {
-            return Ok(await _availabilityService.GetAvailabilitySlots());
+            return Ok(await _availabilityService.GetAvailabilitySlotsResponseDto());
         }
 
         [HttpPost]
