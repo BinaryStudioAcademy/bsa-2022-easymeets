@@ -5,15 +5,15 @@
             <mat-slide-toggle [checked]="isChecked" (change)="toggle($event)"></mat-slide-toggle>
         </div>
         <div class="time-options">
-            <p>{{ slot.time }} meeting</p>
+            <p>{{ slot.size }} meeting</p>
         </div>
         <div class="meeting-details">
-            <p>{{ slot.time }}, {{ slot.user }}, {{ slot.meetingPlace }}</p>
-            <div class="avatar-list">
-                <div *ngFor="let _avatar of slot.avatars">
-                    <img [src]="_avatar" class="avatar" />
-                </div>
-            </div>
+            <p>{{ slot.size }}, * of * Team Members together, {{ slot.location?.name ?? '' }}</p>
+<!--            <div class="avatar-list">-->
+<!--                <div *ngFor="let _avatar of slot.avatars">-->
+<!--                    <img [src]="_avatar" class="avatar" />-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
         <hr />
         <div class="options">
@@ -48,15 +48,15 @@
             <mat-slide-toggle [checked]="isChecked" (change)="toggle($event)"></mat-slide-toggle>
         </div>
         <div class="time-options">
-            <p>{{ slot.time }} meeting</p>
+            <p>{{ slot.size }} meeting</p>
         </div>
         <div class="meeting-details">
-            <p>{{ slot.time }}, {{ slot.user }}, {{ slot.meetingPlace }}</p>
-            <div class="avatar-list">
-                <div *ngFor="let _avatar of slot.avatars">
-                    <img [src]="_avatar" class="avatar" />
-                </div>
-            </div>
+            <p>{{ slot.size }}, * of * Team Members together, {{ slot.location?.name ?? '' }}</p>
+<!--            <div class="avatar-list">-->
+<!--                <div *ngFor="let _avatar of slot.avatars">-->
+<!--                    <img [src]="_avatar" class="avatar" />-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
         <hr />
         <div class="options">

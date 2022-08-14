@@ -1,8 +1,18 @@
+import { SlotType } from "@core/enums/slot-type.enum";
+import { ILocation } from "@core/interfaces/location.interface";
+
 export interface ISlot {
     id: number;
-    time: string;
-    user: string;
+    teamId: number;
+    locationId: number;
+    location?: ILocation;
+    advancedSlotSettingsId: number;
+    name: string;
+    description: string;
     link: string;
-    meetingPlace: string;
-    avatars: Array<string>;
+    type: SlotType;
+    size: number;
+    frequency: number;
+    isEnabled: boolean;
+    isVisible: boolean;
 }

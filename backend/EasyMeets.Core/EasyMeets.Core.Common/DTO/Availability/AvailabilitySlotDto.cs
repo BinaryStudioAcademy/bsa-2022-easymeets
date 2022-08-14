@@ -7,6 +7,7 @@ public class AvailabilitySlotDto
     public long Id { get; set; }
     public long TeamId { get; set; }
     public long LocationId { get; set; }
+    public LocationDto Location { get; set; } 
     public long? AdvancedSlotSettingsId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
