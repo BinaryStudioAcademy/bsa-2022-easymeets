@@ -9,6 +9,8 @@ public class TeamProfile : Profile
     public TeamProfile()
     {
         CreateMap<TeamDto, Team>();
-        CreateMap<Team, TeamDto>();
+        CreateMap<Team, TeamDto>()
+            .ForMember(dto => dto.Members,
+                opt => opt.MapFrom(src => src.TeamMembers.Select(member => member.User)));
     }
 }

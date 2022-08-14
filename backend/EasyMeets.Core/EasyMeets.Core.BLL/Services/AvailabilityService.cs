@@ -64,6 +64,8 @@ namespace EasyMeets.Core.BLL.Services
             return (await _context.AvailabilitySlots
                     .Where(slot => slot.Type == SlotType.Team)
                     .Include(slot => slot.Team)
+                    .ThenInclude(team => team.TeamMembers)
+                    .ThenInclude(member => member.User)
                     .ToListAsync())
                 .GroupBy(slot => slot.Team)
                 .Select(slots => new TeamSlotsDto

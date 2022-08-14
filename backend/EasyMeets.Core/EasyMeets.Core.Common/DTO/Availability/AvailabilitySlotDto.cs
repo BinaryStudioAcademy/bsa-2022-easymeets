@@ -4,6 +4,7 @@ namespace EasyMeets.Core.Common.DTO.Availability;
 
 public class AvailabilitySlotDto
 {
+    public long Id { get; set; }
     public long TeamId { get; set; }
     public long LocationId { get; set; }
     public long? AdvancedSlotSettingsId { get; set; }
