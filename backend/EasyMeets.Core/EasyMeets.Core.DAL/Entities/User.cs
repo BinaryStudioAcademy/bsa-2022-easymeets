@@ -1,8 +1,10 @@
+using System.ComponentModel.DataAnnotations;
 using EasyMeets.Core.Common.Enums;
+using EasyMeets.Core.Common.Validation;
 
 namespace EasyMeets.Core.DAL.Entities;
 
-public class User : Entity<long>
+public class User : Entity<long>, IValidatableObject
 {
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
@@ -21,4 +23,21 @@ public class User : Entity<long>
     public ICollection<TeamMemberMeeting> TeamMeetings { get; set; } = new List<TeamMemberMeeting>();
     public ICollection<UserSlot> Slots { get; set; } = new List<UserSlot>();
     public ICollection<AvailabilitySlot> CreatedSlots { get; set; } = new List<AvailabilitySlot>();
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!Name.IsValidUsername() || Name.Length is < 2 or > 50)
+        {
+            yield return new ValidationResult("Invalid user name");
+        }
+        
+        if(!Email.IsValidEmail() || Email.Length is < 5 or > 51)
+        {
+            yield return new ValidationResult("Invalid email");
+        }
+
+        if (!PhoneNumber!.IsValidPhoneNumber())
+        {
+            yield return new ValidationResult("Invalid phone number");
+        }
+    }
 }

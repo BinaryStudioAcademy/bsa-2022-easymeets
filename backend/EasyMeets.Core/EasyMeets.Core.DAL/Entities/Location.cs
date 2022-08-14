@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+using EasyMeets.Core.Common.Validation;
+
 namespace EasyMeets.Core.DAL.Entities;
 
-public class Location : Entity<long>
+public class Location : Entity<long>, IValidatableObject
 {
     public Location()
     {
@@ -11,4 +14,11 @@ public class Location : Entity<long>
     
     public ICollection<Meeting> Meetings { get; set; }
     public ICollection<AvailabilitySlot> AvailabilitySlots { get; set; }
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!Name.IsValidMeetingLocation())
+        {
+            yield return new ValidationResult("Invalid meeting name");
+        }
+    }
 }
