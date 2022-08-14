@@ -1,7 +1,20 @@
 <div class="container">
     <app-loading-spinner>
     </app-loading-spinner>
-    <div class="teams-container" *ngFor="let teamSlots of slotsResponse?.teamAvailabilitySlotsWithTeams ?? []">
-        <app-team [teamSlots]="teamSlots"></app-team>
+    <div class="teams-container" *ngFor="let teamSlots of slotsResponse?.teamAvailabilitySlotsWithTeams">
+        <app-team
+            [availabilitySlots]="teamSlots.availabilitySlots"
+            [team]="teamSlots.team"
+            [name]="teamSlots.team.name"
+            [link]="teamSlots.team.pageLink">
+        </app-team>
+    </div>
+    <div class="teams-container" *ngFor="let personalSlots of slotsResponse?.personalAvailabilitySlotsWithAuthors">
+        <app-team
+            [availabilitySlots]="personalSlots.availabilitySlots"
+            [author]="personalSlots.author"
+            [name]="personalSlots.author.userName ?? ''"
+            [link]="personalSlots.author.image ?? ''">
+        </app-team>
     </div>
 </div>
