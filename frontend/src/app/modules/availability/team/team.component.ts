@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AvailabilitySlotsGroupByTeamsDto } from '@core/models/availability-slots-group-by-team';
 import { AvailabilitySlot } from '@core/models/availiability-slot';
-import { TeamWithSlots } from '@core/models/team-with-slot';
 import { SpinnerService } from '@core/services/spinner.service';
 
 @Component({
@@ -9,14 +9,17 @@ import { SpinnerService } from '@core/services/spinner.service';
     styleUrls: ['./team.component.sass'],
 })
 export class TeamComponent implements OnInit {
-    @Input() public team: TeamWithSlots;
+    @Input() public teamSlot: AvailabilitySlotsGroupByTeamsDto;
 
     public slots: Array<AvailabilitySlot>;
+
+    public teamName: string;
 
     // eslint-disable-next-line no-empty-function
     constructor(public spinnerService: SpinnerService) {}
 
     ngOnInit(): void {
-        this.slots = this.team.availabilitySlots;
+        this.slots = this.teamSlot.availabilitySlots;
+        this.teamName = this.teamSlot.name;
     }
 }

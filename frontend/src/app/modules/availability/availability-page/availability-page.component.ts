@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
+import { AvailabilitySlotsGroupByTeamsDto } from '@core/models/availability-slots-group-by-team';
 import { AvailabilitySlot } from '@core/models/availiability-slot';
-import { TeamWithSlots } from '@core/models/team-with-slot';
 import { User } from '@core/models/user';
+import { UserPersonalAndTeamSlots } from '@core/models/user-personal-and-team-slots';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { UserService } from '@core/services/user.service';
 
@@ -11,7 +12,11 @@ import { UserService } from '@core/services/user.service';
     styleUrls: ['./availability-page.component.sass'],
 })
 export class AvailabilityPageComponent {
-    public teams: TeamWithSlots[];
+    public teamSlots: AvailabilitySlotsGroupByTeamsDto[];
+
+    public userPersonalSlots: AvailabilitySlot[];
+
+    public userPersonalAndTeamSlots: UserPersonalAndTeamSlots;
 
     public currentUser: User;
 
@@ -23,22 +28,14 @@ export class AvailabilityPageComponent {
         this.getCurrentUser();
     }
 
-    public getAllAvailabilitySlotsForTeam() {
+    public getUserPersonalAndTeamSlots() {
         this.availabilitySlotService
-            .getAvailabilitySlotsGroupByTeams(this.currentUser.id)
+            .getUserPersonalAndTeamSlots(this.currentUser.id)
             .subscribe(
                 (resp) => {
-                    this.teams = resp;
-                },
-            );
-    }
-
-    public getAllUsersAvailabilitySlots() {
-        this.availabilitySlotService
-            .getAllUsersAvailabilitySlots(this.currentUser.id)
-            .subscribe(
-                (resp) => {
-                    this.userSlots = resp;
+                    this.userPersonalAndTeamSlots = resp;
+                    this.teamSlots = this.userPersonalAndTeamSlots.teamSlots;
+                    this.userPersonalSlots = this.userPersonalAndTeamSlots.userSlots;
                 },
             );
     }
@@ -50,8 +47,7 @@ export class AvailabilityPageComponent {
                 (resp) => {
                     if (resp) {
                         this.currentUser = resp;
-                        this.getAllAvailabilitySlotsForTeam();
-                        this.getAllUsersAvailabilitySlots();
+                        this.getUserPersonalAndTeamSlots();
                     }
                 },
             );
