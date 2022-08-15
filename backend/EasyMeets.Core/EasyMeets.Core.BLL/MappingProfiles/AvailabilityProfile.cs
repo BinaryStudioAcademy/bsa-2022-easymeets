@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EasyMeets.Core.Common.DTO.Availability;
+using EasyMeets.Core.Common.DTO.Availability.AdvancedSlotSettings;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.DAL.Entities;
 
@@ -12,8 +13,6 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             CreateMap<AvailabilitySlot, AvailabilitySlotDto>()
                 .ForMember(dest => dest.Members, opt => opt.MapFrom(src => src.Members.Select(x => x.User)));
             CreateMap<AvailabilitySlotDto, AvailabilitySlot>();
-
-            CreateMap<NewAdvancedSlotSettingsDto, AdvancedSlotSettings>();
             CreateMap<NewAvailabilitySlotDto, AvailabilitySlot>()
             .ForMember(s => s.TeamId, opt => opt.MapFrom(src => src.GeneralDetails!.TeamId))
             .ForMember(s => s.LocationId, opt => opt.MapFrom(src => src.GeneralDetails!.LocationId))
@@ -30,6 +29,10 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             .ForMember(s => s.AllowToAddGuests, opt => opt.MapFrom(src => src.EventDetails!.AllowToAddGuests))
             .ForMember(s => s.PasswordProtection, opt => opt.MapFrom(src => src.EventDetails!.PasswordProtection))
             .ForMember(s => s.TimeZoneVisibility, opt => opt.MapFrom(src => src.EventDetails!.TimeZoneVisibility));
+            
+            CreateMap<NewAdvancedSlotSettingsDto, AdvancedSlotSettings>();
+            CreateMap<AdvancedSlotSettings, AdvancedSlotSettingsDto>();
+            CreateMap<AdvancedSlotSettingsDto, AdvancedSlotSettings>();
         }
     }
 }

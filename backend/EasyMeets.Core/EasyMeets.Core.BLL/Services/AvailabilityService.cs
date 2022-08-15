@@ -73,7 +73,9 @@ namespace EasyMeets.Core.BLL.Services
         
         public async Task<AvailabilitySlotDto> GetAvailabilitySlotById(long id)
         {
-            var availabilitySlot = await _context.AvailabilitySlots.FirstOrDefaultAsync(_ => _.Id == id);
+            var availabilitySlot = await _context.AvailabilitySlots
+                .Include(slot => slot.AdvancedSlotSettings)
+                .FirstOrDefaultAsync(_ => _.Id == id);
             if (availabilitySlot is null)
             {
                 throw new KeyNotFoundException("Availability slot doesn't exist");
