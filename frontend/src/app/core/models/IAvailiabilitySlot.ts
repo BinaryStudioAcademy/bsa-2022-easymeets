@@ -12,7 +12,7 @@ export interface IAvailabilitySlot {
     locationName: string;
     members: IAvailabilitySlotMember[];
     advancedSlotSettingsId?: number;
-    advancedSlotSettingsDto?: IAdvancedSlotSettings;
+    advancedSlotSettings?: IAdvancedSlotSettings;
     welcomeMessage: string;
     frequency: number;
     language: string;

@@ -33,6 +33,7 @@ export class NewAvailabilityComponent implements OnInit {
 
     ngOnInit(): void {
         this.initializeSideMenu();
+        this.isActive =this.slot?.isEnabled ?? true;
     }
 
     private initializeSideMenu() {

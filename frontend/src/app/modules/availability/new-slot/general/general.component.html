@@ -4,7 +4,7 @@
             <p class="input-description">Slot size (Meeting Duration)</p>
             <div class="input">
                 <select [(ngModel)]="settings.slotSize" name="slotSize">
-                    <option *ngFor="let slotSize of slotSizes" [value]="slotSize">{{slotSize}}</option>
+                    <option *ngFor="let slotSize of slotSizes" [value]="slotSize">{{slotSize}} min</option>
                 </select>
             </div>
         </div>
@@ -13,7 +13,7 @@
             <div class="input">
                 <select [(ngModel)]="settings.slotFrequency" name="slotFrequency">
                     <option *ngFor="let slotFrequency of slotsFrequencies"
-                            [value]="slotFrequency">{{slotFrequency}}</option>
+                            [value]="slotFrequency">{{slotFrequency}} hours</option>
                 </select>
             </div>
         </div>
@@ -44,8 +44,8 @@
         <div class="input-container">
             <p class="input-description">Slot Activity Time</p>
             <mat-radio-group [(ngModel)]="settings.slotActivityOption" [disabled]="!addAdvanced">
-                <mat-radio-button *ngFor="let slotActivity of slotActivityOptions"
-                                  [value]="slotActivity">{{slotActivity}}</mat-radio-button>
+                <mat-radio-button *ngFor="let slotActivity of this.slotActivityOptionsEnums; index as i"
+                                  [value]="slotActivity">{{this.slotActivityOptions[i]}}</mat-radio-button>
             </mat-radio-group>
             <div class="input">
                 <input [(ngModel)]="settings.slotActivityValue" type="text" matInput>
@@ -62,7 +62,7 @@
             <div class="input">
                 <select [(ngModel)]="settings.meetingPadding" name="meetingPadding" [disabled]="!addAdvanced">
                     <option *ngFor="let meetingPadding of meetingPaddings"
-                            [value]="meetingPadding">{{meetingPadding}}</option>
+                            [value]="meetingPadding">{{meetingPadding}} min</option>
                 </select>
             </div>
         </div>
@@ -74,7 +74,7 @@
                         [disabled]="!addAdvanced">
                     <option *ngFor="let bookingMeetingDifference of minBookingMeetingDifferences"
                             [value]="bookingMeetingDifference">
-                        {{bookingMeetingDifference}}
+                        {{bookingMeetingDifference}} hours
                     </option>
                 </select>
             </div>
