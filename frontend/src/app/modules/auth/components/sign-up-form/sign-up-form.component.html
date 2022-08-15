@@ -2,14 +2,29 @@
     <div class="form-inputs flex-col">
         <mat-label class="outside-label bold">Email</mat-label>
         <mat-form-field appearance="outline">
-            <input matInput id="email" type="email" formControlName="email" placeholder="email@email.com" required />
-            <mat-error *ngIf="signUpForm.controls['email'].hasError('required')">You must enter a value</mat-error>
-            <mat-error *ngIf="signUpForm.controls['email'].hasError('email')">Email format is invalid</mat-error>
+            <input matInput id="email" type="email" formControlName="email" placeholder="email@email.com" />
+            <mat-error
+                *ngIf="
+                    signUpForm.controls['email'].hasError('email') ||
+                    signUpForm.controls['email'].hasError('required') ||
+                    signUpForm.controls['email'].hasError('incorrectCredentials')
+                "
+                >Email format is invalid</mat-error
+            >
         </mat-form-field>
         <mat-label class="outside-label bold">Name</mat-label>
         <mat-form-field appearance="outline">
-            <input matInput id="name" type="text" formControlName="name" placeholder="Jack White" required />
-            <mat-error *ngIf="signUpForm.controls['name'].hasError('required')">You must enter a value</mat-error>
+            <input matInput id="name" type="text" formControlName="name" placeholder="Jack White" />
+            <mat-error
+                *ngIf="
+                    signUpForm.controls['name'].hasError('required') ||
+                    signUpForm.controls['name'].hasError('minlength') ||
+                    signUpForm.controls['name'].hasError('maxlength') ||
+                    signUpForm.controls['name'].hasError('pattern') ||
+                    signUpForm.controls['name'].hasError('incorrectCredentials')
+                "
+                >Name format is invalid</mat-error
+            >
         </mat-form-field>
         <mat-label class="outside-label bold">Password</mat-label>
         <mat-form-field appearance="outline">
@@ -18,22 +33,25 @@
                 id="password"
                 [type]="hidePassword ? 'password' : 'text'"
                 formControlName="password"
-                placeholder="●●●●●●●●●●"
-                required
-            />
+                placeholder="●●●●●●●●●●" />
             <button
                 mat-icon-button
                 matSuffix
                 type="button"
                 (click)="hidePassword = !hidePassword"
                 [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hidePassword"
-            >
+                [attr.aria-pressed]="hidePassword">
                 <mat-icon color="primary">{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
-            <mat-error *ngIf="signUpForm.controls.password.invalid">
-                {{ checkErrors('password') }}
-            </mat-error>
+            <mat-error
+                *ngIf="
+                    signUpForm.controls['password'].hasError('required') ||
+                    signUpForm.controls['password'].hasError('minlength') ||
+                    signUpForm.controls['password'].hasError('maxlength') ||
+                    signUpForm.controls['password'].hasError('incorrectCredentials')
+                "
+                >Incorret authentication credentials</mat-error
+            >
         </mat-form-field>
         <mat-label class="outside-label bold">Repeat password</mat-label>
         <mat-form-field appearance="outline">
@@ -43,28 +61,21 @@
                 [type]="hidePassword ? 'password' : 'text'"
                 formControlName="confirmPassword"
                 placeholder="●●●●●●●●●●"
-                required
-            />
+                [errorStateMatcher]="matcher" />
             <button
                 mat-icon-button
                 matSuffix
                 type="button"
                 (click)="hidePassword = !hidePassword"
                 [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hidePassword"
-            >
+                [attr.aria-pressed]="hidePassword">
                 <mat-icon color="primary">{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
-            <mat-error *ngIf="signUpForm.controls.confirmPassword.invalid">
-                {{ checkErrors('confirmPassword') }}
-            </mat-error>
-            <mat-error *ngIf="signUpForm.hasError('not_matching')">The password doesn't match! </mat-error>
+            <mat-error *ngIf="matcher.passwordsMismatch">Passwords don't match</mat-error>
         </mat-form-field>
     </div>
     <div class="form-actions flex-col h-align-center">
-        <button class="full-width" mat-flat-button color="primary" type="submit">
-            Register
-        </button>
+        <button class="full-width" mat-flat-button color="primary" type="submit">Register</button>
         <p class="bold">or</p>
         <button mat-raised-button class="social-google-btn full-width" type="button" (click)="onSignInWithGoogle()">
             <mat-icon svgIcon="google-logo"></mat-icon>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 
@@ -24,7 +24,7 @@ export class SignInFormComponent {
     // eslint-disable-next-line no-empty-function
     constructor(private authService: AuthService, private router: Router) {}
 
-    private setIncorrectCredentials() {
+    private setCredentialsIncorrect() {
         this.signInForm.get('email')?.setErrors({ incorrectCredentials: true });
         this.signInForm.get('password')?.setErrors({ incorrectCredentials: true });
     }
@@ -33,7 +33,7 @@ export class SignInFormComponent {
         if (resp) {
             this.router.navigateByUrl('main');
         } else {
-            this.setIncorrectCredentials();
+            this.setCredentialsIncorrect();
         }
     }
 

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
-import { CustomValidators } from '@modules/auth/validators/custom-validators';
+import { PasswordsErrorStateMatcher } from '@modules/auth/validators/passwordsErrorStateMatcher';
 
 @Component({
     selector: 'app-sign-up-form',
@@ -10,48 +10,53 @@ import { CustomValidators } from '@modules/auth/validators/custom-validators';
     styleUrls: ['./sign-up-form.component.sass', '../../shared-styles.sass'],
 })
 export class SignUpFormComponent {
+    public matcher = new PasswordsErrorStateMatcher();
+
     public hidePassword = true;
 
-    public signUpForm = new FormGroup(
-        {
-            email: new FormControl('', [Validators.required, Validators.email]),
-            name: new FormControl('', [Validators.required]),
-            password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-            confirmPassword: new FormControl('', [Validators.required]),
-        },
-        {
-            validators: CustomValidators.passwordsMatching,
-            updateOn: 'blur', // 'change' | 'blur' | 'submit'
-        },
-    );
+    public signUpForm = new FormGroup({
+        email: new FormControl('', { validators: [Validators.required, Validators.email], updateOn: 'submit' }),
+        name: new FormControl('', {
+            validators: [
+                Validators.required,
+                Validators.minLength(3),
+                Validators.maxLength(50),
+                Validators.pattern('^[a-zA-Zа-яА-Я0-9- ]+$'),
+            ],
+            updateOn: 'submit',
+        }),
+        password: new FormControl('', {
+            validators: [Validators.required, Validators.minLength(8), Validators.maxLength(30)],
+            updateOn: 'blur',
+        }),
+        confirmPassword: new FormControl('', { updateOn: 'blur' }),
+    });
 
     // eslint-disable-next-line no-empty-function
     constructor(private authService: AuthService, private router: Router) {}
 
+    private setCredentialsIncorrect() {
+        this.signUpForm.get('email')?.setErrors({ incorrectCredentials: true });
+        this.signUpForm.get('name')?.setErrors({ incorrectCredentials: true });
+        this.signUpForm.get('password')?.setErrors({ incorrectCredentials: true });
+    }
+
+    private handleAuthenticationResponce(resp: firebase.default.auth.UserCredential | void): void {
+        if (resp) {
+            this.router.navigateByUrl('main');
+        } else {
+            this.setCredentialsIncorrect();
+        }
+    }
+
     public onSignUp(): void {
-        this.authService
-            .signUp(this.signUpForm.value.email!, this.signUpForm.value.password!)
-            .then(() => this.router.navigateByUrl('main'));
+        const email = this.signUpForm.value.email ?? '';
+        const password = this.signUpForm.value.password ?? '';
+
+        this.authService.signUp(email, password).then((resp) => this.handleAuthenticationResponce(resp));
     }
 
     public onSignInWithGoogle(): void {
-        this.authService.loginWithGoogle().then(() => this.router.navigateByUrl('main'));
-    }
-
-    public checkErrors(control: string): string | undefined {
-        const { errors } = (this.signUpForm.controls as any)[control];
-
-        return this.getErrorMessage(errors);
-    }
-
-    private getErrorMessage(errors: ValidationErrors): string | undefined {
-        if (errors['required']) {
-            return 'Password is required!';
-        }
-        if (errors['minlength']) {
-            return 'Password should be longer than 6 characters!';
-        }
-
-        return undefined;
+        this.authService.loginWithGoogle().then((resp) => this.handleAuthenticationResponce(resp));
     }
 }
