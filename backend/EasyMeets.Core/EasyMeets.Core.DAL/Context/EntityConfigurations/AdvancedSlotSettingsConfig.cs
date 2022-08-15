@@ -28,10 +28,5 @@ public class AdvancedSlotSettingsConfig : IEntityTypeConfiguration<AdvancedSlotS
         
         builder.Property(s => s.Color)
             .IsRequired();
-        
-        builder.HasOne(s => s.AvailabilitySlot)
-            .WithOne(ad => ad.AdvancedSlotSettings)
-            .HasForeignKey<AvailabilitySlot>(s => s.AdvancedSlotSettingsId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }
