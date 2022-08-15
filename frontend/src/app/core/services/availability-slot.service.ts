@@ -15,4 +15,8 @@ export class AvailabilitySlotService {
     public getUserPersonalAndTeamSlots(currentUserId: number) {
         return this.httpService.getRequest<IUserPersonalAndTeamSlots>(`${this.routePrefix}/${currentUserId}`);
     }
+
+    public deleteSlot(slotId: bigint) {
+        return this.httpService.deleteRequest<null>(`${this.routePrefix}/${slotId}`);
+    }
 }
