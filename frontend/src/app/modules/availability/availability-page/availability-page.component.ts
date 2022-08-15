@@ -5,7 +5,7 @@ import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlot
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { UserService } from '@core/services/user.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-availability-page',
@@ -21,7 +21,9 @@ export class AvailabilityPageComponent {
 
     public currentUserId: number = 2;
 
-    private unsubscribe$ = new Subject<void>();
+    readonly untilThis = <T>(source: Observable<T>) => source.pipe(takeUntil(this.destroyed$));
+
+    protected destroyed$ = new Subject<void>();
 
     constructor(
         private availabilitySlotService: AvailabilitySlotService,
@@ -34,7 +36,7 @@ export class AvailabilityPageComponent {
     public getUserPersonalAndTeamSlots() {
         this.availabilitySlotService
             .getUserPersonalAndTeamSlots(this.currentUser.id)
-            .pipe(takeUntil(this.unsubscribe$))
+            .pipe(this.untilThis)
             .subscribe(
                 (resp) => {
                     this.userPersonalAndTeamSlots = resp;
@@ -47,7 +49,7 @@ export class AvailabilityPageComponent {
         this.spinnerService.show();
         this.userService
             .getCurrentUserById(this.currentUserId)
-            .pipe(takeUntil(this.unsubscribe$))
+            .pipe(this.untilThis)
             .subscribe(
                 (resp) => {
                     if (resp) {
