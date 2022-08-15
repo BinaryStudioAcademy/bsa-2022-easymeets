@@ -5,7 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@core/core.module';
 import { environment } from '@env/environment';
-import { HeaderModule } from '@modules/header/header.module';
 import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
 
@@ -19,7 +18,6 @@ import { AppRoutingModule } from './app-routing.module';
         BrowserAnimationsModule,
         CoreModule,
         SharedModule,
-        HeaderModule,
         AppRoutingModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
