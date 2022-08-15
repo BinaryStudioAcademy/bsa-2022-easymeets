@@ -13,8 +13,6 @@ import { IAvailabilitySlot } from "@core/models/IAvailiabilitySlot";
 export class EditAvailabilityPageComponent {
     private id: number | undefined;
 
-    private subscription: Subscription;
-
     public slot?: IAvailabilitySlot;
 
     // eslint-disable-next-line no-empty-function
@@ -24,7 +22,7 @@ export class EditAvailabilityPageComponent {
         private httpInternalService: HttpInternalService,
         private spinnerService: SpinnerService,
     ) {
-        this.subscription = this.activateRoute.params.subscribe(params => {
+        this.activateRoute.params.subscribe(params => {
             this.id = params['id'];
             this.spinnerService.show();
             this.httpInternalService
