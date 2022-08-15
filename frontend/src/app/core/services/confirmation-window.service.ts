@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { IConfirmDialogData } from '@core/models/IConfirmDialogData';
 import { ConfirmationWindowComponent } from '@shared/components/confirmation-window/confirmation-window.component';
-import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
-import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ConfirmationWindowService {
@@ -10,7 +9,7 @@ export class ConfirmationWindowService {
     constructor(private dialog: MatDialog) {
     }
 
-    openConfirmDialog(data: IConfirmDialogData): Observable<boolean> {
+    openConfirmDialog(data: IConfirmDialogData) {
         return this.dialog
             .open(ConfirmationWindowComponent, {
                 data,
