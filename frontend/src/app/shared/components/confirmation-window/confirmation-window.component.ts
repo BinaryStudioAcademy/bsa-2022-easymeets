@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, EventEmitter, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IConfirmButtonOptions } from '@core/models/IConfirmButtonOptions';
 import { IConfirmDialogData } from '@core/models/IConfirmDialogData';
@@ -13,13 +13,7 @@ export class ConfirmationWindowComponent {
 
     public message: string;
 
-    public acceptButtonOptions: IConfirmButtonOptions;
-
-    public cancelButtonOptions: IConfirmButtonOptions;
-
-    public isHasAcceptButton: boolean;
-
-    public isHasCancelButton: boolean;
+    public buttonsOptions: IConfirmButtonOptions[];
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData,
@@ -27,23 +21,11 @@ export class ConfirmationWindowComponent {
     ) {
         this.title = data.title;
         this.message = data.message;
-
-        if (data.acceptButton !== undefined) {
-            this.isHasAcceptButton = true;
-            this.acceptButtonOptions = data.acceptButton;
-        }
-
-        if (data.cancelButton !== undefined) {
-            this.isHasCancelButton = true;
-            this.cancelButtonOptions = data.cancelButton;
-        }
+        this.buttonsOptions = data.buttonsOptions;
     }
 
-    cancel() {
-        this.dialogRef.close(false);
-    }
-
-    accept() {
-        this.dialogRef.close(true);
+    onClick(event: EventEmitter<void>) {
+        event?.next();
+        this.dialogRef.close();
     }
 }
