@@ -29,7 +29,7 @@
                 <div>
                     <button class="fas fa-ellipsis menu-icon" [matMenuTriggerFor]="menu"></button>
                     <mat-menu #menu="matMenu" class="drop-down-menu">
-                        <button mat-menu-item class="btn edit"><i class="fa-solid fa-pen"></i>Edit</button>
+                        <button mat-menu-item class="btn edit" (click)="goToPage('/availability/edit/'+slot.id)"><i class="fa-solid fa-pen"></i>Edit</button>
                         <button mat-menu-item class="btn share">
                             <i class="fa-solid fa-arrow-up-from-bracket"></i>Share
                         </button>

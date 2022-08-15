@@ -14,20 +14,10 @@ const routes: Routes = [
     {
         path: 'new',
         component: NewAvailabilityComponent,
-        children: [
-            {
-                path: 'general',
-                component: GeneralComponent,
-            },
-            {
-                path: 'event-details',
-                component: EventDetailComponent,
-            },
-            {
-                path: '**',
-                redirectTo: 'general',
-            },
-        ],
+    },
+    {
+        path: 'edit/:id',
+        component: NewAvailabilityComponent
     },
 ];
 

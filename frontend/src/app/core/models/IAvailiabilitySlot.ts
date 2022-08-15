@@ -1,6 +1,7 @@
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
 
 export interface IAvailabilitySlot {
+    id: number;
     name: string;
     authorName: string;
     size: number;

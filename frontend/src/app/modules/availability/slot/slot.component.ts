@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-slot',
@@ -14,7 +15,14 @@ export class SlotComponent {
 
     public isChecked: boolean = true;
 
+    // eslint-disable-next-line no-empty-function
+    constructor(private router: Router) { }
+
     public toggle(event: MatSlideToggleChange) {
         this.isChecked = event.checked;
+    }
+
+    public goToPage(pageName: string) {
+        this.router.navigate([`${pageName}`]);
     }
 }
