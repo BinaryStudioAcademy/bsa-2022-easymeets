@@ -20,15 +20,16 @@
         <div class="input-container">
             <p class="input-description">Meeting Name</p>
             <div class="input">
-                <input [(ngModel)]="settings.meetingName" type="text" matInput>
+                <input [(ngModel)]="settings.meetingName" type="text" matInput />
             </div>
         </div>
         <div class="input-container">
             <p class="input-description">Meeting Location</p>
             <div class="input">
                 <select [(ngModel)]="settings.meetingLocation" name="meetingLocation">
-                    <option *ngFor="let meetingLocation of meetingLocations"
-                            [value]="meetingLocation">{{meetingLocation}}</option>
+                    <option *ngFor="let meetingLocation of meetingLocations" [value]="meetingLocation">
+                        {{ meetingLocation }}
+                    </option>
                 </select>
             </div>
         </div>
@@ -39,7 +40,7 @@
     <mat-slide-toggle [checked]="addAdvanced" (change)="addAdvanced = !addAdvanced"></mat-slide-toggle>
     <p class="advanced-settings-label">Advanced settings</p>
 </div>
-<div class="advanced-settings" [ngClass]="{'disabled': !addAdvanced}">
+<div class="advanced-settings" [ngClass]="{ disabled: !addAdvanced }">
     <div class="inputs-grid">
         <div class="input-container">
             <p class="input-description">Slot Activity Time</p>
@@ -48,13 +49,13 @@
                                   [value]="slotActivity">{{this.slotActivityOptions[i]}}</mat-radio-button>
             </mat-radio-group>
             <div class="input">
-                <input [(ngModel)]="settings.slotActivityValue" type="text" matInput>
+                <input [(ngModel)]="settings.slotActivityValue" type="text" matInput />
             </div>
         </div>
         <div class="input-container">
             <p class="input-description">Max. Number of Bookings per One Slot</p>
             <div class="input">
-                <input [(ngModel)]="settings.maxBookings" type="text" matInput [disabled]="!addAdvanced">
+                <input [(ngModel)]="settings.maxBookings" type="text" matInput [disabled]="!addAdvanced" />
             </div>
         </div>
         <div class="input-container">
@@ -88,7 +89,7 @@
             </div>
         </div>
         <div class="checkbox-container">
-            <input type="checkbox" [(ngModel)]="settings.hideFromCommon" [disabled]="!addAdvanced">
+            <input type="checkbox" [(ngModel)]="settings.hideFromCommon" [disabled]="!addAdvanced" />
             <span class="input-message">Hide this Availability Slots card from Common Booking Page</span>
         </div>
     </div>

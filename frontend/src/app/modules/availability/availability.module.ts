@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { HeaderModule } from '@modules/header/header.module';
 import { SideMenuModule } from '@modules/side-menu/side-menu.module';
 import { MaterialModule } from '@shared/material/material.module';
 
@@ -27,6 +27,6 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         EditAvailabilityPageComponent,
         NewAvailabilityPageComponent,
     ],
-    imports: [CommonModule, AvailabilityRoutingModule, MaterialModule, SideMenuModule, MatButtonToggleModule],
+    imports: [CommonModule, AvailabilityRoutingModule, MaterialModule, SideMenuModule, HeaderModule],
 })
 export class AvailabilityModule {}

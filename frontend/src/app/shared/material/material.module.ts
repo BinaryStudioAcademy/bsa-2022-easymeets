@@ -34,6 +34,7 @@ import { MatTabsModule } from '@angular/material/tabs';
         MatIconModule,
         MatTableModule,
         MatTabsModule,
+        MatSlideToggleModule,
     ],
     exports: [
         FormsModule,
@@ -52,6 +53,7 @@ import { MatTabsModule } from '@angular/material/tabs';
         MatIconModule,
         MatTableModule,
         MatTabsModule,
+        MatSlideToggleModule,
     ],
 })
 export class MaterialModule {}
