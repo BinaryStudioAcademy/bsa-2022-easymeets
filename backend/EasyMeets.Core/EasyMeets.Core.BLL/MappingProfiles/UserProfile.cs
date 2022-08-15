@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.User;
 using EasyMeets.Core.DAL.Entities;
 
@@ -17,6 +18,9 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(dest => dest.ImagePath, src => src.MapFrom(s => s.Image))
                 .ForMember(dest => dest.Name, src => src.MapFrom(s => s.UserName))
                 .ForMember(dest => dest.PhoneNumber, src => src.MapFrom(s => s.Phone));
+
+            CreateMap<UserSlot, AvailabilitySlotMemberDto>()
+               .ForMember(dest => dest.MemberImage, src => src.MapFrom(s => s.User.ImagePath)); 
         }
     }
 }
