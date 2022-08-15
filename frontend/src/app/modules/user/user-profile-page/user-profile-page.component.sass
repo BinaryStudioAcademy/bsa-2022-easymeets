@@ -76,3 +76,19 @@ label
     .mat-select-value
         color: $dark-gray
         font-size: 15px
+
+input
+    &:focus
+        &.ng-invalid
+            border-color: 2px solid $cinnabar
+            outline: $cinnabar
+
+    &.ng-invalid
+        border: 2px solid $cinnabar
+        outline: $cinnabar
+
+input
+    &:focus
+        &.ng-valid
+            outline: $royal-blue
+            border-color: $royal-blue
