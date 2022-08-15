@@ -62,7 +62,7 @@
             <div>Phone Number</div>
         </label>
         <div>
-            <input formControlName="phone">
+            <input formControlName="phone" mask="(000) 000 00 00" prefix="+38" [showMaskTyped]="true" placeHolderCharacter="_">
         </div>
     </div>
     <div class="item">

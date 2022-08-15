@@ -7,6 +7,7 @@ import { CoreModule } from '@core/core.module';
 import { environment } from '@env/environment';
 import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
+import { NgxMaskModule } from 'ngx-mask';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +23,7 @@ import { AppRoutingModule } from './app-routing.module';
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
         MaterialModule,
+        NgxMaskModule.forRoot(),
     ],
     providers: [],
     bootstrap: [AppComponent],
