@@ -22,6 +22,11 @@ const routes: Routes = [
         path: 'calendars',
         loadChildren: () => import('./modules/calendars/calendar.module').then((m) => m.CalendarModule),
     },
+    {
+        path: 'external-booking',
+        loadChildren: () =>
+            import('./modules/external-booking/external-booking.module').then((m) => m.ExternalBookingModule),
+    },
     { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
