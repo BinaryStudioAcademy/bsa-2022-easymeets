@@ -82,29 +82,8 @@
         <div class="input-container">
             <p class="input-description">Availability Slots Card Color</p>
             <div class="colorsRow">
-                <div class="colorButton" id="dark-blue-color">
-                    <input type="radio" name="color" value="dark-blue-color" [disabled]="!addAdvanced">
-                </div>
-                <div class="colorButton" id="light-red-color">
-                    <input type="radio" name="color" value="light-red-color" [disabled]="!addAdvanced">
-                </div>
-                <div class="colorButton" id="light-green-color">
-                    <input type="radio" name="color" value="light-green-color" [disabled]="!addAdvanced">
-                </div>
-                <div class="colorButton" id="yellow-green-color">
-                    <input type="radio" name="color" value="yellow-green-color" [disabled]="!addAdvanced">
-                </div>
-                <div class="colorButton" id="aqua-color">
-                    <input type="radio" name="color" value="aqua-color" [disabled]="!addAdvanced">
-                </div>
-                <div class="colorButton" id="blue-color">
-                    <input type="radio" name="color" value="blue-color" [disabled]="!addAdvanced">
-                </div>
-                <div class="colorButton" id="light-purple-color">
-                    <input type="radio" name="color" value="light-purple-color" [disabled]="!addAdvanced">
-                </div>
-                <div class="colorButton" id="red-color">
-                    <input type="radio" name="color" value="red-color" [disabled]="!addAdvanced">
+                <div class="colorButton" *ngFor="let colorInput of colorInputs" id="{{colorInput.id}}">
+                    <input type="radio" name="color" value="{{colorInput.enumValue}}" [disabled]="!addAdvanced">
                 </div>
             </div>
         </div>
