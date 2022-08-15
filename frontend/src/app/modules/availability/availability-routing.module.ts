@@ -8,6 +8,9 @@ import { NewAvailabilityComponent } from './new-slot/new-availability/new-availa
 import {
     EditAvailabilityPageComponent
 } from "@modules/availability/edit-slot/edit-availability-page/edit-availability-page.component";
+import {
+    NewAvailabilityPageComponent
+} from "@modules/availability/new-slot/new-availability-page/new-availability-page.component";
 
 const routes: Routes = [
     {
@@ -16,7 +19,7 @@ const routes: Routes = [
     },
     {
         path: 'new',
-        component: NewAvailabilityComponent,
+        component: NewAvailabilityPageComponent,
     },
     {
         path: 'edit/:id',

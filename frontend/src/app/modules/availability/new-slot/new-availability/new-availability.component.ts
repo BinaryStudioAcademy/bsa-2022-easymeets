@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { getNewAvailabilityMenu } from '@core/helpers/new-availability-menu-helper';
 import { Router } from "@angular/router";
 import { SideMenuGroupTabs } from "@core/interfaces/sideMenu/tabs/sideMenuGroupTabs";
+import { IAvailabilitySlot } from "@core/models/IAvailiabilitySlot";
 
 @Component({
     selector: 'app-new-availability',
@@ -10,6 +11,10 @@ import { SideMenuGroupTabs } from "@core/interfaces/sideMenu/tabs/sideMenuGroupT
 })
 export class NewAvailabilityComponent implements OnInit {
     @Input() showDeleteBlock: boolean = true;
+
+    @Input() public slot?: IAvailabilitySlot;
+
+    @Input() public title: string;
 
     @Output() saveChangesClick: EventEmitter<void> = new EventEmitter();
 

@@ -12,6 +12,7 @@ import { TeamComponent } from './team/team.component';
 import { UserSlotComponent } from './user-slot/user-slot.component';
 import { AvailabilityRoutingModule } from './availability-routing.module';
 import { EditAvailabilityPageComponent } from './edit-slot/edit-availability-page/edit-availability-page.component';
+import { NewAvailabilityPageComponent } from './new-slot/new-availability-page/new-availability-page.component';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import { EditAvailabilityPageComponent } from './edit-slot/edit-availability-pag
         EventDetailComponent,
         NewAvailabilityComponent,
         EditAvailabilityPageComponent,
+        NewAvailabilityPageComponent,
     ],
     imports: [CommonModule, AvailabilityRoutingModule, MaterialModule, SideMenuModule],
 })

@@ -15,6 +15,8 @@ export class EditAvailabilityPageComponent {
 
     private subscription: Subscription;
 
+    public slot?: IAvailabilitySlot;
+
     // eslint-disable-next-line no-empty-function
     constructor(
         private router: Router,
@@ -29,6 +31,7 @@ export class EditAvailabilityPageComponent {
                 .getRequest<IAvailabilitySlot>(`/availability/slot/${this.id}`)
                 .subscribe(slotResponse => {
                     console.log(slotResponse);
+                    this.slot = slotResponse;
                     this.spinnerService.hide();
                 });
         });
