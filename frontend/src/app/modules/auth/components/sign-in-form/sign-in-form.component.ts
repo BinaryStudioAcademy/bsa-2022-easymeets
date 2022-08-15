@@ -11,38 +11,43 @@ import { AuthService } from '@core/services/auth.service';
 export class SignInFormComponent {
     public hidePassword = true;
 
-    public signInForm = new FormGroup({
-        email: new FormControl('', [Validators.required, Validators.email]),
-        password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    });
+    public signInForm = new FormGroup(
+        {
+            email: new FormControl('', [Validators.required, Validators.email]),
+            password: new FormControl('', [Validators.required]),
+        },
+        {
+            updateOn: 'submit',
+        },
+    );
 
     // eslint-disable-next-line no-empty-function
     constructor(private authService: AuthService, private router: Router) {}
 
+    private setIncorrectCredentials() {
+        this.signInForm.get('email')?.setErrors({ incorrectCredentials: true });
+        this.signInForm.get('password')?.setErrors({ incorrectCredentials: true });
+    }
+
+    private handleAuthenticationResponce(resp: firebase.default.auth.UserCredential | void): void {
+        if (resp) {
+            this.router.navigateByUrl('main');
+        } else {
+            this.setIncorrectCredentials();
+        }
+    }
+
     public onSignIn(): void {
-        this.authService
-            .signIn(this.signInForm.value.email!, this.signInForm.value.password!)
-            .then(() => this.router.navigateByUrl('main'));
+        if (this.signInForm.valid) {
+            this.authService
+                .signIn(this.signInForm.value.email!, this.signInForm.value.password!)
+                .then((resp) => this.handleAuthenticationResponce(resp));
+        }
     }
 
     public onSignInWithGoogle(): void {
-        this.authService.loginWithGoogle().then(() => this.router.navigateByUrl('main'));
-    }
-
-    public checkErrors(control: string): string | undefined {
-        const { errors } = (this.signInForm.controls as any)[control];
-
-        return this.getErrorMessage(errors);
-    }
-
-    private getErrorMessage(errors: ValidationErrors): string | undefined {
-        if (errors['required']) {
-            return 'Password is required!';
+        if (this.signInForm.valid) {
+            this.authService.loginWithGoogle().then((resp) => this.handleAuthenticationResponce(resp));
         }
-        if (errors['minlength']) {
-            return 'Password should be longer than 6 characters!';
-        }
-
-        return undefined;
     }
 }
