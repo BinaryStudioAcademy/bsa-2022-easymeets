@@ -41,9 +41,11 @@
     <div class="form-actions flex-col h-align-center">
         <button class="full-width" mat-flat-button color="primary" type="submit">Sign In</button>
         <p class="bold">or</p>
-        <button mat-raised-button class="social-google-btn full-width" type="button" (click)="onSignInWithGoogle()">
-            <mat-icon svgIcon="google-logo"></mat-icon>
-            Sign in with Google
+        <button mat-raised-button class="social-google-btn" color="primary" type="button" (click)="onSignInWithGoogle()">
+            <div class="btn-icon">
+                <mat-icon svgIcon="google-logo"></mat-icon>
+            </div>
+            <div class="btn-content">Sign in with Google</div>
         </button>
     </div>
 </form>
