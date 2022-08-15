@@ -3,6 +3,7 @@ using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -26,6 +27,14 @@ namespace EasyMeets.Core.BLL.Services
                 entity.AdvancedSlotSettings = advancedSettings;
             }
             
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAvailabilitySlot(long slotId)
+        {
+            var slot = await _context.AvailabilitySlots.FirstAsync(el => el.Id == slotId);
+            _context.AvailabilitySlots.Remove(slot);
+
             await _context.SaveChangesAsync();
         }
     }
