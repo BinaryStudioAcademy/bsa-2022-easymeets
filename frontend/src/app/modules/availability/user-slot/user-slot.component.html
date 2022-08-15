@@ -1,7 +1,7 @@
 <div class="container">
     <div class="team-info">
-        <div class="team-name">
-            <div><h3>{{currentUser?.userName ?? ''}}</h3></div>
+        <div class="team-name" *ngIf="currentUser">
+            <div><h3>{{currentUser.userName}}</h3></div>
             <img src="assets/copy_icon.png" class="copy-icon" *ngIf="spinnerService.isLoading$ | async"/>
         </div>
     </div>

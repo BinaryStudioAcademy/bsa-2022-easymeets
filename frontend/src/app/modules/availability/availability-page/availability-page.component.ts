@@ -11,13 +11,13 @@ import { UserService } from '@core/services/user.service';
     styleUrls: ['./availability-page.component.sass'],
 })
 export class AvailabilityPageComponent {
-    public userPersonalAndTeamSlots: IUserPersonalAndTeamSlots | undefined;
+    public userPersonalAndTeamSlots: IUserPersonalAndTeamSlots;
 
     public currentUser: IUser;
 
     public userSlots: IAvailabilitySlot[];
 
-    public currentUserId: number = 1;
+    public currentUserId: number = 4;
 
     constructor(private availabilitySlotService: AvailabilitySlotService, private userService: UserService) {
         this.getCurrentUser();

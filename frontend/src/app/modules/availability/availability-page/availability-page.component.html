@@ -1,10 +1,13 @@
-<div class="container">
-    <div class="teams-container">
+<div class="container" >
+    <div class="teams-container" >
         <div class="buttons-container">
             <button mat-flat-button color="primary" routerLink="/availability/new">+ New Availability Slots</button>
         </div>
-        <app-user-slot [userSlots]="userPersonalAndTeamSlots?.userSlots ?? []" [currentUser]="currentUser"></app-user-slot>
-        <div *ngFor="let teamSlot of userPersonalAndTeamSlots?.teamSlots ?? []">
-            <app-team [teamSlot]="teamSlot"></app-team></div>
+        <div *ngIf="userPersonalAndTeamSlots">
+            <app-user-slot [userSlots]="userPersonalAndTeamSlots.userSlots" [currentUser]="currentUser"></app-user-slot>
+            <div *ngFor="let teamSlot of userPersonalAndTeamSlots.teamSlots">
+                <app-team [teamSlot]="teamSlot"></app-team>
+            </div>
+        </div>
     </div>
 </div>
