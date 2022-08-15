@@ -4,7 +4,7 @@
     </div>
     <div class="main-content">
         <div class="sidebar">
-            <img *ngIf="selectedUser.image !== null; else defaultImage" src="{{ selectedUser.image }}" />
+            <img *ngIf="selectedUser.image; else defaultImage" src="{{ selectedUser.image }}" />
             <ng-template #defaultImage>
                 <img src="assets/bulochka.PNG" />
             </ng-template>
