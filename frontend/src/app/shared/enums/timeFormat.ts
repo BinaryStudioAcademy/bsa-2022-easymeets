@@ -1,5 +1,4 @@
 export enum TimeFormat {
-    Thhmmss = 'Thhmmss',
-    Thhmm = 'Thhmm',
-    Thh = 'Thh',
+    TwelveHour = '12h',
+    TwentyFourHour = '24h',
 }

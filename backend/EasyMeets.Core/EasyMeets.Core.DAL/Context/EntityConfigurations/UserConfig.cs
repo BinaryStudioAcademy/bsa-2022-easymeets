@@ -15,13 +15,13 @@ public class UserConfig : IEntityTypeConfiguration<User>
         builder.Property(u => u.Email)
             .IsRequired()
             .HasMaxLength(50);
-        
+
         builder.Property(u => u.PhoneNumber)
-            .HasMaxLength(10);
-        
+            .HasMaxLength(20);
+
         builder.Property(u => u.ImagePath)
             .HasMaxLength(300);
-        
+
         builder.Property(u => u.TimeZone)
             .HasMaxLength(10);
     }

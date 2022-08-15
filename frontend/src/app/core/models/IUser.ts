@@ -7,6 +7,7 @@ import { TimeZone } from '@shared/enums/timeZone';
 export interface IUser {
     id: number
     userName: string
+    email: string
     image?: string
     language: Language
     timeFormat: TimeFormat

@@ -38,12 +38,26 @@ export class UserProfilePageComponent implements OnInit {
 
     countryValues = Object.values(Country);
 
-    OnSubmit(form: any) {
-        this.user.userName = form.value.userName;
-        console.log(form.value);
+    constructor(private userService: UserService) {
     }
 
-    constructor(private userService: UserService) {
+    OnSubmit(form: FormGroup) {
+        const editedUser: IUser = {
+            id: this.user.id,
+            email: this.user.email,
+            image: this.user.image,
+            phone: form.value.phone,
+            userName: form.value.userName,
+            country: form.value.country,
+            dateFormat: form.value.dateFormat,
+            language: form.value.language,
+            timeFormat: form.value.timeFormat,
+            timeZone: form.value.timeZone,
+        };
+
+        this.userService.editUser(editedUser).subscribe(
+            () => {},
+        );
     }
 
     ngOnInit(): void {
@@ -60,7 +74,6 @@ export class UserProfilePageComponent implements OnInit {
         this.userService.getCurrentUserById(1).subscribe((user) => {
             this.user = user;
             // this.editedUser = { ...this.user };
-
             this.userForm.patchValue({
                 userName: user.userName,
                 phone: user.phone,
