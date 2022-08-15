@@ -1,4 +1,4 @@
-<mat-nav-list class="side-list">
+<mat-nav-list class="side-list" [disableRipple]="true">
     <ng-container *ngFor="let group of groups">
         <div class="group-header" *ngIf="group.header" mat-subheader>{{ group.header }}</div>
         <a
