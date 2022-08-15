@@ -5,6 +5,9 @@ import { GeneralComponent } from '@modules/availability/new-slot/general/general
 import { AvailabilityPageComponent } from './availability-page/availability-page.component';
 import { EventDetailComponent } from './new-slot/event-detail/event-detail.component';
 import { NewAvailabilityComponent } from './new-slot/new-availability/new-availability.component';
+import {
+    EditAvailabilityPageComponent
+} from "@modules/availability/edit-slot/edit-availability-page/edit-availability-page.component";
 
 const routes: Routes = [
     {
@@ -17,7 +20,7 @@ const routes: Routes = [
     },
     {
         path: 'edit/:id',
-        component: NewAvailabilityComponent
+        component: EditAvailabilityPageComponent
     },
 ];
 
