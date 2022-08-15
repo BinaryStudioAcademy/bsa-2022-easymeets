@@ -13,10 +13,11 @@
 @import './components/angular-material/mat-label'
 
 .mat-menu-panel
-    border: 1px solid $pale-sky
+    border: 2px solid $loblolly
     height: 200px
     display: flex
     justify-content: center
+    box-shadow: none
 
 .mat-menu-panel .mat-menu-item
     padding-left: 5px
@@ -30,6 +31,28 @@
 
 .mat-menu-panel .mat-menu-item i
     margin: 0.5em
+
+.mat-menu-panel .mat-menu-item.mat-menu-btn
+    background-color: $royal-blue
+    border-radius: 4px
+    color: $white
+    justify-content: center
+
+.mat-menu-panel .mat-menu-item.mat-menu-btn:hover
+    background-color: $dark-blue
+
+.mat-button
+    color: $dark-gray
+
+    label
+        padding: 2px 14px
+        font-family: 'Inter'
+        font-weight: 700
+        font-size: 14px
+        line-height: 20px
+
+.mat-button:hover
+    background-color: $athens-gray
 
 snack-bar-container
     &.error-snack-bar

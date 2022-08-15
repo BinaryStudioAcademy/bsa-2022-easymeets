@@ -1,0 +1,11 @@
+<div class="wrapper">
+    <h1 mat-dialog-title>{{title}}</h1>
+    <div mat-dialog-content [align]="'center'">
+        {{message}}
+    </div>
+    <div mat-dialog-actions [align]="'center'">
+        <button *ngFor="let buttonOptions of buttonsOptions" [ngClass]="buttonOptions.class" mat-flat-button
+                (click)="onClick(buttonOptions.onClickEvent)">{{buttonOptions.label}}</button>
+    </div>
+</div>
+

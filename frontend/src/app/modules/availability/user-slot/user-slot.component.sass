@@ -1,0 +1,39 @@
+@import '../../../../styles/color-variables'
+@import 'src/styles/screen-variables.sass'
+
+.container
+    width: 100%
+    height: 100%
+    display: flex
+    flex-direction: column
+
+.availability-slot
+    display: grid
+    grid-gap: 1.2em
+    padding-bottom: 1.2em
+
+@media (min-device-width: $tablet-min-width)
+    .availability-slot
+        grid-template-columns: repeat(2, 1fr)
+
+@media (min-device-width: $desktop-min-width)
+    .availability-slot
+        grid-template-columns: repeat(3, 1fr)
+
+.user-info
+    display: flex
+    align-items: flex-start
+    margin-top: 1em
+    .user-name
+        color: $regent-gray
+        display: flex
+        flex-direction: row
+        justify-content: center
+        margin-top: 1em
+        h3
+            font-weight: bold
+        .copy-icon
+            width: 30px
+            height: 30px
+            margin-left: 0.7em
+            filter: invert(94%) sepia(3%) saturate(1127%) hue-rotate(185deg) brightness(88%) contrast(86%)
