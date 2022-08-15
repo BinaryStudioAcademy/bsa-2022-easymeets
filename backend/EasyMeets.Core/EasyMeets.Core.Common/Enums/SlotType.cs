@@ -2,6 +2,6 @@ namespace EasyMeets.Core.Common.Enums;
 
 public enum SlotType
 {
-    Personal,
+    Personal = 1,
     Team
 }
