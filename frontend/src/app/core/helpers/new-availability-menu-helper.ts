@@ -1,6 +1,6 @@
-import { SideMenuGroup } from '@core/interfaces/sideMenu/sideMenuGroup';
+import { SideMenuGroupTabs } from "@core/interfaces/sideMenu/tabs/sideMenuGroupTabs";
 
-export const getNewAvailabilityMenu = (): SideMenuGroup[] => [{
+export const getNewAvailabilityMenu = (): SideMenuGroupTabs[] => [{
     items: [
         { text: 'General' },
         { text: 'Booking page' },

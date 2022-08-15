@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@shared/material/material.module';
 
-import { SideMenuComponent } from './component/side-menu.component';
+import { SideMenuTabsComponent } from './tabs-menu/side-menu-tabs.component';
+import { SideMenuComponent } from "@modules/side-menu/menu/side-menu.component";
 
 @NgModule({
-    declarations: [SideMenuComponent],
+    declarations: [SideMenuTabsComponent, SideMenuComponent],
     imports: [RouterModule, MaterialModule],
-    exports: [SideMenuComponent],
+    exports: [SideMenuTabsComponent, SideMenuComponent],
 })
 export class SideMenuModule {}

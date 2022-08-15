@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SideMenuGroup } from '@core/interfaces/sideMenu/sideMenuGroup';
 
 @Component({
@@ -8,8 +8,4 @@ import { SideMenuGroup } from '@core/interfaces/sideMenu/sideMenuGroup';
 })
 export class SideMenuComponent {
     @Input() groups: SideMenuGroup[];
-
-    @Input() currentIndex: number = 0;
-
-    @Output() currentIndexChange: EventEmitter<number> = new EventEmitter<number>();
 }
