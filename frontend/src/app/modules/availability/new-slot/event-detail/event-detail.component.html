@@ -11,7 +11,7 @@
 
     <div id="container-item2">
         <p class="input-description">Welcome Message</p>
-        <textarea class="input-message" [(ngModel)]="settings.welcomeMessage"></textarea>
+        <textarea id="welcomeMessage" class="input-message" [(ngModel)]="settings.welcomeMessage"></textarea>
     </div>
 
     <div id="container-item3">
@@ -34,27 +34,37 @@
 
     <div id="container-item5">
         <div class="input-checkbox">
-            <input type="checkbox" style="transform: scale(1.25);" [(ngModel)]="settings.isAllowBooker" [disabled]="!settings.basicChoice" />
+            <input
+                type="checkbox"
+                style="transform: scale(1.25)"
+                [(ngModel)]="settings.isAllowBooker"
+                [disabled]="!settings.basicChoice" />
             <span class="input-description checkbox-text"><p>Allow Booker to add additional guests</p></span>
         </div>
     </div>
 
     <div id="container-item6">
         <div class="input-button-matgroup">
-        <mat-radio-group
-            aria-labelledby="example-radio-group-label"
-            class="example-radio-group"
-            [(ngModel)]="settings.zoneChoice">
-            <mat-radio-button disableRipple class="example-radio-button" *ngFor="let season of timeZoneChoices" [value]="season">
-                {{ season }}
-            </mat-radio-button>
-        </mat-radio-group>
+            <mat-radio-group
+                aria-labelledby="example-radio-group-label"
+                class="example-radio-group"
+                [(ngModel)]="settings.zoneChoice">
+                <mat-radio-button
+                    disableRipple
+                    class="example-radio-button"
+                    *ngFor="let season of timeZoneChoices"
+                    [value]="season">
+                    {{ season }}
+                </mat-radio-button>
+            </mat-radio-group>
         </div>
     </div>
 
     <div id="container-item7">
         <div class="input-password">
-            <label class="form-switch"> <input type="checkbox" [(ngModel)]="settings.passwordProtect" /> <i></i> </label>
+            <label class="form-switch">
+                <input type="checkbox" [(ngModel)]="settings.passwordProtect" /> <i></i>
+            </label>
             <p class="input-field">Password protection</p>
         </div>
         <input class="selectBlock" [(ngModel)]="settings.passwordInput" />

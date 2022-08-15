@@ -13,7 +13,7 @@
     flex-flow: column
     height: 90%
     margin-left: 60px
-    grid-template-rows: 1fr 1fr 1fr 1fr 0.5fr 1fr 1fr
+    grid-template-rows: 1fr 2fr 1fr 1fr 0.5fr 1fr 1fr
     grid-template-areas: "item1" "item2" "item3" "item4" "item5" "item6" "item7"
     resize: both
     overflow: auto
@@ -54,12 +54,14 @@
 .form-switch
     margin-left: -5px
 
+#welcomeMessage
+    height: 110px
+
 .input-message
     background: $white-color
     padding-top: 0
     border: 2px solid $loblolly
     border-radius: 4px
-    height: 136px
     display: flex
     resize: none
     align-items: flex-start
@@ -104,7 +106,7 @@ p
 .example-radio-group
     display: flex
     flex-direction: column
-    margin: 15px 0
+    margin: 1px 0
     align-items: flex-start
 
 .example-radio-button
