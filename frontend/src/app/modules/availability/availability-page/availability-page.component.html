@@ -1,6 +1,7 @@
 <div class="container">
     <div class="teams-container">
-        <app-team></app-team>
-        <app-team></app-team>
+        <app-user-slot [userSlots]="userPersonalAndTeamSlots.userSlots" [currentUser]="currentUser"></app-user-slot>
+        <div *ngFor="let teamSlot of userPersonalAndTeamSlots.teamSlots">
+            <app-team [teamSlot]="teamSlot"></app-team></div>
     </div>
 </div>

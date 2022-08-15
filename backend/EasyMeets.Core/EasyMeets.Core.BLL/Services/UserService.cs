@@ -2,15 +2,21 @@
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.User;
 using EasyMeets.Core.DAL.Context;
-using EasyMeets.Core.DAL.Entities;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore; 
+using EasyMeets.Core.DAL.Entities; 
 
 namespace EasyMeets.Core.BLL.Services
 {
     public class UserService : BaseService, IUserService
     {
-        public UserService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper)
-        { }
+        public UserService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) {}
+
+        public async Task<UserDto> GetCurrentUserAsync(int id)
+        {
+            var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            var currentUserDto = _mapper.Map<UserDto>(currentUser);
+            return currentUserDto;
+        }
 
         public async Task<UserDto?> GetUserPreferences(long userId)
         {
@@ -29,10 +35,9 @@ namespace EasyMeets.Core.BLL.Services
             _context.Users.Update(userEntity);
             await _context.SaveChangesAsync();
         }
-
         private async Task<User> GetUserById(long id)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id) ?? throw new KeyNotFoundException("User doesn't exist");
         }
     }
-}
+} 
