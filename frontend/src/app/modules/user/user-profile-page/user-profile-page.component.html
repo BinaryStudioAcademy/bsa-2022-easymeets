@@ -75,7 +75,7 @@
     </div>
     <div class="item">
         <div class="update-preferences-button">
-            <button mat-flat-button type="submit">Update Preferences</button>
+            <button mat-flat-button type="submit" [disabled]="userForm.invalid">Update Preferences</button>
         </div>
     </div>
 </form>

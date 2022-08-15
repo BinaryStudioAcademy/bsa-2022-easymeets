@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IUser } from '@core/models/IUser';
 import { UserService } from '@core/services/user.service';
 import { Country } from '@shared/enums/country';
@@ -62,7 +62,12 @@ export class UserProfilePageComponent implements OnInit {
 
     ngOnInit(): void {
         this.userForm = new FormGroup({
-            userName: new FormControl(),
+            userName: new FormControl('', [
+                Validators.required,
+                Validators.minLength(2),
+                Validators.maxLength(50),
+                Validators.pattern(/^[a-zA-Z\dа-яА-Я- ]*$/),
+            ]),
             phone: new FormControl(),
             country: new FormControl(),
             dateFormat: new FormControl(),
