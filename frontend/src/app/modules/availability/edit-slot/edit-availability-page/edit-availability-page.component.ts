@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from "rxjs";
 import { HttpInternalService } from "@core/services/http-internal.service";
 import { SpinnerService } from "@core/services/spinner.service";
 import { IAvailabilitySlot } from "@core/models/IAvailiabilitySlot";
+import { GeneralComponent } from "@modules/availability/new-slot/general/general.component";
+import { EventDetailComponent } from "@modules/availability/new-slot/event-detail/event-detail.component";
+import { NewAvailabilityComponent } from "@modules/availability/new-slot/new-availability/new-availability.component";
 
 @Component({
     selector: 'app-edit-availability-page',
@@ -14,6 +17,8 @@ export class EditAvailabilityPageComponent {
     private id: number | undefined;
 
     public slot?: IAvailabilitySlot;
+
+    @ViewChild(NewAvailabilityComponent) newAvailabilityComponent: NewAvailabilityComponent;
 
     // eslint-disable-next-line no-empty-function
     constructor(
@@ -37,5 +42,14 @@ export class EditAvailabilityPageComponent {
 
     public goToPage(pageName: string) {
         this.router.navigate([`${pageName}`]);
+    }
+
+    sendChanges() {
+        this.httpInternalService.putRequest(`/availability/${this.slot?.id}`, {
+            generalSettings: this.newAvailabilityComponent.generalComponent.settings,
+            eventDetailsSettings: this.newAvailabilityComponent.eventDetailComponent.settings,
+            hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced
+        });
+        this.goToPage('/availability');
     }
 }

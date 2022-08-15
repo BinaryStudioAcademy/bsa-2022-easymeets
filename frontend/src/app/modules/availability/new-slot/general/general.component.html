@@ -4,7 +4,7 @@
             <p class="input-description">Slot size (Meeting Duration)</p>
             <div class="input">
                 <select [(ngModel)]="settings.slotSize" name="slotSize">
-                    <option *ngFor="let slotSize of slotSizes" [value]="slotSize">{{slotSize}} min</option>
+                    <option *ngFor="let slotSize of slotSizes" [value]=slotSize>{{slotSize}} min</option>
                 </select>
             </div>
         </div>

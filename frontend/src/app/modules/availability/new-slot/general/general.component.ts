@@ -41,6 +41,8 @@ export class GeneralComponent implements OnInit {
             this.meetingPaddings.push(this.settings.meetingPadding);
         }
 
+        this.addAdvanced = Boolean(this.slot?.advancedSlotSettingsId);
+
         console.log(this.settings);
         console.log(this.slot?.advancedSlotSettings);
     }
@@ -63,7 +65,7 @@ export class GeneralComponent implements OnInit {
 
     public minBookingMeetingDifferences: number[] = [2, 4];
 
-    public addAdvanced: boolean = true;
+    public addAdvanced: boolean = false;
 
     ngOnInit(): void {
         this.settings = {

@@ -1,8 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { getNewAvailabilityMenu } from '@core/helpers/new-availability-menu-helper';
 import { Router } from "@angular/router";
 import { SideMenuGroupTabs } from "@core/interfaces/sideMenu/tabs/sideMenuGroupTabs";
 import { IAvailabilitySlot } from "@core/models/IAvailiabilitySlot";
+import { GeneralComponent } from "@modules/availability/new-slot/general/general.component";
+import { EventDetailComponent } from "@modules/availability/new-slot/event-detail/event-detail.component";
 
 @Component({
     selector: 'app-new-availability',
@@ -21,6 +23,9 @@ export class NewAvailabilityComponent implements OnInit {
     @Output() cancelClick: EventEmitter<void> = new EventEmitter();
 
     @Output() deleteClick: EventEmitter<void> = new EventEmitter();
+
+    @ViewChild(GeneralComponent) generalComponent : GeneralComponent;
+    @ViewChild(EventDetailComponent) eventDetailComponent : EventDetailComponent;
 
     public sideMenuGroups: SideMenuGroupTabs[];
 
