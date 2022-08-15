@@ -29,7 +29,7 @@ export class SignInFormComponent {
         this.signInForm.get('password')?.setErrors({ incorrectCredentials: true });
     }
 
-    private handleAuthenticationResponce(resp: firebase.default.auth.UserCredential | void): void {
+    private handleAuthenticationResponce(resp: any): void {
         if (resp) {
             this.router.navigateByUrl('main');
         } else {

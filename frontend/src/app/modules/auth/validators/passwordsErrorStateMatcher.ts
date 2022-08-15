@@ -9,6 +9,7 @@ export class PasswordsErrorStateMatcher implements ErrorStateMatcher {
             ? formGroupDirective?.form.controls['password'].value
             : undefined;
         const confirmPassword = control?.value ? control?.value : undefined;
+
         this.passwordsMismatch = !(password === confirmPassword);
 
         return this.passwordsMismatch;
