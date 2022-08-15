@@ -5,9 +5,7 @@ using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.DAL.Entities;
-using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.Common.Enums;
-using System.Linq;
 
 
 namespace EasyMeets.Core.BLL.Services
