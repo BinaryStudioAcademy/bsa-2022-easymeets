@@ -1,6 +1,6 @@
-import { availabilitySlotMember } from './availability-slot-member';
+import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
 
-export interface AvailabilitySlot {
+export interface IAvailabilitySlot {
     name: string;
     authorName: string;
     size: number;
@@ -8,5 +8,5 @@ export interface AvailabilitySlot {
     isEnabled: boolean
     isVisible: boolean
     locationName: string
-    members: availabilitySlotMember[]
+    members: IAvailabilitySlotMember[]
 }

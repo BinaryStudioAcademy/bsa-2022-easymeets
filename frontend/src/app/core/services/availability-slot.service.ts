@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AvailabilitySlot } from '@core/models/availiability-slot';
-import { TeamWithSlots } from '@core/models/team-with-slot';
+import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 
 import { HttpInternalService } from './http-internal.service';
 
@@ -13,11 +12,7 @@ export class AvailabilitySlotService {
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService) {}
 
-    public getAvailabilitySlotsGroupByTeams(currentUserId: number) {
-        return this.httpService.getRequest<TeamWithSlots[]>(`${this.routePrefix}/team/${currentUserId}`);
-    }
-
-    public getAllUsersAvailabilitySlots(currentUserId: number) {
-        return this.httpService.getRequest<AvailabilitySlot[]>(`${this.routePrefix}/personal/${currentUserId}`);
+    public getUserPersonalAndTeamSlots(currentUserId: number) {
+        return this.httpService.getRequest<IUserPersonalAndTeamSlots>(`${this.routePrefix}/${currentUserId}`);
     }
 }

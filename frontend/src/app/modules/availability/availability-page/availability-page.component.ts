@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { AvailabilitySlot } from '@core/models/availiability-slot';
-import { TeamWithSlots } from '@core/models/team-with-slot';
-import { User } from '@core/models/user';
+import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { IUser } from '@core/models/IUser';
+import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { UserService } from '@core/services/user.service';
 
@@ -11,34 +11,24 @@ import { UserService } from '@core/services/user.service';
     styleUrls: ['./availability-page.component.sass'],
 })
 export class AvailabilityPageComponent {
-    public teams: TeamWithSlots[];
+    public userPersonalAndTeamSlots: IUserPersonalAndTeamSlots;
 
-    public currentUser: User;
+    public currentUser: IUser;
 
-    public userSlots: AvailabilitySlot[];
+    public userSlots: IAvailabilitySlot[];
 
-    public currentUserId: number = 4;
+    public currentUserId: number = 1;
 
     constructor(private availabilitySlotService: AvailabilitySlotService, private userService: UserService) {
         this.getCurrentUser();
     }
 
-    public getAllAvailabilitySlotsForTeam() {
+    public getUserPersonalAndTeamSlots() {
         this.availabilitySlotService
-            .getAvailabilitySlotsGroupByTeams(this.currentUser.id)
+            .getUserPersonalAndTeamSlots(this.currentUser.id)
             .subscribe(
                 (resp) => {
-                    this.teams = resp;
-                },
-            );
-    }
-
-    public getAllUsersAvailabilitySlots() {
-        this.availabilitySlotService
-            .getAllUsersAvailabilitySlots(this.currentUser.id)
-            .subscribe(
-                (resp) => {
-                    this.userSlots = resp;
+                    this.userPersonalAndTeamSlots = resp;
                 },
             );
     }
@@ -50,8 +40,7 @@ export class AvailabilityPageComponent {
                 (resp) => {
                     if (resp) {
                         this.currentUser = resp;
-                        this.getAllAvailabilitySlotsForTeam();
-                        this.getAllUsersAvailabilitySlots();
+                        this.getUserPersonalAndTeamSlots();
                     }
                 },
             );
