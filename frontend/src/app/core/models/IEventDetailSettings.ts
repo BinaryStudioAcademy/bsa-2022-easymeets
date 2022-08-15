@@ -1,5 +1,5 @@
 export interface IEventDetailSettings {
-    zoneChoice: string;
+    zoneChoice: boolean;
 
     linkChoice: string;
 
@@ -7,11 +7,9 @@ export interface IEventDetailSettings {
 
     languageSelect: string;
 
-    allowBookingSelect: string;
+    allowBookingSelect: number;
 
     isAllowBooker: boolean;
-
-    basicChoice: boolean;
 
     passwordProtect: boolean;
 

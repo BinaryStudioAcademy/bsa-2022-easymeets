@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IEventDetailSettings } from '@core/models/IEventDetailSettings';
+import { IAvailabilitySlot } from "@core/models/IAvailiabilitySlot";
 
 @Component({
     selector: 'app-event-detail',
@@ -7,11 +8,34 @@ import { IEventDetailSettings } from '@core/models/IEventDetailSettings';
     styleUrls: ['./event-detail.component.sass'],
 })
 export class EventDetailComponent implements OnInit {
+    @Input() set newSlot(value: IAvailabilitySlot | undefined) {
+        this.slot = value;
+        this.settings = {
+            zoneChoice: this.slot?.TimeZoneVisibility ?? false,
+            linkChoice: new URL(this.slot?.link ?? '').pathname.slice(1) ?? 'heornim',
+            welcomeMessage: this.slot?.welcomeMessage ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            languageSelect: this.slot?.language ?? 'English',
+            allowBookingSelect: this.slot?.bookingsPerDay ?? this.allowedBooking[1],
+            isAllowBooker: this.slot?.allowToAddGuests ?? false,
+            passwordProtect: this.slot?.passwordProtectionIsUsed ?? false,
+            passwordInput: this.slot?.passwordProtection ?? ''
+        };
+        console.log(this.settings);
+    }
+
+    public slot?: IAvailabilitySlot;
+
     public settings: IEventDetailSettings;
 
-    public timeZoneChoices: string[] = [
-        'Automatically detect and show the times in Bookers time zone',
-        'Lock the timezone (best for in-person events)',
+    public timeZoneChoices: { text: string; value: boolean; }[] = [
+        {
+            text: 'Automatically detect and show the times in Bookers time zone',
+            value: true,
+        },
+        {
+            text: 'Lock the timezone (best for in-person events)',
+            value: false,
+        },
     ];
 
     public languages: string[] = [
@@ -19,23 +43,26 @@ export class EventDetailComponent implements OnInit {
         'Ukrainian',
     ];
 
-    public allowedBooking: string[] = [
-        '1',
-        '2',
-        '3',
+    public allowedBooking: number[] = [
+        1,
+        2,
+        3,
     ];
 
     ngOnInit(): void {
         this.settings = {
-            zoneChoice: '',
+            zoneChoice: false,
             linkChoice: 'heornim',
             welcomeMessage: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             languageSelect: 'English',
-            allowBookingSelect: '2',
+            allowBookingSelect: this.allowedBooking[1],
             isAllowBooker: false,
-            basicChoice: true,
-            passwordProtect: true,
-            passwordInput: 'Meeting123',
+            passwordProtect: false,
+            passwordInput: '',
         };
+    }
+
+    public getUrlBaseName(): string {
+        return new URL(this.slot?.link ?? '').hostname ?? ''
     }
 }

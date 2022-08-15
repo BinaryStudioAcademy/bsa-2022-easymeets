@@ -18,6 +18,7 @@ export interface IAvailabilitySlot {
     language: string;
     bookingsPerDay: number;
     allowToAddGuests: boolean;
-    PasswordProtection?: string;
+    passwordProtectionIsUsed: boolean;
+    passwordProtection?: string;
     TimeZoneVisibility: boolean;
 }

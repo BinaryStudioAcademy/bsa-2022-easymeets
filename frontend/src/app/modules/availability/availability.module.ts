@@ -13,6 +13,7 @@ import { UserSlotComponent } from './user-slot/user-slot.component';
 import { AvailabilityRoutingModule } from './availability-routing.module';
 import { EditAvailabilityPageComponent } from './edit-slot/edit-availability-page/edit-availability-page.component';
 import { NewAvailabilityPageComponent } from './new-slot/new-availability-page/new-availability-page.component';
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
 
 @NgModule({
     declarations: [
@@ -26,6 +27,6 @@ import { NewAvailabilityPageComponent } from './new-slot/new-availability-page/n
         EditAvailabilityPageComponent,
         NewAvailabilityPageComponent,
     ],
-    imports: [CommonModule, AvailabilityRoutingModule, MaterialModule, SideMenuModule],
+    imports: [CommonModule, AvailabilityRoutingModule, MaterialModule, SideMenuModule, MatButtonToggleModule],
 })
 export class AvailabilityModule {}
