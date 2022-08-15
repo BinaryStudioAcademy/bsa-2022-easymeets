@@ -4,7 +4,10 @@
     </div>
     <div class="main-content">
         <div class="sidebar">
-            <img src="{{ selectedUser.image }}" />
+            <img *ngIf="selectedUser.image !== null; else defaultImage" src="{{ selectedUser.image }}" />
+            <ng-template #defaultImage>
+                <img src="assets/bulochka.PNG" />
+            </ng-template>
             <h3>{{ selectedUser.userName }}</h3>
             <h1>Booking Page</h1>
             <h4>Hello! Welcome to my booking page, please choose a time that works for you.</h4>
