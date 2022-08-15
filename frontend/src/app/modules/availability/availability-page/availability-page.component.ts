@@ -11,7 +11,7 @@ import { UserService } from '@core/services/user.service';
     styleUrls: ['./availability-page.component.sass'],
 })
 export class AvailabilityPageComponent {
-    public userPersonalAndTeamSlots: IUserPersonalAndTeamSlots;
+    public userPersonalAndTeamSlots: IUserPersonalAndTeamSlots | undefined;
 
     public currentUser: IUser;
 

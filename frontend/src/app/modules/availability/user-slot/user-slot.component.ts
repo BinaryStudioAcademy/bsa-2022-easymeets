@@ -11,7 +11,7 @@ import { SpinnerService } from '@core/services/spinner.service';
 export class UserSlotComponent {
     @Input() public userSlots: Array<IAvailabilitySlot>;
 
-    @Input() public currentUser: IUser;
+    @Input() public currentUser: IUser | undefined;
 
     // eslint-disable-next-line no-empty-function
     constructor(public spinnerService: SpinnerService) {}
