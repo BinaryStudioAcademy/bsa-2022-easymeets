@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from '@core/models/user';
+import { IUser } from '@core/models/IUser';
 
 import { HttpInternalService } from './http-internal.service';
 
@@ -13,6 +13,6 @@ export class UserService {
     constructor(private httpService: HttpInternalService) {}
 
     public getCurrentUserById(currentUserId: number) {
-        return this.httpService.getRequest<User>(`${this.routePrefix}/${currentUserId}`);
+        return this.httpService.getRequest<IUser>(`${this.routePrefix}/${currentUserId}`);
     }
 }

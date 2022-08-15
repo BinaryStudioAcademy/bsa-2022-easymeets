@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { AvailabilitySlotsGroupByTeamsDto } from '@core/models/availability-slots-group-by-team';
-import { AvailabilitySlot } from '@core/models/availiability-slot';
-import { User } from '@core/models/user';
-import { UserPersonalAndTeamSlots } from '@core/models/user-personal-and-team-slots';
+import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { IUser } from '@core/models/IUser';
+import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { UserService } from '@core/services/user.service';
 
@@ -12,17 +11,13 @@ import { UserService } from '@core/services/user.service';
     styleUrls: ['./availability-page.component.sass'],
 })
 export class AvailabilityPageComponent {
-    public teamSlots: AvailabilitySlotsGroupByTeamsDto[];
+    public userPersonalAndTeamSlots: IUserPersonalAndTeamSlots;
 
-    public userPersonalSlots: AvailabilitySlot[];
+    public currentUser: IUser;
 
-    public userPersonalAndTeamSlots: UserPersonalAndTeamSlots;
+    public userSlots: IAvailabilitySlot[];
 
-    public currentUser: User;
-
-    public userSlots: AvailabilitySlot[];
-
-    public currentUserId: number = 4;
+    public currentUserId: number = 1;
 
     constructor(private availabilitySlotService: AvailabilitySlotService, private userService: UserService) {
         this.getCurrentUser();
@@ -34,8 +29,6 @@ export class AvailabilityPageComponent {
             .subscribe(
                 (resp) => {
                     this.userPersonalAndTeamSlots = resp;
-                    this.teamSlots = this.userPersonalAndTeamSlots.teamSlots;
-                    this.userPersonalSlots = this.userPersonalAndTeamSlots.userSlots;
                 },
             );
     }

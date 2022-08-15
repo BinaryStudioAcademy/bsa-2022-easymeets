@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserPersonalAndTeamSlots } from '@core/models/user-personal-and-team-slots';
+import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 
 import { HttpInternalService } from './http-internal.service';
 
@@ -13,6 +13,6 @@ export class AvailabilitySlotService {
     constructor(private httpService: HttpInternalService) {}
 
     public getUserPersonalAndTeamSlots(currentUserId: number) {
-        return this.httpService.getRequest<UserPersonalAndTeamSlots>(`${this.routePrefix}/${currentUserId}`);
+        return this.httpService.getRequest<IUserPersonalAndTeamSlots>(`${this.routePrefix}/${currentUserId}`);
     }
 }

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AvailabilitySlotsGroupByTeamsDto } from '@core/models/availability-slots-group-by-team';
-import { AvailabilitySlot } from '@core/models/availiability-slot';
+import { IAvailabilitySlotsGroupByTeamsDto } from '@core/models/IAvailabilitySlotsGroupByTeam';
+import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { SpinnerService } from '@core/services/spinner.service';
 
 @Component({
@@ -9,9 +9,9 @@ import { SpinnerService } from '@core/services/spinner.service';
     styleUrls: ['./team.component.sass'],
 })
 export class TeamComponent implements OnInit {
-    @Input() public teamSlot: AvailabilitySlotsGroupByTeamsDto;
+    @Input() public teamSlot: IAvailabilitySlotsGroupByTeamsDto;
 
-    public slots: Array<AvailabilitySlot>;
+    public slots: Array<IAvailabilitySlot>;
 
     public teamName: string;
 

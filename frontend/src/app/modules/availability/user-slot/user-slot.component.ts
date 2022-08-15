@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { AvailabilitySlot } from '@core/models/availiability-slot';
-import { User } from '@core/models/user';
+import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { IUser } from '@core/models/IUser';
 import { SpinnerService } from '@core/services/spinner.service';
 
 @Component({
@@ -9,9 +9,9 @@ import { SpinnerService } from '@core/services/spinner.service';
     styleUrls: ['./user-slot.component.sass'],
 })
 export class UserSlotComponent {
-    @Input() public userSlots: Array<AvailabilitySlot>;
+    @Input() public userSlots: Array<IAvailabilitySlot>;
 
-    @Input() public currentUser: User;
+    @Input() public currentUser: IUser;
 
     // eslint-disable-next-line no-empty-function
     constructor(public spinnerService: SpinnerService) {}
