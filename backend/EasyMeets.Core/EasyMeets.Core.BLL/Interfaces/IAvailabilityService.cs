@@ -7,5 +7,6 @@ namespace EasyMeets.Core.BLL.Interfaces
     { 
         Task<UserPersonalAndTeamSlotsDto> GetUserPersonalAndTeamSlotsAsync(long id);
         Task CreateAvailabilitySlot(NewAvailabilitySlotDto slotDto);
+        Task DeleteAvailabilitySlot(long slotId);
     }
 }
