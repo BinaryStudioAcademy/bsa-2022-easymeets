@@ -46,19 +46,7 @@ namespace EasyMeets.Core.BLL.Services
                 new AvailabilitySlotsGroupByTeamsDto
                 {
                     Name = x.Key,
-                    AvailabilitySlots = x.Select(y =>
-                    new AvailabilitySlotDto
-                    {
-                        Id = y.Id,
-                        Name = y.Name,
-                        Type = y.Type,
-                        Size = y.Size,
-                        IsEnabled = y.IsEnabled,
-                        AuthorName = y.AuthorName,
-                        LocationName = y.LocationName,
-                        Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.Members)
-                    })
-                        .ToList()
+                    AvailabilitySlots = x.ToList()
                 })
                 .ToList();
 
