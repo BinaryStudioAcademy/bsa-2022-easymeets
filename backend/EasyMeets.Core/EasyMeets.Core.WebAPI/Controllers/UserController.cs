@@ -1,11 +1,9 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.User;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc; 
 
 namespace EasyMeets.Core.WebAPI.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
@@ -14,6 +12,13 @@ namespace EasyMeets.Core.WebAPI.Controllers
         public UserController(IUserService userService)
         {
             _userService = userService;
+        }
+
+        [HttpGet("current/{id}")]
+        public async Task<ActionResult<UserDto>> GetCurrentUserByIdAsync(int id)
+        {
+            var availabilitySlots = await _userService.GetCurrentUserAsync(id);
+            return Ok(availabilitySlots);
         }
 
         [HttpGet("{id}")]
