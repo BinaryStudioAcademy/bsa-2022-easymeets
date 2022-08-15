@@ -1,4 +1,4 @@
-<mat-card class="card-container" *ngIf="slot.isEnabled">
+<mat-card class="card-container" *ngIf="slot.isEnabled && !slot.isDeleted">
     <div class="slot-content">
         <div class="slot-header">
             <p>Availability slots for</p>
@@ -49,7 +49,7 @@
         </div>
     </div>
 </mat-card>
-<mat-card class="card-container card-container-disabled" *ngIf="!slot.isEnabled">
+<mat-card class="card-container card-container-disabled" *ngIf="!slot.isEnabled && !slot.isDeleted">
     <div class="slot-content">
         <div class="slot-header">
             <p>Availability slots for</p>

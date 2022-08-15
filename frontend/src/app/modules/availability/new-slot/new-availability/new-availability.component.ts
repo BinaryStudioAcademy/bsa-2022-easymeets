@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { getNewAvailabilityMenu } from '@core/helpers/new-availability-menu-helper';
 import { SideMenuGroup } from '@core/interfaces/sideMenu/sideMenuGroup';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
@@ -20,7 +21,7 @@ export class NewAvailabilityComponent implements OnInit {
     private unsubscribe$ = new Subject<void>();
 
     // eslint-disable-next-line no-empty-function
-    constructor(private http: AvailabilitySlotService) {}
+    constructor(private http: AvailabilitySlotService, private router: Router) {}
 
     ngOnInit(): void {
         this.initializeSideMenu();
@@ -34,6 +35,12 @@ export class NewAvailabilityComponent implements OnInit {
         this.http
             .deleteSlot(this.currentSlot.id)
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((error) => console.log(error));
+            .subscribe(
+                () => {
+                    this.currentSlot.isDeleted = true;
+                    this.router.navigate(['/availability']);
+                },
+                (error) => console.log(error),
+            );
     }
 }

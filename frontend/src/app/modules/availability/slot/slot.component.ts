@@ -29,6 +29,9 @@ export class SlotComponent {
         this.http
             .deleteSlot(this.slot.id)
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((error) => console.log(error));
+            .subscribe((error) => {
+                this.slot.isDeleted = true;
+                console.log(error);
+            });
     }
 }

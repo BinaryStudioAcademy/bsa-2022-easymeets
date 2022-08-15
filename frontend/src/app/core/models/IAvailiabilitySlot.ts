@@ -8,6 +8,7 @@ export interface IAvailabilitySlot {
     link: string;
     isEnabled: boolean;
     isVisible: boolean;
+    isDeleted: boolean;
     locationName: string;
     members: IAvailabilitySlotMember[];
 }
