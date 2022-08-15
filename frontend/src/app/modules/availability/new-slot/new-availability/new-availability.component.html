@@ -12,7 +12,7 @@
     <div class="main-content">
         <div class="sidebar">
             <app-side-menu-tabs [groups]="sideMenuGroups" [(currentIndex)]="index"></app-side-menu-tabs>
-            <div class="delete-slots-wrapper">
+            <div class="delete-slots-wrapper" *ngIf="showDeleteBlock">
                 <div class="delete-slots-container" (click)="deleteClick.emit()">
                     <mat-icon>delete_outline</mat-icon>
                     <p class="delete-slots-label">Delete availability slots</p>

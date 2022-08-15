@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { getNewAvailabilityMenu } from '@core/helpers/new-availability-menu-helper';
 import { Router } from "@angular/router";
 import { SideMenuGroupTabs } from "@core/interfaces/sideMenu/tabs/sideMenuGroupTabs";
@@ -9,6 +9,8 @@ import { SideMenuGroupTabs } from "@core/interfaces/sideMenu/tabs/sideMenuGroupT
     styleUrls: ['./new-availability.component.sass'],
 })
 export class NewAvailabilityComponent implements OnInit {
+    @Input() showDeleteBlock: boolean = true;
+
     @Output() saveChangesClick: EventEmitter<void> = new EventEmitter();
 
     @Output() cancelClick: EventEmitter<void> = new EventEmitter();
