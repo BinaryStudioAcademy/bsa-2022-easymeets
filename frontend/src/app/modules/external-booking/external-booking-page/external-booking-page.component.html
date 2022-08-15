@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="header">
+        <img src="assets/header/header-logo.png" />
+    </div>
+    <div class="main-content">
+        <div class="sidebar">
+            <img *ngIf="selectedUser.image; else defaultImage" src="{{ selectedUser.image }}" />
+            <ng-template #defaultImage>
+                <img src="assets/bulochka.PNG" />
+            </ng-template>
+            <h3>{{ selectedUser.userName }}</h3>
+            <h1>Booking Page</h1>
+            <h4>Hello! Welcome to my booking page, please choose a time that works for you.</h4>
+        </div>
+        <div class="choice">
+            <h1>Please, choose meeting</h1>
+            <mat-card class="card" routerLink="#">
+                <mat-card-title>30 Min Meeting</mat-card-title>
+                <mat-card-subtitle>30 Min, Meet</mat-card-subtitle>
+            </mat-card>
+            <mat-card class="card" routerLink="#">
+                <mat-card-title>1 Hour Meeting</mat-card-title>
+                <mat-card-subtitle>1 Hour, Meet</mat-card-subtitle>
+            </mat-card>
+            <mat-card class="card" routerLink="#">
+                <mat-card-title>15 Min Meeting</mat-card-title>
+                <mat-card-subtitle>15 Min, Meet</mat-card-subtitle>
+            </mat-card>
+        </div>
+    </div>
+</div>

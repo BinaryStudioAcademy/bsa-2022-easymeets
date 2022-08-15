@@ -18,6 +18,11 @@ const routes: Routes = [
         path: 'user',
         loadChildren: () => import('./modules/user/user.module').then((m) => m.UserModule),
     },
+    {
+        path: 'external-booking',
+        loadChildren: () =>
+            import('./modules/external-booking/external-booking.module').then((m) => m.ExternalBookingModule),
+    },
     { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
