@@ -21,6 +21,7 @@ import { AppRoutingModule } from './app-routing.module';
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
         MaterialModule,
+        BrowserAnimationsModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
