@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { IUser } from '@core/models/IUser';
 import { UserService } from '@core/services/user.service';
 import { Country } from '@shared/enums/country';
 import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
 import { TimeZone } from '@shared/enums/timeZone';
-import { User } from '@shared/models/user/user';
 
 @Component({
     selector: 'app-user-profile-page',
@@ -14,7 +14,7 @@ import { User } from '@shared/models/user/user';
     styleUrls: ['./user-profile-page.component.sass'],
 })
 export class UserProfilePageComponent implements OnInit {
-    public user: User;
+    public user: IUser;
 
     public userForm: FormGroup;
 
@@ -57,7 +57,7 @@ export class UserProfilePageComponent implements OnInit {
             timeZone: new FormControl(),
         });
 
-        this.userService.getUser(1).subscribe((user) => {
+        this.userService.getCurrentUserById(1).subscribe((user) => {
             this.user = user;
             // this.editedUser = { ...this.user };
 

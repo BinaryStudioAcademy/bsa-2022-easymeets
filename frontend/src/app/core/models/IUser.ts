@@ -1,13 +1,13 @@
-﻿import { Country } from '@shared/enums/country';
+import { Country } from '@shared/enums/country';
 import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
 import { TimeZone } from '@shared/enums/timeZone';
 
-export interface User {
+export interface IUser {
     id: number
+    userName: string
     image?: string
-    userName?: string
     language: Language
     timeFormat: TimeFormat
     dateFormat: DateFormat
