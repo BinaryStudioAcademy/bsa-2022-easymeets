@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="user-settings-header">
+        <p class="user-settings-header-label">Settings</p>
+    </div>
+    <div class="main-content">
+        <div class="sidebar">
+            <div class="side-menu-wrapper">
+                <app-side-menu [groups]="sideMenuGroups"></app-side-menu>
+            </div>
+            <div class="delete-account-wrapper">
+                <div class="delete-account-container">
+                    <mat-icon class="icon">delete_outline</mat-icon>
+                    <p class="delete-account-label">Delete account</p>
+                </div>
+            </div>
+        </div>
+        <div class="menu-item-container">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

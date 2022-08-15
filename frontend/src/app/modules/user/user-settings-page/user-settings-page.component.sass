@@ -1,0 +1,83 @@
+@import '../../../../styles/color-variables'
+@import '../../../../styles/screen-variables'
+
+*
+    box-sizing: border-box
+
+.container
+    min-height: 100vh
+    width: 100vw
+    display: flex
+    flex-direction: column
+    justify-items: center
+    padding: 0 100px 90px 100px
+    background-color: $athens-gray
+    @media screen and ( max-width: $tablet-min-width  )
+        padding: 0 30px 40px 30px
+
+.user-settings-header
+    display: flex
+    flex-direction: row
+    justify-content: flex-start
+    align-items: center
+    padding: 20px 0
+    p
+        margin: 0 25px 0 0
+    .user-settings-header-label
+        font-size: 20px
+        font-weight: bold
+        color: $dark-gray
+
+.main-content
+    background-color: $white
+    display: flex
+    flex-direction: row
+    justify-content: center
+    padding: 0 20px
+    @media screen and ( max-width: $desktop-min-width  )
+        flex-direction: column
+    .sidebar
+        width: 25%
+        @media screen and ( max-width: $desktop-min-width  )
+            width: 100%
+    .menu-item-container
+        width: 75%
+        padding: 20px 0
+        @media screen and ( max-width: $desktop-min-width  )
+            width: 100%
+
+.sidebar
+    position: relative
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    border-right: 2px solid $athens-gray
+    width: 100%
+    margin: 0 10px
+    padding-bottom: 80px
+    @media screen and ( max-width: $desktop-min-width  )
+        border-right: none
+    .delete-account-wrapper
+        position: absolute
+        left: 10px
+        bottom: 40px
+        display: inline-block
+        vertical-align: bottom
+        width: 100%
+        display: flex
+        align-items: center
+        .delete-account-container
+            display: flex
+            align-items: center
+            cursor: pointer
+            color: $silver-chalice
+            p
+                height: 24px
+                line-height: 24px
+                margin: 6px 0 0 10px
+
+.side-menu-wrapper
+    width: 100%
+
+.icon
+    font-size: 28px
