@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="input-container">
+    <div id="container-item1">
         <p class="input-description">Link</p>
         <div class="inputBlock">
             <div class="inputStartBlock">
@@ -9,12 +9,12 @@
         </div>
     </div>
 
-    <div class="input-container">
+    <div id="container-item2">
         <p class="input-description">Welcome Message</p>
         <textarea class="input-message" [(ngModel)]="settings.welcomeMessage"></textarea>
     </div>
 
-    <div class="input-container">
+    <div id="container-item3">
         <p class="input-description">Language</p>
         <select name="select" class="selectBlock" [(ngModel)]="settings.languageSelect">
             <option selected *ngFor="let languageSelect of languages" [value]="languageSelect">
@@ -23,7 +23,7 @@
         </select>
     </div>
 
-    <div class="input-container">
+    <div id="container-item4">
         <p class="input-description">Allowed bookings per Day</p>
         <select name="select" class="selectBlock" [(ngModel)]="settings.allowBookingSelect">
             <option selected *ngFor="let allowBookingSelect of allowedBooking" [value]="allowBookingSelect">
@@ -32,14 +32,14 @@
         </select>
     </div>
 
-    <div class="input-container">
+    <div id="container-item5">
         <div class="input-checkbox">
             <input type="checkbox" style="transform: scale(1.25);" [(ngModel)]="settings.isAllowBooker" [disabled]="!settings.basicChoice" />
             <span class="input-description checkbox-text"><p>Allow Booker to add additional guests</p></span>
         </div>
     </div>
 
-    <div class="input-container">
+    <div id="container-item6">
         <div class="input-button-matgroup">
         <mat-radio-group
             aria-labelledby="example-radio-group-label"
@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <div class="input-container">
+    <div id="container-item7">
         <div class="input-password">
             <label class="form-switch"> <input type="checkbox" [(ngModel)]="settings.passwordProtect" /> <i></i> </label>
             <p class="input-field">Password protection</p>

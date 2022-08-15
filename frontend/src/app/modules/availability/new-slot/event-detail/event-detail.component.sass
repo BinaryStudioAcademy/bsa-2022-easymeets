@@ -9,12 +9,33 @@
     margin-bottom: 2px
 
 .container
-    display: flex
-    flex-direction: column
-    justify-content: space-between
+    display: grid
+    flex-flow: column
+    height: 90%
+    margin-left: 60px
+    grid-template-rows: 1fr 1fr 1fr 1fr 0.5fr 1fr 1fr
+    grid-template-areas: "item1" "item2" "item3" "item4" "item5" "item6" "item7"
 
-    .input-container
-    margin: 20px 30px
+#container-item1
+    grid-area: item1
+
+#container-item2
+    grid-area: item2
+
+#container-item3
+    grid-area: item3
+
+#container-item4
+    grid-area: item4
+
+#container-item5
+    grid-area: item5
+
+#container-item6
+    grid-area: item6
+
+#container-item7
+    grid-area: item7
 
 .input-item
     padding-left: 5px
