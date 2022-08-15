@@ -1,10 +1,12 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Availability;
-using EasyMeets.Core.Common.DTO.Availability.NewAvailability; 
+using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class AvailabilityController : ControllerBase
@@ -27,6 +29,13 @@ namespace EasyMeets.Core.WebAPI.Controllers
         {
             var availabilitySlots = await _availabilityService.GetUserPersonalAndTeamSlotsAsync(id);
             return Ok(availabilitySlots);
+        }
+        
+        [HttpDelete("{slotId}")]
+        public async Task<IActionResult> DeleteAvailabilitySlot(int slotId)
+        {
+            await _availabilityService.DeleteAvailabilitySlot(slotId);
+            return NoContent();
         }
     }
 }

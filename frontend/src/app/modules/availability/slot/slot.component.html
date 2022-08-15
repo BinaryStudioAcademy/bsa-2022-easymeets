@@ -6,13 +6,15 @@
         </div>
         <div class="time-options">
             <div>
-                <p >{{ slot.name }}</p>
+                <p>{{ slot.name }}</p>
                 <i *ngIf="slot.isVisible" class="fa-solid fa-eye-slash"></i>
             </div>
         </div>
         <div class="meeting-details">
-            <p *ngIf="hasOwner">{{ slot.size }} min, {{slot.authorName}}, {{ slot.locationName }}</p>
-            <p *ngIf="!hasOwner">{{ slot.size }} min, 1 of {{slot.members.length}} members, {{ slot.locationName }}</p>
+            <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ slot.locationName }}</p>
+            <p *ngIf="!hasOwner">
+                {{ slot.size }} min, 1 of {{ slot.members.length }} members, {{ slot.locationName }}
+            </p>
             <div class="avatar-list">
                 <div *ngFor="let member of slot.members">
                     <img [src]="member.memberImage" class="avatar" />
@@ -36,7 +38,9 @@
                         <button mat-menu-item class="btn bookings">
                             <i class="fa-solid fa-calendar"></i>View bookings
                         </button>
-                        <button mat-menu-item class="btn delete"><i class="fa-solid fa-trash"></i>Delete</button>
+                        <button mat-menu-item class="btn delete" (click)="deleteSlot()">
+                            <i class="fa-solid fa-trash"></i>Delete
+                        </button>
                         <button mat-menu-item class="btn duplicate"><i class="fa-solid fa-clone"></i>Duplicate</button>
                         <button mat-menu-item class="btn select"><i class="fa-solid fa-plus"></i>Select</button>
                     </mat-menu>
@@ -55,8 +59,10 @@
             <p>{{ slot.size }} min meeting</p>
         </div>
         <div class="meeting-details">
-            <p *ngIf="hasOwner">{{ slot.size }} min, {{slot.authorName}}, {{ slot.locationName }}</p>
-            <p *ngIf="!hasOwner">{{ slot.size }} min, 1 of {{slot.members.length}} members, {{ slot.locationName }}</p>
+            <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ slot.locationName }}</p>
+            <p *ngIf="!hasOwner">
+                {{ slot.size }} min, 1 of {{ slot.members.length }} members, {{ slot.locationName }}
+            </p>
             <div class="avatar-list">
                 <div *ngFor="let member of slot.members">
                     <img [src]="member.memberImage" class="avatar" />
