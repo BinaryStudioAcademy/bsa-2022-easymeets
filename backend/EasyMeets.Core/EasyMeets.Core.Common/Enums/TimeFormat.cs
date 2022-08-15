@@ -2,8 +2,7 @@
 {
     public enum TimeFormat
     {
-        Thhmmss,
-        Thhmm,
-        Thh
+        TwelveHour,
+        TwentyFourHour
     }
 }
