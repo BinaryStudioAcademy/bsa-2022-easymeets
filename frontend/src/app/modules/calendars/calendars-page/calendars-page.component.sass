@@ -1,31 +1,28 @@
 @import '../../../../styles/color-variables'
+@import '../../../../styles/screen-variables'
 
-.container
-    width: 100vw
-    min-height: 100vh
-    display: flex
-    flex-direction: column
-    justify-content: center
-    align-items: center
+.calendar-container
+    width: 100%
 
 table
-    width: 80%
+    width: 100%
     box-shadow: none
-    margin-bottom: 50px
 
 .connect-new
-    width: 80%
+    width: 100%
     height: 40px
     font-size: 18px
     font-weight: bold
     background-color: $white
     border: 2px solid $black
     cursor: pointer
-    margin-bottom: 50px
-    margin-top: 50px
+    margin-bottom: 20px
     display: flex
     align-items: center
     justify-content: center
+    @media screen and ( max-width: $tablet-min-width )
+        height: 30px
+        font-size: 16px
 
 .mat-header-cell
     background-color: $athens-gray
@@ -55,9 +52,18 @@ table
     font-weight: bold
     border: none
     background-color: $athens-gray
+    margin-top: 50px
+    @media screen and ( max-width: $tablet-min-width )
+        height: 30px
+        font-size: 14px
+        margin-top: 25px
 
 .mat-select-trigger
     height: 30px
 
 .mat-cell
     padding-left: 24px
+
+.table-container
+    overflow: auto
+    width: 100%

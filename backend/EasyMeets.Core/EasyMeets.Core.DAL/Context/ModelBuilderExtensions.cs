@@ -143,7 +143,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50))
                 .RuleFor(u => u.WelcomeMessage, f => f.Lorem.Text().ClampLength(1, 300))
                 .RuleFor(u => u.Link, f => f.Internet.Url().ClampLength(1, 30))
-                .RuleFor(u => u.Type, f => (SlotType)f.Random.Int(1, 2))
+                .RuleFor(u => u.Type, f => (SlotType)f.Random.Int(0, 1))
                 .RuleFor(u => u.Size, f => f.Random.Int(15, 60))
                 .RuleFor(u => u.Frequency, f => f.Random.Int(15, 30))
                 .RuleFor(u => u.Language, f => "Ukrainian")
