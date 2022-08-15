@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivityType } from '@core/enums/activity-type.enum';
+import { Color } from '@core/enums/color.enum';
+import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IGeneralAvailabilitySettings } from '@core/models/IGeneralAvailabilitySettings';
-import { IAvailabilitySlot } from "@core/models/IAvailiabilitySlot";
-import { ActivityType } from "@core/enums/activity-type.enum";
-import { Color } from "@core/enums/color.enum";
 
 @Component({
     selector: 'app-general',
@@ -40,11 +40,7 @@ export class GeneralComponent implements OnInit {
         if (!this.meetingPaddings.some(f => f === this.settings.meetingPadding)) {
             this.meetingPaddings.push(this.settings.meetingPadding);
         }
-
         this.addAdvanced = Boolean(this.slot?.advancedSlotSettingsId);
-
-        console.log(this.settings);
-        console.log(this.slot?.advancedSlotSettings);
     }
 
     public slot?: IAvailabilitySlot;
@@ -82,38 +78,38 @@ export class GeneralComponent implements OnInit {
         };
     }
 
-    public colorInputs: {id: string; enumValue: Color}[] = [
+    public colorInputs: { id: string; enumValue: Color }[] = [
         {
-            id: "dark-blue-color",
-            enumValue: Color.Blue
+            id: 'dark-blue-color',
+            enumValue: Color.Blue,
         },
         {
-            id: "light-red-color",
-            enumValue: Color.Red
+            id: 'light-red-color',
+            enumValue: Color.Red,
         },
         {
-            id: "light-green-color",
-            enumValue: Color.Orange
+            id: 'light-green-color',
+            enumValue: Color.Orange,
         },
         {
-            id: "yellow-green-color",
-            enumValue: Color.Green
+            id: 'yellow-green-color',
+            enumValue: Color.Green,
         },
         {
-            id: "aqua-color",
-            enumValue: Color.Azure
+            id: 'aqua-color',
+            enumValue: Color.Azure,
         },
         {
-            id: "blue-color",
-            enumValue: Color.Blue
+            id: 'blue-color',
+            enumValue: Color.Blue,
         },
         {
-            id: "light-purple-color",
-            enumValue: Color.Purple
+            id: 'light-purple-color',
+            enumValue: Color.Purple,
         },
         {
-            id: "red-color",
-            enumValue: Color.Cherry
-        }
-    ]
+            id: 'red-color',
+            enumValue: Color.Cherry,
+        },
+    ];
 }

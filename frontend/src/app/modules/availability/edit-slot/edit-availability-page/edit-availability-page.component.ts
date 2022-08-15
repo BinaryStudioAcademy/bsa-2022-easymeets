@@ -1,12 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from "rxjs";
-import { HttpInternalService } from "@core/services/http-internal.service";
-import { SpinnerService } from "@core/services/spinner.service";
-import { IAvailabilitySlot } from "@core/models/IAvailiabilitySlot";
-import { GeneralComponent } from "@modules/availability/new-slot/general/general.component";
-import { EventDetailComponent } from "@modules/availability/new-slot/event-detail/event-detail.component";
-import { NewAvailabilityComponent } from "@modules/availability/new-slot/new-availability/new-availability.component";
+import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { HttpInternalService } from '@core/services/http-internal.service';
+import { SpinnerService } from '@core/services/spinner.service';
+import { NewAvailabilityComponent } from '@modules/availability/new-slot/new-availability/new-availability.component';
 
 @Component({
     selector: 'app-edit-availability-page',
@@ -33,7 +30,6 @@ export class EditAvailabilityPageComponent {
             this.httpInternalService
                 .getRequest<IAvailabilitySlot>(`/availability/slot/${this.id}`)
                 .subscribe(slotResponse => {
-                    console.log(slotResponse);
                     this.slot = slotResponse;
                     this.spinnerService.hide();
                 });
@@ -48,7 +44,7 @@ export class EditAvailabilityPageComponent {
         this.httpInternalService.putRequest(`/availability/${this.slot?.id}`, {
             generalSettings: this.newAvailabilityComponent.generalComponent.settings,
             eventDetailsSettings: this.newAvailabilityComponent.eventDetailComponent.settings,
-            hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced
+            hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
         });
         this.goToPage('/availability');
     }

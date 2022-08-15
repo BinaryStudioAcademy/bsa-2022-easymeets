@@ -13,7 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
-import { MatTabsModule } from "@angular/material/tabs";
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
     declarations: [],
@@ -33,7 +33,7 @@ import { MatTabsModule } from "@angular/material/tabs";
         MatRadioModule,
         MatIconModule,
         MatTableModule,
-        MatTabsModule
+        MatTabsModule,
     ],
     exports: [
         FormsModule,
@@ -51,7 +51,7 @@ import { MatTabsModule } from "@angular/material/tabs";
         MatRadioModule,
         MatIconModule,
         MatTableModule,
-        MatTabsModule
+        MatTabsModule,
     ],
 })
 export class MaterialModule {}

@@ -1,4 +1,4 @@
-import { ActivityType } from "@core/enums/activity-type.enum";
+import { ActivityType } from '@core/enums/activity-type.enum';
 
 export interface IGeneralAvailabilitySettings {
     slotSize: number;

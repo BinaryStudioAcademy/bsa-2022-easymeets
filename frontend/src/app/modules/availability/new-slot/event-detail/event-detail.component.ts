@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IEventDetailSettings } from '@core/models/IEventDetailSettings';
-import { IAvailabilitySlot } from "@core/models/IAvailiabilitySlot";
 
 @Component({
     selector: 'app-event-detail',
@@ -18,7 +18,7 @@ export class EventDetailComponent implements OnInit {
             allowBookingSelect: this.slot?.bookingsPerDay ?? this.allowedBooking[1],
             isAllowBooker: this.slot?.allowToAddGuests ?? false,
             passwordProtect: this.slot?.passwordProtectionIsUsed ?? false,
-            passwordInput: this.slot?.passwordProtection ?? ''
+            passwordInput: this.slot?.passwordProtection ?? '',
         };
         console.log(this.settings);
     }
@@ -63,6 +63,6 @@ export class EventDetailComponent implements OnInit {
     }
 
     public getUrlBaseName(): string {
-        return new URL(this.slot?.link ?? '').hostname ?? ''
+        return new URL(this.slot?.link ?? '').hostname ?? '';
     }
 }

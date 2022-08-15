@@ -1,5 +1,4 @@
-export enum Color
-{
+export enum Color {
     Black,
     Red,
     Orange,

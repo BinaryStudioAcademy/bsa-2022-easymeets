@@ -1,5 +1,6 @@
+import { IAdvancedSlotSettings } from '@core/models/IAdvancedSlotSettings';
+
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
-import { IAdvancedSlotSettings } from "@core/models/IAdvancedSlotSettings";
 
 export interface IAvailabilitySlot {
     id: number;
