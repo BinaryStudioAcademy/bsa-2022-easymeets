@@ -12,6 +12,8 @@ export class NewAvailabilityComponent implements OnInit {
 
     public isActive: boolean = true;
 
+    public index: number = 0;
+
     ngOnInit(): void {
         this.initializeSideMenu();
     }

@@ -3,9 +3,9 @@
         <div class="group-header" *ngIf="group.header" mat-subheader>{{ group.header }}</div>
         <a
             mat-list-item
-            *ngFor="let item of group.items"
-            [routerLink]="item.routerLink"
+            *ngFor="let item of group.items; index as i"
             routerLinkActive="side-list-item-active"
+            (click)="currentIndex = i; currentIndexChange.emit(i)"
             class="list-item">
             {{ item.text }}
         </a>

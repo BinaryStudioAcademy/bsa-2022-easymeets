@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from "@angular/material/tabs";
 
 @NgModule({
     declarations: [],
@@ -32,6 +33,7 @@ import { MatTableModule } from '@angular/material/table';
         MatRadioModule,
         MatIconModule,
         MatTableModule,
+        MatTabsModule
     ],
     exports: [
         FormsModule,
@@ -49,6 +51,7 @@ import { MatTableModule } from '@angular/material/table';
         MatRadioModule,
         MatIconModule,
         MatTableModule,
+        MatTabsModule
     ],
 })
 export class MaterialModule {}
