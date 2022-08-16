@@ -14,19 +14,31 @@ export class UserProfilePageComponent {
 
     public uploadImageDto: UploadImageDTO;
 
-    public formData = new FormData();
-
     // eslint-disable-next-line no-empty-function
     constructor(private uploadImageService: UploadImageService) {
     }
 
-    public loadImage(target: any) {
-        // eslint-disable-next-line prefer-destructuring
-        this.imageFile = target.files[0];
+    public loadImage({ files }: any) {
+        // eslint-disable-next-line no-debugger
+        debugger;
 
+        const fileToUpload = <File>files[0];
         const formData = new FormData();
 
-        formData.append('file', this.imageFile, this.imageFile.name);
+        formData.append('image', fileToUpload, fileToUpload.name);
+
+        this.uploadImageService
+            .uploadImage(formData)
+            .subscribe(
+                (resp) => {
+                    console.log(resp);
+                },
+            );
+    }
+
+    public changeImage(target: any) {
+        // eslint-disable-next-line prefer-destructuring
+        this.imageFile = target.files[0];
 
         if (!this.imageFile) {
             target.value = '';
@@ -38,7 +50,6 @@ export class UserProfilePageComponent {
             target.value = '';
             console.log('Image can\'t be heavier than ~5MB');
         }
-
         const reader = new FileReader();
 
         reader.addEventListener(
@@ -47,15 +58,6 @@ export class UserProfilePageComponent {
                 // eslint-disable-next-line no-debugger
                 debugger;
                 this.imageUrl = reader.result as string;
-                this.uploadImageDto = { filePath: this.imageUrl, fileName: 'someName', userId: 2 };
-
-                this.uploadImageService
-                    .uploadImage(this.uploadImageDto)
-                    .subscribe(
-                        (resp) => {
-                            console.log(resp);
-                        },
-                    );
                 console.log(this.imageUrl);
             },
         );
