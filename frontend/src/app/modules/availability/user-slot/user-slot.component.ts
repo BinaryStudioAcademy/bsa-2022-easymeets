@@ -3,7 +3,7 @@ import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IUser } from '@core/models/IUser';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-user-slot',
@@ -15,9 +15,7 @@ export class UserSlotComponent {
 
     @Input() public currentUser: IUser;
 
-    protected destroyed$ = new Subject<void>();
-
-    readonly untilThis = <T>(source: Observable<T>) => source.pipe(takeUntil(this.destroyed$));
+    private unsubscribe$ = new Subject<void>();
 
     // eslint-disable-next-line no-empty-function
     constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {}
@@ -25,7 +23,7 @@ export class UserSlotComponent {
     public updateUserSlots() {
         this.availabilitySlotService
             .getUserPersonalAndTeamSlots(this.currentUser.id)
-            .pipe(this.untilThis)
+            .pipe(takeUntil(this.unsubscribe$))
             .subscribe((resp) => {
                 this.userSlots = resp.userSlots;
                 this.spinnerService.hide();
