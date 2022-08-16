@@ -2,9 +2,7 @@
 using Azure.Storage.Blobs;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.DAL.Context;
-using Microsoft.AspNetCore.Http;
-using System.IO;
-
+using Microsoft.AspNetCore.Http; 
 namespace EasyMeets.Core.BLL.Services
 {
     public class UploadFileService : BaseService, IUploadFileService

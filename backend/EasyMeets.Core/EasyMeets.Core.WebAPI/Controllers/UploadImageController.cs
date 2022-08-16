@@ -1,9 +1,8 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
-using EasyMeets.Core.Common.DTO.UploadImage;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
-{ 
+{
     [ApiController]
     [Route("[controller]")]
     public class UploadImageController : ControllerBase
@@ -29,7 +28,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
                 return NotFound();
             }
 
-            return Ok();
+            return Ok(new { imagePath = imageUrl });
         }
     }
 }

@@ -28,6 +28,12 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         super();
     }
 
+    public imageUrl: string;
+
+    public imageFile: File;
+
+    public uploadImageDto: UploadImageDTO;
+
     public user: IUser;
 
     public userForm: FormGroup;
@@ -116,12 +122,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         this.countryCode = this.countryCodeValues[form.value.country];
     }
 
-    public imageUrl: string;
-
-    public imageFile: File;
-
-    public uploadImageDto: UploadImageDTO;
-
     public loadImage({ files }: any) {
         const fileToUpload = <File>files[0];
         const formData = new FormData();
@@ -130,38 +130,13 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
         this.uploadImageService
             .uploadImage(formData)
+            .pipe(this.untilThis)
             .subscribe(
-                (resp) => {
-                    console.log(resp);
+                (resp: any) => {
+                    console.log(resp.imagePath);
+                    this.imageUrl = resp.imagePath;
                 },
+                (error) => { console.log(error); },
             );
-    }
-
-    public changeImage(target: any) {
-        // eslint-disable-next-line prefer-destructuring
-        this.imageFile = target.files[0];
-
-        if (!this.imageFile) {
-            target.value = '';
-
-            return;
-        }
-
-        if (this.imageFile.size / 1000000 > 5) {
-            target.value = '';
-            console.log('Image can\'t be heavier than ~5MB');
-        }
-        const reader = new FileReader();
-
-        reader.addEventListener(
-            'load',
-            () => {
-                // eslint-disable-next-line no-debugger
-                debugger;
-                this.imageUrl = reader.result as string;
-                console.log(this.imageUrl);
-            },
-        );
-        reader.readAsDataURL(this.imageFile);
     }
 }
