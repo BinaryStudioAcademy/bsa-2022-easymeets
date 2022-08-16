@@ -12,8 +12,8 @@ import { ExternalBookingRoutingModule } from './external-booking-routing.module'
 @NgModule({
     declarations: [
         ExternalBookingPageComponent,
-        ExternalBookingChooseTimeComponent,
         ExternalBookingChooseMeetingComponent,
+        ExternalBookingChooseTimeComponent,
     ],
     imports: [SharedModule, ExternalBookingRoutingModule, CommonModule, MaterialModule],
 })

@@ -1,68 +1,8 @@
 @import '../../../../styles/color-variables'
 @import '../../../../styles/screen-variables'
 
-*
-    box-sizing: border-box
-
-.container
-    display: flex
-    flex-direction: column
-    justify-items: center
-    background-color: $athens-gray
-    height: 100vh
-    width: 100vw
-    padding: 0 10% 5% 10%
-    @media screen and (max-width: $tablet-min-width)
-        padding: 0 5% 2% 5%
-
-.header
-    display: flex
-    flex-direction: row
-    justify-content: center
-    align-items: center
-    padding: 20px 0
-    img
-        width: 90px
-
-.main-content
-    display: flex
-    flex-direction: row
-    justify-content: center
-    padding: 0 20px
-    background-color: $white
-    height: 100vh
-    @media screen and (max-width: $desktop-min-width)
-        flex-direction: column
-    .sidebar
-        width: 25%
-        @media screen and (max-width: $desktop-min-width)
-            width: 100%
-            border-right: none
-            border-bottom: 2px solid $athens-gray
-    .choice
-        width: 75%
-        @media screen and (max-width: $desktop-min-width)
-            width: 100%
-
-.sidebar
-    position: relative
-    display: flex
-    flex-direction: column
-    align-items: flex-start
-    border-right: 2px solid $athens-gray
-    padding: 30px
-    img
-        height: 78px
-        width: 78px
-        border-radius: 100%
-        margin-bottom: 20px
-
-.choice
-    position: relative
-    display: flex
-    flex-direction: column
-    align-items: flex-start
-    padding: 30px 23px
+.meeting-cards
+    width: 770px
 
 h1, h3, h4
     font-family: 'Inter'
@@ -79,8 +19,8 @@ h1
     font-size: 20px
 
 ::ng-deep .card.mat-card
-    width: 45%
-    height: 101px
+    width: 45% !important
+    height: 101px !important
     margin: 5px 0
     padding-top: 20px !important
     padding-left: 20px !important
