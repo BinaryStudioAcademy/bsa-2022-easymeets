@@ -7,7 +7,7 @@
         <div *ngIf="userPersonalAndTeamSlots">
             <app-user-slot [userSlots]="userPersonalAndTeamSlots.userSlots" [currentUser]="currentUser"></app-user-slot>
             <div *ngFor="let teamSlot of userPersonalAndTeamSlots.teamSlots">
-                <app-team [teamSlot]="teamSlot"></app-team>
+                <app-team [currentUser]="currentUser" [teamSlot]="teamSlot"></app-team>
             </div>
         </div>
     </div>
