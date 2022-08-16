@@ -1,11 +1,9 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.UploadImage;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
-{
-    [Authorize]
+{ 
     [ApiController]
     [Route("[controller]")]
     public class UploadImageController : ControllerBase
@@ -18,8 +16,11 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UploadImageAsync(ImageUploadDTO imageUploadDTO)
+        public async Task<IActionResult> UploadImageAsync()
         {
+            var formCollection = await Request.ReadFormAsync();
+            var file = formCollection.Files.First();
+            ImageUploadDTO imageUploadDTO = new ImageUploadDTO();
             var imageUrl = await _uploadFileService.UploadFileBlobAsync(imageUploadDTO.FilePath, imageUploadDTO.FileName, imageUploadDTO.UserId);
 
             if (imageUrl is null)
