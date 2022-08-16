@@ -7,6 +7,8 @@
 
 .main-settings, .advanced-settings
     margin: 0 60px 30px 30px
+    @media screen and ( max-width: $tablet-min-width)
+        margin: 0 40px 30px 0
 
 .inputs-grid
     width: 100%
@@ -41,6 +43,8 @@ select, input[type=text]
     display: flex
     flex-direction: row
     margin: 20px 0 0 60px
+    @media screen and ( max-width: $tablet-min-width)
+        margin: 20px 0 0 30px
     .advanced-settings-label
         padding-top: 12px
         align-self: center

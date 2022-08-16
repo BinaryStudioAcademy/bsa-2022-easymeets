@@ -166,6 +166,9 @@ body
     flex-direction: row
     align-items: center
     gap: 14px
+    @media screen and ( max-width: 460px)
+        display: grid
+        grid-template-columns: repeat(auto-fit, minmax(25px, 1fr))
 
 .colorButton
     width: 25px

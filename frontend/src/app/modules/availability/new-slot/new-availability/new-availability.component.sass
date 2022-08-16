@@ -19,8 +19,10 @@ app-side-menu
     justify-items: center
     padding: 0 100px 90px 100px
     background-color: $athens-gray
-    @media screen and(max-width: 940px)
+    @media screen and(max-width: $desktop-min-width)
         padding: 0 50px 90px 50px
+    @media screen and ( max-width: $tablet-min-width)
+        padding: 0 30px 90px 30px
 
 .new-availability-header
     display: flex
@@ -28,6 +30,9 @@ app-side-menu
     justify-content: flex-start
     align-items: center
     padding: 20px 0
+    @media screen and(max-width: 700px)
+        flex-direction: column
+        gap: 5px
     p
         margin: 0 25px 0 0
     .slot-link
@@ -37,12 +42,22 @@ app-side-menu
         font-size: 20px
         font-weight: bold
         color: $dark-gray
+        @media screen and ( max-width: $tablet-min-width)
+            font-size: 16px
     mat-slide-toggle
-        margin-right: 10px
+            margin-right: 10px
     .slot-button-container
         margin-left: auto
         display: flex
         gap: 20px
+        @media screen and(max-width: 700px)
+            width: 100%
+            margin-left: 0
+        button
+            @media screen and ( max-width: $tablet-min-width)
+                line-height: 20px
+                @media screen and(max-width: 700px)
+                    width: 50%
 
 .main-content
     background-color: white
@@ -84,3 +99,7 @@ app-side-menu
                 height: 24px
                 line-height: 24px
                 margin: 0 0 0 10px
+
+.active-container
+    display: flex
+    align-items: center
