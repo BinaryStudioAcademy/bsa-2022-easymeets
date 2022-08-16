@@ -1,6 +1,6 @@
 ﻿namespace EasyMeets.Core.Common.Enums;
 
-public enum WeedDay
+public enum WeekDay
 {
     Monday,
     Tuesday,
