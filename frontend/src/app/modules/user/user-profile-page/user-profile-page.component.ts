@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { UploadImageDTO } from '@core/models/UploadImageDTO';
+import { UploadImageService } from '@core/services/upload-image.service';
 
 @Component({
     selector: 'app-user-profile-page',
@@ -10,11 +12,21 @@ export class UserProfilePageComponent {
 
     public imageFile: File;
 
+    public uploadImageDto: UploadImageDTO;
+
+    public formData = new FormData();
+
+    // eslint-disable-next-line no-empty-function
+    constructor(private uploadImageService: UploadImageService) {
+    }
+
     public loadImage(target: any) {
-        // eslint-disable-next-line no-debugger
-        debugger;
         // eslint-disable-next-line prefer-destructuring
         this.imageFile = target.files[0];
+
+        const formData = new FormData();
+
+        formData.append('file', this.imageFile, this.imageFile.name);
 
         if (!this.imageFile) {
             target.value = '';
@@ -35,6 +47,15 @@ export class UserProfilePageComponent {
                 // eslint-disable-next-line no-debugger
                 debugger;
                 this.imageUrl = reader.result as string;
+                this.uploadImageDto = { filePath: this.imageUrl, fileName: 'someName', userId: 2 };
+
+                this.uploadImageService
+                    .uploadImage(this.uploadImageDto)
+                    .subscribe(
+                        (resp) => {
+                            console.log(resp);
+                        },
+                    );
                 console.log(this.imageUrl);
             },
         );

@@ -1,17 +1,8 @@
 <div class="wrapper">
     <div class="item">
         <div class="user-avatar-block">
-            <img
-                mat-card-image
-                src="{{ imageUrl }}"
-                class="user-avatar">
-            <input
-                hidden
-                #file
-                accept="image/*"
-                type="file"
-                (change)="loadImage($event.target)"
-            />
+            <img mat-card-image src="{{ imageUrl }}" class="user-avatar">
+            <input hidden #file accept="image/*" type="file" (change)="loadImage($event.target)" />
             <button class="upload-picture-button" (click)="file.click()">Upload Picture</button>
         </div>
     </div>
