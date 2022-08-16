@@ -1,7 +1,7 @@
 <form class="wrapper" [formGroup]="userForm" (ngSubmit)="OnSubmit(userForm)">
     <div class="item">
         <div class="user-avatar-block">
-            <img class="user-avatar" src="{{user.image}}">
+            <img class="user-avatar" src="{{user?.image}}">
             <button type="button" class="upload-picture-button" mat-flat-button>Upload Picture</button>
         </div>
     </div>
@@ -11,6 +11,9 @@
         </label>
         <div>
             <input type="text" formControlName="userName">
+        </div>
+        <div *ngIf="userNameControl.invalid" class="validation">
+            <small *ngIf="userNameControl.errors?.['minlength']">This field is required.</small>
         </div>
     </div>
     <div class="item">
@@ -51,7 +54,7 @@
         <label>
             <div>Country</div>
         </label>
-        <mat-select formControlName="country">
+        <mat-select formControlName="country" (selectionChange)="changeCountry(userForm)">
             <mat-option *ngFor="let name of countryKeys" [value]="countryKeys.indexOf(name)">
                 {{countryValues[countryKeys.indexOf(name)]}}
             </mat-option>
@@ -62,7 +65,8 @@
             <div>Phone Number</div>
         </label>
         <div>
-            <input formControlName="phone" mask="(000) 000 00 00" prefix="+38" [showMaskTyped]="true" placeHolderCharacter="_">
+            <input formControlName="phone" mask="(000) 000 00 00" prefix="+{{countryCode}} " [showMaskTyped]="true"
+                   placeHolderCharacter="_">
         </div>
     </div>
     <div class="item">

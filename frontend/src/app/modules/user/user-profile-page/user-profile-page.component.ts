@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IUser } from '@core/models/IUser';
 import { UserService } from '@core/services/user.service';
 import { Country } from '@shared/enums/country';
+import { CountryCode } from '@shared/enums/countryCode';
 import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
@@ -18,35 +19,48 @@ export class UserProfilePageComponent implements OnInit {
 
     public userForm: FormGroup;
 
-    timeFormatKeys = Object.keys(TimeFormat);
+    public timeFormatKeys = Object.keys(TimeFormat);
 
-    timeFormatValues = Object.values(TimeFormat);
+    public timeFormatValues = Object.values(TimeFormat);
 
-    dateFormatKeys = Object.keys(DateFormat);
+    public dateFormatKeys = Object.keys(DateFormat);
 
-    dateFormatValues = Object.values(DateFormat);
+    public dateFormatValues = Object.values(DateFormat);
 
-    languageKeys = Object.keys(Language);
+    public languageKeys = Object.keys(Language);
 
-    languageValues = Object.values(Language);
+    public languageValues = Object.values(Language);
 
-    timeZoneKeys = Object.keys(TimeZone);
+    public timeZoneKeys = Object.keys(TimeZone);
 
-    timeZoneValues = Object.values(TimeZone);
+    public timeZoneValues = Object.values(TimeZone);
 
-    countryKeys = Object.keys(Country);
+    public countryKeys = Object.keys(Country);
 
-    countryValues = Object.values(Country);
+    public countryValues = Object.values(Country);
+
+    public countryCodeKeys = Object.keys(CountryCode);
+
+    public countryCodeValues = Object.values(CountryCode);
+
+    public userNameControl: FormControl = new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50),
+        Validators.pattern(/^[a-zA-Z\dа-яА-Я- ]*$/),
+    ]);
+
+    countryCode: string;
 
     constructor(private userService: UserService) {
     }
 
-    OnSubmit(form: FormGroup) {
+    public OnSubmit(form: FormGroup) {
         const editedUser: IUser = {
             id: this.user.id,
             email: this.user.email,
             image: this.user.image,
-            phone: form.value.phone,
+            phone: `+${this.countryCodeValues[form.value.country]}${form.value.phone}`,
             userName: form.value.userName,
             country: form.value.country,
             dateFormat: form.value.dateFormat,
@@ -60,14 +74,9 @@ export class UserProfilePageComponent implements OnInit {
         );
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.userForm = new FormGroup({
-            userName: new FormControl('', [
-                Validators.required,
-                Validators.minLength(2),
-                Validators.maxLength(50),
-                Validators.pattern(/^[a-zA-Z\dа-яА-Я- ]*$/),
-            ]),
+            userName: this.userNameControl,
             phone: new FormControl(),
             country: new FormControl(),
             dateFormat: new FormControl(),
@@ -78,16 +87,21 @@ export class UserProfilePageComponent implements OnInit {
 
         this.userService.getCurrentUserById(1).subscribe((user) => {
             this.user = user;
-            // this.editedUser = { ...this.user };
             this.userForm.patchValue({
                 userName: user.userName,
-                phone: user.phone,
+                phone: user.phone?.substr(user.phone.length - 10),
                 country: user.country,
                 dateFormat: user.dateFormat,
                 timeFormat: user.timeFormat,
                 language: user.language,
                 timeZone: user.timeZone,
             });
+            this.changeCountry(this.userForm);
         });
+    }
+
+    public changeCountry(form: FormGroup) {
+        console.log('change');
+        this.countryCode = this.countryCodeValues[form.value.country];
     }
 }
