@@ -1,6 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { IExtendBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
-import { IUser } from '@core/models/IUser';
+import { Component, OnInit } from '@angular/core';
+import { IExternalBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
 import { SpinnerService } from '@core/services/spinner.service';
 import { UserService } from '@core/services/user.service';
 
@@ -9,16 +8,17 @@ import { UserService } from '@core/services/user.service';
     templateUrl: './external-booking-page.component.html',
     styleUrls: ['./external-booking-page.component.sass'],
 })
-export class ExternalBookingPageComponent {
-    @Input() menu: IExtendBookingSideMenu;
+export class ExternalBookingPageComponent implements OnInit {
+    public menu: IExternalBookingSideMenu = {} as IExternalBookingSideMenu;
 
-    public selectedUser: IUser;
+    public selectedUserId: number = 7;
 
-    public selectedUserId: number = 10;
+    // eslint-disable-next-line no-empty-function
+    constructor(public spinnerService: SpinnerService, private userService: UserService) {}
 
-    constructor(public spinnerService: SpinnerService, private userService: UserService) {
+    ngOnInit(): void {
         this.userService.getCurrentUserById(this.selectedUserId).subscribe((user) => {
-            this.selectedUser = user;
+            this.menu.user = user;
         });
     }
 }

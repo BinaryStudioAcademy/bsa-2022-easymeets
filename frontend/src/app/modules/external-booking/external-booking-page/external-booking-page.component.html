@@ -4,13 +4,20 @@
     </div>
     <div class="main-content">
         <div class="sidebar">
-            <img *ngIf="selectedUser.image; else defaultImage" src="{{ selectedUser.image }}" />
+            <img *ngIf="menu.user; else defaultImage" src="{{ menu.user.image }}" />
             <ng-template #defaultImage>
                 <img src="assets/bulochka.PNG" />
             </ng-template>
-            <h3>{{ selectedUser.userName }}</h3>
+            <h3>{{ menu.user.userName }}</h3>
             <h1>Booking Page</h1>
             <h4>Hello! Welcome to my booking page, please choose a time that works for you.</h4>
+            <h5>Time</h5>
+
+            <h5>Date</h5>
+
+            <h5>Duration</h5>
+
+            <h5>Location</h5>
         </div>
         <div class="choice">
             <router-outlet></router-outlet>
