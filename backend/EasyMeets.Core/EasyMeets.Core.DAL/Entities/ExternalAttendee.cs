@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+using EasyMeets.Core.Common.Validation;
+
 namespace EasyMeets.Core.DAL.Entities;
 
-public class ExternalAttendee : Entity<long>
+public class ExternalAttendee : Entity<long>, IValidatableObject
 {
     public ExternalAttendee()
     {
@@ -13,4 +16,16 @@ public class ExternalAttendee : Entity<long>
 
     public AvailabilitySlot AvailabilitySlot { get; set; } = null!;
     public ICollection<ExternalAttendeeAvailability> ExternalAttendeeAvailabilities { get; set; }
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!Name.IsValidUsername() || Name.Length is < 2 or > 50)
+        {
+            yield return new ValidationResult("Invalid name");
+        }
+
+        if (!Email.IsValidEmail() || Email.Length is < 5 or > 51)
+        {
+            yield return new ValidationResult("Invalid email");
+        }
+    }
 }

@@ -54,8 +54,8 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.PhoneNumber, f => f.Person.Phone.ClampLength(1, 10))
                 .RuleFor(u => u.ImagePath, f => f.Internet.Avatar())
                 .RuleFor(u => u.Language, f => Language.Pl)
-                .RuleFor(u => u.DateFormat, f => DateFormat.MDYY)
-                .RuleFor(u => u.TimeFormat, f => TimeFormat.Thh)
+                .RuleFor(u => u.DateFormat, f => (DateFormat)f.Random.Int(0, 1))
+                .RuleFor(u => u.TimeFormat, f => (TimeFormat)f.Random.Int(0, 1))
                 .RuleFor(u => u.TimeZone, f => Common.Enums.TimeZone.UTCPLUS0200_HELSINKI_KYIV_RIGA_SOFIA_TALLINN_VILNIUS)
                 .RuleFor(u => u.Country, f => Country.Ukraine)
                 .RuleFor(u => u.IsBanned, f => false)
@@ -114,9 +114,11 @@ namespace EasyMeets.Core.DAL.Context
         private static IList<AdvancedSlotSettings> GenerateSlotSettingsList(int count = 10)
         {
             var id = 1;
+            var settingsId = 1;
 
             return new Faker<AdvancedSlotSettings>()
                 .RuleFor(u => u.Id, f => id++)
+                .RuleFor(u => u.AvailabilitySlotId, f => settingsId++)
                 .RuleFor(u => u.ActivityType, f => (ActivityType)f.Random.Int(1, 3))
                 .RuleFor(u => u.Days, f => f.Random.Int(1, 30))
                 .RuleFor(u => u.StartDate, f => DateTime.Today.AddDays(1))
@@ -131,7 +133,7 @@ namespace EasyMeets.Core.DAL.Context
         private static IList<AvailabilitySlot> GenerateAvailabilitySlots(int count = 10)
         {
             var id = 1;
-            var settingsId = 1;
+            
             var authorId = 1;
             
             return new Faker<AvailabilitySlot>()
@@ -139,11 +141,10 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.TeamId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.CreatedBy, f => authorId++)
                 .RuleFor(u => u.LocationId, f => f.Random.Int(1, 5))
-                .RuleFor(u => u.AdvancedSlotSettingsId, f => settingsId++)
                 .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50))
                 .RuleFor(u => u.WelcomeMessage, f => f.Lorem.Text().ClampLength(1, 300))
                 .RuleFor(u => u.Link, f => f.Internet.Url().ClampLength(1, 30))
-                .RuleFor(u => u.Type, f => (SlotType)f.Random.Int(1, 2))
+                .RuleFor(u => u.Type, f => (SlotType)f.Random.Int(0, 1))
                 .RuleFor(u => u.Size, f => f.Random.Int(15, 60))
                 .RuleFor(u => u.Frequency, f => f.Random.Int(15, 30))
                 .RuleFor(u => u.Language, f => "Ukrainian")
@@ -209,7 +210,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AvailabilitySlotId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.Name, f => f.Person.FullName)
-                .RuleFor(u => u.Email, f => f.Person.Email.ClampLength(30))
+                .RuleFor(u => u.Email, f => f.Person.Email.ClampLength(max: 29))
                 .RuleFor(u => u.EventTime, f => f.Date.Future())
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);

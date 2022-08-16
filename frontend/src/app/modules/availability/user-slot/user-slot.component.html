@@ -1,0 +1,13 @@
+<div class="container">
+    <div class="user-info">
+        <div class="user-name">
+            <div><h3>{{currentUser.userName}}</h3></div>
+            <img src="assets/copy_icon.png" class="copy-icon"/>
+        </div>
+    </div>
+    <div class="availability-slot">
+        <div *ngFor="let _slot of userSlots">
+            <app-slot [slot]="_slot" [hasOwner]="true"></app-slot>
+        </div>
+    </div>
+</div>

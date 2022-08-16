@@ -1,17 +1,23 @@
-<mat-card class="card-container" *ngIf="isChecked">
+<mat-card class="card-container" *ngIf="slot.isEnabled">
     <div class="slot-content">
         <div class="slot-header">
             <p>Availability slots for</p>
-            <mat-slide-toggle [checked]="isChecked" (change)="toggle($event)"></mat-slide-toggle>
+            <mat-slide-toggle [checked]="slot.isEnabled" (change)="toggle($event)"></mat-slide-toggle>
         </div>
         <div class="time-options">
-            <p>{{ slot.time }} meeting</p>
+            <div>
+                <p>{{ slot.name }}</p>
+                <i *ngIf="slot.isVisible" class="fa-solid fa-eye-slash"></i>
+            </div>
         </div>
         <div class="meeting-details">
-            <p>{{ slot.time }}, {{ slot.user }}, {{ slot.meetingPlace }}</p>
+            <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ slot.locationName }}</p>
+            <p *ngIf="!hasOwner">
+                {{ slot.size }} min, 1 of {{ slot.members.length }} members, {{ slot.locationName }}
+            </p>
             <div class="avatar-list">
-                <div *ngFor="let _avatar of slot.avatars">
-                    <img [src]="_avatar" class="avatar" />
+                <div *ngFor="let member of slot.members">
+                    <img [src]="member.memberImage" class="avatar" />
                 </div>
             </div>
         </div>
@@ -32,7 +38,9 @@
                         <button mat-menu-item class="btn bookings">
                             <i class="fa-solid fa-calendar"></i>View bookings
                         </button>
-                        <button mat-menu-item class="btn delete"><i class="fa-solid fa-trash"></i>Delete</button>
+                        <button mat-menu-item class="btn delete" (click)="deleteSlot()">
+                            <i class="fa-solid fa-trash"></i>Delete
+                        </button>
                         <button mat-menu-item class="btn duplicate"><i class="fa-solid fa-clone"></i>Duplicate</button>
                         <button mat-menu-item class="btn select"><i class="fa-solid fa-plus"></i>Select</button>
                     </mat-menu>
@@ -41,20 +49,23 @@
         </div>
     </div>
 </mat-card>
-<mat-card class="card-container card-container-disabled" *ngIf="!isChecked">
+<mat-card class="card-container card-container-disabled" *ngIf="!slot.isEnabled">
     <div class="slot-content">
         <div class="slot-header">
             <p>Availability slots for</p>
-            <mat-slide-toggle [checked]="isChecked" (change)="toggle($event)"></mat-slide-toggle>
+            <mat-slide-toggle [checked]="slot.isEnabled"></mat-slide-toggle>
         </div>
         <div class="time-options">
-            <p>{{ slot.time }} meeting</p>
+            <p>{{ slot.size }} min meeting</p>
         </div>
         <div class="meeting-details">
-            <p>{{ slot.time }}, {{ slot.user }}, {{ slot.meetingPlace }}</p>
+            <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ slot.locationName }}</p>
+            <p *ngIf="!hasOwner">
+                {{ slot.size }} min, 1 of {{ slot.members.length }} members, {{ slot.locationName }}
+            </p>
             <div class="avatar-list">
-                <div *ngFor="let _avatar of slot.avatars">
-                    <img [src]="_avatar" class="avatar" />
+                <div *ngFor="let member of slot.members">
+                    <img [src]="member.memberImage" class="avatar" />
                 </div>
             </div>
         </div>

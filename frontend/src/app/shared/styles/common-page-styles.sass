@@ -36,17 +36,18 @@ body
             transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1)
             transition: all 0.25s linear
 
-    &::after
-        content: ""
-        position: absolute
-        left: 0
-        width: 22px
-        height: 22px
-        background-color: $white-color
-        border-radius: 11px
-        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24)
-        transform: translate3d(2px, 2px, 0)
-        transition: all 0.2s ease-in-out
+        &::after
+            content: ""
+            position: absolute
+            left: 0
+            width: 22px
+            height: 22px
+            background-color: $white-color
+            border-radius: 11px
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24)
+            transform: translate3d(2px, 2px, 0)
+            transition: all 0.2s ease-in-out
+
 
     &:active
         i
@@ -54,21 +55,22 @@ body
                 width: 28px
                 transform: translate3d(2px, 2px, 0)
 
+
         input
             &:checked
                 +
-                i
-                    &::after
-                        transform: translate3d(16px, 2px, 0)
+                    i
+                        &::after
+                            transform: translate3d(16px, 2px, 0)
 
     input
         display: none
         &:checked
             +
-            i
-                background-color: $royal-blue
-                &::before
-                    transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0)
+                i
+                    background-color: $royal-blue
+                    &::before
+                        transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0)
 
                     &::after
                         transform: translate3d(22px, 2px, 0)
@@ -219,3 +221,11 @@ input[type="radio"]
     border-radius: 50%
     &:checked
         background-color: white
+
+.confirm-accept-button
+    background-color: $royal-blue
+    color: $white
+
+.confirm-cancel-button
+    background-color: $athens-gray
+    color: $dark-gray
