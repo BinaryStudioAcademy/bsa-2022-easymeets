@@ -19,13 +19,6 @@ const routes: Routes = [
         loadChildren: () =>
             import('./modules/external-booking/external-booking.module').then((m) => m.ExternalBookingModule),
     },
-    {
-        path: 'external-booking-choose-time',
-        loadChildren: () =>
-            import('./modules/external-booking-choose-time/external-booking-choose-time.module').then(
-                (m) => m.ExternalBookingChooseTimeModule,
-            ),
-    },
     { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
