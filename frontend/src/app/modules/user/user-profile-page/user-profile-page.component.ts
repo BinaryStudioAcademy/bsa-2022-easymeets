@@ -19,9 +19,6 @@ export class UserProfilePageComponent {
     }
 
     public loadImage({ files }: any) {
-        // eslint-disable-next-line no-debugger
-        debugger;
-
         const fileToUpload = <File>files[0];
         const formData = new FormData();
 

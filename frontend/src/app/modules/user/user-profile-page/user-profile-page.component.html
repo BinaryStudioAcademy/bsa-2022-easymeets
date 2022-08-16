@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <form enctype="multipart/form-data" action="/settings/uploadFile" method="put" class="item user-avatar-form">
+    <form enctype="multipart/form-data" class="item user-avatar-form">
         <div class="user-avatar-block">
             <img mat-card-image src="{{ imageUrl }}" class="user-avatar">
             <input hidden #file accept="image/*" type="file" (change)="loadImage($event.target)" />
