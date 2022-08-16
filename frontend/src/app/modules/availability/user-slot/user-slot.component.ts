@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IUser } from '@core/models/IUser';
-import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -12,8 +11,6 @@ import { Observable, Subject, takeUntil } from 'rxjs';
     styleUrls: ['./user-slot.component.sass'],
 })
 export class UserSlotComponent {
-    public userPersonalAndTeamSlots: IUserPersonalAndTeamSlots;
-
     @Input() public userSlots: Array<IAvailabilitySlot>;
 
     @Input() public currentUser: IUser;
@@ -30,8 +27,7 @@ export class UserSlotComponent {
             .getUserPersonalAndTeamSlots(this.currentUser.id)
             .pipe(this.untilThis)
             .subscribe((resp) => {
-                this.userPersonalAndTeamSlots = resp;
-                this.userSlots = this.userPersonalAndTeamSlots.userSlots;
+                this.userSlots = resp.userSlots;
                 this.spinnerService.hide();
             });
     }
