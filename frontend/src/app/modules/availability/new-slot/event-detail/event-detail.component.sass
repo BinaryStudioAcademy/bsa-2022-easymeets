@@ -9,12 +9,36 @@
     margin-bottom: 2px
 
 .container
-    display: flex
-    flex-direction: column
-    justify-content: space-between
+    display: grid
+    flex-flow: column
+    height: 90%
+    margin-left: 60px
+    grid-template-rows: 1fr 2fr 1fr 1fr 0.5fr 1fr 1fr
+    grid-template-areas: "item1" "item2" "item3" "item4" "item5" "item6" "item7"
+    resize: both
+    overflow: auto
 
-    .input-container
-    margin: 20px 30px
+#container-item1
+    grid-area: item1
+
+#container-item2
+    grid-area: item2
+
+#container-item3
+    grid-area: item3
+
+#container-item4
+    grid-area: item4
+
+#container-item5
+    grid-area: item5
+    margin-left: 2px
+
+#container-item6
+    grid-area: item6
+
+#container-item7
+    grid-area: item7
 
 .input-item
     padding-left: 5px
@@ -24,13 +48,22 @@
 .checkbox-text
     font-weight: 400
 
+.input-button-matgroup
+    margin-left: -4px
+
+.form-switch
+    margin-left: -5px
+
+#welcomeMessage
+    height: 110px
+
 .input-message
     background: $white-color
     padding-top: 0
     border: 2px solid $loblolly
     border-radius: 4px
-    height: 136px
     display: flex
+    resize: none
     align-items: flex-start
     justify-content: flex-start
     width: 337px
@@ -73,7 +106,7 @@ p
 .example-radio-group
     display: flex
     flex-direction: column
-    margin: 15px 0
+    margin: 1px 0
     align-items: flex-start
 
 .example-radio-button

@@ -138,7 +138,6 @@ erDiagram
   }
 
   AvailabilitySlot ||--o{ Location : LocationId
-  AvailabilitySlot ||--o{ AdvansedSlotSettings : AdvansedSlotSettingsId
   AvailabilitySlot{
     bigint Id
     nvarchar Name
@@ -154,7 +153,6 @@ erDiagram
     boolean IsEnabled
     boolean IsVisible
     int Frequency
-    bigint AdvansedSlotSettingsId
     nvarchar Language
     int BookingsPerDay
     bool AllowToAddGuests
@@ -172,8 +170,10 @@ erDiagram
     boolean IsDeleted
   }
 
+  AdvansedSlotSettings ||--o{ AvailabilitySlot : AvailabilitySlotId
   AdvansedSlotSettings {
     bigint Id
+    bigint AvailabilitySlotId
     int ActivityType
     int Days
     datetime StartDate

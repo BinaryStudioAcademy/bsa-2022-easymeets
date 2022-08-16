@@ -18,6 +18,6 @@ public class QuestionsConfig  : IEntityTypeConfiguration<Question>
         builder.HasOne(q => q.AvailabilitySlot)
             .WithMany(s => s.Questions)
             .HasForeignKey(q => q.AvailabilitySlotId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
