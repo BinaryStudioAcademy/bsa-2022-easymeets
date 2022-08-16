@@ -1,4 +1,5 @@
-﻿using Bogus;
+﻿using System.Collections;
+using Bogus;
 using Bogus.Extensions;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Entities;
@@ -41,6 +42,8 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.Entity<ExternalAttendeeAvailability>().HasData(GenerateExternalAttendeeAvailabilities());
             modelBuilder.Entity<CalendarVisibleForTeam>().HasData(GenerateCalendarVisibleForTeams());
             modelBuilder.Entity<UserSlot>().HasData(GenerateUserSlots());
+            modelBuilder.Entity<Schedule>().HasData(GenerateSchedules());
+            modelBuilder.Entity<ScheduleItem>().HasData(GenerateScheduleItems());
         }
 
         private static IList<User> GenerateUsers(int count = 10)
@@ -305,6 +308,22 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(s => s.IsDeleted, _ => false)
                 .RuleFor(s => s.TimeZone, f => f.Random.Int(-720, 720))
                 .RuleFor(s => s.WithTeamMembers, f => f.Random.Bool())
+                .Generate(count);
+        }
+
+        private static IList<ScheduleItem> GenerateScheduleItems(int count = 70)
+        {
+            var id = 1;
+            var scheduleId = 1;
+            var weekIndex = 0;
+            return new Faker<ScheduleItem>()
+                .RuleFor(i => i.Id, _ => id++)
+                .RuleFor(i => i.IsDeleted, _ => false)
+                .RuleFor(i => i.ScheduleId, _ => scheduleId++)
+                .RuleFor(i => i.WeekDay, _ => (WeekDay)(weekIndex++ % 7))
+                .RuleFor(i => i.IsEnabled, f => f.Random.Bool())
+                .RuleFor(i => i.Start, f => f.Date.RecentTimeOnly())
+                .RuleFor(i => i.End, f => f.Date.SoonTimeOnly())
                 .Generate(count);
         }
     }
