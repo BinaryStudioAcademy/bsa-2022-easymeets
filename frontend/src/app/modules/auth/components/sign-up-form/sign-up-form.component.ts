@@ -50,10 +50,12 @@ export class SignUpFormComponent {
     }
 
     public onSignUp(): void {
-        const email = this.signUpForm.value.email ?? '';
-        const password = this.signUpForm.value.password ?? '';
+        if (this.signUpForm.valid) {
+            const email = this.signUpForm.value.email ?? '';
+            const password = this.signUpForm.value.password ?? '';
 
-        this.authService.signUp(email, password).then((resp) => this.handleAuthenticationResponce(resp));
+            this.authService.signUp(email, password).then((resp) => this.handleAuthenticationResponce(resp));
+        }
     }
 
     public onSignInWithGoogle(): void {

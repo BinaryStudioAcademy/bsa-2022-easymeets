@@ -46,8 +46,6 @@ export class SignInFormComponent {
     }
 
     public onSignInWithGoogle(): void {
-        if (this.signInForm.valid) {
-            this.authService.loginWithGoogle().then((resp) => this.handleAuthenticationResponce(resp));
-        }
+        this.authService.loginWithGoogle().then((resp) => this.handleAuthenticationResponce(resp));
     }
 }
