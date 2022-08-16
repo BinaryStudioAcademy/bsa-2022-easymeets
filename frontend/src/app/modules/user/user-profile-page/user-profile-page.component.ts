@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IUser } from '@core/models/IUser';
+import { NotificationService } from '@core/services/notification.service';
 import { UserService } from '@core/services/user.service';
 import { Country } from '@shared/enums/country';
 import { CountryCode } from '@shared/enums/countryCode';
@@ -55,7 +56,7 @@ export class UserProfilePageComponent implements OnInit {
         Validators.minLength(10),
     ]);
 
-    constructor(private userService: UserService) {
+    constructor(private userService: UserService, public notificationService: NotificationService) {
     }
 
     public ngOnInit(): void {
@@ -99,7 +100,12 @@ export class UserProfilePageComponent implements OnInit {
         };
 
         this.userService.editUser(editedUser).subscribe(
-            () => {},
+            () => {
+                this.notificationService.showSuccessMessage('Personal information was updated successfully.');
+            },
+            () => {
+                this.notificationService.showErrorMessage('There was an error while updating.');
+            },
         );
     }
 
