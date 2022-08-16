@@ -20,20 +20,20 @@ export class AuthService {
     public signUp(email: string, password: string) {
         return this.afAuth
             .createUserWithEmailAndPassword(email, password)
-            .then(() => this.sendEmailVerification())
+            .then((credentials) => {
+                this.sendEmailVerification();
+
+                return credentials;
+            })
             .catch((error) => this.handleAuthError(error));
     }
 
     public signIn(email: string, password: string) {
-        return this.afAuth
-            .signInWithEmailAndPassword(email, password)
-            .catch((error) => this.handleAuthError(error));
+        return this.afAuth.signInWithEmailAndPassword(email, password).catch((error) => this.handleAuthError(error));
     }
 
     public resetPassword(email: string) {
-        return this.afAuth
-            .sendPasswordResetEmail(email)
-            .catch((error) => this.handleAuthError(error));
+        return this.afAuth.sendPasswordResetEmail(email).catch((error) => this.handleAuthError(error));
     }
 
     public loginWithGoogle() {
@@ -63,9 +63,7 @@ export class AuthService {
     }
 
     private loginWithProvider(provider: auth.GoogleAuthProvider | auth.GithubAuthProvider | auth.FacebookAuthProvider) {
-        return this.afAuth
-            .signInWithPopup(provider)
-            .catch((error) => this.handleAuthError(error));
+        return this.afAuth.signInWithPopup(provider).catch((error) => this.handleAuthError(error));
     }
 
     private sendEmailVerification() {
