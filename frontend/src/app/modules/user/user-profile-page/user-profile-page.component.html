@@ -24,8 +24,8 @@
             <div>Language</div>
         </label>
         <mat-select formControlName="language">
-            <mat-option *ngFor="let name of languageKeys" [value]="languageKeys.indexOf(name)">
-                {{languageValues[languageKeys.indexOf(name)]}}
+            <mat-option *ngFor="let name of languageValues" [value]="languageValues.indexOf(name)">
+                {{name}}
             </mat-option>
         </mat-select>
     </div>
@@ -36,8 +36,8 @@
                     <div>Time Format</div>
                 </label>
                 <mat-select formControlName="timeFormat">
-                    <mat-option *ngFor="let name of timeFormatKeys" [value]="timeFormatKeys.indexOf(name)">
-                        {{timeFormatValues[timeFormatKeys.indexOf(name)]}}
+                    <mat-option *ngFor="let name of timeFormatValues" [value]="timeFormatValues.indexOf(name)">
+                        {{name}}
                     </mat-option>
                 </mat-select>
             </div>
@@ -46,8 +46,8 @@
                     <div>Date Format</div>
                 </label>
                 <mat-select formControlName="dateFormat">
-                    <mat-option *ngFor="let name of dateFormatKeys" [value]="dateFormatKeys.indexOf(name)">
-                        {{dateFormatValues[dateFormatKeys.indexOf(name)]}}
+                    <mat-option *ngFor="let name of dateFormatValues" [value]="dateFormatValues.indexOf(name)">
+                        {{name}}
                     </mat-option>
                 </mat-select>
             </div>
@@ -58,8 +58,8 @@
             <div>Country</div>
         </label>
         <mat-select formControlName="country" (selectionChange)="changeCountryCode(userForm)">
-            <mat-option *ngFor="let name of countryKeys" [value]="countryKeys.indexOf(name)">
-                {{countryValues[countryKeys.indexOf(name)]}}
+            <mat-option *ngFor="let name of countryValues" [value]="countryValues.indexOf(name)">
+                {{name}}
             </mat-option>
         </mat-select>
     </div>
@@ -79,8 +79,8 @@
     <div class="item">
         <label>Time Zone</label>
         <mat-select formControlName="timeZone">
-            <mat-option *ngFor="let name of timeZoneKeys" [value]="timeZoneKeys.indexOf(name)">
-                {{timeZoneValues[timeZoneKeys.indexOf(name)]}}
+            <mat-option *ngFor="let name of timeZoneValues" [value]="timeZoneValues.indexOf(name)">
+                {{name}}
             </mat-option>
         </mat-select>
     </div>

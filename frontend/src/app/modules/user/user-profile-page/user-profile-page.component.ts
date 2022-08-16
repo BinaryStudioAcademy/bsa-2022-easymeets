@@ -33,23 +33,13 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
 
     public userForm: FormGroup;
 
-    public timeFormatKeys = Object.keys(TimeFormat);
-
     public timeFormatValues = Object.values(TimeFormat);
-
-    public dateFormatKeys = Object.keys(DateFormat);
 
     public dateFormatValues = Object.values(DateFormat);
 
-    public languageKeys = Object.keys(Language);
-
     public languageValues = Object.values(Language);
 
-    public timeZoneKeys = Object.keys(TimeZone);
-
     public timeZoneValues = Object.values(TimeZone);
-
-    public countryKeys = Object.keys(Country);
 
     public countryValues = Object.values(Country);
 
