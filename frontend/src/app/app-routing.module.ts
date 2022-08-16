@@ -7,10 +7,6 @@ const routes: Routes = [
         loadChildren: () => import('./modules/landing/landing.module').then((m) => m.LandingModule),
     },
     {
-        path: 'main',
-        loadChildren: () => import('./modules/main/main.module').then((m) => m.MainModule),
-    },
-    {
         path: 'availability',
         loadChildren: () => import('./modules/availability/availability.module').then((m) => m.AvailabilityModule),
     },
