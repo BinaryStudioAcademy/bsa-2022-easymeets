@@ -8,6 +8,7 @@ public class Schedule : Entity<long>
     public TimeZone TimeZone { get; set; }
     public bool WithTeamMembers { get; set; }
 
+    public AvailabilitySlot AvailabilitySlot { get; set; } = null!;
     public ICollection<SlotMember> Members { get; set; } = new List<SlotMember>();
     public ICollection<ScheduleItem> ScheduleItems { get; set; } = new List<ScheduleItem>();
 }
