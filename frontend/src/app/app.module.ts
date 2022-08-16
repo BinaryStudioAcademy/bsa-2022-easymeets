@@ -16,7 +16,6 @@ import { AppRoutingModule } from './app-routing.module';
     declarations: [AppComponent],
     imports: [
         BrowserModule,
-        BrowserAnimationsModule,
         CoreModule,
         SharedModule,
         AppRoutingModule,
@@ -24,6 +23,7 @@ import { AppRoutingModule } from './app-routing.module';
         AngularFireAuthModule,
         MaterialModule,
         NgxMaskModule.forRoot(),
+        BrowserAnimationsModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

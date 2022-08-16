@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
 
@@ -25,4 +27,11 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
         NgxMaskModule,
     ],
 })
-export class SharedModule {}
+export class SharedModule {
+    constructor(sanitizer: DomSanitizer, matIconRegistry: MatIconRegistry) {
+        matIconRegistry.addSvgIcon(
+            'google-logo',
+            sanitizer.bypassSecurityTrustResourceUrl('./assets/icons/google-logo.svg'),
+        );
+    }
+}
