@@ -7,12 +7,17 @@ import { HttpInternalService } from './http-internal.service';
     providedIn: 'root',
 })
 export class UserService {
-    public routePrefix = '/user/current';
+    public routePrefix = '/user';
 
     // eslint-disable-next-line no-empty-function
-    constructor(private httpService: HttpInternalService) {}
+    constructor(private httpService: HttpInternalService) {
+    }
 
     public getCurrentUserById(currentUserId: number) {
-        return this.httpService.getRequest<IUser>(`${this.routePrefix}/${currentUserId}`);
+        return this.httpService.getRequest<IUser>(`${this.routePrefix}/current/${currentUserId}`);
+    }
+
+    public editUser(put: IUser) {
+        return this.httpService.putRequest<IUser>(`${this.routePrefix}`, put);
     }
 }

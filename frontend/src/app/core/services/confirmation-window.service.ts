@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { IConfirmDialogData } from '@core/models/IConfirmDialogData';
 import { ConfirmationWindowComponent } from '@shared/components/confirmation-window/confirmation-window.component';
-import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
 
 @Injectable({ providedIn: 'root' })
 export class ConfirmationWindowService {

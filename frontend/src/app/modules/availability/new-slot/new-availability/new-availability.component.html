@@ -2,8 +2,10 @@
 <div class="container">
     <div class="new-availability-header">
         <p class="new-availability-header-label">New Availability Slots</p>
-        <mat-slide-toggle [checked]="isActive" (change)="isActive = !isActive"></mat-slide-toggle>
-        <p>Active</p>
+        <div class="active-container">
+            <mat-slide-toggle [checked]="isActive" (change)="isActive = !isActive"></mat-slide-toggle>
+            <p>Active</p>
+        </div>
         <p class="slot-link">link.com/page123</p>
         <div class="slot-button-container">
             <button mat-flat-button>Cancel</button>

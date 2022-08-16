@@ -1,5 +1,4 @@
 export enum DateFormat {
-    DDMMYYYY,
-    MMDDYYYY,
-    MDYY
+    Hyphen = 'MM/DD/YYYY',
+    Slash = 'DD/MM/YYYY',
 }

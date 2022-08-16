@@ -3,11 +3,6 @@
 
 body
     font-family: sans-serif
-    display: flex
-    flex-direction: column
-    align-items: center
-    justify-content: center
-    gap: 20px
 
 .form-switch
     display: inline-block
@@ -48,29 +43,27 @@ body
             transform: translate3d(2px, 2px, 0)
             transition: all 0.2s ease-in-out
 
-
     &:active
         i
             &::after
                 width: 28px
                 transform: translate3d(2px, 2px, 0)
 
-
         input
             &:checked
                 +
-                    i
-                        &::after
-                            transform: translate3d(16px, 2px, 0)
+                i
+                    &::after
+                        transform: translate3d(16px, 2px, 0)
 
     input
         display: none
         &:checked
             +
-                i
-                    background-color: $royal-blue
-                    &::before
-                        transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0)
+            i
+                background-color: $royal-blue
+                &::before
+                    transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0)
 
                     &::after
                         transform: translate3d(22px, 2px, 0)
@@ -173,9 +166,12 @@ body
     flex-direction: row
     align-items: center
     gap: 14px
+    @media screen and ( max-width: 460px)
+        display: grid
+        grid-template-columns: repeat(auto-fit, minmax(25px, 1fr))
 
 .colorButton
-    width: 27px
+    width: 25px
     height: 25px
     display: flex
     align-items: center
