@@ -1,4 +1,5 @@
 @import '../../../../../styles/color-variables'
+@import '../../../../../styles/screen-variables'
 
 *
     box-sizing: border-box
@@ -8,14 +9,19 @@
     margin: 0 60px 30px 30px
 
 .inputs-grid
+    width: 100%
     display: grid
     grid-template-columns: 50% 50%
     grid-template-rows: repeat(auto-fit, minmax(50px, 1fr))
     align-items: end
     justify-items: start
+    @media screen and(max-width: $desktop-min-width)
+        grid-template-columns: 100%
 
 .input-container
-    margin: 20px 30px
+    width: 100%
+    margin: 20px 10px
+    padding-left: 20px
 
 select, input[type=text]
     width: 100%
@@ -26,7 +32,6 @@ select, input[type=text]
     border: 2px solid $regent-gray
     border-radius: 4px
     height: 36px
-    width: 327px
 
 .input-description
     font-weight: bold
@@ -54,6 +59,8 @@ select, input[type=text]
     display: inline-block
     width: 80%
     margin: 5px
+    @media screen and(max-width: $desktop-min-width)
+        width: 100%
 
 .checkbox-container
     margin: 20px
