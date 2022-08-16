@@ -1,7 +1,7 @@
 export enum Language {
-    Eng = 'Eng',
-    Ukr = 'Ukr',
-    Pl = 'Pl',
-    Fr = 'Fr',
-    It = 'It',
+    Eng = 'English',
+    Ukr = 'Ukrainian',
+    Pl = 'Polish',
+    Fr = 'French',
+    It = 'Italian',
 }
