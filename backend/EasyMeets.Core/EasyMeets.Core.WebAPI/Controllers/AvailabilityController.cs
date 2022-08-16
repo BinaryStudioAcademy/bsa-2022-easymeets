@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
 {
-    [Authorize]
+    //[Authorize]
+    //test
     [ApiController]
     [Route("[controller]")]
     public class AvailabilityController : ControllerBase
