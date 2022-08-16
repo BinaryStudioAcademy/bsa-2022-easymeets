@@ -1,6 +1,6 @@
 namespace EasyMeets.Core.DAL.Entities;
 
-public class TeamMemberMeeting : Entity<long>
+public class SlotMember : Entity<long>
 {
     public long MemberId { get; set; }
     public long EventId { get; set; }

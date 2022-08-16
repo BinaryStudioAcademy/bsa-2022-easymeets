@@ -1,10 +1,14 @@
-﻿namespace EasyMeets.Core.DAL.Entities;
+﻿using EasyMeets.Core.Common.Enums;
 
-public class ScheduleItem
+namespace EasyMeets.Core.DAL.Entities;
+
+public class ScheduleItem : Entity<long>
 {
     public long ScheduleId { get; set; }
-    public DateTimeOffset Start { get; set; }
-    public int Duration { get; set; }
+    public TimeOnly Start { get; set; }
+    public TimeOnly End { get; set; }
+    public WeedDay WeedDay { get; set; }
+    public bool IsEnabled { get; set; }
 
     public Schedule Schedule { get; set; } = null!;
 }

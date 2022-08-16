@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EasyMeets.Core.DAL.Context;
 
-public class TeamMemberMeetingConfig : IEntityTypeConfiguration<TeamMemberMeeting>
+public class SlotMemberConfig : IEntityTypeConfiguration<SlotMember>
 {
-    public void Configure(EntityTypeBuilder<TeamMemberMeeting> builder)
+    public void Configure(EntityTypeBuilder<SlotMember> builder)
     {
         builder.Property(m => m.MemberId)
             .IsRequired();

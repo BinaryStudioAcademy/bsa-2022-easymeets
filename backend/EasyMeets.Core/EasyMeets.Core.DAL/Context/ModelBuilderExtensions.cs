@@ -21,7 +21,7 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(QuestionsConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamMemberConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamMemberMeetingConfig).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(SlotMemberConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfig).Assembly);
         }
 
@@ -36,7 +36,7 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.Entity<AvailabilitySlot>().HasData(GenerateAvailabilitySlots());
             modelBuilder.Entity<Question>().HasData(GenerateQuestions());
             modelBuilder.Entity<Calendar>().HasData(GenerateCalendars());
-            modelBuilder.Entity<TeamMemberMeeting>().HasData(GenerateTeamMemberMeetings());
+            modelBuilder.Entity<SlotMember>().HasData(GenerateSlotMembers());
             modelBuilder.Entity<ExternalAttendee>().HasData(GenerateExternalAttendee());
             modelBuilder.Entity<ExternalAttendeeAvailability>().HasData(GenerateExternalAttendeeAvailabilities());
             modelBuilder.Entity<CalendarVisibleForTeam>().HasData(GenerateCalendarVisibleForTeams());
@@ -187,13 +187,13 @@ namespace EasyMeets.Core.DAL.Context
                 .Generate(count);
         }
         
-        private static IList<TeamMemberMeeting> GenerateTeamMemberMeetings(int count = 10)
+        private static IList<SlotMember> GenerateSlotMembers(int count = 10)
         {
             var id = 1;
             var memberId = 1;
             var eventId = 1;
             
-            return new Faker<TeamMemberMeeting>()
+            return new Faker<SlotMember>()
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.MemberId, f => memberId++)
                 .RuleFor(u => u.EventId, f => eventId++)

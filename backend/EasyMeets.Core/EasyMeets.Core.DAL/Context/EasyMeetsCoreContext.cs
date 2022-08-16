@@ -17,7 +17,7 @@ namespace EasyMeets.Core.DAL.Context
         public DbSet<Question> Questions { get; private set; }
         public DbSet<Team> Teams { get; private set; }
         public DbSet<TeamMember> TeamMembers { get; private set; }
-        public DbSet<TeamMemberMeeting> TeamMemberMeetings { get; private set; }
+        public DbSet<SlotMember> SlotMembers { get; private set; }
         public DbSet<User> Users { get; private set; }
         public DbSet<UserSlot> UserSlot { get; private set; }
 
@@ -35,7 +35,7 @@ namespace EasyMeets.Core.DAL.Context
             Questions = Set<Question>();
             Teams = Set<Team>();
             TeamMembers = Set<TeamMember>();
-            TeamMemberMeetings = Set<TeamMemberMeeting>();
+            SlotMembers = Set<SlotMember>();
             Users = Set<User>();
             UserSlot = Set<UserSlot>();
         }
