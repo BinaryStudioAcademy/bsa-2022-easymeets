@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { PasswordsErrorStateMatcher } from '@modules/auth/validators/passwordsErrorStateMatcher';
+import { userNameRegex } from '@shared/constants/model-validation';
 
 @Component({
     selector: 'app-sign-up-form',
@@ -21,7 +22,7 @@ export class SignUpFormComponent {
                 Validators.required,
                 Validators.minLength(3),
                 Validators.maxLength(50),
-                Validators.pattern('^[a-zA-Zа-яА-Я0-9- ]+$'),
+                Validators.pattern(userNameRegex),
             ],
             updateOn: 'submit',
         }),
@@ -43,7 +44,7 @@ export class SignUpFormComponent {
 
     private handleAuthenticationResponce(resp: any): void {
         if (resp) {
-            this.router.navigateByUrl('main');
+            this.router.navigateByUrl('availability');
         } else {
             this.setCredentialsIncorrect();
         }

@@ -31,7 +31,7 @@ export class SignInFormComponent {
 
     private handleAuthenticationResponce(resp: any): void {
         if (resp) {
-            this.router.navigateByUrl('main');
+            this.router.navigateByUrl('availability');
         } else {
             this.setCredentialsIncorrect();
         }
