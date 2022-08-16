@@ -4,7 +4,7 @@ public class Meeting : AuditEntity<long>
 {
     public Meeting()
     {
-        TeamMeetings = new List<SlotMember>();
+        SlotMembers = new List<SlotMember>();
     }
     public long TeamId { get; set; }
     public long LocationId { get; set; }
@@ -16,5 +16,5 @@ public class Meeting : AuditEntity<long>
     public Team Team { get; set; } = null!;
     public User Author { get; set; } = null!;
     public Location Location { get; set; } = null!;
-    public ICollection<SlotMember> TeamMeetings { get; set; }
+    public ICollection<SlotMember> SlotMembers { get; set; }
 }

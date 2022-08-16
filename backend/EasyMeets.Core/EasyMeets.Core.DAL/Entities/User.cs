@@ -20,7 +20,7 @@ public class User : Entity<long>, IValidatableObject
     public ICollection<TeamMember> TeamMembers { get; set; } = new List<TeamMember>();
     public ICollection<Calendar> Calendars { get; set; } = new List<Calendar>();
     public ICollection<Meeting> CreatedMeetings { get; set; } = new List<Meeting>();
-    public ICollection<SlotMember> TeamMeetings { get; set; } = new List<SlotMember>();
+    public ICollection<SlotMember> SlotMembers { get; set; } = new List<SlotMember>();
     public ICollection<UserSlot> Slots { get; set; } = new List<UserSlot>();
     public ICollection<AvailabilitySlot> CreatedSlots { get; set; } = new List<AvailabilitySlot>();
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
