@@ -1,4 +1,5 @@
 @import '../../../../styles/color-variables'
+@import 'src/styles/screen-variables.sass'
 
 .container
     width: 100%
@@ -8,14 +9,22 @@
 
 .availability-slot
     display: grid
-    grid-template-columns: repeat(auto-fill, 30%)
     grid-gap: 1.2em
+    padding-bottom: 1.2em
 
-.team-info
+@media (min-device-width: $tablet-min-width)
+    .availability-slot
+        grid-template-columns: repeat(2, 1fr)
+
+@media (min-device-width: $desktop-min-width)
+    .availability-slot
+        grid-template-columns: repeat(3, 1fr)
+
+.user-info
     display: flex
     align-items: flex-start
     margin-top: 1em
-    .team-name
+    .user-name
         color: $regent-gray
         display: flex
         flex-direction: row
