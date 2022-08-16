@@ -8,7 +8,7 @@ public static class ValidationExtensions
     {
         { "Email", @"^([a-zA-z0-9]+([._\-][a-zA-z0-9]+)?)+@([a-zA-z0-9]+([.\-][a-zA-Z0-9]+)?)+\.[a-zA-Z]{2,4}$" },
         { "Username", @"^[\w\d]+[\w\d\- ]+$" },
-        { "PhoneNumber", @"^\+\d{1,2} \(\d{3}\) \d{3} \d{2} \d{2}$" },
+        { "PhoneNumber", @"^\+\d{10,13}$" },
         { "TeamLink", @"^/[a-zA-Z\d\-]+\d*$" },
         { "Password", @"^[^ ]+$" }
     };
