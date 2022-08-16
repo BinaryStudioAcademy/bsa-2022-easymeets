@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { IExtendBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
 import { IUser } from '@core/models/IUser';
 import { SpinnerService } from '@core/services/spinner.service';
 import { UserService } from '@core/services/user.service';
@@ -9,7 +10,7 @@ import { UserService } from '@core/services/user.service';
     styleUrls: ['./external-booking-page.component.sass'],
 })
 export class ExternalBookingPageComponent {
-    @Input() groups: SideMenuGroup[];
+    @Input() menu: IExtendBookingSideMenu;
 
     public selectedUser: IUser;
 
