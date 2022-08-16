@@ -37,12 +37,10 @@ export class AvailabilityPageComponent {
         this.availabilitySlotService
             .getUserPersonalAndTeamSlots(this.currentUser.id)
             .pipe(this.untilThis)
-            .subscribe(
-                (resp) => {
-                    this.userPersonalAndTeamSlots = resp;
-                    this.spinnerService.hide();
-                },
-            );
+            .subscribe((resp) => {
+                this.userPersonalAndTeamSlots = resp;
+                this.spinnerService.hide();
+            });
     }
 
     public getCurrentUser() {
@@ -50,13 +48,11 @@ export class AvailabilityPageComponent {
         this.userService
             .getCurrentUserById(this.currentUserId)
             .pipe(this.untilThis)
-            .subscribe(
-                (resp) => {
-                    if (resp) {
-                        this.currentUser = resp;
-                        this.getUserPersonalAndTeamSlots();
-                    }
-                },
-            );
+            .subscribe((resp) => {
+                if (resp) {
+                    this.currentUser = resp;
+                    this.getUserPersonalAndTeamSlots();
+                }
+            });
     }
 }

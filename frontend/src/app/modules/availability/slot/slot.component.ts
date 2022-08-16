@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
@@ -14,6 +14,8 @@ export class SlotComponent {
     @Input() public slot: IAvailabilitySlot;
 
     @Input() public hasOwner: boolean;
+
+    @Output() isDeleted = new EventEmitter<boolean>();
 
     public isChecked: boolean = true;
 
@@ -33,10 +35,15 @@ export class SlotComponent {
             .subscribe(
                 () => {
                     this.notifications.showSuccessMessage('Slot was successfully deleted');
+                    this.deleteEvent(true);
                 },
                 (error) => {
                     this.notifications.showErrorMessage(error);
                 },
             );
+    }
+
+    deleteEvent(isRemove: boolean) {
+        this.isDeleted.emit(isRemove);
     }
 }
