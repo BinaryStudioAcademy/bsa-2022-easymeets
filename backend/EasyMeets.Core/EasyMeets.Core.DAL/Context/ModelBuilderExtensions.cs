@@ -294,5 +294,18 @@ namespace EasyMeets.Core.DAL.Context
                 }
             };
         }
+
+        private static IList<Schedule> GenerateSchedules(int count = 10)
+        {
+            var id = 1;
+            var slotId = 1;
+            return new Faker<Schedule>()
+                .RuleFor(s => s.Id, _ => id++)
+                .RuleFor(s => s.AvailabilitySlotId, _ => slotId++)
+                .RuleFor(s => s.IsDeleted, _ => false)
+                .RuleFor(s => s.TimeZone, f => f.Random.Int(-720, 720))
+                .RuleFor(s => s.WithTeamMembers, f => f.Random.Bool())
+                .Generate(count);
+        }
     }
 }
