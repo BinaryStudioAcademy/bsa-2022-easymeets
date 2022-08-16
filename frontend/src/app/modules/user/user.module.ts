@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CalendarModule } from '@modules/calendars/calendar.module';
 import { HeaderModule } from '@modules/header/header.module';
 import { SideMenuModule } from '@modules/side-menu/side-menu.module';
 import { UserRoutingModule } from '@modules/user/user-routing.module';
@@ -10,6 +11,6 @@ import { UserSettingsPageComponent } from './user-settings-page/user-settings-pa
 
 @NgModule({
     declarations: [UserProfilePageComponent, UserSettingsPageComponent],
-    imports: [SharedModule, UserRoutingModule, MaterialModule, SideMenuModule, HeaderModule],
+    imports: [SharedModule, UserRoutingModule, MaterialModule, SideMenuModule, HeaderModule, CalendarModule],
 })
 export class UserModule {}

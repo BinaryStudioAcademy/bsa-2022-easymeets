@@ -6,13 +6,14 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { NgxMaskModule } from 'ngx-mask';
 
 import { ConfirmationWindowComponent } from './components/confirmation-window/confirmation-window.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
-    imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, RouterModule, MatDialogModule, MatButtonModule],
+    imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, RouterModule, MatDialogModule, MatButtonModule, NgxMaskModule],
     declarations: [LoadingSpinnerComponent, NotFoundComponent, ConfirmationWindowComponent],
     exports: [
         CommonModule,
@@ -23,6 +24,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
         LoadingSpinnerComponent,
         NotFoundComponent,
         ConfirmationWindowComponent,
+        NgxMaskModule,
     ],
 })
 export class SharedModule {
