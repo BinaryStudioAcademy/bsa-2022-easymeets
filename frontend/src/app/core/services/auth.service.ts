@@ -23,19 +23,19 @@ export class AuthService {
         return this.afAuth
             .createUserWithEmailAndPassword(email, password)
             .then(() => this.sendEmailVerification())
-            .catch((error) => this.handleAuthError(error));
+            .catch((error) => this.notificationService.showErrorMessage(error.message));
     }
 
     public signIn(email: string, password: string) {
         return this.afAuth
             .signInWithEmailAndPassword(email, password)
-            .catch((error) => this.handleAuthError(error));
+            .catch((error) => this.notificationService.showErrorMessage(error.message));
     }
 
     public resetPassword(email: string) {
         return this.afAuth
             .sendPasswordResetEmail(email)
-            .catch((error) => this.handleAuthError(error));
+            .catch((error) => this.notificationService.showErrorMessage(error.message));
     }
 
     public loginWithGoogle() {
@@ -46,7 +46,7 @@ export class AuthService {
         return this.afAuth
             .signOut()
             .then(() => localStorage.removeItem('user'))
-            .catch((error) => this.handleAuthError(error));
+            .catch((error) => this.notificationService.showErrorMessage(error.message));
     }
 
     public isLoggedIn() {
@@ -67,16 +67,12 @@ export class AuthService {
     private loginWithProvider(provider: auth.GoogleAuthProvider | auth.GithubAuthProvider | auth.FacebookAuthProvider) {
         return this.afAuth
             .signInWithPopup(provider)
-            .catch((error) => this.handleAuthError(error));
+            .catch((error) => this.notificationService.showErrorMessage(error.message));
     }
 
     private sendEmailVerification() {
         return this.afAuth.currentUser
             .then((u) => u!.sendEmailVerification())
-            .catch((error) => this.handleAuthError(error));
-    }
-
-    private handleAuthError(error: Error) {
-        this.notificationService.showErrorMessage(error.message);
+            .catch((error) => this.notificationService.showErrorMessage(error.message));
     }
 }
