@@ -56,6 +56,7 @@ export class UserProfilePageComponent implements OnInit {
         Validators.minLength(10),
     ]);
 
+    // eslint-disable-next-line no-empty-function
     constructor(private userService: UserService, public notificationService: NotificationService) {
     }
 
