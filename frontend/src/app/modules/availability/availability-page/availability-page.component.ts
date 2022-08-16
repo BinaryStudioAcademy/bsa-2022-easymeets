@@ -55,7 +55,6 @@ export class AvailabilityPageComponent {
                     if (resp) {
                         this.currentUser = resp;
                         this.getUserPersonalAndTeamSlots();
-                        console.log(resp.userName);
                     }
                 },
             );

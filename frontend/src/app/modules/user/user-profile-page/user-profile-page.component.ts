@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IUser } from '@core/models/IUser';
 import { NotificationService } from '@core/services/notification.service';
@@ -9,13 +9,26 @@ import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
 import { TimeZone } from '@shared/enums/timeZone';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-user-profile-page',
     templateUrl: './user-profile-page.component.html',
     styleUrls: ['./user-profile-page.component.sass'],
 })
-export class UserProfilePageComponent implements OnInit {
+export class UserProfilePageComponent implements OnInit, OnDestroy {
+    // eslint-disable-next-line no-empty-function
+    constructor(private userService: UserService, public notificationService: NotificationService) {
+    }
+
+    public ngOnDestroy() {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
+    }
+
+    private unsubscribe$ = new Subject<void>();
+
     public user: IUser;
 
     public userForm: FormGroup;
@@ -56,10 +69,6 @@ export class UserProfilePageComponent implements OnInit {
         Validators.minLength(10),
     ]);
 
-    // eslint-disable-next-line no-empty-function
-    constructor(private userService: UserService, public notificationService: NotificationService) {
-    }
-
     public ngOnInit(): void {
         this.userForm = new FormGroup({
             userName: this.userNameControl,
@@ -71,19 +80,21 @@ export class UserProfilePageComponent implements OnInit {
             timeZone: new FormControl(),
         });
 
-        this.userService.getCurrentUserById(1).subscribe((user) => {
-            this.user = user;
-            this.userForm.patchValue({
-                userName: user.userName,
-                phone: user.phone?.substr(user.phone.length - 10),
-                country: user.country,
-                dateFormat: user.dateFormat,
-                timeFormat: user.timeFormat,
-                language: user.language,
-                timeZone: user.timeZone,
+        this.userService.getCurrentUserById(1)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe((user) => {
+                this.user = user;
+                this.userForm.patchValue({
+                    userName: user.userName,
+                    phone: user.phone?.substr(user.phone.length - 10),
+                    country: user.country,
+                    dateFormat: user.dateFormat,
+                    timeFormat: user.timeFormat,
+                    language: user.language,
+                    timeZone: user.timeZone,
+                });
+                this.changeCountryCode(this.userForm);
             });
-            this.changeCountryCode(this.userForm);
-        });
     }
 
     public OnSubmit(form: FormGroup) {
@@ -100,14 +111,16 @@ export class UserProfilePageComponent implements OnInit {
             timeZone: form.value.timeZone,
         };
 
-        this.userService.editUser(editedUser).subscribe(
-            () => {
-                this.notificationService.showSuccessMessage('Personal information was updated successfully.');
-            },
-            () => {
-                this.notificationService.showErrorMessage('There was an error while updating.');
-            },
-        );
+        this.userService.editUser(editedUser)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(
+                () => {
+                    this.notificationService.showSuccessMessage('Personal information was updated successfully.');
+                },
+                () => {
+                    this.notificationService.showErrorMessage('There was an error while updating.');
+                },
+            );
     }
 
     public changeCountryCode(form: FormGroup) {
