@@ -1,4 +1,3 @@
-﻿// eslint-disable-next-line no-shadow
 export enum CountryCode {
     UnitedStates = '1',
     Ukraine = '380',
