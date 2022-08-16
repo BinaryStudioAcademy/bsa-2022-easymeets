@@ -13,7 +13,10 @@
             <input type="text" formControlName="userName">
         </div>
         <div *ngIf="userNameControl.invalid" class="validation">
-            <small *ngIf="userNameControl.errors?.['minlength']">This field is required.</small>
+            <small *ngIf="userNameControl.errors?.['required']">This field is required.</small>
+            <small *ngIf="userNameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
+            <small *ngIf="userNameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
+            <small *ngIf="userNameControl.errors?.['pattern']">Invalid characters.</small>
         </div>
     </div>
     <div class="item">
@@ -54,7 +57,7 @@
         <label>
             <div>Country</div>
         </label>
-        <mat-select formControlName="country" (selectionChange)="changeCountry(userForm)">
+        <mat-select formControlName="country" (selectionChange)="changeCountryCode(userForm)">
             <mat-option *ngFor="let name of countryKeys" [value]="countryKeys.indexOf(name)">
                 {{countryValues[countryKeys.indexOf(name)]}}
             </mat-option>
@@ -67,6 +70,10 @@
         <div>
             <input formControlName="phone" mask="(000) 000 00 00" prefix="+{{countryCode}} " [showMaskTyped]="true"
                    placeHolderCharacter="_">
+        </div>
+        <div *ngIf="phoneControl.invalid" class="validation">
+            <small *ngIf="phoneControl.errors?.['required']">This field is required.</small>
+            <small *ngIf="phoneControl.errors?.['minlength']">Invalid phone.</small>
         </div>
     </div>
     <div class="item">
@@ -83,4 +90,3 @@
         </div>
     </div>
 </form>
-

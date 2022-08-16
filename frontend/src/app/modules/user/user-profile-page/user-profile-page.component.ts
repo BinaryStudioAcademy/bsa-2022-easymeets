@@ -39,20 +39,49 @@ export class UserProfilePageComponent implements OnInit {
 
     public countryValues = Object.values(Country);
 
-    public countryCodeKeys = Object.keys(CountryCode);
-
     public countryCodeValues = Object.values(CountryCode);
+
+    public countryCode: string;
 
     public userNameControl: FormControl = new FormControl('', [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(/^[a-zA-Z\dа-яА-Я- ]*$/),
+        Validators.pattern(/^[іІїЇa-zA-Z\dа-яА-Я- ]*$/),
     ]);
 
-    countryCode: string;
+    public phoneControl: FormControl = new FormControl('', [
+        Validators.required,
+        Validators.minLength(10),
+    ]);
 
     constructor(private userService: UserService) {
+    }
+
+    public ngOnInit(): void {
+        this.userForm = new FormGroup({
+            userName: this.userNameControl,
+            phone: this.phoneControl,
+            country: new FormControl(),
+            dateFormat: new FormControl(),
+            timeFormat: new FormControl(),
+            language: new FormControl(),
+            timeZone: new FormControl(),
+        });
+
+        this.userService.getCurrentUserById(1).subscribe((user) => {
+            this.user = user;
+            this.userForm.patchValue({
+                userName: user.userName,
+                phone: user.phone?.substr(user.phone.length - 10),
+                country: user.country,
+                dateFormat: user.dateFormat,
+                timeFormat: user.timeFormat,
+                language: user.language,
+                timeZone: user.timeZone,
+            });
+            this.changeCountryCode(this.userForm);
+        });
     }
 
     public OnSubmit(form: FormGroup) {
@@ -74,34 +103,7 @@ export class UserProfilePageComponent implements OnInit {
         );
     }
 
-    public ngOnInit(): void {
-        this.userForm = new FormGroup({
-            userName: this.userNameControl,
-            phone: new FormControl(),
-            country: new FormControl(),
-            dateFormat: new FormControl(),
-            timeFormat: new FormControl(),
-            language: new FormControl(),
-            timeZone: new FormControl(),
-        });
-
-        this.userService.getCurrentUserById(1).subscribe((user) => {
-            this.user = user;
-            this.userForm.patchValue({
-                userName: user.userName,
-                phone: user.phone?.substr(user.phone.length - 10),
-                country: user.country,
-                dateFormat: user.dateFormat,
-                timeFormat: user.timeFormat,
-                language: user.language,
-                timeZone: user.timeZone,
-            });
-            this.changeCountry(this.userForm);
-        });
-    }
-
-    public changeCountry(form: FormGroup) {
-        console.log('change');
+    public changeCountryCode(form: FormGroup) {
         this.countryCode = this.countryCodeValues[form.value.country];
     }
 }
