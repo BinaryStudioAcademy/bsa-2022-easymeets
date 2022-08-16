@@ -84,7 +84,12 @@
             <p class="input-description">Availability Slots Card Color</p>
             <div class="colorsRow">
                 <div class="colorButton" *ngFor="let colorInput of colorInputs" id="{{colorInput.id}}">
-                    <input type="radio" name="color" value="{{colorInput.enumValue}}" [disabled]="!addAdvanced">
+                    <input type="radio"
+                           name="color"
+                           value="{{colorInput.enumValue}}"
+                           (change)="colorInputChanged(colorInput.enumValue)"
+                           [checked]="settings.color === colorInput.enumValue"
+                           [disabled]="!addAdvanced">
                 </div>
             </div>
         </div>

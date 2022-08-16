@@ -41,10 +41,14 @@ export class EditAvailabilityPageComponent {
     }
 
     sendChanges() {
-        this.httpInternalService.putRequest(`/availability/${this.slot?.id}`, {
-            generalSettings: this.newAvailabilityComponent.generalComponent.settings,
-            eventDetailsSettings: this.newAvailabilityComponent.eventDetailComponent.settings,
+        this.httpInternalService.putRequest<IAvailabilitySlot>(`/availability/${this.slot?.id}`, {
+            generalDetailsUpdate: this.newAvailabilityComponent.generalComponent.settings,
+            eventDetailsUpdate: this.newAvailabilityComponent.eventDetailComponent.settings,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
+        }).subscribe(resp => {
+            console.log('resp')
+            console.log(resp)
+            console.log(this.newAvailabilityComponent.generalComponent.settings)
         });
         this.goToPage('/availability');
     }

@@ -1,6 +1,7 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+using EasyMeets.Core.Common.DTO.Availability.UpdateAvailability;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,6 +35,12 @@ namespace EasyMeets.Core.WebAPI.Controllers
         {
             var availabilitySlots = await _availabilityService.GetUserPersonalAndTeamSlotsAsync(id);
             return Ok(availabilitySlots);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<AvailabilitySlotDto>> UpdateAvailabilitySlot(long id, [FromBody] UpdateAvailabilityDto updateAvailabilityDto)
+        {
+            return Ok(await _availabilityService.UpdateAvailabilitySlot(id, updateAvailabilityDto));
         }
     }
 }

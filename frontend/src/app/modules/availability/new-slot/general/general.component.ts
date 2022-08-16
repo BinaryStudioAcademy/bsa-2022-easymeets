@@ -23,6 +23,7 @@ export class GeneralComponent implements OnInit {
             meetingPadding: this.slot?.advancedSlotSettings?.paddingMeeting ?? this.meetingPaddings[0],
             slotActivityOption: this.slot?.advancedSlotSettings?.activityType ?? this.slotActivityOptionsEnums[0],
             minBookingMeetingDifference: this.slot?.advancedSlotSettings?.minBookingMeetingDifference ?? this.minBookingMeetingDifferences[0],
+            color: this.slot?.advancedSlotSettings?.color ?? Color.Azure
         };
 
         if (!this.slotSizes.some(f => f === this.settings.slotSize)) {
@@ -75,13 +76,14 @@ export class GeneralComponent implements OnInit {
             meetingPadding: this.meetingPaddings[0],
             slotActivityOption: this.slotActivityOptionsEnums[0],
             minBookingMeetingDifference: this.minBookingMeetingDifferences[0],
+            color: Color.Azure
         };
     }
 
     public colorInputs: { id: string; enumValue: Color }[] = [
         {
             id: 'dark-blue-color',
-            enumValue: Color.Blue,
+            enumValue: Color.Black,
         },
         {
             id: 'light-red-color',
@@ -112,4 +114,8 @@ export class GeneralComponent implements OnInit {
             enumValue: Color.Cherry,
         },
     ];
+
+    colorInputChanged(color: Color) {
+        this.settings.color = color;
+    }
 }
