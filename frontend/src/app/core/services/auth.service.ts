@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import * as auth from 'firebase/auth';
 import firebase from 'firebase/compat';
+
+import { NotificationService } from './notification.service';
 import User = firebase.User;
 
 @Injectable({
@@ -10,7 +12,7 @@ import User = firebase.User;
 export class AuthService {
     private currentUser: User | null;
 
-    constructor(private afAuth: AngularFireAuth) {
+    constructor(private afAuth: AngularFireAuth, private notificationService: NotificationService) {
         this.afAuth.authState.subscribe((user) => {
             this.currentUser = user;
             localStorage.setItem('user', JSON.stringify(this.currentUser));
@@ -75,7 +77,6 @@ export class AuthService {
     }
 
     private handleAuthError(error: Error) {
-        // eslint-disable-next-line no-alert
-        window.alert(error.message);
+        this.notificationService.showErrorMessage(error.message);
     }
 }
