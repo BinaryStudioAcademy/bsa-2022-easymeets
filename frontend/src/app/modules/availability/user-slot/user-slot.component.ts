@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IUser } from '@core/models/IUser';
-import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
 
 @Component({
@@ -17,7 +16,7 @@ export class UserSlotComponent {
     @Output() isReload = new EventEmitter<boolean>();
 
     // eslint-disable-next-line no-empty-function
-    constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {}
+    constructor(public spinnerService: SpinnerService) {}
 
     isDeleted(isRemove: any) {
         this.isReload.emit(isRemove);

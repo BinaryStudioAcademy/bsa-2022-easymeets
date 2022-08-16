@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IAvailabilitySlotsGroupByTeamsDto } from '@core/models/IAvailabilitySlotsGroupByTeam';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
-import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
 
 @Component({
@@ -19,7 +18,7 @@ export class TeamComponent implements OnInit {
     public teamName: string;
 
     // eslint-disable-next-line no-empty-function
-    constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {}
+    constructor(public spinnerService: SpinnerService) {}
 
     ngOnInit(): void {
         this.slots = this.teamSlot.availabilitySlots;
