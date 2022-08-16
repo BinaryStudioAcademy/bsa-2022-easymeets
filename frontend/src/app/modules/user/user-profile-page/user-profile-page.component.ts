@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BaseComponent } from '@core/base/base.component';
 import { IUser } from '@core/models/IUser';
 import { NotificationService } from '@core/services/notification.service';
 import { UserService } from '@core/services/user.service';
@@ -9,25 +10,16 @@ import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
 import { TimeZone } from '@shared/enums/timeZone';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-user-profile-page',
     templateUrl: './user-profile-page.component.html',
     styleUrls: ['./user-profile-page.component.sass'],
 })
-export class UserProfilePageComponent implements OnInit, OnDestroy {
-    // eslint-disable-next-line no-empty-function
+export class UserProfilePageComponent extends BaseComponent implements OnInit {
     constructor(private userService: UserService, public notificationService: NotificationService) {
+        super();
     }
-
-    public ngOnDestroy() {
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
-    }
-
-    private unsubscribe$ = new Subject<void>();
 
     public user: IUser;
 
@@ -71,7 +63,7 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
         });
 
         this.userService.getCurrentUserById(1)
-            .pipe(takeUntil(this.unsubscribe$))
+            .pipe(this.untilThis)
             .subscribe((user) => {
                 this.user = user;
                 this.userForm.patchValue({
@@ -102,7 +94,7 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
         };
 
         this.userService.editUser(editedUser)
-            .pipe(takeUntil(this.unsubscribe$))
+            .pipe(this.untilThis)
             .subscribe(
                 () => {
                     this.notificationService.showSuccessMessage('Personal information was updated successfully.');
