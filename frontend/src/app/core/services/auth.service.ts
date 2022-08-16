@@ -22,7 +22,11 @@ export class AuthService {
     public signUp(email: string, password: string) {
         return this.afAuth
             .createUserWithEmailAndPassword(email, password)
-            .then(() => this.sendEmailVerification())
+            .then((credentials) => {
+                this.sendEmailVerification();
+
+                return credentials;
+            })
             .catch((error) => this.notificationService.showErrorMessage(error.message));
     }
 

@@ -1,0 +1,87 @@
+<form class="signup-form form" [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
+    <div class="form-inputs flex-col">
+        <mat-label class="outside-label bold">Email</mat-label>
+        <mat-form-field appearance="outline">
+            <input matInput id="email" type="email" formControlName="email" placeholder="email@email.com" />
+            <mat-error
+                *ngIf="
+                    signUpForm.controls['email'].hasError('email') ||
+                    signUpForm.controls['email'].hasError('required') ||
+                    signUpForm.controls['email'].hasError('incorrectCredentials')
+                "
+                >Email format is invalid</mat-error
+            >
+        </mat-form-field>
+        <mat-label class="outside-label bold">Name</mat-label>
+        <mat-form-field appearance="outline">
+            <input matInput id="name" type="text" formControlName="name" placeholder="Jack White" />
+            <mat-error
+                *ngIf="
+                    signUpForm.controls['name'].hasError('required') ||
+                    signUpForm.controls['name'].hasError('minlength') ||
+                    signUpForm.controls['name'].hasError('maxlength') ||
+                    signUpForm.controls['name'].hasError('pattern') ||
+                    signUpForm.controls['name'].hasError('incorrectCredentials')
+                "
+                >Name format is invalid</mat-error
+            >
+        </mat-form-field>
+        <mat-label class="outside-label bold">Password</mat-label>
+        <mat-form-field appearance="outline">
+            <input
+                matInput
+                id="password"
+                [type]="hidePassword ? 'password' : 'text'"
+                formControlName="password"
+                placeholder="●●●●●●●●●●" />
+            <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hidePassword">
+                <mat-icon color="primary">{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error
+                *ngIf="
+                    signUpForm.controls['password'].hasError('required') ||
+                    signUpForm.controls['password'].hasError('minlength') ||
+                    signUpForm.controls['password'].hasError('maxlength') ||
+                    signUpForm.controls['password'].hasError('incorrectCredentials')
+                "
+                >Incorret authentication credentials</mat-error
+            >
+        </mat-form-field>
+        <mat-label class="outside-label bold">Repeat password</mat-label>
+        <mat-form-field appearance="outline">
+            <input
+                matInput
+                id="repeat-password"
+                [type]="hidePassword ? 'password' : 'text'"
+                formControlName="confirmPassword"
+                placeholder="●●●●●●●●●●"
+                [errorStateMatcher]="matcher" />
+            <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hidePassword">
+                <mat-icon color="primary">{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="matcher.passwordsMismatch">Passwords don't match</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="form-actions flex-col h-align-center">
+        <button class="full-width" mat-flat-button color="primary" type="submit">Register</button>
+        <p class="bold">or</p>
+        <button mat-raised-button class="social-google-btn" color="primary" type="button" (click)="onSignInWithGoogle()">
+            <div class="btn-icon">
+                <mat-icon svgIcon="google-logo"></mat-icon>
+            </div>
+            <div class="btn-content">Sign in with Google</div>
+        </button>
+    </div>
+</form>

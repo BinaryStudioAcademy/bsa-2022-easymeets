@@ -1,0 +1,51 @@
+<form class="signin-form form" [formGroup]="signInForm" (ngSubmit)="onSignIn()">
+    <div class="form-inputs flex-col">
+        <mat-label class="outside-label bold" for="email">Email</mat-label>
+        <mat-form-field appearance="outline">
+            <input matInput id="email" type="email" formControlName="email" placeholder="email@email.com" />
+            <mat-error
+                *ngIf="
+                    signInForm.controls['email'].hasError('incorrectCredentials') ||
+                    signInForm.controls['email'].hasError('required') ||
+                    signInForm.controls['email'].hasError('email')
+                "
+                >Email format is invalid</mat-error
+            >
+        </mat-form-field>
+        <mat-label class="outside-label bold">Password</mat-label>
+        <mat-form-field appearance="outline">
+            <input
+                matInput
+                id="password"
+                [type]="hidePassword ? 'password' : 'text'"
+                formControlName="password"
+                placeholder="●●●●●●●●●●" />
+            <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hidePassword">
+                <mat-icon color="primary">{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error
+                *ngIf="
+                    signInForm.controls['password'].hasError('incorrectCredentials') ||
+                    signInForm.controls['password'].hasError('required')
+                "
+                >Incorret authentication credentials</mat-error
+            >
+        </mat-form-field>
+    </div>
+    <div class="form-actions flex-col h-align-center">
+        <button class="full-width" mat-flat-button color="primary" type="submit">Sign In</button>
+        <p class="bold">or</p>
+        <button mat-raised-button class="social-google-btn" color="primary" type="button" (click)="onSignInWithGoogle()">
+            <div class="btn-icon">
+                <mat-icon svgIcon="google-logo"></mat-icon>
+            </div>
+            <div class="btn-content">Sign in with Google</div>
+        </button>
+    </div>
+</form>
