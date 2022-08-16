@@ -3,7 +3,6 @@ import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IUser } from '@core/models/IUser';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
-import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-user-slot',
@@ -16,8 +15,6 @@ export class UserSlotComponent {
     @Input() public currentUser: IUser;
 
     @Output() isReload = new EventEmitter<boolean>();
-
-    private unsubscribe$ = new Subject<void>();
 
     // eslint-disable-next-line no-empty-function
     constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {}

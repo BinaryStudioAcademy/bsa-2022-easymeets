@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IAvailabilitySlotsGroupByTeamsDto } from '@core/models/IAvailabilitySlotsGroupByTeam';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
-import { IUser } from '@core/models/IUser';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
-import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-team',
@@ -14,13 +12,9 @@ import { Subject } from 'rxjs';
 export class TeamComponent implements OnInit {
     @Input() public teamSlot: IAvailabilitySlotsGroupByTeamsDto;
 
-    @Input() public currentUser: IUser;
-
     @Output() isReload = new EventEmitter<boolean>();
 
     public slots: Array<IAvailabilitySlot>;
-
-    private unsubscribe$ = new Subject<void>();
 
     public teamName: string;
 
