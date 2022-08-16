@@ -55,4 +55,10 @@ export class AvailabilityPageComponent {
                 }
             });
     }
+
+    reloadData(isReload: any) {
+        if (isReload) {
+            this.getUserPersonalAndTeamSlots();
+        }
+    }
 }

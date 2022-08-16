@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IAvailabilitySlotsGroupByTeamsDto } from '@core/models/IAvailabilitySlotsGroupByTeam';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IUser } from '@core/models/IUser';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-team',
@@ -15,6 +15,8 @@ export class TeamComponent implements OnInit {
     @Input() public teamSlot: IAvailabilitySlotsGroupByTeamsDto;
 
     @Input() public currentUser: IUser;
+
+    @Output() isReload = new EventEmitter<boolean>();
 
     public slots: Array<IAvailabilitySlot>;
 
@@ -30,21 +32,7 @@ export class TeamComponent implements OnInit {
         this.teamName = this.teamSlot.name;
     }
 
-    public updateTeamsSlots() {
-        this.availabilitySlotService
-            .getUserPersonalAndTeamSlots(this.currentUser.id)
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((resp) => {
-                const [teamSlots] = resp.teamSlots.filter((el) => el.name === this.teamName);
-
-                this.slots = teamSlots.availabilitySlots;
-                this.spinnerService.hide();
-            });
-    }
-
     isDeleted(isRemove: any) {
-        if (isRemove) {
-            this.updateTeamsSlots();
-        }
+        this.isReload.emit(isRemove);
     }
 }

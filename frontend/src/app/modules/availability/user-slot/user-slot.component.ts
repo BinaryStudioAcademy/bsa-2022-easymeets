@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IUser } from '@core/models/IUser';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-user-slot',
@@ -15,24 +15,14 @@ export class UserSlotComponent {
 
     @Input() public currentUser: IUser;
 
+    @Output() isReload = new EventEmitter<boolean>();
+
     private unsubscribe$ = new Subject<void>();
 
     // eslint-disable-next-line no-empty-function
     constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {}
 
-    public updateUserSlots() {
-        this.availabilitySlotService
-            .getUserPersonalAndTeamSlots(this.currentUser.id)
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((resp) => {
-                this.userSlots = resp.userSlots;
-                this.spinnerService.hide();
-            });
-    }
-
     isDeleted(isRemove: any) {
-        if (isRemove) {
-            this.updateUserSlots();
-        }
+        this.isReload.emit(isRemove);
     }
 }
