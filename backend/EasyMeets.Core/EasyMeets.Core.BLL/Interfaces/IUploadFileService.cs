@@ -1,7 +1,9 @@
-﻿namespace EasyMeets.Core.BLL.Interfaces
+﻿using Microsoft.AspNetCore.Http;
+
+namespace EasyMeets.Core.BLL.Interfaces
 {
     public interface IUploadFileService
     {
-        public Task<string> UploadFileBlobAsync(string? filePath, string? fileName, long userId);
+        public Task<string> UploadFileBlobAsync(IFormFile file, string? fileName, long userId);
     }
 }

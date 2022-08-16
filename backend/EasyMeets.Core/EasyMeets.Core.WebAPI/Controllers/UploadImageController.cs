@@ -20,8 +20,9 @@ namespace EasyMeets.Core.WebAPI.Controllers
         {
             var formCollection = await Request.ReadFormAsync();
             var file = formCollection.Files.First();
-            ImageUploadDTO imageUploadDTO = new ImageUploadDTO();
-            var imageUrl = await _uploadFileService.UploadFileBlobAsync(imageUploadDTO.FilePath, imageUploadDTO.FileName, imageUploadDTO.UserId);
+            var fileName = Path.GetFileName(file.FileName);
+
+            var imageUrl = await _uploadFileService.UploadFileBlobAsync(file, fileName, 2);
 
             if (imageUrl is null)
             {
