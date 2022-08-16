@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CalendarModule } from '@modules/calendars/calendar.module';
 import { CalendarsPageComponent } from '@modules/calendars/calendars-page/calendars-page.component';
 import { UserProfilePageComponent } from '@modules/user/user-profile-page/user-profile-page.component';
 
