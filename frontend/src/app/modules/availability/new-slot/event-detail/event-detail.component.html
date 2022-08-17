@@ -52,7 +52,7 @@
                     disableRipple
                     class="example-radio-button"
                     *ngFor="let season of timeZoneChoices"
-                    [value]="season">
+                    [value]="season.value">
                     {{ season.text }}
                 </mat-radio-button>
             </mat-radio-group>

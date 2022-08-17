@@ -3,7 +3,7 @@ import { ActivityType } from '@core/enums/activity-type.enum';
 import { Color } from '@core/enums/color.enum';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IGeneralAvailabilitySettings } from '@core/models/IGeneralAvailabilitySettings';
-import { AvailabilitySlotService } from "@core/services/availability-slot.service";
+import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 
 @Component({
     selector: 'app-general',
@@ -88,7 +88,6 @@ export class GeneralComponent implements OnInit {
             .subscribe(locations => {
                 this.meetingLocations = locations.map(location => location.name);
                 this.settings.meetingLocation = this.slot?.locationName ?? this.meetingLocations[0];
-                console.log(this.slot);
             });
     }
 

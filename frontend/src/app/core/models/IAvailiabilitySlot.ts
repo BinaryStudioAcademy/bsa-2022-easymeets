@@ -21,5 +21,5 @@ export interface IAvailabilitySlot {
     allowToAddGuests: boolean;
     passwordProtectionIsUsed: boolean;
     passwordProtection?: string;
-    TimeZoneVisibility: boolean;
+    timeZoneVisibility: boolean;
 }

@@ -11,7 +11,7 @@ export class EventDetailComponent implements OnInit {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
         this.settings = {
-            zoneChoice: this.slot?.TimeZoneVisibility ?? false,
+            zoneChoice: this.slot?.timeZoneVisibility ?? false,
             linkChoice: this.slot?.link ?? '',
             welcomeMessage: this.slot?.welcomeMessage ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             languageSelect: this.slot?.language ?? 'English',
