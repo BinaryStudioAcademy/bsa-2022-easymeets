@@ -2,8 +2,8 @@
 {
     public class UserMeetingDTO
     {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string TimeZone { get; set; }
+        public string? Name { get; set; }
+        public string? Email { get; set; }
+        public string? TimeZone { get; set; }
     }
 }
