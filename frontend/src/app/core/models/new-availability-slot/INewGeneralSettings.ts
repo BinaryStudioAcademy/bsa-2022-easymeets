@@ -1,7 +1,8 @@
+import { LocationType } from '@core/enums/location-type.enum';
 import { SlotType } from '@core/enums/slot-type.enum';
 
 export interface INewGeneralSettings {
-    meetingLocation: string;
+    meetingLocation: LocationType;
     name: string;
     type: SlotType;
     size: number;
