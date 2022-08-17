@@ -71,12 +71,12 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 1L,
                             ActivityType = 2,
                             AvailabilitySlotId = 1L,
-                            Color = 2,
-                            Days = 11,
+                            Color = 4,
+                            Days = 12,
                             IsDeleted = false,
-                            MaxNumberOfBookings = 2,
+                            MaxNumberOfBookings = 3,
                             MinBookingMeetingDifference = 1,
-                            PaddingMeeting = 4,
+                            PaddingMeeting = 8,
                             StartDate = new DateTimeOffset(new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
@@ -84,12 +84,12 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 2L,
                             ActivityType = 1,
                             AvailabilitySlotId = 2L,
-                            Color = 5,
-                            Days = 27,
+                            Color = 3,
+                            Days = 22,
                             IsDeleted = false,
-                            MaxNumberOfBookings = 10,
-                            MinBookingMeetingDifference = 4,
-                            PaddingMeeting = 13,
+                            MaxNumberOfBookings = 1,
+                            MinBookingMeetingDifference = 1,
+                            PaddingMeeting = 5,
                             StartDate = new DateTimeOffset(new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
@@ -97,25 +97,25 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 3L,
                             ActivityType = 2,
                             AvailabilitySlotId = 3L,
-                            Color = 1,
-                            Days = 2,
+                            Color = 6,
+                            Days = 7,
                             IsDeleted = false,
-                            MaxNumberOfBookings = 4,
-                            MinBookingMeetingDifference = 1,
-                            PaddingMeeting = 7,
+                            MaxNumberOfBookings = 1,
+                            MinBookingMeetingDifference = 4,
+                            PaddingMeeting = 11,
                             StartDate = new DateTimeOffset(new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 4L,
-                            ActivityType = 1,
+                            ActivityType = 3,
                             AvailabilitySlotId = 4L,
-                            Color = 2,
-                            Days = 20,
+                            Color = 1,
+                            Days = 5,
                             IsDeleted = false,
-                            MaxNumberOfBookings = 7,
-                            MinBookingMeetingDifference = 2,
-                            PaddingMeeting = 7,
+                            MaxNumberOfBookings = 5,
+                            MinBookingMeetingDifference = 4,
+                            PaddingMeeting = 5,
                             StartDate = new DateTimeOffset(new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
@@ -123,25 +123,25 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 5L,
                             ActivityType = 2,
                             AvailabilitySlotId = 5L,
-                            Color = 6,
-                            Days = 13,
+                            Color = 7,
+                            Days = 18,
                             IsDeleted = false,
-                            MaxNumberOfBookings = 3,
-                            MinBookingMeetingDifference = 4,
-                            PaddingMeeting = 3,
+                            MaxNumberOfBookings = 10,
+                            MinBookingMeetingDifference = 2,
+                            PaddingMeeting = 15,
                             StartDate = new DateTimeOffset(new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 6L,
-                            ActivityType = 1,
+                            ActivityType = 3,
                             AvailabilitySlotId = 6L,
-                            Color = 1,
-                            Days = 18,
+                            Color = 8,
+                            Days = 5,
                             IsDeleted = false,
-                            MaxNumberOfBookings = 9,
-                            MinBookingMeetingDifference = 2,
-                            PaddingMeeting = 3,
+                            MaxNumberOfBookings = 5,
+                            MinBookingMeetingDifference = 5,
+                            PaddingMeeting = 7,
                             StartDate = new DateTimeOffset(new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
@@ -149,12 +149,12 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 7L,
                             ActivityType = 2,
                             AvailabilitySlotId = 7L,
-                            Color = 5,
-                            Days = 16,
+                            Color = 3,
+                            Days = 26,
                             IsDeleted = false,
-                            MaxNumberOfBookings = 4,
-                            MinBookingMeetingDifference = 1,
-                            PaddingMeeting = 1,
+                            MaxNumberOfBookings = 5,
+                            MinBookingMeetingDifference = 5,
+                            PaddingMeeting = 6,
                             StartDate = new DateTimeOffset(new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
@@ -162,24 +162,24 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 8L,
                             ActivityType = 3,
                             AvailabilitySlotId = 8L,
-                            Color = 7,
-                            Days = 5,
+                            Color = 4,
+                            Days = 7,
                             IsDeleted = false,
                             MaxNumberOfBookings = 4,
                             MinBookingMeetingDifference = 2,
-                            PaddingMeeting = 13,
+                            PaddingMeeting = 5,
                             StartDate = new DateTimeOffset(new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 9L,
-                            ActivityType = 1,
+                            ActivityType = 3,
                             AvailabilitySlotId = 9L,
-                            Color = 6,
-                            Days = 16,
+                            Color = 1,
+                            Days = 20,
                             IsDeleted = false,
-                            MaxNumberOfBookings = 1,
-                            MinBookingMeetingDifference = 2,
+                            MaxNumberOfBookings = 9,
+                            MinBookingMeetingDifference = 1,
                             PaddingMeeting = 15,
                             StartDate = new DateTimeOffset(new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
@@ -188,11 +188,11 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 10L,
                             ActivityType = 3,
                             AvailabilitySlotId = 10L,
-                            Color = 3,
-                            Days = 11,
+                            Color = 4,
+                            Days = 8,
                             IsDeleted = false,
-                            MaxNumberOfBookings = 2,
-                            MinBookingMeetingDifference = 3,
+                            MaxNumberOfBookings = 3,
+                            MinBookingMeetingDifference = 5,
                             PaddingMeeting = 14,
                             StartDate = new DateTimeOffset(new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         });
@@ -287,221 +287,221 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 1L,
                             AllowToAddGuests = true,
-                            BookingsPerDay = 5,
-                            CreatedAt = new DateTime(2021, 4, 28, 9, 29, 9, 409, DateTimeKind.Unspecified).AddTicks(6212),
+                            BookingsPerDay = 4,
+                            CreatedAt = new DateTime(2020, 11, 25, 0, 49, 37, 749, DateTimeKind.Unspecified).AddTicks(2038),
                             CreatedBy = 1L,
-                            Frequency = 21,
+                            Frequency = 20,
                             IsDeleted = false,
                             IsEnabled = true,
                             IsVisible = true,
                             Language = "Ukrainian",
-                            Link = "http://horacio.name",
-                            LocationId = 3L,
-                            Name = "ut",
-                            Size = 35,
-                            TeamId = 9L,
+                            Link = "http://gabriel.com",
+                            LocationId = 5L,
+                            Name = "qui",
+                            Size = 28,
+                            TeamId = 5L,
                             TimeZoneVisibility = true,
                             Type = 1,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            WelcomeMessage = "Quibusdam adipisci quia aliquid velit perferendis porro quia modi dicta. Dicta facere et et fugiat et voluptatem voluptatum. Distinctio saepe laborum asperiores dolorem. Eum et rem corrupti. Nihil modi expedita neque et. Aut id omnis sed harum maxime."
+                            WelcomeMessage = "Sit repudiandae occaecati tenetur consequuntur pariatur qui error alias. Debitis est nihil minima sunt debitis adipisci natus. Recusandae et earum error velit et qui. Repellat asperiores dolorem ea sed maiores sit incidunt consequatur."
                         },
                         new
                         {
                             Id = 2L,
                             AllowToAddGuests = true,
                             BookingsPerDay = 3,
-                            CreatedAt = new DateTime(2021, 3, 6, 4, 34, 51, 8, DateTimeKind.Unspecified).AddTicks(5160),
+                            CreatedAt = new DateTime(2020, 11, 25, 6, 29, 12, 400, DateTimeKind.Unspecified).AddTicks(2532),
                             CreatedBy = 2L,
-                            Frequency = 26,
-                            IsDeleted = false,
-                            IsEnabled = true,
-                            IsVisible = true,
-                            Language = "Ukrainian",
-                            Link = "https://stephany.biz",
-                            LocationId = 3L,
-                            Name = "labore",
-                            Size = 17,
-                            TeamId = 8L,
-                            TimeZoneVisibility = true,
-                            Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            WelcomeMessage = "Magnam sed ut quis omnis corporis.\nBeatae delectus et odio consequuntur natus illo et expedita et.\nCum aut quas tempore vero voluptatem optio qui natus qui.\nIncidunt quam corporis voluptatibus rerum culpa animi explicabo molestiae temporibus.\nExpedita esse in eos autem facilis."
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            AllowToAddGuests = true,
-                            BookingsPerDay = 5,
-                            CreatedAt = new DateTime(2020, 3, 9, 4, 8, 6, 388, DateTimeKind.Unspecified).AddTicks(2423),
-                            CreatedBy = 3L,
                             Frequency = 28,
                             IsDeleted = false,
                             IsEnabled = true,
                             IsVisible = true,
                             Language = "Ukrainian",
-                            Link = "http://eldon.name",
+                            Link = "https://kali.biz",
+                            LocationId = 4L,
+                            Name = "asperiores",
+                            Size = 56,
+                            TeamId = 3L,
+                            TimeZoneVisibility = true,
+                            Type = 1,
+                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            WelcomeMessage = "Fuga delectus quia facere. Velit eos nam. Porro necessitatibus id quasi. Eum illum quos iure assumenda pariatur est praesentium ut. Perferendis voluptatem illo. Iure qui quia in laborum eaque laborum quos reiciendis."
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            AllowToAddGuests = true,
+                            BookingsPerDay = 3,
+                            CreatedAt = new DateTime(2020, 6, 11, 7, 8, 13, 542, DateTimeKind.Unspecified).AddTicks(5350),
+                            CreatedBy = 3L,
+                            Frequency = 23,
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            IsVisible = true,
+                            Language = "Ukrainian",
+                            Link = "https://myrna.org",
                             LocationId = 3L,
-                            Name = "libero",
-                            Size = 35,
-                            TeamId = 7L,
+                            Name = "a",
+                            Size = 38,
+                            TeamId = 6L,
                             TimeZoneVisibility = true,
                             Type = 0,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            WelcomeMessage = "Labore rem cum occaecati dicta.\nDolor alias magnam.\nRecusandae in quasi soluta voluptas nihil eius.\nEt amet perferendis sunt repellat ab.\nAdipisci nam ut.\nQuidem omnis aut sequi."
+                            WelcomeMessage = "Dicta et tempore."
                         },
                         new
                         {
                             Id = 4L,
                             AllowToAddGuests = true,
-                            BookingsPerDay = 2,
-                            CreatedAt = new DateTime(2021, 2, 20, 18, 28, 0, 682, DateTimeKind.Unspecified).AddTicks(2638),
+                            BookingsPerDay = 1,
+                            CreatedAt = new DateTime(2020, 8, 21, 9, 40, 32, 389, DateTimeKind.Unspecified).AddTicks(6414),
                             CreatedBy = 4L,
                             Frequency = 23,
                             IsDeleted = false,
                             IsEnabled = true,
                             IsVisible = true,
                             Language = "Ukrainian",
-                            Link = "http://carroll.biz",
+                            Link = "https://ubaldo.biz",
                             LocationId = 3L,
-                            Name = "delectus",
-                            Size = 58,
-                            TeamId = 1L,
+                            Name = "tempora",
+                            Size = 16,
+                            TeamId = 10L,
                             TimeZoneVisibility = true,
                             Type = 1,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            WelcomeMessage = "Excepturi ratione beatae beatae quaerat.\nNostrum voluptates iure.\nAtque corporis non nostrum odit est."
+                            WelcomeMessage = "Tempore fugiat ab. Eaque autem accusantium omnis qui molestias maxime dolores totam ad. Aspernatur voluptate similique qui sed iste labore."
                         },
                         new
                         {
                             Id = 5L,
                             AllowToAddGuests = true,
                             BookingsPerDay = 1,
-                            CreatedAt = new DateTime(2020, 11, 30, 16, 32, 11, 782, DateTimeKind.Unspecified).AddTicks(2325),
+                            CreatedAt = new DateTime(2020, 8, 7, 21, 31, 7, 355, DateTimeKind.Unspecified).AddTicks(1439),
                             CreatedBy = 5L,
-                            Frequency = 21,
+                            Frequency = 17,
                             IsDeleted = false,
                             IsEnabled = true,
                             IsVisible = true,
                             Language = "Ukrainian",
-                            Link = "http://nicholaus.org",
-                            LocationId = 4L,
-                            Name = "ut",
-                            Size = 47,
-                            TeamId = 8L,
+                            Link = "https://shanny.org",
+                            LocationId = 3L,
+                            Name = "rerum",
+                            Size = 57,
+                            TeamId = 1L,
                             TimeZoneVisibility = true,
-                            Type = 0,
+                            Type = 1,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            WelcomeMessage = "sint"
+                            WelcomeMessage = "beatae"
                         },
                         new
                         {
                             Id = 6L,
                             AllowToAddGuests = true,
-                            BookingsPerDay = 3,
-                            CreatedAt = new DateTime(2021, 1, 11, 16, 48, 32, 846, DateTimeKind.Unspecified).AddTicks(3747),
+                            BookingsPerDay = 5,
+                            CreatedAt = new DateTime(2019, 12, 27, 10, 55, 51, 312, DateTimeKind.Unspecified).AddTicks(8790),
                             CreatedBy = 6L,
-                            Frequency = 18,
+                            Frequency = 20,
                             IsDeleted = false,
                             IsEnabled = true,
                             IsVisible = true,
                             Language = "Ukrainian",
-                            Link = "http://florian.net",
-                            LocationId = 5L,
-                            Name = "consequuntur",
-                            Size = 27,
-                            TeamId = 5L,
+                            Link = "http://penelope.biz",
+                            LocationId = 1L,
+                            Name = "iusto",
+                            Size = 16,
+                            TeamId = 6L,
                             TimeZoneVisibility = true,
-                            Type = 1,
+                            Type = 0,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            WelcomeMessage = "Voluptatibus ipsa vel ad aut dolorum saepe rem quidem. Adipisci facilis sapiente ut esse ut aut. Omnis provident consequuntur voluptatibus voluptatibus."
+                            WelcomeMessage = "Non in est et iste qui vitae velit."
                         },
                         new
                         {
                             Id = 7L,
                             AllowToAddGuests = true,
                             BookingsPerDay = 4,
-                            CreatedAt = new DateTime(2020, 12, 1, 14, 13, 49, 311, DateTimeKind.Unspecified).AddTicks(2250),
+                            CreatedAt = new DateTime(2021, 2, 23, 13, 6, 54, 527, DateTimeKind.Unspecified).AddTicks(8619),
                             CreatedBy = 7L,
-                            Frequency = 25,
-                            IsDeleted = false,
-                            IsEnabled = true,
-                            IsVisible = true,
-                            Language = "Ukrainian",
-                            Link = "http://alexandria.net",
-                            LocationId = 2L,
-                            Name = "qui",
-                            Size = 47,
-                            TeamId = 4L,
-                            TimeZoneVisibility = true,
-                            Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            WelcomeMessage = "Molestias eos repellat beatae dolorum ea nostrum voluptatem eos ut."
-                        },
-                        new
-                        {
-                            Id = 8L,
-                            AllowToAddGuests = true,
-                            BookingsPerDay = 3,
-                            CreatedAt = new DateTime(2020, 1, 1, 16, 16, 16, 62, DateTimeKind.Unspecified).AddTicks(5523),
-                            CreatedBy = 8L,
-                            Frequency = 25,
-                            IsDeleted = false,
-                            IsEnabled = true,
-                            IsVisible = true,
-                            Language = "Ukrainian",
-                            Link = "https://annetta.net",
-                            LocationId = 5L,
-                            Name = "totam",
-                            Size = 57,
-                            TeamId = 9L,
-                            TimeZoneVisibility = true,
-                            Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            WelcomeMessage = "Voluptatem sit animi itaque nemo laudantium.\nPariatur quibusdam magni ut.\nNon voluptatem culpa minima dolorum dolor molestiae quis.\nUt illo fugiat tempore asperiores omnis iure unde.\nQui rerum ipsa est.\nRerum pariatur aut et laudantium molestiae eaque magnam cumque nemo."
-                        },
-                        new
-                        {
-                            Id = 9L,
-                            AllowToAddGuests = true,
-                            BookingsPerDay = 1,
-                            CreatedAt = new DateTime(2021, 3, 28, 18, 55, 34, 72, DateTimeKind.Unspecified).AddTicks(7119),
-                            CreatedBy = 9L,
                             Frequency = 27,
                             IsDeleted = false,
                             IsEnabled = true,
                             IsVisible = true,
                             Language = "Ukrainian",
-                            Link = "https://delmer.name",
-                            LocationId = 1L,
-                            Name = "aut",
-                            Size = 31,
-                            TeamId = 2L,
+                            Link = "https://myrl.net",
+                            LocationId = 2L,
+                            Name = "sit",
+                            Size = 21,
+                            TeamId = 8L,
                             TimeZoneVisibility = true,
                             Type = 1,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            WelcomeMessage = "Nihil temporibus voluptas possimus ut quod. Quod est quibusdam consectetur nisi laudantium et voluptas. Asperiores dicta impedit. Iusto deleniti qui a qui. Sit nam sequi assumenda modi."
+                            WelcomeMessage = "Commodi quae ea doloribus.\nVoluptatem provident quia.\nUt aliquid iure.\nOdio ipsa iste voluptas voluptas voluptatem doloremque facilis libero praesentium.\nDolor commodi est eum perferendis veritatis consectetur sunt.\nSint et iste."
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            AllowToAddGuests = true,
+                            BookingsPerDay = 5,
+                            CreatedAt = new DateTime(2020, 5, 5, 17, 37, 49, 336, DateTimeKind.Unspecified).AddTicks(9867),
+                            CreatedBy = 8L,
+                            Frequency = 27,
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            IsVisible = true,
+                            Language = "Ukrainian",
+                            Link = "http://jermey.name",
+                            LocationId = 2L,
+                            Name = "in",
+                            Size = 18,
+                            TeamId = 4L,
+                            TimeZoneVisibility = true,
+                            Type = 0,
+                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            WelcomeMessage = "blanditiis"
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            AllowToAddGuests = true,
+                            BookingsPerDay = 2,
+                            CreatedAt = new DateTime(2020, 10, 7, 21, 17, 6, 720, DateTimeKind.Unspecified).AddTicks(1063),
+                            CreatedBy = 9L,
+                            Frequency = 21,
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            IsVisible = true,
+                            Language = "Ukrainian",
+                            Link = "https://zane.net",
+                            LocationId = 2L,
+                            Name = "repellat",
+                            Size = 46,
+                            TeamId = 5L,
+                            TimeZoneVisibility = true,
+                            Type = 0,
+                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            WelcomeMessage = "Magni accusantium et eos similique quas.\nArchitecto sunt at corporis in soluta.\nNecessitatibus aliquid quia temporibus vero.\nDucimus id qui nihil commodi eaque iusto itaque assumenda esse."
                         },
                         new
                         {
                             Id = 10L,
                             AllowToAddGuests = true,
-                            BookingsPerDay = 3,
-                            CreatedAt = new DateTime(2021, 2, 12, 22, 42, 25, 873, DateTimeKind.Unspecified).AddTicks(5477),
+                            BookingsPerDay = 5,
+                            CreatedAt = new DateTime(2019, 10, 6, 16, 45, 58, 734, DateTimeKind.Unspecified).AddTicks(4672),
                             CreatedBy = 10L,
-                            Frequency = 29,
+                            Frequency = 21,
                             IsDeleted = false,
                             IsEnabled = true,
                             IsVisible = true,
                             Language = "Ukrainian",
-                            Link = "https://kristoffer.biz",
+                            Link = "https://kayli.biz",
                             LocationId = 1L,
-                            Name = "et",
-                            Size = 37,
+                            Name = "nesciunt",
+                            Size = 27,
                             TeamId = 1L,
                             TimeZoneVisibility = true,
                             Type = 0,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            WelcomeMessage = "dolorum"
+                            WelcomeMessage = "Culpa animi porro dignissimos aut labore dolorum eos officia autem.\nNisi temporibus cum illum quis dolorem odit dolor magni aut."
                         });
                 });
 
@@ -547,21 +547,21 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            AddEventsFromTeamId = 7L,
+                            AddEventsFromTeamId = 9L,
                             CheckForConflicts = false,
-                            CreatedAt = new DateTime(2021, 1, 1, 23, 43, 43, 337, DateTimeKind.Unspecified).AddTicks(1935),
-                            CreatedBy = 10L,
+                            CreatedAt = new DateTime(2021, 4, 15, 5, 38, 15, 756, DateTimeKind.Unspecified).AddTicks(2021),
+                            CreatedBy = 8L,
                             IsDeleted = false,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            UserId = 5L
+                            UserId = 6L
                         },
                         new
                         {
                             Id = 2L,
-                            AddEventsFromTeamId = 2L,
+                            AddEventsFromTeamId = 9L,
                             CheckForConflicts = false,
-                            CreatedAt = new DateTime(2021, 1, 23, 22, 58, 20, 994, DateTimeKind.Unspecified).AddTicks(6546),
-                            CreatedBy = 4L,
+                            CreatedAt = new DateTime(2019, 10, 24, 1, 58, 14, 992, DateTimeKind.Unspecified).AddTicks(4522),
+                            CreatedBy = 9L,
                             IsDeleted = false,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 5L
@@ -569,75 +569,20 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 3L,
-                            AddEventsFromTeamId = 1L,
+                            AddEventsFromTeamId = 9L,
                             CheckForConflicts = false,
-                            CreatedAt = new DateTime(2021, 4, 23, 14, 13, 49, 115, DateTimeKind.Unspecified).AddTicks(3452),
-                            CreatedBy = 7L,
-                            IsDeleted = false,
-                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            UserId = 5L
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            AddEventsFromTeamId = 10L,
-                            CheckForConflicts = false,
-                            CreatedAt = new DateTime(2021, 5, 4, 8, 52, 34, 269, DateTimeKind.Unspecified).AddTicks(9379),
-                            CreatedBy = 7L,
-                            IsDeleted = false,
-                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            UserId = 6L
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            AddEventsFromTeamId = 3L,
-                            CheckForConflicts = false,
-                            CreatedAt = new DateTime(2021, 1, 9, 20, 17, 8, 250, DateTimeKind.Unspecified).AddTicks(6322),
-                            CreatedBy = 2L,
-                            IsDeleted = false,
-                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            UserId = 5L
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            AddEventsFromTeamId = 5L,
-                            CheckForConflicts = false,
-                            CreatedAt = new DateTime(2021, 5, 21, 7, 33, 49, 423, DateTimeKind.Unspecified).AddTicks(8180),
-                            CreatedBy = 7L,
-                            IsDeleted = false,
-                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            UserId = 6L
-                        },
-                        new
-                        {
-                            Id = 7L,
-                            AddEventsFromTeamId = 8L,
-                            CheckForConflicts = false,
-                            CreatedAt = new DateTime(2021, 4, 23, 19, 37, 23, 332, DateTimeKind.Unspecified).AddTicks(3138),
-                            CreatedBy = 7L,
+                            CreatedAt = new DateTime(2020, 3, 6, 8, 35, 1, 64, DateTimeKind.Unspecified).AddTicks(414),
+                            CreatedBy = 8L,
                             IsDeleted = false,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 8L
                         },
                         new
                         {
-                            Id = 8L,
-                            AddEventsFromTeamId = 8L,
+                            Id = 4L,
+                            AddEventsFromTeamId = 7L,
                             CheckForConflicts = false,
-                            CreatedAt = new DateTime(2020, 10, 13, 11, 48, 55, 374, DateTimeKind.Unspecified).AddTicks(849),
-                            CreatedBy = 9L,
-                            IsDeleted = false,
-                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            UserId = 7L
-                        },
-                        new
-                        {
-                            Id = 9L,
-                            AddEventsFromTeamId = 8L,
-                            CheckForConflicts = false,
-                            CreatedAt = new DateTime(2021, 6, 27, 4, 58, 59, 481, DateTimeKind.Unspecified).AddTicks(4372),
+                            CreatedAt = new DateTime(2019, 12, 12, 22, 49, 31, 374, DateTimeKind.Unspecified).AddTicks(3905),
                             CreatedBy = 1L,
                             IsDeleted = false,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
@@ -645,14 +590,69 @@ namespace EasyMeets.Core.DAL.Migrations
                         },
                         new
                         {
-                            Id = 10L,
-                            AddEventsFromTeamId = 6L,
+                            Id = 5L,
+                            AddEventsFromTeamId = 3L,
                             CheckForConflicts = false,
-                            CreatedAt = new DateTime(2019, 12, 15, 7, 56, 6, 916, DateTimeKind.Unspecified).AddTicks(2028),
-                            CreatedBy = 7L,
+                            CreatedAt = new DateTime(2021, 4, 13, 14, 40, 44, 989, DateTimeKind.Unspecified).AddTicks(209),
+                            CreatedBy = 1L,
+                            IsDeleted = false,
+                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            UserId = 10L
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            AddEventsFromTeamId = 2L,
+                            CheckForConflicts = false,
+                            CreatedAt = new DateTime(2020, 3, 26, 10, 16, 54, 50, DateTimeKind.Unspecified).AddTicks(8006),
+                            CreatedBy = 5L,
                             IsDeleted = false,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 7L
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            AddEventsFromTeamId = 1L,
+                            CheckForConflicts = false,
+                            CreatedAt = new DateTime(2020, 9, 19, 8, 3, 54, 834, DateTimeKind.Unspecified).AddTicks(3166),
+                            CreatedBy = 5L,
+                            IsDeleted = false,
+                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            UserId = 3L
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            AddEventsFromTeamId = 4L,
+                            CheckForConflicts = false,
+                            CreatedAt = new DateTime(2020, 7, 25, 18, 21, 59, 181, DateTimeKind.Unspecified).AddTicks(6977),
+                            CreatedBy = 3L,
+                            IsDeleted = false,
+                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            UserId = 1L
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            AddEventsFromTeamId = 6L,
+                            CheckForConflicts = false,
+                            CreatedAt = new DateTime(2021, 5, 28, 5, 19, 2, 466, DateTimeKind.Unspecified).AddTicks(2224),
+                            CreatedBy = 1L,
+                            IsDeleted = false,
+                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            UserId = 1L
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            AddEventsFromTeamId = 5L,
+                            CheckForConflicts = false,
+                            CreatedAt = new DateTime(2020, 4, 8, 2, 21, 27, 173, DateTimeKind.Unspecified).AddTicks(6181),
+                            CreatedBy = 8L,
+                            IsDeleted = false,
+                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            UserId = 8L
                         });
                 });
 
@@ -791,92 +791,92 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            AvailabilitySlotId = 10L,
-                            Email = "Teresa46@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 2, 5, 9, 24, 28, 690, DateTimeKind.Unspecified).AddTicks(1948), new TimeSpan(0, 2, 0, 0, 0)),
+                            AvailabilitySlotId = 7L,
+                            Email = "Tom_Daniel@hotmail.com",
+                            EventTime = new DateTimeOffset(new DateTime(2023, 5, 13, 5, 57, 1, 323, DateTimeKind.Unspecified).AddTicks(1889), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
-                            Name = "Teresa O'Keefe"
+                            Name = "Tom Daniel"
                         },
                         new
                         {
                             Id = 2L,
-                            AvailabilitySlotId = 4L,
-                            Email = "Maggie38@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 7, 31, 8, 13, 31, 536, DateTimeKind.Unspecified).AddTicks(3432), new TimeSpan(0, 3, 0, 0, 0)),
+                            AvailabilitySlotId = 5L,
+                            Email = "Vanessa78@gmail.com",
+                            EventTime = new DateTimeOffset(new DateTime(2023, 1, 23, 3, 14, 57, 686, DateTimeKind.Unspecified).AddTicks(9248), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
-                            Name = "Maggie Stracke"
+                            Name = "Vanessa Thiel"
                         },
                         new
                         {
                             Id = 3L,
-                            AvailabilitySlotId = 10L,
-                            Email = "Santiago_Collier32@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 6, 3, 0, 29, 23, 129, DateTimeKind.Unspecified).AddTicks(7763), new TimeSpan(0, 3, 0, 0, 0)),
+                            AvailabilitySlotId = 5L,
+                            Email = "Kendra.Farrell@gmail.com",
+                            EventTime = new DateTimeOffset(new DateTime(2023, 3, 28, 2, 12, 21, 462, DateTimeKind.Unspecified).AddTicks(2868), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
-                            Name = "Santiago Collier"
+                            Name = "Kendra Farrell"
                         },
                         new
                         {
                             Id = 4L,
-                            AvailabilitySlotId = 5L,
-                            Email = "Lynn.Beahan@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 11, 15, 3, 10, 6, 754, DateTimeKind.Unspecified).AddTicks(5221), new TimeSpan(0, 2, 0, 0, 0)),
+                            AvailabilitySlotId = 8L,
+                            Email = "Alex5@hotmail.com",
+                            EventTime = new DateTimeOffset(new DateTime(2023, 2, 28, 23, 1, 11, 939, DateTimeKind.Unspecified).AddTicks(2724), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
-                            Name = "Lynn Beahan"
+                            Name = "Alex Cassin"
                         },
                         new
                         {
                             Id = 5L,
-                            AvailabilitySlotId = 9L,
-                            Email = "Becky_Schumm34@gmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 8, 21, 21, 4, 34, 237, DateTimeKind.Unspecified).AddTicks(156), new TimeSpan(0, 3, 0, 0, 0)),
+                            AvailabilitySlotId = 3L,
+                            Email = "Mattie.Okuneva53@yahoo.com",
+                            EventTime = new DateTimeOffset(new DateTime(2023, 1, 12, 11, 11, 27, 450, DateTimeKind.Unspecified).AddTicks(5277), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
-                            Name = "Becky Schumm"
+                            Name = "Mattie Okuneva"
                         },
                         new
                         {
                             Id = 6L,
-                            AvailabilitySlotId = 7L,
-                            Email = "Lois78@gmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 8, 5, 5, 52, 58, 657, DateTimeKind.Unspecified).AddTicks(7436), new TimeSpan(0, 3, 0, 0, 0)),
+                            AvailabilitySlotId = 10L,
+                            Email = "Raymond54@gmail.com",
+                            EventTime = new DateTimeOffset(new DateTime(2022, 9, 12, 21, 29, 39, 774, DateTimeKind.Unspecified).AddTicks(4924), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
-                            Name = "Lois Schinner"
+                            Name = "Raymond Ankunding"
                         },
                         new
                         {
                             Id = 7L,
-                            AvailabilitySlotId = 9L,
-                            Email = "Louise_Cole@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 10, 20, 6, 46, 0, 659, DateTimeKind.Unspecified).AddTicks(2183), new TimeSpan(0, 3, 0, 0, 0)),
+                            AvailabilitySlotId = 7L,
+                            Email = "Victor42@gmail.com",
+                            EventTime = new DateTimeOffset(new DateTime(2022, 9, 12, 4, 28, 8, 622, DateTimeKind.Unspecified).AddTicks(5013), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
-                            Name = "Louise Cole"
+                            Name = "Victor Kuhlman"
                         },
                         new
                         {
                             Id = 8L,
-                            AvailabilitySlotId = 9L,
-                            Email = "Victoria.Gutmann64@hotmail.co",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 7, 18, 6, 22, 56, 202, DateTimeKind.Unspecified).AddTicks(5071), new TimeSpan(0, 3, 0, 0, 0)),
+                            AvailabilitySlotId = 7L,
+                            Email = "Vernon57@yahoo.com",
+                            EventTime = new DateTimeOffset(new DateTime(2022, 11, 13, 21, 16, 4, 103, DateTimeKind.Unspecified).AddTicks(6300), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
-                            Name = "Victoria Gutmann"
+                            Name = "Vernon Lakin"
                         },
                         new
                         {
                             Id = 9L,
                             AvailabilitySlotId = 5L,
-                            Email = "Janis_Hoeger32@gmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 11, 25, 9, 51, 33, 334, DateTimeKind.Unspecified).AddTicks(2059), new TimeSpan(0, 2, 0, 0, 0)),
+                            Email = "Victoria.Bode30@hotmail.com",
+                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 20, 23, 58, 18, 123, DateTimeKind.Unspecified).AddTicks(2257), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
-                            Name = "Janis Hoeger"
+                            Name = "Victoria Bode"
                         },
                         new
                         {
                             Id = 10L,
-                            AvailabilitySlotId = 9L,
-                            Email = "Jacqueline31@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 11, 11, 9, 31, 16, 1, DateTimeKind.Unspecified).AddTicks(5325), new TimeSpan(0, 2, 0, 0, 0)),
+                            AvailabilitySlotId = 7L,
+                            Email = "Jordan94@yahoo.com",
+                            EventTime = new DateTimeOffset(new DateTime(2023, 2, 22, 20, 23, 13, 667, DateTimeKind.Unspecified).AddTicks(357), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
-                            Name = "Jacqueline Greenfelder"
+                            Name = "Jordan Olson"
                         });
                 });
 
@@ -910,82 +910,82 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(7683), new TimeSpan(0, 3, 0, 0, 0)),
-                            ExternalAttendeeId = 2L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(4900), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 4L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(7445), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(4709), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 2L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(7938), new TimeSpan(0, 3, 0, 0, 0)),
-                            ExternalAttendeeId = 2L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5102), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 3L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(7923), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5087), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 3L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(7975), new TimeSpan(0, 3, 0, 0, 0)),
-                            ExternalAttendeeId = 6L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5137), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 7L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(7963), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5126), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 4L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(9053), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5170), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 8L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(8960), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5159), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 5L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(9097), new TimeSpan(0, 3, 0, 0, 0)),
-                            ExternalAttendeeId = 8L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5202), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 4L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(9084), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5191), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 6L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(9132), new TimeSpan(0, 3, 0, 0, 0)),
-                            ExternalAttendeeId = 10L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5235), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 1L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(9121), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5224), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 7L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(9165), new TimeSpan(0, 3, 0, 0, 0)),
-                            ExternalAttendeeId = 4L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5300), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 8L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(9154), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5289), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 8L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(9197), new TimeSpan(0, 3, 0, 0, 0)),
-                            ExternalAttendeeId = 10L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5332), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 3L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(9187), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5321), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 9L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(9227), new TimeSpan(0, 3, 0, 0, 0)),
-                            ExternalAttendeeId = 10L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5364), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 1L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(9217), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5353), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 10L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(9257), new TimeSpan(0, 3, 0, 0, 0)),
-                            ExternalAttendeeId = 8L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5396), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 5L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 6, 59, 626, DateTimeKind.Unspecified).AddTicks(9247), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 18, 12, 48, 27, 61, DateTimeKind.Unspecified).AddTicks(5385), new TimeSpan(0, 3, 0, 0, 0))
                         });
                 });
 
@@ -1099,141 +1099,141 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTime(2019, 8, 18, 1, 28, 33, 721, DateTimeKind.Unspecified).AddTicks(3088),
-                            CreatedBy = 6L,
-                            Description = "Est eum ipsam illum maiores voluptatibus itaque qu",
-                            Duration = 11,
+                            CreatedAt = new DateTime(2020, 4, 30, 2, 58, 53, 763, DateTimeKind.Unspecified).AddTicks(5288),
+                            CreatedBy = 10L,
+                            Description = "aspernatur",
+                            Duration = 14,
                             IsDeleted = false,
-                            LocationId = 5L,
-                            Name = "ut",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 7, 15, 0, 56, 582, DateTimeKind.Unspecified).AddTicks(3845), new TimeSpan(0, 2, 0, 0, 0)),
-                            TeamId = 8L,
+                            LocationId = 3L,
+                            Name = "soluta",
+                            StartTime = new DateTimeOffset(new DateTime(2022, 11, 13, 22, 10, 31, 763, DateTimeKind.Unspecified).AddTicks(3085), new TimeSpan(0, 2, 0, 0, 0)),
+                            TeamId = 9L,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTime(2020, 3, 9, 5, 2, 38, 16, DateTimeKind.Unspecified).AddTicks(8977),
-                            CreatedBy = 8L,
-                            Description = "Sint eius autem possimus ex distinctio explicabo n",
-                            Duration = 57,
+                            CreatedAt = new DateTime(2020, 12, 29, 3, 27, 48, 102, DateTimeKind.Unspecified).AddTicks(9419),
+                            CreatedBy = 9L,
+                            Description = "Repellendus asperiores accusamus explicabo quibusd",
+                            Duration = 11,
                             IsDeleted = false,
-                            LocationId = 3L,
-                            Name = "et",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 13, 19, 46, 43, 186, DateTimeKind.Unspecified).AddTicks(2049), new TimeSpan(0, 3, 0, 0, 0)),
-                            TeamId = 1L,
+                            LocationId = 2L,
+                            Name = "aut",
+                            StartTime = new DateTimeOffset(new DateTime(2023, 7, 27, 4, 43, 4, 659, DateTimeKind.Unspecified).AddTicks(2895), new TimeSpan(0, 3, 0, 0, 0)),
+                            TeamId = 7L,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedAt = new DateTime(2021, 5, 27, 9, 47, 28, 467, DateTimeKind.Unspecified).AddTicks(9695),
-                            CreatedBy = 4L,
-                            Description = "Praesentium reprehenderit nesciunt et.",
-                            Duration = 38,
+                            CreatedAt = new DateTime(2019, 11, 4, 10, 51, 1, 775, DateTimeKind.Unspecified).AddTicks(2473),
+                            CreatedBy = 3L,
+                            Description = "distinctio",
+                            Duration = 50,
                             IsDeleted = false,
-                            LocationId = 3L,
-                            Name = "dolorum",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 19, 18, 32, 15, 870, DateTimeKind.Unspecified).AddTicks(2410), new TimeSpan(0, 2, 0, 0, 0)),
+                            LocationId = 2L,
+                            Name = "esse",
+                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 9, 18, 4, 29, 550, DateTimeKind.Unspecified).AddTicks(5329), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 2L,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedAt = new DateTime(2020, 9, 18, 3, 51, 25, 585, DateTimeKind.Unspecified).AddTicks(9433),
-                            CreatedBy = 10L,
-                            Description = "Ipsam numquam omnis. Voluptatem ad eveniet. Et cup",
-                            Duration = 36,
+                            CreatedAt = new DateTime(2021, 2, 14, 7, 34, 20, 852, DateTimeKind.Unspecified).AddTicks(4025),
+                            CreatedBy = 3L,
+                            Description = "Omnis non fugiat velit voluptate aspernatur delect",
+                            Duration = 60,
                             IsDeleted = false,
                             LocationId = 5L,
-                            Name = "minus",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 7, 10, 1, 46, 54, 833, DateTimeKind.Unspecified).AddTicks(719), new TimeSpan(0, 3, 0, 0, 0)),
-                            TeamId = 1L,
-                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local)
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            CreatedAt = new DateTime(2019, 7, 25, 12, 4, 22, 422, DateTimeKind.Unspecified).AddTicks(5893),
-                            CreatedBy = 6L,
-                            Description = "Ad recusandae voluptas ex est enim modi cumque und",
-                            Duration = 38,
-                            IsDeleted = false,
-                            LocationId = 1L,
-                            Name = "quisquam",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 4, 17, 12, 34, 1, 974, DateTimeKind.Unspecified).AddTicks(1686), new TimeSpan(0, 3, 0, 0, 0)),
+                            Name = "laudantium",
+                            StartTime = new DateTimeOffset(new DateTime(2022, 11, 9, 19, 5, 23, 127, DateTimeKind.Unspecified).AddTicks(3291), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 4L,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
-                            Id = 6L,
-                            CreatedAt = new DateTime(2020, 8, 3, 20, 0, 36, 158, DateTimeKind.Unspecified).AddTicks(1742),
-                            CreatedBy = 7L,
-                            Description = "Debitis accusantium et et. Quos laudantium quia qu",
-                            Duration = 29,
+                            Id = 5L,
+                            CreatedAt = new DateTime(2019, 12, 29, 17, 4, 1, 196, DateTimeKind.Unspecified).AddTicks(4264),
+                            CreatedBy = 1L,
+                            Description = "Molestiae voluptatem nihil placeat et sint ipsa vo",
+                            Duration = 12,
                             IsDeleted = false,
-                            LocationId = 3L,
-                            Name = "dolore",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 26, 13, 15, 7, 660, DateTimeKind.Unspecified).AddTicks(1717), new TimeSpan(0, 2, 0, 0, 0)),
-                            TeamId = 9L,
+                            LocationId = 5L,
+                            Name = "dicta",
+                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 7, 14, 37, 56, 781, DateTimeKind.Unspecified).AddTicks(9239), new TimeSpan(0, 2, 0, 0, 0)),
+                            TeamId = 7L,
+                            UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local)
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            CreatedAt = new DateTime(2019, 11, 25, 2, 33, 3, 829, DateTimeKind.Unspecified).AddTicks(444),
+                            CreatedBy = 4L,
+                            Description = "Ad et et ab temporibus eligendi porro ad provident",
+                            Duration = 24,
+                            IsDeleted = false,
+                            LocationId = 2L,
+                            Name = "mollitia",
+                            StartTime = new DateTimeOffset(new DateTime(2023, 3, 26, 6, 57, 5, 249, DateTimeKind.Unspecified).AddTicks(112), new TimeSpan(0, 3, 0, 0, 0)),
+                            TeamId = 7L,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 7L,
-                            CreatedAt = new DateTime(2021, 6, 28, 13, 45, 20, 299, DateTimeKind.Unspecified).AddTicks(621),
-                            CreatedBy = 7L,
-                            Description = "Omnis repellat voluptatibus commodi corporis conse",
-                            Duration = 30,
+                            CreatedAt = new DateTime(2021, 5, 16, 16, 47, 18, 79, DateTimeKind.Unspecified).AddTicks(4556),
+                            CreatedBy = 9L,
+                            Description = "Aut qui nam.",
+                            Duration = 21,
                             IsDeleted = false,
-                            LocationId = 5L,
-                            Name = "rerum",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 2, 13, 42, 12, 325, DateTimeKind.Unspecified).AddTicks(2996), new TimeSpan(0, 3, 0, 0, 0)),
+                            LocationId = 3L,
+                            Name = "omnis",
+                            StartTime = new DateTimeOffset(new DateTime(2023, 2, 8, 9, 26, 52, 312, DateTimeKind.Unspecified).AddTicks(5994), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 5L,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 8L,
-                            CreatedAt = new DateTime(2020, 6, 11, 23, 49, 19, 201, DateTimeKind.Unspecified).AddTicks(4009),
-                            CreatedBy = 9L,
-                            Description = "et",
-                            Duration = 22,
+                            CreatedAt = new DateTime(2020, 6, 15, 19, 32, 2, 117, DateTimeKind.Unspecified).AddTicks(1958),
+                            CreatedBy = 7L,
+                            Description = "Vitae temporibus itaque itaque et.\nOptio porro rep",
+                            Duration = 57,
                             IsDeleted = false,
-                            LocationId = 3L,
-                            Name = "necessitatibus",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 3, 23, 23, 14, 25, 168, DateTimeKind.Unspecified).AddTicks(1955), new TimeSpan(0, 2, 0, 0, 0)),
-                            TeamId = 8L,
+                            LocationId = 5L,
+                            Name = "alias",
+                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 4, 23, 19, 47, 64, DateTimeKind.Unspecified).AddTicks(6051), new TimeSpan(0, 2, 0, 0, 0)),
+                            TeamId = 9L,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 9L,
-                            CreatedAt = new DateTime(2019, 10, 27, 6, 25, 26, 756, DateTimeKind.Unspecified).AddTicks(3975),
-                            CreatedBy = 2L,
-                            Description = "Et cupiditate laborum.\nSit exercitationem voluptat",
-                            Duration = 38,
+                            CreatedAt = new DateTime(2020, 4, 29, 23, 51, 49, 660, DateTimeKind.Unspecified).AddTicks(1357),
+                            CreatedBy = 8L,
+                            Description = "Cupiditate assumenda voluptatibus consequatur mole",
+                            Duration = 49,
                             IsDeleted = false,
-                            LocationId = 2L,
-                            Name = "voluptas",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 31, 0, 2, 23, 202, DateTimeKind.Unspecified).AddTicks(7165), new TimeSpan(0, 2, 0, 0, 0)),
-                            TeamId = 3L,
+                            LocationId = 5L,
+                            Name = "illo",
+                            StartTime = new DateTimeOffset(new DateTime(2023, 5, 31, 12, 44, 2, 360, DateTimeKind.Unspecified).AddTicks(717), new TimeSpan(0, 3, 0, 0, 0)),
+                            TeamId = 4L,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 10L,
-                            CreatedAt = new DateTime(2020, 2, 15, 12, 21, 12, 479, DateTimeKind.Unspecified).AddTicks(4203),
-                            CreatedBy = 9L,
-                            Description = "Officia laudantium nihil omnis excepturi eius. Vol",
-                            Duration = 43,
+                            CreatedAt = new DateTime(2020, 10, 24, 13, 13, 6, 409, DateTimeKind.Unspecified).AddTicks(4726),
+                            CreatedBy = 4L,
+                            Description = "natus",
+                            Duration = 20,
                             IsDeleted = false,
-                            LocationId = 4L,
-                            Name = "incidunt",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 14, 11, 9, 25, 175, DateTimeKind.Unspecified).AddTicks(4868), new TimeSpan(0, 2, 0, 0, 0)),
-                            TeamId = 2L,
+                            LocationId = 5L,
+                            Name = "perspiciatis",
+                            StartTime = new DateTimeOffset(new DateTime(2022, 11, 12, 11, 20, 9, 505, DateTimeKind.Unspecified).AddTicks(6728), new TimeSpan(0, 2, 0, 0, 0)),
+                            TeamId = 4L,
                             UpdatedAt = new DateTime(2022, 8, 17, 0, 0, 0, 0, DateTimeKind.Local)
                         });
                 });
@@ -1267,72 +1267,72 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            AvailabilitySlotId = 10L,
+                            AvailabilitySlotId = 7L,
                             IsDeleted = false,
-                            Text = "In debitis est et totam consequuntur. Voluptas totam odio aut eos blanditiis. Sit voluptas maiores reiciendis aut vel maiores id. Consequatur ut laudantium aut voluptatem est voluptatem esse. Reiciendis reiciendis illo vitae itaque. Repellat perferendis voluptatem repellat dicta et sit."
+                            Text = "Dolorem expedita voluptate tenetur.AAAAAAAAAAAAAAA"
                         },
                         new
                         {
                             Id = 2L,
-                            AvailabilitySlotId = 9L,
+                            AvailabilitySlotId = 7L,
                             IsDeleted = false,
-                            Text = "facilisAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                            Text = "Et qui aspernatur.\nAut aliquid deserunt tempora dolores omnis magnam ea."
                         },
                         new
                         {
                             Id = 3L,
-                            AvailabilitySlotId = 6L,
+                            AvailabilitySlotId = 7L,
                             IsDeleted = false,
-                            Text = "molestiaeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                            Text = "Aliquid sit soluta molestias ipsam qui.AAAAAAAAAAA"
                         },
                         new
                         {
                             Id = 4L,
-                            AvailabilitySlotId = 2L,
+                            AvailabilitySlotId = 3L,
                             IsDeleted = false,
-                            Text = "Cumque dolor nemo quia ut et dicta sit.\nExplicabo explicabo odit ea laborum unde repellendus provident.\nEnim id velit eaque velit.\nFacere id vel excepturi id voluptatem aliquam voluptatem."
+                            Text = "Et veritatis et expedita magnam in accusantium magni. Recusandae ut provident. Labore voluptatum id similique repudiandae. Debitis est autem quis vitae enim architecto. Ullam quis illum quia ducimus minima consectetur officia."
                         },
                         new
                         {
                             Id = 5L,
-                            AvailabilitySlotId = 2L,
+                            AvailabilitySlotId = 5L,
                             IsDeleted = false,
-                            Text = "Dolorem est non quidem possimus magni.AAAAAAAAAAAA"
+                            Text = "Beatae et non incidunt et illo consequuntur dolorem. Et tenetur maxime non beatae delectus placeat. Fugiat minima soluta qui perferendis."
                         },
                         new
                         {
                             Id = 6L,
-                            AvailabilitySlotId = 7L,
+                            AvailabilitySlotId = 3L,
                             IsDeleted = false,
-                            Text = "Ipsum dolor in delectus maiores.AAAAAAAAAAAAAAAAAA"
+                            Text = "Est similique voluptatem nam quia occaecati voluptatum sed ut quia. Quo in et. In magnam sit in est est in repellat magni quas. Culpa aliquid voluptas."
                         },
                         new
                         {
                             Id = 7L,
-                            AvailabilitySlotId = 5L,
+                            AvailabilitySlotId = 8L,
                             IsDeleted = false,
-                            Text = "Qui velit et hic quos quo doloribus voluptate.AAAA"
+                            Text = "Deserunt eveniet deserunt in.AAAAAAAAAAAAAAAAAAAAA"
                         },
                         new
                         {
                             Id = 8L,
                             AvailabilitySlotId = 1L,
                             IsDeleted = false,
-                            Text = "Aut ex ipsam commodi distinctio soluta culpa fuga. Fuga ipsam temporibus architecto magnam repudiandae. Odio qui voluptate sed quo asperiores voluptatem qui est. Possimus quibusdam dignissimos ut consequatur. Officia nostrum sint et dolores."
+                            Text = "Expedita minima quibusdam deleniti repudiandae aut ut veritatis doloribus id. Consequatur porro reiciendis suscipit rerum laboriosam minus non. Fuga quos dolorum. Sed molestias debitis aut perspiciatis labore nostrum delectus consequuntur maxime."
                         },
                         new
                         {
                             Id = 9L,
-                            AvailabilitySlotId = 9L,
+                            AvailabilitySlotId = 8L,
                             IsDeleted = false,
-                            Text = "Est quaerat in rerum quae.AAAAAAAAAAAAAAAAAAAAAAAA"
+                            Text = "Numquam ea consequatur molestiae quidem eum dolores provident. Inventore aperiam qui consequatur. Dolor et iure fugit consequatur animi quod. Quis velit quo dolores dolorum sed. Dolores beatae quo."
                         },
                         new
                         {
                             Id = 10L,
-                            AvailabilitySlotId = 5L,
+                            AvailabilitySlotId = 6L,
                             IsDeleted = false,
-                            Text = "Repellat et nesciunt reiciendis nihil quisquam quasi quis."
+                            Text = "Modi odit ut qui nemo sit. Iste consequatur fugiat tempora. Odio dolorum culpa officia fuga omnis. Nihil amet quas nemo."
                         });
                 });
 
@@ -1411,101 +1411,101 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            Description = "Doloremque similique provident. Expedita voluptatum deleniti. Dolores cumque sequi ea culpa corporis cupiditate soluta non. Quas autem amet voluptas sunt quis reprehenderit blanditiis nihil ea.",
+                            Description = "Rerum eum eum repellendus illum voluptatum veniam dolorem animi.",
                             IsDeleted = false,
-                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/726.jpg",
-                            Name = "Nikolaus LLC",
-                            PageLink = "http://maud.com",
+                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/625.jpg",
+                            Name = "Bergnaum - Pagac",
+                            PageLink = "http://coty.org",
                             TimeZone = 0
                         },
                         new
                         {
                             Id = 2L,
-                            Description = "Ipsam omnis esse et eligendi excepturi autem a.",
+                            Description = "Corporis totam iste consectetur. Omnis eum vel porro similique veritatis suscipit. Expedita eius voluptatem voluptatem molestiae veritatis consectetur. Quis sequi beatae.",
                             IsDeleted = false,
-                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/383.jpg",
-                            Name = "Hoppe Inc",
-                            PageLink = "http://jett.info",
+                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/74.jpg",
+                            Name = "Kuhlman Inc",
+                            PageLink = "http://stan.biz",
                             TimeZone = 0
                         },
                         new
                         {
                             Id = 3L,
-                            Description = "Eveniet et veniam similique reiciendis voluptatem eum aut.",
+                            Description = "Inventore voluptates consequatur quis tempora cumque rerum.\nRepellat est voluptas et qui et perspiciatis.\nNatus consequatur qui aut vel quibusdam fuga ea id.\nMaiores culpa doloribus quisquam nemo aliquam porro rerum.\nExplicabo quia velit ab perferendis magnam.\nAut dolore sit vel error dolor praesen",
                             IsDeleted = false,
-                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1183.jpg",
-                            Name = "Medhurst LLC",
-                            PageLink = "https://tillman.org",
+                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/165.jpg",
+                            Name = "Smitham - Marks",
+                            PageLink = "https://rocio.info",
                             TimeZone = 0
                         },
                         new
                         {
                             Id = 4L,
-                            Description = "quibusdam",
+                            Description = "Quidem rerum ipsum molestias iure et consequatur. Temporibus est voluptatum quibusdam laborum veniam. Corporis totam laborum occaecati dicta cupiditate quam facere. Qui et aut soluta adipisci quo corrupti voluptatibus est.",
                             IsDeleted = false,
-                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/196.jpg",
-                            Name = "Stiedemann - Senger",
-                            PageLink = "http://rhett.info",
+                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/478.jpg",
+                            Name = "DuBuque, Lockman and Stanton",
+                            PageLink = "http://river.info",
                             TimeZone = 0
                         },
                         new
                         {
                             Id = 5L,
-                            Description = "At ducimus ex consequatur.\nNumquam ut minus ut non nulla ipsum.\nQuis quo quia.\nLibero est error.\nEt dolorum perspiciatis totam.\nSint sed maiores aspernatur.",
+                            Description = "Possimus cumque odit magnam mollitia voluptas voluptatibus nobis nobis.",
                             IsDeleted = false,
-                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1099.jpg",
-                            Name = "Boehm, Jerde and Wolf",
-                            PageLink = "http://russel.net",
+                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1248.jpg",
+                            Name = "Wilkinson - Kuvalis",
+                            PageLink = "https://eula.biz",
                             TimeZone = 0
                         },
                         new
                         {
                             Id = 6L,
-                            Description = "Dicta tempore provident.\nQuis placeat iste fugit.\nAut inventore consequuntur dicta aut ratione quia sint.\nIn aut ullam.",
+                            Description = "Pariatur et maiores dicta.",
                             IsDeleted = false,
-                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1180.jpg",
-                            Name = "Bahringer, Kihn and Huels",
-                            PageLink = "https://hilda.info",
+                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/907.jpg",
+                            Name = "Deckow - Greenfelder",
+                            PageLink = "https://modesta.biz",
                             TimeZone = 0
                         },
                         new
                         {
                             Id = 7L,
-                            Description = "Consectetur molestiae eius neque architecto consequuntur reiciendis. Qui tenetur possimus nesciunt cum. In et sit suscipit rerum quo impedit. Voluptates inventore quidem aut accusamus perferendis magni. Temporibus adipisci qui quis aut eos natus. Provident ad alias id aut.",
+                            Description = "Harum magni dolor nostrum officia distinctio id natus a.\nExpedita hic voluptas veritatis ut officia.\nSed eum ut aut temporibus eveniet expedita cupiditate cumque et.\nEt laboriosam hic.",
                             IsDeleted = false,
-                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1020.jpg",
-                            Name = "Schaden Inc",
-                            PageLink = "https://jasper.biz",
+                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/30.jpg",
+                            Name = "Kuhic, Bernhard and Kilback",
+                            PageLink = "http://lolita.name",
                             TimeZone = 0
                         },
                         new
                         {
                             Id = 8L,
-                            Description = "Laudantium quo earum.",
+                            Description = "Doloribus molestiae amet quas est.",
                             IsDeleted = false,
-                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1236.jpg",
-                            Name = "O'Connell, Mante and Veum",
-                            PageLink = "http://fermin.biz",
+                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/692.jpg",
+                            Name = "Morissette, Blick and Zulauf",
+                            PageLink = "https://susan.com",
                             TimeZone = 0
                         },
                         new
                         {
                             Id = 9L,
-                            Description = "Aperiam numquam expedita ratione impedit animi. Et consequatur nesciunt unde saepe repellat sequi reprehenderit laudantium nisi. Eos sunt amet. Voluptates amet quo rerum. Et aperiam sit aut cupiditate ab et ipsa. Deleniti in accusamus.",
+                            Description = "nihil",
                             IsDeleted = false,
-                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1113.jpg",
-                            Name = "Vandervort Group",
-                            PageLink = "http://janiya.com",
+                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1029.jpg",
+                            Name = "Kunde Group",
+                            PageLink = "https://chandler.info",
                             TimeZone = 0
                         },
                         new
                         {
                             Id = 10L,
-                            Description = "quia",
+                            Description = "Iure qui et repellat et. Magni voluptatem doloribus voluptas dolorem velit quia. Perspiciatis dicta ex qui sunt pariatur similique autem exercitationem perspiciatis.",
                             IsDeleted = false,
-                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/428.jpg",
-                            Name = "Bins - Ward",
-                            PageLink = "https://zelda.info",
+                            LogoPath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/801.jpg",
+                            Name = "Blick, Corkery and Flatley",
+                            PageLink = "https://jerome.net",
                             TimeZone = 0
                         });
                 });
@@ -1547,7 +1547,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 1L,
                             IsDeleted = false,
                             Role = 1,
-                            Status = 1,
+                            Status = 2,
                             TeamId = 1L,
                             UserId = 1L
                         },
@@ -1556,7 +1556,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 2L,
                             IsDeleted = false,
                             Role = 2,
-                            Status = 2,
+                            Status = 1,
                             TeamId = 2L,
                             UserId = 2L
                         },
@@ -1573,8 +1573,8 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 4L,
                             IsDeleted = false,
-                            Role = 1,
-                            Status = 1,
+                            Role = 2,
+                            Status = 2,
                             TeamId = 4L,
                             UserId = 4L
                         },
@@ -1582,8 +1582,8 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 5L,
                             IsDeleted = false,
-                            Role = 1,
-                            Status = 1,
+                            Role = 2,
+                            Status = 2,
                             TeamId = 5L,
                             UserId = 5L
                         },
@@ -1591,8 +1591,8 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 6L,
                             IsDeleted = false,
-                            Role = 1,
-                            Status = 1,
+                            Role = 2,
+                            Status = 2,
                             TeamId = 6L,
                             UserId = 6L
                         },
@@ -1600,8 +1600,8 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 7L,
                             IsDeleted = false,
-                            Role = 2,
-                            Status = 1,
+                            Role = 1,
+                            Status = 2,
                             TeamId = 7L,
                             UserId = 7L
                         },
@@ -1628,7 +1628,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 10L,
                             IsDeleted = false,
                             Role = 1,
-                            Status = 1,
+                            Status = 2,
                             TeamId = 10L,
                             UserId = 10L
                         });
@@ -1669,7 +1669,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             EventId = 1L,
                             IsDeleted = false,
                             MemberId = 1L,
-                            Priority = 1
+                            Priority = 7
                         },
                         new
                         {
@@ -1677,7 +1677,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             EventId = 2L,
                             IsDeleted = false,
                             MemberId = 2L,
-                            Priority = 7
+                            Priority = 10
                         },
                         new
                         {
@@ -1685,7 +1685,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             EventId = 3L,
                             IsDeleted = false,
                             MemberId = 3L,
-                            Priority = 7
+                            Priority = 3
                         },
                         new
                         {
@@ -1693,7 +1693,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             EventId = 4L,
                             IsDeleted = false,
                             MemberId = 4L,
-                            Priority = 3
+                            Priority = 5
                         },
                         new
                         {
@@ -1701,7 +1701,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             EventId = 5L,
                             IsDeleted = false,
                             MemberId = 5L,
-                            Priority = 4
+                            Priority = 1
                         },
                         new
                         {
@@ -1717,7 +1717,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             EventId = 7L,
                             IsDeleted = false,
                             MemberId = 7L,
-                            Priority = 1
+                            Priority = 4
                         },
                         new
                         {
@@ -1725,7 +1725,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             EventId = 8L,
                             IsDeleted = false,
                             MemberId = 8L,
-                            Priority = 5
+                            Priority = 2
                         },
                         new
                         {
@@ -1741,7 +1741,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             EventId = 10L,
                             IsDeleted = false,
                             MemberId = 10L,
-                            Priority = 9
+                            Priority = 2
                         });
                 });
 
@@ -1803,13 +1803,13 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 1L,
                             Country = 1,
                             DateFormat = 0,
-                            Email = "Shannon.Mohr88@yahoo.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/546.jpg",
+                            Email = "Otis.Flatley@gmail.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/53.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Shannon Mohr",
-                            PhoneNumber = "(823) 967-",
+                            Name = "Otis Flatley",
+                            PhoneNumber = "(274) 586-",
                             TimeFormat = 0,
                             TimeZone = 0
                         },
@@ -1818,14 +1818,14 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 2L,
                             Country = 1,
                             DateFormat = 1,
-                            Email = "Warren55@hotmail.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/891.jpg",
+                            Email = "Blake.Nikolaus@hotmail.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/146.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Warren Donnelly",
-                            PhoneNumber = "736.762.82",
-                            TimeFormat = 1,
+                            Name = "Blake Nikolaus",
+                            PhoneNumber = "1-670-986-",
+                            TimeFormat = 0,
                             TimeZone = 0
                         },
                         new
@@ -1833,13 +1833,13 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 3L,
                             Country = 1,
                             DateFormat = 1,
-                            Email = "Elbert.Klocko78@hotmail.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1203.jpg",
+                            Email = "Rodney47@yahoo.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/269.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Elbert Klocko",
-                            PhoneNumber = "(222) 922-",
+                            Name = "Rodney Pfeffer",
+                            PhoneNumber = "(832) 924-",
                             TimeFormat = 0,
                             TimeZone = 0
                         },
@@ -1848,29 +1848,29 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 4L,
                             Country = 1,
                             DateFormat = 1,
-                            Email = "Janis87@yahoo.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/964.jpg",
+                            Email = "Gerald_Altenwerth@gmail.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/412.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Janis Ullrich",
-                            PhoneNumber = "(261) 273-",
-                            TimeFormat = 0,
+                            Name = "Gerald Altenwerth",
+                            PhoneNumber = "1-404-360-",
+                            TimeFormat = 1,
                             TimeZone = 0
                         },
                         new
                         {
                             Id = 5L,
                             Country = 1,
-                            DateFormat = 0,
-                            Email = "Cheryl72@gmail.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1112.jpg",
+                            DateFormat = 1,
+                            Email = "Van_Doyle78@gmail.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/979.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Cheryl Towne",
-                            PhoneNumber = "991.929.66",
-                            TimeFormat = 1,
+                            Name = "Van Doyle",
+                            PhoneNumber = "365-548-83",
+                            TimeFormat = 0,
                             TimeZone = 0
                         },
                         new
@@ -1878,29 +1878,29 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 6L,
                             Country = 1,
                             DateFormat = 1,
-                            Email = "Willie.Smitham@gmail.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/863.jpg",
+                            Email = "Judith.Kirlin@yahoo.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/672.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Willie Smitham",
-                            PhoneNumber = "478-570-48",
-                            TimeFormat = 0,
+                            Name = "Judith Kirlin",
+                            PhoneNumber = "257.921.14",
+                            TimeFormat = 1,
                             TimeZone = 0
                         },
                         new
                         {
                             Id = 7L,
                             Country = 1,
-                            DateFormat = 1,
-                            Email = "Wendy79@yahoo.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/535.jpg",
+                            DateFormat = 0,
+                            Email = "Darin.Wilkinson62@hotmail.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/860.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Wendy Lindgren",
-                            PhoneNumber = "(698) 389-",
-                            TimeFormat = 1,
+                            Name = "Darin Wilkinson",
+                            PhoneNumber = "695-403-96",
+                            TimeFormat = 0,
                             TimeZone = 0
                         },
                         new
@@ -1908,13 +1908,13 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 8L,
                             Country = 1,
                             DateFormat = 0,
-                            Email = "Ian.Jones@gmail.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/729.jpg",
+                            Email = "Leland_Parker62@hotmail.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/316.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Ian Jones",
-                            PhoneNumber = "499-390-05",
+                            Name = "Leland Parker",
+                            PhoneNumber = "(282) 440-",
                             TimeFormat = 0,
                             TimeZone = 0
                         },
@@ -1922,15 +1922,15 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 9L,
                             Country = 1,
-                            DateFormat = 0,
-                            Email = "Hector.Marvin@hotmail.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/820.jpg",
+                            DateFormat = 1,
+                            Email = "Jody.Runte@yahoo.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/392.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Hector Marvin",
-                            PhoneNumber = "1-861-709-",
-                            TimeFormat = 1,
+                            Name = "Jody Runte",
+                            PhoneNumber = "1-999-507-",
+                            TimeFormat = 0,
                             TimeZone = 0
                         },
                         new
@@ -1938,13 +1938,13 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 10L,
                             Country = 1,
                             DateFormat = 0,
-                            Email = "Inez.Collier@yahoo.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/395.jpg",
+                            Email = "Roberto10@gmail.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/41.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Inez Collier",
-                            PhoneNumber = "463-684-90",
+                            Name = "Roberto Kris",
+                            PhoneNumber = "1-353-458-",
                             TimeFormat = 1,
                             TimeZone = 0
                         });
