@@ -1,7 +1,6 @@
-﻿using EasyMeets.Core.Common.DTO.Common;
-namespace EasyMeets.Core.Common.DTO.Team;
+﻿namespace EasyMeets.Core.Common.DTO.Team;
 
-public class TeamDto : EntityDto<long>
+public class NewTeamDto
 {
     public string Image { get; set; } = string.Empty;
     public string Name { get; set; }

@@ -3,6 +3,6 @@ namespace EasyMeets.Core.BLL.Interfaces;
 
 public interface ITeamService
 {
-    Task<TeamDto?> GetTeamPreferences(long teamId);
-    Task UpdateTeamPreferences(TeamDto team);
+    Task<TeamDto?> GetTeam(long teamId);
+    Task UpdateTeam(TeamDto team);
 }

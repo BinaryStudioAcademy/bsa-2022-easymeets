@@ -6,21 +6,27 @@ using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 namespace EasyMeets.Core.BLL.Services;
 
-public class TeamService: BaseService, ITeamService
+public class TeamService : BaseService, ITeamService
 {
     public TeamService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) {}
 
-    public async Task<TeamDto?> GetTeamPreferences(long teamId)
+    public async Task<TeamDto?> GetTeam(long teamId)
     {
-        var teanEntity = await _context.Teams.FirstOrDefaultAsync(_ => _.Id == teamId);
-        if (teanEntity is null)
-        {
-            throw new KeyNotFoundException("User doesn't exist");
-        }
-        return _mapper.Map<TeamDto>(teanEntity);
+        var teamEntity = await GetTeamById(teamId);
+        return _mapper.Map<TeamDto>(teamEntity);
     }
 
-    public async Task UpdateTeamPreferences(TeamDto teamDto)
+    public async Task<TeamDto> CreatePost(NewTeamDto newTeamDto)
+    {
+        var team = _mapper.Map<Team>(newTeamDto);
+
+        var createdTeam = _context.Add(team).Entity;
+        await _context.SaveChangesAsync();
+
+        return _mapper.Map<TeamDto>(createdTeam);
+    }
+
+    public async Task UpdateTeam(TeamDto teamDto)
     {
         var teamEntity = await GetTeamById(teamDto.Id);
         teamEntity = _mapper.Map(teamDto, teamEntity);
@@ -28,8 +34,16 @@ public class TeamService: BaseService, ITeamService
         await _context.SaveChangesAsync();
     }
 
+    public async Task DeleteTeam(int teamId)
+    {
+        var teamEntity = await GetTeamById(teamId);
+        _context.Teams.Remove(teamEntity);
+        await _context.SaveChangesAsync();
+    }
+
     private async Task<Team> GetTeamById(long id)
     {
-        return await _context.Teams.FirstOrDefaultAsync(u => u.Id == id) ?? throw new KeyNotFoundException("Team doesn't exist");
+        return await _context.Teams
+            .FirstOrDefaultAsync(u => u.Id == id) ?? throw new KeyNotFoundException("Team doesn't exist");
     }
 }

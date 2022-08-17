@@ -16,7 +16,7 @@ public class TeamController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<TeamDto>> GetPreferencesById(long id)
     {
-        var teamDto = await _teamService.GetTeamPreferences(id);
+        var teamDto = await _teamService.GetTeam(id);
         if (teamDto is null)
         {
             return NotFound();
@@ -27,7 +27,7 @@ public class TeamController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> UpdatePreferences([FromBody] TeamDto teamDto)
     {
-        await _teamService.UpdateTeamPreferences(teamDto);
+        await _teamService.UpdateTeam(teamDto);
         return Ok();
     }
 }
