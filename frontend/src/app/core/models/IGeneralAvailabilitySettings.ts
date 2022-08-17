@@ -1,21 +1,26 @@
-export interface IGeneralAvailabilitySettings {
-    slotSize: string;
+import { ActivityType } from '@core/enums/activity-type.enum';
+import { Color } from '@core/enums/color.enum';
 
-    slotFrequency: string;
+export interface IGeneralAvailabilitySettings {
+    slotSize: number;
+
+    slotFrequency: number;
 
     meetingLocation: string;
 
-    meetingPadding: string;
+    meetingPadding: number;
 
-    slotActivityOption: string;
+    slotActivityOption: ActivityType;
 
-    slotActivityValue: string;
+    slotActivityValue: number;
 
     meetingName: string;
 
     maxBookings: number;
 
-    minBookingMeetingDifference: string;
+    minBookingMeetingDifference: number;
 
     hideFromCommon: boolean;
+
+    color: Color;
 }
