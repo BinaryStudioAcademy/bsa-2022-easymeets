@@ -60,6 +60,13 @@ namespace EasyMeets.Core.BLL.Services
         public async Task CreateAvailabilitySlot(NewAvailabilitySlotDto slotDto)
         {
             var entity = _mapper.Map<AvailabilitySlot>(slotDto);
+            
+            var locationToAdd = await _context.Locations.FirstOrDefaultAsync(location => 
+                location.Name == slotDto.GeneralDetails!.MeetingLocation);
+            if (locationToAdd is not null)
+            {
+                entity.LocationId = locationToAdd.Id;
+            }
 
             await _context.AvailabilitySlots.AddAsync(entity);
 
