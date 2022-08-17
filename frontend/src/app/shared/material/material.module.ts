@@ -38,6 +38,7 @@ export { MatSelectModule } from '@angular/material/select';
         MatIconModule,
         MatTableModule,
         MatTabsModule,
+        MatSlideToggleModule,
     ],
     exports: [
         FormsModule,
@@ -57,6 +58,7 @@ export { MatSelectModule } from '@angular/material/select';
         MatIconModule,
         MatTableModule,
         MatTabsModule,
+        MatSlideToggleModule,
     ],
 })
 export class MaterialModule {}
