@@ -54,7 +54,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpGet("locations")]
-        public async Task<ActionResult<LocationDto>> GetLocations()
+        public ActionResult<LocationDto> GetLocations()
         {
             return Ok(_availabilityService.GetLocations());
         }
