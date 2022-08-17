@@ -1,3 +1,5 @@
+import { IAdvancedSlotSettings } from '@core/models/IAdvancedSlotSettings';
+
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
 import { LocationType } from './locationType';
 
@@ -11,4 +13,14 @@ export interface IAvailabilitySlot {
     isVisible: boolean;
     locationType: LocationType;
     members: IAvailabilitySlotMember[];
+    advancedSlotSettingsId?: number;
+    advancedSlotSettings?: IAdvancedSlotSettings;
+    welcomeMessage: string;
+    frequency: number;
+    language: string;
+    bookingsPerDay: number;
+    allowToAddGuests: boolean;
+    passwordProtectionIsUsed: boolean;
+    passwordProtection?: string;
+    timeZoneVisibility: boolean;
 }

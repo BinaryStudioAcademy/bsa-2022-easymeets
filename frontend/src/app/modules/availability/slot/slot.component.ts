@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { LocationType } from '@core/models/locationType';
@@ -22,12 +23,20 @@ export class SlotComponent extends BaseComponent {
 
     LocationType = LocationType;
 
-    constructor(private http: AvailabilitySlotService, private notifications: NotificationService) {
+    constructor(
+        private http: AvailabilitySlotService,
+        private notifications: NotificationService,
+        private router: Router,
+    ) {
         super();
     }
 
     public toggle(event: MatSlideToggleChange) {
         this.isChecked = event.checked;
+    }
+
+    public goToPage(pageName: string) {
+        this.router.navigate([`${pageName}`]);
     }
 
     public deleteSlot() {

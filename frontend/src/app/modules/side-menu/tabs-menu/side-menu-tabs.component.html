@@ -1,0 +1,13 @@
+<mat-nav-list class="side-list">
+    <ng-container *ngFor="let group of groups">
+        <div class="group-header" *ngIf="group.header" mat-subheader>{{ group.header }}</div>
+        <a
+            mat-list-item
+            *ngFor="let item of group.items; index as i"
+            (click)="currentIndex = i; currentIndexChange.emit(i)"
+            [ngClass]="{'side-list-item-active': currentIndex===i}"
+            class="list-item">
+            {{ item.text }}
+        </a>
+    </ng-container>
+</mat-nav-list>

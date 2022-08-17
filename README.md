@@ -148,6 +148,7 @@ erDiagram
     nvarchar Language
     int BookingsPerDay
     bool AllowToAddGuests
+    bool PasswordProtectionIsUsed
     nvarchar PasswordProtection
     bool TimeZoneVisibility
     datetime CreatedAt
