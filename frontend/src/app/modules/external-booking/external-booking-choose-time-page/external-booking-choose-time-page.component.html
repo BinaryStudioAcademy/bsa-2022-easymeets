@@ -1,8 +1,8 @@
 <h1>Please, choose time</h1>
 <div class="grid">
-    <ng-template ngFor let-item [ngForOf]="days">
+    <ng-template ngFor let-item [ngForOf]="daysWithTimeRange">
         <span>
-            <strong>{{ item }}</strong>
+            <strong>{{ item.dayOfWeek }}</strong>
         </span>
     </ng-template>
 
