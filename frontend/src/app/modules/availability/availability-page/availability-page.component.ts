@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
+import { BaseComponent } from '@core/base/base.component';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IUser } from '@core/models/IUser';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { UserService } from '@core/services/user.service';
-import { Observable, Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-availability-page',
     templateUrl: './availability-page.component.html',
     styleUrls: ['./availability-page.component.sass'],
 })
-export class AvailabilityPageComponent {
+export class AvailabilityPageComponent extends BaseComponent {
     public userPersonalAndTeamSlots: IUserPersonalAndTeamSlots;
 
     public currentUser: IUser;
@@ -21,15 +21,12 @@ export class AvailabilityPageComponent {
 
     public currentUserId: number = 2;
 
-    readonly untilThis = <T>(source: Observable<T>) => source.pipe(takeUntil(this.destroyed$));
-
-    protected destroyed$ = new Subject<void>();
-
     constructor(
         private availabilitySlotService: AvailabilitySlotService,
         private userService: UserService,
         private spinnerService: SpinnerService,
     ) {
+        super();
         this.getCurrentUser();
     }
 
