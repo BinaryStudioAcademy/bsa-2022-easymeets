@@ -11,7 +11,7 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
         builder.Property(s => s.TeamId)
             .IsRequired();
         
-        builder.Property(s => s.LocationId)
+        builder.Property(s => s.LocationType)
             .IsRequired();
         
         builder.Property(s => s.Name)
@@ -59,11 +59,6 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
         builder.HasOne(s => s.Team)
             .WithMany(t => t.AvailabilitySlots)
             .HasForeignKey(s => s.TeamId)
-            .OnDelete(DeleteBehavior.Restrict);
-        
-        builder.HasOne(s => s.Location)
-            .WithMany(l => l.AvailabilitySlots)
-            .HasForeignKey(s => s.LocationId)
             .OnDelete(DeleteBehavior.Restrict);
         
         builder.HasOne(s => s.AdvancedSlotSettings)

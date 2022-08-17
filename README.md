@@ -109,7 +109,6 @@ erDiagram
 
   Meeting ||--o{ User : AuthorId
   Meeting ||--o{ Team : TeamId
-  Meeting ||--o{ Location : LocationId
   Meeting {
       bigint Id
       nvarchar Name
@@ -118,16 +117,10 @@ erDiagram
       datetime StartTime
       bigint AuthorId
       bigint TeamId
-      bigint LocationId
+      int LocationType
       boolean IsDeleted
       datetime CreatedAt
       datetime UpdatedAt
-  }
-
-  Location {
-    bigint Id
-    nvarchar Name
-    bool IsDeleted
   }
 
   UserSlot ||--o{ User : UserId
@@ -138,8 +131,7 @@ erDiagram
     bigint AvailabilitySlotId
     bool IsDeleted
   }
-
-  AvailabilitySlot ||--o{ Location : LocationId
+  
   AvailabilitySlot{
     bigint Id
     bigint ScheduleId
@@ -149,7 +141,7 @@ erDiagram
     int State
     int Type
     int Size
-    bigint LocationId
+    int LocationType
     boolean IsDeleted
     bigint AuthorId
     bigint TeamId
