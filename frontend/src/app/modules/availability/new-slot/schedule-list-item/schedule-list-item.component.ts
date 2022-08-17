@@ -28,11 +28,19 @@ export class ScheduleListItemComponent implements OnInit {
             this.item.end.setHours(parseInt(hours, 10));
             this.item.end.setMinutes(parseInt(minutes, 10));
         }
+        this.onItemChange();
+    }
+
+    public onItemChange() {
         this.itemChange.emit(this.item);
     }
 
     ngOnInit(): void {
-        this.startValue = `${this.item.start.getHours()}:${this.item.start.getMinutes()}`;
-        this.endValue = `${this.item.end.getHours()}:${this.item.end.getMinutes()}`;
+        this.startValue = `${this.getTimeString(this.item.start.getHours())}:${this.getTimeString(this.item.start.getMinutes())}`;
+        this.endValue = `${this.getTimeString(this.item.end.getHours())}:${this.getTimeString(this.item.end.getMinutes())}`;
+    }
+
+    private getTimeString(value: number) {
+        return `${value < 10 ? '0' : ''}${value}`;
     }
 }
