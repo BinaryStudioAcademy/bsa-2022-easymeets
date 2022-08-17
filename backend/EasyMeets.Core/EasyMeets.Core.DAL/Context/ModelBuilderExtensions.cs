@@ -195,10 +195,11 @@ namespace EasyMeets.Core.DAL.Context
             var id = 1;
             var memberId = 1;
             var eventId = 1;
-            
+            var scheduleId = 1;
             return new Faker<SlotMember>()
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.MemberId, f => memberId++)
+                .RuleFor(u => u.ScheduleId, _ => scheduleId++)
                 .RuleFor(u => u.EventId, f => eventId++)
                 .RuleFor(u => u.Priority, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.IsDeleted, f => false)
@@ -314,12 +315,12 @@ namespace EasyMeets.Core.DAL.Context
         private static IList<ScheduleItem> GenerateScheduleItems(int count = 70)
         {
             var id = 1;
-            var scheduleId = 1;
+            var scheduleId = 0;
             var weekIndex = 0;
             return new Faker<ScheduleItem>()
                 .RuleFor(i => i.Id, _ => id++)
                 .RuleFor(i => i.IsDeleted, _ => false)
-                .RuleFor(i => i.ScheduleId, _ => scheduleId++)
+                .RuleFor(i => i.ScheduleId, _ => (scheduleId++ / 7) + 1)
                 .RuleFor(i => i.WeekDay, _ => (WeekDay)(weekIndex++ % 7))
                 .RuleFor(i => i.IsEnabled, f => f.Random.Bool())
                 .RuleFor(i => i.Start, f => TimeSpan.FromHours(f.Random.Int(8, 12)))
