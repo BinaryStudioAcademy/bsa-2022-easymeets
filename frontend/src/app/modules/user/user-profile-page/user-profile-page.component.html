@@ -2,7 +2,7 @@
     <form enctype="multipart/form-data" class="item user-avatar-form">
         <div class="user-avatar-block">
             <img mat-card-image src="{{ imageUrl }}" class="user-avatar">
-            <input hidden #file accept="image/*" type="file" (change)="loadImage($event.target)" />
+            <input hidden #file accept="image/png,.gif,.jpg" type="file" (change)="loadImage($event.target)" />
             <button class="upload-picture-button" (click)="file.click()">Upload Picture</button>
         </div>
     </form>
