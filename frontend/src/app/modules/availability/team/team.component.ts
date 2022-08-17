@@ -25,7 +25,7 @@ export class TeamComponent implements OnInit {
         this.teamName = this.teamSlot.name;
     }
 
-    isDeleted(isRemove: any) {
+    isDeleted(isRemove: boolean) {
         this.isReload.emit(isRemove);
     }
 }

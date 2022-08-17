@@ -56,7 +56,7 @@ export class AvailabilityPageComponent {
             });
     }
 
-    reloadData(isReload: any) {
+    reloadData(isReload: boolean) {
         if (isReload) {
             this.getUserPersonalAndTeamSlots();
         }

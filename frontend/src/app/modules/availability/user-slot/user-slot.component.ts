@@ -18,7 +18,7 @@ export class UserSlotComponent {
     // eslint-disable-next-line no-empty-function
     constructor(public spinnerService: SpinnerService) {}
 
-    isDeleted(isRemove: any) {
+    isDeleted(isRemove: boolean) {
         this.isReload.emit(isRemove);
     }
 }
