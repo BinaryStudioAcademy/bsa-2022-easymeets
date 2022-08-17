@@ -3,6 +3,7 @@ import { ActivityType } from '@core/enums/activity-type.enum';
 import { Color } from '@core/enums/color.enum';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IGeneralAvailabilitySettings } from '@core/models/IGeneralAvailabilitySettings';
+import { AvailabilitySlotService } from "@core/services/availability-slot.service";
 
 @Component({
     selector: 'app-general',
@@ -19,7 +20,7 @@ export class GeneralComponent implements OnInit {
             maxBookings: this.slot?.advancedSlotSettings?.maxNumberOfBookings ?? 1,
             meetingName: this.slot?.name ?? this.meetingLocations[0],
             slotActivityValue: this.slot?.advancedSlotSettings?.days ?? 1,
-            meetingLocation: this.slot?.locationName ?? this.meetingLocations[0],
+            meetingLocation: this.slot?.locationName ?? '',
             meetingPadding: this.slot?.advancedSlotSettings?.paddingMeeting ?? this.meetingPaddings[0],
             slotActivityOption: this.slot?.advancedSlotSettings?.activityType ?? this.slotActivityOptionsEnums[0],
             minBookingMeetingDifference: this.slot?.advancedSlotSettings?.minBookingMeetingDifference
@@ -53,7 +54,7 @@ export class GeneralComponent implements OnInit {
 
     public slotsFrequencies: number[] = [30, 60];
 
-    public meetingLocations: string[] = ['Google Meet', 'Zoom'];
+    public meetingLocations: string[] = [];
 
     public meetingPaddings: number[] = [15, 30];
 
@@ -65,6 +66,9 @@ export class GeneralComponent implements OnInit {
 
     public addAdvanced: boolean = false;
 
+    // eslint-disable-next-line no-empty-function
+    constructor(private http: AvailabilitySlotService) { }
+
     ngOnInit(): void {
         this.settings = {
             hideFromCommon: false,
@@ -73,12 +77,19 @@ export class GeneralComponent implements OnInit {
             slotActivityValue: 1,
             slotSize: this.slotSizes[0],
             slotFrequency: this.slotsFrequencies[0],
-            meetingLocation: this.meetingLocations[0],
+            meetingLocation: '',
             meetingPadding: this.meetingPaddings[0],
             slotActivityOption: this.slotActivityOptionsEnums[0],
             minBookingMeetingDifference: this.minBookingMeetingDifferences[0],
             color: Color.Azure,
         };
+
+        this.http.getLocations()
+            .subscribe(locations => {
+                this.meetingLocations = locations.map(location => location.name);
+                this.settings.meetingLocation = this.slot?.locationName ?? this.meetingLocations[0];
+                console.log(this.slot);
+            });
     }
 
     public colorInputs: { id: string; enumValue: Color }[] = [

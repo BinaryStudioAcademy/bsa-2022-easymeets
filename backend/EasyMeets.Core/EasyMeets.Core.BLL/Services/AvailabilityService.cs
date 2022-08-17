@@ -5,6 +5,7 @@ using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.Common.DTO.Availability.UpdateAvailability;
+using EasyMeets.Core.Common.DTO.Location;
 using EasyMeets.Core.DAL.Entities;
 using EasyMeets.Core.Common.Enums;
 
@@ -77,6 +78,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
+                .Include(slot => slot.Location)
                 .FirstOrDefaultAsync(_ => _.Id == id);
             if (availabilitySlot is null)
             {
@@ -98,8 +100,14 @@ namespace EasyMeets.Core.BLL.Services
             availabilitySlot.Frequency = updateAvailabilityDto.GeneralDetailsUpdate.SlotFrequency;
             availabilitySlot.Size = updateAvailabilityDto.GeneralDetailsUpdate.SlotSize;
             availabilitySlot.Name = updateAvailabilityDto.GeneralDetailsUpdate.MeetingName;
-            //availabilitySlot.Location = await _context.Locations.FirstAsync(location =>
-            //    location.Name == updateAvailabilityDto.GeneralDetailsUpdate.MeetingLocation);
+
+            var locationToAdd = await _context.Locations.FirstOrDefaultAsync(location => 
+                location.Name == updateAvailabilityDto.GeneralDetailsUpdate.MeetingLocation);
+            if (locationToAdd is not null)
+            {
+                availabilitySlot.LocationId = locationToAdd.Id;
+            }
+            
             availabilitySlot.IsVisible = !updateAvailabilityDto.GeneralDetailsUpdate.HideFromCommon;
             availabilitySlot.IsEnabled = updateAvailabilityDto.IsActive;
 
@@ -151,6 +159,11 @@ namespace EasyMeets.Core.BLL.Services
             _context.Remove(slot);
 
             await _context.SaveChangesAsync();
+        }
+
+        public List<LocationDto> GetLocations()
+        {
+            return _mapper.Map<List<LocationDto>>(_context.Locations);
         }
     }
 }
