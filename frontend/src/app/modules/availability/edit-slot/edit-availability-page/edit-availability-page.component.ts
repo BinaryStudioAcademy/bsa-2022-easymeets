@@ -55,12 +55,17 @@ export class EditAvailabilityPageComponent {
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
             isActive: this.newAvailabilityComponent.slot?.isEnabled ?? true
         };
-        this.httpInternalService.putRequest<IAvailabilitySlot>(`/availability/${this.slot?.id}`, updateAvailability).subscribe(resp => {
-            console.log('resp')
-            console.log(resp)
-            console.log(this.newAvailabilityComponent.generalComponent.settings)
-        });
-        this.goToPage('/availability');
+        this.httpInternalService.putRequest<IAvailabilitySlot>(`/availability/${this.slot?.id}`, updateAvailability)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(
+                () => {
+                    this.notifications.showSuccessMessage('Slot was successfully updated');
+                    this.goToPage('/availability');
+                },
+                (error) => {
+                    this.notifications.showErrorMessage(error);
+                },
+            );
     }
 
     public deleteSlot() {
@@ -70,7 +75,7 @@ export class EditAvailabilityPageComponent {
             .subscribe(
                 () => {
                     this.notifications.showSuccessMessage('Slot was successfully deleted');
-                    this.router.navigate(['/availability']);
+                    this.goToPage('/availability');
                 },
                 (error) => {
                     this.notifications.showErrorMessage(error);
