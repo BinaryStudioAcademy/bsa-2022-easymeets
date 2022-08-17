@@ -1,7 +1,7 @@
 <h1>Please, choose meeting</h1>
 <div class="meeting-cards">
     <ng-template ngFor let-item [ngForOf]="selectedUserAvailabilitySlots.userSlots">
-        <mat-card class="card">
+        <mat-card class="card" [routerLink]="['/external-booking/choose-time']">
             <mat-card-title>{{ item.name }}</mat-card-title>
             <mat-card-subtitle>{{ item.size }}, {{ item.locationName }}</mat-card-subtitle>
         </mat-card>
