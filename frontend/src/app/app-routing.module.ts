@@ -11,8 +11,8 @@ const routes: Routes = [
         loadChildren: () => import('./modules/availability/availability.module').then((m) => m.AvailabilityModule),
     },
     {
-        path: 'user',
-        loadChildren: () => import('./modules/user/user.module').then((m) => m.UserModule),
+        path: 'settings',
+        loadChildren: () => import('./modules/settings/settings.module').then((m) => m.SettingsModule),
     },
     {
         path: 'external-booking',

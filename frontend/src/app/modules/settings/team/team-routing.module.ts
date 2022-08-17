@@ -1,6 +1,6 @@
 ﻿import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TeamPreferencesComponent } from '@modules/team/team-preferences/team-preferences.component';
+import { TeamPreferencesComponent } from '@modules/settings/team/team-preferences/team-preferences.component';
 
 const routes: Routes = [
     {

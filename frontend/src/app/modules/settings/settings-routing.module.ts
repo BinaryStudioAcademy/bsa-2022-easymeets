@@ -1,22 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CalendarsPageComponent } from '@modules/calendars/calendars-page/calendars-page.component';
-import { UserProfilePageComponent } from '@modules/user/user-profile-page/user-profile-page.component';
-
-import { UserSettingsPageComponent } from './user-settings-page/user-settings-page.component';
+import { SettingsPageComponent } from '@modules/settings/settings-page/settings-page.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: UserSettingsPageComponent,
+        component: SettingsPageComponent,
         children: [
             {
-                path: 'account/personal',
-                component: UserProfilePageComponent,
+                path: 'account',
+                loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
             },
             {
                 path: 'teams',
-                loadChildren: () => import('src/app/modules/team/team.module').then((m) => m.TeamModule),
+                loadChildren: () => import('./team/team.module').then((m) => m.TeamModule),
             },
             {
                 path: 'integrations/calendars',
@@ -34,4 +32,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class UserRoutingModule {}
+export class SettingsRoutingModule {}

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TeamRoutingModule } from '@modules/team/team-routing.module';
+import { TeamRoutingModule } from '@modules/settings/team/team-routing.module';
 import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
 
