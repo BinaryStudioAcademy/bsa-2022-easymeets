@@ -1,1 +1,27 @@
+@import '../../../../styles/color-variables'
+@import '../../../../styles/screen-variables'
 
+h1, h3, h4
+    font-family: 'Inter'
+    font-style: normal
+    line-height: 20px
+    color: $pale-sky
+
+h3, h4
+    font-weight: 400
+    font-size: 14px
+
+h1
+    font-weight: 700
+    font-size: 20px
+
+.grid
+    display: grid
+    grid-template-columns: minmax(50px, 100px) repeat(6, 1fr)
+    border-top: 1px solid black
+    border-right: 1px solid black
+
+.grid > span
+    padding: 8px 4px
+    border-left: 1px solid black
+    border-bottom: 1px solid black

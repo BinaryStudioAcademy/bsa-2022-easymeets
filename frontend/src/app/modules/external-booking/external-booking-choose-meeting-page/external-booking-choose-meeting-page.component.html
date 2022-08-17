@@ -3,7 +3,7 @@
     <ng-template ngFor let-item [ngForOf]="selectedUserAvailabilitySlots.userSlots">
         <mat-card class="card" [routerLink]="['/external-booking/choose-time']">
             <mat-card-title>{{ item.name }}</mat-card-title>
-            <mat-card-subtitle>{{ item.size }}, {{ item.locationName }}</mat-card-subtitle>
+            <mat-card-subtitle>{{ item.size }} Min, {{ item.locationName }}</mat-card-subtitle>
         </mat-card>
     </ng-template>
 </div>

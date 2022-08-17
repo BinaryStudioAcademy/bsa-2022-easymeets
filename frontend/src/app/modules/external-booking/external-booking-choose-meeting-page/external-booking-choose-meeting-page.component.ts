@@ -21,4 +21,10 @@ export class ExternalBookingChooseMeetingComponent implements OnInit {
             this.selectedUserAvailabilitySlots = slots;
         });
     }
+
+    /*
+    jjj(): void {
+        menu.locationName = 'AAA';
+    }
+    */
 }
