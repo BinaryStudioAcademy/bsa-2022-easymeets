@@ -15,15 +15,41 @@ h1
     font-weight: 700
     font-size: 20px
 
+.grid-container
+    background-color: $light-gray
+    width: 970px
+
 .grid
     display: grid
     /*grid-template-columns: minmax(50px, 100px) repeat(6, 1fr)*/
     grid-template-columns: repeat(6, 1fr)
-    border-top: 1px solid black
-    border-right: 1px solid black
-    width: 770px
+    overflow-y: auto
+    max-height: 560px
+    span
+        text-align: center
+        margin: 2px 15px
+        padding: 4px 8px
+        border-left: 1px solid black
+        background: $white
+        border: 2px solid $loblolly
+        border-radius: 4px
+        font-family: 'Inter'
+        font-style: normal
+        font-weight: 700
+        font-size: 12px
+        line-height: 20px
+        color: #667080
 
-.grid > span
-    padding: 8px 4px
-    border-left: 1px solid black
-    border-bottom: 1px solid black
+.column-label
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 500
+    font-size: 14px
+    line-height: 17px
+    display: flex
+    align-items: center
+    text-align: center
+    flex-direction: column
+    text-transform: uppercase
+    color: #667080
+    margin: 10px
