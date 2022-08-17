@@ -3,5 +3,4 @@ export interface IMeeting {
     meetingTime: string,
     meetingDuration: string,
     membersTitle: string
-    membersList:
 }
