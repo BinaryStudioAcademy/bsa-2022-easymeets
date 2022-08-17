@@ -21,6 +21,10 @@ export class ExternalBookingChooseTimeComponent implements OnInit {
 
     public slotsCount: Array<object>;
 
+    public theLatestFinishOfTimeRanges: Date;
+
+    public theEarliestStartOfTimeRanges: Date;
+
     constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {
         this.availabilitySlotService.getUserPersonalAndTeamSlots(this.selectedUserId).subscribe((slots) => {
             this.selectedUserAvailabilitySlots = slots;
@@ -32,20 +36,20 @@ export class ExternalBookingChooseTimeComponent implements OnInit {
     }
 
     private slotsCounter(): Array<object> {
-        let theLatestFinishOfTimeRanges: Date = this.daysWithTimeRange[0].finishTime;
-        let theEarliestStartOfTimeRanges: Date = this.daysWithTimeRange[0].startTime;
+        this.theLatestFinishOfTimeRanges = this.daysWithTimeRange[0].finishTime;
+        this.theEarliestStartOfTimeRanges = this.daysWithTimeRange[0].startTime;
 
         this.daysWithTimeRange.forEach((day) => {
-            if (day.finishTime > theLatestFinishOfTimeRanges) {
-                theLatestFinishOfTimeRanges = day.finishTime;
+            if (day.finishTime > this.theLatestFinishOfTimeRanges) {
+                this.theLatestFinishOfTimeRanges = day.finishTime;
             }
-            if (day.startTime < theEarliestStartOfTimeRanges) {
-                theEarliestStartOfTimeRanges = day.startTime;
+            if (day.startTime < this.theEarliestStartOfTimeRanges) {
+                this.theEarliestStartOfTimeRanges = day.startTime;
             }
         });
 
         const theLongestHoursRange: number =
-            theLatestFinishOfTimeRanges.getHours() - theEarliestStartOfTimeRanges.getHours();
+            this.theLatestFinishOfTimeRanges.getHours() - this.theEarliestStartOfTimeRanges.getHours();
 
         return new Array((theLongestHoursRange * 60) / this.selectedMeetingDuration + 1);
     }

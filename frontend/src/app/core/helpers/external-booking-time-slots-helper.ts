@@ -8,7 +8,7 @@ export const getExternalBookingTimeSlotsItems = (): IDayTimeSlot[] => [
     },
     {
         dayOfWeek: 'TUE',
-        startTime: new Date(new Date().setHours(9, 0, 0, 0)),
+        startTime: new Date(new Date().setHours(7, 0, 0, 0)),
         finishTime: new Date(new Date().setHours(18, 0, 0, 0)),
     },
     {
@@ -18,7 +18,7 @@ export const getExternalBookingTimeSlotsItems = (): IDayTimeSlot[] => [
     },
     {
         dayOfWeek: 'THU',
-        startTime: new Date(new Date().setHours(9, 0, 0, 0)),
+        startTime: new Date(new Date().setHours(8, 0, 0, 0)),
         finishTime: new Date(new Date().setHours(19, 0, 0, 0)),
     },
     {

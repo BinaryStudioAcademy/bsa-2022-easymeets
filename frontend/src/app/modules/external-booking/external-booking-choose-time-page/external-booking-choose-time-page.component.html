@@ -8,16 +8,19 @@
             <ng-container *ngFor="let day of daysWithTimeRange">
                 <ng-container
                     *ngIf="
-                        day.startTime.getTime() + selectedMeetingDuration * i * 60000 <= day.finishTime.getTime();
+                        theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60000 <=
+                            day.finishTime.getTime();
                         else defaultTimeSlot
                     ">
                     <span class="enabled">
-                        {{ day.startTime.getTime() + selectedMeetingDuration * i * 60000 | date: 'HH:mm' }}
+                        {{
+                            theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60000 | date: 'HH:mm'
+                        }}
                     </span>
                 </ng-container>
                 <ng-template #defaultTimeSlot>
                     <span class="disabled">{{
-                        day.startTime.getTime() + selectedMeetingDuration * i * 60000 | date: 'HH:mm'
+                        theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60000 | date: 'HH:mm'
                     }}</span>
                 </ng-template>
             </ng-container>
