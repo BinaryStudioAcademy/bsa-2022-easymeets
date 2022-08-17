@@ -322,8 +322,8 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(i => i.ScheduleId, _ => scheduleId++)
                 .RuleFor(i => i.WeekDay, _ => (WeekDay)(weekIndex++ % 7))
                 .RuleFor(i => i.IsEnabled, f => f.Random.Bool())
-                .RuleFor(i => i.Start, f => f.Date.RecentTimeOnly())
-                .RuleFor(i => i.End, f => f.Date.SoonTimeOnly())
+                .RuleFor(i => i.Start, f => TimeSpan.FromHours(f.Random.Int(8, 12)))
+                .RuleFor(i => i.End, f => TimeSpan.FromHours(f.Random.Int(13, 18)))
                 .Generate(count);
         }
     }
