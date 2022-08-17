@@ -13,9 +13,6 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
         
         builder.Property(s => s.LocationId)
             .IsRequired();
-
-        builder.Property(s => s.Schedule)
-            .IsRequired();
         
         builder.Property(s => s.Name)
             .IsRequired()

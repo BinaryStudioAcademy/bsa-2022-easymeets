@@ -14,7 +14,6 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
     }
     public long TeamId { get; set; }
     public long LocationId { get; set; }
-    public long ScheduleId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string WelcomeMessage { get; set; } = string.Empty;
     public string Link { get; set; } = string.Empty;

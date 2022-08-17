@@ -140,7 +140,6 @@ erDiagram
   }
 
   AvailabilitySlot ||--o{ Location : LocationId
-  AvailabilitySlot ||--o{ Schedule : ScheduleId
   AvailabilitySlot{
     bigint Id
     bigint ScheduleId
