@@ -28,12 +28,16 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         private confirmationWindowService: ConfirmationWindowService,
     ) {
         super();
-        this.clickConfirmEvent.subscribe(() => {
-            this.onClickConfirm();
-        });
+        this.clickConfirmEvent
+            .pipe(this.untilThis)
+            .subscribe(() => {
+                this.onClickConfirm();
+            });
     }
 
     public clickConfirmEvent = new EventEmitter<void>();
+
+    public clickErrorEvent = new EventEmitter<void>();
 
     public imageUrl: string;
 
@@ -150,10 +154,11 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             .pipe(this.untilThis)
             .subscribe(
                 (resp: any) => {
-                    console.log(resp.imagePath);
                     this.imageUrl = resp.imagePath;
                 },
-                (error) => { console.log(error); },
+                () => {
+                    this.errorDialog();
+                },
             );
     }
 
@@ -162,9 +167,20 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             .openConfirmDialog({
                 buttonsOptions: [{
                     class: 'confirm-accept-button',
-                    label: 'Accept',
+                    label: 'Ok',
                     onClickEvent: this.clickConfirmEvent }],
                 title: 'Oops...',
                 message: 'Image can\'t be heavier than 5MB!' });
+    }
+
+    public errorDialog(): void {
+        this.confirmationWindowService
+            .openConfirmDialog({
+                buttonsOptions: [{
+                    class: 'confirm-cancel-button',
+                    label: 'Ok',
+                    onClickEvent: this.clickConfirmEvent }],
+                title: 'Oops :(',
+                message: 'Something went wrong. Picture was not uploaded.' });
     }
 }
