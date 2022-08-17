@@ -177,7 +177,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         this.confirmationWindowService
             .openConfirmDialog({
                 buttonsOptions: [{
-                    class: 'confirm-cancel-button',
+                    class: 'confirm-accept-button',
                     label: 'Ok',
                     onClickEvent: this.clickConfirmEvent }],
                 title: 'Oops :(',
