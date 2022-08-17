@@ -100,7 +100,7 @@ namespace EasyMeets.Core.BLL.Services
             //availabilitySlot.Location = await _context.Locations.FirstAsync(location =>
             //    location.Name == updateAvailabilityDto.GeneralDetailsUpdate.MeetingLocation);
             availabilitySlot.IsVisible = !updateAvailabilityDto.GeneralDetailsUpdate.HideFromCommon;
-            // is enabled not updated
+            availabilitySlot.IsEnabled = updateAvailabilityDto.IsActive;
 
             availabilitySlot.TimeZoneVisibility = updateAvailabilityDto.EventDetailsUpdate.ZoneChoice;
             availabilitySlot.Link = updateAvailabilityDto.EventDetailsUpdate.LinkChoice;

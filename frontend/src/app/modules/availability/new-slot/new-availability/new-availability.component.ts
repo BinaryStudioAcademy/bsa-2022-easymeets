@@ -49,4 +49,10 @@ export class NewAvailabilityComponent implements OnInit {
     public goToPage(pageName: string) {
         this.router.navigate([`${pageName}`]);
     }
+
+    enableSlot() {
+        if (this.slot) {
+            this.slot.isEnabled = !this.slot.isEnabled;
+        }
+    }
 }

@@ -45,6 +45,7 @@ export class EditAvailabilityPageComponent {
             generalDetailsUpdate: this.newAvailabilityComponent.generalComponent.settings,
             eventDetailsUpdate: this.newAvailabilityComponent.eventDetailComponent.settings,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
+            isActive: this.newAvailabilityComponent.slot?.isEnabled ?? true
         }).subscribe(resp => {
             console.log('resp')
             console.log(resp)

@@ -2,7 +2,7 @@
 <div class="container">
     <div class="new-availability-header">
         <p class="new-availability-header-label">{{title}}</p>
-        <mat-slide-toggle [checked]="isActive" (change)="isActive = !isActive"></mat-slide-toggle>
+        <mat-slide-toggle [checked]="slot?.isEnabled" (change)="enableSlot()"></mat-slide-toggle>
         <p>Active</p>
         <p class="slot-link">{{slot?.link ?? ''}}</p>
         <div class="slot-button-container">
