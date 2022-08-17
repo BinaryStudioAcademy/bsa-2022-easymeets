@@ -61,9 +61,4 @@ export class EventDetailComponent implements OnInit {
             passwordInput: '',
         };
     }
-
-    public getUrlBaseName(): string {
-        // return new URL(this.slot?.link ?? '').hostname ?? '';
-        return '';
-    }
 }
