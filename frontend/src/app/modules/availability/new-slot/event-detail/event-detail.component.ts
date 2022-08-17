@@ -12,7 +12,7 @@ export class EventDetailComponent implements OnInit {
         this.slot = value;
         this.settings = {
             zoneChoice: this.slot?.TimeZoneVisibility ?? false,
-            linkChoice: /*new URL(this.slot?.link ?? '').pathname.slice(1) ??*/ 'heornim',
+            linkChoice: this.slot?.link ?? '',
             welcomeMessage: this.slot?.welcomeMessage ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             languageSelect: this.slot?.language ?? 'English',
             allowBookingSelect: this.slot?.bookingsPerDay ?? this.allowedBooking[1],

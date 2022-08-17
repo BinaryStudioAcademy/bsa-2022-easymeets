@@ -117,7 +117,7 @@ namespace EasyMeets.Core.BLL.Services
                 _context.Remove(availabilitySlot.AdvancedSlotSettings);
                 await _context.SaveChangesAsync();
             }
-            else if (availabilitySlot.AdvancedSlotSettingsId is not null)
+            else if (availabilitySlot.AdvancedSlotSettings is not null)
             {
                 availabilitySlot.AdvancedSlotSettings.ActivityType = updateAvailabilityDto.GeneralDetailsUpdate.SlotActivityOption;
                 availabilitySlot.AdvancedSlotSettings.Days = updateAvailabilityDto.GeneralDetailsUpdate.SlotActivityValue;

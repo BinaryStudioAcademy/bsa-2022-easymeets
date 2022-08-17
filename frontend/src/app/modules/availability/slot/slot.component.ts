@@ -21,10 +21,7 @@ export class SlotComponent {
     private unsubscribe$ = new Subject<void>();
 
     // eslint-disable-next-line no-empty-function
-    constructor(private http: AvailabilitySlotService, private notifications: NotificationService) {}
-
-    // eslint-disable-next-line no-empty-function
-    constructor(private router: Router) { }
+    constructor(private http: AvailabilitySlotService, private notifications: NotificationService, private router: Router) {}
 
     public toggle(event: MatSlideToggleChange) {
         this.isChecked = event.checked;

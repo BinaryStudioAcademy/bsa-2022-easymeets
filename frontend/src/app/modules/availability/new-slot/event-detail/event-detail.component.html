@@ -37,8 +37,7 @@
             <input
                 type="checkbox"
                 style="transform: scale(1.25)"
-                [(ngModel)]="settings.isAllowBooker"
-                [disabled]="!settings.basicChoice" />
+                [(ngModel)]="settings.isAllowBooker"/>
             <span class="input-description checkbox-text"><p>Allow Booker to add additional guests</p></span>
         </div>
     </div>
@@ -54,7 +53,7 @@
                     class="example-radio-button"
                     *ngFor="let season of timeZoneChoices"
                     [value]="season">
-                    {{ season }}
+                    {{ season.text }}
                 </mat-radio-button>
             </mat-radio-group>
         </div>
@@ -62,9 +61,7 @@
 
     <div id="container-item7">
         <div class="input-password">
-            <label class="form-switch">
-                <input type="checkbox" [(ngModel)]="settings.passwordProtect" /> <i></i>
-            </label>
+            <mat-slide-toggle [(ngModel)]="this.settings.passwordProtect"></mat-slide-toggle>
             <p class="input-field">Password protection</p>
         </div>
         <input class="selectBlock" [(ngModel)]="settings.passwordInput" />
