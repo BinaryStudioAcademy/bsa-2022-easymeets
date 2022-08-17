@@ -1,13 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
-import { HttpInternalService } from '@core/services/http-internal.service';
+import { IUpdateAvailability } from '@core/models/IUpdateAvailability';
+import { AvailabilitySlotService } from '@core/services/availability-slot.service';
+import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { NewAvailabilityComponent } from '@modules/availability/new-slot/new-availability/new-availability.component';
-import { Subject, takeUntil } from "rxjs";
-import { AvailabilitySlotService } from "@core/services/availability-slot.service";
-import { NotificationService } from "@core/services/notification.service";
-import { IUpdateAvailability } from "@core/models/IUpdateAvailability";
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-edit-availability-page',
@@ -29,7 +28,7 @@ export class EditAvailabilityPageComponent {
         private activateRoute: ActivatedRoute,
         private spinnerService: SpinnerService,
         private http: AvailabilitySlotService,
-        private notifications: NotificationService
+        private notifications: NotificationService,
     ) {
         this.activateRoute.params.subscribe(params => {
             this.id = params['id'];
@@ -47,12 +46,13 @@ export class EditAvailabilityPageComponent {
     }
 
     sendChanges() {
-        let updateAvailability: IUpdateAvailability = {
+        const updateAvailability: IUpdateAvailability = {
             generalDetailsUpdate: this.newAvailabilityComponent.generalComponent.settings,
             eventDetailsUpdate: this.newAvailabilityComponent.eventDetailComponent.settings,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
-            isActive: this.newAvailabilityComponent.slot?.isEnabled ?? true
+            isActive: this.newAvailabilityComponent.slot?.isEnabled ?? true,
         };
+
         this.http.updateSlot(updateAvailability, this.slot?.id)
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe(

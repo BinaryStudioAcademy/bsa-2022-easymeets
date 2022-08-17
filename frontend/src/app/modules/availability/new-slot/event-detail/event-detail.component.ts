@@ -20,7 +20,6 @@ export class EventDetailComponent implements OnInit {
             passwordProtect: this.slot?.passwordProtectionIsUsed ?? false,
             passwordInput: this.slot?.passwordProtection ?? '',
         };
-        console.log(this.settings);
     }
 
     public slot?: IAvailabilitySlot;

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
     styleUrls: ['./new-availability-page.component.sass'],
 })
 export class NewAvailabilityPageComponent {
+    // eslint-disable-next-line no-empty-function
     constructor(private router: Router) { }
 
     public goToPage(pageName: string) {

@@ -1,5 +1,5 @@
 import { ActivityType } from '@core/enums/activity-type.enum';
-import { Color } from "@core/enums/color.enum";
+import { Color } from '@core/enums/color.enum';
 
 export interface IGeneralAvailabilitySettings {
     slotSize: number;

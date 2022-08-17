@@ -1,5 +1,5 @@
-import { IGeneralAvailabilitySettings } from "@core/models/IGeneralAvailabilitySettings";
-import { IEventDetailSettings } from "@core/models/IEventDetailSettings";
+import { IEventDetailSettings } from '@core/models/IEventDetailSettings';
+import { IGeneralAvailabilitySettings } from '@core/models/IGeneralAvailabilitySettings';
 
 export interface IUpdateAvailability {
     generalDetailsUpdate: IGeneralAvailabilitySettings,

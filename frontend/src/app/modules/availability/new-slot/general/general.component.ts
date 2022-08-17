@@ -22,8 +22,9 @@ export class GeneralComponent implements OnInit {
             meetingLocation: this.slot?.locationName ?? this.meetingLocations[0],
             meetingPadding: this.slot?.advancedSlotSettings?.paddingMeeting ?? this.meetingPaddings[0],
             slotActivityOption: this.slot?.advancedSlotSettings?.activityType ?? this.slotActivityOptionsEnums[0],
-            minBookingMeetingDifference: this.slot?.advancedSlotSettings?.minBookingMeetingDifference ?? this.minBookingMeetingDifferences[0],
-            color: this.slot?.advancedSlotSettings?.color ?? Color.Azure
+            minBookingMeetingDifference: this.slot?.advancedSlotSettings?.minBookingMeetingDifference
+                ?? this.minBookingMeetingDifferences[0],
+            color: this.slot?.advancedSlotSettings?.color ?? Color.Azure,
         };
 
         if (!this.slotSizes.some(f => f === this.settings.slotSize)) {
@@ -76,7 +77,7 @@ export class GeneralComponent implements OnInit {
             meetingPadding: this.meetingPaddings[0],
             slotActivityOption: this.slotActivityOptionsEnums[0],
             minBookingMeetingDifference: this.minBookingMeetingDifferences[0],
-            color: Color.Azure
+            color: Color.Azure,
         };
     }
 
