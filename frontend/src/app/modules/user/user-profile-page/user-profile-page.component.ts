@@ -86,7 +86,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             timeZone: new FormControl(),
         });
 
-        this.userService.getCurrentUserById(1)
+        this.userService.getCurrentUserById(2)
             .pipe(this.untilThis)
             .subscribe((user) => {
                 // eslint-disable-next-line no-debugger
