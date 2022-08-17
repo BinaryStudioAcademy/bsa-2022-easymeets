@@ -145,7 +145,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                     this.imageUrl = resp.imagePath;
                 },
                 () => {
-                    this.errorDialog();
+                    this.notificationService.showErrorMessage('Something went wrong. Picture was not uploaded.');
                 },
             );
     }
@@ -159,16 +159,5 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                     onClickEvent: this.clickEvent }],
                 title: 'Oops...',
                 message: 'Image can\'t be heavier than 5MB!' });
-    }
-
-    public errorDialog(): void {
-        this.confirmationWindowService
-            .openConfirmDialog({
-                buttonsOptions: [{
-                    class: 'confirm-accept-button',
-                    label: 'Ok',
-                    onClickEvent: this.clickEvent }],
-                title: 'Oops :(',
-                message: 'Something went wrong. Picture was not uploaded.' });
     }
 }
