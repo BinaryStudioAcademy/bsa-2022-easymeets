@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { IUser } from '@core/models/IUser';
+import { Component, Input } from '@angular/core';
+import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
+import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
-import { UserService } from '@core/services/user.service';
 
 @Component({
     selector: 'app-external-booking-choose-time-page',
@@ -9,13 +9,13 @@ import { UserService } from '@core/services/user.service';
     styleUrls: ['./external-booking-choose-time-page.component.sass'],
 })
 export class ExternalBookingChooseTimeComponent {
-    public selectedUser: IUser;
+    @Input() selectedUserId: number;
 
-    public selectedUserId: number = 10;
+    public selectedUserAvailabilitySlots: IUserPersonalAndTeamSlots;
 
-    constructor(public spinnerService: SpinnerService, private userService: UserService) {
-        this.userService.getCurrentUserById(this.selectedUserId).subscribe((user) => {
-            this.selectedUser = user;
+    constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {
+        this.availabilitySlotService.getUserPersonalAndTeamSlots(this.selectedUserId).subscribe((slots) => {
+            this.selectedUserAvailabilitySlots = slots;
         });
     }
 }
