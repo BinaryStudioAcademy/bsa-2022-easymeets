@@ -13,7 +13,6 @@ export class HeaderItemComponent {
 
     public logout() {
         return this.authService.signOut().then(() => {
-            localStorage.removeItem('user');
             this.router.navigateByUrl('auth');
         });
     }
