@@ -10,4 +10,7 @@
         </div>
         <app-schedule-list-item *ngFor="let item of items; index as i" [(item)]="items[i]" [displayDay]="displayDays[i]"></app-schedule-list-item>
     </div>
+    <div class="override-container">
+        <button mat-flat-button>+ Add Date overrides</button>
+    </div>
 </div>

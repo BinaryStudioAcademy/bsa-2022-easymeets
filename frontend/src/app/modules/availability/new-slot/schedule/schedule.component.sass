@@ -4,18 +4,28 @@
     padding-left: 15px
     display: flex
     width: 100%
-    .schedule-select-container
-        display: flex
-        justify-content: space-between
-        align-items: center
-        padding-bottom: 10px
-        p
-            margin: 0
-            font-weight: bold
     .schedule-container
         width: 55%
         border-right: 1px solid $regent-gray
         padding-right: 25px
+        .schedule-select-container
+            display: flex
+            justify-content: space-between
+            align-items: center
+            padding-bottom: 10px
+            p
+                margin: 0
+                font-weight: bold
+    .override-container
+        width: 45%
+        display: grid
+        grid-template-columns: 100%
+        grid-template-rows: 100%
+        align-items: center
+        justify-items: center
+        button
+            border: 1px solid $regent-gray
+
 
 .input
     border: 1px solid $regent-gray
