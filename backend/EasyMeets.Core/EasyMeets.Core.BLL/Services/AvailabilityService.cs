@@ -108,24 +108,11 @@ namespace EasyMeets.Core.BLL.Services
             
             if (updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is not null)
             {
-                availabilitySlot.AdvancedSlotSettings.ActivityType = updateAvailabilityDto.GeneralDetailsUpdate.SlotActivityOption;
-                availabilitySlot.AdvancedSlotSettings.Days = updateAvailabilityDto.GeneralDetailsUpdate.SlotActivityValue;
-                availabilitySlot.AdvancedSlotSettings.MaxNumberOfBookings = updateAvailabilityDto.GeneralDetailsUpdate.MaxBookings;
-                availabilitySlot.AdvancedSlotSettings.PaddingMeeting = updateAvailabilityDto.GeneralDetailsUpdate.MeetingPadding;
-                availabilitySlot.AdvancedSlotSettings.MinBookingMeetingDifference = updateAvailabilityDto.GeneralDetailsUpdate.MinBookingMeetingDifference;
-                availabilitySlot.AdvancedSlotSettings.Color = updateAvailabilityDto.GeneralDetailsUpdate.Color;
+                _mapper.Map(updateAvailabilityDto, availabilitySlot.AdvancedSlotSettings);
             }
             else if (updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is null)
             {
-                var newAdvancedSlotSettings = new AdvancedSlotSettings
-                {
-                    ActivityType = updateAvailabilityDto.GeneralDetailsUpdate.SlotActivityOption,
-                    Days = updateAvailabilityDto.GeneralDetailsUpdate.SlotActivityValue,
-                    MaxNumberOfBookings = updateAvailabilityDto.GeneralDetailsUpdate.MaxBookings,
-                    PaddingMeeting = updateAvailabilityDto.GeneralDetailsUpdate.MeetingPadding,
-                    MinBookingMeetingDifference = updateAvailabilityDto.GeneralDetailsUpdate.MinBookingMeetingDifference,
-                    Color = updateAvailabilityDto.GeneralDetailsUpdate.Color
-                };
+                var newAdvancedSlotSettings = _mapper.Map<UpdateAvailabilityDto, AdvancedSlotSettings>(updateAvailabilityDto);
                 newAdvancedSlotSettings.AvailabilitySlotId = availabilitySlot.Id;
                 _context.AdvancedSlotSettings.Add(newAdvancedSlotSettings);
             }

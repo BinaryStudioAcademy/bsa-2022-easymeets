@@ -51,6 +51,14 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(s => s.AllowToAddGuests, opt => opt.MapFrom(src => src.EventDetailsUpdate.IsAllowBooker))
                 .ForMember(s => s.PasswordProtectionIsUsed, opt => opt.MapFrom(src => src.EventDetailsUpdate.PasswordProtect))
                 .ForMember(s => s.PasswordProtection, opt => opt.MapFrom(src => src.EventDetailsUpdate.PasswordInput));
+
+            CreateMap<UpdateAvailabilityDto, AdvancedSlotSettings>()
+                .ForMember(s => s.ActivityType, opt => opt.MapFrom(src => src.GeneralDetailsUpdate.SlotActivityOption))
+                .ForMember(s => s.Days, opt => opt.MapFrom(src => src.GeneralDetailsUpdate.SlotActivityValue))
+                .ForMember(s => s.MaxNumberOfBookings, opt => opt.MapFrom(src => src.GeneralDetailsUpdate.MaxBookings))
+                .ForMember(s => s.PaddingMeeting, opt => opt.MapFrom(src => src.GeneralDetailsUpdate.MeetingPadding))
+                .ForMember(s => s.MinBookingMeetingDifference, opt => opt.MapFrom(src => src.GeneralDetailsUpdate.MinBookingMeetingDifference))
+                .ForMember(s => s.Color, opt => opt.MapFrom(src => src.GeneralDetailsUpdate.Color));
         }
     }
 }
