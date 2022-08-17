@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IUpdateAvailability } from '@core/models/IUpdateAvailability';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
+import { INewAvailability } from '@core/models/new-availability-slot/INewAvailability';
 
 import { HttpInternalService } from './http-internal.service';
 
@@ -28,5 +29,9 @@ export class AvailabilitySlotService {
 
     public getSlotById(slotId: bigint | undefined) {
         return this.httpService.getRequest<IAvailabilitySlot>(`/availability/slot/${slotId}`);
+    }
+
+    public createSlot(newAvailability: INewAvailability) {
+        return this.httpService.postRequest('/availability', newAvailability);
     }
 }
