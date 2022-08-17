@@ -11,15 +11,15 @@ namespace EasyMeets.Core.BLL.Services
     {
         public UserService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) {}
 
-        public async Task<UserDto> GetCurrentUserAsync(long id, string currentUserEmail)
+        public async Task<UserDto> GetCurrentUserAsync(string currentUserEmail)
         {
-            var currentUser = await GetUserById(id);
-            
-            if (currentUser.Email != currentUserEmail)
+            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == currentUserEmail);
+
+            if (currentUser == null)
             {
-                throw new ArgumentException("You don't have access to data of other users");
+                throw new KeyNotFoundException("User doesn't exist");
             }
-            
+
             var currentUserDto = _mapper.Map<UserDto>(currentUser);
             return currentUserDto;
         }

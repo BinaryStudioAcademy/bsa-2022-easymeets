@@ -19,10 +19,10 @@ namespace EasyMeets.Core.WebAPI.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
         
-        [HttpGet("current/{id}")]
-        public async Task<ActionResult<UserDto>> GetCurrentUserByIdAsync(int id)
+        [HttpGet("current")]
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            var availabilitySlots = await _userService.GetCurrentUserAsync(id, GetCurrentUserEmail());
+            var availabilitySlots = await _userService.GetCurrentUserAsync(GetCurrentUserEmail());
             return Ok(availabilitySlots);
         }
 
