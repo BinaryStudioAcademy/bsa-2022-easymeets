@@ -10,13 +10,13 @@ public class TeamService : BaseService, ITeamService
 {
     public TeamService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) {}
 
-    public async Task<TeamDto?> GetTeam(long teamId)
+    public async Task<TeamDto?> GetTeamAsync(long teamId)
     {
         var teamEntity = await GetTeamById(teamId);
         return _mapper.Map<TeamDto>(teamEntity);
     }
 
-    public async Task<TeamDto> CreatePost(NewTeamDto newTeamDto)
+    public async Task<TeamDto> CreateTeamAsync(NewTeamDto newTeamDto)
     {
         var team = _mapper.Map<Team>(newTeamDto);
 
@@ -26,7 +26,7 @@ public class TeamService : BaseService, ITeamService
         return _mapper.Map<TeamDto>(createdTeam);
     }
 
-    public async Task UpdateTeam(TeamDto teamDto)
+    public async Task UpdateTeamAsync(TeamDto teamDto)
     {
         var teamEntity = await GetTeamById(teamDto.Id);
         teamEntity = _mapper.Map(teamDto, teamEntity);
@@ -34,7 +34,7 @@ public class TeamService : BaseService, ITeamService
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteTeam(int teamId)
+    public async Task DeleteTeamAsync(int teamId)
     {
         var teamEntity = await GetTeamById(teamId);
         _context.Teams.Remove(teamEntity);

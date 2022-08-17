@@ -14,9 +14,9 @@ public class TeamController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<TeamDto>> GetPreferencesById(long id)
+    public async Task<ActionResult<TeamDto>> GetTeamById(long id)
     {
-        var teamDto = await _teamService.GetTeam(id);
+        var teamDto = await _teamService.GetTeamAsync(id);
         if (teamDto is null)
         {
             return NotFound();
@@ -24,10 +24,29 @@ public class TeamController : ControllerBase
         return Ok(teamDto);
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdatePreferences([FromBody] TeamDto teamDto)
+    [HttpPost]
+    public async Task<ActionResult<TeamDto>> CreateAsync(NewTeamDto newTeamDto)
     {
-        await _teamService.UpdateTeam(teamDto);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        var sample = await _teamService.CreateTeamAsync(newTeamDto);
+        return Ok(sample);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateTeam([FromBody] TeamDto teamDto)
+    {
+        await _teamService.UpdateTeamAsync(teamDto);
         return Ok();
+    }
+
+    [HttpDelete("{teamId}")]
+    public async Task<ActionResult> DeleteAsync(int teamId)
+    {
+        await _teamService.DeleteTeamAsync(teamId);
+        return NoContent();
     }
 }
