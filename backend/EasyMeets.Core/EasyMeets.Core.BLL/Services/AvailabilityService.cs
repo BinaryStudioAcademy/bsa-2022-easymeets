@@ -111,13 +111,8 @@ namespace EasyMeets.Core.BLL.Services
             availabilitySlot.AllowToAddGuests = updateAvailabilityDto.EventDetailsUpdate.IsAllowBooker;
             availabilitySlot.PasswordProtectionIsUsed = updateAvailabilityDto.EventDetailsUpdate.PasswordProtect;
             availabilitySlot.PasswordProtection = updateAvailabilityDto.EventDetailsUpdate.PasswordInput;
-
-            if (!updateAvailabilityDto.HasAdvancedSettings)
-            {
-                _context.Remove(availabilitySlot.AdvancedSlotSettings);
-                await _context.SaveChangesAsync();
-            }
-            else if (availabilitySlot.AdvancedSlotSettings is not null)
+            
+            if (updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is not null)
             {
                 availabilitySlot.AdvancedSlotSettings.ActivityType = updateAvailabilityDto.GeneralDetailsUpdate.SlotActivityOption;
                 availabilitySlot.AdvancedSlotSettings.Days = updateAvailabilityDto.GeneralDetailsUpdate.SlotActivityValue;
@@ -126,7 +121,7 @@ namespace EasyMeets.Core.BLL.Services
                 availabilitySlot.AdvancedSlotSettings.MinBookingMeetingDifference = updateAvailabilityDto.GeneralDetailsUpdate.MinBookingMeetingDifference;
                 availabilitySlot.AdvancedSlotSettings.Color = updateAvailabilityDto.GeneralDetailsUpdate.Color;
             }
-            else
+            else if (updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is null)
             {
                 var newAdvancedSlotSettings = new AdvancedSlotSettings
                 {
@@ -137,9 +132,13 @@ namespace EasyMeets.Core.BLL.Services
                     MinBookingMeetingDifference = updateAvailabilityDto.GeneralDetailsUpdate.MinBookingMeetingDifference,
                     Color = updateAvailabilityDto.GeneralDetailsUpdate.Color
                 };
+                newAdvancedSlotSettings.AvailabilitySlotId = availabilitySlot.Id;
                 _context.AdvancedSlotSettings.Add(newAdvancedSlotSettings);
-                availabilitySlot.AdvancedSlotSettings = newAdvancedSlotSettings;
-                await _context.SaveChangesAsync();
+            }
+            
+            else if (!updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is not null)
+            {
+                _context.Remove(availabilitySlot.AdvancedSlotSettings);
             }
 
             await _context.SaveChangesAsync();
