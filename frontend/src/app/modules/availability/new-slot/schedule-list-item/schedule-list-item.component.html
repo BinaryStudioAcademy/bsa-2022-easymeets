@@ -1,6 +1,8 @@
 <div class="container">
-    <mat-slide-toggle [(ngModel)]="item.isEnabled" (change)="onItemChange()"></mat-slide-toggle>
-    <p>{{displayDay}}</p>
+    <div class="weekday-container">
+        <mat-slide-toggle [(ngModel)]="item.isEnabled" (change)="onItemChange()"></mat-slide-toggle>
+        <p>{{displayDay}}</p>
+    </div>
     <div class="dates-container">
         <input type="text" class="date-input" [value]="startValue" (change)="onDateChange($event, true)">
         <p>-</p>
