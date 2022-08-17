@@ -11,7 +11,7 @@ public class MeetingConfig : IEntityTypeConfiguration<Meeting>
         builder.Property(m => m.CreatedBy)
             .IsRequired();
         
-        builder.Property(m => m.LocationId)
+        builder.Property(m => m.LocationType)
             .IsRequired();
         
         builder.Property(m => m.Name)
@@ -28,11 +28,6 @@ public class MeetingConfig : IEntityTypeConfiguration<Meeting>
         builder.Property(m => m.StartTime)
             .IsRequired();
 
-        builder.HasOne(m => m.Location)
-            .WithMany(l => l.Meetings)
-            .HasForeignKey(m => m.LocationId)
-            .OnDelete(DeleteBehavior.Restrict);
-        
         builder.HasOne(m => m.Team)
             .WithMany(t => t.Meetings)
             .HasForeignKey(m => m.TeamId)

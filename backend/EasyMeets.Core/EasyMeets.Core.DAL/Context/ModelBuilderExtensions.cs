@@ -16,7 +16,6 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CalendarConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ExternalAttendeeAvailabilityConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ExternalAttendeeConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(LocationConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MeetingConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(QuestionsConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamConfig).Assembly);
@@ -28,7 +27,6 @@ namespace EasyMeets.Core.DAL.Context
         public static void Seed(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasData(GenerateUsers());
-            modelBuilder.Entity<Location>().HasData(GenerateLocations());
             modelBuilder.Entity<Team>().HasData(GenerateTeams());
             modelBuilder.Entity<TeamMember>().HasData(GenerateTeamMembers());
             modelBuilder.Entity<Meeting>().HasData(GenerateMeetings());
@@ -101,7 +99,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50))
                 .RuleFor(u => u.Description, f => f.Lorem.Text().ClampLength(1, 50))
                 .RuleFor(u => u.TeamId, f => f.Random.Int(1, 10))
-                .RuleFor(u => u.LocationId, f => f.Random.Int(1, 5))
+                .RuleFor(u => u.LocationType, f => f.PickRandom<LocationType>())
                 .RuleFor(u => u.CreatedBy, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.Duration, f => f.Random.Int(10, 60))
                 .RuleFor(u => u.StartTime, f => f.Date.Future())
@@ -140,7 +138,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.TeamId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.CreatedBy, f => authorId++)
-                .RuleFor(u => u.LocationId, f => f.Random.Int(1, 5))
+                .RuleFor(u => u.LocationType, f => f.PickRandom<LocationType>())
                 .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50))
                 .RuleFor(u => u.WelcomeMessage, f => f.Lorem.Text().ClampLength(1, 300))
                 .RuleFor(u => u.Link, f => f.Internet.Url().ClampLength(1, 30))
@@ -255,44 +253,6 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.AvailabilitySlotId, f => slotId++)
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
-        }
-
-        
-        private static IList<Location> GenerateLocations()
-        {
-            return new List<Location>()
-            {
-                new()
-                {
-                    Id = 1,
-                    Name = "Zoom",
-                    IsDeleted = false
-                },
-                new()
-                {
-                    Id = 2,
-                    Name = "GoogleMeet",
-                    IsDeleted = false
-                },
-                new()
-                {
-                    Id = 3,
-                    Name = "Discord",
-                    IsDeleted = false
-                },
-                new()
-                {
-                    Id = 4,
-                    Name = "Skype",
-                    IsDeleted = false
-                },
-                new()
-                {
-                    Id = 5,
-                    Name = "Slack",
-                    IsDeleted = false
-                }
-            };
         }
     }
 }
