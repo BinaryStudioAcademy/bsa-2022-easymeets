@@ -86,8 +86,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         this.userService.getCurrentUserById(2)
             .pipe(this.untilThis)
             .subscribe((user) => {
-                // eslint-disable-next-line no-debugger
-                debugger;
                 this.user = user;
                 this.userForm.patchValue({
                     userName: user.userName,
