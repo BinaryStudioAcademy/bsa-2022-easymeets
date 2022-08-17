@@ -15,7 +15,7 @@ import { IUpdateAvailability } from "@core/models/IUpdateAvailability";
     styleUrls: ['./edit-availability-page.component.sass'],
 })
 export class EditAvailabilityPageComponent {
-    private id: number | undefined;
+    private id: bigint | undefined;
 
     public slot?: IAvailabilitySlot;
 
@@ -27,7 +27,6 @@ export class EditAvailabilityPageComponent {
     constructor(
         private router: Router,
         private activateRoute: ActivatedRoute,
-        private httpInternalService: HttpInternalService,
         private spinnerService: SpinnerService,
         private http: AvailabilitySlotService,
         private notifications: NotificationService
@@ -35,8 +34,7 @@ export class EditAvailabilityPageComponent {
         this.activateRoute.params.subscribe(params => {
             this.id = params['id'];
             this.spinnerService.show();
-            this.httpInternalService
-                .getRequest<IAvailabilitySlot>(`/availability/slot/${this.id}`)
+            this.http.getSlotById(this.id)
                 .subscribe(slotResponse => {
                     this.slot = slotResponse;
                     this.spinnerService.hide();
@@ -55,7 +53,7 @@ export class EditAvailabilityPageComponent {
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
             isActive: this.newAvailabilityComponent.slot?.isEnabled ?? true
         };
-        this.httpInternalService.putRequest<IAvailabilitySlot>(`/availability/${this.slot?.id}`, updateAvailability)
+        this.http.updateSlot(updateAvailability, this.slot?.id)
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe(
                 () => {
