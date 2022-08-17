@@ -6,6 +6,12 @@ const routes: Routes = [
     {
         path: '',
         component: TeamPreferencesComponent,
+        children: [
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
     },
 ];
 
@@ -13,4 +19,5 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class TeamRoutingModule {}
+export class TeamRoutingModule {
+}

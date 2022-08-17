@@ -1,1 +1,51 @@
-<p>team-preferences works!</p>
+<form class="wrapper">
+    <div class="item">
+        <div class="user-avatar-block">
+            <img class="user-avatar">
+            <button type="button" class="upload-picture-button" mat-flat-button>Upload Picture</button>
+        </div>
+    </div>
+    <div class="item">
+        <label>
+            <div>Team Name</div>
+        </label>
+        <div>
+            <input type="text">
+        </div>
+    </div>
+    <div class="item">
+        <label>
+            <div>Team Page Link</div>
+        </label>
+        <div>
+            <input type="text">
+        </div>
+    </div>
+    <div class="item">
+        <label>Time Zone</label>
+        <mat-select >
+            <mat-option *ngFor="let name of timeZoneValues" [value]="timeZoneValues.indexOf(name)">
+                {{name}}
+            </mat-option>
+        </mat-select>
+    </div>
+    <div class="item">
+        <label>
+            <div>Description</div>
+        </label>
+        <div>
+            <textarea class="text-area-class"></textarea>
+        </div>
+    </div>
+    <div class="item">
+        <div class="upload-picture-button">
+            <button mat-flat-button>
+                <mat-icon class="icon">delete_outline</mat-icon>
+                Delete Team
+            </button>
+        </div>
+        <div class="update-preferences-button">
+            <button mat-flat-button>Update Preferences</button>
+        </div>
+    </div>
+</form>
