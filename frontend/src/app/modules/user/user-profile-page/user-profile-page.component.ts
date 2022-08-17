@@ -124,8 +124,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         this.countryCode = this.countryCodeValues[form.value.country];
     }
 
-    public loadImage({ files }: any) {
-        const fileToUpload = <File>files[0];
+    public loadImage(files: FileList) {
+        const fileToUpload = files[0];
 
         if (fileToUpload.size / 1000000 > 5) {
             this.confirmCancelDialog();
