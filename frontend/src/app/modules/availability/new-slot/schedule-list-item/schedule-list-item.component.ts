@@ -9,7 +9,7 @@ import { IScheduleItem } from '@core/models/IScheduleItem';
 export class ScheduleListItemComponent implements OnInit {
     @Input() public item: IScheduleItem;
 
-    @Output() public itemChanged: EventEmitter<IScheduleItem> = new EventEmitter<IScheduleItem>();
+    @Output() public itemChange: EventEmitter<IScheduleItem> = new EventEmitter<IScheduleItem>();
 
     @Input() public displayDay: string;
 
@@ -28,7 +28,7 @@ export class ScheduleListItemComponent implements OnInit {
             this.item.end.setHours(parseInt(hours, 10));
             this.item.end.setMinutes(parseInt(minutes, 10));
         }
-        this.itemChanged.emit(this.item);
+        this.itemChange.emit(this.item);
     }
 
     ngOnInit(): void {
