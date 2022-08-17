@@ -1,51 +1,52 @@
-<form class="wrapper">
-    <div class="item">
-        <div class="user-avatar-block">
-            <img class="user-avatar">
-            <button type="button" class="upload-picture-button" mat-flat-button>Upload Picture</button>
+<div class="wrapper">
+    <form class="form-wrapper">
+        <div class="item">
+            <div class="logo-block">
+                <div class="logo">
+                </div>
+                <button type="button" class="white-button" mat-flat-button>Upload Logo</button>
+            </div>
         </div>
-    </div>
-    <div class="item">
-        <label>
-            <div>Team Name</div>
-        </label>
-        <div>
-            <input type="text">
+        <div class="item">
+            <label>
+                <div>Team Name</div>
+            </label>
+            <div>
+                <input type="text">
+            </div>
         </div>
-    </div>
-    <div class="item">
-        <label>
-            <div>Team Page Link</div>
-        </label>
-        <div>
-            <input type="text">
+        <div class="item">
+            <label>
+                <div>Team Page Link</div>
+            </label>
+            <div>
+                <input type="text">
+            </div>
         </div>
-    </div>
-    <div class="item">
-        <label>Time Zone</label>
-        <mat-select >
-            <mat-option *ngFor="let name of timeZoneValues" [value]="timeZoneValues.indexOf(name)">
-                {{name}}
-            </mat-option>
-        </mat-select>
-    </div>
-    <div class="item">
-        <label>
-            <div>Description</div>
-        </label>
-        <div>
-            <textarea class="text-area-class"></textarea>
+        <div class="item">
+            <label>Time Zone</label>
+            <mat-select>
+                <mat-option *ngFor="let name of timeZoneValues" [value]="timeZoneValues.indexOf(name)">
+                    {{name}}
+                </mat-option>
+            </mat-select>
         </div>
-    </div>
-    <div class="item">
-        <div class="upload-picture-button">
-            <button mat-flat-button>
-                <mat-icon class="icon">delete_outline</mat-icon>
-                Delete Team
-            </button>
+        <div class="item">
+            <label>
+                <div>Description</div>
+            </label>
+            <div>
+                <textarea class="text-area-class"></textarea>
+            </div>
         </div>
-        <div class="update-preferences-button">
-            <button mat-flat-button>Update Preferences</button>
+        <div class="item">
+            <div class="buttons-block">
+                <button mat-flat-button class="white-button">
+                    <mat-icon class="icon">delete_outline</mat-icon>
+                    Delete Team
+                </button>
+                <button mat-flat-button>Update Preferences</button>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
+</div>
