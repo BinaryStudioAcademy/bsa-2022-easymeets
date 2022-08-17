@@ -6,7 +6,7 @@ public class GeneralDetailsUpdateDto
 {
     public int SlotSize { get; set; }
     public int SlotFrequency { get; set; }
-    public string MeetingLocation { get; set; } = string.Empty;
+    public LocationType LocationType { get; set; }
     public int MeetingPadding { get; set;}
     public ActivityType SlotActivityOption { get; set; }
     public int SlotActivityValue { get; set; }
