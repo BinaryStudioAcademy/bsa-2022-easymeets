@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class MeetingController : ControllerBase
