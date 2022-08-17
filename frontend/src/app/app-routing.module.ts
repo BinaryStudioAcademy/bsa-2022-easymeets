@@ -7,10 +7,6 @@ const routes: Routes = [
         loadChildren: () => import('./modules/landing/landing.module').then((m) => m.LandingModule),
     },
     {
-        path: 'main',
-        loadChildren: () => import('./modules/main/main.module').then((m) => m.MainModule),
-    },
-    {
         path: 'availability',
         loadChildren: () => import('./modules/availability/availability.module').then((m) => m.AvailabilityModule),
     },
@@ -22,6 +18,10 @@ const routes: Routes = [
         path: 'external-booking',
         loadChildren: () =>
             import('./modules/external-booking/external-booking.module').then((m) => m.ExternalBookingModule),
+    },
+    {
+        path: 'auth',
+        loadChildren: () => import('./modules/auth/auth.module').then((m) => m.AuthModule),
     },
     { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

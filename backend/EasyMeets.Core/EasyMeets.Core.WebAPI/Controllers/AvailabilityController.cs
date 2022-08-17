@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
 {
+    //[Authorize]
+    //test
     [ApiController]
     [Route("[controller]")]
     public class AvailabilityController : ControllerBase
@@ -41,6 +43,13 @@ namespace EasyMeets.Core.WebAPI.Controllers
         public async Task<ActionResult<AvailabilitySlotDto>> UpdateAvailabilitySlot(long id, [FromBody] UpdateAvailabilityDto updateAvailabilityDto)
         {
             return Ok(await _availabilityService.UpdateAvailabilitySlot(id, updateAvailabilityDto));
+        }
+        
+        [HttpDelete("{slotId}")]
+        public async Task<IActionResult> DeleteAvailabilitySlot(int slotId)
+        {
+            await _availabilityService.DeleteAvailabilitySlot(slotId);
+            return NoContent();
         }
     }
 }

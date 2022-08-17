@@ -3,7 +3,7 @@ import { IAdvancedSlotSettings } from '@core/models/IAdvancedSlotSettings';
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
 
 export interface IAvailabilitySlot {
-    id: number;
+    id: bigint;
     name: string;
     authorName: string;
     size: number;

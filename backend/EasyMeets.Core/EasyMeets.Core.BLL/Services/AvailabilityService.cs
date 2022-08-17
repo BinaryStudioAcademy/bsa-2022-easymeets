@@ -8,6 +8,7 @@ using EasyMeets.Core.Common.DTO.Availability.UpdateAvailability;
 using EasyMeets.Core.DAL.Entities;
 using EasyMeets.Core.Common.Enums;
 
+
 namespace EasyMeets.Core.BLL.Services
 {
     public class AvailabilityService : BaseService, IAvailabilityService
@@ -143,6 +144,14 @@ namespace EasyMeets.Core.BLL.Services
 
             await _context.SaveChangesAsync();
             return _mapper.Map<AvailabilitySlotDto>(await _context.AvailabilitySlots.FirstOrDefaultAsync(slot => slot.Id == id));
+        }
+
+        public async Task DeleteAvailabilitySlot(long slotId)
+        {
+            var slot = await _context.AvailabilitySlots.FirstAsync(el => el.Id == slotId);
+            _context.Remove(slot);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

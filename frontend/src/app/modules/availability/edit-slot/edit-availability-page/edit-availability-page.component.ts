@@ -4,6 +4,9 @@ import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { HttpInternalService } from '@core/services/http-internal.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { NewAvailabilityComponent } from '@modules/availability/new-slot/new-availability/new-availability.component';
+import { Subject, takeUntil } from "rxjs";
+import { AvailabilitySlotService } from "@core/services/availability-slot.service";
+import { NotificationService } from "@core/services/notification.service";
 
 @Component({
     selector: 'app-edit-availability-page',
@@ -15,6 +18,8 @@ export class EditAvailabilityPageComponent {
 
     public slot?: IAvailabilitySlot;
 
+    private unsubscribe$ = new Subject<void>();
+
     @ViewChild(NewAvailabilityComponent) newAvailabilityComponent: NewAvailabilityComponent;
 
     // eslint-disable-next-line no-empty-function
@@ -23,6 +28,8 @@ export class EditAvailabilityPageComponent {
         private activateRoute: ActivatedRoute,
         private httpInternalService: HttpInternalService,
         private spinnerService: SpinnerService,
+        private http: AvailabilitySlotService,
+        private notifications: NotificationService
     ) {
         this.activateRoute.params.subscribe(params => {
             this.id = params['id'];
@@ -52,5 +59,20 @@ export class EditAvailabilityPageComponent {
             console.log(this.newAvailabilityComponent.generalComponent.settings)
         });
         this.goToPage('/availability');
+    }
+
+    public deleteSlot() {
+        this.http
+            .deleteSlot(this.slot?.id)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(
+                () => {
+                    this.notifications.showSuccessMessage('Slot was successfully deleted');
+                    this.router.navigate(['/availability']);
+                },
+                (error) => {
+                    this.notifications.showErrorMessage(error);
+                },
+            );
     }
 }
