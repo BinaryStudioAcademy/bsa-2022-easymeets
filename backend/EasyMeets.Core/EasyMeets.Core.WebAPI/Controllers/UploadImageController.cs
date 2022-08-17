@@ -22,15 +22,18 @@ namespace EasyMeets.Core.WebAPI.Controllers
             var formCollection = await Request.ReadFormAsync();
             var file = formCollection.Files.First();
             var fileName = Path.GetFileName(file.FileName);
-
-            var imageUrl = await _uploadFileService.UploadFileBlobAsync(file, fileName, 2);
-
-            if (imageUrl is null)
-            {
-                return NotFound();
+            try
+            { 
+                var imageUrl = await _uploadFileService.UploadFileBlobAsync(file, fileName, 2); if (imageUrl is null)
+                {
+                    return NotFound();
+                } 
+                return Ok(new { imagePath = imageUrl });
             }
-
-            return Ok(new { imagePath = imageUrl });
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            } 
         }
     }
 }
