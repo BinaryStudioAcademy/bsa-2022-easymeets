@@ -27,20 +27,11 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         private confirmationWindowService: ConfirmationWindowService,
     ) {
         super();
-        this.clickConfirmEvent
-            .pipe(this.untilThis)
-            .subscribe(() => {
-                this.onClickConfirm();
-            });
     }
 
-    public clickConfirmEvent = new EventEmitter<void>();
-
-    public clickErrorEvent = new EventEmitter<void>();
+    public clickEvent = new EventEmitter<void>();
 
     public imageUrl?: string;
-
-    public imageFile: File;
 
     public user: IUser;
 
@@ -81,6 +72,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             timeFormat: new FormControl(),
             language: new FormControl(),
             timeZone: new FormControl(),
+            image: new FormControl(),
         });
 
         this.userService.getCurrentUserById(2)
@@ -132,9 +124,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         this.countryCode = this.countryCodeValues[form.value.country];
     }
 
-    public onClickConfirm() {
-    }
-
     public loadImage({ files }: any) {
         const fileToUpload = <File>files[0];
 
@@ -167,7 +156,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                 buttonsOptions: [{
                     class: 'confirm-accept-button',
                     label: 'Ok',
-                    onClickEvent: this.clickConfirmEvent }],
+                    onClickEvent: this.clickEvent }],
                 title: 'Oops...',
                 message: 'Image can\'t be heavier than 5MB!' });
     }
@@ -178,7 +167,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                 buttonsOptions: [{
                     class: 'confirm-accept-button',
                     label: 'Ok',
-                    onClickEvent: this.clickConfirmEvent }],
+                    onClickEvent: this.clickEvent }],
                 title: 'Oops :(',
                 message: 'Something went wrong. Picture was not uploaded.' });
     }
