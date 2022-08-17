@@ -79,7 +79,7 @@ namespace EasyMeets.Core.BLL.Services
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
                 .Include(slot => slot.Location)
-                .FirstOrDefaultAsync(_ => _.Id == id);
+                .FirstOrDefaultAsync(slot => slot.Id == id);
             if (availabilitySlot is null)
             {
                 throw new KeyNotFoundException("Availability slot doesn't exist");
@@ -91,7 +91,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
-                .FirstOrDefaultAsync(_ => _.Id == id);
+                .FirstOrDefaultAsync(slot => slot.Id == id);
             if (availabilitySlot is null)
             {
                 throw new KeyNotFoundException("Availability slot doesn't exist");
