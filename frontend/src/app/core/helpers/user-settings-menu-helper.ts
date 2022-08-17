@@ -21,7 +21,7 @@ export const getUserSettingsMenuItems = (): SideMenuGroup[] => [
     {
         header: 'Teams',
         items: [
-            { text: 'Binary Team', routerLink: 'default-route' },
+            { text: 'Binary Team', routerLink: 'account/team' },
             { text: 'Work 2', routerLink: 'default-route' },
             { text: 'Work Team 3', routerLink: 'default-route' },
         ],

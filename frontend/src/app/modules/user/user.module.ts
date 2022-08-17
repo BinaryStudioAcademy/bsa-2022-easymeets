@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CalendarModule } from '@modules/calendars/calendar.module';
 import { HeaderModule } from '@modules/header/header.module';
 import { SideMenuModule } from '@modules/side-menu/side-menu.module';
+import { TeamModule } from '@modules/team/team.module';
 import { UserRoutingModule } from '@modules/user/user-routing.module';
 import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
@@ -11,6 +12,6 @@ import { UserSettingsPageComponent } from './user-settings-page/user-settings-pa
 
 @NgModule({
     declarations: [UserProfilePageComponent, UserSettingsPageComponent],
-    imports: [SharedModule, UserRoutingModule, MaterialModule, SideMenuModule, HeaderModule, CalendarModule],
+    imports: [SharedModule, UserRoutingModule, MaterialModule, SideMenuModule, HeaderModule, CalendarModule, TeamModule],
 })
 export class UserModule {}
