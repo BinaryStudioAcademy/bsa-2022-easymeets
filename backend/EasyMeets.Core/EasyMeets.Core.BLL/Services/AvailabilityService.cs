@@ -19,7 +19,6 @@ namespace EasyMeets.Core.BLL.Services
             var availabilitySlots = await _context.AvailabilitySlots
                 .Include(x => x.Members)
                     .ThenInclude(x => x.User)
-                .Include(x => x.Location)
                 .Include(x => x.Author)
                 .Include(x => x.Team)
                 .Where(x => x.CreatedBy == id && x.Members.Any(x => x.UserId == id))
@@ -33,7 +32,7 @@ namespace EasyMeets.Core.BLL.Services
                         IsEnabled = y.IsEnabled,
                         AuthorName = y.Author.Name,
                         TeamName = y.Team.Name,
-                        LocationName = y.Location.Name,
+                        LocationType = y.LocationType,
                         Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.Members)
                     })
                 .ToListAsync();

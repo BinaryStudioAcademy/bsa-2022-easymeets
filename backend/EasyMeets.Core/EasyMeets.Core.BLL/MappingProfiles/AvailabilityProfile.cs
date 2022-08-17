@@ -16,7 +16,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             CreateMap<NewAdvancedSlotSettingsDto, AdvancedSlotSettings>();
             CreateMap<NewAvailabilitySlotDto, AvailabilitySlot>()
             .ForMember(s => s.TeamId, opt => opt.MapFrom(src => src.GeneralDetails!.TeamId))
-            .ForMember(s => s.LocationId, opt => opt.MapFrom(src => src.GeneralDetails!.LocationId))
+            .ForMember(s => s.LocationType, opt => opt.MapFrom(src => src.GeneralDetails!.LocationType))
             .ForMember(s => s.Name, opt => opt.MapFrom(src => src.GeneralDetails!.Name))
             .ForMember(s => s.WelcomeMessage, opt => opt.MapFrom(src => src.EventDetails!.WelcomeMessage))
             .ForMember(s => s.Link, opt => opt.MapFrom(src => src.EventDetails!.Link))

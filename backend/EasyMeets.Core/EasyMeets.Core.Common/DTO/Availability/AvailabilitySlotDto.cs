@@ -11,7 +11,7 @@ namespace EasyMeets.Core.Common.DTO.Availability
         public bool IsEnabled { get; set; }
         public string AuthorName { get; set; } = string.Empty;
         public string TeamName { get; set; } = string.Empty;
-        public string LocationName { get; set; } = string.Empty;
+        public LocationType LocationType { get; set; }
         public ICollection<AvailabilitySlotMemberDto> Members { get; set; } = null!;
     }
 }
