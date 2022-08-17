@@ -1,12 +1,14 @@
 import { ActivityType } from '@core/enums/activity-type.enum';
 import { Color } from '@core/enums/color.enum';
 
+import { LocationType } from './locationType';
+
 export interface IGeneralAvailabilitySettings {
     slotSize: number;
 
     slotFrequency: number;
 
-    meetingLocation: string;
+    meetingLocation: LocationType;
 
     meetingPadding: number;
 
