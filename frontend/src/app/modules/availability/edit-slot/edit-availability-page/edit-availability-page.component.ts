@@ -7,6 +7,7 @@ import { NewAvailabilityComponent } from '@modules/availability/new-slot/new-ava
 import { Subject, takeUntil } from "rxjs";
 import { AvailabilitySlotService } from "@core/services/availability-slot.service";
 import { NotificationService } from "@core/services/notification.service";
+import { IUpdateAvailability } from "@core/models/IUpdateAvailability";
 
 @Component({
     selector: 'app-edit-availability-page',
@@ -48,12 +49,13 @@ export class EditAvailabilityPageComponent {
     }
 
     sendChanges() {
-        this.httpInternalService.putRequest<IAvailabilitySlot>(`/availability/${this.slot?.id}`, {
+        let updateAvailability: IUpdateAvailability = {
             generalDetailsUpdate: this.newAvailabilityComponent.generalComponent.settings,
             eventDetailsUpdate: this.newAvailabilityComponent.eventDetailComponent.settings,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
             isActive: this.newAvailabilityComponent.slot?.isEnabled ?? true
-        }).subscribe(resp => {
+        };
+        this.httpInternalService.putRequest<IAvailabilitySlot>(`/availability/${this.slot?.id}`, updateAvailability).subscribe(resp => {
             console.log('resp')
             console.log(resp)
             console.log(this.newAvailabilityComponent.generalComponent.settings)
