@@ -3,7 +3,7 @@
         <div class="schedule-select-container">
             <p>Schedule</p>
             <div class="input">
-                <select [(ngModel)]="timeZones">
+                <select [(ngModel)]="selectedTimeZone">
                     <option *ngFor="let timeZone of timeZones" [value]="timeZone">{{timeZone}}</option>
                 </select>
             </div>

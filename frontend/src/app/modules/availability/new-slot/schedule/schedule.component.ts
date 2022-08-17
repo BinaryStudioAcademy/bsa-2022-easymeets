@@ -16,6 +16,8 @@ export class ScheduleComponent implements OnInit {
 
     public timeZones: string[] = ['Eastern Europe (+3:00 GMT)', 'British summer time (+1:00 GMT)'];
 
+    public selectedTimeZone: string = this.timeZones[0];
+
     ngOnInit(): void {
         if (this.items === undefined) {
             this.items = getScheduleItems();
