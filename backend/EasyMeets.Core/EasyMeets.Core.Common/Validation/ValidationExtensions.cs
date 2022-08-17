@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using EasyMeets.Core.Common.Enums;
+using System.Text.RegularExpressions;
+using TimeZone = EasyMeets.Core.Common.Enums.TimeZone;
 
 namespace EasyMeets.Core.Common.Validation;
 
@@ -10,7 +12,8 @@ public static class ValidationExtensions
         { "Username", @"^[\w\d]+[\w\d\- ]+$" },
         { "PhoneNumber", @"^\+\d{10,13}$" },
         { "TeamLink", @"^/[a-zA-Z\d\-]+\d*$" },
-        { "Password", @"^[^ ]+$" }
+        { "Password", @"^[^ ]+$" },
+        { "Url", @"^(http|http(s)?://)?([\w-]+\.)+[\w-]+[.com|.in|.org]+(\[\?%&=]*)?"}
     };
     public static bool IsValidMeetingLocation(this string value)
     {
@@ -45,6 +48,42 @@ public static class ValidationExtensions
     public static bool IsValidPassword(this string value)
     {
         var pattern = RegularExpressions["Password"];
+        return Regex.IsMatch(value, pattern);
+    }
+
+    public static bool IsValidCountry(this Country value)
+    {
+        var countries = Enum.GetValues(typeof(Country)).Cast<Country>().ToList();
+        return countries.Contains(value);
+    }
+
+    public static bool IsValidTimeFormat(this TimeFormat value)
+    {
+        var timeFormats = Enum.GetValues(typeof(TimeFormat)).Cast<TimeFormat>().ToList();
+        return timeFormats.Contains(value);
+    }
+
+    public static bool IsValidLanguage(this Language value)
+    {
+        var languages = Enum.GetValues(typeof(Language)).Cast<Language>().ToList();
+        return languages.Contains(value);
+    }
+
+    public static bool IsValidDateFormat(this DateFormat value)
+    {
+        var dateFormats = Enum.GetValues(typeof(DateFormat)).Cast<DateFormat>().ToList();
+        return dateFormats.Contains(value);
+    }
+
+    public static bool IsValidTimeZone(this TimeZone value)
+    {
+        var timeZones = Enum.GetValues(typeof(TimeZone)).Cast<TimeZone>().ToList();
+        return timeZones.Contains(value);
+    }
+
+    public static bool IsValidUrl(this string value)
+    {
+        var pattern = RegularExpressions["Url"];
         return Regex.IsMatch(value, pattern);
     }
 }
