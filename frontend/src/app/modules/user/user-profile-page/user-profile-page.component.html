@@ -1,97 +1,96 @@
+
 <div class="wrapper">
     <form class="form-container" [formGroup]="userForm" (ngSubmit)="OnSubmit(userForm)">
-        <form enctype="multipart/form-data" class="item user-avatar-form">
-            <div class="item">
-                <div class="user-avatar-block">
-                    <img mat-card-image src="{{ imageUrl }}" class="user-avatar">
-                    <input hidden #file accept="image/png,.gif,.jpg" type="file" (change)="loadImage($any($event.target).files)" />
-                    <button type="button" class="upload-picture-button"  mat-flat-button (click)="file.click()">Upload Picture</button></div>
+        <div class="item">
+            <div class="user-avatar-block">
+                <img mat-card-image src="{{ imageUrl }}" class="user-avatar">
+                <input hidden #file accept="image/png,.gif,.jpg" type="file" (change)="loadImage($any($event.target).files)" />
+                <button type="button" class="upload-picture-button"  mat-flat-button (click)="file.click()">Upload Picture</button>
             </div>
-            <div class="item">
-                <label>
-                    <div>Name</div>
-                </label>
+        </div>
+        <div class="item">
+            <label>
+                <div>Name</div>
+            </label>
+            <div>
+                <input type="text" formControlName="userName">
+            </div>
+            <div *ngIf="userNameControl.invalid" class="validation">
+                <small *ngIf="userNameControl.errors?.['required']">This field is required.</small>
+                <small *ngIf="userNameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
+                <small *ngIf="userNameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
+                <small *ngIf="userNameControl.errors?.['pattern']">Invalid characters.</small>
+            </div>
+        </div>
+        <div class="item">
+            <label>
+                <div>Language</div>
+            </label>
+            <mat-select formControlName="language">
+                <mat-option *ngFor="let name of languageValues" [value]="languageValues.indexOf(name)">
+                    {{name}}
+                </mat-option>
+            </mat-select>
+        </div>
+        <div class="item">
+            <div class="input-block">
                 <div>
-                    <input type="text" formControlName="userName">
+                    <label>
+                        <div>Time Format</div>
+                    </label>
+                    <mat-select formControlName="timeFormat">
+                        <mat-option *ngFor="let name of timeFormatValues" [value]="timeFormatValues.indexOf(name)">
+                            {{name}}
+                        </mat-option>
+                    </mat-select>
                 </div>
-                <div *ngIf="userNameControl.invalid" class="validation">
-                    <small *ngIf="userNameControl.errors?.['required']">This field is required.</small>
-                    <small *ngIf="userNameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
-                    <small *ngIf="userNameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
-                    <small *ngIf="userNameControl.errors?.['pattern']">Invalid characters.</small>
-                </div>
-            </div>
-            <div class="item">
-                <label>
-                    <div>Language</div>
-                </label>
-                <mat-select formControlName="language">
-                    <mat-option *ngFor="let name of languageValues" [value]="languageValues.indexOf(name)">
-                        {{name}}
-                    </mat-option>
-                </mat-select>
-            </div>
-            <div class="item">
-                <div class="input-block">
-                    <div>
-                        <label>
-                            <div>Time Format</div>
-                        </label>
-                        <mat-select formControlName="timeFormat">
-                            <mat-option *ngFor="let name of timeFormatValues" [value]="timeFormatValues.indexOf(name)">
-                                {{name}}
-                            </mat-option>
-                        </mat-select>
-                    </div>
-                    <div>
-                        <label>
-                            <div>Date Format</div>
-                        </label>
-                        <mat-select formControlName="dateFormat">
-                            <mat-option *ngFor="let name of dateFormatValues" [value]="dateFormatValues.indexOf(name)">
-                                {{name}}
-                            </mat-option>
-                        </mat-select>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <label>
-                    <div>Country</div>
-                </label>
-                <mat-select formControlName="country" (selectionChange)="changeCountryCode(userForm)">
-                    <mat-option *ngFor="let name of countryValues" [value]="countryValues.indexOf(name)">
-                        {{name}}
-                    </mat-option>
-                </mat-select>
-            </div>
-            <div class="item">
-                <label>
-                    <div>Phone Number</div>
-                </label>
                 <div>
-                    <input formControlName="phone" mask="(000) 000 00 00" prefix="+{{countryCode}} " [showMaskTyped]="true"
-                           placeHolderCharacter="_">
-                </div>
-                <div *ngIf="phoneControl.invalid" class="validation">
-                    <small *ngIf="phoneControl.errors?.['required']">This field is required.</small>
-                    <small *ngIf="phoneControl.errors?.['minlength']">Invalid phone.</small>
-                </div>
-            </div>
-            <div class="item">
-                <label>Time Zone</label>
-                <mat-select formControlName="timeZone">
-                    <mat-option *ngFor="let name of timeZoneValues" [value]="timeZoneValues.indexOf(name)">
-                        {{name}}
-                    </mat-option>
-                </mat-select>
-            </div>
-            <div class="item">
-                <div class="update-preferences-button">
-                    <button mat-flat-button type="submit" [disabled]="userForm.invalid">Update Preferences</button>
+                    <label>
+                        <div>Date Format</div>
+                    </label>
+                    <mat-select formControlName="dateFormat">
+                        <mat-option *ngFor="let name of dateFormatValues" [value]="dateFormatValues.indexOf(name)">
+                            {{name}}
+                        </mat-option>
+                    </mat-select>
                 </div>
             </div>
-        </form>
+        </div>
+        <div class="item">
+            <label>
+                <div>Country</div>
+            </label>
+            <mat-select formControlName="country" (selectionChange)="changeCountryCode(userForm)">
+                <mat-option *ngFor="let name of countryValues" [value]="countryValues.indexOf(name)">
+                    {{name}}
+                </mat-option>
+            </mat-select>
+        </div>
+        <div class="item">
+            <label>
+                <div>Phone Number</div>
+            </label>
+            <div>
+                <input formControlName="phone" mask="(000) 000 00 00" prefix="+{{countryCode}} " [showMaskTyped]="true"
+                       placeHolderCharacter="_">
+            </div>
+            <div *ngIf="phoneControl.invalid" class="validation">
+                <small *ngIf="phoneControl.errors?.['required']">This field is required.</small>
+                <small *ngIf="phoneControl.errors?.['minlength']">Invalid phone.</small>
+            </div>
+        </div>
+        <div class="item">
+            <label>Time Zone</label>
+            <mat-select formControlName="timeZone">
+                <mat-option *ngFor="let name of timeZoneValues" [value]="timeZoneValues.indexOf(name)">
+                    {{name}}
+                </mat-option>
+            </mat-select>
+        </div>
+        <div class="item">
+            <div class="update-preferences-button">
+                <button mat-flat-button type="submit" [disabled]="userForm.invalid">Update Preferences</button>
+            </div>
+        </div>
     </form>
 </div>
-
