@@ -97,9 +97,7 @@ namespace EasyMeets.Core.BLL.Services
                 throw new KeyNotFoundException("Availability slot doesn't exist");
             }
             
-            availabilitySlot.Frequency = updateAvailabilityDto.GeneralDetailsUpdate.SlotFrequency;
-            availabilitySlot.Size = updateAvailabilityDto.GeneralDetailsUpdate.SlotSize;
-            availabilitySlot.Name = updateAvailabilityDto.GeneralDetailsUpdate.MeetingName;
+            _mapper.Map(updateAvailabilityDto, availabilitySlot);
 
             var locationToAdd = await _context.Locations.FirstOrDefaultAsync(location => 
                 location.Name == updateAvailabilityDto.GeneralDetailsUpdate.MeetingLocation);
@@ -107,18 +105,6 @@ namespace EasyMeets.Core.BLL.Services
             {
                 availabilitySlot.LocationId = locationToAdd.Id;
             }
-            
-            availabilitySlot.IsVisible = !updateAvailabilityDto.GeneralDetailsUpdate.HideFromCommon;
-            availabilitySlot.IsEnabled = updateAvailabilityDto.IsActive;
-
-            availabilitySlot.TimeZoneVisibility = updateAvailabilityDto.EventDetailsUpdate.ZoneChoice;
-            availabilitySlot.Link = updateAvailabilityDto.EventDetailsUpdate.LinkChoice;
-            availabilitySlot.WelcomeMessage = updateAvailabilityDto.EventDetailsUpdate.WelcomeMessage;
-            availabilitySlot.Language = updateAvailabilityDto.EventDetailsUpdate.LanguageSelect;
-            availabilitySlot.BookingsPerDay = updateAvailabilityDto.EventDetailsUpdate.AllowBookingSelect;
-            availabilitySlot.AllowToAddGuests = updateAvailabilityDto.EventDetailsUpdate.IsAllowBooker;
-            availabilitySlot.PasswordProtectionIsUsed = updateAvailabilityDto.EventDetailsUpdate.PasswordProtect;
-            availabilitySlot.PasswordProtection = updateAvailabilityDto.EventDetailsUpdate.PasswordInput;
             
             if (updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is not null)
             {
