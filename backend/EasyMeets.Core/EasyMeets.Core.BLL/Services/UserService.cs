@@ -17,7 +17,7 @@ namespace EasyMeets.Core.BLL.Services
             
             if (currentUser.Email != currentUserEmail)
             {
-                throw new FieldAccessException("You don't have access to data of other users");
+                throw new ArgumentException("You don't have access to data of other users");
             }
             
             var currentUserDto = _mapper.Map<UserDto>(currentUser);
@@ -30,7 +30,7 @@ namespace EasyMeets.Core.BLL.Services
             
             if (user.Email != currentUserEmail)
             {
-                throw new FieldAccessException("You don't have access to data of other users");
+                throw new ArgumentException("You don't have access to data of other users");
             }
             
             if (user is null)
@@ -47,7 +47,7 @@ namespace EasyMeets.Core.BLL.Services
             
             if (userEntity.Email != currentUserEmail)
             {
-                throw new FieldAccessException("You don't have access to data of other users");
+                throw new ArgumentException("You don't have access to data of other users");
             }
             
             _context.Users.Update(userEntity);
