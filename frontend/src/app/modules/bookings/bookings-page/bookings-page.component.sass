@@ -1,14 +1,11 @@
-body
-  padding: 0
-  margin: 0
-  font-family: 'Open Sans', sans-serif
-  overflow-x: hidden
+@import '../../../../styles/color-variables'
 
 .container
   padding: 144px 130px
   display: flex
   flex-direction: column
   gap: 24px
+  background-color: rgba($pale-sky, .17)
 
 p, span
   margin: 0
@@ -18,10 +15,10 @@ p, span
 
 .timeTitle
   font-style: normal
-  font-weight: 700
+  font-weight: 600
   font-size: 16px
   line-height: 24px
-  color: #667080
+  color: $pale-sky
 
 .item
   background: white
@@ -29,23 +26,25 @@ p, span
   display: flex
   flex-direction: column
   gap: 10px
-  border-right: 1px solid #BEC5D0
+  border-right: 1px solid rgba($pale-sky, .4)
 
 .buttonZoom
   width: 176px
   height: 36px
   left: 158px
   top: 270px
-  color: #667080
+  color: $white-color
   background: white
   cursor: pointer
-  border: 2px solid #BEC5D0
+  border: 2px solid $royal-blue
+  background-color: $royal-blue
   border-radius: 4px
+  font-weight: 600
 
   &:hover
-    border: none
-    color: white
-    background: #4C7DE7
+    border: 2px solid $pale-sky
+    color: $pale-sky
+    background: $white-color
 
 .buttonRow
   display: flex
@@ -54,7 +53,7 @@ p, span
   align-items: center
 
 .itemText
-  color: rgba(0, 0, 0, 0.5)
+  color: rgba($black, 0.5)
   margin: 0
 
 .listScrollBlock
@@ -69,49 +68,46 @@ p, span
   padding-left: 20px
 
 .listItemName
-  font-weight: 700
+  font-weight: 600
   font-size: 16px
   line-height: 24px
-  color: #667080
+  color: $pale-sky
 
 .listItemAnswers
-  font-weight: 700
+  font-weight: 600
   font-size: 14px
   line-height: 20px
-
-  /* identical to box height, or 143%
-
   display: flex
   align-items: center
   text-align: center
   text-decoration-line: underline
-
-  /* common/text/default
-
-  color: #667080
+  color: $pale-sky
 
 .moreBlock
-  background: #EEF0F4
+  background: $athens-gray
   border-radius: 4px
-  font-weight: 700
+  font-weight: 600
   font-size: 14px
   line-height: 24px
   display: flex
   align-items: center
   justify-content: center
   padding: 23px
-  color: #667080
+  color: $pale-sky
   max-width: 116px
   width: 100%
   text-align: center
   white-space: nowrap
+  margin-top: 3.5px
+  margin-bottom: 3.5px
+  margin-right: 3.5px
 
 .infoRow
   background-color: white
   display: flex
   flex-direction: row
   width: 100%
-  box-shadow: 0px 4px 4px -2px rgba(102, 112, 128, 0.16)
+  box-shadow: 0px 4px 4px -2px rgba($dark-gray, .3)
   border-radius: 4px
   justify-content: space-between
 
