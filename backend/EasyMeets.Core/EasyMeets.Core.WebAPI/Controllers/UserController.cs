@@ -17,8 +17,8 @@ namespace EasyMeets.Core.WebAPI.Controllers
         [HttpGet("current/{id}")]
         public async Task<ActionResult<UserDto>> GetCurrentUserByIdAsync(int id)
         {
-            var availabilitySlots = await _userService.GetCurrentUserAsync(id);
-            return Ok(availabilitySlots);
+            var user = await _userService.GetCurrentUserAsync(id);
+            return Ok(user);
         }
 
         [HttpGet("{id}")]
