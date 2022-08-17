@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
 import { IUser } from '@core/models/IUser';
 import { UploadImageDTO } from '@core/models/UploadImageDTO';
+import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { UploadImageService } from '@core/services/upload-image.service';
 import { UserService } from '@core/services/user.service';
@@ -24,9 +25,15 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         private userService: UserService,
         public notificationService: NotificationService,
         private uploadImageService: UploadImageService,
+        private confirmationWindowService: ConfirmationWindowService,
     ) {
         super();
+        this.clickConfirmEvent.subscribe(() => {
+            this.onClickConfirm();
+        });
     }
+
+    public clickConfirmEvent = new EventEmitter<void>();
 
     public imageUrl: string;
 
@@ -122,8 +129,18 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         this.countryCode = this.countryCodeValues[form.value.country];
     }
 
+    public onClickConfirm() {
+    }
+
     public loadImage({ files }: any) {
         const fileToUpload = <File>files[0];
+
+        if (fileToUpload.size / 1000000 > 5) {
+            this.confirmCancelDialog();
+
+            return;
+        }
+
         const formData = new FormData();
 
         formData.append('image', fileToUpload, fileToUpload.name);
@@ -138,5 +155,16 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                 },
                 (error) => { console.log(error); },
             );
+    }
+
+    public confirmCancelDialog(): void {
+        this.confirmationWindowService
+            .openConfirmDialog({
+                buttonsOptions: [{
+                    class: 'confirm-accept-button',
+                    label: 'Accept',
+                    onClickEvent: this.clickConfirmEvent }],
+                title: 'Oops...',
+                message: 'Image can\'t be heavier than 5MB!' });
     }
 }
