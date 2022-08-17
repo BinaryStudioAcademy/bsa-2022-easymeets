@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
 import { getExternalBookingTimeSlotsItems } from '@core/helpers/external-booking-time-slots-helper';
 import { IDayTimeSlot } from '@core/models/IDayTimeSlot';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
@@ -18,13 +17,15 @@ export class ExternalBookingChooseTimeComponent {
 
     public daysWithTimeRange: IDayTimeSlot[] = getExternalBookingTimeSlotsItems();
 
-    constructor(
-        public spinnerService: SpinnerService,
-        private availabilitySlotService: AvailabilitySlotService,
-        private router: Router,
-    ) {
+    public selectedMeetingDuration: number = 60;
+
+    constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {
         this.availabilitySlotService.getUserPersonalAndTeamSlots(this.selectedUserId).subscribe((slots) => {
             this.selectedUserAvailabilitySlots = slots;
         });
+    }
+
+    counter(i: number) {
+        return new Array(i);
     }
 }

@@ -1,24 +1,22 @@
 <h1>Please, choose time</h1>
 <div class="grid">
-    <ng-template ngFor let-item [ngForOf]="daysWithTimeRange">
-        <span>
-            <strong>{{ item.dayOfWeek }}</strong>
-        </span>
-    </ng-template>
-
-    <span>0</span>
-    <span>AaronKris</span>
-    <span>Philippines</span>
-    <span>1991-05-23T14:19:51</span>
-    <span>Ophelia_Mitchell@karley.name</span>
-    <span>1</span>
-    <span>SimeonMcLaughlin</span>
-    <span>Singapore</span>
-    <span>2012-03-07T00:08:36</span>
-    <span>Sabrina_Barton@torey.net</span>
-    <span>2</span>
-    <span>Kelsie Shanahan</span>
-    <span>Brazil</span>
-    <span>1985-03-10T20:13:04</span>
-    <span>Karianne@salvatore.biz</span>
+    <span *ngFor="let day of daysWithTimeRange">
+        <strong>{{ day.dayOfWeek }}</strong>
+    </span>
+    <ng-container *ngFor="let in of counter(20); let i = index">
+        <ng-container *ngFor="let day of daysWithTimeRange">
+            <ng-container
+                *ngIf="
+                    day.startTime.getTime() + selectedMeetingDuration * i * 60000 <= day.finishTime.getTime();
+                    else defaultTimeSlot
+                ">
+                <span>
+                    {{ day.startTime.getTime() + selectedMeetingDuration * i * 60000 | date: 'HH:mm' }}
+                </span>
+            </ng-container>
+            <ng-template #defaultTimeSlot>
+                <span> Empty</span>
+            </ng-template>
+        </ng-container>
+    </ng-container>
 </div>
