@@ -12,6 +12,10 @@ export class ScheduleComponent implements OnInit {
 
     @Output() public itemsChange: EventEmitter<IScheduleItem[]> = new EventEmitter<IScheduleItem[]>();
 
+    public displayDays: string[] = ['Sun', 'Mon', 'Tue', 'Wen', 'Thu', 'Fri', 'Sat'];
+
+    public timeZones: string[] = ['Eastern Europe (+3:00 GMT)', 'British summer time (+1:00 GMT)'];
+
     ngOnInit(): void {
         if (this.items === undefined) {
             this.items = getScheduleItems();

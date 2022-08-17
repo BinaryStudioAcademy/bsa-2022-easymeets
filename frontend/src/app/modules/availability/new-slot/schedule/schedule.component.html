@@ -1,1 +1,13 @@
-<p>schedule works!</p>
+<div class="container">
+    <div class="schedule-container">
+        <div class="schedule-select-container">
+            <p class="input-description">Schedule</p>
+            <div class="input">
+                <select [(ngModel)]="timeZones">
+                    <option *ngFor="let timeZone of timeZones" [value]="timeZone">{{timeZone}}</option>
+                </select>
+            </div>
+        </div>
+        <app-schedule-list-item *ngFor="let item of items; index as i" [(item)]="items[i]" [displayDay]="displayDays[i]"></app-schedule-list-item>
+    </div>
+</div>
