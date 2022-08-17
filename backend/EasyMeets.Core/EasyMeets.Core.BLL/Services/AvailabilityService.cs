@@ -5,7 +5,6 @@ using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.Common.DTO.Availability.UpdateAvailability;
-using EasyMeets.Core.Common.DTO.Location;
 using EasyMeets.Core.DAL.Entities;
 using EasyMeets.Core.Common.Enums;
 
@@ -77,7 +76,6 @@ namespace EasyMeets.Core.BLL.Services
         {
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
-                .Include(slot => slot.Location)
                 .FirstOrDefaultAsync(slot => slot.Id == id);
             if (availabilitySlot is null)
             {
@@ -91,20 +89,14 @@ namespace EasyMeets.Core.BLL.Services
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
                 .FirstOrDefaultAsync(slot => slot.Id == id);
+
+            _mapper.Map(updateAvailabilityDto, availabilitySlot);
+            
             if (availabilitySlot is null)
             {
                 throw new KeyNotFoundException("Availability slot doesn't exist");
             }
-            
-            _mapper.Map(updateAvailabilityDto, availabilitySlot);
 
-            var locationToAdd = await _context.Locations.FirstOrDefaultAsync(location => 
-                location.Name == updateAvailabilityDto.GeneralDetailsUpdate.MeetingLocation);
-            if (locationToAdd is not null)
-            {
-                availabilitySlot.LocationId = locationToAdd.Id;
-            }
-            
             if (updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is not null)
             {
                 _mapper.Map(updateAvailabilityDto, availabilitySlot.AdvancedSlotSettings);
@@ -120,7 +112,9 @@ namespace EasyMeets.Core.BLL.Services
             {
                 _context.Remove(availabilitySlot.AdvancedSlotSettings);
             }
-
+            
+            availabilitySlot.LocationType = updateAvailabilityDto.GeneralDetailsUpdate.LocationType;
+            
             await _context.SaveChangesAsync();
             return _mapper.Map<AvailabilitySlotDto>(await _context.AvailabilitySlots.FirstOrDefaultAsync(slot => slot.Id == id));
         }
@@ -131,11 +125,6 @@ namespace EasyMeets.Core.BLL.Services
             _context.Remove(slot);
 
             await _context.SaveChangesAsync();
-        }
-
-        public List<LocationDto> GetLocations()
-        {
-            return _mapper.Map<List<LocationDto>>(_context.Locations);
         }
     }
 }
