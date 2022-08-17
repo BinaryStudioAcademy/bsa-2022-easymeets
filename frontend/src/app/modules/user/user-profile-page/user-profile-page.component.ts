@@ -2,7 +2,6 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
 import { IUser } from '@core/models/IUser';
-import { UploadImageDTO } from '@core/models/UploadImageDTO';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { UploadImageService } from '@core/services/upload-image.service';
@@ -42,8 +41,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     public imageUrl?: string;
 
     public imageFile: File;
-
-    public uploadImageDto: UploadImageDTO;
 
     public user: IUser;
 
@@ -91,7 +88,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             .subscribe((user) => {
                 // eslint-disable-next-line no-debugger
                 debugger;
-
                 this.user = user;
                 this.userForm.patchValue({
                     userName: user.userName,
