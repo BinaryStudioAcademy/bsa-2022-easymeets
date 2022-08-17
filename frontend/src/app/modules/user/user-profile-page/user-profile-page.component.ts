@@ -39,7 +39,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public clickErrorEvent = new EventEmitter<void>();
 
-    public imageUrl: string;
+    public imageUrl?: string;
 
     public imageFile: File;
 
@@ -89,6 +89,9 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         this.userService.getCurrentUserById(1)
             .pipe(this.untilThis)
             .subscribe((user) => {
+                // eslint-disable-next-line no-debugger
+                debugger;
+
                 this.user = user;
                 this.userForm.patchValue({
                     userName: user.userName,
@@ -98,7 +101,9 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                     timeFormat: user.timeFormat,
                     language: user.language,
                     timeZone: user.timeZone,
+                    image: user.image,
                 });
+                this.imageUrl = user.image;
                 this.changeCountryCode(this.userForm);
             });
     }
