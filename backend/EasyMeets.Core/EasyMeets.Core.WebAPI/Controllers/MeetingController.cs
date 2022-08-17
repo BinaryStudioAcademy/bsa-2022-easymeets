@@ -1,5 +1,5 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
-using EasyMeets.Core.DAL.Entities;
+using EasyMeets.Core.Common.DTO.Meeting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,11 +18,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Meeting>> GetAllMeetingsAsync()
-        {
-            var samples = await _meetingService.GetMeetingsAsync();
+        public async Task<List<MeetingBookingsDTO>> GetAllMeetingsAsync() => await _meetingService.GetMeetingsForBookingsAsync();
 
-            return samples;
-        }
     }
 }
