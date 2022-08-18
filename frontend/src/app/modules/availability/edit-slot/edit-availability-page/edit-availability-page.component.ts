@@ -50,6 +50,7 @@ export class EditAvailabilityPageComponent {
             generalDetailsUpdate: this.newAvailabilityComponent.generalComponent.settings,
             eventDetailsUpdate: this.newAvailabilityComponent.eventDetailComponent.settings,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
+            schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             isActive: this.newAvailabilityComponent.slot?.isEnabled ?? true,
         };
 
