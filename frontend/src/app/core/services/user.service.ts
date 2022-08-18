@@ -10,11 +10,10 @@ export class UserService {
     public routePrefix = '/user';
 
     // eslint-disable-next-line no-empty-function
-    constructor(private httpService: HttpInternalService) {
-    }
+    constructor(private httpService: HttpInternalService) {}
 
-    public getCurrentUserById(currentUserId: number) {
-        return this.httpService.getRequest<IUser>(`${this.routePrefix}/current/${currentUserId}`);
+    public getCurrentUser() {
+        return this.httpService.getRequest<IUser>(`${this.routePrefix}/current`);
     }
 
     public editUser(put: IUser) {

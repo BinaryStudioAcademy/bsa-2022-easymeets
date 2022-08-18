@@ -74,7 +74,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             image: new FormControl(),
         });
 
-        this.userService.getCurrentUserById(this.currentUserId)
+        this.userService
+            .getCurrentUser()
             .pipe(this.untilThis)
             .subscribe((user) => {
                 this.user = user;
