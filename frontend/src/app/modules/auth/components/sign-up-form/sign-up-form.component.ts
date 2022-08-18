@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { getLanguageEnum } from '@core/helpers/language-helper';
 import { AuthService } from '@core/services/auth.service';
 import { NotificationService } from '@core/services/notification.service';
 import { UserService } from '@core/services/user.service';
@@ -11,7 +12,6 @@ import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
 import firebase from 'firebase/compat';
 import { Subject, takeUntil } from 'rxjs';
-import { getLanguageEnum } from "@core/helpers/language-helper";
 
 @Component({
     selector: 'app-sign-up-form',
