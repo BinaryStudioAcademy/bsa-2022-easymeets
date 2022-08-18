@@ -11,5 +11,8 @@ public class ScheduleProfile : Profile
     {
         CreateMap<ScheduleDto, Schedule>();
         CreateMap<ScheduleItemDto, ScheduleItem>();
+        
+        CreateMap<Schedule, ScheduleDto>();
+        CreateMap<ScheduleItem, ScheduleItemDto>();
     }
 }
