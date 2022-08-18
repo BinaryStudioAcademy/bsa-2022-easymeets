@@ -1,4 +1,6 @@
-﻿namespace EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+﻿using EasyMeets.Core.Common.DTO.Availability.Schedule;
+
+namespace EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 
 public class NewAvailabilitySlotDto
 {
@@ -8,5 +10,5 @@ public class NewAvailabilitySlotDto
     public GeneralDetailsDto? GeneralDetails { get; set; }
     public EventDetailsDto? EventDetails { get; set; }
     public NewAdvancedSlotSettingsDto? AdvancedSettings { get; set; }
-    public NewScheduleDto Schedule { get; set; } = null!;
+    public ScheduleDto Schedule { get; set; } = null!;
 }

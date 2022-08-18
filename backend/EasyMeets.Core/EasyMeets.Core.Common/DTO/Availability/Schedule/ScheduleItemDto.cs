@@ -1,8 +1,8 @@
 ﻿using EasyMeets.Core.Common.Enums;
 
-namespace EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+namespace EasyMeets.Core.Common.DTO.Availability.Schedule;
 
-public class NewScheduleItemDto
+public class ScheduleItemDto
 {
     /// <summary>
     /// Represents time of the day
