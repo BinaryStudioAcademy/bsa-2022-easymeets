@@ -7,4 +7,5 @@ public class NewAvailabilitySlotDto
     public GeneralDetailsDto? GeneralDetails { get; set; }
     public EventDetailsDto? EventDetails { get; set; }
     public NewAdvancedSlotSettingsDto? AdvancedSettings { get; set; }
+    public NewScheduleDto Schedule { get; set; }
 }

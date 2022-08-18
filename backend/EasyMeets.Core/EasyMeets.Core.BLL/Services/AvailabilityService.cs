@@ -65,8 +65,24 @@ namespace EasyMeets.Core.BLL.Services
             {
                 var advancedSettings = _mapper.Map<AdvancedSlotSettings>(slotDto.AdvancedSettings);
                 advancedSettings.AvailabilitySlot = entity;
+                advancedSettings.StartDate = advancedSettings.StartDate == DateTimeOffset.MinValue
+                    ? DateTimeOffset.Now
+                    : advancedSettings.StartDate;
                 await _context.AdvancedSlotSettings.AddAsync(advancedSettings);
                 entity.AdvancedSlotSettings = advancedSettings;
+            }
+
+            var schedule = _mapper.Map<Schedule>(slotDto.Schedule);
+            schedule.AvailabilitySlot = entity;
+            _context.Schedules.Add(schedule);
+            entity.Schedule = schedule;
+            
+            foreach (var itemDto in slotDto.Schedule.Items)
+            {
+                var item = _mapper.Map<ScheduleItem>(itemDto);
+                item.Schedule = schedule;
+                _context.ScheduleItems.Add(item);
+                schedule.ScheduleItems.Add(item);
             }
 
             await _context.SaveChangesAsync();
