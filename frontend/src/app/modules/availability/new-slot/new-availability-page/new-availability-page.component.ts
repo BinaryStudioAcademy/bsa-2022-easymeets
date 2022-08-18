@@ -21,6 +21,8 @@ export class NewAvailabilityPageComponent {
         // eslint-disable-next-line no-empty-function
     ) { }
 
+    public currentUserId: number = 2;
+
     private unsubscribe$ = new Subject<void>();
 
     @ViewChild(NewAvailabilityComponent) newAvailabilityComponent: NewAvailabilityComponent;
@@ -78,6 +80,7 @@ export class NewAvailabilityPageComponent {
                 timeZoneVisibility: eventDetails.zoneChoice,
             },
             advancedSettings,
+            createdBy: this.currentUserId,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             teamId: 1,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
