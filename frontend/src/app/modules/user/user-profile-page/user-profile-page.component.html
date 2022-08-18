@@ -4,7 +4,7 @@
         <div class="item">
             <div class="user-avatar-block">
                 <img mat-card-image src="{{ imageUrl }}" class="user-avatar">
-                <input hidden #file accept="image/png,.gif,.jpg" type="file" (change)="loadImage($event)" />
+                <input enctype="multipart/form-data" method="put" hidden #file accept="image/png,.gif,.jpg" type="file" (change)="loadImage($event)" />
                 <button type="button" class="upload-picture-button"  mat-flat-button (click)="file.click()">Upload Picture</button>
             </div>
         </div>

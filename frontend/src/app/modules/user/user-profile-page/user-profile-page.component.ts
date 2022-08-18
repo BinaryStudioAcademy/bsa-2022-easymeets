@@ -33,6 +33,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public imageUrl?: string;
 
+    public currentUserId = 2;
+
     public user: IUser;
 
     public userForm: FormGroup;
@@ -75,7 +77,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             image: new FormControl(),
         });
 
-        this.userService.getCurrentUserById(2)
+        this.userService.getCurrentUserById(this.currentUserId)
             .pipe(this.untilThis)
             .subscribe((user) => {
                 this.user = user;
@@ -133,13 +135,12 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
             return;
         }
-
         const formData = new FormData();
 
-        formData.append('image', fileToUpload, fileToUpload.name);
+        formData.append('file', fileToUpload, fileToUpload.name);
 
         this.uploadImageService
-            .uploadImage(formData)
+            .uploadImage(formData, this.currentUserId)
             .pipe(this.untilThis)
             .subscribe(
                 (resp: any) => {

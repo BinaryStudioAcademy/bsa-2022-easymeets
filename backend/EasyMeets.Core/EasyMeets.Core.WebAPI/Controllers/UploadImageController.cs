@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UploadImageController : ControllerBase
@@ -16,15 +16,12 @@ namespace EasyMeets.Core.WebAPI.Controllers
             _uploadFileService = uploadFileService;
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UploadImageAsync()
-        {
-            var formCollection = await Request.ReadFormAsync();
-            var file = formCollection.Files.First();
-            var fileName = Path.GetFileName(file.FileName);
+        [HttpPut ("{id}")] 
+        public async Task<IActionResult> UploadImageAsync(int id, [FromForm] IFormFile file)
+        {  
             try
             { 
-                var imageUrl = await _uploadFileService.UploadFileBlobAsync(file, fileName, 2); if (imageUrl is null)
+                var imageUrl = await _uploadFileService.UploadFileBlobAsync(file,  id); if (imageUrl is null)
                 {
                     return NotFound();
                 } 

@@ -13,7 +13,7 @@ export class UploadImageService {
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService) {}
 
-    public uploadImage(data: FormData): Observable<HttpResponse> {
-        return this.httpService.putRequest<HttpResponse>(`${this.routePrefix}`, data);
+    public uploadImage(data: FormData, userId: number): Observable<HttpResponse> {
+        return this.httpService.putRequest<HttpResponse>(`${this.routePrefix}/${userId}`, data);
     }
 }
