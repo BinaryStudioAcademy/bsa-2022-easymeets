@@ -2,6 +2,7 @@
 
 public class NewAvailabilitySlotDto
 {
+    public long CreatedBy { get; set; }
     public long TeamId { get; set; }
     public bool HasAdvancedSettings { get; set; }
     public GeneralDetailsDto? GeneralDetails { get; set; }
