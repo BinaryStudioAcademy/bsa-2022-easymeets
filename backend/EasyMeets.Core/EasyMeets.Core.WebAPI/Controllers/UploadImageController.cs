@@ -1,4 +1,6 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.BLL.Services;
+using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,18 +12,22 @@ namespace EasyMeets.Core.WebAPI.Controllers
     public class UploadImageController : ControllerBase
     {
         private readonly IUploadFileService _uploadFileService;
+        private readonly IUserService _userService;
 
-        public UploadImageController(IUploadFileService uploadFileService)
+        public UploadImageController(IUploadFileService uploadFileService, IUserService userService)
         {
             _uploadFileService = uploadFileService;
+            _userService = userService;
         }
 
-        [HttpPut ("{id}")] 
-        public async Task<IActionResult> UploadImageAsync(long id, [FromForm] IFormFile file)
+        [HttpPut] 
+        public async Task<IActionResult> UploadImageAsync([FromForm] IFormFile file)
         {  
             try
-            { 
-                var imageUrl = await _uploadFileService.UploadFileBlobAsync(file,  id); if (imageUrl is null)
+            {
+                var currentUserEmail = await _userService.GetCurrentUserEmail();
+                var user = await _userService.GetCurrentUserAsync(currentUserEmail);
+                var imageUrl = await _uploadFileService.UploadFileBlobAsync(file, user.Id); if (imageUrl is null)
                 {
                     return NotFound();
                 } 
