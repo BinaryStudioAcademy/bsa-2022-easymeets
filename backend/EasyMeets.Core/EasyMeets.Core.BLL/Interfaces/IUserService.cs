@@ -3,8 +3,7 @@ namespace EasyMeets.Core.BLL.Interfaces
 {
     public interface IUserService
     {
-        Task UpdateUserPreferences(UserDto userDto, string currentUserEmail);
-        Task<UserDto> GetCurrentUserAsync(int id);
+        Task UpdateUserPreferences(UserDto userDto, string currentUserEmail); 
         Task<UserDto> GetCurrentUserAsync(string currentUserEmail);
     }
 }
