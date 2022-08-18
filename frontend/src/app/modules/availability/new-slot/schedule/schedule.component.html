@@ -3,8 +3,8 @@
         <div class="schedule-select-container">
             <p>Schedule</p>
             <div class="input">
-                <select [(ngModel)]="selectedTimeZone" (change)="schedule.timeZone = timeZones.indexOf(selectedTimeZone)">
-                    <option *ngFor="let timeZone of timeZones" [value]="timeZone">{{timeZone}}</option>
+                <select [(ngModel)]="selectedTimeZone" (change)="changeTimeZone()">
+                    <option *ngFor="let timeZone of timeZones.values()" [value]="timeZone">{{timeZone}}</option>
                 </select>
             </div>
         </div>
