@@ -24,22 +24,6 @@ namespace EasyMeets.Core.BLL.Services
             return currentUserDto;
         }
 
-        public async Task<UserDto?> GetUserPreferences(long userId, string currentUserEmail)
-        {
-            var user = await GetUserById(userId);
-            
-            if (user.Email != currentUserEmail)
-            {
-                throw new ArgumentException("You don't have access to data of other users");
-            }
-            
-            if (user is null)
-            {
-                throw new KeyNotFoundException("User doesn't exist");
-            }
-            return _mapper.Map<UserDto>(user);
-        }
-
         public async Task UpdateUserPreferences(UserDto userDto, string currentUserEmail)
         {
             var userEntity = await GetUserById(userDto.Id);

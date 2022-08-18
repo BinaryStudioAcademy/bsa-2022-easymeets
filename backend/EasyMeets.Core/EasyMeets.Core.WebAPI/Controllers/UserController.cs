@@ -26,17 +26,6 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok(availabilitySlots);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserDto>> GetPreferencesById(long id)
-        {
-            var user = await _userService.GetUserPreferences(id, GetCurrentUserEmail());
-            if (user is null)
-            {
-                return NotFound();
-            }
-            return Ok(user);
-        }
-
         [HttpPut]
         public async Task<IActionResult> UpdatePreferences([FromBody] UserDto user)
         {
@@ -46,7 +35,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
 
         private string GetCurrentUserEmail()
         {
-            var claimsList=  _httpContextAccessor.HttpContext!.User.Claims.ToList();
+            var claimsList = _httpContextAccessor.HttpContext!.User.Claims.ToList();
             var email = claimsList.Find(el => el.Type == ClaimTypes.Email);
             return email!.Value;
         }
