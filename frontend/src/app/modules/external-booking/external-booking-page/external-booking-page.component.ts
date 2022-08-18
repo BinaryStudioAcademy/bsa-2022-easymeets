@@ -11,11 +11,9 @@ import { UserService } from '@core/services/user.service';
 export class ExternalBookingPageComponent {
     public selectedUser: IUser;
 
-    public selectedUserId: number = 10;
-
     // eslint-disable-next-line no-empty-function
     constructor(public spinnerService: SpinnerService, private userService: UserService) {
-        this.userService.getCurrentUserById(this.selectedUserId).subscribe((user) => {
+        this.userService.getCurrentUser().subscribe((user) => {
             this.selectedUser = user;
         });
     }
