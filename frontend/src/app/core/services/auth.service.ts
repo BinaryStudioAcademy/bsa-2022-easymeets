@@ -64,7 +64,7 @@ export class AuthService {
         }
         const userData = JSON.parse(currentUser!) as User;
 
-        return userData !== null;
+        return userData?.emailVerified;
     }
 
     public getCurrentToken() {
