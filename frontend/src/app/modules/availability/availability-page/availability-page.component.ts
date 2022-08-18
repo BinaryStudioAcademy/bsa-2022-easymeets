@@ -19,8 +19,6 @@ export class AvailabilityPageComponent extends BaseComponent {
 
     public userSlots: IAvailabilitySlot[];
 
-    public currentUserId: number = 2;
-
     constructor(
         private availabilitySlotService: AvailabilitySlotService,
         private userService: UserService,
@@ -43,7 +41,7 @@ export class AvailabilityPageComponent extends BaseComponent {
     public getCurrentUser() {
         this.spinnerService.show();
         this.userService
-            .getCurrentUserById(this.currentUserId)
+            .getCurrentUser()
             .pipe(this.untilThis)
             .subscribe((resp) => {
                 if (resp) {
