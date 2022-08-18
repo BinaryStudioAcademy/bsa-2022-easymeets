@@ -4,12 +4,18 @@ using EasyMeets.Core.Common.DTO.User;
 using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.DAL.Entities;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace EasyMeets.Core.BLL.Services
 {
     public class UserService : BaseService, IUserService
     {
-        public UserService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) {}
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
 
         public async Task<UserDto> GetCurrentUserAsync(string currentUserEmail)
         {
@@ -28,12 +34,12 @@ namespace EasyMeets.Core.BLL.Services
         {
             var userEntity = await GetUserById(userDto.Id);
             userEntity = _mapper.Map(userDto, userEntity);
-            
+
             if (userEntity.Email != currentUserEmail)
             {
                 throw new ArgumentException("You don't have access to data of other users");
             }
-            
+
             _context.Users.Update(userEntity);
             await _context.SaveChangesAsync();
         }
@@ -50,6 +56,13 @@ namespace EasyMeets.Core.BLL.Services
             await _context.SaveChangesAsync();
             
             return _mapper.Map<User, UserDto>(newUser);
+        }
+
+        public string GetCurrentUserEmail()
+        {
+            var claimsList = _httpContextAccessor.HttpContext!.User.Claims.ToList();
+            var email = claimsList.Find(el => el.Type == ClaimTypes.Email);
+            return email!.Value;
         }
     }
 }

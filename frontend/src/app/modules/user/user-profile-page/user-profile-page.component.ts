@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
 import { IUser } from '@core/models/IUser';
+import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
+import { UploadImageService } from '@core/services/upload-image.service';
 import { UserService } from '@core/services/user.service';
 import { Country } from '@shared/enums/country';
 import { CountryCode } from '@shared/enums/countryCode';
@@ -16,10 +18,22 @@ import { TimeZone } from '@shared/enums/timeZone';
     templateUrl: './user-profile-page.component.html',
     styleUrls: ['./user-profile-page.component.sass'],
 })
+
 export class UserProfilePageComponent extends BaseComponent implements OnInit {
-    constructor(private userService: UserService, public notificationService: NotificationService) {
+    constructor(
+        private userService: UserService,
+        public notificationService: NotificationService,
+        private uploadImageService: UploadImageService,
+        private confirmationWindowService: ConfirmationWindowService,
+    ) {
         super();
     }
+
+    public clickEvent = new EventEmitter<void>();
+
+    public imageUrl?: string;
+
+    public currentUserId = 2;
 
     public user: IUser;
 
@@ -43,7 +57,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(/^[іІїЇa-zA-Z\dа-яА-Я- ]*$/),
+        Validators.pattern(/^[іІїЇa-zA-Z\dа-яА-Я-]+(\s|)[іІїЇa-zA-Z\dа-яА-Я-]*$/),
     ]);
 
     public phoneControl: FormControl = new FormControl('', [Validators.required, Validators.minLength(10)]);
@@ -57,10 +71,10 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             timeFormat: new FormControl(),
             language: new FormControl(),
             timeZone: new FormControl(),
+            image: new FormControl(),
         });
 
-        this.userService
-            .getCurrentUserById(1)
+        this.userService.getCurrentUserById(this.currentUserId)
             .pipe(this.untilThis)
             .subscribe((user) => {
                 this.user = user;
@@ -72,7 +86,9 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                     timeFormat: user.timeFormat,
                     language: user.language,
                     timeZone: user.timeZone,
+                    image: user.image,
                 });
+                this.imageUrl = user.image;
                 this.changeCountryCode(this.userForm);
             });
     }
@@ -106,5 +122,42 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public changeCountryCode(form: FormGroup) {
         this.countryCode = this.countryCodeValues[form.value.country];
+    }
+
+    public loadImage(event: Event) {
+        const target = event.target as HTMLInputElement;
+        const fileToUpload: File = (target.files as FileList)[0];
+
+        if (fileToUpload.size / 1000000 > 5) {
+            this.confirmCancelDialog();
+
+            return;
+        }
+        const formData = new FormData();
+
+        formData.append('file', fileToUpload, fileToUpload.name);
+
+        this.uploadImageService
+            .uploadImage(formData)
+            .pipe(this.untilThis)
+            .subscribe(
+                (resp: any) => {
+                    this.imageUrl = resp.imagePath;
+                },
+                () => {
+                    this.notificationService.showErrorMessage('Something went wrong. Picture was not uploaded.');
+                },
+            );
+    }
+
+    public confirmCancelDialog(): void {
+        this.confirmationWindowService
+            .openConfirmDialog({
+                buttonsOptions: [{
+                    class: 'confirm-accept-button',
+                    label: 'Ok',
+                    onClickEvent: this.clickEvent }],
+                title: 'Oops...',
+                message: 'Image can\'t be heavier than 5MB!' });
     }
 }
