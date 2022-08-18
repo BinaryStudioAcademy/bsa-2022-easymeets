@@ -1,8 +1,8 @@
 export enum Country {
-    UnitedStates = 'UnitedStates',
-    Ukraine = 'Ukraine',
-    Poland = 'Poland',
-    Sweden = 'Sweden',
-    Italy = 'Italy',
-    Uganda = 'Uganda',
+    UnitedStates,
+    Ukraine,
+    Poland,
+    Sweden,
+    Italy,
+    Uganda,
 }

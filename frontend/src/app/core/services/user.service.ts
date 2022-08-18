@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { INewUser } from '@core/models/INewUser';
 import { IUser } from '@core/models/IUser';
 
 import { HttpInternalService } from './http-internal.service';
@@ -10,14 +11,17 @@ export class UserService {
     public routePrefix = '/user';
 
     // eslint-disable-next-line no-empty-function
-    constructor(private httpService: HttpInternalService) {
-    }
+    constructor(private httpService: HttpInternalService) {}
 
-    public getCurrentUserById(currentUserId: number) {
-        return this.httpService.getRequest<IUser>(`${this.routePrefix}/current/${currentUserId}`);
+    public getCurrentUser() {
+        return this.httpService.getRequest<IUser>(`${this.routePrefix}/current`);
     }
 
     public editUser(put: IUser) {
         return this.httpService.putRequest<IUser>(`${this.routePrefix}`, put);
+    }
+
+    public createUser(user: INewUser) {
+        return this.httpService.postRequest<IUser>(`${this.routePrefix}`, user);
     }
 }
