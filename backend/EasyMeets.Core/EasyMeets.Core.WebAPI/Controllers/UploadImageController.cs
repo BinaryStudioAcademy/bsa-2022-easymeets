@@ -25,7 +25,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         {  
             try
             {
-                var currentUserEmail = await _userService.GetCurrentUserEmail();
+                var currentUserEmail = _userService.GetCurrentUserEmail();
                 var user = await _userService.GetCurrentUserAsync(currentUserEmail);
                 var imageUrl = await _uploadFileService.UploadFileBlobAsync(file, user.Id); if (imageUrl is null)
                 {
