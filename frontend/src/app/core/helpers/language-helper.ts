@@ -1,6 +1,6 @@
 import { Language } from '@shared/enums/language';
 
-export const getLanguagesEnumsWithText = (): { enum: Language, text: string }[] => [
+export const getLanguagesEnumsWithText = () => [
     {
         text: 'en',
         enum: Language.Eng,
