@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <button mat-button [matMenuTriggerFor]="menuTeam">
+    <button class="menu-team-btn" mat-button [matMenuTriggerFor]="menuTeam">
         <label>Binary Team</label>
         <i class="fa-solid fa-caret-down"></i>
     </button>
@@ -50,7 +50,7 @@
             <i class="fa-solid fa-people-group"></i>
             <span>Team</span>
         </button>
-        <button mat-menu-item routerLink="#">
+        <button mat-menu-item (click)="logout()">
             <i class="fa-solid fa-right-from-bracket"></i>
             <span>Logout</span>
         </button>
