@@ -84,14 +84,14 @@ namespace EasyMeets.Core.BLL.Services
 
             var schedule = _mapper.Map<Schedule>(slotDto.Schedule);
             schedule.AvailabilitySlot = entity;
-            _context.Schedule.Add(schedule);
+            _context.Schedules.Add(schedule);
             entity.Schedule = schedule;
             
             foreach (var itemDto in slotDto.Schedule.ScheduleItems)
             {
                 var item = _mapper.Map<ScheduleItem>(itemDto);
                 item.Schedule = schedule;
-                _context.ScheduleItem.Add(item);
+                _context.ScheduleItems.Add(item);
                 schedule.ScheduleItems.Add(item);
             }
 

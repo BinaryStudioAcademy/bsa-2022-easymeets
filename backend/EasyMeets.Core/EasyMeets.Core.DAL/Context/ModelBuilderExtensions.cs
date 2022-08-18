@@ -268,7 +268,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(s => s.Id, _ => id++)
                 .RuleFor(s => s.AvailabilitySlotId, _ => slotId++)
                 .RuleFor(s => s.IsDeleted, _ => false)
-                .RuleFor(s => s.TimeZone, f => f.Random.Int(-720, 720))
+                .RuleFor(s => s.TimeZone, f => f.Random.Int(-11, 11) * 60)
                 .RuleFor(s => s.WithTeamMembers, f => f.Random.Bool())
                 .Generate(count);
         }
