@@ -10,6 +10,16 @@ namespace EasyMeets.Core.BLL.Services
     {
         public MeetingService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) { }
 
-        public async Task<List<MeetingBookingsDTO>> GetMeetingsForBookingsAsync() => _mapper.Map<List<MeetingBookingsDTO>>(await _context.Meetings.Include(meeting => meeting.TeamMeetings).ToListAsync());
+        public async Task<List<MeetingBookingsDTO>> GetMeetingsForBookingsAsync()
+        {
+            var meetings = await _context.Meetings.
+            Include(meeting => meeting.TeamMeetings).
+            ThenInclude(teammeat => teammeat.User).
+            ToListAsync();
+
+            var mapped = _mapper.Map<List<MeetingBookingsDTO>>(meetings);
+
+            return mapped;
+        }
     }
 }

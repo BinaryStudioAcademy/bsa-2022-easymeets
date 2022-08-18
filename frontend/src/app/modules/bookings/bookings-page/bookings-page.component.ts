@@ -22,6 +22,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             .pipe(this.untilThis)
             .subscribe((resp: IMeetingBooking[]) => {
                 this.meetings = resp;
+                console.log(this.meetings);
             });
     }
 }

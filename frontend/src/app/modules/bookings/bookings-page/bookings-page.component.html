@@ -1,31 +1,39 @@
 <app-header-item></app-header-item>
 <div class="container">
-    <div class="infoRow">
-        <div class="item" style="justify-content: space-between">
-            <div style="display: flex; flex-direction: column; gap: 10px">
-                <span class="timeTitle">16:00 - 17:00</span>
-                <p class="itemText">Meeting With Designers<br />30 Min, Heorhii Matviichuk</p>
+    <div *ngFor="let item of meetings">
+        <div class="infoRow">
+            <div class="item" style="justify-content: space-between">
+                <div style="display: flex; flex-direction: column; gap: 10px">
+                    <span class="timeTitle">{{ item.meetingTime }}</span>
+                    <p class="itemText">
+                        {{ item.meetingTitle }}<br />{{ item.meetingDuration }}, {{ item.membersTitle }}
+                    </p>
+                </div>
+
+                <div class="buttonRow">
+                    <button class="buttonZoom">Open Zoom Link</button>
+                    <div style="display: flex; flex-direction: row; gap: 5px; cursor: pointer">
+                        <div style="border: 2px solid #bec5d0; border-radius: 50%"></div>
+                        <div style="border: 2px solid #bec5d0; border-radius: 50%"></div>
+                        <div style="border: 2px solid #bec5d0; border-radius: 50%"></div>
+                    </div>
+                </div>
             </div>
 
-            <div class="buttonRow">
-                <button class="buttonZoom">Open Zoom Link</button>
-                <div style="display: flex; flex-direction: row; gap: 5px; cursor: pointer">
-                    <div style="border: 2px solid #bec5d0; border-radius: 50%"></div>
-                    <div style="border: 2px solid #bec5d0; border-radius: 50%"></div>
-                    <div style="border: 2px solid #bec5d0; border-radius: 50%"></div>
+            <div *ngFor="let user of item.meetingMembers">
+                <div class="listScrollBlock">
+                    <div class="item" style="height: 180px; border: none">
+                        <span class="timeTitle">{{ user.name }}</span>
+                        <p class="itemText">{{ user.email }}</p>
+                        <p class="itemText">{{ user.timeZone }}</p>
+                        <p class="listItemAnswers">Answers: 2/3</p>
+                        <p class="itemText">Booked: 19:21, 13 Aug, 2022</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="listScrollBlock">
-            <div class="item" style="height: 180px; border: none">
-                <span class="timeTitle">Jack White</span>
-                <p class="itemText">adsasada@asdas.com</p>
-                <p class="itemText">Eastern Europe (GMT -0:00)</p>
-                <p class="listItemAnswers">Answers: 2/3</p>
-                <p class="itemText">Booked: 19:21, 13 Aug, 2022</p>
-            </div>
-        </div>
     </div>
+
     <div class="infoRow">
         <div class="item" style="justify-content: space-between">
             <div style="display: flex; flex-direction: column; gap: 10px">
@@ -73,57 +81,5 @@
             </div>
         </div>
         <div class="moreBlock">21+ Booker</div>
-    </div>
-    <div class="infoRow">
-        <div class="item" style="justify-content: space-between">
-            <div style="display: flex; flex-direction: column; gap: 10px">
-                <span class="timeTitle">16:00 - 17:00</span>
-                <p class="itemText">Meeting With Designers<br />30 Min, Heorhii Matviichuk</p>
-            </div>
-
-            <div class="buttonRow">
-                <button class="buttonZoom">Open Zoom Link</button>
-                <div style="display: flex; flex-direction: row; gap: 5px; cursor: pointer">
-                    <div style="border: 2px solid #bec5d0; border-radius: 50%"></div>
-                    <div style="border: 2px solid #bec5d0; border-radius: 50%"></div>
-                    <div style="border: 2px solid #bec5d0; border-radius: 50%"></div>
-                </div>
-            </div>
-        </div>
-        <div class="listScrollBlock">
-            <div class="item" style="height: 180px; border: none">
-                <span class="timeTitle">Jack White</span>
-                <p class="itemText">adsasada@asdas.com</p>
-                <p class="itemText">Eastern Europe (GMT -0:00)</p>
-                <p class="listItemAnswers">Answers: 2/3</p>
-                <p class="itemText">Booked: 19:21, 13 Aug, 2022</p>
-            </div>
-        </div>
-    </div>
-    <div class="infoRow">
-        <div class="item" style="justify-content: space-between">
-            <div style="display: flex; flex-direction: column; gap: 10px">
-                <span class="timeTitle">16:00 - 17:00</span>
-                <p class="itemText">Meeting With Designers<br />30 Min, Heorhii Matviichuk</p>
-            </div>
-
-            <div class="buttonRow">
-                <button class="buttonZoom">Open Zoom Link</button>
-                <div style="display: flex; flex-direction: row; gap: 5px; cursor: pointer">
-                    <div style="border: 2px solid #bec5d0; border-radius: 50%"></div>
-                    <div style="border: 2px solid #bec5d0; border-radius: 50%"></div>
-                    <div style="border: 2px solid #bec5d0; border-radius: 50%"></div>
-                </div>
-            </div>
-        </div>
-        <div class="listScrollBlock">
-            <div class="item" style="height: 180px; border: none">
-                <span class="timeTitle">Jack White</span>
-                <p class="itemText">adsasada@asdas.com</p>
-                <p class="itemText">Eastern Europe (GMT -0:00)</p>
-                <p class="listItemAnswers">Answers: 2/3</p>
-                <p class="itemText">Booked: 19:21, 13 Aug, 2022</p>
-            </div>
-        </div>
     </div>
 </div>
