@@ -11,21 +11,17 @@ public class TeamConfig : IEntityTypeConfiguration<Team>
         builder.Property(t => t.LogoPath)
             .IsRequired()
             .HasMaxLength(300);
-        
+
         builder.Property(t => t.Name)
             .IsRequired()
             .HasMaxLength(50);
-        
+
         builder.Property(t => t.PageLink)
             .IsRequired()
             .HasMaxLength(300);
-        
+
         builder.Property(t => t.Description)
             .IsRequired()
             .HasMaxLength(300);
-        
-        builder.Property(u => u.TimeZone)
-            .IsRequired()
-            .HasMaxLength(10);
     }
 }
