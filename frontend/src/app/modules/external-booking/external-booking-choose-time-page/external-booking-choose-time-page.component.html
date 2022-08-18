@@ -2,14 +2,14 @@
 <div class="settings">
     <div class="date-navigation">
         <h3><i class="fa-solid fa-calendar"></i> 31 Jul – 6 Jun 2022</h3>
-        <button mat-button><i class="fa-solid fa-calendar"></i></button>
-        <button mat-button><i class="fa-solid fa-calendar"></i></button>
+        <button class="btn left-btn" mat-button><i class="fa-solid fa-angle-left"></i></button>
+        <button class="btn right-btn" mat-button><i class="fa-solid fa-angle-right"></i></button>
     </div>
     <div class="timezone">
         <mat-form-field appearance="fill">
             <mat-label>Select Time Zone</mat-label>
             <mat-select>
-                <mat-option *ngFor="let zone of timeZone | keyvalue">
+                <mat-option value="zone.value" *ngFor="let zone of timeZone | keyvalue">
                     {{ zone.value }}
                 </mat-option>
             </mat-select>
