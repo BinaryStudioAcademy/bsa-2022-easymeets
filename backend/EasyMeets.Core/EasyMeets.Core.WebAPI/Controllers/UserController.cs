@@ -23,6 +23,13 @@ namespace EasyMeets.Core.WebAPI.Controllers
             var user = await _userService.GetCurrentUserAsync(email);
             return Ok(user);
         } 
+        
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult<UserDto>> CreateUserPreferences([FromBody] NewUserDto user)
+        {
+            return Ok(await _userService.CreateUserPreferences(user));
+        }
 
         [HttpPut]
         public async Task<IActionResult> UpdatePreferences([FromBody] UserDto user)
