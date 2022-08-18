@@ -1,6 +1,6 @@
-import {ITimeZone} from "@core/models/ITimeZone";
+import { ITimeZone } from '@core/models/ITimeZone';
 
-export const getPossibleTimeZones = () : ITimeZone[] => [
+export const getPossibleTimeZones = (): ITimeZone[] => [
     { value: -660, displayValue: 'GMT-11' },
     { value: -600, displayValue: 'GMT-10' },
     { value: -540, displayValue: 'GMT-9' },
