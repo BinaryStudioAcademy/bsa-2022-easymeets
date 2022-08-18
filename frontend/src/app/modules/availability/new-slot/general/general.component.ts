@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivityType } from '@core/enums/activity-type.enum';
 import { Color } from '@core/enums/color.enum';
+import { LocationTypeToLabelMapping } from '@core/helpers/location-type-label-mapping';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IGeneralAvailabilitySettings } from '@core/models/IGeneralAvailabilitySettings';
+import { LocationType } from '@core/models/locationType';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 
 @Component({
@@ -18,29 +20,29 @@ export class GeneralComponent implements OnInit {
             slotFrequency: this?.slot?.frequency ?? this.slotsFrequencies[0],
             hideFromCommon: this.slot ? !this.slot.isVisible : false,
             maxBookings: this.slot?.advancedSlotSettings?.maxNumberOfBookings ?? 1,
-            meetingName: this.slot?.name ?? this.meetingLocations[0],
+            meetingName: this.slot?.name ?? '',
             slotActivityValue: this.slot?.advancedSlotSettings?.days ?? 1,
-            meetingLocation: this.slot?.locationName ?? '',
+            meetingLocation: this.slot?.locationType ?? LocationType.Zoom,
             meetingPadding: this.slot?.advancedSlotSettings?.paddingMeeting ?? this.meetingPaddings[0],
             slotActivityOption: this.slot?.advancedSlotSettings?.activityType ?? this.slotActivityOptionsEnums[0],
-            minBookingMeetingDifference: this.slot?.advancedSlotSettings?.minBookingMeetingDifference
-                ?? this.minBookingMeetingDifferences[0],
+            minBookingMeetingDifference:
+                this.slot?.advancedSlotSettings?.minBookingMeetingDifference ?? this.minBookingMeetingDifferences[0],
             color: this.slot?.advancedSlotSettings?.color ?? Color.Azure,
         };
 
-        if (!this.slotSizes.some(f => f === this.settings.slotSize)) {
+        if (!this.slotSizes.some((f) => f === this.settings.slotSize)) {
             this.slotSizes.push(this.settings.slotSize);
         }
 
-        if (!this.slotsFrequencies.some(f => f === this.settings.slotFrequency)) {
+        if (!this.slotsFrequencies.some((f) => f === this.settings.slotFrequency)) {
             this.slotsFrequencies.push(this.settings.slotFrequency);
         }
 
-        if (!this.minBookingMeetingDifferences.some(f => f === this.settings.minBookingMeetingDifference)) {
+        if (!this.minBookingMeetingDifferences.some((f) => f === this.settings.minBookingMeetingDifference)) {
             this.minBookingMeetingDifferences.push(this.settings.minBookingMeetingDifference);
         }
 
-        if (!this.meetingPaddings.some(f => f === this.settings.meetingPadding)) {
+        if (!this.meetingPaddings.some((f) => f === this.settings.meetingPadding)) {
             this.meetingPaddings.push(this.settings.meetingPadding);
         }
         this.addAdvanced = Boolean(this.slot?.advancedSlotSettingsId);
@@ -54,20 +56,26 @@ export class GeneralComponent implements OnInit {
 
     public slotsFrequencies: number[] = [30, 60];
 
-    public meetingLocations: string[] = [];
+    public LocationTypeToLabelMapping = LocationTypeToLabelMapping;
+
+    public locationTypes: LocationType[] = [LocationType.Zoom, LocationType.GoogleMeet, LocationType.Office];
 
     public meetingPaddings: number[] = [15, 30];
 
     public slotActivityOptions: string[] = ['Days', 'Range', 'Indefinitely'];
 
-    public slotActivityOptionsEnums: ActivityType[] = [ActivityType.Days, ActivityType.Range, ActivityType.Indefinitely];
+    public slotActivityOptionsEnums: ActivityType[] = [
+        ActivityType.Days,
+        ActivityType.Range,
+        ActivityType.Indefinitely,
+    ];
 
     public minBookingMeetingDifferences: number[] = [2, 4];
 
     public addAdvanced: boolean = false;
 
     // eslint-disable-next-line no-empty-function
-    constructor(private http: AvailabilitySlotService) { }
+    constructor(private http: AvailabilitySlotService) {}
 
     ngOnInit(): void {
         this.settings = {
@@ -77,18 +85,12 @@ export class GeneralComponent implements OnInit {
             slotActivityValue: 1,
             slotSize: this.slotSizes[0],
             slotFrequency: this.slotsFrequencies[0],
-            meetingLocation: '',
+            meetingLocation: LocationType.Zoom,
             meetingPadding: this.meetingPaddings[0],
             slotActivityOption: this.slotActivityOptionsEnums[0],
             minBookingMeetingDifference: this.minBookingMeetingDifferences[0],
             color: Color.Azure,
         };
-
-        this.http.getLocations()
-            .subscribe(locations => {
-                this.meetingLocations = locations.map(location => location.name);
-                this.settings.meetingLocation = this.slot?.locationName ?? this.meetingLocations[0];
-            });
     }
 
     public colorInputs: { id: string; enumValue: Color }[] = [

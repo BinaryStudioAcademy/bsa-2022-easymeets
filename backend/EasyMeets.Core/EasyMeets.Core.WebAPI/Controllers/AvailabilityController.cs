@@ -2,14 +2,12 @@
 using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.Common.DTO.Availability.UpdateAvailability;
-using EasyMeets.Core.Common.DTO.Location;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
 {
-    //[Authorize]
-    //test
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class AvailabilityController : ControllerBase
@@ -52,13 +50,5 @@ namespace EasyMeets.Core.WebAPI.Controllers
             await _availabilityService.DeleteAvailabilitySlot(slotId);
             return NoContent();
         }
-
-        [HttpGet("locations")]
-        public ActionResult<LocationDto> GetLocations()
-        {
-            return Ok(_availabilityService.GetLocations());
-        }
-        
-            
     }
 }
