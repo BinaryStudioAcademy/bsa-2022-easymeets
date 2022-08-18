@@ -11,16 +11,16 @@ const routes: Routes = [
         path: '',
         component: AvailabilityPageComponent,
         canActivate: [AuthGuard],
-        children: [
-            {
-                path: 'new',
-                component: NewAvailabilityPageComponent,
-            },
-            {
-                path: 'edit/:id',
-                component: EditAvailabilityPageComponent,
-            },
-        ],
+    },
+    {
+        path: 'new',
+        component: NewAvailabilityPageComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'edit/:id',
+        component: EditAvailabilityPageComponent,
+        canActivate: [AuthGuard],
     },
 ];
 
