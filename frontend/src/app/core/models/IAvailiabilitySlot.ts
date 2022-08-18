@@ -1,6 +1,7 @@
 import { IAdvancedSlotSettings } from '@core/models/IAdvancedSlotSettings';
 
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
+import { LocationType } from './locationType';
 
 export interface IAvailabilitySlot {
     id: bigint;
@@ -10,7 +11,7 @@ export interface IAvailabilitySlot {
     link: string;
     isEnabled: boolean;
     isVisible: boolean;
-    locationName: string;
+    locationType: LocationType;
     members: IAvailabilitySlotMember[];
     advancedSlotSettingsId?: number;
     advancedSlotSettings?: IAdvancedSlotSettings;
