@@ -11,6 +11,7 @@ import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
 import firebase from 'firebase/compat';
 import { Subject, takeUntil } from 'rxjs';
+import { getLanguageEnum } from "@core/helpers/language-helper";
 
 @Component({
     selector: 'app-sign-up-form',
@@ -104,23 +105,7 @@ export class SignUpFormComponent {
                 ? navigator.languages[0]
                 : navigator.language;
 
-        let userLanguage: Language;
-
-        if (userLanguageBrowser.includes('en')) {
-            userLanguage = Language.Eng;
-        } else if (userLanguageBrowser.includes('uk')) {
-            userLanguage = Language.Ukr;
-        } else if (userLanguageBrowser.includes('pl')) {
-            userLanguage = Language.Pl;
-        } else if (userLanguageBrowser.includes('fr')) {
-            userLanguage = Language.Fr;
-        } else if (userLanguageBrowser.includes('it')) {
-            userLanguage = Language.It;
-        } else {
-            userLanguage = Language.Eng;
-        }
-
-        return userLanguage;
+        return getLanguageEnum(userLanguageBrowser);
     }
 
     private getTimeFormat() {
