@@ -1,7 +1,7 @@
 import { INewAdvancedSettings } from '@core/models/new-availability-slot/INewAdvancedSettings';
 import { INewEventDetails } from '@core/models/new-availability-slot/INewEventDetails';
 import { INewGeneralSettings } from '@core/models/new-availability-slot/INewGeneralSettings';
-import { ISchedule } from '@core/models/new-availability-slot/ISchedule';
+import { ISchedule } from '@core/models/schedule/ISchedule';
 
 export interface INewAvailability {
     createdBy: number;

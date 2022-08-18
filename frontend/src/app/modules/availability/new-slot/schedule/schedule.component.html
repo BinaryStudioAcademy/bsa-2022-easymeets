@@ -9,8 +9,8 @@
             </div>
         </div>
         <app-schedule-list-item
-            *ngFor="let item of schedule.items; index as i"
-            [(item)]="schedule.items[i]"
+            *ngFor="let item of schedule.scheduleItems; index as i"
+            [(item)]="schedule.scheduleItems[i]"
             [displayDay]="displayDays[i]">
         </app-schedule-list-item>
     </div>

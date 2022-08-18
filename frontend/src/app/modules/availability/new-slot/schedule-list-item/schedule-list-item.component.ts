@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IScheduleItem } from '@core/models/new-availability-slot/IScheduleItem';
+import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 
 @Component({
     selector: 'app-schedule-list-item',

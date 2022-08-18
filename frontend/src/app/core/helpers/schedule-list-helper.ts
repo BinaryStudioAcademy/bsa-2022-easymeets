@@ -1,4 +1,4 @@
-import { IScheduleItem } from '@core/models/new-availability-slot/IScheduleItem';
+import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 
 export const getScheduleItems = (): IScheduleItem[] => [
     {
