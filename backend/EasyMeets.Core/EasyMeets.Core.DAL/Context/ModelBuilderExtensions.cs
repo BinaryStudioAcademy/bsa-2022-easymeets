@@ -2,12 +2,14 @@
 using Bogus.Extensions;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Entities;
+using EasyMeets.Core.DAL.Entities.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyMeets.Core.DAL.Context
 {
     public static class ModelBuilderExtensions
     {
+        public static int SeedNumber = 123456;
         public static void Configure(this ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SampleConfig).Assembly);
@@ -22,6 +24,14 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamMemberConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamMemberMeetingConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfig).Assembly);
+
+            foreach (var type in modelBuilder.Model.GetEntityTypes())
+            {
+                if (typeof(ISoftDeletable).IsAssignableFrom(type.ClrType))
+                {
+                    modelBuilder.SetSoftDeleteFilter(type.ClrType);
+                }
+            }
         }
 
         public static void Seed(this ModelBuilder modelBuilder)
@@ -46,6 +56,7 @@ namespace EasyMeets.Core.DAL.Context
             var id = 1;
 
             return new Faker<User>()
+                .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.Name, f => f.Person.FullName)
                 .RuleFor(u => u.Email, f => f.Person.Email)
@@ -66,6 +77,7 @@ namespace EasyMeets.Core.DAL.Context
             var id = 1;
 
             return new Faker<Team>()
+                .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.Name, f => f.Company.CompanyName())
                 .RuleFor(u => u.PageLink, f => f.Internet.Url())
@@ -81,6 +93,7 @@ namespace EasyMeets.Core.DAL.Context
             var userId = 1;
             var teamId = 1;
             return new Faker<TeamMember>()
+                .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.UserId, f => userId++)
                 .RuleFor(u => u.TeamId, f => teamId++)
@@ -95,6 +108,7 @@ namespace EasyMeets.Core.DAL.Context
             var id = 1;
 
             return new Faker<Meeting>()
+                .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50))
                 .RuleFor(u => u.Description, f => f.Lorem.Text().ClampLength(1, 50))
@@ -115,6 +129,7 @@ namespace EasyMeets.Core.DAL.Context
             var settingsId = 1;
 
             return new Faker<AdvancedSlotSettings>()
+                .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AvailabilitySlotId, f => settingsId++)
                 .RuleFor(u => u.ActivityType, f => (ActivityType)f.Random.Int(1, 3))
@@ -135,6 +150,7 @@ namespace EasyMeets.Core.DAL.Context
             var authorId = 1;
 
             return new Faker<AvailabilitySlot>()
+                .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.TeamId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.CreatedBy, f => authorId++)
@@ -162,6 +178,7 @@ namespace EasyMeets.Core.DAL.Context
             var id = 1;
 
             return new Faker<Calendar>()
+                .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AddEventsFromTeamId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.UserId, f => f.Random.Int(1, 10))
@@ -178,6 +195,7 @@ namespace EasyMeets.Core.DAL.Context
             var id = 1;
 
             return new Faker<Question>()
+                .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AvailabilitySlotId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.Text, f => f.Lorem.Text().ClampLength(50, 300))
@@ -192,6 +210,7 @@ namespace EasyMeets.Core.DAL.Context
             var eventId = 1;
 
             return new Faker<TeamMemberMeeting>()
+                .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.MemberId, f => memberId++)
                 .RuleFor(u => u.EventId, f => eventId++)
@@ -205,6 +224,7 @@ namespace EasyMeets.Core.DAL.Context
             var id = 1;
 
             return new Faker<ExternalAttendee>()
+                .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AvailabilitySlotId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.Name, f => f.Person.FullName)
@@ -219,6 +239,7 @@ namespace EasyMeets.Core.DAL.Context
             var id = 1;
 
             return new Faker<ExternalAttendeeAvailability>()
+                .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.ExternalAttendeeId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.StartEvent, f => DateTime.Now.AddDays(1))
@@ -234,6 +255,7 @@ namespace EasyMeets.Core.DAL.Context
             var teamId = 1;
 
             return new Faker<CalendarVisibleForTeam>()
+                .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.CalendarId, f => calendarId++)
                 .RuleFor(u => u.TeamId, f => teamId++)
@@ -248,6 +270,7 @@ namespace EasyMeets.Core.DAL.Context
             var slotId = 1;
 
             return new Faker<UserSlot>()
+                .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.UserId, f => userId++)
                 .RuleFor(u => u.AvailabilitySlotId, f => slotId++)
