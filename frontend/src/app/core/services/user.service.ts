@@ -13,7 +13,7 @@ export class UserService {
     constructor(private httpService: HttpInternalService) {}
 
     public getCurrentUser() {
-        return this.httpService.getRequest<IUser>(`${this.routePrefix}/current/`);
+        return this.httpService.getRequest<IUser>(`${this.routePrefix}/current`);
     }
 
     public editUser(put: IUser) {
