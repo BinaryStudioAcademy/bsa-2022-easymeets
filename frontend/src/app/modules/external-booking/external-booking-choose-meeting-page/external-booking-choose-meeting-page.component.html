@@ -6,7 +6,7 @@
             [routerLink]="['/external-booking/choose-time']"
             (click)="addDurationAndLocation(item.size, item.locationType)">
             <mat-card-title>{{ item.name }}</mat-card-title>
-            <mat-card-subtitle>{{ item.size }} Min, {{ item.locationType }}</mat-card-subtitle>
+            <mat-card-subtitle>{{ item.size }} Min, {{ LocationType[item.locationType] }}</mat-card-subtitle>
         </mat-card>
     </ng-template>
 </div>

@@ -16,6 +16,8 @@ export class ExternalBookingChooseMeetingComponent implements OnInit {
 
     @Output() selectedDurationAndLocationEvent = new EventEmitter<{ duration: number; location: LocationType }>();
 
+    public LocationType = LocationType;
+
     // eslint-disable-next-line no-empty-function
     constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {}
 

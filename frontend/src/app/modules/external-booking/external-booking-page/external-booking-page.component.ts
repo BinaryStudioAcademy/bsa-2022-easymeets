@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LocationTypeToLabelMapping } from '@core/helpers/location-type-label-mapping';
 import { IExternalBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
 import { LocationType } from '@core/models/locationType';
 import { SpinnerService } from '@core/services/spinner.service';
@@ -26,8 +27,6 @@ export class ExternalBookingPageComponent implements OnInit {
 
     public addDurationAndLocationInMenu(data: any): void {
         this.menu.duration = data.duration;
-        this.menu.location = LocationType[LocationType.GoogleMeet.toString() as unknown as number];
-        console.log(data.duration);
-        console.log(data.location);
+        this.menu.location = LocationTypeToLabelMapping[LocationType.GoogleMeet];
     }
 }
