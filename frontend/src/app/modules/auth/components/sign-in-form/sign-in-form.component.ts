@@ -30,11 +30,10 @@ export class SignInFormComponent {
     constructor(private authService: AuthService, private router: Router) {}
 
     private setCredentialsIncorrect() {
-        this.signInForm.get('email')?.setErrors({ incorrectCredentials: true });
         this.signInForm.get('password')?.setErrors({ incorrectCredentials: true });
     }
 
-    private handleAuthenticationResponce(resp: any): void {
+    private handleAuthenticationResponse(resp: any): void {
         if (resp) {
             this.router.navigateByUrl('availability');
         } else {
@@ -46,11 +45,11 @@ export class SignInFormComponent {
         if (this.signInForm.valid) {
             this.authService
                 .signIn(this.signInForm.value.email!, this.signInForm.value.password!)
-                .then((resp) => this.handleAuthenticationResponce(resp));
+                .then((resp) => this.handleAuthenticationResponse(resp));
         }
     }
 
     public onSignInWithGoogle(): void {
-        this.authService.loginWithGoogle().then((resp) => this.handleAuthenticationResponce(resp));
+        this.authService.loginWithGoogle().then((resp) => this.handleAuthenticationResponse(resp));
     }
 }
