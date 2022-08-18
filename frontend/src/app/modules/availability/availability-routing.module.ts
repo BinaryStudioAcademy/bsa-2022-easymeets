@@ -1,31 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GeneralComponent } from '@modules/availability/new-slot/general/general.component';
+import { AuthGuard } from '@core/guards/auth.guard';
+import { EditAvailabilityPageComponent } from '@modules/availability/edit-slot/edit-availability-page/edit-availability-page.component';
+import { NewAvailabilityPageComponent } from '@modules/availability/new-slot/new-availability-page/new-availability-page.component';
 
 import { AvailabilityPageComponent } from './availability-page/availability-page.component';
-import { EventDetailComponent } from './new-slot/event-detail/event-detail.component';
-import { NewAvailabilityComponent } from './new-slot/new-availability/new-availability.component';
 
 const routes: Routes = [
     {
         path: '',
         component: AvailabilityPageComponent,
-    },
-    {
-        path: 'new',
-        component: NewAvailabilityComponent,
+        canActivate: [AuthGuard],
         children: [
             {
-                path: 'general',
-                component: GeneralComponent,
+                path: 'new',
+                component: NewAvailabilityPageComponent,
             },
             {
-                path: 'event-details',
-                component: EventDetailComponent,
-            },
-            {
-                path: '**',
-                redirectTo: 'general',
+                path: 'edit/:id',
+                component: EditAvailabilityPageComponent,
             },
         ],
     },

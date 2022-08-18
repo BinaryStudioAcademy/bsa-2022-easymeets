@@ -3,10 +3,17 @@
 .wrapper
     color: $dark-gray
     display: flex
+    align-items: center
+    justify-content: center
+    width: 100%
+
+.form-container
+    display: flex
     flex-direction: column
     align-items: center
     justify-content: center
-    width: 400px
+    max-width: 400px
+    width: 100%
     gap: 30px
     padding: 50px
 
@@ -15,18 +22,18 @@
     display: flex
     align-items: center
     justify-content: space-around
+    flex-wrap: wrap
+    gap: 30px
 
 input, .mat-select
-    margin-top: 5px
+    height: 30px
     color: $dark-gray
     font-size: 15px
-    padding: 0 10px
     background: $white
     border: 2px solid $light-gray
     border-radius: 4px
-    height: 30px
-    align-self: stretch
-    min-width: 100%
+    width: calc(100% - 9px)
+    padding-left: 5px
 
 .item
     width: 100%
@@ -36,10 +43,13 @@ input, .mat-select
         display: flex
         align-items: center
         justify-content: space-between
-        gap: 50px
+        flex-wrap: wrap
+        gap: 30px
 
-        input, .mat-select
-            width: 150px
+        .input-block-item
+            width: 45%
+            @media (max-width: 500px)
+                width: 100%
 
 .user-avatar
     background-color: $light-gray
@@ -47,11 +57,11 @@ input, .mat-select
     width: 100px
     height: 100px
 
-.upload-picture-button
+.white-button
     background-color: white
+    cursor: pointer
 
 .update-preferences-button
-    margin-top: 50px
     display: flex
     justify-content: center
 
@@ -62,8 +72,8 @@ button
     background-color: $light-gray
     border: 2px solid $light-gray
     border-radius: 5px
-    font-size: 20px
-    padding: 5px 15px
+    font-size: 15px
+    align-content: center
 
 label
     font-weight: 600
@@ -79,11 +89,11 @@ label
 
 input
     &:focus
-        &.ng-invalid
+        &.ng-invalid.ng-touched
             border-color: 2px solid $cinnabar
             outline: $cinnabar
 
-    &.ng-invalid
+    &.ng-invalid.ng-touched
         border: 2px solid $cinnabar
         outline: $cinnabar
 
@@ -93,6 +103,9 @@ input
             outline: $royal-blue
             border-color: $royal-blue
 
-
 small
     color: $cinnabar
+
+.mat-option
+    min-width: 100%
+    max-width: 100%
