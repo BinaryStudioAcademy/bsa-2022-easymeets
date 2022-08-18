@@ -1,8 +1,8 @@
 ﻿export interface ITeam {
     id: number
-    Image?: string
-    Name: string
-    PageLink: string
-    TimeZone: string
+    image?: string
+    name: string
+    pageLink: string
+    timeZone: string
     Description: string
 }
