@@ -804,7 +804,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 1L,
                             AvailabilitySlotId = 3L,
                             Email = "Donald_Hills@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 11, 23, 16, 14, 33, 297, DateTimeKind.Unspecified).AddTicks(2027), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 11, 23, 16, 39, 49, 478, DateTimeKind.Unspecified).AddTicks(485), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Donald Hills"
                         },
@@ -813,7 +813,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 2L,
                             AvailabilitySlotId = 7L,
                             Email = "Leonard62@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 17, 14, 23, 28, 332, DateTimeKind.Unspecified).AddTicks(6148), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 17, 14, 48, 44, 513, DateTimeKind.Unspecified).AddTicks(2177), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Leonard Effertz"
                         },
@@ -822,7 +822,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 3L,
                             AvailabilitySlotId = 6L,
                             Email = "Dewey_Schuppe@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 9, 9, 16, 52, 39, 151, DateTimeKind.Unspecified).AddTicks(5428), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 9, 9, 17, 17, 55, 331, DateTimeKind.Unspecified).AddTicks(9368), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Dewey Schuppe"
                         },
@@ -831,7 +831,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 4L,
                             AvailabilitySlotId = 6L,
                             Email = "Elijah.Blanda@gmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 2, 22, 47, 35, 102, DateTimeKind.Unspecified).AddTicks(3409), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 2, 23, 12, 51, 282, DateTimeKind.Unspecified).AddTicks(5355), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Elijah Blanda"
                         },
@@ -840,7 +840,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 5L,
                             AvailabilitySlotId = 5L,
                             Email = "Joel_Goldner@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 2, 22, 16, 19, 49, 783, DateTimeKind.Unspecified).AddTicks(7722), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 2, 22, 16, 45, 5, 963, DateTimeKind.Unspecified).AddTicks(7724), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Joel Goldner"
                         },
@@ -849,7 +849,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 6L,
                             AvailabilitySlotId = 4L,
                             Email = "Jaime.Veum2@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 20, 8, 37, 22, 427, DateTimeKind.Unspecified).AddTicks(9219), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 20, 9, 2, 38, 607, DateTimeKind.Unspecified).AddTicks(7559), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Jaime Veum"
                         },
@@ -858,7 +858,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 7L,
                             AvailabilitySlotId = 9L,
                             Email = "Patti.Feil@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 7, 6, 14, 21, 35, 845, DateTimeKind.Unspecified).AddTicks(4506), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 7, 6, 14, 46, 52, 25, DateTimeKind.Unspecified).AddTicks(887), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Patti Feil"
                         },
@@ -867,7 +867,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 8L,
                             AvailabilitySlotId = 2L,
                             Email = "Jesus9@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 1, 6, 10, 15, 18, 973, DateTimeKind.Unspecified).AddTicks(499), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 1, 6, 10, 40, 35, 152, DateTimeKind.Unspecified).AddTicks(5059), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Jesus Gorczany"
                         },
@@ -876,7 +876,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 9L,
                             AvailabilitySlotId = 1L,
                             Email = "Jacob.Ondricka6@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 3, 28, 4, 58, 27, 633, DateTimeKind.Unspecified).AddTicks(6130), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 3, 28, 5, 23, 43, 812, DateTimeKind.Unspecified).AddTicks(8997), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Jacob Ondricka"
                         },
@@ -885,7 +885,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 10L,
                             AvailabilitySlotId = 1L,
                             Email = "Erma.MacGyver86@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 6, 14, 52, 3, 590, DateTimeKind.Unspecified).AddTicks(5247), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 6, 15, 17, 19, 769, DateTimeKind.Unspecified).AddTicks(6237), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Erma MacGyver"
                         });
@@ -921,82 +921,82 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(8089), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3260), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 3L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(7679), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3141), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 2L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(8964), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3462), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 2L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(8898), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3453), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 3L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(9104), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3484), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 1L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(9063), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3477), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 4L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(9223), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3505), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 4L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(9197), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3499), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 5L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(9555), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3526), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 9L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(9517), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3520), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 6L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(9676), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3547), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 5L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3541), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 7L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(9809), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3648), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 2L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(9776), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3641), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 8L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(9932), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3670), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 4L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(9866), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3663), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 9L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 13, 33, 532, DateTimeKind.Unspecified).AddTicks(19), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3690), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 6L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 13, 33, 531, DateTimeKind.Unspecified).AddTicks(9993), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3684), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 10L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 13, 33, 532, DateTimeKind.Unspecified).AddTicks(91), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3711), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 9L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 13, 33, 532, DateTimeKind.Unspecified).AddTicks(68), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3704), new TimeSpan(0, 3, 0, 0, 0))
                         });
                 });
 
@@ -1062,7 +1062,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 2,
                             Name = "ut",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 8, 21, 29, 50, 143, DateTimeKind.Unspecified).AddTicks(4347), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 8, 21, 55, 6, 335, DateTimeKind.Unspecified).AddTicks(9565), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 4L,
                             UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1076,7 +1076,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 0,
                             Name = "consequatur",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 5, 5, 16, 0, 47, 922, DateTimeKind.Unspecified).AddTicks(5745), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 5, 5, 16, 26, 4, 115, DateTimeKind.Unspecified).AddTicks(146), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 6L,
                             UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1090,7 +1090,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 2,
                             Name = "soluta",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 12, 16, 14, 42, 58, 499, DateTimeKind.Unspecified).AddTicks(5262), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 12, 16, 15, 8, 14, 691, DateTimeKind.Unspecified).AddTicks(9457), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 2L,
                             UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1104,7 +1104,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 0,
                             Name = "consequatur",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 25, 16, 45, 47, 740, DateTimeKind.Unspecified).AddTicks(4378), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 25, 17, 11, 3, 932, DateTimeKind.Unspecified).AddTicks(8006), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 2L,
                             UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1118,7 +1118,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 0,
                             Name = "doloribus",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 14, 17, 57, 57, 398, DateTimeKind.Unspecified).AddTicks(932), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 14, 18, 23, 13, 590, DateTimeKind.Unspecified).AddTicks(3577), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 3L,
                             UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1132,7 +1132,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 2,
                             Name = "cupiditate",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 8, 19, 0, 44, 7, 733, DateTimeKind.Unspecified).AddTicks(8294), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 8, 19, 1, 9, 23, 926, DateTimeKind.Unspecified).AddTicks(627), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 6L,
                             UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1146,7 +1146,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 2,
                             Name = "fugit",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 11, 14, 18, 5, 42, 823, DateTimeKind.Unspecified).AddTicks(1035), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 11, 14, 18, 30, 59, 15, DateTimeKind.Unspecified).AddTicks(2476), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 7L,
                             UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1160,7 +1160,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 2,
                             Name = "neque",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 6, 8, 22, 8, 0, 372, DateTimeKind.Unspecified).AddTicks(4596), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 6, 8, 22, 33, 16, 564, DateTimeKind.Unspecified).AddTicks(5768), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 2L,
                             UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1174,7 +1174,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 1,
                             Name = "quaerat",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 9, 12, 40, 50, 561, DateTimeKind.Unspecified).AddTicks(8630), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 9, 13, 6, 6, 753, DateTimeKind.Unspecified).AddTicks(7984), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 5L,
                             UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1188,7 +1188,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 2,
                             Name = "ullam",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 4, 4, 13, 33, 51, 874, DateTimeKind.Unspecified).AddTicks(7614), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 4, 4, 13, 59, 8, 66, DateTimeKind.Unspecified).AddTicks(6648), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 10L,
                             UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
                         });
@@ -1323,6 +1323,977 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Samples");
+                });
+
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Schedule", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("AvailabilitySlotId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TimeZone")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("WithTeamMembers")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AvailabilitySlotId")
+                        .IsUnique();
+
+                    b.ToTable("Schedules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            AvailabilitySlotId = 1L,
+                            IsDeleted = false,
+                            TimeZone = 0,
+                            WithTeamMembers = true
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            AvailabilitySlotId = 2L,
+                            IsDeleted = false,
+                            TimeZone = 0,
+                            WithTeamMembers = true
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            AvailabilitySlotId = 3L,
+                            IsDeleted = false,
+                            TimeZone = 60,
+                            WithTeamMembers = false
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            AvailabilitySlotId = 4L,
+                            IsDeleted = false,
+                            TimeZone = 540,
+                            WithTeamMembers = false
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            AvailabilitySlotId = 5L,
+                            IsDeleted = false,
+                            TimeZone = 420,
+                            WithTeamMembers = true
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            AvailabilitySlotId = 6L,
+                            IsDeleted = false,
+                            TimeZone = 60,
+                            WithTeamMembers = true
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            AvailabilitySlotId = 7L,
+                            IsDeleted = false,
+                            TimeZone = 0,
+                            WithTeamMembers = false
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            AvailabilitySlotId = 8L,
+                            IsDeleted = false,
+                            TimeZone = -120,
+                            WithTeamMembers = true
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            AvailabilitySlotId = 9L,
+                            IsDeleted = false,
+                            TimeZone = -240,
+                            WithTeamMembers = true
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            AvailabilitySlotId = 10L,
+                            IsDeleted = false,
+                            TimeZone = -660,
+                            WithTeamMembers = false
+                        });
+                });
+
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ScheduleItem", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<TimeSpan>("End")
+                        .HasColumnType("time");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("ScheduleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<TimeSpan>("Start")
+                        .HasColumnType("time");
+
+                    b.Property<int>("WeekDay")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.ToTable("ScheduleItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 1L,
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            WeekDay = 0
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 1L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 1
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 1L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 2
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            End = new TimeSpan(0, 14, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 1L,
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            WeekDay = 3
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 1L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 4
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            End = new TimeSpan(0, 14, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 1L,
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            WeekDay = 5
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 1L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 6
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            End = new TimeSpan(0, 14, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 2L,
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            WeekDay = 0
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 2L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 1
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 2L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 2
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 2L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 3
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 2L,
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            WeekDay = 4
+                        },
+                        new
+                        {
+                            Id = 13L,
+                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 2L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 5
+                        },
+                        new
+                        {
+                            Id = 14L,
+                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 2L,
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            WeekDay = 6
+                        },
+                        new
+                        {
+                            Id = 15L,
+                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 3L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 0
+                        },
+                        new
+                        {
+                            Id = 16L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 3L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 1
+                        },
+                        new
+                        {
+                            Id = 17L,
+                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 3L,
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            WeekDay = 2
+                        },
+                        new
+                        {
+                            Id = 18L,
+                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 3L,
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            WeekDay = 3
+                        },
+                        new
+                        {
+                            Id = 19L,
+                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 3L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 4
+                        },
+                        new
+                        {
+                            Id = 20L,
+                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 3L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 5
+                        },
+                        new
+                        {
+                            Id = 21L,
+                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 3L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 6
+                        },
+                        new
+                        {
+                            Id = 22L,
+                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 4L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 0
+                        },
+                        new
+                        {
+                            Id = 23L,
+                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 4L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 1
+                        },
+                        new
+                        {
+                            Id = 24L,
+                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 4L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 2
+                        },
+                        new
+                        {
+                            Id = 25L,
+                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 4L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 3
+                        },
+                        new
+                        {
+                            Id = 26L,
+                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 4L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 4
+                        },
+                        new
+                        {
+                            Id = 27L,
+                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 4L,
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            WeekDay = 5
+                        },
+                        new
+                        {
+                            Id = 28L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 4L,
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            WeekDay = 6
+                        },
+                        new
+                        {
+                            Id = 29L,
+                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 5L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 0
+                        },
+                        new
+                        {
+                            Id = 30L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 5L,
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            WeekDay = 1
+                        },
+                        new
+                        {
+                            Id = 31L,
+                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 5L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 2
+                        },
+                        new
+                        {
+                            Id = 32L,
+                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 5L,
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            WeekDay = 3
+                        },
+                        new
+                        {
+                            Id = 33L,
+                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 5L,
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            WeekDay = 4
+                        },
+                        new
+                        {
+                            Id = 34L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 5L,
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            WeekDay = 5
+                        },
+                        new
+                        {
+                            Id = 35L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 5L,
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            WeekDay = 6
+                        },
+                        new
+                        {
+                            Id = 36L,
+                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 6L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 0
+                        },
+                        new
+                        {
+                            Id = 37L,
+                            End = new TimeSpan(0, 14, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 6L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 1
+                        },
+                        new
+                        {
+                            Id = 38L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 6L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 2
+                        },
+                        new
+                        {
+                            Id = 39L,
+                            End = new TimeSpan(0, 14, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 6L,
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            WeekDay = 3
+                        },
+                        new
+                        {
+                            Id = 40L,
+                            End = new TimeSpan(0, 14, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 6L,
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            WeekDay = 4
+                        },
+                        new
+                        {
+                            Id = 41L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 6L,
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            WeekDay = 5
+                        },
+                        new
+                        {
+                            Id = 42L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 6L,
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            WeekDay = 6
+                        },
+                        new
+                        {
+                            Id = 43L,
+                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 7L,
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            WeekDay = 0
+                        },
+                        new
+                        {
+                            Id = 44L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 7L,
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            WeekDay = 1
+                        },
+                        new
+                        {
+                            Id = 45L,
+                            End = new TimeSpan(0, 14, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 7L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 2
+                        },
+                        new
+                        {
+                            Id = 46L,
+                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 7L,
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            WeekDay = 3
+                        },
+                        new
+                        {
+                            Id = 47L,
+                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 7L,
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            WeekDay = 4
+                        },
+                        new
+                        {
+                            Id = 48L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 7L,
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            WeekDay = 5
+                        },
+                        new
+                        {
+                            Id = 49L,
+                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 7L,
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            WeekDay = 6
+                        },
+                        new
+                        {
+                            Id = 50L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 8L,
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            WeekDay = 0
+                        },
+                        new
+                        {
+                            Id = 51L,
+                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 8L,
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            WeekDay = 1
+                        },
+                        new
+                        {
+                            Id = 52L,
+                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 8L,
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            WeekDay = 2
+                        },
+                        new
+                        {
+                            Id = 53L,
+                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 8L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 3
+                        },
+                        new
+                        {
+                            Id = 54L,
+                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 8L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 4
+                        },
+                        new
+                        {
+                            Id = 55L,
+                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 8L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 5
+                        },
+                        new
+                        {
+                            Id = 56L,
+                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            ScheduleId = 8L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 6
+                        },
+                        new
+                        {
+                            Id = 57L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 9L,
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            WeekDay = 0
+                        },
+                        new
+                        {
+                            Id = 58L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 9L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 1
+                        },
+                        new
+                        {
+                            Id = 59L,
+                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 9L,
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            WeekDay = 2
+                        },
+                        new
+                        {
+                            Id = 60L,
+                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 9L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 3
+                        },
+                        new
+                        {
+                            Id = 61L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 9L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 4
+                        },
+                        new
+                        {
+                            Id = 62L,
+                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 9L,
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            WeekDay = 5
+                        },
+                        new
+                        {
+                            Id = 63L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 9L,
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            WeekDay = 6
+                        },
+                        new
+                        {
+                            Id = 64L,
+                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 10L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 0
+                        },
+                        new
+                        {
+                            Id = 65L,
+                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 10L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 1
+                        },
+                        new
+                        {
+                            Id = 66L,
+                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 10L,
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            WeekDay = 2
+                        },
+                        new
+                        {
+                            Id = 67L,
+                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 10L,
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            WeekDay = 3
+                        },
+                        new
+                        {
+                            Id = 68L,
+                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 10L,
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            WeekDay = 4
+                        },
+                        new
+                        {
+                            Id = 69L,
+                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 10L,
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            WeekDay = 5
+                        },
+                        new
+                        {
+                            Id = 70L,
+                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            IsDeleted = false,
+                            IsEnabled = false,
+                            ScheduleId = 10L,
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            WeekDay = 6
+                        });
+                });
+
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.SlotMember", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("EventId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("MemberId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<long>("ScheduleId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("MemberId");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.ToTable("SlotMembers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            EventId = 1L,
+                            IsDeleted = false,
+                            MemberId = 1L,
+                            Priority = 3,
+                            ScheduleId = 1L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            EventId = 2L,
+                            IsDeleted = false,
+                            MemberId = 2L,
+                            Priority = 2,
+                            ScheduleId = 2L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            EventId = 3L,
+                            IsDeleted = false,
+                            MemberId = 3L,
+                            Priority = 1,
+                            ScheduleId = 3L
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            EventId = 4L,
+                            IsDeleted = false,
+                            MemberId = 4L,
+                            Priority = 4,
+                            ScheduleId = 4L
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            EventId = 5L,
+                            IsDeleted = false,
+                            MemberId = 5L,
+                            Priority = 9,
+                            ScheduleId = 5L
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            EventId = 6L,
+                            IsDeleted = false,
+                            MemberId = 6L,
+                            Priority = 5,
+                            ScheduleId = 6L
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            EventId = 7L,
+                            IsDeleted = false,
+                            MemberId = 7L,
+                            Priority = 2,
+                            ScheduleId = 7L
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            EventId = 8L,
+                            IsDeleted = false,
+                            MemberId = 8L,
+                            Priority = 4,
+                            ScheduleId = 8L
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            EventId = 9L,
+                            IsDeleted = false,
+                            MemberId = 9L,
+                            Priority = 6,
+                            ScheduleId = 9L
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            EventId = 10L,
+                            IsDeleted = false,
+                            MemberId = 10L,
+                            Priority = 9,
+                            ScheduleId = 10L
+                        });
                 });
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Team", b =>
@@ -1587,117 +2558,6 @@ namespace EasyMeets.Core.DAL.Migrations
                             Status = 1,
                             TeamId = 10L,
                             UserId = 10L
-                        });
-                });
-
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.TeamMemberMeeting", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<long>("EventId")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("MemberId");
-
-                    b.ToTable("TeamMemberMeetings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            EventId = 1L,
-                            IsDeleted = false,
-                            MemberId = 1L,
-                            Priority = 3
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            EventId = 2L,
-                            IsDeleted = false,
-                            MemberId = 2L,
-                            Priority = 2
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            EventId = 3L,
-                            IsDeleted = false,
-                            MemberId = 3L,
-                            Priority = 1
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            EventId = 4L,
-                            IsDeleted = false,
-                            MemberId = 4L,
-                            Priority = 4
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            EventId = 5L,
-                            IsDeleted = false,
-                            MemberId = 5L,
-                            Priority = 9
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            EventId = 6L,
-                            IsDeleted = false,
-                            MemberId = 6L,
-                            Priority = 5
-                        },
-                        new
-                        {
-                            Id = 7L,
-                            EventId = 7L,
-                            IsDeleted = false,
-                            MemberId = 7L,
-                            Priority = 2
-                        },
-                        new
-                        {
-                            Id = 8L,
-                            EventId = 8L,
-                            IsDeleted = false,
-                            MemberId = 8L,
-                            Priority = 4
-                        },
-                        new
-                        {
-                            Id = 9L,
-                            EventId = 9L,
-                            IsDeleted = false,
-                            MemberId = 9L,
-                            Priority = 6
-                        },
-                        new
-                        {
-                            Id = 10L,
-                            EventId = 10L,
-                            IsDeleted = false,
-                            MemberId = 10L,
-                            Priority = 9
                         });
                 });
 
@@ -2132,6 +2992,55 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Navigation("AvailabilitySlot");
                 });
 
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Schedule", b =>
+                {
+                    b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
+                        .WithOne("Schedule")
+                        .HasForeignKey("EasyMeets.Core.DAL.Entities.Schedule", "AvailabilitySlotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AvailabilitySlot");
+                });
+
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ScheduleItem", b =>
+                {
+                    b.HasOne("EasyMeets.Core.DAL.Entities.Schedule", "Schedule")
+                        .WithMany("ScheduleItems")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Schedule");
+                });
+
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.SlotMember", b =>
+                {
+                    b.HasOne("EasyMeets.Core.DAL.Entities.Meeting", "Event")
+                        .WithMany("SlotMembers")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EasyMeets.Core.DAL.Entities.User", "User")
+                        .WithMany("SlotMembers")
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EasyMeets.Core.DAL.Entities.Schedule", "Schedule")
+                        .WithMany("Members")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+
+                    b.Navigation("Schedule");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.TeamMember", b =>
                 {
                     b.HasOne("EasyMeets.Core.DAL.Entities.Team", "Team")
@@ -2147,25 +3056,6 @@ namespace EasyMeets.Core.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("Team");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.TeamMemberMeeting", b =>
-                {
-                    b.HasOne("EasyMeets.Core.DAL.Entities.Meeting", "Event")
-                        .WithMany("TeamMeetings")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EasyMeets.Core.DAL.Entities.User", "User")
-                        .WithMany("TeamMeetings")
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Event");
 
                     b.Navigation("User");
                 });
@@ -2191,14 +3081,16 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.AvailabilitySlot", b =>
                 {
-                    b.Navigation("AdvancedSlotSettings")
-                        .IsRequired();
+                    b.Navigation("AdvancedSlotSettings");
 
                     b.Navigation("ExternalAttendees");
 
                     b.Navigation("Members");
 
                     b.Navigation("Questions");
+
+                    b.Navigation("Schedule")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Calendar", b =>
@@ -2213,7 +3105,14 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Meeting", b =>
                 {
-                    b.Navigation("TeamMeetings");
+                    b.Navigation("SlotMembers");
+                });
+
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Schedule", b =>
+                {
+                    b.Navigation("Members");
+
+                    b.Navigation("ScheduleItems");
                 });
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Team", b =>
@@ -2237,9 +3136,9 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.Navigation("CreatedSlots");
 
-                    b.Navigation("Slots");
+                    b.Navigation("SlotMembers");
 
-                    b.Navigation("TeamMeetings");
+                    b.Navigation("Slots");
 
                     b.Navigation("TeamMembers");
                 });
