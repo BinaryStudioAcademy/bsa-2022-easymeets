@@ -51,13 +51,6 @@ namespace EasyMeets.Core.BLL.Services
         public async Task<UserDto> CreateUserPreferences(NewUserDto userDto)
         {
             var newUser = _mapper.Map<NewUserDto, User>(userDto);
-
-            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == userDto.Email);
-            if (existingUser is not null)
-            {
-                return _mapper.Map<User, UserDto>(existingUser);
-            }
-            
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
             return _mapper.Map<User, UserDto>(newUser);
