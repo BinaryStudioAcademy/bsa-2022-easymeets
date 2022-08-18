@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { getLanguageEnum } from '@core/helpers/language-helper';
+import { transformTextLanguageToEnum } from '@core/helpers/language-helper';
 import { AuthService } from '@core/services/auth.service';
 import { NotificationService } from '@core/services/notification.service';
 import { UserService } from '@core/services/user.service';
@@ -104,7 +104,7 @@ export class SignUpFormComponent extends BaseComponent {
                 ? navigator.languages[0]
                 : navigator.language;
 
-        return getLanguageEnum(userLanguageBrowser);
+        return transformTextLanguageToEnum(userLanguageBrowser);
     }
 
     private getTimeFormat() {
