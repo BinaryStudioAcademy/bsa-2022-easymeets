@@ -4,7 +4,7 @@
 *
     box-sizing: border-box
 
-app-side-menu
+app-side-menu-tabs
     width: 100%
     margin: 0 10px
     @media screen and ( max-width: $tablet-min-width)
@@ -75,6 +75,8 @@ app-side-menu
             border-bottom: 2px solid $loblolly
     .menu-item-container
         width: 75%
+        display: flex
+        justify-content: center
         @media screen and(max-width: $tablet-min-width)
             width: 100%
 
@@ -95,10 +97,15 @@ app-side-menu
             display: grid
             grid-template-columns: 10% 90%
             justify-self: center
+            cursor: pointer
+            user-select: none
             p
                 height: 24px
                 line-height: 24px
                 margin: 0 0 0 10px
+
+::ng-deep .mat-tab-group > .mat-tab-header
+    display: none
 
 .active-container
     display: flex

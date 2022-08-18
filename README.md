@@ -69,7 +69,7 @@ erDiagram
       nvarchar LogoPath
       nvarchar Name
       nvarchar PageLink
-      nvarchar TimeZone
+      int TimeZone
       string Description
       boolean IsDeleted
   }
@@ -107,7 +107,6 @@ erDiagram
 
   Meeting ||--o{ User : AuthorId
   Meeting ||--o{ Team : TeamId
-  Meeting ||--o{ Location : LocationId
   Meeting {
       bigint Id
       nvarchar Name
@@ -116,16 +115,10 @@ erDiagram
       datetime StartTime
       bigint AuthorId
       bigint TeamId
-      bigint LocationId
+      int LocationType
       boolean IsDeleted
       datetime CreatedAt
       datetime UpdatedAt
-  }
-
-  Location {
-    bigint Id
-    nvarchar Name
-    bool IsDeleted
   }
 
   UserSlot ||--o{ User : UserId
@@ -136,8 +129,7 @@ erDiagram
     bigint AvailabilitySlotId
     bool IsDeleted
   }
-
-  AvailabilitySlot ||--o{ Location : LocationId
+  
   AvailabilitySlot{
     bigint Id
     nvarchar Name
@@ -146,7 +138,7 @@ erDiagram
     int State
     int Type
     int Size
-    bigint LocationId
+    int LocationType
     boolean IsDeleted
     bigint AuthorId
     bigint TeamId
@@ -156,6 +148,7 @@ erDiagram
     nvarchar Language
     int BookingsPerDay
     bool AllowToAddGuests
+    bool PasswordProtectionIsUsed
     nvarchar PasswordProtection
     bool TimeZoneVisibility
     datetime CreatedAt
@@ -201,7 +194,7 @@ erDiagram
     datetime StartDate
     datetime EndDate
     bool IsDeleted
-  }
+  }  
 ```
 
 ## Code quality

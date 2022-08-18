@@ -1,17 +1,21 @@
-﻿using System.Text.RegularExpressions;
+﻿using EasyMeets.Core.Common.Enums;
+using System.Text.RegularExpressions;
 
 namespace EasyMeets.Core.Common.Validation;
 
 public static class ValidationExtensions
 {
-    private const string Email = @"^([a-zA-z0-9]+([._\-][a-zA-z0-9]+)?)+@([a-zA-z0-9]+([.\-][a-zA-Z0-9]+)?)+\.[a-zA-Z]{2,4}$";
-    private const string Username = @"^[\w\d]+[\w\d\- ]+$";
-    private const string TeamName = @"^[a-zA-Z\d- ]+$";
-    private const string Description = @"^[.,іІїЇa-zA-Z\dа-яА-Я- ]+$";
-    private const string PhoneNumber = @"^\+\d{10,13}$";
-    private const string TeamLink = @"^/[a-zA-Z\d\-]+\d*$";
-    private const string Password = @"^[^ ]+$";
-    private const string Url = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
+    public static IReadOnlyDictionary<string, string> RegularExpressions = new Dictionary<string, string>
+    {
+        { "Email", @"^([a-zA-z0-9]+([._\-][a-zA-z0-9]+)?)+@([a-zA-z0-9]+([.\-][a-zA-Z0-9]+)?)+\.[a-zA-Z]{2,4}$" },
+        { "Username", @"^[\w\d]+[\w\d\- ]+$" },
+        { "PhoneNumber", @"^\+\d{10,13}$" },
+        { "TeamLink", @"^/[a-zA-Z\d\-]+\d*$" },
+        { "TeamName", @"^[a-zA-Z\d- ]+$" },
+        { "Description", @"^[.,іІїЇa-zA-Z\dа-яА-Я- ]+$" },
+        { "Password", @"^[^ ]+$" },
+        { "Url", @"^(http|http(s)?://)?([\w-]+\.)+[\w-]+[.com|.in|.org]+(\[\?%&=]*)?"}
+    };
 
     public static bool IsValidMeetingLocation(this string value)
     {
@@ -21,41 +25,73 @@ public static class ValidationExtensions
 
     public static bool IsValidEmail(this string value)
     {
-        return Regex.IsMatch(value, Email);
+        var pattern = RegularExpressions["Email"];
+        return Regex.IsMatch(value, pattern);
     }
 
     public static bool IsValidUsername(this string value)
     {
-        return Regex.IsMatch(value, Username);
-    }
-
-    public static bool IsValidTeamName(this string value)
-    {
-        return Regex.IsMatch(value, TeamName);
-    }
-
-    public static bool IsValidDescription(this string value)
-    {
-        return Regex.IsMatch(value, Description);
+        var pattern = RegularExpressions["Username"];
+        return Regex.IsMatch(value, pattern);
     }
 
     public static bool IsValidPhoneNumber(this string value)
     {
-        return Regex.IsMatch(value, PhoneNumber);
+        var pattern = RegularExpressions["PhoneNumber"];
+        return Regex.IsMatch(value, pattern);
+    }
+
+    public static bool IsValidTeamName(this string value)
+    {
+        var pattern = RegularExpressions["TeamName"];
+        return Regex.IsMatch(value, pattern);
+    }
+
+    public static bool IsValidDescription(this string value)
+    {
+        var pattern = RegularExpressions["Description"];
+        return Regex.IsMatch(value, pattern);
     }
 
     public static bool IsValidTeamLink(this string value)
     {
-        return Regex.IsMatch(value, TeamLink);
+        var pattern = RegularExpressions["TeamLink"];
+        return Regex.IsMatch(value, pattern);
     }
 
     public static bool IsValidPassword(this string value)
     {
-        return Regex.IsMatch(value, Password);
+        var pattern = RegularExpressions["Password"];
+        return Regex.IsMatch(value, pattern);
+    }
+
+    public static bool IsValidCountry(this Country value)
+    {
+        var countries = Enum.GetValues(typeof(Country)).Cast<Country>().ToList();
+        return countries.Contains(value);
+    }
+
+    public static bool IsValidTimeFormat(this TimeFormat value)
+    {
+        var timeFormats = Enum.GetValues(typeof(TimeFormat)).Cast<TimeFormat>().ToList();
+        return timeFormats.Contains(value);
+    }
+
+    public static bool IsValidLanguage(this Language value)
+    {
+        var languages = Enum.GetValues(typeof(Language)).Cast<Language>().ToList();
+        return languages.Contains(value);
+    }
+
+    public static bool IsValidDateFormat(this DateFormat value)
+    {
+        var dateFormats = Enum.GetValues(typeof(DateFormat)).Cast<DateFormat>().ToList();
+        return dateFormats.Contains(value);
     }
 
     public static bool IsValidUrl(this string value)
     {
-        return Regex.IsMatch(value, Url);
+        var pattern = RegularExpressions["Url"];
+        return Regex.IsMatch(value, pattern);
     }
 }

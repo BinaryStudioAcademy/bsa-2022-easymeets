@@ -4,7 +4,7 @@
             <p class="input-description">Slot size (Meeting Duration)</p>
             <div class="input">
                 <select [(ngModel)]="settings.slotSize" name="slotSize">
-                    <option *ngFor="let slotSize of slotSizes" [value]="slotSize">{{ slotSize }}</option>
+                    <option *ngFor="let slotSize of slotSizes" [value]="slotSize">{{ slotSize }} min</option>
                 </select>
             </div>
         </div>
@@ -13,7 +13,7 @@
             <div class="input">
                 <select [(ngModel)]="settings.slotFrequency" name="slotFrequency">
                     <option *ngFor="let slotFrequency of slotsFrequencies" [value]="slotFrequency">
-                        {{ slotFrequency }}
+                        {{ slotFrequency }} hours
                     </option>
                 </select>
             </div>
@@ -28,8 +28,8 @@
             <p class="input-description">Meeting Location</p>
             <div class="input">
                 <select [(ngModel)]="settings.meetingLocation" name="meetingLocation">
-                    <option *ngFor="let meetingLocation of meetingLocations" [value]="meetingLocation">
-                        {{ meetingLocation }}
+                    <option *ngFor="let meetingLocation of locationTypes" [value]="meetingLocation">
+                        {{ LocationTypeToLabelMapping[meetingLocation] }}
                     </option>
                 </select>
             </div>
@@ -46,9 +46,11 @@
         <div class="input-container">
             <p class="input-description">Slot Activity Time</p>
             <mat-radio-group [(ngModel)]="settings.slotActivityOption" [disabled]="!addAdvanced">
-                <mat-radio-button *ngFor="let slotActivity of slotActivityOptions" [value]="slotActivity">{{
-                    slotActivity
-                }}</mat-radio-button>
+                <mat-radio-button
+                    *ngFor="let slotActivity of this.slotActivityOptionsEnums; index as i"
+                    [value]="slotActivity"
+                    >{{ this.slotActivityOptions[i] }}</mat-radio-button
+                >
             </mat-radio-group>
             <div class="input">
                 <input [(ngModel)]="settings.slotActivityValue" type="text" matInput />
@@ -65,7 +67,7 @@
             <div class="input">
                 <select [(ngModel)]="settings.meetingPadding" name="meetingPadding" [disabled]="!addAdvanced">
                     <option *ngFor="let meetingPadding of meetingPaddings" [value]="meetingPadding">
-                        {{ meetingPadding }}
+                        {{ meetingPadding }} min
                     </option>
                 </select>
             </div>
@@ -80,7 +82,7 @@
                     <option
                         *ngFor="let bookingMeetingDifference of minBookingMeetingDifferences"
                         [value]="bookingMeetingDifference">
-                        {{ bookingMeetingDifference }}
+                        {{ bookingMeetingDifference }} hours
                     </option>
                 </select>
             </div>
@@ -88,29 +90,14 @@
         <div class="input-container">
             <p class="input-description">Availability Slots Card Color</p>
             <div class="colorsRow">
-                <div class="colorButton" id="dark-blue-color">
-                    <input type="radio" name="color" value="dark-blue-color" [disabled]="!addAdvanced" />
-                </div>
-                <div class="colorButton" id="light-red-color">
-                    <input type="radio" name="color" value="light-red-color" [disabled]="!addAdvanced" />
-                </div>
-                <div class="colorButton" id="light-green-color">
-                    <input type="radio" name="color" value="light-green-color" [disabled]="!addAdvanced" />
-                </div>
-                <div class="colorButton" id="yellow-green-color">
-                    <input type="radio" name="color" value="yellow-green-color" [disabled]="!addAdvanced" />
-                </div>
-                <div class="colorButton" id="aqua-color">
-                    <input type="radio" name="color" value="aqua-color" [disabled]="!addAdvanced" />
-                </div>
-                <div class="colorButton" id="blue-color">
-                    <input type="radio" name="color" value="blue-color" [disabled]="!addAdvanced" />
-                </div>
-                <div class="colorButton" id="light-purple-color">
-                    <input type="radio" name="color" value="light-purple-color" [disabled]="!addAdvanced" />
-                </div>
-                <div class="colorButton" id="red-color">
-                    <input type="radio" name="color" value="red-color" [disabled]="!addAdvanced" />
+                <div class="colorButton" *ngFor="let colorInput of colorInputs" id="{{ colorInput.id }}">
+                    <input
+                        type="radio"
+                        name="color"
+                        value="{{ colorInput.enumValue }}"
+                        (change)="colorInputChanged(colorInput.enumValue)"
+                        [checked]="settings.color === colorInput.enumValue"
+                        [disabled]="!addAdvanced" />
                 </div>
             </div>
         </div>
