@@ -48,7 +48,7 @@ namespace EasyMeets.Core.BLL.Services
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id) ?? throw new KeyNotFoundException("User doesn't exist");
         }
 
-        public async Task<string> GetCurrentUserEmail()
+        public string GetCurrentUserEmail()
         {
             var claimsList = _httpContextAccessor.HttpContext!.User.Claims.ToList();
             var email = claimsList.Find(el => el.Type == ClaimTypes.Email);

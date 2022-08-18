@@ -19,7 +19,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         [HttpGet("current")]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            var email = await _userService.GetCurrentUserEmail();
+            var email =  _userService.GetCurrentUserEmail();
             var user = await _userService.GetCurrentUserAsync(email);
             return Ok(user);
         } 
@@ -27,7 +27,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdatePreferences([FromBody] UserDto user)
         {
-            var email = await _userService.GetCurrentUserEmail();
+            var email = _userService.GetCurrentUserEmail();
             await _userService.UpdateUserPreferences(user, email);
             return Ok();
         } 
