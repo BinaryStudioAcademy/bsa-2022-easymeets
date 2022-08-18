@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import * as auth from 'firebase/auth';
 import firebase from 'firebase/compat';
+import { map, Observable } from 'rxjs';
 
 import { NotificationService } from './notification.service';
+import { UserService } from './user.service';
 import User = firebase.User;
 
 @Injectable({
@@ -12,7 +14,11 @@ import User = firebase.User;
 export class AuthService {
     private currentUser: User | null;
 
-    constructor(private afAuth: AngularFireAuth, private notificationService: NotificationService) {
+    constructor(
+        private afAuth: AngularFireAuth,
+        private userService: UserService,
+        private notificationService: NotificationService,
+    ) {
         this.afAuth.authState.subscribe((user) => {
             this.currentUser = user;
             localStorage.setItem('user', JSON.stringify(this.currentUser));
@@ -78,5 +84,9 @@ export class AuthService {
         return this.afAuth.currentUser
             .then((u) => u!.sendEmailVerification())
             .catch((error) => this.notificationService.showErrorMessage(error.message));
+    }
+
+    public checkEmail(email: string): Observable<boolean> {
+        return this.userService.checkExistingEmail(email).pipe(map((res) => res));
     }
 }

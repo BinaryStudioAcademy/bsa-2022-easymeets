@@ -6,10 +6,13 @@
             <mat-error
                 *ngIf="
                     signInForm.controls['email'].hasError('incorrectCredentials') ||
-                    signInForm.controls['email'].hasError('required') ||
                     signInForm.controls['email'].hasError('email')
                 "
                 >Email format is invalid</mat-error
+            >
+            <mat-error *ngIf="signInForm.controls['email'].hasError('required')">Email is required field</mat-error>
+            <mat-error *ngIf="signInForm.controls['email'].hasError('userInNotExist')"
+                >User with entered email address doesn't exist</mat-error
             >
         </mat-form-field>
         <mat-label class="outside-label bold">Password</mat-label>
@@ -41,7 +44,12 @@
     <div class="form-actions flex-col h-align-center">
         <button class="full-width" mat-flat-button color="primary" type="submit">Sign In</button>
         <p class="bold">or</p>
-        <button mat-raised-button class="social-google-btn" color="primary" type="button" (click)="onSignInWithGoogle()">
+        <button
+            mat-raised-button
+            class="social-google-btn"
+            color="primary"
+            type="button"
+            (click)="onSignInWithGoogle()">
             <div class="btn-icon">
                 <mat-icon svgIcon="google-logo"></mat-icon>
             </div>

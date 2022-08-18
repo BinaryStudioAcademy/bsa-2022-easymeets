@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
+import { EmailValidator } from '@modules/auth/validators/email-validator';
 
 @Component({
     selector: 'app-sign-in-form',
@@ -13,7 +14,11 @@ export class SignInFormComponent {
 
     public signInForm = new FormGroup(
         {
-            email: new FormControl('', [Validators.required, Validators.email]),
+            email: new FormControl(
+                '',
+                [Validators.required, Validators.email],
+                [EmailValidator.loginEmailValidator(this.authService)],
+            ),
             password: new FormControl('', [Validators.required]),
         },
         {

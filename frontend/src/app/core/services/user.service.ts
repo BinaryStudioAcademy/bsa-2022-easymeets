@@ -21,6 +21,6 @@ export class UserService {
     }
 
     public checkExistingEmail(email: string) {
-        return this.httpService.getRequest<boolean>(`${this.routePrefix}/check-email`, email);
+        return this.httpService.getRequest<boolean>(`${this.routePrefix}/check-email?email=${email}`);
     }
 }
