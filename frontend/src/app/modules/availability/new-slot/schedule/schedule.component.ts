@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
 import { getScheduleItems } from '@core/helpers/schedule-list-helper';
 import { getPossibleTimeZones } from '@core/helpers/time-zone-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { ITimeZone } from '@core/models/ITimeZone';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 
 @Component({
@@ -10,7 +11,7 @@ import { ISchedule } from '@core/models/schedule/ISchedule';
     templateUrl: './schedule.component.html',
     styleUrls: ['./schedule.component.sass'],
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
         this.schedule = this.slot?.schedule ?? {
@@ -18,6 +19,7 @@ export class ScheduleComponent implements OnInit {
             withTeamMembers: false,
             scheduleItems: getScheduleItems(),
         };
+        this.selectedTimeZone = this.getDisplayTimeZone(this.schedule.timeZone);
     }
 
     public slot?: IAvailabilitySlot;
@@ -26,19 +28,19 @@ export class ScheduleComponent implements OnInit {
 
     public displayDays: string[] = getDisplayDays();
 
-    readonly timeZones: Map<number, string> = getPossibleTimeZones();
+    readonly timeZones: ITimeZone[] = getPossibleTimeZones();
 
     public selectedTimeZone: string;
 
-    ngOnInit(): void {
-        this.selectedTimeZone = this.timeZones.get(this.schedule.timeZone) as string;
-    }
-
     public changeTimeZone() {
-        this.schedule.timeZone = this.getSelectedTimeZone();
+        this.schedule.timeZone = this.getSelectedTimeZoneValue();
     }
 
-    private getSelectedTimeZone() {
-        return [...this.timeZones].find(([, val]) => val === this.selectedTimeZone)![0];
+    public getSelectedTimeZoneValue() {
+        return this.timeZones.find(x => x.displayValue === this.selectedTimeZone)!.value;
+    }
+
+    public getDisplayTimeZone(value: number) {
+        return this.timeZones.find(x => x.value === value)!.displayValue;
     }
 }

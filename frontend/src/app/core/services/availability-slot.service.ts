@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
-import { IUpdateAvailability } from '@core/models/IUpdateAvailability';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { INewAvailability } from '@core/models/new-availability-slot/INewAvailability';
 
@@ -23,7 +22,7 @@ export class AvailabilitySlotService {
         return this.httpService.deleteRequest<null>(`${this.routePrefix}/${slotId}`);
     }
 
-    public updateSlot(updateAvailability: IUpdateAvailability, slotId: bigint | undefined) {
+    public updateSlot(updateAvailability: INewAvailability, slotId: bigint | undefined) {
         return this.httpService.putRequest<IAvailabilitySlot>(`/availability/${slotId}`, updateAvailability);
     }
 

@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { SlotType } from '@core/enums/slot-type.enum';
 import { INewAvailability } from '@core/models/new-availability-slot/INewAvailability';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -45,36 +44,14 @@ export class NewAvailabilityPageComponent extends BaseComponent {
 
     private getNewAvailability() {
         const general = this.newAvailabilityComponent.generalComponent.settings;
+
+        general.isEnabled = this.newAvailabilityComponent.isActive;
         const eventDetails = this.newAvailabilityComponent.eventDetailComponent.settings;
         const advancedSettings = this.newAvailabilityComponent.generalComponent.addAdvanced
-            ? {
-                activityType: general.slotActivityOption,
-                days: general.slotSize,
-                maxNumberOfBookings: general.maxBookings,
-                paddingMeeting: general.meetingPadding,
-                minBookingMeetingDifference: general.minBookingMeetingDifference,
-                color: general.color,
-            } : null;
+            ? this.newAvailabilityComponent.generalComponent.advancedSettings! : null;
         const newAvailability: INewAvailability = {
-            generalDetails: {
-                locationType: general.meetingLocation,
-                name: general.meetingName,
-                type: SlotType.Personal,
-                size: general.slotSize,
-                frequency: general.slotFrequency,
-                isEnabled: this.newAvailabilityComponent.isActive,
-                isVisible: general.hideFromCommon,
-            },
-            eventDetails: {
-                link: eventDetails.linkChoice,
-                welcomeMessage: eventDetails.welcomeMessage,
-                language: eventDetails.languageSelect,
-                bookingsPerDay: eventDetails.allowBookingSelect,
-                allowToAddGuests: eventDetails.isAllowBooker,
-                passwordProtectionIsUsed: eventDetails.passwordProtect,
-                passwordProtection: eventDetails.passwordInput,
-                timeZoneVisibility: eventDetails.zoneChoice,
-            },
+            generalDetails: general,
+            eventDetails,
             advancedSettings,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             teamId: 1,

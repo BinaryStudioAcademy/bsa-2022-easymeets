@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
-import { IEventDetailSettings } from '@core/models/IEventDetailSettings';
+import { INewEventDetails } from '@core/models/new-availability-slot/INewEventDetails';
 
 @Component({
     selector: 'app-event-detail',
@@ -11,20 +11,20 @@ export class EventDetailComponent implements OnInit {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
         this.settings = {
-            zoneChoice: this.slot?.timeZoneVisibility ?? false,
-            linkChoice: this.slot?.link ?? '',
+            timeZoneVisibility: this.slot?.timeZoneVisibility ?? false,
+            link: this.slot?.link ?? '',
             welcomeMessage: this.slot?.welcomeMessage ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            languageSelect: this.slot?.language ?? 'English',
-            allowBookingSelect: this.slot?.bookingsPerDay ?? this.allowedBooking[1],
-            isAllowBooker: this.slot?.allowToAddGuests ?? false,
-            passwordProtect: this.slot?.passwordProtectionIsUsed ?? false,
-            passwordInput: this.slot?.passwordProtection ?? '',
+            language: this.slot?.language ?? 'English',
+            bookingsPerDay: this.slot?.bookingsPerDay ?? this.allowedBooking[1],
+            allowToAddGuests: this.slot?.allowToAddGuests ?? false,
+            passwordProtectionIsUsed: this.slot?.passwordProtectionIsUsed ?? false,
+            passwordProtection: this.slot?.passwordProtection ?? '',
         };
     }
 
     public slot?: IAvailabilitySlot;
 
-    public settings: IEventDetailSettings;
+    public settings: INewEventDetails;
 
     public timeZoneChoices: { text: string; value: boolean; }[] = [
         {
@@ -50,14 +50,14 @@ export class EventDetailComponent implements OnInit {
 
     ngOnInit(): void {
         this.settings = {
-            zoneChoice: false,
-            linkChoice: 'heornim',
+            timeZoneVisibility: false,
+            link: 'heornim',
             welcomeMessage: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            languageSelect: 'English',
-            allowBookingSelect: this.allowedBooking[1],
-            isAllowBooker: false,
-            passwordProtect: false,
-            passwordInput: '',
+            language: 'English',
+            bookingsPerDay: this.allowedBooking[1],
+            allowToAddGuests: false,
+            passwordProtectionIsUsed: false,
+            passwordProtection: '',
         };
     }
 }
