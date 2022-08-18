@@ -3,8 +3,7 @@ import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
 
-export interface IUser {
-    id: number
+export interface INewUser {
     uid?: string;
     userName: string
     email: string
