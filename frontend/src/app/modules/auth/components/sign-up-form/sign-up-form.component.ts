@@ -61,7 +61,7 @@ export class SignUpFormComponent {
             this.userService
                 .createUser({
                     uid: resp.user?.uid,
-                    userName: resp.user?.displayName ?? '',
+                    userName: resp.user?.displayName ?? this.signUpForm.get('name')?.value ?? '',
                     email: resp.user?.email ?? '',
                     image: resp.user?.photoURL ?? undefined,
                     language: this.getLanguage(),
