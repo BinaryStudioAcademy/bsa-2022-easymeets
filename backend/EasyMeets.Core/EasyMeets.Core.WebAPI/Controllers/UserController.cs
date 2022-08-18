@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using EasyMeets.Core.BLL.Interfaces;
+﻿using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,33 +10,26 @@ namespace EasyMeets.Core.WebAPI.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserController(IUserService userService, IHttpContextAccessor httpContextAccessor)
+        private readonly IUserService _userService; 
+        public UserController(IUserService userService)
         {
-            _userService = userService;
-            _httpContextAccessor = httpContextAccessor;
+            _userService = userService; 
         }
         
         [HttpGet("current")]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            var availabilitySlots = await _userService.GetCurrentUserAsync(GetCurrentUserEmail());
-            return Ok(availabilitySlots);
-        }
+            var email =  _userService.GetCurrentUserEmail();
+            var user = await _userService.GetCurrentUserAsync(email);
+            return Ok(user);
+        } 
 
         [HttpPut]
         public async Task<IActionResult> UpdatePreferences([FromBody] UserDto user)
         {
-            await _userService.UpdateUserPreferences(user, GetCurrentUserEmail());
+            var email = _userService.GetCurrentUserEmail();
+            await _userService.UpdateUserPreferences(user, email);
             return Ok();
-        }
-
-        private string GetCurrentUserEmail()
-        {
-            var claimsList = _httpContextAccessor.HttpContext!.User.Claims.ToList();
-            var email = claimsList.Find(el => el.Type == ClaimTypes.Email);
-            return email!.Value;
-        }
+        } 
     }
 }
