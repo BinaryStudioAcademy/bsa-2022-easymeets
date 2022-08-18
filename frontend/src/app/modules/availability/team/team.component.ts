@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IAvailabilitySlotsGroupByTeamsDto } from '@core/models/IAvailabilitySlotsGroupByTeam';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { SpinnerService } from '@core/services/spinner.service';
@@ -11,6 +11,8 @@ import { SpinnerService } from '@core/services/spinner.service';
 export class TeamComponent implements OnInit {
     @Input() public teamSlot: IAvailabilitySlotsGroupByTeamsDto;
 
+    @Output() isReload = new EventEmitter<boolean>();
+
     public slots: Array<IAvailabilitySlot>;
 
     public teamName: string;
@@ -21,5 +23,9 @@ export class TeamComponent implements OnInit {
     ngOnInit(): void {
         this.slots = this.teamSlot.availabilitySlots;
         this.teamName = this.teamSlot.name;
+    }
+
+    isDeleted(isRemove: boolean) {
+        this.isReload.emit(isRemove);
     }
 }

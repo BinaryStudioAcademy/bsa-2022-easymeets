@@ -13,7 +13,7 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
         Questions = new List<Question>();
     }
     public long TeamId { get; set; }
-    public long LocationId { get; set; }
+    public LocationType LocationType { get; set; }
     public string Name { get; set; } = string.Empty;
     public string WelcomeMessage { get; set; } = string.Empty;
     public string Link { get; set; } = string.Empty;
@@ -25,12 +25,13 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
     public string Language { get; set; } = string.Empty;
     public int BookingsPerDay { get; set; }
     public bool AllowToAddGuests { get; set; }
+    
+    public bool PasswordProtectionIsUsed { get; set; }
     public string? PasswordProtection { get; set; }
     public bool TimeZoneVisibility { get; set; }
 
     public User Author { get; set; } = null!;
     public Team Team { get; set; } = null!;
-    public Location Location { get; set; } = null!;
     public AdvancedSlotSettings AdvancedSlotSettings { get; set; } = null!;
     public ICollection<ExternalAttendee> ExternalAttendees { get; set; }
     public ICollection<UserSlot> Members { get; set; }

@@ -27,6 +27,7 @@
             "plugins": ["prettier", "simple-import-sort", "@typescript-eslint"],
             "parser": "@typescript-eslint/parser",
             "rules": {
+                "no-shadow": "off",
                 "@angular-eslint/directive-selector": [
                     "error",
                     {

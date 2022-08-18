@@ -1,9 +1,10 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+using EasyMeets.Core.Common.DTO.Availability.UpdateAvailability;
 using EasyMeets.Core.DAL.Entities;
 using EasyMeets.Core.Common.Enums;
 
@@ -19,7 +20,6 @@ namespace EasyMeets.Core.BLL.Services
             var availabilitySlots = await _context.AvailabilitySlots
                 .Include(x => x.Members)
                     .ThenInclude(x => x.User)
-                .Include(x => x.Location)
                 .Include(x => x.Author)
                 .Include(x => x.Team)
                 .Where(x => x.CreatedBy == id && x.Members.Any(x => x.UserId == id))
@@ -33,7 +33,7 @@ namespace EasyMeets.Core.BLL.Services
                         IsEnabled = y.IsEnabled,
                         AuthorName = y.Author.Name,
                         TeamName = y.Team.Name,
-                        LocationName = y.Location.Name,
+                        LocationType = y.LocationType,
                         Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.Members)
                     })
                 .ToListAsync();
@@ -70,6 +70,53 @@ namespace EasyMeets.Core.BLL.Services
             }
 
             await _context.SaveChangesAsync();
+        }
+        
+        public async Task<AvailabilitySlotDto> GetAvailabilitySlotById(long id)
+        {
+            var availabilitySlot = await _context.AvailabilitySlots
+                .Include(slot => slot.AdvancedSlotSettings)
+                .FirstOrDefaultAsync(slot => slot.Id == id);
+            if (availabilitySlot is null)
+            {
+                throw new KeyNotFoundException("Availability slot doesn't exist");
+            }
+            return _mapper.Map<AvailabilitySlotDto>(availabilitySlot);
+        }
+
+        public async Task<AvailabilitySlotDto> UpdateAvailabilitySlot(long id, UpdateAvailabilityDto updateAvailabilityDto)
+        {
+            var availabilitySlot = await _context.AvailabilitySlots
+                .Include(slot => slot.AdvancedSlotSettings)
+                .FirstOrDefaultAsync(slot => slot.Id == id);
+
+            _mapper.Map(updateAvailabilityDto, availabilitySlot);
+            
+            if (availabilitySlot is null)
+            {
+                throw new KeyNotFoundException("Availability slot doesn't exist");
+            }
+
+            if (updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is not null)
+            {
+                _mapper.Map(updateAvailabilityDto, availabilitySlot.AdvancedSlotSettings);
+            }
+            else if (updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is null)
+            {
+                var newAdvancedSlotSettings = _mapper.Map<UpdateAvailabilityDto, AdvancedSlotSettings>(updateAvailabilityDto);
+                newAdvancedSlotSettings.AvailabilitySlotId = availabilitySlot.Id;
+                _context.AdvancedSlotSettings.Add(newAdvancedSlotSettings);
+            }
+            
+            else if (!updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is not null)
+            {
+                _context.Remove(availabilitySlot.AdvancedSlotSettings);
+            }
+            
+            availabilitySlot.LocationType = updateAvailabilityDto.GeneralDetailsUpdate.LocationType;
+            
+            await _context.SaveChangesAsync();
+            return _mapper.Map<AvailabilitySlotDto>(await _context.AvailabilitySlots.FirstOrDefaultAsync(slot => slot.Id == id));
         }
 
         public async Task DeleteAvailabilitySlot(long slotId)
