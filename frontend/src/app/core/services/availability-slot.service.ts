@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
-import { ILocation } from '@core/models/ILocation';
 import { IUpdateAvailability } from '@core/models/IUpdateAvailability';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 
@@ -29,9 +28,5 @@ export class AvailabilitySlotService {
 
     public getSlotById(slotId: bigint | undefined) {
         return this.httpService.getRequest<IAvailabilitySlot>(`/availability/slot/${slotId}`);
-    }
-
-    public getLocations() {
-        return this.httpService.getRequest<ILocation[]>('/availability/locations');
     }
 }
