@@ -22,12 +22,13 @@ h1
 .grid
     display: grid
     /*grid-template-columns: minmax(50px, 100px) repeat(6, 1fr)*/
-    grid-template-columns: repeat(6, 1fr)
+    grid-template-columns: repeat(6, 15%)
     overflow-y: auto
     max-height: 560px
+    grid-column-gap: 0px
+    grid-row-gap: 6px
     span
         text-align: center
-        margin: 2px 15px
         padding: 4px 8px
         border-radius: 4px
         font-family: 'Inter'
@@ -36,6 +37,9 @@ h1
         font-size: 12px
         line-height: 20px
         color: #667080
+        width: 45%
+        align-items: center
+
     .enabled
         background: $white
         border: 2px solid $loblolly
@@ -49,13 +53,11 @@ h1
     font-weight: 500
     font-size: 14px
     line-height: 17px
-    display: flex
     align-items: center
     text-align: center
-    flex-direction: column
     text-transform: uppercase
     color: #667080
-    margin: 10px
+    margin: 10px 0
 
 .settings
     width: 970px

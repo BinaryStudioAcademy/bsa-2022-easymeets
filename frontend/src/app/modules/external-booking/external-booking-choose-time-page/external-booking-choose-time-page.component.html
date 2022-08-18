@@ -1,9 +1,16 @@
 <h1>Please, choose time</h1>
 <div class="settings">
     <div class="date-navigation">
-        <h3><i class="fa-solid fa-calendar"></i> 31 Jul – 6 Jun 2022</h3>
-        <button class="btn left-btn" mat-button><i class="fa-solid fa-angle-left"></i></button>
-        <button class="btn right-btn" mat-button><i class="fa-solid fa-angle-right"></i></button>
+        <h3>
+            <i class="fa-solid fa-calendar"></i> {{ calendarWeek.firstDay | date: 'd MMM' }} –
+            {{ calendarWeek.lastDay | date: 'd MMM yyyy' }}
+        </h3>
+        <button class="btn left-btn" mat-button (click)="changeWeek(false)">
+            <i class="fa-solid fa-angle-left"></i>
+        </button>
+        <button class="btn right-btn" mat-button (click)="changeWeek(true)">
+            <i class="fa-solid fa-angle-right"></i>
+        </button>
     </div>
     <div class="timezone">
         <mat-form-field appearance="fill">
