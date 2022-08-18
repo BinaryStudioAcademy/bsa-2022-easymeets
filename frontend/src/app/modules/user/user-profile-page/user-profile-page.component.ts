@@ -60,10 +60,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         Validators.pattern(/^[іІїЇa-zA-Z\dа-яА-Я- ]*$/),
     ]);
 
-    public phoneControl: FormControl = new FormControl('', [
-        Validators.required,
-        Validators.minLength(10),
-    ]);
+    public phoneControl: FormControl = new FormControl('', [Validators.required, Validators.minLength(10)]);
 
     public ngOnInit(): void {
         this.userForm = new FormGroup({
@@ -110,7 +107,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             timeZone: form.value.timeZone,
         };
 
-        this.userService.editUser(editedUser)
+        this.userService
+            .editUser(editedUser)
             .pipe(this.untilThis)
             .subscribe(
                 () => {
