@@ -4,6 +4,7 @@ using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+using EasyMeets.Core.Common.DTO.Availability.Schedule;
 using EasyMeets.Core.Common.DTO.Availability.UpdateAvailability;
 using EasyMeets.Core.DAL.Entities;
 using EasyMeets.Core.Common.Enums;
@@ -17,14 +18,19 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<UserPersonalAndTeamSlotsDto> GetUserPersonalAndTeamSlotsAsync(long id)
         {
-            var availabilitySlots = await _context.AvailabilitySlots
+            var availabilitySlots = (await _context.AvailabilitySlots
                 .Include(x => x.Members)
                     .ThenInclude(x => x.User)
                 .Include(x => x.Author)
                 .Include(x => x.Team)
-                .Where(x => x.CreatedBy == id && x.Members.Any(x => x.UserId == id))
+                .Include(x => x.Schedule)
+                    .ThenInclude(s => s.ScheduleItems)
+                .Where(x => x.CreatedBy == id || x.Members.Any(x => x.UserId == id))
+                .ToListAsync())
                 .Select(y =>
-                    new AvailabilitySlotDto
+                {
+                    var scheduleItems = _mapper.Map<List<ScheduleItemDto>>(y.Schedule.ScheduleItems);
+                    var slot = new AvailabilitySlotDto
                     {
                         Id = y.Id,
                         Name = y.Name,
@@ -34,9 +40,13 @@ namespace EasyMeets.Core.BLL.Services
                         AuthorName = y.Author.Name,
                         TeamName = y.Team.Name,
                         LocationType = y.LocationType,
-                        Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.Members)
-                    })
-                .ToListAsync();
+                        Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.Members),
+                        Schedule = _mapper.Map<ScheduleDto>(y.Schedule)
+                    };
+                    slot.Schedule.ScheduleItems = scheduleItems;
+                    return slot;
+                })
+                .ToList();
 
             var userSlots = availabilitySlots.Where(x => x.Type == SlotType.Personal).ToList();
             var availabilitySlotsGroupByTeams = availabilitySlots
@@ -77,7 +87,7 @@ namespace EasyMeets.Core.BLL.Services
             _context.Schedule.Add(schedule);
             entity.Schedule = schedule;
             
-            foreach (var itemDto in slotDto.Schedule.Items)
+            foreach (var itemDto in slotDto.Schedule.ScheduleItems)
             {
                 var item = _mapper.Map<ScheduleItem>(itemDto);
                 item.Schedule = schedule;
@@ -92,6 +102,8 @@ namespace EasyMeets.Core.BLL.Services
         {
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
+                .Include(slot => slot.Schedule)
+                    .ThenInclude(s => s.ScheduleItems)
                 .FirstOrDefaultAsync(slot => slot.Id == id);
             if (availabilitySlot is null)
             {
@@ -104,6 +116,8 @@ namespace EasyMeets.Core.BLL.Services
         {
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
+                .Include(slot => slot.Schedule)
+                    .ThenInclude(s => s.ScheduleItems)
                 .FirstOrDefaultAsync(slot => slot.Id == id);
 
             _mapper.Map(updateAvailabilityDto, availabilitySlot);
@@ -127,6 +141,12 @@ namespace EasyMeets.Core.BLL.Services
             else if (!updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is not null)
             {
                 _context.Remove(availabilitySlot.AdvancedSlotSettings);
+            }
+
+            _mapper.Map(updateAvailabilityDto.Schedule, availabilitySlot.Schedule);
+            for (int i = 0; i < updateAvailabilityDto.Schedule.ScheduleItems.Count; i++)
+            {
+                _mapper.Map(updateAvailabilityDto.Schedule.ScheduleItems[i], availabilitySlot.Schedule.ScheduleItems.ToList()[i]);
             }
             
             availabilitySlot.LocationType = updateAvailabilityDto.GeneralDetailsUpdate.LocationType;
