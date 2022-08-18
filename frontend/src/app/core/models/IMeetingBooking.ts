@@ -5,5 +5,6 @@ export interface IMeetingBooking {
     meetingTitle: string;
     meetingDuration: string;
     membersTitle: string;
+    meetingCount: number;
     meetingMembers: Array<IUserMeeting>;
 }

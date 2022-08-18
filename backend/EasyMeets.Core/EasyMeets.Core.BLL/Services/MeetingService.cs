@@ -10,7 +10,7 @@ namespace EasyMeets.Core.BLL.Services
     {
         public MeetingService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) { }
 
-        public async Task<List<MeetingBookingsDTO>> GetMeetingsForBookingsAsync()
+        public async Task<List<MeetingBookingsDTO>> GetThreeMeetingsForBookingsAsync()
         {
             var meetings = await _context.Meetings.
             Include(meeting => meeting.TeamMeetings).
@@ -18,8 +18,23 @@ namespace EasyMeets.Core.BLL.Services
             ToListAsync();
 
             var mapped = _mapper.Map<List<MeetingBookingsDTO>>(meetings);
+            ConvertUglyTimeZoneToNiceLooking(ref mapped);
 
             return mapped;
+        }
+
+        private void ConvertUglyTimeZoneToNiceLooking(ref List<MeetingBookingsDTO> meetings)
+        {
+            foreach (var meeting in meetings)
+            {
+                foreach (var user in meeting.MeetingMembers)
+                {
+                    switch (user.TimeZone)
+                    { 
+                    
+                    }
+                }
+            }
         }
     }
 }

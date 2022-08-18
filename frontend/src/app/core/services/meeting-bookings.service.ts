@@ -8,7 +8,7 @@ import { HttpInternalService } from './http-internal.service';
     providedIn: 'root',
 })
 export class MeetingBookingsService {
-    public routePrefix = '/meeting';
+    public routePrefix = '/meeting/getThreeMeetings';
 
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService) {}

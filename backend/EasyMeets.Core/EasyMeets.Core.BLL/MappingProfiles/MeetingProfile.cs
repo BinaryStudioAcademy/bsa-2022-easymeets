@@ -12,25 +12,25 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                     .ForMember(dest => dest.MeetingTime, src => src.MapFrom(meeting => $"{meeting.StartTime.Hour}:{meeting.StartTime.Minute} - " +
                     $"{meeting.StartTime.AddMinutes(meeting.Duration).Hour}:{meeting.StartTime.AddMinutes(meeting.Duration).Minute}"))
                     .ForMember(dest => dest.MeetingTitle, src => src.MapFrom(s => s.Name))
-                    .ForMember(dest => dest.MeetingDuration, src => src.MapFrom(s => s.Duration.ToString()))
+                    .ForMember(dest => dest.MeetingDuration, src => src.MapFrom(s => $"{s.Duration} min"))
                     .ForMember(dest => dest.MembersTitle, src => src.MapFrom(s => CreateMemberTitle(s)))
                     .ForMember(dest => dest.MeetingMembers, src => src.MapFrom(s => s.TeamMeetings.
-                    Select(x => new UserMeetingDTO { Name = x.User.Name, Email = x.User.Email, TimeZone = x.User.TimeZone.ToString() }).ToList()));
+                    Select(x => new UserMeetingDTO { Name = x.User.Name, Email = x.User.Email, TimeZone = x.User.TimeZone.ToString() }).ToList().Take(3)))
+                    .ForMember(dest => dest.MeetingCount, src => src.MapFrom(s => s.TeamMeetings.
+                    Select(x => new UserMeetingDTO { Name = x.User.Name, Email = x.User.Email, TimeZone = x.User.TimeZone.ToString() }).ToList().Count()));
         }
 
         private string CreateMemberTitle(Meeting meeting)
         {
-            if (!meeting.TeamMeetings.Any())
+            switch(meeting.TeamMeetings.Count())
             {
-                return "Empty?????????????";
+                case 0:
+                    return "Empty meeting.";
+                case 1:
+                    return meeting.TeamMeetings.FirstOrDefault().User.Name;
+                default:
+                    return $"{meeting.TeamMeetings.Count()} + Team Members";
             }
-
-            if (meeting.TeamMeetings.Count == 1)
-            {
-                return meeting.TeamMeetings.FirstOrDefault().User.Name;
-            }
-
-            return $"{meeting.TeamMeetings.Count()} + Team Members";
         }
     }
 }
