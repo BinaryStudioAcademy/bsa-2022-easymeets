@@ -1,4 +1,4 @@
-import { IScheduleItem } from '@core/models/IScheduleItem';
+import { IScheduleItem } from '@core/models/new-availability-slot/IScheduleItem';
 
 export interface ISchedule {
     timeZone: number;

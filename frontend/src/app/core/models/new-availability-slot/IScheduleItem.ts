@@ -1,6 +1,6 @@
 export interface IScheduleItem {
-    start: Date;
-    end: Date;
+    start: string;
+    end: string;
     weekDay: number;
     isEnabled: boolean;
 }
