@@ -17,7 +17,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpPut ("{id}")] 
-        public async Task<IActionResult> UploadImageAsync(int id, [FromForm] IFormFile file)
+        public async Task<IActionResult> UploadImageAsync(long id, [FromForm] IFormFile file)
         {  
             try
             { 
