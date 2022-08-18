@@ -2,8 +2,8 @@
     <form class="form-container" [formGroup]="userForm" (ngSubmit)="OnSubmit(userForm)">
         <div class="item">
             <div class="user-avatar-block">
-                <img class="user-avatar">
-                <button type="button" class="upload-picture-button" mat-flat-button>Upload Picture</button>
+                <div class="user-avatar"></div>
+                <button type="button" class="white-button" mat-flat-button>Upload Picture</button>
             </div>
         </div>
         <div class="item">
@@ -32,7 +32,7 @@
         </div>
         <div class="item">
             <div class="input-block">
-                <div>
+                <div class="input-block-item">
                     <label>
                         <div>Time Format</div>
                     </label>
@@ -42,7 +42,7 @@
                         </mat-option>
                     </mat-select>
                 </div>
-                <div>
+                <div class="input-block-item">
                     <label>
                         <div>Date Format</div>
                     </label>
