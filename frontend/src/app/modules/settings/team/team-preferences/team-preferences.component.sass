@@ -52,7 +52,10 @@ button
     justify-content: space-between
     flex-direction: inherit
     gap: 30px
-    flex-wrap: wrap-reverse
+
+    @media ( max-width: 500px)
+        flex-wrap: wrap-reverse
+        justify-content: center
 
 label
     font-weight: 600
@@ -93,14 +96,15 @@ input, .mat-select
     height: 30px
 
 input, .mat-select, textarea
+
     margin-top: 5px
     color: $dark-gray
     font-size: 15px
     background: $white
     border: 2px solid $light-gray
     border-radius: 4px
-    min-width: 100%
-    max-width: 100%
+    min-width: calc(100% - 9px)
+    max-width: calc(100% - 9px)
     padding-left: 5px
 
 .mat-option
