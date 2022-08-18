@@ -56,7 +56,6 @@ export class EditAvailabilityPageComponent extends BaseComponent {
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             advancedSettings,
         };
-        console.log(updateAvailability);
 
         this.http.updateSlot(updateAvailability, this.slot?.id)
             .pipe(this.untilThis)
