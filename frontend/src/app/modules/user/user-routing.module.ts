@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '@core/guards/auth.guard';
 import { CalendarsPageComponent } from '@modules/calendars/calendars-page/calendars-page.component';
 import { UserProfilePageComponent } from '@modules/user/user-profile-page/user-profile-page.component';
 
@@ -9,6 +10,7 @@ const routes: Routes = [
     {
         path: '',
         component: UserSettingsPageComponent,
+        canActivate: [AuthGuard],
         children: [
             {
                 path: 'account/personal',
