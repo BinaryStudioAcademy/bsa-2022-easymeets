@@ -5,6 +5,6 @@ export interface INewEventDetails {
     bookingsPerDay: number;
     allowToAddGuests: boolean;
     passwordProtectionIsUsed: boolean;
-    passwordProtection: string | null;
+    passwordProtection?: string;
     timeZoneVisibility: boolean;
 }

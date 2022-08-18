@@ -17,11 +17,14 @@ export class ScheduleListItemComponent implements OnInit {
 
     public endValue: string;
 
-    public onDateChange($event: any, isStart: boolean) {
+    public onDateChange($event: Event, isStart: boolean) {
+        const target = $event.target as HTMLInputElement;
+        const dateValue = `${target.value}:00`;
+
         if (isStart) {
-            this.item.start = `${$event.target.value}:00`;
+            this.item.start = dateValue;
         } else {
-            this.item.end = `${$event.target.value}:00`;
+            this.item.end = dateValue;
         }
         this.onItemChange();
     }

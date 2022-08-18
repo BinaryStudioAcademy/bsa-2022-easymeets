@@ -4,7 +4,6 @@ import { INewGeneralSettings } from '@core/models/new-availability-slot/INewGene
 import { ISchedule } from '@core/models/schedule/ISchedule';
 
 export interface INewAvailability {
-    createdBy: number;
     teamId: number;
     hasAdvancedSettings: boolean;
     generalDetails: INewGeneralSettings;

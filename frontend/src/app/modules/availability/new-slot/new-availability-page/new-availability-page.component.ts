@@ -1,29 +1,25 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { BaseComponent } from '@core/base/base.component';
 import { SlotType } from '@core/enums/slot-type.enum';
 import { INewAvailability } from '@core/models/new-availability-slot/INewAvailability';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { NotificationService } from '@core/services/notification.service';
 import { NewAvailabilityComponent } from '@modules/availability/new-slot/new-availability/new-availability.component';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-new-availability-page',
     templateUrl: './new-availability-page.component.html',
     styleUrls: ['./new-availability-page.component.sass'],
 })
-export class NewAvailabilityPageComponent {
+export class NewAvailabilityPageComponent extends BaseComponent {
     constructor(
         private router: Router,
         private slotService: AvailabilitySlotService,
         private notifications: NotificationService,
-        // eslint-disable-next-line no-empty-function
-    ) { }
-
-    public currentUserId: number = 2;
-
-    private unsubscribe$ = new Subject<void>();
+    ) {
+        super();
+    }
 
     @ViewChild(NewAvailabilityComponent) newAvailabilityComponent: NewAvailabilityComponent;
 
@@ -35,7 +31,7 @@ export class NewAvailabilityPageComponent {
         const newSlot = this.getNewAvailability();
 
         this.slotService.createSlot(newSlot)
-            .pipe(takeUntil(this.unsubscribe$))
+            .pipe(this.untilThis)
             .subscribe(
                 () => {
                     this.notifications.showSuccessMessage('Slot was successfully updated');
@@ -80,7 +76,6 @@ export class NewAvailabilityPageComponent {
                 timeZoneVisibility: eventDetails.zoneChoice,
             },
             advancedSettings,
-            createdBy: this.currentUserId,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             teamId: 1,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,

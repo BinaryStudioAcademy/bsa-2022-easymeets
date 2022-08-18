@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { getDisplayDays } from '@core/helpers/display-days-helper';
 import { getScheduleItems } from '@core/helpers/schedule-list-helper';
 import { getPossibleTimeZones } from '@core/helpers/time-zone-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
@@ -23,9 +24,9 @@ export class ScheduleComponent implements OnInit {
 
     public schedule: ISchedule;
 
-    public displayDays: string[] = ['Sun', 'Mon', 'Tue', 'Wen', 'Thu', 'Fri', 'Sat'];
+    public displayDays: string[] = getDisplayDays();
 
-    public timeZones: Map<number, string> = getPossibleTimeZones();
+    readonly timeZones: Map<number, string> = getPossibleTimeZones();
 
     public selectedTimeZone: string;
 
