@@ -22,14 +22,7 @@ namespace EasyMeets.Core.BLL.Services
 
             var currentUserDto = _mapper.Map<UserDto>(currentUser);
             return currentUserDto;
-        } 
-
-        public async Task<UserDto> GetCurrentUserAsync(int id)
-        {
-            var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
-            var currentUserDto = _mapper.Map<UserDto>(currentUser);
-            return currentUserDto;
-        }
+        }  
 
         public async Task UpdateUserPreferences(UserDto userDto, string currentUserEmail)
         {
