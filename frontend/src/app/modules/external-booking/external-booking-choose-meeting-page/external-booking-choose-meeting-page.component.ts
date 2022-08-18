@@ -9,7 +9,7 @@ import { SpinnerService } from '@core/services/spinner.service';
     styleUrls: ['./external-booking-choose-meeting-page.component.sass'],
 })
 export class ExternalBookingChooseMeetingComponent implements OnInit {
-    @Input() selectedUserId: number = 7;
+    @Input() selectedUserId: number;
 
     public selectedUserAvailabilitySlots: IUserPersonalAndTeamSlots;
 
@@ -17,6 +17,7 @@ export class ExternalBookingChooseMeetingComponent implements OnInit {
     constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {}
 
     ngOnInit(): void {
+        alert(`Get id: ${this.selectedUserId} `);
         this.availabilitySlotService.getUserPersonalAndTeamSlots(this.selectedUserId).subscribe((slots) => {
             this.selectedUserAvailabilitySlots = slots;
         });

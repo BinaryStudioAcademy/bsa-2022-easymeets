@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { getExternalBookingTimeSlotsItems } from '@core/helpers/external-booking-time-slots-helper';
 import { IDayTimeSlot } from '@core/models/IDayTimeSlot';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
@@ -28,7 +29,11 @@ export class ExternalBookingChooseTimeComponent implements OnInit {
 
     public timeZone = TimeZone;
 
-    constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {
+    constructor(
+        public spinnerService: SpinnerService,
+        private availabilitySlotService: AvailabilitySlotService,
+        private route: ActivatedRoute,
+    ) {
         this.availabilitySlotService.getUserPersonalAndTeamSlots(this.selectedUserId).subscribe((slots) => {
             this.selectedUserAvailabilitySlots = slots;
         });
@@ -36,6 +41,10 @@ export class ExternalBookingChooseTimeComponent implements OnInit {
 
     ngOnInit(): void {
         this.slotsCount = this.slotsCounter();
+
+        this.route.queryParams.subscribe((params) => {
+            this.selectedUserId = params['userId'];
+        });
     }
 
     private slotsCounter(): Array<object> {
