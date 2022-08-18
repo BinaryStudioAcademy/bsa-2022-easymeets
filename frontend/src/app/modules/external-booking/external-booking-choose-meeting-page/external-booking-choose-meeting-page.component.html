@@ -4,7 +4,7 @@
         <mat-card
             class="card"
             [routerLink]="['/external-booking/choose-time']"
-            [queryParams]="{ userId: selectedUserId }">
+            (click)="addDurationAndLocation(item.size, item.locationType)">
             <mat-card-title>{{ item.name }}</mat-card-title>
             <mat-card-subtitle>{{ item.size }} Min, {{ item.locationType }}</mat-card-subtitle>
         </mat-card>
