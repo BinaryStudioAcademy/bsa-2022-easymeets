@@ -32,8 +32,7 @@ namespace EasyMeets.Core.BLL.Services
         
         public async Task<bool> CheckExistingUserByEmail(string email)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-            return user != null;
+            return await _context.Users.AnyAsync(u => u.Email == email);;
         }
 
         public async Task UpdateUserPreferences(UserDto userDto, string currentUserEmail)
