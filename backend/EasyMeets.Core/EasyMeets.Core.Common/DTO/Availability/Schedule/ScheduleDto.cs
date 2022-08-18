@@ -4,5 +4,5 @@ public class ScheduleDto
 {
     public int TimeZone { get; set; }
     public bool WithTeamMembers { get; set; }
-    public List<ScheduleItemDto> Items { get; set; } = new();
+    public List<ScheduleItemDto> ScheduleItems { get; set; } = new();
 }
