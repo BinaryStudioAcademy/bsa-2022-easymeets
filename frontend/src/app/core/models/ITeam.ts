@@ -4,5 +4,5 @@
     name: string
     pageLink: string
     timeZone: string
-    Description: string
+    description: string
 }

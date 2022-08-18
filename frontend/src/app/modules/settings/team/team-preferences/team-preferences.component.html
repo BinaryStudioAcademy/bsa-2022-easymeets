@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <form class="form-wrapper">
+    <form class="form-wrapper" [formGroup]="formGroup" (ngSubmit)="OnSubmit(formGroup)">
         <div class="item">
             <div class="logo-block">
                 <div class="logo">
@@ -12,7 +12,13 @@
                 <div>Team Name</div>
             </label>
             <div>
-                <input type="text">
+                <input type="text" formControlName="name">
+            </div>
+            <div *ngIf="nameControl.invalid && nameControl.touched" class="validation">
+                <small *ngIf="nameControl.errors?.['required']">This field is required.</small>
+                <small *ngIf="nameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
+                <small *ngIf="nameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
+                <small *ngIf="nameControl.errors?.['pattern']">Invalid characters.</small>
             </div>
         </div>
         <div class="item">
@@ -20,12 +26,12 @@
                 <div>Team Page Link</div>
             </label>
             <div>
-                <input type="text">
+                <input type="text" formControlName="pageLink">
             </div>
         </div>
         <div class="item">
             <label>Time Zone</label>
-            <mat-select>
+            <mat-select formControlName="timeZone">
                 <mat-option *ngFor="let name of timeZoneValues" [value]="timeZoneValues.indexOf(name)">
                     {{name}}
                 </mat-option>
@@ -36,16 +42,22 @@
                 <div>Description</div>
             </label>
             <div>
-                <textarea class="text-area-class"></textarea>
+                <textarea class="text-area-class" formControlName="description"></textarea>
+            </div>
+            <div *ngIf="descriptionControl.invalid && descriptionControl.touched" class="validation">
+                <small *ngIf="descriptionControl.errors?.['required']">This field is required.</small>
+                <small *ngIf="descriptionControl.errors?.['minlength']">Length must be more than 2 characters.</small>
+                <small *ngIf="descriptionControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
+                <small *ngIf="descriptionControl.errors?.['pattern']">Invalid characters.</small>
             </div>
         </div>
         <div class="item">
             <div class="buttons-block">
-                <button mat-flat-button class="white-button">
+                <button mat-flat-button class="white-button" type="button" (click)="deleteTeam()">
                     <mat-icon class="icon">delete_outline</mat-icon>
                     Delete Team
                 </button>
-                <button mat-flat-button>Update Preferences</button>
+                <button mat-flat-button type="submit">Update Preferences</button>
             </div>
         </div>
     </form>

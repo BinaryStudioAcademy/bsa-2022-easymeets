@@ -18,7 +18,7 @@ export class TeamService {
     }
 
     public createTeam(newTeam: INewTeam) {
-        return this.httpService.postRequest<INewTeam>(`${this.routePrefix}`, newTeam);
+        return this.httpService.postRequest<ITeam>(`${this.routePrefix}`, newTeam);
     }
 
     public deleteTeam(teamId: number) {

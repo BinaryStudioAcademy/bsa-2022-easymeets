@@ -18,6 +18,6 @@ public class NewTeamDtoValidator: AbstractValidator<NewTeamDto>
             .Must(u => u!.IsValidTeamName());
 
         RuleFor(u => u.PageLink)
-            .Must(u => u!.IsValidUrl());
+            .Must(u => u!.IsValidTeamLink());
     }
 }
