@@ -2,6 +2,7 @@
 using Bogus.Extensions;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Entities;
+using EasyMeets.Core.DAL.Entities.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyMeets.Core.DAL.Context
@@ -22,6 +23,14 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamMemberConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamMemberMeetingConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfig).Assembly);
+
+            foreach (var type in modelBuilder.Model.GetEntityTypes())
+            {
+                if (typeof(ISoftDeletable).IsAssignableFrom(type.ClrType))
+                {
+                    modelBuilder.SetSoftDeleteFilter(type.ClrType);
+                }
+            }
         }
 
         public static void Seed(this ModelBuilder modelBuilder)
