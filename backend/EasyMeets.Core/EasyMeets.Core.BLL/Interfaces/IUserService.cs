@@ -6,5 +6,6 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task<UserDto?> GetUserPreferences(long userId);
         Task UpdateUserPreferences(UserDto user);
         Task<UserDto> GetCurrentUserAsync(int id);
+        Task<bool> CheckExistingUserByEmail(string email);
     }
 }

@@ -32,6 +32,12 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok(user);
         }
 
+        [HttpGet("check-email")]
+        public async Task<ActionResult<bool>> CheckUserExistingByEmail(string email)
+        {
+            return Ok(await _userService.CheckExistingUserByEmail(email));
+        }
+
         [HttpPut]
         public async Task<IActionResult> UpdatePreferences([FromBody] UserDto user)
         {

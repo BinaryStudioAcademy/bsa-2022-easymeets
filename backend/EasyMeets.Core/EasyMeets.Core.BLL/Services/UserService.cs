@@ -17,6 +17,12 @@ namespace EasyMeets.Core.BLL.Services
             var currentUserDto = _mapper.Map<UserDto>(currentUser);
             return currentUserDto;
         }
+        
+        public async Task<bool> CheckExistingUserByEmail(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return user != null;
+        }
 
         public async Task<UserDto?> GetUserPreferences(long userId)
         {
