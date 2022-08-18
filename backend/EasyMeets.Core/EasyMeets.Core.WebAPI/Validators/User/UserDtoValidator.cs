@@ -20,6 +20,5 @@ public class UserDtoValidator : AbstractValidator<UserDto>
         RuleFor(u => u.Language).NotNull().Must(u => u.IsValidLanguage());
         RuleFor(u => u.DateFormat).NotNull().Must(u => u.IsValidDateFormat());
         RuleFor(u => u.TimeFormat).NotNull().Must(u => u.IsValidTimeFormat());
-        RuleFor(u => u.TimeZone).NotNull().Must(u => u.IsValidTimeZone());
     }
 }

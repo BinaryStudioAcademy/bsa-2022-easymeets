@@ -21,8 +21,5 @@ public class UserConfig : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.ImagePath)
             .HasMaxLength(300);
-
-        builder.Property(u => u.TimeZone)
-            .HasMaxLength(10);
     }
 }
