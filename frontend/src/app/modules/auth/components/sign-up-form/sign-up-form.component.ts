@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BaseComponent } from '@core/base/base.component';
 import { getLanguageEnum } from '@core/helpers/language-helper';
 import { AuthService } from '@core/services/auth.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -11,19 +12,16 @@ import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
 import firebase from 'firebase/compat';
-import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-sign-up-form',
     templateUrl: './sign-up-form.component.html',
     styleUrls: ['./sign-up-form.component.sass', '../../shared-styles.sass'],
 })
-export class SignUpFormComponent {
+export class SignUpFormComponent extends BaseComponent {
     public matcher = new PasswordsErrorStateMatcher();
 
     public hidePassword = true;
-
-    private unsubscribe$ = new Subject<void>();
 
     public signUpForm = new FormGroup({
         email: new FormControl('', { validators: [Validators.required, Validators.email], updateOn: 'submit' }),
@@ -48,8 +46,9 @@ export class SignUpFormComponent {
         private router: Router,
         private userService: UserService,
         private notifications: NotificationService,
-        // eslint-disable-next-line no-empty-function
-    ) { }
+    ) {
+        super();
+    }
 
     private setCredentialsIncorrect() {
         this.signUpForm.get('email')?.setErrors({ incorrectCredentials: true });
@@ -71,7 +70,7 @@ export class SignUpFormComponent {
                     phone: resp.user?.phoneNumber ?? undefined,
                     timeZone: new Date().getTimezoneOffset(),
                 })
-                .pipe(takeUntil(this.unsubscribe$))
+                .pipe(this.untilThis)
                 .subscribe(
                     () => {
                         this.notifications.showSuccessMessage('You are successfully registered');

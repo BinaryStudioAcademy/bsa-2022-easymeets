@@ -8,8 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Azure.Storage.Blobs;
-using EasyMeets.Core.WebAPI.Validators.Sample;
 
 namespace EasyMeets.Core.WebAPI.Extentions
 {
