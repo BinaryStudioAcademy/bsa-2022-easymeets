@@ -41,5 +41,15 @@ namespace EasyMeets.Core.BLL.Services
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id) ?? throw new KeyNotFoundException("User doesn't exist");
         }
+
+        public async Task<UserDto> CreateUserPreferences(NewUserDto userDto)
+        {
+            var newUser = _mapper.Map<NewUserDto, User>(userDto);
+
+            _context.Users.Add(newUser);
+            await _context.SaveChangesAsync();
+            
+            return _mapper.Map<User, UserDto>(newUser);
+        }
     }
 }

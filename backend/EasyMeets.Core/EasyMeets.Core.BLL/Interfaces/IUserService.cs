@@ -5,5 +5,6 @@ namespace EasyMeets.Core.BLL.Interfaces
     {
         Task UpdateUserPreferences(UserDto userDto, string currentUserEmail);
         Task<UserDto> GetCurrentUserAsync(string currentUserEmail);
+        Task<UserDto> CreateUserPreferences(NewUserDto userDto);
     }
 }

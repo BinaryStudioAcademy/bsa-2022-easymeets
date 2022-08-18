@@ -1,7 +1,7 @@
 ﻿using EasyMeets.Core.Common.DTO;
 using FluentValidation;
 
-namespace EasyMeets.Core.WebAPI.Validators
+namespace EasyMeets.Core.WebAPI.Validators.Sample
 {
     public class NewSampleDtoValidator : AbstractValidator<SampleDto>
     {
