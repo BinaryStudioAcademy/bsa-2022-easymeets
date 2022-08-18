@@ -48,6 +48,15 @@ export class NewAvailabilityPageComponent {
     private getNewAvailability() {
         const general = this.newAvailabilityComponent.generalComponent.settings;
         const eventDetails = this.newAvailabilityComponent.eventDetailComponent.settings;
+        const advancedSettings = this.newAvailabilityComponent.generalComponent.addAdvanced
+            ? {
+                activityType: general.slotActivityOption,
+                days: general.slotSize,
+                maxNumberOfBookings: general.maxBookings,
+                paddingMeeting: general.meetingPadding,
+                minBookingMeetingDifference: general.minBookingMeetingDifference,
+                color: general.color,
+            } : null;
         const newAvailability: INewAvailability = {
             generalDetails: {
                 locationType: general.meetingLocation,
@@ -68,14 +77,8 @@ export class NewAvailabilityPageComponent {
                 passwordProtection: eventDetails.passwordInput,
                 timeZoneVisibility: eventDetails.zoneChoice,
             },
-            advancedSettings: {
-                activityType: general.slotActivityOption,
-                days: general.slotSize,
-                maxNumberOfBookings: general.maxBookings,
-                paddingMeeting: general.meetingPadding,
-                minBookingMeetingDifference: general.minBookingMeetingDifference,
-                color: general.color,
-            },
+            advancedSettings,
+            schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             teamId: 1,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
         };
