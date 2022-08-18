@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IScheduleItem } from '@core/models/IScheduleItem';
+import { IScheduleItem } from '@core/models/new-availability-slot/IScheduleItem';
 
 @Component({
     selector: 'app-schedule-list-item',
@@ -18,15 +18,10 @@ export class ScheduleListItemComponent implements OnInit {
     public endValue: string;
 
     public onDateChange($event: any, isStart: boolean) {
-        const hours: string = $event.target.value.substring(0, 2);
-        const minutes: string = $event.target.value.substring(3, 5);
-
         if (isStart) {
-            this.item.start.setHours(parseInt(hours, 10));
-            this.item.start.setMinutes(parseInt(minutes, 10));
+            this.item.start = `${$event.target.value}:00`;
         } else {
-            this.item.end.setHours(parseInt(hours, 10));
-            this.item.end.setMinutes(parseInt(minutes, 10));
+            this.item.end = `${$event.target.value}:00`;
         }
         this.onItemChange();
     }
@@ -36,11 +31,7 @@ export class ScheduleListItemComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.startValue = `${this.getTimeString(this.item.start.getHours())}:${this.getTimeString(this.item.start.getMinutes())}`;
-        this.endValue = `${this.getTimeString(this.item.end.getHours())}:${this.getTimeString(this.item.end.getMinutes())}`;
-    }
-
-    private getTimeString(value: number) {
-        return `${value < 10 ? '0' : ''}${value}`;
+        this.startValue = this.item.start.substring(0, 5);
+        this.endValue = this.item.end.substring(0, 5);
     }
 }

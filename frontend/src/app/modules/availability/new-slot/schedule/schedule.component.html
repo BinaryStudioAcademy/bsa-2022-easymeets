@@ -3,12 +3,16 @@
         <div class="schedule-select-container">
             <p>Schedule</p>
             <div class="input">
-                <select [(ngModel)]="selectedTimeZone">
+                <select [(ngModel)]="selectedTimeZone" (change)="schedule.timeZone = timeZones.indexOf(selectedTimeZone)">
                     <option *ngFor="let timeZone of timeZones" [value]="timeZone">{{timeZone}}</option>
                 </select>
             </div>
         </div>
-        <app-schedule-list-item *ngFor="let item of items; index as i" [(item)]="items[i]" [displayDay]="displayDays[i]"></app-schedule-list-item>
+        <app-schedule-list-item
+            *ngFor="let item of schedule.scheduleItems; index as i"
+            [(item)]="schedule.scheduleItems[i]"
+            [displayDay]="displayDays[i]">
+        </app-schedule-list-item>
     </div>
     <div class="override-container">
         <button mat-flat-button>+ Add Date overrides</button>
