@@ -57,13 +57,13 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Language, f => Language.Pl)
                 .RuleFor(u => u.DateFormat, f => (DateFormat)f.Random.Int(0, 1))
                 .RuleFor(u => u.TimeFormat, f => (TimeFormat)f.Random.Int(0, 1))
-                .RuleFor(u => u.TimeZone, f => Common.Enums.TimeZone.UTCPLUS0200_HELSINKI_KYIV_RIGA_SOFIA_TALLINN_VILNIUS)
+                .RuleFor(u => u.TimeZone, f => 0)
                 .RuleFor(u => u.Country, f => Country.Ukraine)
                 .RuleFor(u => u.IsBanned, f => false)
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
-        
+
         private static IList<Team> GenerateTeams(int count = 10)
         {
             var id = 1;
@@ -72,12 +72,12 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.Name, f => f.Company.CompanyName())
                 .RuleFor(u => u.PageLink, f => f.Internet.Url())
-                .RuleFor(u => u.TimeZone, f => f.Date.TimeZoneString().ClampLength(1, 9))
+                .RuleFor(u => u.TimeZone, 0)
                 .RuleFor(u => u.Description, f => f.Lorem.Text().ClampLength(1, 299))
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
-        
+
         private static IList<TeamMember> GenerateTeamMembers(int count = 10)
         {
             var id = 1;
@@ -92,11 +92,11 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
-        
+
         private static IList<Meeting> GenerateMeetings(int count = 10)
         {
             var id = 1;
-            
+
             return new Faker<Meeting>()
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50))
@@ -111,7 +111,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
-        
+
         private static IList<AdvancedSlotSettings> GenerateSlotSettingsList(int count = 10)
         {
             var id = 1;
@@ -130,13 +130,13 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
-        
+
         private static IList<AvailabilitySlot> GenerateAvailabilitySlots(int count = 10)
         {
             var id = 1;
-            
+
             var authorId = 1;
-            
+
             return new Faker<AvailabilitySlot>()
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.TeamId, f => f.Random.Int(1, 10))
@@ -159,11 +159,11 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
-        
+
         private static IList<Calendar> GenerateCalendars(int count = 10)
         {
             var id = 1;
-            
+
             return new Faker<Calendar>()
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AddEventsFromTeamId, f => f.Random.Int(1, 10))
@@ -175,11 +175,11 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
-        
+
         private static IList<Question> GenerateQuestions(int count = 10)
         {
             var id = 1;
-            
+
             return new Faker<Question>()
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AvailabilitySlotId, f => f.Random.Int(1, 10))
@@ -194,6 +194,7 @@ namespace EasyMeets.Core.DAL.Context
             var memberId = 1;
             var eventId = 1;
             var scheduleId = 1;
+            
             return new Faker<SlotMember>()
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.MemberId, f => memberId++)
@@ -203,11 +204,11 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
-        
+
         private static IList<ExternalAttendee> GenerateExternalAttendee(int count = 10)
         {
             var id = 1;
-            
+
             return new Faker<ExternalAttendee>()
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AvailabilitySlotId, f => f.Random.Int(1, 10))
@@ -217,11 +218,11 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
-        
+
         private static IList<ExternalAttendeeAvailability> GenerateExternalAttendeeAvailabilities(int count = 10)
         {
             var id = 1;
-            
+
             return new Faker<ExternalAttendeeAvailability>()
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.ExternalAttendeeId, f => f.Random.Int(1, 10))
@@ -230,13 +231,13 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
-        
+
         private static IList<CalendarVisibleForTeam> GenerateCalendarVisibleForTeams(int count = 10)
         {
             var id = 1;
             var calendarId = 1;
             var teamId = 1;
-            
+
             return new Faker<CalendarVisibleForTeam>()
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.CalendarId, f => calendarId++)
@@ -244,13 +245,13 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
-        
+
         private static IList<UserSlot> GenerateUserSlots(int count = 10)
         {
             var id = 1;
             var userId = 1;
             var slotId = 1;
-            
+
             return new Faker<UserSlot>()
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.UserId, f => userId++)

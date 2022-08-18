@@ -69,7 +69,7 @@ erDiagram
       nvarchar LogoPath
       nvarchar Name
       nvarchar PageLink
-      nvarchar TimeZone
+      int TimeZone
       string Description
       boolean IsDeleted
   }

@@ -14,7 +14,7 @@ public class User : Entity<long>, IValidatableObject
     public TimeFormat TimeFormat { get; set; }
     public DateFormat DateFormat { get; set; }
     public Country? Country { get; set; }
-    public Common.Enums.TimeZone? TimeZone { get; set; }
+    public int TimeZone { get; set; }
     public bool IsBanned { get; set; }
 
     public ICollection<TeamMember> TeamMembers { get; set; } = new List<TeamMember>();
@@ -29,7 +29,7 @@ public class User : Entity<long>, IValidatableObject
         {
             yield return new ValidationResult("Invalid user name");
         }
-        
+
         if(!Email.IsValidEmail() || Email.Length is < 5 or > 51)
         {
             yield return new ValidationResult("Invalid email");
