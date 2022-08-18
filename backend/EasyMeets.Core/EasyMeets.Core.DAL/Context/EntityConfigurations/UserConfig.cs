@@ -21,5 +21,11 @@ public class UserConfig : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.ImagePath)
             .HasMaxLength(300);
+        
+        builder.HasIndex(u => u.Email)
+            .IsUnique();
+        
+        builder.HasIndex(u => u.Uid)
+            .IsUnique();
     }
 }
