@@ -4,6 +4,7 @@ import { IDayTimeSlot } from '@core/models/IDayTimeSlot';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
+import { TimeZone } from '@shared/enums/timeZone';
 
 @Component({
     selector: 'app-external-booking-choose-time-page',
@@ -24,6 +25,8 @@ export class ExternalBookingChooseTimeComponent implements OnInit {
     public theLatestFinishOfTimeRanges: Date;
 
     public theEarliestStartOfTimeRanges: Date;
+
+    public timeZone = TimeZone;
 
     constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {
         this.availabilitySlotService.getUserPersonalAndTeamSlots(this.selectedUserId).subscribe((slots) => {
