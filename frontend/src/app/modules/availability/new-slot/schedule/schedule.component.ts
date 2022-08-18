@@ -24,7 +24,7 @@ export class ScheduleComponent implements OnInit {
             this.schedule = {
                 timeZone: 0,
                 withTeamMembers: false,
-                scheduleItems: getScheduleItems(),
+                items: getScheduleItems(),
             };
         }
         this.selectedTimeZone = this.timeZones[this.schedule.timeZone];
