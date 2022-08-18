@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { getScheduleItems } from '@core/helpers/schedule-list-helper';
+import { getPossibleTimeZones } from '@core/helpers/time-zone-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 
@@ -24,11 +25,19 @@ export class ScheduleComponent implements OnInit {
 
     public displayDays: string[] = ['Sun', 'Mon', 'Tue', 'Wen', 'Thu', 'Fri', 'Sat'];
 
-    public timeZones: string[] = ['Eastern Europe (+3:00 GMT)', 'British summer time (+1:00 GMT)'];
+    public timeZones: Map<number, string> = getPossibleTimeZones();
 
     public selectedTimeZone: string;
 
     ngOnInit(): void {
-        this.selectedTimeZone = this.timeZones[this.schedule.timeZone];
+        this.selectedTimeZone = this.timeZones.get(this.schedule.timeZone) as string;
+    }
+
+    public changeTimeZone() {
+        this.schedule.timeZone = this.getSelectedTimeZone();
+    }
+
+    private getSelectedTimeZone() {
+        return [...this.timeZones].find(([, val]) => val === this.selectedTimeZone)![0];
     }
 }
