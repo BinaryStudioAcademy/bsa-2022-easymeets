@@ -25,6 +25,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         } 
         
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<UserDto>> CreateUserPreferences([FromBody] NewUserDto user)
         {
             return Ok(await _userService.CreateUserPreferences(user));
