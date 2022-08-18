@@ -63,7 +63,7 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.HasIndex("AvailabilitySlotId")
                         .IsUnique();
 
-                    b.ToTable("AdvancedSlotSettings", (string)null);
+                    b.ToTable("AdvancedSlotSettings");
 
                     b.HasData(
                         new
@@ -281,7 +281,7 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("AvailabilitySlots", (string)null);
+                    b.ToTable("AvailabilitySlots");
 
                     b.HasData(
                         new
@@ -552,7 +552,7 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Calendars", (string)null);
+                    b.ToTable("Calendars");
 
                     b.HasData(
                         new
@@ -690,7 +690,7 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("CalendarVisibleForTeams", (string)null);
+                    b.ToTable("CalendarVisibleForTeams");
 
                     b.HasData(
                         new
@@ -796,7 +796,7 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.HasIndex("AvailabilitySlotId");
 
-                    b.ToTable("ExternalAttendees", (string)null);
+                    b.ToTable("ExternalAttendees");
 
                     b.HasData(
                         new
@@ -915,7 +915,7 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.HasIndex("ExternalAttendeeId");
 
-                    b.ToTable("ExternalAttendeeAvailabilities", (string)null);
+                    b.ToTable("ExternalAttendeeAvailabilities");
 
                     b.HasData(
                         new
@@ -1049,7 +1049,7 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("Meetings", (string)null);
+                    b.ToTable("Meetings");
 
                     b.HasData(
                         new
@@ -1217,7 +1217,7 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.HasIndex("AvailabilitySlotId");
 
-                    b.ToTable("Questions", (string)null);
+                    b.ToTable("Questions");
 
                     b.HasData(
                         new
@@ -1322,7 +1322,7 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Samples", (string)null);
+                    b.ToTable("Samples");
                 });
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Team", b =>
@@ -1361,7 +1361,7 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teams", (string)null);
+                    b.ToTable("Teams");
 
                     b.HasData(
                         new
@@ -1495,7 +1495,7 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TeamMembers", (string)null);
+                    b.ToTable("TeamMembers");
 
                     b.HasData(
                         new
@@ -1616,7 +1616,7 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("TeamMemberMeetings", (string)null);
+                    b.ToTable("TeamMemberMeetings");
 
                     b.HasData(
                         new
@@ -1750,7 +1750,7 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
@@ -1928,7 +1928,7 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserSlot", (string)null);
+                    b.ToTable("UserSlot");
 
                     b.HasData(
                         new
