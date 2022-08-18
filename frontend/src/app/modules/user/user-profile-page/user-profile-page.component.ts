@@ -144,6 +144,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             .pipe(this.untilThis)
             .subscribe(
                 (resp: any) => {
+                    // eslint-disable-next-line no-debugger
+                    debugger;
                     this.imageUrl = resp.imagePath;
                 },
                 () => {
