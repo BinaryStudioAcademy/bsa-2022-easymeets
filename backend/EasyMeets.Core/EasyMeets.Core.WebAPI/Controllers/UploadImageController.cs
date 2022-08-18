@@ -1,5 +1,6 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
-using EasyMeets.Core.Common.DTO.UploadImage;
+using EasyMeets.Core.BLL.Services;
+using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,23 +12,31 @@ namespace EasyMeets.Core.WebAPI.Controllers
     public class UploadImageController : ControllerBase
     {
         private readonly IUploadFileService _uploadFileService;
+        private readonly IUserService _userService;
 
-        public UploadImageController(IUploadFileService uploadFileService)
+        public UploadImageController(IUploadFileService uploadFileService, IUserService userService)
         {
             _uploadFileService = uploadFileService;
+            _userService = userService;
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UploadImageAsync(ImageUploadDTO imageUploadDTO)
-        {
-            var imageUrl = await _uploadFileService.UploadFileBlobAsync(imageUploadDTO.FilePath, imageUploadDTO.FileName, imageUploadDTO.UserId);
-
-            if (imageUrl is null)
+        [HttpPut] 
+        public async Task<IActionResult> UploadImageAsync([FromForm] IFormFile file)
+        {  
+            try
             {
-                return NotFound();
+                var currentUserEmail = _userService.GetCurrentUserEmail();
+                var user = await _userService.GetCurrentUserAsync(currentUserEmail);
+                var imageUrl = await _uploadFileService.UploadFileBlobAsync(file, user.Id); if (imageUrl is null)
+                {
+                    return NotFound();
+                } 
+                return Ok(new { imagePath = imageUrl });
             }
-
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            } 
         }
     }
 }

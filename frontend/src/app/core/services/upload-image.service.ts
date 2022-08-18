@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { UploadImageDTO } from '@core/models/UploadImageDTO';
 import { HttpResponse } from '@microsoft/signalr';
 import { Observable } from 'rxjs';
 
@@ -14,7 +13,7 @@ export class UploadImageService {
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService) {}
 
-    public uploadImage(data: UploadImageDTO): Observable<HttpResponse> {
+    public uploadImage(data: FormData): Observable<HttpResponse> {
         return this.httpService.putRequest<HttpResponse>(`${this.routePrefix}`, data);
     }
 }

@@ -59,6 +59,7 @@ input, .mat-select
 
 .white-button
     background-color: white
+    cursor: pointer
 
 .update-preferences-button
     display: flex
@@ -88,11 +89,11 @@ label
 
 input
     &:focus
-        &.ng-invalid
+        &.ng-invalid.ng-touched
             border-color: 2px solid $cinnabar
             outline: $cinnabar
 
-    &.ng-invalid
+    &.ng-invalid.ng-touched
         border: 2px solid $cinnabar
         outline: $cinnabar
 
@@ -101,7 +102,6 @@ input
         &.ng-valid
             outline: $royal-blue
             border-color: $royal-blue
-
 
 small
     color: $cinnabar
