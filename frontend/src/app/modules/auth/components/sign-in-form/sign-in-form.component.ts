@@ -19,7 +19,7 @@ export class SignInFormComponent {
                 [Validators.required, Validators.email],
                 [EmailValidator.loginEmailValidator(this.authService)],
             ),
-            password: new FormControl('', [Validators.required]),
+            password: new FormControl('', [Validators.required, Validators.minLength(8)]),
         },
         {
             updateOn: 'submit',

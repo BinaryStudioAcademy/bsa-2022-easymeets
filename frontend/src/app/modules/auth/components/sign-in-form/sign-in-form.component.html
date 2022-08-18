@@ -3,13 +3,7 @@
         <mat-label class="outside-label bold" for="email">Email</mat-label>
         <mat-form-field appearance="outline">
             <input matInput id="email" type="email" formControlName="email" placeholder="email@email.com" />
-            <mat-error
-                *ngIf="
-                    signInForm.controls['email'].hasError('incorrectCredentials') ||
-                    signInForm.controls['email'].hasError('email')
-                "
-                >Email format is invalid</mat-error
-            >
+            <mat-error *ngIf="signInForm.controls['email'].hasError('email')">Email format is invalid</mat-error>
             <mat-error *ngIf="signInForm.controls['email'].hasError('required')">Email is required field</mat-error>
             <mat-error *ngIf="signInForm.controls['email'].hasError('userInNotExist')"
                 >User with entered email address doesn't exist</mat-error
@@ -32,12 +26,14 @@
                 [attr.aria-pressed]="hidePassword">
                 <mat-icon color="primary">{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
-            <mat-error
-                *ngIf="
-                    signInForm.controls['password'].hasError('incorrectCredentials') ||
-                    signInForm.controls['password'].hasError('required')
-                "
-                >Incorret authentication credentials</mat-error
+            <mat-error *ngIf="signInForm.controls['password'].hasError('required')"
+                >Password is required field</mat-error
+            >
+            <mat-error *ngIf="signInForm.controls['password'].hasError('incorrectCredentials')"
+                >Incorrect authentication credentials</mat-error
+            >
+            <mat-error *ngIf="signInForm.controls['password'].hasError('minlength')"
+                >Password must be longer than 8 characters</mat-error
             >
         </mat-form-field>
     </div>
