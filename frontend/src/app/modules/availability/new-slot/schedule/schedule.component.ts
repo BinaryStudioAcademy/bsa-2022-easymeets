@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { getScheduleItems } from '@core/helpers/schedule-list-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
-import { ISchedule } from '@core/models/new-availability-slot/ISchedule';
+import { ISchedule } from '@core/models/schedule/ISchedule';
 
 @Component({
     selector: 'app-schedule',
@@ -9,7 +9,16 @@ import { ISchedule } from '@core/models/new-availability-slot/ISchedule';
     styleUrls: ['./schedule.component.sass'],
 })
 export class ScheduleComponent implements OnInit {
-    @Input() public newSlot: IAvailabilitySlot | undefined;
+    @Input() set newSlot(value: IAvailabilitySlot | undefined) {
+        this.slot = value;
+        this.schedule = this.slot?.schedule ?? {
+            timeZone: 0,
+            withTeamMembers: false,
+            scheduleItems: getScheduleItems(),
+        };
+    }
+
+    public slot?: IAvailabilitySlot;
 
     public schedule: ISchedule;
 
@@ -20,13 +29,6 @@ export class ScheduleComponent implements OnInit {
     public selectedTimeZone: string;
 
     ngOnInit(): void {
-        if (this.newSlot === undefined) {
-            this.schedule = {
-                timeZone: 0,
-                withTeamMembers: false,
-                items: getScheduleItems(),
-            };
-        }
         this.selectedTimeZone = this.timeZones[this.schedule.timeZone];
     }
 }
