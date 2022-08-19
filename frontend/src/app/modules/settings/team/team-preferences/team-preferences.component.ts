@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
 import { INewTeam } from '@core/models/INewTeam';
@@ -160,14 +160,24 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
     }
 
     public generateNewPageLink(formGroup: FormGroup) {
-        this.teamService
-            .getNewPageLink(1, formGroup.value.name)
-            .pipe(this.untilThis)
-            .subscribe((res) => {
-                console.log(res);
+        if (this.isNewTeam) {
+            if (formGroup.value.name.length > 0) {
+                this.teamService
+                    .getNewPageLink(0, formGroup.value.name.replace(/\s/g, ''))
+                    .pipe(this.untilThis)
+                    .subscribe((res) => {
+                        this.formGroup.patchValue({
+                            pageLink: res,
+                        });
 
-                return res;
-            });
+                        return res;
+                    });
+            } else {
+                this.formGroup.patchValue({
+                    pageLink: '',
+                });
+            }
+        }
     }
 
     public validateTeamLink() {
