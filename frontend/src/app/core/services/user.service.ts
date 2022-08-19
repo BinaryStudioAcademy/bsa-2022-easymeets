@@ -28,4 +28,8 @@ export class UserService {
     public createUser(user: INewUser) {
         return this.httpService.postRequest<IUser>(`${this.routePrefix}`, user);
     }
+    
+    public getCurrentUserById(currentUserId: number) {
+        return this.httpService.getRequest<IUser>(`${this.routePrefix}/current/${currentUserId}`);
+    }
 }
