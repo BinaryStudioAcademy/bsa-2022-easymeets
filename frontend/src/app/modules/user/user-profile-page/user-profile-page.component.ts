@@ -33,21 +33,19 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public imageUrl?: string;
 
-    public currentUserId = 2;
-
     public user: IUser;
 
     public userForm: FormGroup;
 
-    public timeFormatValues = Object.values(TimeFormat);
+    public timeFormatValues = Object.values(TimeFormat).filter(key => Number.isNaN(Number(key)));
 
-    public dateFormatValues = Object.values(DateFormat);
+    public dateFormatValues = Object.values(DateFormat).filter(key => Number.isNaN(Number(key)));
 
-    public languageValues = Object.values(Language);
+    public languageValues = Object.keys(Language).filter(key => Number.isNaN(Number(key)));
 
-    public timeZoneValues = Object.values(TimeZone);
+    public timeZoneValues = Object.keys(TimeZone);
 
-    public countryValues = Object.values(Country);
+    public countryValues = Object.keys(Country).filter(key => Number.isNaN(Number(key)));
 
     public countryCodeValues = Object.values(CountryCode);
 
