@@ -33,8 +33,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public imageUrl?: string;
 
-    public currentUserId = 2;
-
     public user: IUser;
 
     public userForm: FormGroup;
