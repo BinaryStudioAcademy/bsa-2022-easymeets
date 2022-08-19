@@ -2,15 +2,13 @@
     <div class="inputs-grid">
         <div class="input-container">
             <p class="input-description">Slot size (Meeting Duration)</p>
-
-            <select [(ngModel)]="settings.slotSize" name="slotSize">
+            <select [(ngModel)]="settings.size" name="slotSize">
                 <option *ngFor="let slotSize of slotSizes" [value]="slotSize">{{ slotSize }} min</option>
             </select>
         </div>
         <div class="input-container">
             <p class="input-description">Frequency of Available Slots</p>
-
-            <select [(ngModel)]="settings.slotFrequency" name="slotFrequency">
+            <select [(ngModel)]="settings.frequency" name="slotFrequency">
                 <option *ngFor="let slotFrequency of slotsFrequencies" [value]="slotFrequency">
                     {{ slotFrequency }} hours
                 </option>
@@ -18,13 +16,11 @@
         </div>
         <div class="input-container">
             <p class="input-description">Meeting Name</p>
-
-            <input [(ngModel)]="settings.meetingName" type="text" matInput />
+            <input [(ngModel)]="settings.name" type="text" matInput />
         </div>
         <div class="input-container">
             <p class="input-description">Meeting Location</p>
-
-            <select [(ngModel)]="settings.meetingLocation" name="meetingLocation">
+            <select [(ngModel)]="settings.locationType" name="meetingLocation">
                 <option *ngFor="let meetingLocation of locationTypes" [value]="meetingLocation">
                     {{ LocationTypeToLabelMapping[meetingLocation] }}
                 </option>
@@ -41,25 +37,22 @@
     <div class="inputs-grid">
         <div class="input-container">
             <p class="input-description">Slot Activity Time</p>
-            <mat-radio-group [(ngModel)]="settings.slotActivityOption" [disabled]="!addAdvanced">
+            <mat-radio-group [(ngModel)]="advancedSettings.activityType" [disabled]="!addAdvanced">
                 <mat-radio-button
                     *ngFor="let slotActivity of this.slotActivityOptionsEnums; index as i"
                     [value]="slotActivity"
                     >{{ this.slotActivityOptions[i] }}</mat-radio-button
                 >
             </mat-radio-group>
-
-            <input [(ngModel)]="settings.slotActivityValue" type="text" matInput />
+            <input [(ngModel)]="advancedSettings.days" type="text" matInput />
         </div>
         <div class="input-container">
             <p class="input-description">Max. Number of Bookings per One Slot</p>
-
-            <input [(ngModel)]="settings.maxBookings" type="text" matInput [disabled]="!addAdvanced" />
+            <input [(ngModel)]="advancedSettings.maxNumberOfBookings" type="text" matInput [disabled]="!addAdvanced" />
         </div>
         <div class="input-container">
             <p class="input-description">Paddings Before & After Meeting</p>
-
-            <select [(ngModel)]="settings.meetingPadding" name="meetingPadding" [disabled]="!addAdvanced">
+            <select [(ngModel)]="advancedSettings.paddingMeeting" name="meetingPadding" [disabled]="!addAdvanced">
                 <option *ngFor="let meetingPadding of meetingPaddings" [value]="meetingPadding">
                     {{ meetingPadding }} min
                 </option>
@@ -67,9 +60,8 @@
         </div>
         <div class="input-container">
             <p class="input-description">Bookers can't schedule before Meeting start</p>
-
             <select
-                [(ngModel)]="settings.minBookingMeetingDifference"
+                [(ngModel)]="advancedSettings.minBookingMeetingDifference"
                 name="bookingMeetingDifference"
                 [disabled]="!addAdvanced">
                 <option
@@ -88,13 +80,13 @@
                         name="color"
                         value="{{ colorInput.enumValue }}"
                         (change)="colorInputChanged(colorInput.enumValue)"
-                        [checked]="settings.color === colorInput.enumValue"
+                        [checked]="advancedSettings.color === colorInput.enumValue"
                         [disabled]="!addAdvanced" />
                 </div>
             </div>
         </div>
         <div class="checkbox-container">
-            <input type="checkbox" [(ngModel)]="settings.hideFromCommon" [disabled]="!addAdvanced" />
+            <input type="checkbox" [(ngModel)]="settings.isVisible" [disabled]="!addAdvanced" />
             <span class="input-message">Hide this Availability Slots card from Common Booking Page</span>
         </div>
     </div>

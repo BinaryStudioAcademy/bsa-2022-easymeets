@@ -1,4 +1,5 @@
 ﻿using EasyMeets.Core.Common.DTO.Availability.AdvancedSlotSettings;
+using EasyMeets.Core.Common.DTO.Availability.Schedule;
 using EasyMeets.Core.Common.DTO.Common;
 using EasyMeets.Core.Common.Enums;
 
@@ -16,6 +17,7 @@ namespace EasyMeets.Core.Common.DTO.Availability
         public ICollection<AvailabilitySlotMemberDto> Members { get; set; } = null!;
         public long? AdvancedSlotSettingsId { get; set; }
         public AdvancedSlotSettingsDto? AdvancedSlotSettings { get; set; }
+        public ScheduleDto Schedule { get; set; } = null!;
         public string WelcomeMessage { get; set; } = string.Empty;
         public string Link { get; set; } = string.Empty;
         public int Frequency { get; set; }
