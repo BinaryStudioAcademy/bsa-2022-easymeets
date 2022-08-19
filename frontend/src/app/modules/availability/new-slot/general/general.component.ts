@@ -8,6 +8,7 @@ import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { LocationType } from '@core/models/locationType';
 import { ISaveAdvancedSettings } from '@core/models/save-availability-slot/ISaveAdvancedSettings';
 import { ISaveGeneralSettings } from '@core/models/save-availability-slot/ISaveGeneralSettings';
+import { meetingNameRegex, naturalNumberRegex } from '@shared/constants/model-validation';
 
 @Component({
     selector: 'app-general',
@@ -82,9 +83,9 @@ export class GeneralComponent implements OnInit {
 
     public addAdvanced: boolean = false;
 
-    public meetingNameInputPattern = "^[A-Za-z0-9-']*$";
+    public meetingNameInputPattern = meetingNameRegex;
 
-    public naturalNumberInputPattern = '^[1-9][0-9]*$';
+    public naturalNumberInputPattern = naturalNumberRegex;
 
     @ViewChild(NgForm) public generalForm: NgForm;
 
