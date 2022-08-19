@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
@@ -14,7 +15,12 @@ import { map, Observable } from 'rxjs';
     styleUrls: ['./team-preferences.component.sass'],
 })
 export class TeamPreferencesComponent extends BaseComponent implements OnInit {
-    constructor(private teamService: TeamService, public notificationService: NotificationService) {
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private teamService: TeamService,
+        public notificationService: NotificationService,
+    ) {
         super();
     }
 
@@ -80,14 +86,44 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
             .pipe(this.untilThis)
             .subscribe(
                 () => {
-                    this.team = {} as ITeam;
-                    this.isNewTeam = true;
+                    this.router.navigate(['../'], { relativeTo: this.route });
                     this.notificationService.showSuccessMessage('Team information was deleted successfully.');
                 },
                 () => {
                     this.notificationService.showErrorMessage('There was an error while deleting.');
                 },
             );
+    }
+
+    public OnSubmit(form: FormGroup) {
+        if (this.isNewTeam) {
+            this.createTeam(form);
+        } else {
+            this.editeTeam(form);
+        }
+    }
+
+    public generateNewPageLink(formGroup: FormGroup) {
+        if (this.isNewTeam) {
+            if (formGroup.value.name.length > 0) {
+                this.getUniquePageLink(formGroup.value.name);
+            } else {
+                this.formGroup.patchValue({
+                    pageLink: '',
+                });
+            }
+        }
+    }
+
+    private getUniquePageLink(teamName: string) {
+        this.teamService
+            .getNewPageLink(this.team ? this.team.id : 0, teamName.replace(/\s/g, ''))
+            .pipe(this.untilThis)
+            .subscribe((res) => {
+                this.formGroup.patchValue({
+                    pageLink: res,
+                });
+            });
     }
 
     private createTeam(form: FormGroup) {
@@ -121,35 +157,6 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
             );
     }
 
-    public OnSubmit(form: FormGroup) {
-        if (this.isNewTeam) {
-            this.createTeam(form);
-        } else {
-            this.editeTeam(form);
-        }
-    }
-
-    public generateNewPageLink(formGroup: FormGroup) {
-        if (this.isNewTeam) {
-            if (formGroup.value.name.length > 0) {
-                this.teamService
-                    .getNewPageLink(this.team ? this.team.id : 0, formGroup.value.name.replace(/\s/g, ''))
-                    .pipe(this.untilThis)
-                    .subscribe((res) => {
-                        this.formGroup.patchValue({
-                            pageLink: res,
-                        });
-
-                        return res;
-                    });
-            } else {
-                this.formGroup.patchValue({
-                    pageLink: '',
-                });
-            }
-        }
-    }
-
     private editeTeam(form: FormGroup) {
         const editedTeam: ITeam = {
             id: this.team.id,
@@ -176,9 +183,11 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
 
     private teamLinkValidator(): AsyncValidatorFn {
         return (control: AbstractControl): Observable<ValidationErrors | null> =>
-            this.validateTeamLink(control.value).pipe(
-                map((responce) => (responce ? null : { teamLinkUniq: true })),
-            );
+            this.validateTeamLink(control.value)
+                .pipe(this.untilThis)
+                .pipe(
+                    map((responce) => (responce ? null : { teamLinkUniq: true })),
+                );
     }
 
     private validateTeamLink(teamlink: string): Observable<boolean> {
