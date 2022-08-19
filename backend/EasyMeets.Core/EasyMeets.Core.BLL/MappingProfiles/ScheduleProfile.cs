@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.Common.DTO.Availability.Schedule;
 using EasyMeets.Core.DAL.Entities;
 

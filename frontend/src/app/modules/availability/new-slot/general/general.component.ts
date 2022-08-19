@@ -5,8 +5,8 @@ import { SlotType } from '@core/enums/slot-type.enum';
 import { LocationTypeToLabelMapping } from '@core/helpers/location-type-label-mapping';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { LocationType } from '@core/models/locationType';
-import { INewAdvancedSettings } from '@core/models/new-availability-slot/INewAdvancedSettings';
-import { INewGeneralSettings } from '@core/models/new-availability-slot/INewGeneralSettings';
+import { ISaveAdvancedSettings } from '@core/models/save-availability-slot/ISaveAdvancedSettings';
+import { ISaveGeneralSettings } from '@core/models/save-availability-slot/ISaveGeneralSettings';
 
 @Component({
     selector: 'app-general',
@@ -55,9 +55,9 @@ export class GeneralComponent implements OnInit {
 
     public slot?: IAvailabilitySlot;
 
-    public settings: INewGeneralSettings;
+    public settings: ISaveGeneralSettings;
 
-    public advancedSettings: INewAdvancedSettings;
+    public advancedSettings: ISaveAdvancedSettings;
 
     public slotSizes: number[] = [30, 60];
 

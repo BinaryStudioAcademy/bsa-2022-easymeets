@@ -1,7 +1,7 @@
 import { SlotType } from '@core/enums/slot-type.enum';
 import { LocationType } from '@core/models/locationType';
 
-export interface INewGeneralSettings {
+export interface ISaveGeneralSettings {
     locationType: LocationType;
     name: string;
     type: SlotType;

@@ -1,9 +1,9 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Availability;
+using EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
 using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
-using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
 using EasyMeets.Core.DAL.Entities;
 using EasyMeets.Core.Common.Enums;
 
@@ -59,7 +59,7 @@ namespace EasyMeets.Core.BLL.Services
             return availabilitySlotsGroupByTeamsAndUser;
         }
 
-        public async Task CreateAvailabilitySlot(NewAvailabilitySlotDto slotDto)
+        public async Task CreateAvailabilitySlot(SaveAvailabilitySlotDto slotDto)
         {
             var currentUserEmail = _userService.GetCurrentUserEmail();
             var currentUser = await _userService.GetCurrentUserAsync(currentUserEmail);
@@ -107,7 +107,7 @@ namespace EasyMeets.Core.BLL.Services
             return _mapper.Map<AvailabilitySlotDto>(availabilitySlot);
         }
 
-        public async Task<AvailabilitySlotDto> UpdateAvailabilitySlot(long id, NewAvailabilitySlotDto updateAvailabilityDto)
+        public async Task<AvailabilitySlotDto> UpdateAvailabilitySlot(long id, SaveAvailabilitySlotDto updateAvailabilityDto)
         {
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)

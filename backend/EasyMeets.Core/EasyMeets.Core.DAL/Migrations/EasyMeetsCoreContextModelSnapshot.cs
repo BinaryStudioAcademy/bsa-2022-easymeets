@@ -77,7 +77,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 1,
                             MinBookingMeetingDifference = 5,
                             PaddingMeeting = 6,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -90,7 +90,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 6,
                             MinBookingMeetingDifference = 1,
                             PaddingMeeting = 13,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -103,7 +103,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 8,
                             MinBookingMeetingDifference = 4,
                             PaddingMeeting = 14,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -116,7 +116,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 5,
                             MinBookingMeetingDifference = 4,
                             PaddingMeeting = 3,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -129,7 +129,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 1,
                             MinBookingMeetingDifference = 4,
                             PaddingMeeting = 1,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -142,7 +142,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 10,
                             MinBookingMeetingDifference = 5,
                             PaddingMeeting = 2,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -155,7 +155,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 5,
                             MinBookingMeetingDifference = 1,
                             PaddingMeeting = 10,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -168,7 +168,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 4,
                             MinBookingMeetingDifference = 4,
                             PaddingMeeting = 2,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -181,7 +181,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 5,
                             MinBookingMeetingDifference = 1,
                             PaddingMeeting = 6,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -194,7 +194,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 5,
                             MinBookingMeetingDifference = 2,
                             PaddingMeeting = 3,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         });
                 });
 
@@ -304,7 +304,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 3L,
                             TimeZoneVisibility = true,
                             Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Corrupti adipisci reprehenderit unde consequatur explicabo aliquid deserunt aut."
                         },
                         new
@@ -327,7 +327,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 7L,
                             TimeZoneVisibility = true,
                             Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Consequatur optio iste."
                         },
                         new
@@ -350,7 +350,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 5L,
                             TimeZoneVisibility = true,
                             Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Aliquid beatae cumque.\nVoluptatem quia qui qui velit quibusdam placeat."
                         },
                         new
@@ -373,7 +373,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 10L,
                             TimeZoneVisibility = true,
                             Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Ut est nesciunt non numquam accusantium."
                         },
                         new
@@ -396,7 +396,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 10L,
                             TimeZoneVisibility = true,
                             Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "voluptate"
                         },
                         new
@@ -419,7 +419,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 10L,
                             TimeZoneVisibility = true,
                             Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Eius labore esse neque labore dolor quia saepe.\nInventore aut fuga.\nDebitis quo velit voluptatem rerum.\nVitae voluptatem quia iste itaque officia.\nExercitationem dolor repudiandae nihil alias asperiores nam quis voluptate sit.\nNon accusamus qui ut modi ea et."
                         },
                         new
@@ -442,7 +442,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 3L,
                             TimeZoneVisibility = true,
                             Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "nobis"
                         },
                         new
@@ -465,7 +465,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 9L,
                             TimeZoneVisibility = true,
                             Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Et odit sit mollitia nulla aspernatur voluptas."
                         },
                         new
@@ -488,7 +488,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 9L,
                             TimeZoneVisibility = true,
                             Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "enim"
                         },
                         new
@@ -511,7 +511,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 6L,
                             TimeZoneVisibility = true,
                             Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "sunt"
                         });
                 });
@@ -563,7 +563,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedAt = new DateTime(2020, 10, 23, 13, 17, 22, 296, DateTimeKind.Unspecified).AddTicks(4676),
                             CreatedBy = 1L,
                             IsDeleted = false,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 2L
                         },
                         new
@@ -574,7 +574,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedAt = new DateTime(2020, 10, 6, 14, 3, 14, 116, DateTimeKind.Unspecified).AddTicks(7873),
                             CreatedBy = 2L,
                             IsDeleted = false,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 5L
                         },
                         new
@@ -585,7 +585,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedAt = new DateTime(2020, 11, 6, 6, 4, 37, 929, DateTimeKind.Unspecified).AddTicks(5830),
                             CreatedBy = 1L,
                             IsDeleted = false,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 9L
                         },
                         new
@@ -596,7 +596,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedAt = new DateTime(2019, 10, 14, 3, 44, 21, 857, DateTimeKind.Unspecified).AddTicks(6664),
                             CreatedBy = 8L,
                             IsDeleted = false,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 2L
                         },
                         new
@@ -607,7 +607,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedAt = new DateTime(2021, 5, 22, 2, 45, 51, 178, DateTimeKind.Unspecified).AddTicks(1754),
                             CreatedBy = 7L,
                             IsDeleted = false,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 7L
                         },
                         new
@@ -618,7 +618,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedAt = new DateTime(2019, 10, 17, 13, 4, 55, 428, DateTimeKind.Unspecified).AddTicks(4202),
                             CreatedBy = 7L,
                             IsDeleted = false,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 2L
                         },
                         new
@@ -629,7 +629,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedAt = new DateTime(2021, 7, 14, 5, 31, 55, 24, DateTimeKind.Unspecified).AddTicks(9201),
                             CreatedBy = 1L,
                             IsDeleted = false,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 4L
                         },
                         new
@@ -640,7 +640,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedAt = new DateTime(2020, 5, 3, 1, 4, 9, 423, DateTimeKind.Unspecified).AddTicks(571),
                             CreatedBy = 4L,
                             IsDeleted = false,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 6L
                         },
                         new
@@ -651,7 +651,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedAt = new DateTime(2021, 5, 7, 1, 31, 28, 26, DateTimeKind.Unspecified).AddTicks(3205),
                             CreatedBy = 9L,
                             IsDeleted = false,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 2L
                         },
                         new
@@ -662,7 +662,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedAt = new DateTime(2020, 3, 28, 16, 30, 1, 197, DateTimeKind.Unspecified).AddTicks(8083),
                             CreatedBy = 5L,
                             IsDeleted = false,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 5L
                         });
                 });
@@ -804,7 +804,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 1L,
                             AvailabilitySlotId = 3L,
                             Email = "Donald_Hills@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 11, 23, 16, 39, 49, 478, DateTimeKind.Unspecified).AddTicks(485), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 11, 24, 6, 34, 43, 892, DateTimeKind.Unspecified).AddTicks(3921), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Donald Hills"
                         },
@@ -813,7 +813,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 2L,
                             AvailabilitySlotId = 7L,
                             Email = "Leonard62@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 17, 14, 48, 44, 513, DateTimeKind.Unspecified).AddTicks(2177), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 18, 4, 43, 38, 927, DateTimeKind.Unspecified).AddTicks(5994), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Leonard Effertz"
                         },
@@ -822,7 +822,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 3L,
                             AvailabilitySlotId = 6L,
                             Email = "Dewey_Schuppe@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 9, 9, 17, 17, 55, 331, DateTimeKind.Unspecified).AddTicks(9368), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 9, 10, 7, 12, 49, 746, DateTimeKind.Unspecified).AddTicks(3365), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Dewey Schuppe"
                         },
@@ -831,7 +831,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 4L,
                             AvailabilitySlotId = 6L,
                             Email = "Elijah.Blanda@gmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 2, 23, 12, 51, 282, DateTimeKind.Unspecified).AddTicks(5355), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 3, 13, 7, 45, 696, DateTimeKind.Unspecified).AddTicks(9453), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Elijah Blanda"
                         },
@@ -840,7 +840,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 5L,
                             AvailabilitySlotId = 5L,
                             Email = "Joel_Goldner@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 2, 22, 16, 45, 5, 963, DateTimeKind.Unspecified).AddTicks(7724), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 2, 23, 6, 40, 0, 378, DateTimeKind.Unspecified).AddTicks(2077), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Joel Goldner"
                         },
@@ -849,7 +849,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 6L,
                             AvailabilitySlotId = 4L,
                             Email = "Jaime.Veum2@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 20, 9, 2, 38, 607, DateTimeKind.Unspecified).AddTicks(7559), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 20, 22, 57, 33, 22, DateTimeKind.Unspecified).AddTicks(2134), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Jaime Veum"
                         },
@@ -858,7 +858,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 7L,
                             AvailabilitySlotId = 9L,
                             Email = "Patti.Feil@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 7, 6, 14, 46, 52, 25, DateTimeKind.Unspecified).AddTicks(887), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 7, 7, 4, 41, 46, 439, DateTimeKind.Unspecified).AddTicks(5684), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Patti Feil"
                         },
@@ -867,7 +867,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 8L,
                             AvailabilitySlotId = 2L,
                             Email = "Jesus9@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 1, 6, 10, 40, 35, 152, DateTimeKind.Unspecified).AddTicks(5059), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 1, 7, 0, 35, 29, 567, DateTimeKind.Unspecified).AddTicks(51), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Jesus Gorczany"
                         },
@@ -876,7 +876,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 9L,
                             AvailabilitySlotId = 1L,
                             Email = "Jacob.Ondricka6@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 3, 28, 5, 23, 43, 812, DateTimeKind.Unspecified).AddTicks(8997), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 3, 28, 19, 18, 38, 227, DateTimeKind.Unspecified).AddTicks(4155), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Jacob Ondricka"
                         },
@@ -885,7 +885,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 10L,
                             AvailabilitySlotId = 1L,
                             Email = "Erma.MacGyver86@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 6, 15, 17, 19, 769, DateTimeKind.Unspecified).AddTicks(6237), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 7, 5, 12, 14, 184, DateTimeKind.Unspecified).AddTicks(1447), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Erma MacGyver"
                         });
@@ -921,82 +921,82 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3260), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 21, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1132), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 3L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3141), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1001), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 2L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3462), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 21, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1435), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 2L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3453), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1412), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 3L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3484), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 21, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1465), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 1L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3477), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1458), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 4L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3505), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 21, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1497), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 4L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3499), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1490), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 5L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3526), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 21, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1528), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 9L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3520), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1520), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 6L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3547), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 21, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1551), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 5L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3541), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1544), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 7L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3648), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 21, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1579), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 2L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3641), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1569), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 8L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3670), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 21, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1604), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 4L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3663), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1596), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 9L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3690), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 21, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1634), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 6L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3684), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1621), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 10L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3711), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 21, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1657), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 9L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 19, 21, 38, 49, 699, DateTimeKind.Unspecified).AddTicks(3704), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 20, 11, 33, 44, 114, DateTimeKind.Unspecified).AddTicks(1650), new TimeSpan(0, 3, 0, 0, 0))
                         });
                 });
 
@@ -1062,9 +1062,9 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 2,
                             Name = "ut",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 8, 21, 55, 6, 335, DateTimeKind.Unspecified).AddTicks(9565), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 9, 11, 50, 0, 752, DateTimeKind.Unspecified).AddTicks(1350), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 4L,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1076,9 +1076,9 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 0,
                             Name = "consequatur",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 5, 5, 16, 26, 4, 115, DateTimeKind.Unspecified).AddTicks(146), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 5, 6, 6, 20, 58, 531, DateTimeKind.Unspecified).AddTicks(2137), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 6L,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1090,9 +1090,9 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 2,
                             Name = "soluta",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 12, 16, 15, 8, 14, 691, DateTimeKind.Unspecified).AddTicks(9457), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 12, 17, 5, 3, 9, 108, DateTimeKind.Unspecified).AddTicks(1457), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 2L,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1104,9 +1104,9 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 0,
                             Name = "consequatur",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 25, 17, 11, 3, 932, DateTimeKind.Unspecified).AddTicks(8006), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 26, 7, 5, 58, 349, DateTimeKind.Unspecified).AddTicks(48), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 2L,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1118,9 +1118,9 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 0,
                             Name = "doloribus",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 14, 18, 23, 13, 590, DateTimeKind.Unspecified).AddTicks(3577), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 15, 8, 18, 8, 6, DateTimeKind.Unspecified).AddTicks(5706), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 3L,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1132,9 +1132,9 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 2,
                             Name = "cupiditate",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 8, 19, 1, 9, 23, 926, DateTimeKind.Unspecified).AddTicks(627), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 8, 19, 15, 4, 18, 342, DateTimeKind.Unspecified).AddTicks(2761), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 6L,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1146,9 +1146,9 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 2,
                             Name = "fugit",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 11, 14, 18, 30, 59, 15, DateTimeKind.Unspecified).AddTicks(2476), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 11, 15, 8, 25, 53, 431, DateTimeKind.Unspecified).AddTicks(4619), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 7L,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1160,9 +1160,9 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 2,
                             Name = "neque",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 6, 8, 22, 33, 16, 564, DateTimeKind.Unspecified).AddTicks(5768), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 6, 9, 12, 28, 10, 980, DateTimeKind.Unspecified).AddTicks(7856), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 2L,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1174,9 +1174,9 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 1,
                             Name = "quaerat",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 9, 13, 6, 6, 753, DateTimeKind.Unspecified).AddTicks(7984), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 10, 3, 1, 1, 170, DateTimeKind.Unspecified).AddTicks(309), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 5L,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1188,9 +1188,9 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             LocationType = 2,
                             Name = "ullam",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 4, 4, 13, 59, 8, 66, DateTimeKind.Unspecified).AddTicks(6648), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 4, 5, 3, 54, 2, 482, DateTimeKind.Unspecified).AddTicks(8990), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 10L,
-                            UpdatedAt = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Local)
                         });
                 });
 
@@ -1358,7 +1358,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 1L,
                             AvailabilitySlotId = 1L,
                             IsDeleted = false,
-                            TimeZone = 0,
+                            TimeZone = -300,
                             WithTeamMembers = true
                         },
                         new
@@ -1366,7 +1366,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 2L,
                             AvailabilitySlotId = 2L,
                             IsDeleted = false,
-                            TimeZone = 0,
+                            TimeZone = -660,
                             WithTeamMembers = true
                         },
                         new
@@ -1374,31 +1374,31 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 3L,
                             AvailabilitySlotId = 3L,
                             IsDeleted = false,
-                            TimeZone = 60,
-                            WithTeamMembers = false
+                            TimeZone = 480,
+                            WithTeamMembers = true
                         },
                         new
                         {
                             Id = 4L,
                             AvailabilitySlotId = 4L,
                             IsDeleted = false,
-                            TimeZone = 540,
-                            WithTeamMembers = false
+                            TimeZone = -420,
+                            WithTeamMembers = true
                         },
                         new
                         {
                             Id = 5L,
                             AvailabilitySlotId = 5L,
                             IsDeleted = false,
-                            TimeZone = 420,
-                            WithTeamMembers = true
+                            TimeZone = 60,
+                            WithTeamMembers = false
                         },
                         new
                         {
                             Id = 6L,
                             AvailabilitySlotId = 6L,
                             IsDeleted = false,
-                            TimeZone = 60,
+                            TimeZone = -540,
                             WithTeamMembers = true
                         },
                         new
@@ -1406,32 +1406,32 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 7L,
                             AvailabilitySlotId = 7L,
                             IsDeleted = false,
-                            TimeZone = 0,
-                            WithTeamMembers = false
+                            TimeZone = 120,
+                            WithTeamMembers = true
                         },
                         new
                         {
                             Id = 8L,
                             AvailabilitySlotId = 8L,
                             IsDeleted = false,
-                            TimeZone = -120,
-                            WithTeamMembers = true
+                            TimeZone = 300,
+                            WithTeamMembers = false
                         },
                         new
                         {
                             Id = 9L,
                             AvailabilitySlotId = 9L,
                             IsDeleted = false,
-                            TimeZone = -240,
-                            WithTeamMembers = true
+                            TimeZone = 300,
+                            WithTeamMembers = false
                         },
                         new
                         {
                             Id = 10L,
                             AvailabilitySlotId = 10L,
                             IsDeleted = false,
-                            TimeZone = -660,
-                            WithTeamMembers = false
+                            TimeZone = 240,
+                            WithTeamMembers = true
                         });
                 });
 
@@ -1471,11 +1471,11 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            End = new TimeSpan(0, 13, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 1L,
-                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 0
                         },
                         new
@@ -1485,35 +1485,35 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 1L,
-                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
                             WeekDay = 1
                         },
                         new
                         {
                             Id = 3L,
-                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            End = new TimeSpan(0, 16, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 1L,
-                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
                             WeekDay = 2
                         },
                         new
                         {
                             Id = 4L,
-                            End = new TimeSpan(0, 14, 0, 0, 0),
+                            End = new TimeSpan(0, 15, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = true,
+                            IsEnabled = false,
                             ScheduleId = 1L,
-                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 3
                         },
                         new
                         {
                             Id = 5L,
-                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            End = new TimeSpan(0, 17, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = true,
+                            IsEnabled = false,
                             ScheduleId = 1L,
                             Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 4
@@ -1521,19 +1521,19 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 6L,
-                            End = new TimeSpan(0, 14, 0, 0, 0),
+                            End = new TimeSpan(0, 16, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 1L,
-                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
                             WeekDay = 5
                         },
                         new
                         {
                             Id = 7L,
-                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            End = new TimeSpan(0, 15, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = true,
+                            IsEnabled = false,
                             ScheduleId = 1L,
                             Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 6
@@ -1541,11 +1541,11 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 8L,
-                            End = new TimeSpan(0, 14, 0, 0, 0),
+                            End = new TimeSpan(0, 18, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 2L,
-                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
                             WeekDay = 0
                         },
                         new
@@ -1555,33 +1555,33 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 2L,
-                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
                             WeekDay = 1
                         },
                         new
                         {
                             Id = 10L,
-                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            End = new TimeSpan(0, 16, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 2L,
-                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
                             WeekDay = 2
                         },
                         new
                         {
                             Id = 11L,
-                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            End = new TimeSpan(0, 18, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 2L,
-                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
                             WeekDay = 3
                         },
                         new
                         {
                             Id = 12L,
-                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            End = new TimeSpan(0, 13, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 2L,
@@ -1591,7 +1591,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 13L,
-                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            End = new TimeSpan(0, 15, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 2L,
@@ -1601,11 +1601,11 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 14L,
-                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            End = new TimeSpan(0, 17, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = true,
+                            IsEnabled = false,
                             ScheduleId = 2L,
-                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 6
                         },
                         new
@@ -1613,7 +1613,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 15L,
                             End = new TimeSpan(0, 15, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 3L,
                             Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 0
@@ -1625,17 +1625,17 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 3L,
-                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
                             WeekDay = 1
                         },
                         new
                         {
                             Id = 17L,
-                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            End = new TimeSpan(0, 15, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 3L,
-                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
                             WeekDay = 2
                         },
                         new
@@ -1645,15 +1645,15 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 3L,
-                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 3
                         },
                         new
                         {
                             Id = 19L,
-                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            End = new TimeSpan(0, 15, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = true,
+                            IsEnabled = false,
                             ScheduleId = 3L,
                             Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 4
@@ -1661,19 +1661,19 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 20L,
-                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            End = new TimeSpan(0, 16, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 3L,
-                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
                             WeekDay = 5
                         },
                         new
                         {
                             Id = 21L,
-                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            End = new TimeSpan(0, 17, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 3L,
                             Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 6
@@ -1681,27 +1681,27 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 22L,
-                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            End = new TimeSpan(0, 15, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 4L,
-                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
                             WeekDay = 0
                         },
                         new
                         {
                             Id = 23L,
-                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            End = new TimeSpan(0, 14, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 4L,
-                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
                             WeekDay = 1
                         },
                         new
                         {
                             Id = 24L,
-                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            End = new TimeSpan(0, 14, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 4L,
@@ -1711,19 +1711,19 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 25L,
-                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            End = new TimeSpan(0, 18, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 4L,
-                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 3
                         },
                         new
                         {
                             Id = 26L,
-                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            End = new TimeSpan(0, 16, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = true,
+                            IsEnabled = false,
                             ScheduleId = 4L,
                             Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 4
@@ -1731,27 +1731,27 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 27L,
-                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            End = new TimeSpan(0, 16, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 4L,
-                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 5
                         },
                         new
                         {
                             Id = 28L,
-                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            End = new TimeSpan(0, 15, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = true,
+                            IsEnabled = false,
                             ScheduleId = 4L,
-                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
                             WeekDay = 6
                         },
                         new
                         {
                             Id = 29L,
-                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            End = new TimeSpan(0, 15, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 5L,
@@ -1761,19 +1761,19 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 30L,
-                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            End = new TimeSpan(0, 17, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 5L,
-                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
                             WeekDay = 1
                         },
                         new
                         {
                             Id = 31L,
-                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            End = new TimeSpan(0, 14, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = true,
+                            IsEnabled = false,
                             ScheduleId = 5L,
                             Start = new TimeSpan(0, 10, 0, 0, 0),
                             WeekDay = 2
@@ -1781,57 +1781,57 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 32L,
-                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            End = new TimeSpan(0, 18, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 5L,
-                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
                             WeekDay = 3
                         },
                         new
                         {
                             Id = 33L,
-                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            End = new TimeSpan(0, 16, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 5L,
-                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 4
                         },
                         new
                         {
                             Id = 34L,
-                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            End = new TimeSpan(0, 14, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 5L,
-                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
                             WeekDay = 5
                         },
                         new
                         {
                             Id = 35L,
-                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            End = new TimeSpan(0, 13, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 5L,
-                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
                             WeekDay = 6
                         },
                         new
                         {
                             Id = 36L,
-                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            End = new TimeSpan(0, 14, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 6L,
-                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 0
                         },
                         new
                         {
                             Id = 37L,
-                            End = new TimeSpan(0, 14, 0, 0, 0),
+                            End = new TimeSpan(0, 13, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 6L,
@@ -1841,11 +1841,11 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 38L,
-                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            End = new TimeSpan(0, 14, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 6L,
-                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
                             WeekDay = 2
                         },
                         new
@@ -1861,21 +1861,21 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 40L,
-                            End = new TimeSpan(0, 14, 0, 0, 0),
+                            End = new TimeSpan(0, 15, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 6L,
-                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
                             WeekDay = 4
                         },
                         new
                         {
                             Id = 41L,
-                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            End = new TimeSpan(0, 13, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 6L,
-                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
                             WeekDay = 5
                         },
                         new
@@ -1891,41 +1891,41 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 43L,
-                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            End = new TimeSpan(0, 17, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 7L,
-                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
                             WeekDay = 0
                         },
                         new
                         {
                             Id = 44L,
-                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            End = new TimeSpan(0, 13, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = true,
+                            IsEnabled = false,
                             ScheduleId = 7L,
-                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
                             WeekDay = 1
                         },
                         new
                         {
                             Id = 45L,
-                            End = new TimeSpan(0, 14, 0, 0, 0),
+                            End = new TimeSpan(0, 15, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 7L,
-                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
                             WeekDay = 2
                         },
                         new
                         {
                             Id = 46L,
-                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            End = new TimeSpan(0, 16, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 7L,
-                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
                             WeekDay = 3
                         },
                         new
@@ -1933,55 +1933,55 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 47L,
                             End = new TimeSpan(0, 17, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 7L,
-                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
                             WeekDay = 4
                         },
                         new
                         {
                             Id = 48L,
-                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            End = new TimeSpan(0, 15, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 7L,
-                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
                             WeekDay = 5
                         },
                         new
                         {
                             Id = 49L,
-                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            End = new TimeSpan(0, 18, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = true,
+                            IsEnabled = false,
                             ScheduleId = 7L,
-                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
                             WeekDay = 6
                         },
                         new
                         {
                             Id = 50L,
-                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            End = new TimeSpan(0, 15, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 8L,
-                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 0
                         },
                         new
                         {
                             Id = 51L,
-                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            End = new TimeSpan(0, 14, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 8L,
-                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
                             WeekDay = 1
                         },
                         new
                         {
                             Id = 52L,
-                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            End = new TimeSpan(0, 14, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 8L,
@@ -1991,41 +1991,41 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 53L,
-                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            End = new TimeSpan(0, 15, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 8L,
-                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
                             WeekDay = 3
                         },
                         new
                         {
                             Id = 54L,
-                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            End = new TimeSpan(0, 18, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = true,
+                            IsEnabled = false,
                             ScheduleId = 8L,
-                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
                             WeekDay = 4
                         },
                         new
                         {
                             Id = 55L,
-                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            End = new TimeSpan(0, 14, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 8L,
-                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
                             WeekDay = 5
                         },
                         new
                         {
                             Id = 56L,
-                            End = new TimeSpan(0, 17, 0, 0, 0),
+                            End = new TimeSpan(0, 18, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = true,
                             ScheduleId = 8L,
-                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
                             WeekDay = 6
                         },
                         new
@@ -2035,23 +2035,23 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 9L,
-                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
                             WeekDay = 0
                         },
                         new
                         {
                             Id = 58L,
-                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            End = new TimeSpan(0, 13, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 9L,
-                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 1
                         },
                         new
                         {
                             Id = 59L,
-                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            End = new TimeSpan(0, 13, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 9L,
@@ -2065,77 +2065,77 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 9L,
-                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
                             WeekDay = 3
                         },
                         new
                         {
                             Id = 61L,
-                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            End = new TimeSpan(0, 14, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 9L,
-                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 4
                         },
                         new
                         {
                             Id = 62L,
-                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            End = new TimeSpan(0, 18, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 9L,
-                            Start = new TimeSpan(0, 11, 0, 0, 0),
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 5
                         },
                         new
                         {
                             Id = 63L,
-                            End = new TimeSpan(0, 16, 0, 0, 0),
+                            End = new TimeSpan(0, 18, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 9L,
-                            Start = new TimeSpan(0, 10, 0, 0, 0),
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
                             WeekDay = 6
                         },
                         new
                         {
                             Id = 64L,
-                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            End = new TimeSpan(0, 16, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 10L,
-                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            Start = new TimeSpan(0, 9, 0, 0, 0),
                             WeekDay = 0
                         },
                         new
                         {
                             Id = 65L,
-                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            End = new TimeSpan(0, 16, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 10L,
-                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
                             WeekDay = 1
                         },
                         new
                         {
                             Id = 66L,
-                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            End = new TimeSpan(0, 14, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 10L,
-                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            Start = new TimeSpan(0, 12, 0, 0, 0),
                             WeekDay = 2
                         },
                         new
                         {
                             Id = 67L,
-                            End = new TimeSpan(0, 18, 0, 0, 0),
+                            End = new TimeSpan(0, 13, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 10L,
-                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            Start = new TimeSpan(0, 10, 0, 0, 0),
                             WeekDay = 3
                         },
                         new
@@ -2145,27 +2145,27 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 10L,
-                            Start = new TimeSpan(0, 9, 0, 0, 0),
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 4
                         },
                         new
                         {
                             Id = 69L,
-                            End = new TimeSpan(0, 15, 0, 0, 0),
+                            End = new TimeSpan(0, 16, 0, 0, 0),
                             IsDeleted = false,
                             IsEnabled = false,
                             ScheduleId = 10L,
-                            Start = new TimeSpan(0, 12, 0, 0, 0),
+                            Start = new TimeSpan(0, 8, 0, 0, 0),
                             WeekDay = 5
                         },
                         new
                         {
                             Id = 70L,
-                            End = new TimeSpan(0, 13, 0, 0, 0),
+                            End = new TimeSpan(0, 18, 0, 0, 0),
                             IsDeleted = false,
-                            IsEnabled = false,
+                            IsEnabled = true,
                             ScheduleId = 10L,
-                            Start = new TimeSpan(0, 8, 0, 0, 0),
+                            Start = new TimeSpan(0, 11, 0, 0, 0),
                             WeekDay = 6
                         });
                 });

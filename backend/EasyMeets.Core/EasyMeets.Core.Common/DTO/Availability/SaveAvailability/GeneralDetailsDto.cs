@@ -1,6 +1,6 @@
 using EasyMeets.Core.Common.Enums;
 
-namespace EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+namespace EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
 
 public class GeneralDetailsDto
 {

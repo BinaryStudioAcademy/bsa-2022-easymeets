@@ -288,6 +288,7 @@ namespace EasyMeets.Core.DAL.Context
             var id = 1;
             var slotId = 1;
             return new Faker<Schedule>()
+                .UseSeed(SeedNumber)
                 .RuleFor(s => s.Id, _ => id++)
                 .RuleFor(s => s.AvailabilitySlotId, _ => slotId++)
                 .RuleFor(s => s.IsDeleted, _ => false)
@@ -302,6 +303,7 @@ namespace EasyMeets.Core.DAL.Context
             var scheduleId = 0;
             var weekIndex = 0;
             return new Faker<ScheduleItem>()
+                .UseSeed(SeedNumber)
                 .RuleFor(i => i.Id, _ => id++)
                 .RuleFor(i => i.IsDeleted, _ => false)
                 .RuleFor(i => i.ScheduleId, _ => (scheduleId++ / 7) + 1)

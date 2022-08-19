@@ -1,4 +1,4 @@
-export interface INewEventDetails {
+export interface ISaveEventDetails {
     link: string;
     welcomeMessage: string;
     language: string;

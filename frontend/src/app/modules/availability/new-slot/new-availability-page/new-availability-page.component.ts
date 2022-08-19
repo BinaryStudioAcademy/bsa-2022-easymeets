@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { INewAvailability } from '@core/models/new-availability-slot/INewAvailability';
+import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { NotificationService } from '@core/services/notification.service';
 import { NewAvailabilityComponent } from '@modules/availability/new-slot/new-availability/new-availability.component';
@@ -49,7 +49,7 @@ export class NewAvailabilityPageComponent extends BaseComponent {
         const eventDetails = this.newAvailabilityComponent.eventDetailComponent.settings;
         const advancedSettings = this.newAvailabilityComponent.generalComponent.addAdvanced
             ? this.newAvailabilityComponent.generalComponent.advancedSettings! : null;
-        const newAvailability: INewAvailability = {
+        const newAvailability: ISaveAvailability = {
             generalDetails: general,
             eventDetails,
             advancedSettings,

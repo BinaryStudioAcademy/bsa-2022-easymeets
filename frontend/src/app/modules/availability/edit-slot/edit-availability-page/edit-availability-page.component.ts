@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
-import { INewAvailability } from '@core/models/new-availability-slot/INewAvailability';
+import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
@@ -49,7 +49,7 @@ export class EditAvailabilityPageComponent extends BaseComponent {
         general.isEnabled = this.newAvailabilityComponent.isActive;
         const advancedSettings = this.newAvailabilityComponent.generalComponent.addAdvanced
             ? this.newAvailabilityComponent.generalComponent.advancedSettings! : null;
-        const updateAvailability: INewAvailability = {
+        const updateAvailability: ISaveAvailability = {
             generalDetails: this.newAvailabilityComponent.generalComponent.settings,
             eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
-import { INewEventDetails } from '@core/models/new-availability-slot/INewEventDetails';
+import { ISaveEventDetails } from '@core/models/save-availability-slot/ISaveEventDetails';
 
 @Component({
     selector: 'app-event-detail',
@@ -24,7 +24,7 @@ export class EventDetailComponent implements OnInit {
 
     public slot?: IAvailabilitySlot;
 
-    public settings: INewEventDetails;
+    public settings: ISaveEventDetails;
 
     public timeZoneChoices: { text: string; value: boolean; }[] = [
         {

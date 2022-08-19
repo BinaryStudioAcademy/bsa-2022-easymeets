@@ -1,6 +1,6 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Availability;
-using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+using EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +24,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAvailabilitySlot([FromBody] NewAvailabilitySlotDto slotDto)
+        public async Task<IActionResult> CreateAvailabilitySlot([FromBody] SaveAvailabilitySlotDto slotDto)
         {
             await _availabilityService.CreateAvailabilitySlot(slotDto);
             return Ok();
@@ -38,7 +38,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<AvailabilitySlotDto>> UpdateAvailabilitySlot(long id, [FromBody] NewAvailabilitySlotDto updateAvailabilityDto)
+        public async Task<ActionResult<AvailabilitySlotDto>> UpdateAvailabilitySlot(long id, [FromBody] SaveAvailabilitySlotDto updateAvailabilityDto)
         {
             return Ok(await _availabilityService.UpdateAvailabilitySlot(id, updateAvailabilityDto));
         }
