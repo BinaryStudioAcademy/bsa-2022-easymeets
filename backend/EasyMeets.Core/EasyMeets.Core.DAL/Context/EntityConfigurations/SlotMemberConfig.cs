@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EasyMeets.Core.DAL.Context;
 
-public class TeamMemberMeetingConfig : IEntityTypeConfiguration<TeamMemberMeeting>
+public class SlotMemberConfig : IEntityTypeConfiguration<SlotMember>
 {
-    public void Configure(EntityTypeBuilder<TeamMemberMeeting> builder)
+    public void Configure(EntityTypeBuilder<SlotMember> builder)
     {
         builder.Property(m => m.MemberId)
             .IsRequired();
@@ -17,13 +17,21 @@ public class TeamMemberMeetingConfig : IEntityTypeConfiguration<TeamMemberMeetin
         builder.Property(m => m.Priority)
             .IsRequired();
 
+        builder.Property(m => m.ScheduleId)
+            .IsRequired();
+
+        builder.HasOne(m => m.Schedule)
+            .WithMany(s => s.Members)
+            .HasForeignKey(m => m.ScheduleId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.HasOne(m => m.Event)
-            .WithMany(e => e.TeamMeetings)
+            .WithMany(e => e.SlotMembers)
             .HasForeignKey(m => m.EventId)
             .OnDelete(DeleteBehavior.Cascade);
         
         builder.HasOne(m => m.User)
-            .WithMany(u => u.TeamMeetings)
+            .WithMany(u => u.SlotMembers)
             .HasForeignKey(m => m.MemberId)
             .OnDelete(DeleteBehavior.Cascade);
     }

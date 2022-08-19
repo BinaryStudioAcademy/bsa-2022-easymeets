@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { INewUser } from '@core/models/INewUser';
 import { IUser } from '@core/models/IUser';
 
 import { HttpInternalService } from './http-internal.service';
@@ -18,5 +19,13 @@ export class UserService {
 
     public editUser(put: IUser) {
         return this.httpService.putRequest<IUser>(`${this.routePrefix}`, put);
+    }
+
+    public checkExistingEmail(email: string) {
+        return this.httpService.getRequest<boolean>(`${this.routePrefix}/check-email?email=${email}`);
+    }
+
+    public createUser(user: INewUser) {
+        return this.httpService.postRequest<IUser>(`${this.routePrefix}`, user);
     }
 }

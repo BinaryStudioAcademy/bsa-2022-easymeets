@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Azure.Storage.Blobs;
 
 namespace EasyMeets.Core.WebAPI.Extentions
 {
@@ -31,6 +30,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
         {
             services.AddAutoMapper(Assembly.GetAssembly(typeof(SampleProfile)));
             services.AddAutoMapper(Assembly.GetAssembly(typeof(AvailabilityProfile)));
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(UserProfile)));
         }
 
         public static void AddValidation(this IServiceCollection services)

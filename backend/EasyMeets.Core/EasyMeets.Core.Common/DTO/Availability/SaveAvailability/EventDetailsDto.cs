@@ -1,4 +1,4 @@
-namespace EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+namespace EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
 
 public class EventDetailsDto
 {
