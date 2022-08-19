@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '@core/guards/auth.guard';
 
 // eslint-disable-next-line max-len
 import { ExternalBookingChooseMeetingComponent } from './external-booking-choose-meeting-page/external-booking-choose-meeting-page.component';
@@ -24,6 +25,7 @@ const routes: Routes = [
                 redirectTo: 'choose-meeting',
             },
         ],
+        canActivate: [AuthGuard],
     },
 ];
 

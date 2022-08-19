@@ -5,6 +5,7 @@ import { SideMenuGroupTabs } from '@core/interfaces/sideMenu/tabs/sideMenuGroupT
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { EventDetailComponent } from '@modules/availability/new-slot/event-detail/event-detail.component';
 import { GeneralComponent } from '@modules/availability/new-slot/general/general.component';
+import { ScheduleComponent } from '@modules/availability/new-slot/schedule/schedule.component';
 
 @Component({
     selector: 'app-new-availability',
@@ -27,6 +28,8 @@ export class NewAvailabilityComponent implements OnInit {
     @ViewChild(GeneralComponent) generalComponent: GeneralComponent;
 
     @ViewChild(EventDetailComponent) eventDetailComponent: EventDetailComponent;
+
+    @ViewChild(ScheduleComponent) scheduleComponent: ScheduleComponent;
 
     public sideMenuGroups: SideMenuGroupTabs[];
 
@@ -54,5 +57,13 @@ export class NewAvailabilityComponent implements OnInit {
         if (this.slot) {
             this.slot.isEnabled = !this.slot.isEnabled;
         }
+    }
+
+    public saveChanges() {
+        if (this.generalComponent.generalForm.invalid) {
+            return;
+        }
+
+        this.saveChangesClick.emit();
     }
 }

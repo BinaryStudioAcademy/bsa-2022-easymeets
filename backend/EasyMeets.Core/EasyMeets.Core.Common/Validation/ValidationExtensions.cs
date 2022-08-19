@@ -1,6 +1,5 @@
 ﻿using EasyMeets.Core.Common.Enums;
 using System.Text.RegularExpressions;
-using TimeZone = EasyMeets.Core.Common.Enums.TimeZone;
 
 namespace EasyMeets.Core.Common.Validation;
 
@@ -73,12 +72,6 @@ public static class ValidationExtensions
     {
         var dateFormats = Enum.GetValues(typeof(DateFormat)).Cast<DateFormat>().ToList();
         return dateFormats.Contains(value);
-    }
-
-    public static bool IsValidTimeZone(this TimeZone value)
-    {
-        var timeZones = Enum.GetValues(typeof(TimeZone)).Cast<TimeZone>().ToList();
-        return timeZones.Contains(value);
     }
 
     public static bool IsValidUrl(this string value)
