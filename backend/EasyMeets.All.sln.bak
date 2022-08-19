@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyMeets.Emailer", "EasyMeets.Emailer\EasyMeets.Emailer.WebAPI\EasyMeets.Emailer.WebAPI.csproj", "{1A55A428-0BC0-4C81-87CA-01A72E7FBD99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Emailer.WebAPI", "EasyMeets.Emailer\EasyMeets.Emailer\EasyMeets.Emailer.WebAPI.csproj", "{1A55A428-0BC0-4C81-87CA-01A72E7FBD99}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Notifier.WebAPI", "EasyMeets.Notifier\EasyMeets.Notifier.WebAPI\EasyMeets.Notifier.WebAPI.csproj", "{093D275F-9FAC-4C20-B662-DFAAEADCFFA4}"
 EndProject
