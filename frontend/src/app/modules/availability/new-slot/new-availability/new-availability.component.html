@@ -1,13 +1,13 @@
 <app-header-item></app-header-item>
 <div class="container">
     <div class="new-availability-header">
-        <p class="new-availability-header-label">{{title}}</p>
+        <p class="new-availability-header-label">{{ title }}</p>
         <mat-slide-toggle [checked]="slot?.isEnabled" (change)="enableSlot()"></mat-slide-toggle>
         <p>Active</p>
-        <p class="slot-link">{{slot?.link ?? ''}}</p>
+        <p class="slot-link">{{ slot?.link ?? '' }}</p>
         <div class="slot-button-container">
             <button mat-flat-button (click)="cancelClick.emit()">Cancel</button>
-            <button mat-flat-button color="primary" (click)="saveChangesClick.emit()">Save changes</button>
+            <button mat-flat-button color="primary" (click)="saveChanges()">Save changes</button>
         </div>
     </div>
     <div class="main-content">
