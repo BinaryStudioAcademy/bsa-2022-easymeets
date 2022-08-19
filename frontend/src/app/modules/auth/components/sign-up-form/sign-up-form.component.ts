@@ -72,8 +72,7 @@ export class SignUpFormComponent extends BaseComponent {
                 })
                 .pipe(this.untilThis)
                 .subscribe(
-                    (user) => {
-                        localStorage.setItem('user', JSON.stringify(user));
+                    () => {
                         this.notifications.showSuccessMessage('You are successfully registered');
                         this.router.navigateByUrl('availability');
                     },

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { INewUser } from '@core/models/INewUser';
-import { IUser } from '@core/models/IUser';
+import { ILocalUser, IUser } from '@core/models/IUser';
 import { map } from 'rxjs';
 
 import { HttpInternalService } from './http-internal.service';
@@ -29,12 +29,35 @@ export class UserService {
     }
 
     public createUser(user: INewUser) {
-        return this.httpService.postRequest<IUser>(`${this.routePrefix}`, user);
+        return this.httpService.postRequest<IUser>(`${this.routePrefix}`, user).pipe(
+            map((resp) => {
+                this.setUser(resp);
+
+                return resp;
+            }),
+        );
     }
 
-    private setUser(_user: IUser) {
+    public setUser(_user: IUser) {
         if (_user) {
-            localStorage.setItem('user', JSON.stringify(_user));
+            const localUser: ILocalUser = {
+                id: _user.id,
+                uid: _user.uid,
+                userName: _user.userName,
+            };
+
+            localStorage.setItem('user', JSON.stringify(localUser));
         }
+    }
+
+    public removeUser() {
+        localStorage.removeItem('user');
+    }
+
+    public getUserFromStorage(): ILocalUser {
+        const user = localStorage.getItem('user');
+        const localUser = JSON.parse(user!) as ILocalUser;
+
+        return localUser;
     }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IUser } from '@core/models/IUser';
 import { SpinnerService } from '@core/services/spinner.service';
+import { UserService } from '@core/services/user.service';
 
 @Component({
     selector: 'app-external-booking-page',
@@ -11,8 +12,8 @@ export class ExternalBookingPageComponent {
     public selectedUser: IUser;
 
     // eslint-disable-next-line no-empty-function
-    constructor(public spinnerService: SpinnerService) {
-        const user = localStorage.getItem('user');
+    constructor(public spinnerService: SpinnerService, private userService: UserService) {
+        const user = this.userService.getUserFromStorage();
 
         this.selectedUser = JSON.parse(user!) as IUser;
     }

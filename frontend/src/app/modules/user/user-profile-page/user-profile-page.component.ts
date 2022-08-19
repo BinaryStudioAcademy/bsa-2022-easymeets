@@ -73,7 +73,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             image: new FormControl(),
         });
 
-        const currentUser = localStorage.getItem('user');
+        const currentUser = this.userService.getUserFromStorage();
 
         this.user = JSON.parse(currentUser!) as IUser;
         this.userForm.patchValue({
@@ -109,8 +109,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             .pipe(this.untilThis)
             .subscribe(
                 (user) => {
-                    localStorage.removeItem('user');
-                    localStorage.setItem('user', JSON.stringify(user));
+                    this.userService.removeUser();
+                    this.userService.setUser(user);
                     this.notificationService.showSuccessMessage('Personal information was updated successfully.');
                 },
                 () => {
