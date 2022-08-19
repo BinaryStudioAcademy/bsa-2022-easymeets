@@ -42,10 +42,24 @@ services:
         env_file:
             - /etc/environment
 
+    easymeets_watcher:
+        image: tatihutii/easymeets_watcher:latest
+        container_name: 'easymeets_watcher'
+        restart: on-failure
+        networks:
+            - back
+        ports:
+            - "5060:5060"
+        environment:
+            ASPNETCORE_ENVIRONMENT: 'Development'
+        env_file:
+            - /etc/environment
+
     easymeets_frontend:
         depends_on:
             - easymeets_core
             - easymeets_notifier
+            - easymeets_watcher
         image: tatihutii/easymeets_frontend:latest
         container_name: 'easymeets_frontend'
         restart: on-failure
