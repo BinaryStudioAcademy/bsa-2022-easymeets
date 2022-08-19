@@ -1,4 +1,3 @@
-import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
@@ -14,16 +13,18 @@ export class TeamService {
     constructor(private httpService: HttpInternalService) {
     }
 
-    public validatePageLink(teamId: number, pagelink: string) {
-        return this.httpService.getRequest<boolean>(`${this.routePrefix}/validatepagelink`, new HttpParams()
-            .set('id', teamId)
-            .set('pagelink', pagelink));
+    public validatePageLink(teamId: number, pageLink: string) {
+        return this.httpService.getRequest<boolean>(
+            `${this.routePrefix}/validatepagelink`,
+            { id: teamId, pagelink: pageLink },
+        );
     }
 
-    public getNewPageLink(teamId: number, teamname: string) {
-        return this.httpService.getStringRequest(`${this.routePrefix}/newpagelink`, new HttpParams()
-            .set('id', teamId)
-            .set('teamname', teamname));
+    public getNewPageLink(teamId: number, teamName: string) {
+        return this.httpService.getStringRequest(
+            `${this.routePrefix}/newpagelink`,
+            { id: teamId, teamname: teamName },
+        );
     }
 
     public getTeamById(teamId: number) {
