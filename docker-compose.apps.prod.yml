@@ -46,6 +46,7 @@ services:
         depends_on:
             - easymeets_core
             - easymeets_notifier
+            - easymeets_emailer
         image: tatihutii/easymeets_frontend:latest
         container_name: 'easymeets_frontend'
         restart: on-failure

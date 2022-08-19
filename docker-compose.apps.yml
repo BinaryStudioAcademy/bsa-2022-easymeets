@@ -50,6 +50,7 @@ services:
     depends_on:
         - easymeets_core
         - easymeets_notifier
+        - easymeets_emailer
     build:
         context: ./frontend
         dockerfile: Dockerfile.dev

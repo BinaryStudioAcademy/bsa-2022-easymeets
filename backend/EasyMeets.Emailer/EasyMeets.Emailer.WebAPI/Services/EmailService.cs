@@ -11,6 +11,7 @@ namespace EasyMeets.Emailer.WebAPI.Services
         private readonly string _senderEmail;
         private readonly string _senderName;
         private readonly ILogger<EmailService> _logger;
+        private readonly TransactionalEmailsApi _api;
 
         public EmailService(IConfiguration configuration, ILogger<EmailService> logger)
         {
@@ -18,20 +19,19 @@ namespace EasyMeets.Emailer.WebAPI.Services
             _senderEmail = configuration["Sender:Email"];
             _senderName = configuration["Sender:Name"];
             _logger = logger;
+            _api = new TransactionalEmailsApi();
         }
 
         public async Task<string> SendEmail(string recipient, string body, string subject)
         {
             Configuration.Default.ApiKey.Add("api-key", _apiKey);
-            var apiInstance = new TransactionalEmailsApi();
             var Email = new SendSmtpEmailSender(_senderName, _senderEmail);
             var smtpEmailTo = new SendSmtpEmailTo(recipient);
-            List<SendSmtpEmailTo> To = new();
-            To.Add(smtpEmailTo);
+            List<SendSmtpEmailTo> To = new() { smtpEmailTo};
             try
             {
                 var sendSmtpEmail = new SendSmtpEmail(Email, To, null, null, null, body, subject);
-                CreateSmtpEmail result = await apiInstance.SendTransacEmailAsync(sendSmtpEmail);
+                CreateSmtpEmail result = await _api.SendTransacEmailAsync(sendSmtpEmail);
 
                 return result.MessageId;
             }
