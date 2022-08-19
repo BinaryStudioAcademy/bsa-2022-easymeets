@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class MeetingController : ControllerBase
@@ -17,8 +17,8 @@ namespace EasyMeets.Core.WebAPI.Controllers
             _meetingService = meetingService;
         }
 
-        [Route("GetThreeMeetings")]
         [HttpGet]
+        [Route("GetThreeMeetings")]
         public async Task<List<MeetingBookingsDTO>> GetAllMeetingsAsync() => await _meetingService.GetThreeMeetingsForBookingsAsync();
 
     }

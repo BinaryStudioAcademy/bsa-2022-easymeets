@@ -12,10 +12,10 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<List<MeetingBookingsDTO>> GetThreeMeetingsForBookingsAsync()
         {
-            var meetings = await _context.Meetings.
-            Include(meeting => meeting.SlotMembers).
-            ThenInclude(teammeat => teammeat.User).
-            ToListAsync();
+            var meetings = await _context.Meetings
+            .Include(meeting => meeting.SlotMembers)
+            .ThenInclude(teammeat => teammeat.User)
+            .ToListAsync();
 
             var mapped = _mapper.Map<List<MeetingBookingsDTO>>(meetings);
             ConvertTimeZone(ref mapped);
@@ -25,19 +25,13 @@ namespace EasyMeets.Core.BLL.Services
 
         private void ConvertTimeZone(ref List<MeetingBookingsDTO> meetings)
         {
-            foreach (var meeting in meetings)
+            foreach (var user in meetings.SelectMany(x => x.MeetingMembers))
             {
-                if (meeting.MeetingMembers != null)
+                switch (user.TimeZone)
                 {
-                    foreach (var user in meeting.MeetingMembers)
-                    {
-                        switch (user.TimeZone)
-                        {
-                            case "0":
-                                user.TimeZone = "Eastern Europe (GMT -0:00)";
-                                break;
-                        }
-                    }
+                    case "0":
+                        user.TimeZone = "Eastern Europe (GMT -0:00)";
+                        break;
                 }
             }
         }

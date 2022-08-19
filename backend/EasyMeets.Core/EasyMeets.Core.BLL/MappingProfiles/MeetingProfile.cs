@@ -23,15 +23,12 @@ namespace EasyMeets.Core.BLL.MappingProfiles
 
         private string CreateMemberTitle(Meeting meeting)
         {
-            switch(meeting.SlotMembers.Count())
+            return meeting.SlotMembers.Count() switch
             {
-                case 0:
-                    return "Empty meeting.";
-                case 1:
-                    return meeting.SlotMembers.FirstOrDefault().User.Name;
-                default:
-                    return $"{meeting.SlotMembers.Count()} + Team Members";
-            }
+                0 => "Empty meeting.",
+                1 => meeting.SlotMembers.FirstOrDefault().User.Name,
+                _ => $"{meeting.SlotMembers.Count()} + Team Members"
+            };
         }
     }
 }

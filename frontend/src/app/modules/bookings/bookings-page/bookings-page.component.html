@@ -2,8 +2,8 @@
 <div class="container">
     <div *ngFor="let item of meetings">
         <div class="infoRow">
-            <div class="item" style="justify-content: space-between">
-                <div style="display: flex; flex-direction: column; gap: 10px">
+            <div class="item itemInfo">
+                <div class="itemTextInfo">
                     <span class="timeTitle">{{ item.meetingTime }}</span>
                     <p class="itemText">
                         {{ item.meetingTitle }}<br />{{ item.meetingDuration }}, {{ item.membersTitle }}
@@ -22,7 +22,7 @@
 
             <div class="listScrollBlock">
                 <div *ngFor="let user of item.meetingMembers">
-                    <div class="item" style="height: 180px; border: none">
+                    <div class="item itemScroll">
                         <span class="timeTitle">{{ user.name }}</span>
                         <p class="itemText">{{ user.email }}</p>
                         <p class="itemText">{{ user.timeZone }}</p>
