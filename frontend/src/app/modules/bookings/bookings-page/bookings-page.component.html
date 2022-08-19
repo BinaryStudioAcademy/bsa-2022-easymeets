@@ -11,7 +11,7 @@
                 </div>
 
                 <div class="buttonRow">
-                    <button class="buttonZoom">Open Zoom Link</button>
+                    <button class="buttonZoom">Open {{ item.location }} Link</button>
                     <div class="threeDots">
                         <div class="oneDot"></div>
                         <div class="oneDot"></div>
@@ -20,8 +20,8 @@
                 </div>
             </div>
 
-            <div *ngFor="let user of item.meetingMembers">
-                <div class="listScrollBlock">
+            <div class="listScrollBlock">
+                <div *ngFor="let user of item.meetingMembers">
                     <div class="item" style="height: 180px; border: none">
                         <span class="timeTitle">{{ user.name }}</span>
                         <p class="itemText">{{ user.email }}</p>

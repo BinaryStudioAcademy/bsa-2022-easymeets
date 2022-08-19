@@ -13,7 +13,7 @@ export class MeetingBookingsService {
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService) {}
 
-    public getMeetingsForBookings(): Observable<IMeetingBooking[]> {
+    public getThreeMeetings(): Observable<IMeetingBooking[]> {
         return this.httpService.getRequest<IMeetingBooking[]>(`${this.routePrefix}`);
     }
 }

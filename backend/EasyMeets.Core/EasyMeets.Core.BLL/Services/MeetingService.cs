@@ -18,20 +18,22 @@ namespace EasyMeets.Core.BLL.Services
             ToListAsync();
 
             var mapped = _mapper.Map<List<MeetingBookingsDTO>>(meetings);
-            ConvertUglyTimeZoneToNiceLooking(ref mapped);
+            ConvertTimeZone(ref mapped);
 
             return mapped;
         }
 
-        private void ConvertUglyTimeZoneToNiceLooking(ref List<MeetingBookingsDTO> meetings)
+        private void ConvertTimeZone(ref List<MeetingBookingsDTO> meetings)
         {
             foreach (var meeting in meetings)
             {
                 foreach (var user in meeting.MeetingMembers)
                 {
                     switch (user.TimeZone)
-                    { 
-                    
+                    {
+                        case "0":
+                            user.TimeZone = "Eastern Europe (GMT -0:00)";
+                            break;
                     }
                 }
             }

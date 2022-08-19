@@ -18,11 +18,10 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
 
     public ngOnInit(): void {
         this.meetingService
-            .getMeetingsForBookings()
+            .getThreeMeetings()
             .pipe(this.untilThis)
             .subscribe((resp: IMeetingBooking[]) => {
                 this.meetings = resp;
-                console.log(this.meetings);
             });
     }
 }

@@ -17,7 +17,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                     .ForMember(dest => dest.MeetingMembers, src => src.MapFrom(s => s.TeamMeetings.
                     Select(x => new UserMeetingDTO { Name = x.User.Name, Email = x.User.Email, TimeZone = x.User.TimeZone.ToString() }).ToList().Take(3)))
                     .ForMember(dest => dest.MeetingCount, src => src.MapFrom(s => s.TeamMeetings.
-                    Select(x => new UserMeetingDTO { Name = x.User.Name, Email = x.User.Email, TimeZone = x.User.TimeZone.ToString() }).ToList().Count()));
+                    Select(x => new UserMeetingDTO { Name = x.User.Name, Email = x.User.Email, TimeZone = x.User.TimeZone.ToString() }).ToList().Count()))
+                    .ForMember(dest => dest.Location, src => src.MapFrom(s => s.LocationType.ToString()));
         }
 
         private string CreateMemberTitle(Meeting meeting)
