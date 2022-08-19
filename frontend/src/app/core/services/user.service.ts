@@ -30,6 +30,6 @@ export class UserService {
     }
     
     public getCurrentUserById(currentUserId: number) {
-        return this.httpService.getRequest<IUser>(`${this.routePrefix}/current/${currentUserId}`);
-    }
+		return this.httpService.getRequest<IUser>(`${this.routePrefix}/current/${currentUserId}`);
+	}
 }
