@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivityType } from '@core/enums/activity-type.enum';
 import { Color } from '@core/enums/color.enum';
 import { SlotType } from '@core/enums/slot-type.enum';
@@ -7,6 +8,7 @@ import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { LocationType } from '@core/models/locationType';
 import { ISaveAdvancedSettings } from '@core/models/save-availability-slot/ISaveAdvancedSettings';
 import { ISaveGeneralSettings } from '@core/models/save-availability-slot/ISaveGeneralSettings';
+import { meetingNameRegex, naturalNumberRegex } from '@shared/constants/model-validation';
 
 @Component({
     selector: 'app-general',
@@ -80,6 +82,12 @@ export class GeneralComponent implements OnInit {
     public minBookingMeetingDifferences: number[] = [2, 4];
 
     public addAdvanced: boolean = false;
+
+    public meetingNameInputPattern = meetingNameRegex;
+
+    public naturalNumberInputPattern = naturalNumberRegex;
+
+    @ViewChild(NgForm) public generalForm: NgForm;
 
     ngOnInit(): void {
         this.settings = {
