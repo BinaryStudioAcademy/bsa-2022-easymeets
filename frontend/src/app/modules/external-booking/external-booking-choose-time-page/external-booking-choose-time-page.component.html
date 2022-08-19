@@ -29,14 +29,7 @@
     <div class="grid">
         <div class="column-label" *ngFor="let day of daysWithTimeRange; let i = index">
             <div class="today-label">
-                <h3
-                    *ngIf="
-                        this.calendarWeek.firstDay.getDate() + i === nowDate.getDate() &&
-                        this.calendarWeek.firstDay.getMonth() === nowDate.getMonth() &&
-                        this.calendarWeek.firstDay.getFullYear() === nowDate.getFullYear()
-                    ">
-                    Today
-                </h3>
+                <h3 *ngIf="isTodayDate(this.calendarWeek.firstDay, i)">Today</h3>
             </div>
             <div class="day-name-label">
                 <h3>{{ day.dayOfWeek }}</h3>
@@ -49,22 +42,12 @@
             <ng-container *ngFor="let day of daysWithTimeRange; let j = index">
                 <ng-container
                     *ngIf="
-                        theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60 * 1000 >=
-                            day.startTime.getTime() &&
-                            theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60 * 1000 <=
-                                day.finishTime.getTime();
+                        isDateInRange(theEarliestStartOfTimeRanges, day.startTime, day.finishTime, i);
                         else defaultTimeSlot
                     ">
                     <span
                         class="enabled"
-                        *ngIf="
-                            (this.calendarWeek.firstDay.getDate() + j >= nowDate.getDate() &&
-                                this.calendarWeek.firstDay.getMonth() === nowDate.getMonth() &&
-                                this.calendarWeek.firstDay.getFullYear() === nowDate.getFullYear()) ||
-                                (this.calendarWeek.firstDay.getMonth() > nowDate.getMonth() &&
-                                    this.calendarWeek.firstDay.getFullYear() >= nowDate.getFullYear());
-                            else defaultTimeSlotPreviousDate
-                        ">
+                        *ngIf="isLastDate(this.calendarWeek.firstDay, j); else defaultTimeSlotPreviousDate">
                         {{
                             theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60000 | date: 'HH:mm'
                         }}
@@ -81,14 +64,7 @@
                 <ng-template #defaultTimeSlot>
                     <span
                         class="disabled"
-                        *ngIf="
-                            (this.calendarWeek.firstDay.getDate() + j >= nowDate.getDate() &&
-                                this.calendarWeek.firstDay.getMonth() === nowDate.getMonth() &&
-                                this.calendarWeek.firstDay.getFullYear() === nowDate.getFullYear()) ||
-                                (this.calendarWeek.firstDay.getMonth() > nowDate.getMonth() &&
-                                    this.calendarWeek.firstDay.getFullYear() >= nowDate.getFullYear());
-                            else defaultTimeSlotPreviousDate
-                        ">
+                        *ngIf="isLastDate(this.calendarWeek.firstDay, j); else defaultTimeSlotPreviousDate">
                         {{
                             theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60000 | date: 'HH:mm'
                         }}

@@ -101,4 +101,28 @@ export class ExternalBookingChooseTimeComponent implements OnInit {
             );
         }
     }
+
+    public isTodayDate(date: Date, daysToAdd: number = 0): boolean {
+        return (
+            date.getDate() + daysToAdd === this.nowDate.getDate() &&
+            date.getMonth() === this.nowDate.getMonth() &&
+            date.getFullYear() === this.nowDate.getFullYear()
+        );
+    }
+
+    public isDateInRange(date: Date, min: Date, max: Date, daysToAdd: number = 0): boolean {
+        return (
+            date.getTime() + this.selectedMeetingDuration * daysToAdd * 60 * 1000 >= min.getTime() &&
+            date.getTime() + this.selectedMeetingDuration * daysToAdd * 60 * 1000 <= max.getTime()
+        );
+    }
+
+    public isLastDate(date: Date, daysToAdd: number = 0): boolean {
+        return (
+            (date.getDate() + daysToAdd >= this.nowDate.getDate() &&
+                date.getMonth() === this.nowDate.getMonth() &&
+                date.getFullYear() === this.nowDate.getFullYear()) ||
+            (date.getMonth() > this.nowDate.getMonth() && date.getFullYear() >= this.nowDate.getFullYear())
+        );
+    }
 }
