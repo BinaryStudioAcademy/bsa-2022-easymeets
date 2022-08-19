@@ -21,4 +21,5 @@ export interface ILocalUser {
     id: number;
     uid?: string;
     userName: string;
+    image?: string;
 }

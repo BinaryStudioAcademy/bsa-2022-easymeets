@@ -44,6 +44,7 @@ export class UserService {
                 id: _user.id,
                 uid: _user.uid,
                 userName: _user.userName,
+                image: _user.image,
             };
 
             localStorage.setItem('user', JSON.stringify(localUser));

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
-import { ILocalUser } from '@core/models/IUser';
+import { IUser } from '@core/models/IUser';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
@@ -15,7 +15,7 @@ import { UserService } from '@core/services/user.service';
 export class AvailabilityPageComponent extends BaseComponent {
     public userPersonalAndTeamSlots: IUserPersonalAndTeamSlots;
 
-    public currentUser: ILocalUser;
+    public currentUser: IUser;
 
     public userSlots: IAvailabilitySlot[];
 
@@ -40,8 +40,15 @@ export class AvailabilityPageComponent extends BaseComponent {
 
     public getCurrentUser() {
         this.spinnerService.show();
-        this.currentUser = this.userService.getUserFromStorage();
-        this.getUserPersonalAndTeamSlots();
+        this.userService
+            .getCurrentUser()
+            .pipe(this.untilThis)
+            .subscribe((resp) => {
+                if (resp) {
+                    this.currentUser = resp;
+                    this.getUserPersonalAndTeamSlots();
+                }
+            });
     }
 
     reloadData(isReload: boolean) {
