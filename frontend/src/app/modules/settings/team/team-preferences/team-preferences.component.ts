@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
 import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
 import { TimeZone } from '@shared/enums/timeZone';
+import { map, Observable } from 'rxjs';
 
 @Component({
     selector: 'app-team-preferences',
@@ -29,12 +30,14 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(/^[іІїЇa-zA-Z\dа-яА-Я- ]*$/),
+        Validators.pattern(/^[іІїЇaєЄa-zA-Z\dа-яА-Я-]+(\s|)[іІїЇєЄa-zA-Z\dа-яА-Я-]*$/),
     ]);
 
-    public pageLinkControl: FormControl = new FormControl('', [
-        // Validators.required,
-    ]);
+    public pageLinkControl: FormControl = new FormControl(
+        '',
+        [Validators.required],
+        [this.teamLinkValidator()],
+    );
 
     public descriptionControl: FormControl = new FormControl(
         '',
@@ -42,7 +45,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
             Validators.required,
             Validators.minLength(2),
             Validators.maxLength(50),
-            Validators.pattern(/^[.,іІїЇa-zA-Z\dа-яА-Я-\s]*$/)],
+            Validators.pattern(/^[.,іІїЇaєЄa-zA-Z\dа-яА-Я-\s]*$/)],
     );
 
     public ngOnInit(): void {
@@ -53,15 +56,6 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
             timeZone: new FormControl(),
             description: this.descriptionControl,
         });
-
-        this.teamService
-            .getNewPageLink(1, 'formGroup.value.name')
-            .pipe(this.untilThis)
-            .subscribe((res) => {
-                console.log(res);
-
-                return res;
-            });
     }
 
     private getTeam(teamId: number) {
@@ -127,6 +121,35 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
             );
     }
 
+    public OnSubmit(form: FormGroup) {
+        if (this.isNewTeam) {
+            this.createTeam(form);
+        } else {
+            this.editeTeam(form);
+        }
+    }
+
+    public generateNewPageLink(formGroup: FormGroup) {
+        if (this.isNewTeam) {
+            if (formGroup.value.name.length > 0) {
+                this.teamService
+                    .getNewPageLink(this.team ? this.team.id : 0, formGroup.value.name.replace(/\s/g, ''))
+                    .pipe(this.untilThis)
+                    .subscribe((res) => {
+                        this.formGroup.patchValue({
+                            pageLink: res,
+                        });
+
+                        return res;
+                    });
+            } else {
+                this.formGroup.patchValue({
+                    pageLink: '',
+                });
+            }
+        }
+    }
+
     private editeTeam(form: FormGroup) {
         const editedTeam: ITeam = {
             id: this.team.id,
@@ -151,57 +174,14 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
             );
     }
 
-    public OnSubmit(form: FormGroup) {
-        if (this.isNewTeam) {
-            this.createTeam(form);
-        } else {
-            this.editeTeam(form);
-        }
+    private teamLinkValidator(): AsyncValidatorFn {
+        return (control: AbstractControl): Observable<ValidationErrors | null> =>
+            this.validateTeamLink(control.value).pipe(
+                map((responce) => (responce ? null : { teamLinkUniq: true })),
+            );
     }
 
-    public generateNewPageLink(formGroup: FormGroup) {
-        if (this.isNewTeam) {
-            if (formGroup.value.name.length > 0) {
-                this.teamService
-                    .getNewPageLink(0, formGroup.value.name.replace(/\s/g, ''))
-                    .pipe(this.untilThis)
-                    .subscribe((res) => {
-                        this.formGroup.patchValue({
-                            pageLink: res,
-                        });
-
-                        return res;
-                    });
-            } else {
-                this.formGroup.patchValue({
-                    pageLink: '',
-                });
-            }
-        }
-    }
-
-    public validateTeamLink() {
-        this.teamService.validateTeamLink(2, 'seth1561').subscribe((res) => {
-            console.log(res);
-
-            return res;
-        });
+    private validateTeamLink(teamlink: string): Observable<boolean> {
+        return this.teamService.validatePageLink(this.team ? this.team.id : 0, teamlink);
     }
 }
-
-// @Injectable({ providedIn: 'root' })
-// export class GoodsService {
-//     constructor(private http: HttpClient) {}
-//
-//     checkGoodsLeft(count: number | string): Observable<any> {
-//         return this.http.get('/api/goods/left');
-//     }
-// }
-//
-// export function checkGoodsLeftValidator(
-//     control: AbstractControl,
-// ) {
-//     return this.checkGoodsLeft(control.value).pipe(
-//         tap((response) => (response ? null : { goodsLeft: true })),
-//     );
-// }

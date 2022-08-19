@@ -14,8 +14,8 @@ export class TeamService {
     constructor(private httpService: HttpInternalService) {
     }
 
-    public validateTeamLink(teamId: number, pagelink: string) {
-        return this.httpService.getRequest<boolean>(`${this.routePrefix}/teamlinkvalidate`, new HttpParams()
+    public validatePageLink(teamId: number, pagelink: string) {
+        return this.httpService.getRequest<boolean>(`${this.routePrefix}/validatepagelink`, new HttpParams()
             .set('id', teamId)
             .set('pagelink', pagelink));
     }

@@ -31,6 +31,12 @@ public class TeamController : ControllerBase
         return Ok(await _teamService.GenerateNewPageLinkAsync(id, teamname));
     }
 
+    [HttpGet("validatepagelink")]
+    public async Task<ActionResult<bool>> ValidatePageLinkAsync(long id, string pagelink)
+    {
+        return Ok(await _teamService.ValidatePageLinkAsync(id, pagelink));
+    }
+
     [HttpPost]
     public async Task<ActionResult<TeamDto>> CreateAsync(NewTeamDto newTeamDto)
     {

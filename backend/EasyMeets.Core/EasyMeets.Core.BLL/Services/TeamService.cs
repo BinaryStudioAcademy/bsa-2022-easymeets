@@ -36,6 +36,12 @@ public class TeamService : BaseService, ITeamService
         return await Task.FromResult($"{pageLink}{index}");
     }
 
+    public Task<bool> ValidatePageLinkAsync(long teamId, string pageLink)
+    {
+        var teams =  _context.Teams.Where(t => t.Id != teamId && t.PageLink == pageLink);
+        return Task.FromResult(!teams.Any());
+    }
+
     public async Task<TeamDto> CreateTeamAsync(NewTeamDto newTeamDto)
     {
         var team = _mapper.Map<Team>(newTeamDto);

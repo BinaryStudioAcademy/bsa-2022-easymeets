@@ -28,9 +28,9 @@
             <div>
                 <input type="text" formControlName="pageLink">
             </div>
-            <div *ngIf="nameControl.invalid && nameControl.touched" class="validation">
-                <small *ngIf="nameControl.errors?.['required']">This field is required.</small>
-                <small *ngIf="nameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
+            <div *ngIf="pageLinkControl.invalid && nameControl.touched" class="validation">
+                <small *ngIf="pageLinkControl.errors?.['required']">This field is required.</small>
+                <small *ngIf="pageLinkControl.errors?.['teamLinkUniq']">Team page link must be unique.</small>
             </div>
         </div>
         <div class="item">

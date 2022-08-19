@@ -71,19 +71,23 @@ label
 
 input, textarea
     &:focus
-        &.ng-invalid
-            border-color: 2px solid $cinnabar
-            outline: $cinnabar
-
-    &.ng-invalid
-        border: 2px solid $cinnabar
-        outline: $cinnabar
-
-input, textarea
-    &:focus
+        outline: $royal-blue
+        border-color: $royal-blue
         &.ng-valid
             outline: $royal-blue
             border-color: $royal-blue
+
+input, textarea
+
+    &:focus
+        &.ng-invalid.ng-touched
+            border-color: 2px solid $cinnabar
+            outline: $cinnabar
+
+    &.ng-invalid.ng-touched
+        border: 2px solid $cinnabar
+        outline: $cinnabar
+
 
 small
     color: $cinnabar
