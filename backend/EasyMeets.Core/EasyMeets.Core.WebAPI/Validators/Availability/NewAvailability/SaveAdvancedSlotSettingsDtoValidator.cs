@@ -1,11 +1,11 @@
-﻿using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+﻿using EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
 using FluentValidation;
 
 namespace EasyMeets.Core.WebAPI.Validators.Availability.NewAvailability;
 
-public class NewAdvancedSlotSettingsDtoValidator : AbstractValidator<NewAdvancedSlotSettingsDto>
+public class SaveAdvancedSlotSettingsDtoValidator : AbstractValidator<SaveAdvancedSlotSettingsDto>
 {
-    public NewAdvancedSlotSettingsDtoValidator()
+    public SaveAdvancedSlotSettingsDtoValidator()
     {
         RuleFor(s => s.Days).Must(d => d is > 0 and < 1000);
         RuleFor(s => s.PaddingMeeting).Must(p => p is < 1 or > 999);

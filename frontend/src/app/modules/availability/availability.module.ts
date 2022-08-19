@@ -10,6 +10,8 @@ import { EventDetailComponent } from './new-slot/event-detail/event-detail.compo
 import { GeneralComponent } from './new-slot/general/general.component';
 import { NewAvailabilityComponent } from './new-slot/new-availability/new-availability.component';
 import { NewAvailabilityPageComponent } from './new-slot/new-availability-page/new-availability-page.component';
+import { ScheduleComponent } from './new-slot/schedule/schedule.component';
+import { ScheduleListItemComponent } from './new-slot/schedule-list-item/schedule-list-item.component';
 import { SlotComponent } from './slot/slot.component';
 import { TeamComponent } from './team/team.component';
 import { UserSlotComponent } from './user-slot/user-slot.component';
@@ -24,6 +26,8 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         GeneralComponent,
         EventDetailComponent,
         NewAvailabilityComponent,
+        ScheduleComponent,
+        ScheduleListItemComponent,
         EditAvailabilityPageComponent,
         NewAvailabilityPageComponent,
     ],
