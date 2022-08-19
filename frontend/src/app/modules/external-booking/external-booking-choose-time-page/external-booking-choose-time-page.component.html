@@ -5,12 +5,14 @@
             <i class="fa-solid fa-calendar"></i>
             <span>{{ calendarWeek.firstDay | date: 'd MMM' }} – {{ calendarWeek.lastDay | date: 'd MMM yyyy' }}</span>
         </div>
-        <button class="btn left-btn" mat-button (click)="changeWeek(false)">
-            <i class="fa-solid fa-angle-left"></i>
-        </button>
-        <button class="btn right-btn" mat-button (click)="changeWeek(true)">
-            <i class="fa-solid fa-angle-right"></i>
-        </button>
+        <div class="week-nav">
+            <button class="btn left-btn" mat-button (click)="changeWeek(false)">
+                <i class="fa-solid fa-angle-left"></i>
+            </button>
+            <button class="btn right-btn" mat-button (click)="changeWeek(true)">
+                <i class="fa-solid fa-angle-right"></i>
+            </button>
+        </div>
     </div>
     <div class="timezone">
         <mat-form-field appearance="fill">

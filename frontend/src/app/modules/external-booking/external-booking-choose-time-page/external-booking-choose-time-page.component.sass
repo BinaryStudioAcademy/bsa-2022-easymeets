@@ -17,17 +17,20 @@ h1
 
 .grid-container
     background-color: $light-gray
-    width: 970px
+    width: 56vw
+    height: 60vh
+    @media screen and (max-width: $desktop-min-width)
+        width: 73vw
 
 .grid
     display: grid
     grid-template-columns: repeat(6, 15%)
     overflow-y: auto
-    max-height: 560px
+    max-height: 100%
     grid-column-gap: 0px
     grid-row-gap: 6px
-    padding-bottom: 10px
     justify-content: center
+    justify-self: center
     span
         text-align: center
         padding: 4px 8px
@@ -39,11 +42,13 @@ h1
         line-height: 20px
         color: $pale-sky
         width: 45%
-        align-items: center
+        margin-bottom: 5px
+        margin-left: 20%
 
     .enabled
         background: $white
         border: 2px solid $loblolly
+
     .enabled:hover
         background-color: $light-gray
         border: 2px solid $pale-sky
@@ -56,6 +61,7 @@ h1
     .previous-date-enabled
         border: 2px solid $alto
         color: $alto
+
     .previous-date-disabled
         border: 2px solid $alto
         background-color: $alto
@@ -74,6 +80,9 @@ h1
     display: flex
     flex-direction: row
     margin-bottom: 20px
+    align-items: flex-start
+    @media screen and (max-width: $tablet-min-width)
+        flex-direction: column
 
 .date-navigation
     width: 50%
@@ -84,13 +93,29 @@ h1
     line-height: 20px
     color: $pale-sky
     position: relative
+    align-items: flex-start
+    @media screen and (max-width: $tablet-min-width)
+        flex-direction: column
+        .week-nav
+            padding-top: 5px
+            padding-bottom: 5px
+    .week-range
+        width: 40%
+        padding-right: 10%
+        height: 36px
+        i
+            padding-right: 5%
+
     button
         width: 15%
         padding: 0px 5px 2px 5px
         height: 36px
 
 .timezone
-    margin-left: 30%
+    position: absolute
+    right: 0
+    @media screen and (max-width: $tablet-min-width)
+        position: relative
 
 .today-label, .day-name-label, .day-number-label
     height: 25px
