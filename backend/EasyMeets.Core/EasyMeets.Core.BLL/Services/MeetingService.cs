@@ -27,13 +27,16 @@ namespace EasyMeets.Core.BLL.Services
         {
             foreach (var meeting in meetings)
             {
-                foreach (var user in meeting.MeetingMembers)
+                if (meeting.MeetingMembers != null)
                 {
-                    switch (user.TimeZone)
+                    foreach (var user in meeting.MeetingMembers)
                     {
-                        case "0":
-                            user.TimeZone = "Eastern Europe (GMT -0:00)";
-                            break;
+                        switch (user.TimeZone)
+                        {
+                            case "0":
+                                user.TimeZone = "Eastern Europe (GMT -0:00)";
+                                break;
+                        }
                     }
                 }
             }
