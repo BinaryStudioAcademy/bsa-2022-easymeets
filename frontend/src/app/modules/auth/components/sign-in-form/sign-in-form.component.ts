@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
+import { UserService } from '@core/services/user.service';
+import firebase from 'firebase/compat';
 
 @Component({
     selector: 'app-sign-in-form',
@@ -22,15 +24,16 @@ export class SignInFormComponent {
     );
 
     // eslint-disable-next-line no-empty-function
-    constructor(private authService: AuthService, private router: Router) {}
+    constructor(private authService: AuthService, private userService: UserService, private router: Router) {}
 
     private setCredentialsIncorrect() {
         this.signInForm.get('email')?.setErrors({ incorrectCredentials: true });
         this.signInForm.get('password')?.setErrors({ incorrectCredentials: true });
     }
 
-    private handleAuthenticationResponce(resp: any): void {
+    private handleAuthenticationResponce(resp: firebase.auth.UserCredential | void): void {
         if (resp) {
+            this.userService.getCurrentUser();
             this.router.navigateByUrl('availability');
         } else {
             this.setCredentialsIncorrect();

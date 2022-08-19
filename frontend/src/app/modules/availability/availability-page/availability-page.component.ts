@@ -5,7 +5,6 @@ import { IUser } from '@core/models/IUser';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
-import { UserService } from '@core/services/user.service';
 
 @Component({
     selector: 'app-availability-page',
@@ -19,11 +18,7 @@ export class AvailabilityPageComponent extends BaseComponent {
 
     public userSlots: IAvailabilitySlot[];
 
-    constructor(
-        private availabilitySlotService: AvailabilitySlotService,
-        private userService: UserService,
-        private spinnerService: SpinnerService,
-    ) {
+    constructor(private availabilitySlotService: AvailabilitySlotService, private spinnerService: SpinnerService) {
         super();
         this.getCurrentUser();
     }
@@ -40,15 +35,10 @@ export class AvailabilityPageComponent extends BaseComponent {
 
     public getCurrentUser() {
         this.spinnerService.show();
-        this.userService
-            .getCurrentUser()
-            .pipe(this.untilThis)
-            .subscribe((resp) => {
-                if (resp) {
-                    this.currentUser = resp;
-                    this.getUserPersonalAndTeamSlots();
-                }
-            });
+        const user = localStorage.getItem('user');
+
+        this.currentUser = JSON.parse(user!) as IUser;
+        this.getUserPersonalAndTeamSlots();
     }
 
     reloadData(isReload: boolean) {

@@ -18,7 +18,6 @@ import { TimeZone } from '@shared/enums/timeZone';
     templateUrl: './user-profile-page.component.html',
     styleUrls: ['./user-profile-page.component.sass'],
 })
-
 export class UserProfilePageComponent extends BaseComponent implements OnInit {
     constructor(
         private userService: UserService,
@@ -74,24 +73,21 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             image: new FormControl(),
         });
 
-        this.userService
-            .getCurrentUser()
-            .pipe(this.untilThis)
-            .subscribe((user) => {
-                this.user = user;
-                this.userForm.patchValue({
-                    userName: user.userName,
-                    phone: user.phone?.substr(user.phone.length - 10),
-                    country: user.country,
-                    dateFormat: user.dateFormat,
-                    timeFormat: user.timeFormat,
-                    language: user.language,
-                    timeZone: user.timeZone,
-                    image: user.image,
-                });
-                this.imageUrl = user.image;
-                this.changeCountryCode(this.userForm);
-            });
+        const currentUser = localStorage.getItem('user');
+
+        this.user = JSON.parse(currentUser!) as IUser;
+        this.userForm.patchValue({
+            userName: this.user.userName,
+            phone: this.user.phone?.substr(this.user.phone.length - 10),
+            country: this.user.country,
+            dateFormat: this.user.dateFormat,
+            timeFormat: this.user.timeFormat,
+            language: this.user.language,
+            timeZone: this.user.timeZone,
+            image: this.user.image,
+        });
+        this.imageUrl = this.user.image;
+        this.changeCountryCode(this.userForm);
     }
 
     public OnSubmit(form: FormGroup) {
@@ -112,7 +108,9 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             .editUser(editedUser)
             .pipe(this.untilThis)
             .subscribe(
-                () => {
+                (user) => {
+                    localStorage.removeItem('user');
+                    localStorage.setItem('user', JSON.stringify(user));
                     this.notificationService.showSuccessMessage('Personal information was updated successfully.');
                 },
                 () => {
@@ -152,13 +150,16 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     }
 
     public confirmCancelDialog(): void {
-        this.confirmationWindowService
-            .openConfirmDialog({
-                buttonsOptions: [{
+        this.confirmationWindowService.openConfirmDialog({
+            buttonsOptions: [
+                {
                     class: 'confirm-accept-button',
                     label: 'Ok',
-                    onClickEvent: this.clickEvent }],
-                title: 'Oops...',
-                message: 'Image can\'t be heavier than 5MB!' });
+                    onClickEvent: this.clickEvent,
+                },
+            ],
+            title: 'Oops...',
+            message: "Image can't be heavier than 5MB!",
+        });
     }
 }

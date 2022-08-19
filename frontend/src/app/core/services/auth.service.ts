@@ -15,10 +15,6 @@ export class AuthService {
     constructor(private afAuth: AngularFireAuth, private notificationService: NotificationService) {
         this.afAuth.authState.subscribe((user) => {
             this.currentUser = user;
-
-            if (this.currentUser) {
-                localStorage.setItem('user', JSON.stringify(this.currentUser));
-            }
         });
     }
 
