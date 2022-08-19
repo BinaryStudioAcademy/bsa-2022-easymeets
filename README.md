@@ -95,12 +95,14 @@ erDiagram
       datetime UpdatedAt
   }
 
-  TeamMemberMeeting ||--o{ User : UserTeamId
-  TeamMemberMeeting ||--o{ Meeting : EventId
-  TeamMemberMeeting {
+  SlotMember ||--o{ User : UserTeamId
+  SlotMember ||--o{ Meeting : EventId
+  SlotMember ||--o{ Schedule : ScheduleId
+  SlotMember {
       bigint Id
       bigint UserTeamId
       int EventId
+      bigint ScheduleId
       int Priority
       bool IsDeleted
   }
@@ -132,6 +134,7 @@ erDiagram
   
   AvailabilitySlot{
     bigint Id
+    bigint ScheduleId
     nvarchar Name
     nvarchar WelcomeMessage
     nvarchar Link
@@ -194,7 +197,27 @@ erDiagram
     datetime StartDate
     datetime EndDate
     bool IsDeleted
-  }  
+  }
+
+  Schedule ||--o{ AvailabilitySlot : AvailabilitySlotId
+  Schedule{
+    bigint Id
+    bigint AvailabilitySlotId
+    int TimeZone
+    bool WithTeamMembers 
+    bool IsDeleted
+  }
+
+  ScheduleItem ||--o{ Schedule : ScheduleId
+  ScheduleItem{
+    bigint Id
+    bigint ScheduleId
+    time Start
+    time End
+    int WeekDay
+    bool IsEnabled
+    bool IsDeleted
+  }
 ```
 
 ## Code quality
