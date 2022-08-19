@@ -14,7 +14,11 @@ import { UserService } from '@core/services/user.service';
 export class ExternalBookingPageComponent implements OnInit {
     public menu: IExternalBookingSideMenu = {} as IExternalBookingSideMenu;
 
-    public selectedUserId: number = 8;
+    public selectedUserId: number = 5;
+
+    public LocationTypeToLabelMapping = LocationTypeToLabelMapping;
+
+    public LocationType = LocationType;
 
     // eslint-disable-next-line no-empty-function
     constructor(public spinnerService: SpinnerService, private userService: UserService, public router: Router) {}
@@ -27,6 +31,6 @@ export class ExternalBookingPageComponent implements OnInit {
 
     public addDurationAndLocationInMenu(data: any): void {
         this.menu.duration = data.duration;
-        this.menu.location = LocationTypeToLabelMapping[LocationType.GoogleMeet];
+        this.menu.location = data.location;
     }
 }

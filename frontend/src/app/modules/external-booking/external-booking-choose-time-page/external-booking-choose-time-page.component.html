@@ -25,16 +25,31 @@
 </div>
 <div class="grid-container">
     <div class="grid">
-        <div class="column-label" *ngFor="let day of daysWithTimeRange">
+        <div class="column-label" *ngFor="let day of daysWithTimeRange; let i = index">
+            <div
+                *ngIf="
+                    this.calendarWeek.firstDay.getDate() + i === nowDate.getDate() &&
+                    this.calendarWeek.firstDay.getMonth() === nowDate.getMonth() &&
+                    this.calendarWeek.firstDay.getFullYear() === nowDate.getFullYear()
+                ">
+                Today
+            </div>
+            <!--
+                {{ this.calendarWeek.firstDay.getTime() + i * 24 * 60 * 60 * 1000 }}
+                {{ nowDate.getTime() }}
+            -->
             <strong>{{ day.dayOfWeek }}</strong>
+            <div>
+                <strong>{{ this.calendarWeek.firstDay.getTime() + i * 24 * 60 * 60 * 1000 | date: 'dd' }}</strong>
+            </div>
         </div>
         <ng-container *ngFor="let in of slotsCount; let i = index">
             <ng-container *ngFor="let day of daysWithTimeRange">
                 <ng-container
                     *ngIf="
-                        theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60000 >=
+                        theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60 * 1000 >=
                             day.startTime.getTime() &&
-                            theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60000 <=
+                            theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60 * 1000 <=
                                 day.finishTime.getTime();
                         else defaultTimeSlot
                     ">

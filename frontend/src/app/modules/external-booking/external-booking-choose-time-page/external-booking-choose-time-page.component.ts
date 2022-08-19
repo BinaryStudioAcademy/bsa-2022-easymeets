@@ -31,6 +31,8 @@ export class ExternalBookingChooseTimeComponent implements OnInit {
 
     public calendarWeek: ICalendarWeek;
 
+    public nowDate: Date = new Date(Date.now());
+
     constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {
         this.availabilitySlotService.getUserPersonalAndTeamSlots(this.selectedUserId).subscribe((slots) => {
             this.selectedUserAvailabilitySlots = slots;
@@ -76,11 +78,19 @@ export class ExternalBookingChooseTimeComponent implements OnInit {
 
     public changeWeek(addingMode: boolean): void {
         if (addingMode) {
-            this.calendarWeek.firstDay = new Date(new Date().setDate(this.calendarWeek.firstDay.getDate() + 7));
-            this.calendarWeek.lastDay = new Date(new Date().setDate(this.calendarWeek.lastDay.getDate() + 7));
+            this.calendarWeek.firstDay = new Date(
+                this.calendarWeek.firstDay.setDate(this.calendarWeek.firstDay.getDate() + 7),
+            );
+            this.calendarWeek.lastDay = new Date(
+                this.calendarWeek.lastDay.setDate(this.calendarWeek.lastDay.getDate() + 7),
+            );
         } else {
-            this.calendarWeek.firstDay = new Date(new Date().setDate(this.calendarWeek.firstDay.getDate() - 7));
-            this.calendarWeek.lastDay = new Date(new Date().setDate(this.calendarWeek.lastDay.getDate() - 7));
+            this.calendarWeek.firstDay = new Date(
+                this.calendarWeek.firstDay.setDate(this.calendarWeek.firstDay.getDate() - 7),
+            );
+            this.calendarWeek.lastDay = new Date(
+                this.calendarWeek.lastDay.setDate(this.calendarWeek.lastDay.getDate() - 7),
+            );
         }
     }
 }

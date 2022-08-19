@@ -1,13 +1,14 @@
 import { Time } from '@angular/common';
 
 import { IUser } from './IUser';
+import { LocationType } from './locationType';
 
 export interface IExternalBookingSideMenu {
     user: IUser;
 
     duration?: number;
 
-    location?: string;
+    location?: LocationType;
 
     timeStart?: Time;
 

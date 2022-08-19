@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { LocationTypeToLabelMapping } from '@core/helpers/location-type-label-mapping';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { LocationType } from '@core/models/locationType';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
@@ -17,6 +18,8 @@ export class ExternalBookingChooseMeetingComponent implements OnInit {
     @Output() selectedDurationAndLocationEvent = new EventEmitter<{ duration: number; location: LocationType }>();
 
     public LocationType = LocationType;
+
+    public LocationTypeToLabelMapping = LocationTypeToLabelMapping;
 
     // eslint-disable-next-line no-empty-function
     constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {}
