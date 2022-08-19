@@ -4,5 +4,6 @@ export const getNewAvailabilityMenu = (): SideMenuGroupTabs[] => [{
     items: [
         { text: 'General' },
         { text: 'Booking page' },
+        { text: 'Schedule' },
     ],
 }];
