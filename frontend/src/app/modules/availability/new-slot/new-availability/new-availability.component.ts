@@ -58,4 +58,12 @@ export class NewAvailabilityComponent implements OnInit {
             this.slot.isEnabled = !this.slot.isEnabled;
         }
     }
+
+    public saveChanges() {
+        if (this.index === 0 && this.generalComponent.generalForm.invalid) {
+            return;
+        }
+
+        this.saveChangesClick.emit();
+    }
 }
