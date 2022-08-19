@@ -8,5 +8,5 @@ public interface ITeamService
     Task<bool> ValidatePageLinkAsync(long teamId, string pageLink);
     Task<TeamDto> CreateTeamAsync(NewTeamDto teamDto);
     Task UpdateTeamAsync(TeamDto team);
-    Task DeleteTeamAsync(int teamId);
+    Task DeleteTeamAsync(long teamId);
 }
