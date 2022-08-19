@@ -19,10 +19,6 @@ public class TeamController : ControllerBase
     public async Task<ActionResult<TeamDto>> GetTeamById(long id)
     {
         var teamDto = await _teamService.GetTeamAsync(id);
-        if (teamDto is null)
-        {
-            return NotFound();
-        }
         return Ok(teamDto);
     }
 

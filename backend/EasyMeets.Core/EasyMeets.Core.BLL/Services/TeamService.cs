@@ -23,36 +23,33 @@ public class TeamService : BaseService, ITeamService
 
     public async Task<string> GenerateNewPageLinkAsync(long teamId, string teamName)
     {
-        var pageLinks = _context.Teams.Where(t => t.Id != teamId).Select(t => t.PageLink);
-        var pageLink = teamName;
-
-        if (!pageLinks.Any(t => t == pageLink))
+        if (!await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == teamName))
         {
-            return await Task.FromResult(pageLink);
+            return teamName;
         }
 
         int index = 1;
 
-        while (pageLinks.Any(t => t == $"{pageLink}{index}"))
+        while (await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == $"{teamName}{index}"))
         {
             index++;
         }
 
-        return await Task.FromResult($"{pageLink}{index}");
+        return $"{teamName}{index}";
     }
 
-    public Task<bool> ValidatePageLinkAsync(long teamId, string pageLink)
+    public async Task<bool> ValidatePageLinkAsync(long teamId, string pageLink)
     {
-        var teams = _context.Teams.Where(t => t.Id != teamId && t.PageLink == pageLink);
-        return Task.FromResult(!teams.Any());
+        var isUnique = !await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == pageLink);
+        return isUnique;
     }
 
     public async Task<TeamDto> CreateTeamAsync(NewTeamDto newTeamDto)
     {
         var team = _mapper.Map<Team>(newTeamDto);
         var createdTeam = _context.Teams.Add(team).Entity;
-        var user = await _userService.GetCurrentUserAsync();
         await _context.SaveChangesAsync();
+        var user = await _userService.GetCurrentUserAsync();
 
         var member = new TeamMember()
         {
