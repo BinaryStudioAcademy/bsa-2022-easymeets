@@ -60,7 +60,7 @@ export class NewAvailabilityComponent implements OnInit {
     }
 
     public saveChanges() {
-        if (this.index === 0 && this.generalComponent.generalForm.invalid) {
+        if (this.generalComponent.generalForm.invalid) {
             return;
         }
 
