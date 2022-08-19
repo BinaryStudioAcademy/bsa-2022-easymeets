@@ -55,7 +55,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(/^[іІїЇa-zA-Z\dа-яА-Я-]+(\s|)[іІїЇa-zA-Z\dа-яА-Я-]*$/),
+        Validators.pattern(/^[єЄіІїЇa-zA-Z\dа-яА-Я-]+(\s|)[єЄіІїЇa-zA-Z\dа-яА-Я-]*$/),
     ]);
 
     public phoneControl: FormControl = new FormControl('', [Validators.required, Validators.minLength(10)]);
