@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import * as auth from 'firebase/auth';
-import firebase from 'firebase/compat';
+import firebase from 'firebase/compat/app';
 import { map, Observable } from 'rxjs';
 
 import { NotificationService } from './notification.service';
@@ -72,6 +72,14 @@ export class AuthService {
         const userData = JSON.parse(currentUser!) as User;
 
         return userData?.emailVerified;
+    }
+
+    public refreshToken() {
+        return firebase.auth().currentUser?.getIdToken().then(t => localStorage.setItem('access-token', t));
+    }
+
+    public getAccessToken() {
+        return localStorage.getItem('access-token');
     }
 
     private loginWithProvider(provider: auth.GoogleAuthProvider | auth.GithubAuthProvider | auth.FacebookAuthProvider) {
