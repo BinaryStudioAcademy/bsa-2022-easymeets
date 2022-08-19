@@ -1,5 +1,6 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
+using EasyMeets.Core.WebAPI.Validators.Team;
 using Microsoft.AspNetCore.Mvc;
 namespace EasyMeets.Core.WebAPI.Controllers;
 
@@ -22,6 +23,12 @@ public class TeamController : ControllerBase
             return NotFound();
         }
         return Ok(teamDto);
+    }
+
+    [HttpGet("newpagelink")]
+    public async Task<ActionResult<string>> GenerateNewPageLinkAsync(long id, string teamname)
+    {
+        return Ok(await _teamService.GenerateNewPageLinkAsync(id, teamname));
     }
 
     [HttpPost]

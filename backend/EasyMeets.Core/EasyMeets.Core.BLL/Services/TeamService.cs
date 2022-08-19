@@ -16,6 +16,26 @@ public class TeamService : BaseService, ITeamService
         return _mapper.Map<TeamDto>(teamEntity);
     }
 
+    public async Task<string> GenerateNewPageLinkAsync(long teamId, string teamName)
+    {
+        var pageLinks =  _context.Teams.Where(t => t.Id != teamId).Select(t => t.PageLink);
+        var pageLink = teamName;
+
+        if (!pageLinks.Any(t => t == pageLink))
+        {
+            return await Task.FromResult(pageLink);
+        }
+
+        int index = 1;
+
+        while (pageLinks.Any(t => t == $"{pageLink}{index}"))
+        {
+            index++;
+        }
+
+        return await Task.FromResult($"{pageLink}{index}");
+    }
+
     public async Task<TeamDto> CreateTeamAsync(NewTeamDto newTeamDto)
     {
         var team = _mapper.Map<Team>(newTeamDto);

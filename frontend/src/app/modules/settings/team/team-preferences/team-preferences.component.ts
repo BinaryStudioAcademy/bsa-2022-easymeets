@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
 import { INewTeam } from '@core/models/INewTeam';
@@ -32,21 +32,36 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         Validators.pattern(/^[іІїЇa-zA-Z\dа-яА-Я- ]*$/),
     ]);
 
-    public descriptionControl: FormControl = new FormControl('', [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(50),
-        Validators.pattern(/^[.,іІїЇa-zA-Z\dа-яА-Я-\s]*$/),
+    public pageLinkControl: FormControl = new FormControl('', [
+        // Validators.required,
     ]);
+
+    public descriptionControl: FormControl = new FormControl(
+        '',
+        [
+            Validators.required,
+            Validators.minLength(2),
+            Validators.maxLength(50),
+            Validators.pattern(/^[.,іІїЇa-zA-Z\dа-яА-Я-\s]*$/)],
+    );
 
     public ngOnInit(): void {
         this.formGroup = new FormGroup({
             name: this.nameControl,
             logo: new FormControl(),
-            pageLink: new FormControl(),
+            pageLink: this.pageLinkControl,
             timeZone: new FormControl(),
             description: this.descriptionControl,
         });
+
+        this.teamService
+            .getNewPageLink(1, 'formGroup.value.name')
+            .pipe(this.untilThis)
+            .subscribe((res) => {
+                console.log(res);
+
+                return res;
+            });
     }
 
     private getTeam(teamId: number) {
@@ -143,4 +158,40 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
             this.editeTeam(form);
         }
     }
+
+    public generateNewPageLink(formGroup: FormGroup) {
+        this.teamService
+            .getNewPageLink(1, formGroup.value.name)
+            .pipe(this.untilThis)
+            .subscribe((res) => {
+                console.log(res);
+
+                return res;
+            });
+    }
+
+    public validateTeamLink() {
+        this.teamService.validateTeamLink(2, 'seth1561').subscribe((res) => {
+            console.log(res);
+
+            return res;
+        });
+    }
 }
+
+// @Injectable({ providedIn: 'root' })
+// export class GoodsService {
+//     constructor(private http: HttpClient) {}
+//
+//     checkGoodsLeft(count: number | string): Observable<any> {
+//         return this.http.get('/api/goods/left');
+//     }
+// }
+//
+// export function checkGoodsLeftValidator(
+//     control: AbstractControl,
+// ) {
+//     return this.checkGoodsLeft(control.value).pipe(
+//         tap((response) => (response ? null : { goodsLeft: true })),
+//     );
+// }
