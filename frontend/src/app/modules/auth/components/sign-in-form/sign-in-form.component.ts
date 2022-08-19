@@ -3,8 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { UserService } from '@core/services/user.service';
-import firebase from 'firebase/compat';
 import { EmailValidator } from '@modules/auth/validators/email-validator';
+import firebase from 'firebase/compat';
 
 @Component({
     selector: 'app-sign-in-form',
@@ -35,7 +35,7 @@ export class SignInFormComponent {
         this.signInForm.get('password')?.setErrors({ incorrectCredentials: true });
     }
 
-    private handleAuthenticationResponce(resp: firebase.auth.UserCredential | void): void {
+    private handleAuthenticationResponse(resp: firebase.auth.UserCredential | void): void {
         if (resp) {
             this.userService.getCurrentUser();
             this.router.navigateByUrl('availability');
