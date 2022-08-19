@@ -33,4 +33,8 @@ export class ExternalBookingPageComponent implements OnInit {
         this.menu.duration = data.duration;
         this.menu.location = data.location;
     }
+
+    isBookingChooseTimeRoute(): boolean {
+        return this.router.url.includes('/external-booking/choose-time');
+    }
 }

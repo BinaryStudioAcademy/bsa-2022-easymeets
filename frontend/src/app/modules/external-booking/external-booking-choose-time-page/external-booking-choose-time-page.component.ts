@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { getExternalBookingTimeSlotsItems } from '@core/helpers/external-booking-time-slots-helper';
 import { ICalendarWeek } from '@core/models/ICalendarWeek';
 import { IDayTimeSlot } from '@core/models/IDayTimeSlot';
@@ -19,7 +20,7 @@ export class ExternalBookingChooseTimeComponent implements OnInit {
 
     public daysWithTimeRange: IDayTimeSlot[] = getExternalBookingTimeSlotsItems();
 
-    public selectedMeetingDuration: number = 60;
+    @Input() selectedMeetingDuration: number;
 
     public slotsCount: Array<object>;
 
@@ -33,15 +34,22 @@ export class ExternalBookingChooseTimeComponent implements OnInit {
 
     public nowDate: Date = new Date(Date.now());
 
-    constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {
+    constructor(
+        public spinnerService: SpinnerService,
+        private availabilitySlotService: AvailabilitySlotService,
+        private route: ActivatedRoute,
+    ) {
         this.availabilitySlotService.getUserPersonalAndTeamSlots(this.selectedUserId).subscribe((slots) => {
             this.selectedUserAvailabilitySlots = slots;
         });
     }
 
     ngOnInit(): void {
-        this.slotsCount = this.slotsCounter();
         this.calendarWeek = this.getCurrentWeek();
+        this.route.queryParams.subscribe((params) => {
+            this.selectedMeetingDuration = params['duration'];
+        });
+        this.slotsCount = this.slotsCounter();
     }
 
     private slotsCounter(): Array<object> {
@@ -60,7 +68,7 @@ export class ExternalBookingChooseTimeComponent implements OnInit {
         const theLongestHoursRange: number =
             this.theLatestFinishOfTimeRanges.getHours() - this.theEarliestStartOfTimeRanges.getHours();
 
-        return new Array((theLongestHoursRange * 60) / this.selectedMeetingDuration + 1);
+        return new Array(Math.ceil((theLongestHoursRange * 60) / this.selectedMeetingDuration + 1));
     }
 
     private getCurrentWeek(): ICalendarWeek {

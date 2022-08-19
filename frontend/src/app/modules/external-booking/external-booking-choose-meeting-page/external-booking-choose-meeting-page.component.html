@@ -8,6 +8,7 @@
         <mat-card
             class="card"
             [routerLink]="['/external-booking/choose-time']"
+            [queryParams]="{ duration: item.size }"
             (click)="addDurationAndLocation(item.size, item.locationType)">
             <mat-card-title>{{ item.name }}</mat-card-title>
             <mat-card-subtitle>
