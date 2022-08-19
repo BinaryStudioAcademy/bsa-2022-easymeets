@@ -5,13 +5,13 @@ import { TimeFormat } from '@shared/enums/timeFormat';
 
 export interface INewUser {
     uid?: string;
-    userName: string
-    email: string
-    image?: string
-    language: Language
-    timeFormat: TimeFormat
-    dateFormat: DateFormat
-    country?: Country
-    phone?: string
-    timeZone: number
+    userName: string;
+    email: string;
+    image?: string;
+    language: Language;
+    timeFormat: TimeFormat;
+    dateFormat: DateFormat;
+    country?: Country;
+    phone?: string;
+    timeZone: number;
 }
