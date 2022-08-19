@@ -98,7 +98,12 @@ app-side-menu-tabs
             grid-template-columns: 10% 90%
             justify-self: center
             cursor: pointer
-            user-select: none
+            padding: 5px
+            &:hover
+                padding: 3px
+                border: 2px solid $black
+                user-select: none
+                transition: .1s ease-in-out
             p
                 height: 24px
                 line-height: 24px
@@ -106,6 +111,9 @@ app-side-menu-tabs
 
 ::ng-deep .mat-tab-group > .mat-tab-header
     display: none
+
+.mat-tab-group
+    width: 100%
 
 .active-container
     display: flex

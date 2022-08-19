@@ -1,2 +1,6 @@
-<app-new-availability [title]="'New Availability Slots'" [showDeleteBlock]=false (cancelClick)="goToPage('/availability')">
+<app-new-availability
+    [title]="'New Availability Slots'"
+    [showDeleteBlock]=false
+    (saveChangesClick)="saveChanges()"
+    (cancelClick)="goToPage('/availability')">
 </app-new-availability>

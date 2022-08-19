@@ -1,4 +1,5 @@
 import { IAdvancedSlotSettings } from '@core/models/IAdvancedSlotSettings';
+import { ISchedule } from '@core/models/schedule/ISchedule';
 
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
 import { LocationType } from './locationType';
@@ -15,6 +16,7 @@ export interface IAvailabilitySlot {
     members: IAvailabilitySlotMember[];
     advancedSlotSettingsId?: number;
     advancedSlotSettings?: IAdvancedSlotSettings;
+    schedule: ISchedule;
     welcomeMessage: string;
     frequency: number;
     language: string;

@@ -1,10 +1,9 @@
 using EasyMeets.Core.Common.Enums;
 
-namespace EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+namespace EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
 
 public class GeneralDetailsDto
 {
-    public long TeamId { get; set; }
     public LocationType LocationType { get; set; }
     public string Name { get; set; } = string.Empty;
     public SlotType Type { get; set; }

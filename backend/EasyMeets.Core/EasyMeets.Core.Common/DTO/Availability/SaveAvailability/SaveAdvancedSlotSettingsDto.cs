@@ -1,8 +1,8 @@
 ﻿using EasyMeets.Core.Common.Enums;
 
-namespace EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+namespace EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
 
-public class NewAdvancedSlotSettingsDto
+public class SaveAdvancedSlotSettingsDto
 {
     public ActivityType ActivityType { get; set; }
     public int Days { get; set; }
