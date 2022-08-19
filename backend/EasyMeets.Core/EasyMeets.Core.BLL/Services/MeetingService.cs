@@ -13,7 +13,7 @@ namespace EasyMeets.Core.BLL.Services
         public async Task<List<MeetingBookingsDTO>> GetThreeMeetingsForBookingsAsync()
         {
             var meetings = await _context.Meetings.
-            Include(meeting => meeting.TeamMeetings).
+            Include(meeting => meeting.SlotMembers).
             ThenInclude(teammeat => teammeat.User).
             ToListAsync();
 
