@@ -1,0 +1,40 @@
+@import '../../../../../styles/color-variables'
+
+.container
+    box-sizing: border-box
+    padding: 15px 0 15px 15px
+    display: flex
+    width: 100%
+    .schedule-container
+        width: 55%
+        border-right: 1px solid $regent-gray
+        padding-right: 25px
+        .schedule-select-container
+            display: flex
+            justify-content: space-between
+            align-items: center
+            padding-bottom: 10px
+            p
+                margin: 0
+                font-weight: bold
+    .override-container
+        width: 45%
+        display: grid
+        grid-template-columns: 100%
+        grid-template-rows: 100%
+        align-items: center
+        justify-items: center
+        button
+            border: 1px solid $regent-gray
+
+
+.input
+    border: 1px solid $regent-gray
+    border-radius: 4px
+    height: 30px
+    width: 200px
+
+select
+    width: 100%
+    height: 100%
+    border: 0

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import * as auth from 'firebase/auth';
-import firebase from 'firebase/compat';
+import firebase from 'firebase/compat/app';
+import { map, Observable } from 'rxjs';
 
 import { NotificationService } from './notification.service';
+import { UserService } from './user.service';
 import User = firebase.User;
 
 @Injectable({
@@ -12,9 +14,16 @@ import User = firebase.User;
 export class AuthService {
     private currentUser: User | null;
 
-    constructor(private afAuth: AngularFireAuth, private notificationService: NotificationService) {
+    constructor(
+        private afAuth: AngularFireAuth,
+        private userService: UserService,
+        private notificationService: NotificationService,
+    ) {
         this.afAuth.authState.subscribe((user) => {
             this.currentUser = user;
+            if (this.currentUser) {
+                this.currentUser.getIdToken().then(t => localStorage.setItem('access-token', t));
+            }
         });
     }
 
@@ -63,8 +72,12 @@ export class AuthService {
         return userData?.emailVerified;
     }
 
-    public getCurrentToken() {
-        return this.currentUser?.getIdToken();
+    public refreshToken() {
+        return firebase.auth().currentUser?.getIdToken().then(t => localStorage.setItem('access-token', t));
+    }
+
+    public getAccessToken() {
+        return localStorage.getItem('access-token');
     }
 
     private loginWithProvider(provider: auth.GoogleAuthProvider | auth.GithubAuthProvider | auth.FacebookAuthProvider) {
@@ -77,5 +90,9 @@ export class AuthService {
         return this.afAuth.currentUser
             .then((u) => u!.sendEmailVerification())
             .catch((error) => this.notificationService.showErrorMessage(error.message));
+    }
+
+    public checkEmail(email: string): Observable<boolean> {
+        return this.userService.checkExistingEmail(email).pipe(map((res) => res));
     }
 }
