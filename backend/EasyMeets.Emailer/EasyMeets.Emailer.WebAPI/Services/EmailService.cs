@@ -8,31 +8,29 @@ namespace EasyMeets.Emailer.WebAPI.Services
     public class EmailService : IEmailService
     {
         private readonly string _apiKey;
+        private readonly string _senderEmail;
+        private readonly string _senderName;
         private readonly ILogger<EmailService> _logger;
 
         public EmailService(IConfiguration configuration, ILogger<EmailService> logger)
         {
             _apiKey = configuration["Sendinblue:ApiKey"];
+            _senderEmail = configuration["Sender:Email"];
+            _senderName = configuration["Sender:Name"];
             _logger = logger;
         }
 
         public async Task<string> SendEmail(string recipient, string body, string subject)
         {
             Configuration.Default.ApiKey.Add("api-key", _apiKey);
-
             var apiInstance = new TransactionalEmailsApi();
-            string SenderName = "John Doe";
-            string SenderEmail = "easymeetsteam@gmail.com";
-            var Email = new SendSmtpEmailSender(SenderName, SenderEmail);
-            string ToEmail = recipient;
-            var smtpEmailTo = new SendSmtpEmailTo(ToEmail);
+            var Email = new SendSmtpEmailSender(_senderName, _senderEmail);
+            var smtpEmailTo = new SendSmtpEmailTo(recipient);
             List<SendSmtpEmailTo> To = new();
             To.Add(smtpEmailTo);
-            string TextContent = body;
-            string Subject = subject;
             try
             {
-                var sendSmtpEmail = new SendSmtpEmail(Email, To, null, null, null, TextContent, Subject);
+                var sendSmtpEmail = new SendSmtpEmail(Email, To, null, null, null, body, subject);
                 CreateSmtpEmail result = await apiInstance.SendTransacEmailAsync(sendSmtpEmail);
 
                 return result.MessageId;

@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IEmailService, EmailService>();
+builder.WebHost.UseUrls("http://*:5090");
 
 var app = builder.Build();
 
@@ -22,11 +23,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/send", async ([FromBody] EmailDto model) =>
+app.MapPost("/send", async ([FromBody] EmailDto model, IEmailService emailService) =>
 {
-    var service = app.Services.GetRequiredService<IEmailService>();
-    var result = await service.SendEmail(model.Recipient, model.Body, model.Subject);
-    return result;
+    return await emailService.SendEmail(model.Recipient, model.Body, model.Subject);
 })
 .WithName("SendEmail");
 
