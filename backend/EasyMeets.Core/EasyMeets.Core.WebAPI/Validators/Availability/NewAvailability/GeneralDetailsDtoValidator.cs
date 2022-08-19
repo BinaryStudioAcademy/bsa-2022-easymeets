@@ -1,4 +1,4 @@
-﻿using EasyMeets.Core.Common.DTO.Availability.NewAvailability;
+﻿using EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
 using EasyMeets.Core.Common.Validation;
 using FluentValidation;
 

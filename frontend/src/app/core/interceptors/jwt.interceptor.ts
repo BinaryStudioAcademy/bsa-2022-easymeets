@@ -2,7 +2,6 @@
 import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
-import { from, lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -10,16 +9,16 @@ export class JwtInterceptor implements HttpInterceptor {
     constructor(private authService: AuthService) {}
 
     public intercept(req: HttpRequest<unknown>, next: HttpHandler) {
-        return from(this.handleAccess(req, next));
+        return this.handleAccess(req, next);
     }
 
-    private async handleAccess(req: HttpRequest<unknown>, next: HttpHandler) {
-        const accessToken = await this.authService.getCurrentToken();
+    private handleAccess(req: HttpRequest<unknown>, next: HttpHandler) {
+        const accessToken = this.authService.getAccessToken();
 
         if (accessToken) {
             req = req.clone({ setHeaders: { Authorization: `Bearer ${accessToken}` } });
         }
 
-        return lastValueFrom(next.handle(req));
+        return next.handle(req);
     }
 }

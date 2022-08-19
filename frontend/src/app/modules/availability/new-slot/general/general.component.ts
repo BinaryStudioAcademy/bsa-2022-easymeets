@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivityType } from '@core/enums/activity-type.enum';
 import { Color } from '@core/enums/color.enum';
+import { SlotType } from '@core/enums/slot-type.enum';
 import { LocationTypeToLabelMapping } from '@core/helpers/location-type-label-mapping';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
-import { IGeneralAvailabilitySettings } from '@core/models/IGeneralAvailabilitySettings';
 import { LocationType } from '@core/models/locationType';
-import { AvailabilitySlotService } from '@core/services/availability-slot.service';
+import { ISaveAdvancedSettings } from '@core/models/save-availability-slot/ISaveAdvancedSettings';
+import { ISaveGeneralSettings } from '@core/models/save-availability-slot/ISaveGeneralSettings';
 
 @Component({
     selector: 'app-general',
@@ -16,41 +17,47 @@ export class GeneralComponent implements OnInit {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
         this.settings = {
-            slotSize: this.slot?.size ?? this.slotSizes[0],
-            slotFrequency: this?.slot?.frequency ?? this.slotsFrequencies[0],
-            hideFromCommon: this.slot ? !this.slot.isVisible : false,
-            maxBookings: this.slot?.advancedSlotSettings?.maxNumberOfBookings ?? 1,
-            meetingName: this.slot?.name ?? '',
-            slotActivityValue: this.slot?.advancedSlotSettings?.days ?? 1,
-            meetingLocation: this.slot?.locationType ?? LocationType.Zoom,
-            meetingPadding: this.slot?.advancedSlotSettings?.paddingMeeting ?? this.meetingPaddings[0],
-            slotActivityOption: this.slot?.advancedSlotSettings?.activityType ?? this.slotActivityOptionsEnums[0],
+            size: this.slot?.size ?? this.slotSizes[0],
+            frequency: this?.slot?.frequency ?? this.slotsFrequencies[0],
+            isVisible: this.slot ? !this.slot.isVisible : false,
+            name: this.slot?.name ?? '',
+            locationType: this.slot?.locationType ?? LocationType.Zoom,
+            isEnabled: this.slot?.isEnabled ?? true,
+            type: SlotType.Personal,
+        };
+        this.advancedSettings = {
+            maxNumberOfBookings: this.slot?.advancedSlotSettings?.maxNumberOfBookings ?? 1,
+            days: this.slot?.advancedSlotSettings?.days ?? 1,
+            paddingMeeting: this.slot?.advancedSlotSettings?.paddingMeeting ?? this.meetingPaddings[0],
+            activityType: this.slot?.advancedSlotSettings?.activityType ?? this.slotActivityOptionsEnums[0],
             minBookingMeetingDifference:
                 this.slot?.advancedSlotSettings?.minBookingMeetingDifference ?? this.minBookingMeetingDifferences[0],
             color: this.slot?.advancedSlotSettings?.color ?? Color.Azure,
         };
 
-        if (!this.slotSizes.some((f) => f === this.settings.slotSize)) {
-            this.slotSizes.push(this.settings.slotSize);
+        if (!this.slotSizes.some((f) => f === this.settings.size)) {
+            this.slotSizes.push(this.settings.size);
         }
 
-        if (!this.slotsFrequencies.some((f) => f === this.settings.slotFrequency)) {
-            this.slotsFrequencies.push(this.settings.slotFrequency);
+        if (!this.slotsFrequencies.some((f) => f === this.settings.frequency)) {
+            this.slotsFrequencies.push(this.settings.frequency);
         }
 
-        if (!this.minBookingMeetingDifferences.some((f) => f === this.settings.minBookingMeetingDifference)) {
-            this.minBookingMeetingDifferences.push(this.settings.minBookingMeetingDifference);
+        if (!this.minBookingMeetingDifferences.some((f) => f === this.advancedSettings?.minBookingMeetingDifference)) {
+            this.minBookingMeetingDifferences.push(this.advancedSettings.minBookingMeetingDifference);
         }
 
-        if (!this.meetingPaddings.some((f) => f === this.settings.meetingPadding)) {
-            this.meetingPaddings.push(this.settings.meetingPadding);
+        if (!this.meetingPaddings.some((f) => f === this.advancedSettings?.paddingMeeting)) {
+            this.meetingPaddings.push(this.advancedSettings.paddingMeeting);
         }
         this.addAdvanced = Boolean(this.slot?.advancedSlotSettingsId);
     }
 
     public slot?: IAvailabilitySlot;
 
-    public settings: IGeneralAvailabilitySettings;
+    public settings: ISaveGeneralSettings;
+
+    public advancedSettings: ISaveAdvancedSettings;
 
     public slotSizes: number[] = [30, 60];
 
@@ -74,20 +81,21 @@ export class GeneralComponent implements OnInit {
 
     public addAdvanced: boolean = false;
 
-    // eslint-disable-next-line no-empty-function
-    constructor(private http: AvailabilitySlotService) {}
-
     ngOnInit(): void {
         this.settings = {
-            hideFromCommon: false,
-            maxBookings: 1,
-            meetingName: '',
-            slotActivityValue: 1,
-            slotSize: this.slotSizes[0],
-            slotFrequency: this.slotsFrequencies[0],
-            meetingLocation: LocationType.Zoom,
-            meetingPadding: this.meetingPaddings[0],
-            slotActivityOption: this.slotActivityOptionsEnums[0],
+            size: this.slotSizes[0],
+            frequency: this.slotsFrequencies[0],
+            isVisible: false,
+            name: '',
+            locationType: LocationType.Zoom,
+            isEnabled: true,
+            type: SlotType.Personal,
+        };
+        this.advancedSettings = {
+            maxNumberOfBookings: 1,
+            days: 1,
+            paddingMeeting: this.meetingPaddings[0],
+            activityType: this.slotActivityOptionsEnums[0],
             minBookingMeetingDifference: this.minBookingMeetingDifferences[0],
             color: Color.Azure,
         };
@@ -129,6 +137,6 @@ export class GeneralComponent implements OnInit {
     ];
 
     colorInputChanged(color: Color) {
-        this.settings.color = color;
+        this.advancedSettings!.color = color;
     }
 }

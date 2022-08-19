@@ -29,6 +29,11 @@ namespace EasyMeets.Core.BLL.Services
             var currentUserDto = _mapper.Map<UserDto>(currentUser);
             return currentUserDto;
         }
+        
+        public async Task<bool> CheckExistingUserByEmail(string email)
+        {
+            return await _context.Users.AnyAsync(u => u.Email == email);;
+        }
 
         public async Task UpdateUserPreferences(UserDto userDto, string currentUserEmail)
         {
@@ -46,6 +51,14 @@ namespace EasyMeets.Core.BLL.Services
         private async Task<User> GetUserById(long id)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id) ?? throw new KeyNotFoundException("User doesn't exist");
+        }
+
+        public async Task<UserDto> CreateUserPreferences(NewUserDto userDto)
+        {
+            var newUser = _mapper.Map<NewUserDto, User>(userDto);
+            _context.Users.Add(newUser);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<User, UserDto>(newUser);
         }
 
         public string GetCurrentUserEmail()
