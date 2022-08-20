@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
-import { EmailValidator } from '@modules/auth/validators/email-validator';
+import { SpinnerService } from '@core/services/spinner.service';
 
 @Component({
     selector: 'app-sign-in-form',
@@ -17,7 +17,6 @@ export class SignInFormComponent {
             email: new FormControl(
                 '',
                 [Validators.required, Validators.email],
-                [EmailValidator.loginEmailValidator(this.authService)],
             ),
             password: new FormControl('', [Validators.required, Validators.minLength(8)]),
         },
@@ -27,7 +26,7 @@ export class SignInFormComponent {
     );
 
     // eslint-disable-next-line no-empty-function
-    constructor(private authService: AuthService, private router: Router) {}
+    constructor(private authService: AuthService, private router: Router, private spinnerService: SpinnerService) {}
 
     private setCredentialsIncorrect() {
         this.signInForm.get('password')?.setErrors({ incorrectCredentials: true });
@@ -43,13 +42,19 @@ export class SignInFormComponent {
 
     public onSignIn(): void {
         if (this.signInForm.valid) {
+            this.spinnerService.show();
             this.authService
                 .signIn(this.signInForm.value.email!, this.signInForm.value.password!)
-                .then((resp) => this.handleAuthenticationResponse(resp));
+                .then((resp) => this.handleAuthenticationResponse(resp))
+                .finally(() => this.spinnerService.hide());
         }
     }
 
     public onSignInWithGoogle(): void {
-        this.authService.loginWithGoogle().then((resp) => this.handleAuthenticationResponse(resp));
+        this.spinnerService.show();
+        this.authService
+            .loginWithGoogle()
+            .then((resp) => this.handleAuthenticationResponse(resp))
+            .finally(() => this.spinnerService.hide());
     }
 }
