@@ -1,7 +1,47 @@
 @import '../../../../styles/color-variables'
+@import '../../../../styles/screen-variables'
 
 .container
-    width: 100vw
-    margin-top: 68px
     min-height: 100vh
+    display: flex
+    margin-top: 68px
+    flex-direction: column
+    justify-items: center
     background-color: $athens-gray
+    padding: 0 100px 90px 100px
+
+.new-meeting-header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding: 20px 0
+    p
+        margin: 0 25px 0 0
+    .new-meeting-header-label
+        font-size: 20px
+        font-weight: bold
+        color: $dark-gray
+    .new-meeting-header-button
+        width: 12%
+
+.main-content
+    background-color: $white
+    display: flex
+    flex-direction: row
+    justify-content: center
+    padding: 0 20px
+    .sidebar
+        width: 25%
+    .menu-item-container
+        width: 75%
+        padding: 20px 0
+
+.sidebar
+    position: relative
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    border-right: 2px solid $athens-gray
+    width: 100%
+    margin: 0 10px
+    padding-bottom: 80px
