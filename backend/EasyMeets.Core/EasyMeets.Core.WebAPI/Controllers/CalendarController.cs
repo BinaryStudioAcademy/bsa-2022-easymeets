@@ -1,5 +1,5 @@
 using EasyMeets.Core.BLL.Interfaces;
-using Google.Apis.Auth.AspNetCore3;
+using EasyMeets.Core.Common.DTO.Calendar;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,10 +15,10 @@ public class CalendarController : ControllerBase
     {
         _calendarsService = calendarsService;
     }
-    
-    [HttpGet("get-calendar")]
-    public async Task<ActionResult<string>> GetAvailabilitySlotById([FromServices] IGoogleAuthProvider auth)
+
+    [HttpPost]
+    public async Task<IActionResult> CreateGoogleCalendar([FromBody] GoogleCalendarDto calendarDto)
     {
-        return Ok(await _calendarsService.GetCalendar(auth));
+        return Ok(await _calendarsService.CreateCalendar(calendarDto));
     }
 }
