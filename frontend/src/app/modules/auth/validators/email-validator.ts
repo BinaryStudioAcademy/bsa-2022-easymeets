@@ -9,4 +9,11 @@ export class EmailValidator {
                 .checkEmail(control.value)
                 .pipe(map((result: boolean) => (result ? null : { userInNotExist: true })));
     }
+
+    static signUpEmailValidator(authService: AuthService): AsyncValidatorFn {
+        return (control: AbstractControl) =>
+            authService
+                .checkEmail(control.value)
+                .pipe(map((result: boolean) => (result ? { userAlreadyExists: true } : null)));
+    }
 }
