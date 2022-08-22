@@ -6,6 +6,7 @@ EXPOSE $PROJECT_PORT
 FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
 WORKDIR /src
 COPY ["EasyMeets.Emailer/EasyMeets.Emailer.WebAPI/EasyMeets.Emailer.WebAPI.csproj", "EasyMeets.Emailer/EasyMeets.Emailer.WebAPI/"]
+
 RUN dotnet restore "EasyMeets.Emailer/EasyMeets.Emailer.WebAPI/EasyMeets.Emailer.WebAPI.csproj"
 COPY . .
 WORKDIR "/src/EasyMeets.Emailer/EasyMeets.Emailer.WebAPI"
