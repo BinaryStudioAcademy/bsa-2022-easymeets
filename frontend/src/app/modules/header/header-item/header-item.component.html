@@ -2,7 +2,7 @@
     <div class="logo"><img src="assets/header/header-logo.png" /></div>
     <div class="nav">
         <mat-card-content>
-            <nav class="tab-panel" mat-tab-nav-bar [tabPanel]="tabPanel">
+            <nav class="tab-panel" mat-tab-nav-bar>
                 <a
                     mat-tab-link
                     *ngFor="let link of navLinks"
@@ -14,9 +14,6 @@
                     {{ link.label }}
                 </a>
             </nav>
-            <mat-tab-nav-panel #tabPanel>
-                <router-outlet></router-outlet>
-            </mat-tab-nav-panel>
         </mat-card-content>
     </div>
 
