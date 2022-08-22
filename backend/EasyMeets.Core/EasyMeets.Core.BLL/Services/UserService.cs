@@ -17,9 +17,9 @@ namespace EasyMeets.Core.BLL.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<UserDto> GetCurrentUserAsync(string currentUserEmail)
+        public async Task<UserDto> GetCurrentUserAsync()
         {
-            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == currentUserEmail);
+            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == GetCurrentUserEmail());
 
             if (currentUser == null)
             {
@@ -29,7 +29,7 @@ namespace EasyMeets.Core.BLL.Services
             var currentUserDto = _mapper.Map<UserDto>(currentUser);
             return currentUserDto;
         }
-        
+
         public async Task<bool> CheckExistingUserByEmail(string email)
         {
             return await _context.Users.AnyAsync(u => u.Email == email);;

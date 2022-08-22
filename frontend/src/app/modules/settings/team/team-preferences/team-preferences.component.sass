@@ -1,13 +1,11 @@
-@import "../../../../styles/color-variables"
+@import "src/styles/color-variables"
 
 .wrapper
-    color: $dark-gray
     display: flex
-    align-items: center
     justify-content: center
-    width: 100%
 
-.form-container
+.form-wrapper
+    color: $dark-gray
     display: flex
     flex-direction: column
     align-items: center
@@ -17,53 +15,27 @@
     gap: 30px
     padding: 50px
 
-.user-avatar-block
+.logo-block
     width: 100%
     display: flex
     align-items: center
     justify-content: space-around
-    flex-wrap: wrap
     gap: 30px
-
-input, .mat-select
-    height: 30px
-    color: $dark-gray
-    font-size: 15px
-    background: $white
-    border: 2px solid $light-gray
-    border-radius: 4px
-    width: calc(100% - 9px)
-    padding-left: 5px
+    flex-wrap: wrap
 
 .item
     width: 100%
 
-    .input-block
-        width: 100%
-        display: flex
-        align-items: center
-        justify-content: space-between
-        flex-wrap: wrap
-        gap: 30px
-
-        .input-block-item
-            width: 45%
-            @media (max-width: 500px)
-                width: 100%
-
-.user-avatar
+.logo
     background-color: $light-gray
+    border: none
+    box-shadow: none
     border-radius: 50%
     width: 100px
     height: 100px
 
 .white-button
     background-color: white
-    cursor: pointer
-
-.update-preferences-button
-    display: flex
-    justify-content: center
 
 button
     color: $dark-gray
@@ -74,6 +46,16 @@ button
     border-radius: 5px
     font-size: 15px
     align-content: center
+
+.buttons-block
+    display: flex
+    justify-content: space-between
+    flex-direction: inherit
+    gap: 30px
+
+    @media ( max-width: 500px)
+        flex-wrap: wrap-reverse
+        justify-content: center
 
 label
     font-weight: 600
@@ -87,8 +69,7 @@ label
         color: $dark-gray
         font-size: 15px
 
-
-input
+input, textarea
     &:focus
         outline: $royal-blue
         border-color: $royal-blue
@@ -96,7 +77,8 @@ input
             outline: $royal-blue
             border-color: $royal-blue
 
-input
+input, textarea
+
     &:focus
         &.ng-invalid.ng-touched
             border-color: 2px solid $cinnabar
@@ -106,8 +88,28 @@ input
         border: 2px solid $cinnabar
         outline: $cinnabar
 
+
 small
     color: $cinnabar
+
+textarea
+    resize: none
+    height: 100px
+
+input, .mat-select
+    height: 30px
+
+input, .mat-select, textarea
+
+    margin-top: 5px
+    color: $dark-gray
+    font-size: 15px
+    background: $white
+    border: 2px solid $light-gray
+    border-radius: 4px
+    min-width: calc(100% - 9px)
+    max-width: calc(100% - 9px)
+    padding-left: 5px
 
 .mat-option
     min-width: 100%

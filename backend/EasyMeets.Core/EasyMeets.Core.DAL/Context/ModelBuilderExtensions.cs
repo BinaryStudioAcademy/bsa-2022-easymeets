@@ -123,6 +123,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
                 .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
                 .RuleFor(u => u.IsDeleted, f => false)
+                .RuleFor(u => u.MeetingLink, f => f.Internet.Url().ClampLength(1, 30))
                 .Generate(count);
         }
 
@@ -152,10 +153,13 @@ namespace EasyMeets.Core.DAL.Context
 
             var authorId = 1;
 
+            var meetingId = 1;
+
             return new Faker<AvailabilitySlot>()
                 .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.TeamId, f => f.Random.Int(1, 10))
+                .RuleFor(u => u.MeetingId, f => meetingId++)
                 .RuleFor(u => u.CreatedBy, f => authorId++)
                 .RuleFor(u => u.LocationType, f => f.PickRandom<LocationType>())
                 .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50))
@@ -236,6 +240,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Email, f => f.Person.Email.ClampLength(max: 29))
                 .RuleFor(u => u.EventTime, f => f.Date.Future())
                 .RuleFor(u => u.IsDeleted, f => false)
+                .RuleFor(u => u.TimeZone, f => 0)
                 .Generate(count);
         }
 

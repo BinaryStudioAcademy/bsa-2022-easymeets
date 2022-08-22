@@ -1,0 +1,40 @@
+<app-header-item></app-header-item>
+<div class="container">
+    <div *ngFor="let item of meetings">
+        <div class="infoRow">
+            <div class="item itemInfo">
+                <div class="itemTextInfo">
+                    <span class="timeTitle">{{ item.meetingTime }}</span>
+                    <p class="itemText">
+                        {{ item.meetingTitle }}<br />{{ item.meetingDuration }}, {{ item.membersTitle }}
+                    </p>
+                </div>
+
+                <div class="buttonRow">
+                    <button class="buttonZoom">Open {{ item.location }} Link</button>
+                    <div class="threeDots">
+                        <div class="oneDot"></div>
+                        <div class="oneDot"></div>
+                        <div class="oneDot"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="listScrollBlock">
+                <div *ngFor="let user of item.meetingMembers">
+                    <div class="item itemScroll">
+                        <span class="timeTitle">{{ user.name }}</span>
+                        <p class="itemText">{{ user.email }}</p>
+                        <p class="itemText">{{ user.timeZone }}</p>
+                        <p class="listItemAnswers">Answers: 2/3</p>
+                        <p class="itemText">Booked: 19:21, 13 Aug, 2022</p>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="item.meetingCount > 3">
+                <div class="moreBlock">{{ item.meetingCount - 3 }}+ Booker</div>
+            </div>
+        </div>
+    </div>
+</div>

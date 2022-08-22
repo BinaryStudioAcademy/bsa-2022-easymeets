@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
+import { UserService } from '@core/services/user.service';
+import { EmailValidator } from '@modules/auth/validators/email-validator';
+import firebase from 'firebase/compat';
 import { SpinnerService } from '@core/services/spinner.service';
 
 @Component({
@@ -26,14 +29,15 @@ export class SignInFormComponent {
     );
 
     // eslint-disable-next-line no-empty-function
-    constructor(private authService: AuthService, private router: Router, private spinnerService: SpinnerService) {}
+    constructor(private authService: AuthService, private userService: UserService, private router: Router, private spinnerService: SpinnerService) {}
 
     private setCredentialsIncorrect() {
         this.signInForm.get('password')?.setErrors({ incorrectCredentials: true });
     }
 
-    private handleAuthenticationResponse(resp: any): void {
+    private handleAuthenticationResponse(resp: firebase.auth.UserCredential | void): void {
         if (resp) {
+            this.userService.getCurrentUser();
             this.router.navigateByUrl('availability');
         } else {
             this.setCredentialsIncorrect();

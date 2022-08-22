@@ -11,8 +11,12 @@ const routes: Routes = [
         loadChildren: () => import('./modules/availability/availability.module').then((m) => m.AvailabilityModule),
     },
     {
-        path: 'user',
-        loadChildren: () => import('./modules/user/user.module').then((m) => m.UserModule),
+        path: 'bookings',
+        loadChildren: () => import('./modules/bookings/bookings.module').then((m) => m.BookingsModule),
+    },
+    {
+        path: 'settings',
+        loadChildren: () => import('./modules/settings/settings.module').then((m) => m.SettingsModule),
     },
     {
         path: 'external-booking',

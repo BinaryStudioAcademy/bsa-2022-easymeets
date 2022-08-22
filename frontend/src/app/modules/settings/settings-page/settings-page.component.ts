@@ -3,11 +3,11 @@ import { getUserSettingsMenuItems } from '@core/helpers/user-settings-menu-helpe
 import { SideMenuGroup } from '@core/interfaces/sideMenu/sideMenuGroup';
 
 @Component({
-    selector: 'app-user-settings-page',
-    templateUrl: './user-settings-page.component.html',
-    styleUrls: ['./user-settings-page.component.sass'],
+    selector: 'app-settings-page',
+    templateUrl: './settings-page.component.html',
+    styleUrls: ['./settings-page.component.sass'],
 })
-export class UserSettingsPageComponent implements OnInit {
+export class SettingsPageComponent implements OnInit {
     public sideMenuGroups: SideMenuGroup[];
 
     public isActive: boolean = true;
