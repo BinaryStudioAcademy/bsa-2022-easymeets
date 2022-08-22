@@ -30,6 +30,8 @@ By default, apps run on the following ports:
 | ---------------------- | ---- |
 | EasyMeets.**Core**     | 5050 |
 | EasyMeets.**Notifier** | 5070 |
+| EasyMeets.**Emailer**  | 5060 |
+| EasyMeets.**Watcher**  | 5090 |
 | RabbitMQ               | 5672 |
 
 _Tip: If you want to connect to the specific service outside of docker, then use "localhost" as a service name, but if both services are inside docker, use service_name from a "docker-compose" file instead._
@@ -131,7 +133,7 @@ erDiagram
     bigint AvailabilitySlotId
     bool IsDeleted
   }
-  
+
   AvailabilitySlot{
     bigint Id
     bigint ScheduleId
@@ -204,7 +206,7 @@ erDiagram
     bigint Id
     bigint AvailabilitySlotId
     int TimeZone
-    bool WithTeamMembers 
+    bool WithTeamMembers
     bool IsDeleted
   }
 

@@ -110,9 +110,12 @@ namespace EasyMeets.Core.DAL.Context
         {
             var id = 1;
 
+            var slotId = 1;
+
             return new Faker<Meeting>()
                 .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
+                .RuleFor(u => u.AvailabilitySlotId, _ => slotId++)
                 .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50))
                 .RuleFor(u => u.Description, f => f.Lorem.Text().ClampLength(1, 50))
                 .RuleFor(u => u.TeamId, f => f.Random.Int(1, 10))
@@ -153,13 +156,10 @@ namespace EasyMeets.Core.DAL.Context
 
             var authorId = 1;
 
-            var meetingId = 1;
-
             return new Faker<AvailabilitySlot>()
                 .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.TeamId, f => f.Random.Int(1, 10))
-                .RuleFor(u => u.MeetingId, f => meetingId++)
                 .RuleFor(u => u.CreatedBy, f => authorId++)
                 .RuleFor(u => u.LocationType, f => f.PickRandom<LocationType>())
                 .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50))
