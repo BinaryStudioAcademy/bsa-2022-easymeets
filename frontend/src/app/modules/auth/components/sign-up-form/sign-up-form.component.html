@@ -3,14 +3,7 @@
         <mat-label class="outside-label bold">Email</mat-label>
         <mat-form-field appearance="outline">
             <input matInput id="email" type="email" formControlName="email" placeholder="email@email.com" />
-            <mat-error
-                *ngIf="
-                    signUpForm.controls['email'].hasError('email') ||
-                    signUpForm.controls['email'].hasError('required') ||
-                    signUpForm.controls['email'].hasError('incorrectCredentials')
-                "
-                >Email format is invalid</mat-error
-            >
+            <mat-error *ngIf="signUpForm.controls['email'].invalid">{{ getEmailErrorMessage() }}</mat-error>
         </mat-form-field>
         <mat-label class="outside-label bold">Name</mat-label>
         <mat-form-field appearance="outline">
