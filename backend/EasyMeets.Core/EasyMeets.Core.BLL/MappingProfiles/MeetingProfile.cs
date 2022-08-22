@@ -26,7 +26,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             return meeting.SlotMembers.Count() switch
             {
                 0 => "Empty meeting.",
-                1 => meeting.SlotMembers.FirstOrDefault().User.Name,
+                1 => meeting.SlotMembers.First().User.Name,
                 _ => $"{meeting.SlotMembers.Count()} + Team Members"
             };
         }
