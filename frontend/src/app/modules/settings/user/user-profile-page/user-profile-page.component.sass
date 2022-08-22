@@ -18,12 +18,16 @@
     padding: 50px
 
 .user-avatar-block
-    width: 100%
+    width: 80%
     display: flex
     align-items: center
     justify-content: space-around
     flex-wrap: wrap
     gap: 30px
+    .user-avatar
+        border-radius: 50%
+        width: 100px
+        height: 100px
 
 input, .mat-select
     height: 30px
@@ -86,7 +90,6 @@ label
     .mat-select-value
         color: $dark-gray
         font-size: 15px
-
 
 input
     &:focus
