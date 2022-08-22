@@ -1,17 +1,19 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
-using EasyMeets.Core.Common.DTO.User; 
+using EasyMeets.Core.Common.DTO.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class NewMeetingController : ControllerBase
+    public class MeetingController : ControllerBase
     {
         private readonly ITeamService _teamService;
         private readonly IUserService _userService;
-        public NewMeetingController(ITeamService teamService, IUserService userService)
+        public MeetingController(ITeamService teamService, IUserService userService)
         {
             _teamService = teamService;
             _userService = userService;
