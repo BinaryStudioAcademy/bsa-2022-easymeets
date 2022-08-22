@@ -7,12 +7,12 @@ import { HttpInternalService } from './http-internal.service';
     providedIn: 'root',
 })
 export class NewMeetingService {
-    public routePrefix = '/uploadimage';
+    public routePrefix = '/meeting';
 
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService) {}
 
     public getTeamMembersOfCurrentUser() {
-        return this.httpService.getRequest<INewMeetingTeamMember[]>(`${this.routePrefix}/current`);
+        return this.httpService.getRequest<INewMeetingTeamMember[]>(`${this.routePrefix}`);
     }
 }
