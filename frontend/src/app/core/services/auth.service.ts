@@ -21,10 +21,9 @@ export class AuthService {
     ) {
         this.afAuth.authState.subscribe((user) => {
             this.currentUser = user;
-
             if (this.currentUser) {
-                localStorage.setItem('user', JSON.stringify(this.currentUser));
                 this.currentUser.getIdToken().then(t => localStorage.setItem('access-token', t));
+                localStorage.setItem('email-verified', JSON.stringify(this.currentUser.emailVerified));
             }
         });
     }
@@ -64,14 +63,7 @@ export class AuthService {
     }
 
     public isLoggedIn() {
-        const currentUser = localStorage.getItem('user');
-
-        if (!currentUser) {
-            return false;
-        }
-        const userData = JSON.parse(currentUser!) as User;
-
-        return userData?.emailVerified;
+        return JSON.parse(localStorage.getItem('email-verified')!) as boolean;
     }
 
     public refreshToken() {

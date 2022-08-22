@@ -26,8 +26,8 @@
                 <div>Language</div>
             </label>
             <mat-select formControlName="language">
-                <mat-option *ngFor="let name of languageValues" [value]="languageValues.indexOf(name)">
-                    {{ name }}
+                <mat-option *ngFor="let language of languageValues" [value]="language">
+                    {{ languageLabelMapping[language] }}
                 </mat-option>
             </mat-select>
         </div>
@@ -38,8 +38,8 @@
                         <div>Time Format</div>
                     </label>
                     <mat-select formControlName="timeFormat">
-                        <mat-option *ngFor="let name of timeFormatValues" [value]="timeFormatValues.indexOf(name)">
-                            {{ name }}
+                        <mat-option *ngFor="let timeFormat of timeFormatValues" [value]="timeFormat">
+                            {{ timeFormatLabelMapping[timeFormat] }}
                         </mat-option>
                     </mat-select>
                 </div>
@@ -48,8 +48,8 @@
                         <div>Date Format</div>
                     </label>
                     <mat-select formControlName="dateFormat">
-                        <mat-option *ngFor="let name of dateFormatValues" [value]="dateFormatValues.indexOf(name)">
-                            {{ name }}
+                        <mat-option *ngFor="let dateformat of dateFormatValues" [value]="dateformat">
+                            {{ dateFormatLabelMapping[dateformat] }}
                         </mat-option>
                     </mat-select>
                 </div>
@@ -60,8 +60,8 @@
                 <div>Country</div>
             </label>
             <mat-select formControlName="country" (selectionChange)="changeCountryCode(userForm)">
-                <mat-option *ngFor="let name of countryValues" [value]="countryValues.indexOf(name)">
-                    {{ name }}
+                <mat-option *ngFor="let country of countryValues" [value]="country">
+                    {{ countryLabelMapping[country] }}
                 </mat-option>
             </mat-select>
         </div>
@@ -72,10 +72,9 @@
             <div>
                 <input
                     formControlName="phone"
-                    mask="(000) 000 00 00"
+                    mask="00000000000"
                     prefix="+{{ countryCode }} "
-                    [showMaskTyped]="true"
-                    placeHolderCharacter="_" />
+                    [validation]="false" />
             </div>
             <div *ngIf="phoneControl.invalid && phoneControl.touched" class="validation">
                 <small *ngIf="phoneControl.errors?.['required']">This field is required.</small>

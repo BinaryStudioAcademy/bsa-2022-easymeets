@@ -6,7 +6,25 @@
     </div>
     <div class="main-content">
         <div class="sidebar">
-            <form class="add-member-form">
+            <form class="add-new-meeting-info-form">
+                <p class="name-label">Name</p>
+                <input matInput type="text" placeholder="New meeting">
+                <div class="duration-container">
+                    <p class="duration-label">Duration</p>
+                    <mat-select placeholder="30 min">
+                        <mat-option *ngFor="let duration of durations" [value]="duration">
+                            {{duration}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+                <div class="duration-container">
+                    <p class="location-label">Location</p>
+                    <mat-select placeholder="30 min">
+                        <mat-option *ngFor="let location of locations" [value]="locations.indexOf(location)">
+                            {{location}}
+                        </mat-option>
+                    </mat-select>
+                </div>
                 <p class="add-team-member-label">Add Team Member</p>
                 <input matInput type="text" placeholder="Type..." list="cityname">
                 <datalist id="cityname">
@@ -14,6 +32,16 @@
                     <option value="Cambridge">
                 </datalist>
             </form>
+            <div class="team-members-container" *ngIf="teamMembers">
+                <p class="team-members-label">Team members 1:</p>
+                <div class="member-info-container" *ngFor="let member of teamMembers">
+                    <div  class="member-info">
+                        <p>{{member.name}}</p>
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                    <mat-divider></mat-divider>
+                </div>
+            </div>
         </div>
         <div class="menu-item-container">
             <div class="date-duration-container">

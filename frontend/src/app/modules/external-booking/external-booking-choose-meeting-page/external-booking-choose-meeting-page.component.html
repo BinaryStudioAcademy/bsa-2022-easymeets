@@ -1,0 +1,22 @@
+<h1>Please, choose meeting</h1>
+<div class="meeting-cards">
+    <ng-template
+        *ngIf="selectedUserAvailabilitySlots.userSlots.length; else noUserSlots"
+        ngFor
+        let-item
+        [ngForOf]="selectedUserAvailabilitySlots.userSlots">
+        <mat-card
+            class="card"
+            [routerLink]="['/external-booking/choose-time']"
+            [queryParams]="{ duration: item.size }"
+            (click)="addDurationAndLocation(item.size, item.locationType)">
+            <mat-card-title>{{ item.name }}</mat-card-title>
+            <mat-card-subtitle>
+                {{ item.size }} Min, {{ LocationTypeToLabelMapping[item.locationType] }}
+            </mat-card-subtitle>
+        </mat-card>
+    </ng-template>
+    <ng-template #noUserSlots>
+        <h1>No user slots</h1>
+    </ng-template>
+</div>

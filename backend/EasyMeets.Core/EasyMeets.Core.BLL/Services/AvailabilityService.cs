@@ -61,9 +61,8 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task CreateAvailabilitySlot(SaveAvailabilitySlotDto slotDto)
         {
-            var currentUserEmail = _userService.GetCurrentUserEmail();
-            var currentUser = await _userService.GetCurrentUserAsync(currentUserEmail);
-            var entity = _mapper.Map<AvailabilitySlot>(slotDto, opts => 
+            var currentUser = await _userService.GetCurrentUserAsync();
+            var entity = _mapper.Map<AvailabilitySlot>(slotDto, opts =>
                 opts.AfterMap((_, dest) => dest.CreatedBy = currentUser.Id));
 
             await _context.AvailabilitySlots.AddAsync(entity);
@@ -116,7 +115,7 @@ namespace EasyMeets.Core.BLL.Services
                 .FirstOrDefaultAsync(slot => slot.Id == id);
 
             _mapper.Map(updateAvailabilityDto, availabilitySlot);
-            
+
             if (availabilitySlot is null)
             {
                 throw new KeyNotFoundException("Availability slot doesn't exist");
@@ -132,16 +131,16 @@ namespace EasyMeets.Core.BLL.Services
                 newAdvancedSlotSettings.AvailabilitySlotId = availabilitySlot.Id;
                 _context.AdvancedSlotSettings.Add(newAdvancedSlotSettings);
             }
-            
+
             else if (!updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is not null)
             {
                 _context.Remove(availabilitySlot.AdvancedSlotSettings);
             }
 
             _mapper.Map(updateAvailabilityDto.Schedule, availabilitySlot.Schedule);
-            
+
             availabilitySlot.LocationType = updateAvailabilityDto.GeneralDetails!.LocationType;
-            
+
             await _context.SaveChangesAsync();
             return _mapper.Map<AvailabilitySlotDto>(await _context.AvailabilitySlots.FirstOrDefaultAsync(slot => slot.Id == id));
         }

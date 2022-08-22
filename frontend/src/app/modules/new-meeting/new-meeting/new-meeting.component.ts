@@ -3,6 +3,7 @@ import { getDisplayDate } from '@core/helpers/date-helper';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
 import { INewMeetingTeamMember } from '@core/models/INewMeetingTeamMember';
 import { NewMeetingService } from '@core/services/new-meeting.service';
+import { LocationType } from '@shared/enums/locationType';
 
 @Component({
     selector: 'app-new-meeting',
@@ -15,6 +16,10 @@ export class NewMeetingComponent {
     public durations = getDisplayDuration();
 
     public dates = getDisplayDate();
+
+    public isLoading: boolean = true;
+
+    public locations = Object.keys(LocationType).filter(key => Number.isNaN(Number(key)));
 
     // eslint-disable-next-line no-unused-vars
     constructor(private newMeetingService: NewMeetingService) {

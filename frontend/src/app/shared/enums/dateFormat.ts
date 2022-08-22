@@ -1,4 +1,4 @@
 export enum DateFormat {
-    Hyphen,
-    Slash
+    MonthDayYear,
+    DayMonthYear
 }
