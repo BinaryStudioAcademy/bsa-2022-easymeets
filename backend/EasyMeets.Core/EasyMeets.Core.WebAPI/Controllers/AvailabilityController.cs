@@ -33,8 +33,16 @@ namespace EasyMeets.Core.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<UserPersonalAndTeamSlotsDto>> GetUserPersonalAndTeamSlotsAsync(long id)
         {
-            var availabilitySlots = await _availabilityService.GetUserPersonalAndTeamSlotsAsync(id);
-            return Ok(availabilitySlots);
+            try
+            {
+                var availabilitySlots = await _availabilityService.GetUserPersonalAndTeamSlotsAsync(id);
+                
+                return Ok(availabilitySlots);
+            }
+            catch (ArgumentException)
+            {
+                return Unauthorized();
+            }
         }
 
         [HttpPut("{id}")]

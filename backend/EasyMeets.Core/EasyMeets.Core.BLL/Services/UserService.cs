@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.User;
 using EasyMeets.Core.DAL.Context;
@@ -66,6 +66,18 @@ namespace EasyMeets.Core.BLL.Services
             var claimsList = _httpContextAccessor.HttpContext!.User.Claims.ToList();
             var email = claimsList.Find(el => el.Type == ClaimTypes.Email);
             return email!.Value;
+        }
+
+        public async Task<bool> ComparePassedIdAndCurrentUserIdAsync(long id)
+        {
+            var currentUserId = _httpContextAccessor.HttpContext.User
+                .Claims
+                .FirstOrDefault(claim => claim.Type == "user_id")?
+                .Value;
+
+            var user = await _context.Users.FindAsync(id);
+
+            return user?.Uid == currentUserId;
         }
     }
 }

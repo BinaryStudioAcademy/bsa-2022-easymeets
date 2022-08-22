@@ -8,5 +8,6 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task<UserDto> GetCurrentUserAsync();
         Task<UserDto> CreateUserPreferences(NewUserDto userDto);
         string GetCurrentUserEmail();
+        Task<bool> ComparePassedIdAndCurrentUserIdAsync(long id);
     }
 }
