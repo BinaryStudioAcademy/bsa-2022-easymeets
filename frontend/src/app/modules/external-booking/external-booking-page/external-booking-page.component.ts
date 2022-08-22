@@ -11,7 +11,6 @@ import { UserService } from '@core/services/user.service';
 export class ExternalBookingPageComponent {
     public selectedUser: ILocalUser;
 
-    // eslint-disable-next-line no-empty-function
     constructor(public spinnerService: SpinnerService, private userService: UserService) {
         this.selectedUser = this.userService.getUserFromStorage();
     }

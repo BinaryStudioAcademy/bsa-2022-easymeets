@@ -59,6 +59,11 @@ export class UserService {
         localStorage.removeItem('user');
     }
 
+    public updateUser(user: IUser) {
+        localStorage.removeItem('user');
+        this.setUser(user);
+    }
+
     public getUserFromStorage(): ILocalUser {
         const user = localStorage.getItem('user');
         const localUser = JSON.parse(user!) as ILocalUser;

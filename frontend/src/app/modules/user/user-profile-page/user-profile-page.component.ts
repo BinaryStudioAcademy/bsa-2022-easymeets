@@ -36,15 +36,15 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public userForm: FormGroup;
 
-    public timeFormatValues = Object.values(TimeFormat).filter(key => Number.isNaN(Number(key)));
+    public timeFormatValues = Object.values(TimeFormat).filter((key) => Number.isNaN(Number(key)));
 
-    public dateFormatValues = Object.values(DateFormat).filter(key => Number.isNaN(Number(key)));
+    public dateFormatValues = Object.values(DateFormat).filter((key) => Number.isNaN(Number(key)));
 
-    public languageValues = Object.keys(Language).filter(key => Number.isNaN(Number(key)));
+    public languageValues = Object.keys(Language).filter((key) => Number.isNaN(Number(key)));
 
     public timeZoneValues = Object.keys(TimeZone);
 
-    public countryValues = Object.keys(Country).filter(key => Number.isNaN(Number(key)));
+    public countryValues = Object.keys(Country).filter((key) => Number.isNaN(Number(key)));
 
     public countryCodeValues = Object.values(CountryCode);
 
@@ -110,8 +110,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             .pipe(this.untilThis)
             .subscribe(
                 (user) => {
-                    this.userService.removeUser();
-                    this.userService.setUser(user);
+                    this.userService.updateUser(user);
                     this.notificationService.showSuccessMessage('Personal information was updated successfully.');
                 },
                 () => {
