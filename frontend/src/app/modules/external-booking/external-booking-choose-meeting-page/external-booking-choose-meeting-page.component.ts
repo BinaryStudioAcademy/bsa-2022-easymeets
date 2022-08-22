@@ -11,7 +11,7 @@ import { SpinnerService } from '@core/services/spinner.service';
     templateUrl: './external-booking-choose-meeting-page.component.html',
     styleUrls: ['./external-booking-choose-meeting-page.component.sass'],
 })
-export class ExternalBookingChooseMeetingComponent extends BaseComponent implements OnInit {
+export class ExternalBookingMeetingComponent extends BaseComponent implements OnInit {
     @Input() selectedUserId: number;
 
     public selectedUserAvailabilitySlots: IUserPersonalAndTeamSlots;

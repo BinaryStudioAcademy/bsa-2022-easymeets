@@ -14,7 +14,7 @@ import { TimeZone } from '@shared/enums/timeZone';
     templateUrl: './external-booking-choose-time-page.component.html',
     styleUrls: ['./external-booking-choose-time-page.component.sass'],
 })
-export class ExternalBookingChooseTimeComponent extends BaseComponent implements OnInit {
+export class ExternalBookingTimeComponent extends BaseComponent implements OnInit {
     @Input() selectedUserId: number;
 
     public selectedUserAvailabilitySlots: IUserPersonalAndTeamSlots;
