@@ -1,6 +1,6 @@
 <app-header-item></app-header-item>
 <div class="calendar-container">
-    <button class="connect-new"><mat-icon>add</mat-icon> Connect New Calendars</button>
+    <button (click)="confirmDialog()" class="connect-new"><mat-icon>add</mat-icon> Connect New Calendars</button>
 
     <div class="table-container">
         <table mat-table [dataSource]="userCalendars" class="mat-elevation-z8">

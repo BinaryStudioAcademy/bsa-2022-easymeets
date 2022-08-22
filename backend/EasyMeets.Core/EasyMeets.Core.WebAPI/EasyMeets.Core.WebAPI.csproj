@@ -27,4 +27,8 @@
     <ProjectReference Include="..\EasyMeets.Core.Common\EasyMeets.Core.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="credentials.json" />
+  </ItemGroup>
+
 </Project>

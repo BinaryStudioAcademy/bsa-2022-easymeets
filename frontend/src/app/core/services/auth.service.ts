@@ -24,7 +24,7 @@ export class AuthService {
 
             if (this.currentUser) {
                 localStorage.setItem('user', JSON.stringify(this.currentUser));
-                this.currentUser.getIdToken().then(t => localStorage.setItem('access-token', t));
+                this.currentUser.getIdToken().then((t) => localStorage.setItem('access-token', t));
             }
         });
     }
@@ -75,7 +75,10 @@ export class AuthService {
     }
 
     public refreshToken() {
-        return firebase.auth().currentUser?.getIdToken().then(t => localStorage.setItem('access-token', t));
+        return firebase
+            .auth()
+            .currentUser?.getIdToken()
+            .then((t) => localStorage.setItem('access-token', t));
     }
 
     public getAccessToken() {

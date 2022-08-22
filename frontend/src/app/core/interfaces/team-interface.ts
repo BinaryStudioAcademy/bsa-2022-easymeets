@@ -1,4 +1,8 @@
 export interface ITeam {
-    id: number;
+    id: bigint;
     name: string;
+    logoPath: string;
+    pageLink: string;
+    timeZone: number;
+    description: string;
 }

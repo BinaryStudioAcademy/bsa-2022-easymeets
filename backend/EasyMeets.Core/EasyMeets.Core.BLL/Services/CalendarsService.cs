@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Calendar;
@@ -7,57 +8,58 @@ using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
+using Microsoft.AspNetCore.Http;
 
 namespace EasyMeets.Core.BLL.Services
 {
     public class CalendarsService : BaseService, ICalendarsService
     {
-        public CalendarsService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) { }
-
-        public async Task<Event> CreateCalendar(GoogleCalendarDto request)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private const string ApplicationName = "EasyMeets";
+        private CalendarService _service = new();
+        public CalendarsService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper)
         {
-            string[] scopes = { "https://www.googleapis.com/auth/calendar" };
-            string applicationName = "EasyMeets";
-            UserCredential userCredential;
-            using (var stream = new FileStream(Path.Combine(@"D:\Programming\bsa\project-2\bsa-2022-easymeets\backend\EasyMeets.Core\EasyMeets.Core.WebAPI\Credentials\credentials.json"), FileMode.Open, FileAccess.Read))
-            {
-                string credPath = "token.json";
-                userCredential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    scopes,
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore(credPath, true)
-                    ).Result;
-            }
+            _httpContextAccessor = httpContextAccessor;
+        }
 
-            var service = new CalendarService(new BaseClientService.Initializer()
+        public async Task<bool> CreateGoogleCalendarConnection(UserCredentialsDto credentialsDto)
+        {
+            var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+                        new ClientSecrets
+                        {
+                            ClientId = credentialsDto.ClientId,
+                            ClientSecret = credentialsDto.ClientSecret
+                        }, 
+                        new [] { CalendarService.Scope.Calendar },
+                        GetCurrentUserEmail(), 
+                        CancellationToken.None,
+                        null);
+            var t = credential.Token.AccessToken;
+            
+            return true;
+        }
+
+        public async Task<Calendar> CreateCalendar()
+        {
+            var eventRequest = _service.Calendars.Insert(new Calendar()
             {
-                HttpClientInitializer = userCredential,
-                ApplicationName = applicationName
+                Description = "Description",
+                TimeZone = "America/Los_Angeles",
+                Summary = "Just nice calendar"
             });
 
-            Event ev = new Event()
-            {
-                Summary = request.Summary,
-                Location = request.Location,
-                Start = new EventDateTime()
-                {
-                    DateTime = request.Start,
-                    TimeZone = "Asia/Ho_Chi_Minh"
-                },
-                End = new EventDateTime()
-                {
-                    DateTime = request.End,
-                    TimeZone = "Asia/Ho_Chi_Minh"
-                },
-                Description = request.Description
-            };
+            var c = await eventRequest.ExecuteAsync();
 
-            var eventRequest = service.Events.Insert(ev, "primary");
-            var requestCreate = await eventRequest.ExecuteAsync();
-            
-            return requestCreate;
+            c.Id = ApplicationName;
+
+            return c;
+        }
+        
+        public string GetCurrentUserEmail()
+        {
+            var claimsList = _httpContextAccessor.HttpContext!.User.Claims.ToList();
+            var email = claimsList.Find(el => el.Type == ClaimTypes.Email);
+            return email!.Value;
         }
     }
 }
