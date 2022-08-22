@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BaseComponent } from '@core/base/base.component';
 import { AuthService } from '@core/services/auth.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { UserService } from '@core/services/user.service';
@@ -12,7 +13,7 @@ import firebase from 'firebase/compat';
     templateUrl: './sign-in-form.component.html',
     styleUrls: ['./sign-in-form.component.sass', '../../shared-styles.sass'],
 })
-export class SignInFormComponent {
+export class SignInFormComponent extends BaseComponent {
     public hidePassword = true;
 
     public signInForm = new FormGroup(
@@ -25,7 +26,7 @@ export class SignInFormComponent {
             password: new FormControl('', [Validators.required, Validators.minLength(8)]),
         },
         {
-            updateOn: 'submit',
+            updateOn: 'blur',
         },
     );
 
@@ -34,8 +35,9 @@ export class SignInFormComponent {
         private userService: UserService,
         private router: Router,
         private spinnerService: SpinnerService,
-        // eslint-disable-next-line no-empty-function
-    ) { }
+    ) {
+        super();
+    }
 
     private setCredentialsIncorrect() {
         this.signInForm.get('password')?.setErrors({ incorrectCredentials: true });
