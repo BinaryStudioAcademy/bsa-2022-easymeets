@@ -5,6 +5,7 @@ import { CountryLabelMapping } from '@core/helpers/country-label-mapping';
 import { CountryCode } from '@core/helpers/countryCode';
 import { DateFormatLabelMapping } from '@core/helpers/date-format-label-mapping';
 import { LanguageLabelMapping } from '@core/helpers/language-label-mapping';
+import { removePhoneNumberCodeHelper } from '@core/helpers/remove-phone-number-code-helper';
 import { TimeFormatLabelMapping } from '@core/helpers/time-format-label-mapping';
 import { IUser } from '@core/models/IUser';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
@@ -16,7 +17,6 @@ import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
 import { TimeZone } from '@shared/enums/timeZone';
-import { removePhoneNumberCodeHelper } from "@core/helpers/remove-phone-number-code-helper";
 
 @Component({
     selector: 'app-user-profile-page',
