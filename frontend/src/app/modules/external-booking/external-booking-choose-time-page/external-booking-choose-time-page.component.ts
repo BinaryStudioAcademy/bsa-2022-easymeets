@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BaseComponent } from '@core/base/base.component';
 import { getExternalBookingTimeSlotsItems } from '@core/helpers/external-booking-time-slots-helper';
 import { ICalendarWeek } from '@core/models/ICalendarWeek';
 import { IDayTimeSlot } from '@core/models/IDayTimeSlot';
@@ -13,7 +14,7 @@ import { TimeZone } from '@shared/enums/timeZone';
     templateUrl: './external-booking-choose-time-page.component.html',
     styleUrls: ['./external-booking-choose-time-page.component.sass'],
 })
-export class ExternalBookingChooseTimeComponent implements OnInit {
+export class ExternalBookingChooseTimeComponent extends BaseComponent implements OnInit {
     @Input() selectedUserId: number;
 
     public selectedUserAvailabilitySlots: IUserPersonalAndTeamSlots;
@@ -39,9 +40,13 @@ export class ExternalBookingChooseTimeComponent implements OnInit {
         private availabilitySlotService: AvailabilitySlotService,
         private route: ActivatedRoute,
     ) {
-        this.availabilitySlotService.getUserPersonalAndTeamSlots(this.selectedUserId).subscribe((slots) => {
-            this.selectedUserAvailabilitySlots = slots;
-        });
+        super();
+        this.availabilitySlotService
+            .getUserPersonalAndTeamSlots(this.selectedUserId)
+            .pipe(this.untilThis)
+            .subscribe((slots) => {
+                this.selectedUserAvailabilitySlots = slots;
+            });
     }
 
     ngOnInit(): void {

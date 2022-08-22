@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { BaseComponent } from '@core/base/base.component';
 import { LocationTypeToLabelMapping } from '@core/helpers/location-type-label-mapping';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { LocationType } from '@core/models/locationType';
@@ -10,7 +11,7 @@ import { SpinnerService } from '@core/services/spinner.service';
     templateUrl: './external-booking-choose-meeting-page.component.html',
     styleUrls: ['./external-booking-choose-meeting-page.component.sass'],
 })
-export class ExternalBookingChooseMeetingComponent implements OnInit {
+export class ExternalBookingChooseMeetingComponent extends BaseComponent implements OnInit {
     @Input() selectedUserId: number;
 
     public selectedUserAvailabilitySlots: IUserPersonalAndTeamSlots;
@@ -21,13 +22,17 @@ export class ExternalBookingChooseMeetingComponent implements OnInit {
 
     public LocationTypeToLabelMapping = LocationTypeToLabelMapping;
 
-    // eslint-disable-next-line no-empty-function
-    constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {}
+    constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {
+        super();
+    }
 
     ngOnInit(): void {
-        this.availabilitySlotService.getUserPersonalAndTeamSlots(this.selectedUserId).subscribe((slots) => {
-            this.selectedUserAvailabilitySlots = slots;
-        });
+        this.availabilitySlotService
+            .getUserPersonalAndTeamSlots(this.selectedUserId)
+            .pipe(this.untilThis)
+            .subscribe((slots) => {
+                this.selectedUserAvailabilitySlots = slots;
+            });
     }
 
     addDurationAndLocation(duration: number, location: LocationType) {

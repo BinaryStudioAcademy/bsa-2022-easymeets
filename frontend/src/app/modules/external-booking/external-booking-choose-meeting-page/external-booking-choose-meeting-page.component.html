@@ -1,7 +1,7 @@
 <h1>Please, choose meeting</h1>
 <div class="meeting-cards">
     <ng-template
-        *ngIf="selectedUserAvailabilitySlots.userSlots.length !== 0; else noUserSlots"
+        *ngIf="selectedUserAvailabilitySlots.userSlots.length; else noUserSlots"
         ngFor
         let-item
         [ngForOf]="selectedUserAvailabilitySlots.userSlots">

@@ -6,7 +6,7 @@
         <div class="sidebar">
             <img *ngIf="menu.user; else defaultImage" src="{{ menu.user.image }}" />
             <ng-template #defaultImage>
-                <img src="assets/bulochka.PNG" />
+                <img src="assets/header/avatar-icon.png" />
             </ng-template>
             <h2>{{ menu.user.userName }}</h2>
             <h1>Booking Page</h1>
