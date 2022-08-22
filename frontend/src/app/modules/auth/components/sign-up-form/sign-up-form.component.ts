@@ -6,6 +6,7 @@ import { transformTextLanguageToEnum } from '@core/helpers/language-helper';
 import { AuthService } from '@core/services/auth.service';
 import { NotificationService } from '@core/services/notification.service';
 import { UserService } from '@core/services/user.service';
+import { EmailValidator } from '@modules/auth/validators/email-validator';
 import { PasswordsErrorStateMatcher } from '@modules/auth/validators/passwordsErrorStateMatcher';
 import { userNameRegex } from '@shared/constants/model-validation';
 import { DateFormat } from '@shared/enums/dateFormat';
@@ -24,7 +25,11 @@ export class SignUpFormComponent extends BaseComponent {
     public hidePassword = true;
 
     public signUpForm = new FormGroup({
-        email: new FormControl('', { validators: [Validators.required, Validators.email], updateOn: 'submit' }),
+        email: new FormControl('', {
+            validators: [Validators.required, Validators.email],
+            asyncValidators: [EmailValidator.signUpEmailValidator(this.authService)],
+            updateOn: 'submit',
+        }),
         name: new FormControl('', {
             validators: [
                 Validators.required,
@@ -66,7 +71,7 @@ export class SignUpFormComponent extends BaseComponent {
                     image: resp.user?.photoURL ?? undefined,
                     language: this.getLanguage(),
                     timeFormat: this.getTimeFormat(),
-                    dateFormat: DateFormat.Hyphen,
+                    dateFormat: DateFormat.MonthDayYear,
                     phone: resp.user?.phoneNumber ?? undefined,
                     timeZone: new Date().getTimezoneOffset(),
                 })
@@ -98,18 +103,22 @@ export class SignUpFormComponent extends BaseComponent {
         this.authService.loginWithGoogle().then((resp) => this.handleAuthenticationResponce(resp));
     }
 
+    public getEmailErrorMessage(): string {
+        if (this.signUpForm.controls.email.hasError('userAlreadyExists')) {
+            return 'An account already exists with this email address';
+        }
+
+        return this.signUpForm.controls.email.invalid ? 'Email format is invalid' : '';
+    }
+
     private getLanguage(): Language {
         const userLanguageBrowser =
-            navigator.languages && navigator.languages.length
-                ? navigator.languages[0]
-                : navigator.language;
+            navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language;
 
         return transformTextLanguageToEnum(userLanguageBrowser);
     }
 
     private getTimeFormat() {
-        return new Intl.DateTimeFormat().resolvedOptions().hour12
-            ? TimeFormat.TwelveHour
-            : TimeFormat.TwentyFourHour;
+        return new Intl.DateTimeFormat().resolvedOptions().hour12 ? TimeFormat.TwelveHour : TimeFormat.TwentyFourHour;
     }
 }

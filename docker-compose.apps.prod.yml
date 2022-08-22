@@ -28,11 +28,39 @@ services:
             ASPNETCORE_ENVIRONMENT: 'Production'
         env_file:
             - /etc/environment
+            
+    easymeets_emailer:
+        image: tatihutii/easymeets_emailer:latest
+        container_name: 'easymeets_emailer'
+        restart: on-failure
+        networks:
+            - back
+        ports:
+            - "5090:5090"
+        environment:
+            ASPNETCORE_ENVIRONMENT: 'Production'
+        env_file:
+            - /etc/environment
+
+    easymeets_watcher:
+        image: tatihutii/easymeets_watcher:latest
+        container_name: 'easymeets_watcher'
+        restart: on-failure
+        networks:
+            - back
+        ports:
+            - "5060:5060"
+        environment:
+            ASPNETCORE_ENVIRONMENT: 'Development'
+        env_file:
+            - /etc/environment
 
     easymeets_frontend:
         depends_on:
             - easymeets_core
             - easymeets_notifier
+            - easymeets_watcher
+            - easymeets_emailer
         image: tatihutii/easymeets_frontend:latest
         container_name: 'easymeets_frontend'
         restart: on-failure

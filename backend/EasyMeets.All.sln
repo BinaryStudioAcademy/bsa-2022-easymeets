@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyMeets.Emailer", "EasyMeets.Emailer\EasyMeets.Emailer.WebAPI\EasyMeets.Emailer.WebAPI.csproj", "{1A55A428-0BC0-4C81-87CA-01A72E7FBD99}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Notifier.WebAPI", "EasyMeets.Notifier\EasyMeets.Notifier.WebAPI\EasyMeets.Notifier.WebAPI.csproj", "{093D275F-9FAC-4C20-B662-DFAAEADCFFA4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Core.WebAPI", "EasyMeets.Core\EasyMeets.Core.WebAPI\EasyMeets.Core.WebAPI.csproj", "{71412846-9AD6-44FB-935B-4DBF84804CCE}"
@@ -13,12 +15,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Core.BLL", "EasyM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Core.DAL", "EasyMeets.Core\EasyMeets.Core.DAL\EasyMeets.Core.DAL.csproj", "{362BD70C-D988-433E-9F73-7415A2C0F669}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyMeets.Watcher.WebAPI", "EasyMeets.Watcher\EasyMeets.Watcher.WebAPI\EasyMeets.Watcher.WebAPI.csproj", "{4DC65B4F-67B6-4C08-BCE9-81886674A928}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyMeets.Watcher.BLL", "EasyMeets.Watcher\EasyMeets.Watcher.BLL\EasyMeets.Watcher.BLL.csproj", "{2C5682DC-2F43-43F5-8B46-FBD1328EEC1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A55A428-0BC0-4C81-87CA-01A72E7FBD99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A55A428-0BC0-4C81-87CA-01A72E7FBD99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A55A428-0BC0-4C81-87CA-01A72E7FBD99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A55A428-0BC0-4C81-87CA-01A72E7FBD99}.Release|Any CPU.Build.0 = Release|Any CPU
 		{093D275F-9FAC-4C20-B662-DFAAEADCFFA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{093D275F-9FAC-4C20-B662-DFAAEADCFFA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{093D275F-9FAC-4C20-B662-DFAAEADCFFA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +49,14 @@ Global
 		{362BD70C-D988-433E-9F73-7415A2C0F669}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{362BD70C-D988-433E-9F73-7415A2C0F669}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{362BD70C-D988-433E-9F73-7415A2C0F669}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DC65B4F-67B6-4C08-BCE9-81886674A928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DC65B4F-67B6-4C08-BCE9-81886674A928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DC65B4F-67B6-4C08-BCE9-81886674A928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DC65B4F-67B6-4C08-BCE9-81886674A928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C5682DC-2F43-43F5-8B46-FBD1328EEC1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C5682DC-2F43-43F5-8B46-FBD1328EEC1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C5682DC-2F43-43F5-8B46-FBD1328EEC1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C5682DC-2F43-43F5-8B46-FBD1328EEC1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

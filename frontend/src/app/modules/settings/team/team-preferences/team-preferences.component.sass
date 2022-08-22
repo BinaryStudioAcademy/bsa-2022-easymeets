@@ -1,0 +1,116 @@
+@import "src/styles/color-variables"
+
+.wrapper
+    display: flex
+    justify-content: center
+
+.form-wrapper
+    color: $dark-gray
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    max-width: 400px
+    width: 100%
+    gap: 30px
+    padding: 50px
+
+.logo-block
+    width: 100%
+    display: flex
+    align-items: center
+    justify-content: space-around
+    gap: 30px
+    flex-wrap: wrap
+
+.item
+    width: 100%
+
+.logo
+    background-color: $light-gray
+    border: none
+    box-shadow: none
+    border-radius: 50%
+    width: 100px
+    height: 100px
+
+.white-button
+    background-color: white
+
+button
+    color: $dark-gray
+    font-weight: 600
+    box-shadow: none
+    background-color: $light-gray
+    border: 2px solid $light-gray
+    border-radius: 5px
+    font-size: 15px
+    align-content: center
+
+.buttons-block
+    display: flex
+    justify-content: space-between
+    flex-direction: inherit
+    gap: 30px
+
+    @media ( max-width: 500px)
+        flex-wrap: wrap-reverse
+        justify-content: center
+
+label
+    font-weight: 600
+
+::ng-deep .item
+    .mat-select
+        align-items: center
+        display: flex
+
+    .mat-select-value
+        color: $dark-gray
+        font-size: 15px
+
+input, textarea
+    &:focus
+        outline: $royal-blue
+        border-color: $royal-blue
+        &.ng-valid
+            outline: $royal-blue
+            border-color: $royal-blue
+
+input, textarea
+
+    &:focus
+        &.ng-invalid.ng-touched
+            border-color: 2px solid $cinnabar
+            outline: $cinnabar
+
+    &.ng-invalid.ng-touched
+        border: 2px solid $cinnabar
+        outline: $cinnabar
+
+
+small
+    color: $cinnabar
+
+textarea
+    resize: none
+    height: 100px
+
+input, .mat-select
+    height: 30px
+
+input, .mat-select, textarea
+
+    margin-top: 5px
+    color: $dark-gray
+    font-size: 15px
+    background: $white
+    border: 2px solid $light-gray
+    border-radius: 4px
+    min-width: calc(100% - 9px)
+    max-width: calc(100% - 9px)
+    padding-left: 5px
+
+.mat-option
+    min-width: 100%
+    max-width: 100%

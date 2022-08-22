@@ -27,13 +27,12 @@
 
 select, input[type=text]
     width: 100%
-    height: 100%
-    border: 0
-
-.input
     border: 2px solid $regent-gray
     border-radius: 4px
     height: 36px
+
+input[type=text]
+    padding-left: 5px
 
 .input-description
     font-weight: bold
@@ -74,3 +73,10 @@ select, input[type=text]
 
 .disabled
     opacity: 0.3
+
+.error
+    position: absolute
+    color: $red
+
+.ng-invalid:not(.ng-pristine)
+    border-color: $red

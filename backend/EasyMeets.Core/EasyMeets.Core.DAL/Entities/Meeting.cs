@@ -14,7 +14,9 @@ public class Meeting : AuditEntity<long>
     public string Description { get; set; } = string.Empty;
     public int Duration { get; set; }
     public DateTimeOffset StartTime { get; set; }
-    
+    public string MeetingLink { get; set; } = string.Empty;
+
+    public AvailabilitySlot? AvailabilitySlot { get; set; }
     public Team Team { get; set; } = null!;
     public User Author { get; set; } = null!;
     public ICollection<SlotMember> SlotMembers { get; set; }
