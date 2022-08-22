@@ -125,7 +125,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             .editUser(editedUser)
             .pipe(this.untilThis)
             .subscribe(
-                () => {
+                (user) => {
+                    this.userService.updateUser(user);
                     this.notificationService.showSuccessMessage('Personal information was updated successfully.');
                 },
                 () => {
