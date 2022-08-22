@@ -72,10 +72,9 @@
             <div>
                 <input
                     formControlName="phone"
-                    mask="(000) 000 00 00"
+                    mask="00000000000"
                     prefix="+{{ countryCode }} "
-                    [showMaskTyped]="true"
-                    placeHolderCharacter="_" />
+                    [validation]="false" />
             </div>
             <div *ngIf="phoneControl.invalid && phoneControl.touched" class="validation">
                 <small *ngIf="phoneControl.errors?.['required']">This field is required.</small>
