@@ -19,4 +19,4 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENV ASPNETCORE_URLS http://*:5090
-ENTRYPOINT ["dotnet", "EasyMeets.Emailer.dll"]
+ENTRYPOINT ["dotnet", "EasyMeets.Emailer.WebAPI.dll"]
