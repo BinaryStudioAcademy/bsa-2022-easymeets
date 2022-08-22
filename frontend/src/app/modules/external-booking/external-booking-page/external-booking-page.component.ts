@@ -14,7 +14,7 @@ import { UserService } from '@core/services/user.service';
 export class ExternalBookingPageComponent implements OnInit {
     public menu: IExternalBookingSideMenu = {} as IExternalBookingSideMenu;
 
-    public selectedUserId: number = 5;
+    public selectedUserId: number = 11;
 
     public LocationTypeToLabelMapping = LocationTypeToLabelMapping;
 
