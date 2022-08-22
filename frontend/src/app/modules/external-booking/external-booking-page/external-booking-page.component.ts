@@ -25,7 +25,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
     }
 
     ngOnInit(): void {
-        this.userService.getUserFromStorage().subscribe((user) => {
+        this.userService.getCurrentUser().subscribe((user) => {
             this.menu = {
                 ...this.menu,
                 user,
