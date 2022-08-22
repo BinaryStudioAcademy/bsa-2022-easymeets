@@ -1,0 +1,155 @@
+@import '../../../../styles/color-variables'
+@import '../../../../styles/screen-variables'
+
+h1, h3, h4
+    font-family: 'Inter'
+    font-style: normal
+    line-height: 20px
+    color: $pale-sky
+
+h3, h4
+    font-weight: 400
+    font-size: 16px
+
+h1
+    font-weight: 700
+    font-size: 20px
+
+.grid-container
+    background-color: $light-gray
+    width: 56vw
+    height: 60vh
+    @media screen and (max-width: $desktop-min-width)
+        width: 73vw
+
+.grid
+    display: grid
+    grid-template-columns: repeat(6, 15%)
+    overflow-y: auto
+    max-height: 100%
+    grid-column-gap: 0px
+    grid-row-gap: 6px
+    justify-content: center
+    justify-self: center
+    span
+        text-align: center
+        padding: 4px 8px
+        border-radius: 4px
+        font-family: 'Inter'
+        font-style: normal
+        font-weight: 700
+        font-size: 12px
+        line-height: 20px
+        color: $pale-sky
+        width: 45%
+        margin-bottom: 5px
+        margin-left: 20%
+
+    .enabled
+        background: $white
+        border: 2px solid $loblolly
+
+    .enabled:hover
+        background-color: $light-gray
+        border: 2px solid $pale-sky
+        cursor: pointer
+
+    .disabled
+        background: $loblolly
+        border: 2px solid $light-gray
+
+    .previous-date-enabled
+        border: 2px solid $alto
+        color: $alto
+
+    .previous-date-disabled
+        border: 2px solid $alto
+        background-color: $alto
+        opacity: 40%
+
+.column-label
+    font-family: 'Inter'
+    font-style: normal
+    align-items: center
+    text-align: center
+    color: $pale-sky
+    margin: 10px 0
+
+.settings
+    width: 100%
+    display: flex
+    flex-direction: row
+    margin-bottom: 20px
+    align-items: flex-start
+    @media screen and (max-width: $tablet-min-width)
+        flex-direction: column
+
+.date-navigation
+    width: 50%
+    display: flex
+    flex-direction: row
+    font-family: 'Inter'
+    font-style: normal
+    line-height: 20px
+    color: $pale-sky
+    position: relative
+    align-items: flex-start
+    @media screen and (max-width: $tablet-min-width)
+        flex-direction: column
+        .week-nav
+            padding-top: 5px
+            padding-bottom: 5px
+    .week-range
+        width: 40%
+        padding-right: 10%
+        height: 36px
+        padding-top: 2%
+        i
+            padding-right: 5%
+    button
+        width: 15%
+        padding: 0px 5px 2px 5px
+        height: 36px
+        i
+            display: flex
+            justify-content: center
+
+.timezone
+    position: absolute
+    right: 0
+    @media screen and (max-width: $tablet-min-width)
+        position: relative
+
+.today-label, .day-name-label, .day-number-label
+    height: 25px
+    h1, h2, h3, h4, h5
+        font-size: 14px
+        line-height: 17px
+        font-family: 'Inter'
+        font-style: normal
+
+.today-label
+    h3
+        font-weight: 700
+
+.day-name-label
+    h3
+        font-weight: 400
+        text-transform: uppercase
+
+.day-number-label
+    h3
+        font-weight: 700
+        font-size: 20px
+        line-height: 20px
+
+::ng-deep .btn.mat-button
+    border: 2px solid $loblolly !important
+
+::ng-deep .right-btn.mat-button
+    border-top-left-radius: 0 !important
+    border-bottom-left-radius: 0 !important
+
+::ng-deep .left-btn.mat-button
+    border-top-right-radius: 0 !important
+    border-bottom-right-radius: 0 !important

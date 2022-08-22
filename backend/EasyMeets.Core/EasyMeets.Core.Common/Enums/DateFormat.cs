@@ -2,7 +2,7 @@
 {
     public enum DateFormat
     {
-        Hyphen,
-        Slash
+        MonthDayYear,
+        DayMonthYear
     }
 }

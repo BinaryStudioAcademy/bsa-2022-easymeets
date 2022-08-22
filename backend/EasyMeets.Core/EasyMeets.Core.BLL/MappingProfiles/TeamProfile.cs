@@ -12,7 +12,14 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             CreateMap<Team, AvailabilitySlotsGroupByTeamsDto>();
             CreateMap<AvailabilitySlotsGroupByTeamsDto, Team>();
             
-            CreateMap<Team, TeamDto>();
-        }
+            CreateMap<TeamDto, Team>()
+                .ForMember(dest => dest.LogoPath, src => src.MapFrom(s => s.Image));
+
+            CreateMap<Team, TeamDto>()
+                .ForMember(dest => dest.Image, src => src.MapFrom(s => s.LogoPath));
+
+            CreateMap<NewTeamDto, Team>()
+                .ForMember(dest => dest.LogoPath, src => src.MapFrom(s => s.Image));
+       }
     }
 }

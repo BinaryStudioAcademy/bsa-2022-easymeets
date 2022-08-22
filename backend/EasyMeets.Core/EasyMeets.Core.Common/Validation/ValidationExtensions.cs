@@ -9,11 +9,14 @@ public static class ValidationExtensions
     {
         { "Email", @"^([a-zA-z0-9]+([._\-][a-zA-z0-9]+)?)+@([a-zA-z0-9]+([.\-][a-zA-Z0-9]+)?)+\.[a-zA-Z]{2,4}$" },
         { "Username", @"^[\w\d]+[\w\d\- ]+$" },
-        { "PhoneNumber", @"^\+\d{10,13}$" },
-        { "TeamLink", @"^/[a-zA-Z\d\-]+\d*$" },
+        { "TeamName", @"^[a-zA-Z\d- ]+$" },
+        { "Description", @"^[.,іІїЇa-zA-Z\dа-яА-Я-\s]*$" },
+        { "PhoneNumber", @"^\+\d{10,14}$" },
+        { "TeamLink", @"^[a-zA-Z\d\-]*$" },
         { "Password", @"^[^ ]+$" },
-        { "Url", @"^(http|http(s)?://)?([\w-]+\.)+[\w-]+[.com|.in|.org]+(\[\?%&=]*)?"}
+        { "Url", @"^http|http(s)?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"}
     };
+
     public static bool IsValidMeetingLocation(this string value)
     {
         string[] validLocations = { "Google Meet", "Zoom", "Offline" };
@@ -35,6 +38,18 @@ public static class ValidationExtensions
     public static bool IsValidPhoneNumber(this string value)
     {
         var pattern = RegularExpressions["PhoneNumber"];
+        return Regex.IsMatch(value, pattern);
+    }
+
+    public static bool IsValidTeamName(this string value)
+    {
+        var pattern = RegularExpressions["TeamName"];
+        return Regex.IsMatch(value, pattern);
+    }
+
+    public static bool IsValidDescription(this string value)
+    {
+        var pattern = RegularExpressions["Description"];
         return Regex.IsMatch(value, pattern);
     }
 

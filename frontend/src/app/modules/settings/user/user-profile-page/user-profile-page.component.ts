@@ -1,13 +1,17 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
+import { CountryLabelMapping } from '@core/helpers/country-label-mapping';
+import { CountryCode } from '@core/helpers/countryCode';
+import { DateFormatLabelMapping } from '@core/helpers/date-format-label-mapping';
+import { LanguageLabelMapping } from '@core/helpers/language-label-mapping';
+import { TimeFormatLabelMapping } from '@core/helpers/time-format-label-mapping';
 import { IUser } from '@core/models/IUser';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { UploadImageService } from '@core/services/upload-image.service';
 import { UserService } from '@core/services/user.service';
 import { Country } from '@shared/enums/country';
-import { CountryCode } from '@shared/enums/countryCode';
 import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
@@ -37,17 +41,25 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public userForm: FormGroup;
 
-    public timeFormatValues = Object.values(TimeFormat).filter(key => Number.isNaN(Number(key)));
+    public timeFormatValues = [TimeFormat.TwentyFourHour, TimeFormat.TwelveHour];
 
-    public dateFormatValues = Object.values(DateFormat).filter(key => Number.isNaN(Number(key)));
+    public timeFormatLabelMapping = TimeFormatLabelMapping;
 
-    public languageValues = Object.keys(Language).filter(key => Number.isNaN(Number(key)));
+    public dateFormatValues = [DateFormat.MonthDayYear, DateFormat.DayMonthYear];
+
+    public dateFormatLabelMapping = DateFormatLabelMapping;
+
+    public languageValues = [Language.Eng, Language.Ukr, Language.Pl, Language.Fr, Language.It];
+
+    public languageLabelMapping = LanguageLabelMapping;
 
     public timeZoneValues = Object.keys(TimeZone);
 
-    public countryValues = Object.keys(Country).filter(key => Number.isNaN(Number(key)));
+    public countryValues = [Country.UnitedStates, Country.Ukraine, Country.Poland, Country.Sweden, Country.Italy, Country.Uganda];
 
-    public countryCodeValues = Object.values(CountryCode);
+    public countryLabelMapping = CountryLabelMapping;
+
+    public countryCodeValues = CountryCode;
 
     public countryCode: string;
 
@@ -58,7 +70,10 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         Validators.pattern(/^[єЄіІїЇa-zA-Z\dа-яА-Я-]+(\s|)[єЄіІїЇa-zA-Z\dа-яА-Я-]*$/),
     ]);
 
-    public phoneControl: FormControl = new FormControl('', [Validators.required, Validators.minLength(10)]);
+    public phoneControl: FormControl = new FormControl('', [
+        Validators.required,
+        Validators.minLength(9),
+        Validators.maxLength(11)]);
 
     public ngOnInit(): void {
         this.userForm = new FormGroup({
@@ -95,9 +110,10 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     public OnSubmit(form: FormGroup) {
         const editedUser: IUser = {
             id: this.user.id,
+            uid: this.user.uid,
             email: this.user.email,
             image: this.user.image,
-            phone: `+${this.countryCodeValues[form.value.country]}${form.value.phone}`,
+            phone: `+${this.countryCodeValues[form.value.country as Country]}${form.value.phone}`,
             userName: form.value.userName,
             country: form.value.country,
             dateFormat: form.value.dateFormat,
@@ -110,7 +126,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             .editUser(editedUser)
             .pipe(this.untilThis)
             .subscribe(
-                () => {
+                (user) => {
+                    this.userService.updateUser(user);
                     this.notificationService.showSuccessMessage('Personal information was updated successfully.');
                 },
                 () => {
@@ -120,7 +137,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     }
 
     public changeCountryCode(form: FormGroup) {
-        this.countryCode = this.countryCodeValues[form.value.country];
+        this.countryCode = this.countryCodeValues[form.value.country as Country];
     }
 
     public loadImage(event: Event) {
@@ -150,13 +167,16 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     }
 
     public confirmCancelDialog(): void {
-        this.confirmationWindowService
-            .openConfirmDialog({
-                buttonsOptions: [{
+        this.confirmationWindowService.openConfirmDialog({
+            buttonsOptions: [
+                {
                     class: 'confirm-accept-button',
                     label: 'Ok',
-                    onClickEvent: this.clickEvent }],
-                title: 'Oops...',
-                message: 'Image can\'t be heavier than 5MB!' });
+                    onClickEvent: this.clickEvent,
+                },
+            ],
+            title: 'Oops...',
+            message: "Image can't be heavier than 5MB!",
+        });
     }
 }

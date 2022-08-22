@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.User;
 using EasyMeets.Core.DAL.Context;
@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using EasyMeets.Core.BLL.Extentions;
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -17,9 +18,9 @@ namespace EasyMeets.Core.BLL.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<UserDto> GetCurrentUserAsync(string currentUserEmail)
+        public async Task<UserDto> GetCurrentUserAsync()
         {
-            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == currentUserEmail);
+            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == GetCurrentUserEmail());
 
             if (currentUser == null)
             {
@@ -29,7 +30,7 @@ namespace EasyMeets.Core.BLL.Services
             var currentUserDto = _mapper.Map<UserDto>(currentUser);
             return currentUserDto;
         }
-        
+
         public async Task<bool> CheckExistingUserByEmail(string email)
         {
             return await _context.Users.AnyAsync(u => u.Email == email);;
@@ -66,6 +67,15 @@ namespace EasyMeets.Core.BLL.Services
             var claimsList = _httpContextAccessor.HttpContext!.User.Claims.ToList();
             var email = claimsList.Find(el => el.Type == ClaimTypes.Email);
             return email!.Value;
+        }
+
+        public async Task<bool> ComparePassedIdAndCurrentUserIdAsync(long id)
+        {
+            var currentUserId = _httpContextAccessor.HttpContext.User.GetUid();
+
+            var user = await _context.Users.FindAsync(id);
+
+            return user?.Uid == currentUserId;
         }
     }
 }

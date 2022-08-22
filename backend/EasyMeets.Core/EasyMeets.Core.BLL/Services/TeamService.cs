@@ -1,39 +1,135 @@
-using System.Linq;
 using System.Security.Claims;
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
+using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
+using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+namespace EasyMeets.Core.BLL.Services;
 
-namespace EasyMeets.Core.BLL.Services
+public class TeamService : BaseService, ITeamService
 {
-    public class TeamService : BaseService, ITeamService
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private IUserService _userService;
+    public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IHttpContextAccessor httpContextAccessor) : base(context, mapper)
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public TeamService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper)
+        _httpContextAccessor = httpContextAccessor;
+        _userService = userService;
+    }
+
+    public async Task<TeamDto?> GetTeamAsync(long teamId)
+    {
+        var teamEntity = await GetTeamByIdAsync(teamId);
+        return _mapper.Map<TeamDto>(teamEntity);
+    }
+
+    public async Task<string> GenerateNewPageLinkAsync(long teamId, string teamName)
+    {
+        if (!await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == teamName))
         {
-            _httpContextAccessor = httpContextAccessor;
+            return teamName;
         }
 
-        public async Task<List<TeamDto>> GetCurrentUserTeams()
-        {
-            var currentUserEmail = GetCurrentUserEmail();
-            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == currentUserEmail);
-            var teams = _context.TeamMembers.Where(el => el.UserId == currentUser!.Id)
-                .Include(el => el.Team)
-                .Select(el => el.Team)
-                .ToList();
+        int index = 1;
 
-            return _mapper.Map<List<TeamDto>>(teams);
+        while (await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == $"{teamName}{index}"))
+        {
+            index++;
         }
+
+        return $"{teamName}{index}";
+    }
+
+    public async Task<bool> ValidatePageLinkAsync(long teamId, string pageLink)
+    {
+        var isUnique = !await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == pageLink);
+        return isUnique;
+    }
+
+    public async Task<TeamDto> CreateTeamAsync(NewTeamDto newTeamDto)
+    {
+        var team = _mapper.Map<Team>(newTeamDto);
+        var createdTeam = _context.Teams.Add(team).Entity;
+        await _context.SaveChangesAsync();
+        var user = await _userService.GetCurrentUserAsync();
+
+        var member = new TeamMember()
+        {
+            Role = Role.Admin,
+            TeamId = createdTeam.Id,
+            UserId = user.Id,
+        };
+
+        _context.TeamMembers.Add(member);
+        await _context.SaveChangesAsync();
+
+        return _mapper.Map<TeamDto>(createdTeam);
+    }
+
+    public async Task UpdateTeamAsync(TeamDto teamDto)
+    {
+        if (await UserIsAdmin(teamDto.Id))
+        {
+            var teamEntity = await GetTeamByIdAsync(teamDto.Id);
+            teamEntity = _mapper.Map(teamDto, teamEntity);
+            _context.Teams.Update(teamEntity);
+            await _context.SaveChangesAsync();
+        }
+        else
+        {
+            throw new Exception("User is not allowed enough access");
+        }
+    }
+
+    public async Task DeleteTeamAsync(long teamId)
+    {
+        if (await UserIsAdmin(teamId))
+        {
+            var teamEntity = await GetTeamByIdAsync(teamId);
+            _context.Teams.Remove(teamEntity);
+            await _context.SaveChangesAsync();
+        }
+        else
+        {
+            throw new Exception("User is not allowed enough access");
+        }
+    }
+
+    private async Task<bool> UserIsAdmin(long teamId)
+    {
+        var user = await _userService.GetCurrentUserAsync();
+        var isAdmin = await _context.Teams.Where(t => t.Id == teamId)
+            .Include(t => t.TeamMembers)
+            .SelectMany(t => t.TeamMembers)
+            .AnyAsync(m => m.UserId == user.Id && m.Role == Role.Admin);
+
+        return isAdmin;
+    }
+
+    private async Task<Team> GetTeamByIdAsync(long id)
+    {
+        return await _context.Teams
+            .FirstOrDefaultAsync(t => t.Id == id) ?? throw new KeyNotFoundException("Team doesn't exist");
+    }
+    
+    public async Task<List<TeamDto>> GetCurrentUserTeams()
+    {
+        var currentUserEmail = GetCurrentUserEmail();
+        var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == currentUserEmail);
+        var teams = _context.TeamMembers.Where(el => el.UserId == currentUser!.Id)
+            .Include(el => el.Team)
+            .Select(el => el.Team)
+            .ToList();
+
+        return _mapper.Map<List<TeamDto>>(teams);
+    }
         
-        public string GetCurrentUserEmail()
-        {
-            var claimsList = _httpContextAccessor.HttpContext!.User.Claims.ToList();
-            var email = claimsList.Find(el => el.Type == ClaimTypes.Email);
-            return email!.Value;
-        }
+    public string GetCurrentUserEmail()
+    {
+        var claimsList = _httpContextAccessor.HttpContext!.User.Claims.ToList();
+        var email = claimsList.Find(el => el.Type == ClaimTypes.Email);
+        return email!.Value;
     }
 }

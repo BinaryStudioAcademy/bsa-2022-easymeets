@@ -24,6 +24,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddTransient<IUploadFileService, UploadFileService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICalendarsService, CalendarsService>();
+            services.AddTransient<IMeetingService, MeetingService>();
             services.AddTransient<ITeamService, TeamService>();
         }
 
@@ -31,6 +32,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
         {
             services.AddAutoMapper(Assembly.GetAssembly(typeof(SampleProfile)));
             services.AddAutoMapper(Assembly.GetAssembly(typeof(AvailabilityProfile)));
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(MeetingProfile)));
             services.AddAutoMapper(Assembly.GetAssembly(typeof(UserProfile)));
         }
 

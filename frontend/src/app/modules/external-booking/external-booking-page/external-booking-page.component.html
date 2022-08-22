@@ -4,28 +4,48 @@
     </div>
     <div class="main-content">
         <div class="sidebar">
-            <img *ngIf="selectedUser.image; else defaultImage" src="{{ selectedUser.image }}" />
+            <img *ngIf="menu.user; else defaultImage" src="{{ menu.user.image }}" />
             <ng-template #defaultImage>
-                <img src="assets/bulochka.PNG" />
+                <img src="assets/header/avatar-icon.png" />
             </ng-template>
-            <h3>{{ selectedUser.userName }}</h3>
+            <h2>{{ menu.user.userName }}</h2>
             <h1>Booking Page</h1>
-            <h4>Hello! Welcome to my booking page, please choose a time that works for you.</h4>
+            <h4 class="welcome-message">Hello! Welcome to my booking page, please choose a time that works for you.</h4>
+            <div class="sidebar-list">
+                <div class="sidebar-list-item">
+                    <ng-container *ngIf="menu.timeStart && menu.timeFinish">
+                        <h5>Time</h5>
+                        <h3>{{ menu.timeStart }} {{ menu.timeFinish }}</h3>
+                    </ng-container>
+                </div>
+                <div class="sidebar-list-item">
+                    <ng-container *ngIf="menu.date">
+                        <h5 *ngIf="menu.date">Date</h5>
+                        <h3>{{ menu.date }}</h3>
+                    </ng-container>
+                </div>
+                <div class="sidebar-list-item">
+                    <ng-container *ngIf="menu.duration">
+                        <h5>Duration</h5>
+                        <h3>{{ menu.duration }} min</h3>
+                    </ng-container>
+                </div>
+                <div class="sidebar-list-item">
+                    <ng-container *ngIf="menu.location">
+                        <h5>Location</h5>
+                        <h3>{{ LocationTypeToLabelMapping[menu.location] }}</h3>
+                    </ng-container>
+                </div>
+            </div>
         </div>
         <div class="choice">
-            <h1>Please, choose meeting</h1>
-            <mat-card class="card" routerLink="#">
-                <mat-card-title>30 Min Meeting</mat-card-title>
-                <mat-card-subtitle>30 Min, Meet</mat-card-subtitle>
-            </mat-card>
-            <mat-card class="card" routerLink="#">
-                <mat-card-title>1 Hour Meeting</mat-card-title>
-                <mat-card-subtitle>1 Hour, Meet</mat-card-subtitle>
-            </mat-card>
-            <mat-card class="card" routerLink="#">
-                <mat-card-title>15 Min Meeting</mat-card-title>
-                <mat-card-subtitle>15 Min, Meet</mat-card-subtitle>
-            </mat-card>
+            <app-external-booking-choose-meeting-page
+                *ngIf="this.router.url === '/external-booking/choose-meeting'"
+                [selectedUserId]="this.menu.user.id"
+                (selectedDurationAndLocationEvent)="addDurationAndLocationInMenu($event)">
+            </app-external-booking-choose-meeting-page>
+            <app-external-booking-choose-time-page *ngIf="isBookingChooseTimeRoute()">
+            </app-external-booking-choose-time-page>
         </div>
     </div>
 </div>
