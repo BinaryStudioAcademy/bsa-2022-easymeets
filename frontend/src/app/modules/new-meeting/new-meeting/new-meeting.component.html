@@ -5,7 +5,35 @@
         <button color="primary" mat-flat-button class="new-meeting-header-button">Create</button>
     </div>
     <div class="main-content">
-        <div class="sidebar"></div>
-        <div class="menu-item-container"></div>
+        <div class="sidebar">
+            <form class="add-member-form">
+                <p class="add-team-member-label">Add Team Member</p>
+                <input matInput type="text" placeholder="Type..." list="cityname">
+                <datalist id="cityname">
+                    <option value="Boston">
+                    <option value="Cambridge">
+                </datalist>
+            </form>
+        </div>
+        <div class="menu-item-container">
+            <div class="date-duration-container">
+                <div class="date-container">
+                    <p class="date-label">Date</p>
+                    <mat-select placeholder="Date">
+                        <mat-option *ngFor="let date of dates">
+                            {{date}}
+                          </mat-option>
+                    </mat-select>
+                </div>
+                <div class="duration-container">
+                    <p class="duration-label">Duration</p>
+                    <mat-select>
+                        <mat-option *ngFor="let duration of durations" [value]="duration">
+                            {{duration}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

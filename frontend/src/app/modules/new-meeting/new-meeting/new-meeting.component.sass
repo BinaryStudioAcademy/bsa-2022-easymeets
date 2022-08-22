@@ -20,7 +20,7 @@
     .new-meeting-header-label
         font-size: 20px
         font-weight: bold
-        color: $dark-gray
+        color: $regent-gray
     .new-meeting-header-button
         width: 12%
 
@@ -29,12 +29,19 @@
     display: flex
     flex-direction: row
     justify-content: center
-    padding: 0 20px
+    padding: 0 0.5em
     .sidebar
         width: 25%
     .menu-item-container
         width: 75%
-        padding: 20px 0
+        margin: 2.3em 0 0 1em
+        .duration-container, .date-container
+            width: 30%
+
+.date-duration-container
+    display: flex
+    justify-content: space-between
+    align-items: center
 
 .sidebar
     position: relative
@@ -43,5 +50,24 @@
     align-items: flex-start
     border-right: 2px solid $athens-gray
     width: 100%
-    margin: 0 10px
+    margin: 2.3em 0 0 0.8em
     padding-bottom: 80px
+
+.add-member-form
+    width: 100%
+
+input, .mat-select
+    height: 35px
+    color: $dark-gray
+    font-size: 15px
+    background: $white
+    border: 2px solid $loblolly
+    border-radius: 4px
+    width: calc(100% - 3em)
+    padding-left: 5px
+
+.date-label, .duration-label, .add-team-member-label
+    font-size: 1em
+    font-weight: bold
+    color: $regent-gray
+    margin: 0 0 5px 0
