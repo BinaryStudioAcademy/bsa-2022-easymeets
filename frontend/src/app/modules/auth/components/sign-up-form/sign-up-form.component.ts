@@ -113,16 +113,12 @@ export class SignUpFormComponent extends BaseComponent {
 
     private getLanguage(): Language {
         const userLanguageBrowser =
-            navigator.languages && navigator.languages.length
-                ? navigator.languages[0]
-                : navigator.language;
+            navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language;
 
         return transformTextLanguageToEnum(userLanguageBrowser);
     }
 
     private getTimeFormat() {
-        return new Intl.DateTimeFormat().resolvedOptions().hour12
-            ? TimeFormat.TwelveHour
-            : TimeFormat.TwentyFourHour;
+        return new Intl.DateTimeFormat().resolvedOptions().hour12 ? TimeFormat.TwelveHour : TimeFormat.TwentyFourHour;
     }
 }
