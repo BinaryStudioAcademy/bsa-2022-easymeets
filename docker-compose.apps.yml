@@ -30,6 +30,21 @@ services:
           - back
       environment:
           ASPNETCORE_ENVIRONMENT: 'Development'
+          
+  easymeets_emailer:
+      build:
+        context: ./backend
+        dockerfile: ./EasyMeets.Emailer/Dockerfile
+        args:
+          - PROJECT_PORT=5090
+      container_name: 'easymeets_emailer'
+      restart: on-failure
+      ports:
+          - "5090:5090"
+      networks:
+          - back
+      environment:
+          ASPNETCORE_ENVIRONMENT: 'Development'
 
   easymeets_watcher:
       build:
@@ -51,6 +66,7 @@ services:
         - easymeets_core
         - easymeets_notifier
         - easymeets_watcher
+        - easymeets_emailer
     build:
         context: ./frontend
         dockerfile: Dockerfile.dev
