@@ -4,6 +4,6 @@ namespace EasyMeets.Core.BLL.Interfaces
 {
     public interface IMeetingService
     {
-        public Task<List<MeetingBookingsDTO>> GetThreeMeetingsForBookingsAsync();
+        public Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync();
     }
 }

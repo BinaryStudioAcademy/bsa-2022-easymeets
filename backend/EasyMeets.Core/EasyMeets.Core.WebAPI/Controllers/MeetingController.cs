@@ -18,8 +18,8 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetThreeMeetings")]
-        public async Task<List<MeetingBookingsDTO>> GetAllMeetingsAsync() => await _meetingService.GetThreeMeetingsForBookingsAsync();
+        [Route("GetThreeMeetingMembers")]
+        public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync() => await _meetingService.GetThreeMeetingMembersAsync();
 
     }
 }
