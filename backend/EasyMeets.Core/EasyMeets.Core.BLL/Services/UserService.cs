@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using EasyMeets.Core.BLL.Extentions;
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -70,10 +71,7 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<bool> ComparePassedIdAndCurrentUserIdAsync(long id)
         {
-            var currentUserId = _httpContextAccessor.HttpContext.User
-                .Claims
-                .FirstOrDefault(claim => claim.Type == "user_id")?
-                .Value;
+            var currentUserId = _httpContextAccessor.HttpContext.User.GetUid();
 
             var user = await _context.Users.FindAsync(id);
 
