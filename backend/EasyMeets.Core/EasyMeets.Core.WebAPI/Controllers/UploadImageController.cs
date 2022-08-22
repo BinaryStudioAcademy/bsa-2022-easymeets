@@ -20,23 +20,22 @@ namespace EasyMeets.Core.WebAPI.Controllers
             _userService = userService;
         }
 
-        [HttpPut] 
+        [HttpPut]
         public async Task<IActionResult> UploadImageAsync([FromForm] IFormFile file)
-        {  
+        {
             try
             {
-                var currentUserEmail = _userService.GetCurrentUserEmail();
-                var user = await _userService.GetCurrentUserAsync(currentUserEmail);
+                var user = await _userService.GetCurrentUserAsync();
                 var imageUrl = await _uploadFileService.UploadFileBlobAsync(file, user.Id); if (imageUrl is null)
                 {
                     return NotFound();
-                } 
+                }
                 return Ok(new { imagePath = imageUrl });
             }
             catch (Exception ex)
             {
                 return BadRequest(ex);
-            } 
+            }
         }
     }
 }

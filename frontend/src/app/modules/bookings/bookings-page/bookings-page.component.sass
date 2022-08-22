@@ -1,0 +1,158 @@
+@import '../../../../styles/color-variables'
+
+.container
+    padding: 144px 130px
+    display: flex
+    flex-direction: column
+    gap: 24px
+    background-color: rgba($pale-sky, .17)
+
+p, span
+    margin: 0
+
+*
+    box-sizing: border-box
+
+.timeTitle
+    font-style: normal
+    font-weight: 600
+    font-size: 16px
+    line-height: 24px
+    color: $pale-sky
+
+.item
+    background: white
+    padding: 20px 29px
+    display: flex
+    flex-direction: column
+    gap: 10px
+    border-right: 1px solid rgba($pale-sky, .4)
+
+.itemScroll
+    height: 180px
+    border: none
+
+.itemInfo
+    justify-content: space-between
+
+.itemTextInfo
+    display: flex
+    flex-direction: column
+    gap: 10px
+
+.buttonZoom
+    width: 176px
+    height: 36px
+    left: 158px
+    top: 270px
+    color: $white-color
+    background: white
+    cursor: pointer
+    border: 2px solid $royal-blue
+    background-color: $royal-blue
+    border-radius: 4px
+    font-weight: 600
+
+    &:hover
+      border: 2px solid $pale-sky
+      color: $pale-sky
+      background: $white-color
+
+.buttonRow
+    display: flex
+    flex-direction: row
+    gap: 34px
+    align-items: center
+
+.itemText
+    color: rgba($black, 0.5)
+    margin: 0
+
+.listScrollBlock
+    overflow-x: auto
+    display: flex
+    flex-direction: row
+    gap: 20px
+    width: 100%
+
+.listItem
+    background: white
+    padding-left: 20px
+
+.listItemName
+    font-weight: 600
+    font-size: 16px
+    line-height: 24px
+    color: $pale-sky
+
+.listItemAnswers
+    font-weight: 600
+    font-size: 14px
+    line-height: 20px
+    display: flex
+    align-items: center
+    text-align: center
+    text-decoration-line: underline
+    color: $pale-sky
+
+.threeDots
+    display: flex
+    flex-direction: row
+    gap: 5px
+    cursor: pointer
+
+.oneDot
+    border: 2px solid $loblolly
+    border-radius: 50%
+
+.moreBlock
+    background: $athens-gray
+    border-radius: 4px
+    font-weight: 600
+    font-size: 14px
+    line-height: 24px
+    display: flex
+    align-items: center
+    justify-content: center
+    padding: 23px
+    color: $pale-sky
+    max-width: 116px
+    height: 95%
+    width: 100%
+    text-align: center
+    white-space: nowrap
+    margin-top: 3.5px
+    margin-bottom: 3.5px
+    margin-right: 12px
+
+.infoRow
+    background-color: white
+    display: flex
+    flex-direction: row
+    width: 100%
+    box-shadow: 0px 4px 4px -2px rgba($dark-gray, .3)
+    border-radius: 4px
+    justify-content: left
+    margin-bottom: 20px
+    resize: both
+    overflow: auto
+    resize: none
+
+@media only screen and (max-width: 1200px)
+  .container
+    padding: 100px
+
+@media only screen and (max-width: 800px)
+  .container
+    padding: 50px
+
+@media only screen and (max-width: 600px)
+  .infoRow
+    flex-direction: column
+
+  .item
+    border: none
+
+  .moreBlock
+    max-width: 100%
+    width: 100%

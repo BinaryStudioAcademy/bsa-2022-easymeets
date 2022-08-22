@@ -12,6 +12,10 @@ export class HttpInternalService {
     // eslint-disable-next-line no-empty-function
     constructor(private http: HttpClient) {}
 
+    public getStringRequest(url: string, httpParams?: any): Observable<string> {
+        return this.http.get(this.buildUrl(url), { headers: this.getHeaders(), params: httpParams, responseType: 'text' });
+    }
+
     public getRequest<T>(url: string, httpParams?: any): Observable<T> {
         return this.http.get<T>(this.buildUrl(url), { headers: this.getHeaders(), params: httpParams });
     }

@@ -18,7 +18,6 @@ import { TimeZone } from '@shared/enums/timeZone';
     templateUrl: './user-profile-page.component.html',
     styleUrls: ['./user-profile-page.component.sass'],
 })
-
 export class UserProfilePageComponent extends BaseComponent implements OnInit {
     constructor(
         private userService: UserService,
@@ -37,15 +36,15 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public userForm: FormGroup;
 
-    public timeFormatValues = Object.values(TimeFormat).filter(key => Number.isNaN(Number(key)));
+    public timeFormatValues = Object.values(TimeFormat).filter((key) => Number.isNaN(Number(key)));
 
-    public dateFormatValues = Object.values(DateFormat).filter(key => Number.isNaN(Number(key)));
+    public dateFormatValues = Object.values(DateFormat).filter((key) => Number.isNaN(Number(key)));
 
-    public languageValues = Object.keys(Language).filter(key => Number.isNaN(Number(key)));
+    public languageValues = Object.keys(Language).filter((key) => Number.isNaN(Number(key)));
 
     public timeZoneValues = Object.keys(TimeZone);
 
-    public countryValues = Object.keys(Country).filter(key => Number.isNaN(Number(key)));
+    public countryValues = Object.keys(Country).filter((key) => Number.isNaN(Number(key)));
 
     public countryCodeValues = Object.values(CountryCode);
 
@@ -58,7 +57,10 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         Validators.pattern(/^[єЄіІїЇa-zA-Z\dа-яА-Я-]+(\s|)[єЄіІїЇa-zA-Z\dа-яА-Я-]*$/),
     ]);
 
-    public phoneControl: FormControl = new FormControl('', [Validators.required, Validators.minLength(10)]);
+    public phoneControl: FormControl = new FormControl('', [
+        Validators.required,
+        Validators.minLength(9),
+        Validators.maxLength(11)]);
 
     public ngOnInit(): void {
         this.userForm = new FormGroup({
@@ -110,7 +112,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             .editUser(editedUser)
             .pipe(this.untilThis)
             .subscribe(
-                () => {
+                (user) => {
+                    this.userService.updateUser(user);
                     this.notificationService.showSuccessMessage('Personal information was updated successfully.');
                 },
                 () => {
@@ -150,13 +153,16 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     }
 
     public confirmCancelDialog(): void {
-        this.confirmationWindowService
-            .openConfirmDialog({
-                buttonsOptions: [{
+        this.confirmationWindowService.openConfirmDialog({
+            buttonsOptions: [
+                {
                     class: 'confirm-accept-button',
                     label: 'Ok',
-                    onClickEvent: this.clickEvent }],
-                title: 'Oops...',
-                message: 'Image can\'t be heavier than 5MB!' });
+                    onClickEvent: this.clickEvent,
+                },
+            ],
+            title: 'Oops...',
+            message: "Image can't be heavier than 5MB!",
+        });
     }
 }

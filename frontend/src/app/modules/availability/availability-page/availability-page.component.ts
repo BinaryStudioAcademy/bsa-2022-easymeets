@@ -20,8 +20,8 @@ export class AvailabilityPageComponent extends BaseComponent {
     public userSlots: IAvailabilitySlot[];
 
     constructor(
-        private availabilitySlotService: AvailabilitySlotService,
         private userService: UserService,
+        private availabilitySlotService: AvailabilitySlotService,
         private spinnerService: SpinnerService,
     ) {
         super();
