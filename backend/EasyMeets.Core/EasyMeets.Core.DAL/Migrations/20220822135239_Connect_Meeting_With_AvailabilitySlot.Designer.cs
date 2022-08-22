@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyMeets.Core.DAL.Migrations
 {
     [DbContext(typeof(EasyMeetsCoreContext))]
-    [Migration("20220822134639_Make_Meeting_Id_Nullable_InSlot")]
-    partial class Make_Meeting_Id_Nullable_InSlot
+    [Migration("20220822135239_Connect_Meeting_With_AvailabilitySlot")]
+    partial class Connect_Meeting_With_AvailabilitySlot
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -826,7 +826,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 1L,
                             AvailabilitySlotId = 3L,
                             Email = "Donald_Hills@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 11, 27, 11, 47, 38, 945, DateTimeKind.Unspecified).AddTicks(8269), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 11, 27, 11, 53, 38, 141, DateTimeKind.Unspecified).AddTicks(9106), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Donald Hills",
                             TimeZone = 0
@@ -836,7 +836,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 2L,
                             AvailabilitySlotId = 7L,
                             Email = "Leonard62@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 21, 9, 56, 33, 980, DateTimeKind.Unspecified).AddTicks(9493), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 21, 10, 2, 33, 177, DateTimeKind.Unspecified).AddTicks(227), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Leonard Effertz",
                             TimeZone = 0
@@ -846,7 +846,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 3L,
                             AvailabilitySlotId = 6L,
                             Email = "Dewey_Schuppe@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 9, 13, 12, 25, 44, 799, DateTimeKind.Unspecified).AddTicks(6289), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 9, 13, 12, 31, 43, 995, DateTimeKind.Unspecified).AddTicks(6957), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Dewey Schuppe",
                             TimeZone = 0
@@ -856,7 +856,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 4L,
                             AvailabilitySlotId = 6L,
                             Email = "Elijah.Blanda@gmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 6, 18, 20, 40, 750, DateTimeKind.Unspecified).AddTicks(2612), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 6, 18, 26, 39, 946, DateTimeKind.Unspecified).AddTicks(2530), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Elijah Blanda",
                             TimeZone = 0
@@ -866,7 +866,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 5L,
                             AvailabilitySlotId = 5L,
                             Email = "Joel_Goldner@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 2, 26, 11, 52, 55, 431, DateTimeKind.Unspecified).AddTicks(4635), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 2, 26, 11, 58, 54, 627, DateTimeKind.Unspecified).AddTicks(4462), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Joel Goldner",
                             TimeZone = 0
@@ -876,7 +876,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 6L,
                             AvailabilitySlotId = 4L,
                             Email = "Jaime.Veum2@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 24, 4, 10, 28, 75, DateTimeKind.Unspecified).AddTicks(4061), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 24, 4, 16, 27, 271, DateTimeKind.Unspecified).AddTicks(4568), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Jaime Veum",
                             TimeZone = 0
@@ -886,7 +886,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 7L,
                             AvailabilitySlotId = 9L,
                             Email = "Patti.Feil@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 7, 10, 9, 54, 41, 492, DateTimeKind.Unspecified).AddTicks(6869), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 7, 10, 10, 0, 40, 688, DateTimeKind.Unspecified).AddTicks(7601), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Patti Feil",
                             TimeZone = 0
@@ -896,7 +896,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 8L,
                             AvailabilitySlotId = 2L,
                             Email = "Jesus9@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 1, 10, 5, 48, 24, 620, DateTimeKind.Unspecified).AddTicks(1233), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 1, 10, 5, 54, 23, 816, DateTimeKind.Unspecified).AddTicks(1344), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Jesus Gorczany",
                             TimeZone = 0
@@ -906,7 +906,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 9L,
                             AvailabilitySlotId = 1L,
                             Email = "Jacob.Ondricka6@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 1, 0, 31, 33, 280, DateTimeKind.Unspecified).AddTicks(4609), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 1, 0, 37, 32, 476, DateTimeKind.Unspecified).AddTicks(4734), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Jacob Ondricka",
                             TimeZone = 0
@@ -916,7 +916,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 10L,
                             AvailabilitySlotId = 1L,
                             Email = "Erma.MacGyver86@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 10, 10, 25, 9, 237, DateTimeKind.Unspecified).AddTicks(1590), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 10, 10, 31, 8, 433, DateTimeKind.Unspecified).AddTicks(1348), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Erma MacGyver",
                             TimeZone = 0
@@ -953,82 +953,82 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4004), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9428), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 3L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(3939), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9354), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 2L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4118), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9521), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 2L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4113), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9515), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 3L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4133), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9536), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 1L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4128), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9532), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 4L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4147), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9551), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 4L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4143), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9546), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 5L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4161), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9565), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 9L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4157), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9560), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 6L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4175), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9579), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 5L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4171), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9574), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 7L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4189), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9593), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 2L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4185), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9588), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 8L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4203), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9607), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 4L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4199), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9602), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 9L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4217), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9620), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 6L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4212), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9616), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 10L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4231), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 24, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9634), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 9L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 46, 39, 164, DateTimeKind.Unspecified).AddTicks(4226), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 23, 16, 52, 38, 359, DateTimeKind.Unspecified).AddTicks(9630), new TimeSpan(0, 3, 0, 0, 0))
                         });
                 });
 
@@ -1099,7 +1099,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 2,
                             MeetingLink = "https://austyn.info",
                             Name = "ut",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 12, 17, 2, 55, 822, DateTimeKind.Unspecified).AddTicks(4145), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 12, 17, 8, 55, 19, DateTimeKind.Unspecified).AddTicks(7419), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 4L,
                             UpdatedAt = new DateTime(2022, 8, 22, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1114,7 +1114,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 2,
                             MeetingLink = "http://margret.org",
                             Name = "deserunt",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 21, 2, 25, 43, 637, DateTimeKind.Unspecified).AddTicks(2183), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 21, 2, 31, 42, 834, DateTimeKind.Unspecified).AddTicks(5386), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 9L,
                             UpdatedAt = new DateTime(2022, 8, 22, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1129,7 +1129,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 1,
                             MeetingLink = "https://jessika.info",
                             Name = "explicabo",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 6, 24, 21, 5, 41, 672, DateTimeKind.Unspecified).AddTicks(4155), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 6, 24, 21, 11, 40, 869, DateTimeKind.Unspecified).AddTicks(7303), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 4L,
                             UpdatedAt = new DateTime(2022, 8, 22, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1144,7 +1144,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 0,
                             MeetingLink = "http://enola.info",
                             Name = "et",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 5, 6, 0, 13, 57, 947, DateTimeKind.Unspecified).AddTicks(1036), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 5, 6, 0, 19, 57, 144, DateTimeKind.Unspecified).AddTicks(4179), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 1L,
                             UpdatedAt = new DateTime(2022, 8, 22, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1159,7 +1159,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 0,
                             MeetingLink = "http://christopher.net",
                             Name = "qui",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 12, 1, 4, 21, 36, 34, DateTimeKind.Unspecified).AddTicks(9820), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 12, 1, 4, 27, 35, 232, DateTimeKind.Unspecified).AddTicks(2961), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 8L,
                             UpdatedAt = new DateTime(2022, 8, 22, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1174,7 +1174,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 0,
                             MeetingLink = "https://adrianna.name",
                             Name = "doloribus",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 18, 13, 31, 3, 76, DateTimeKind.Unspecified).AddTicks(7900), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 18, 13, 37, 2, 274, DateTimeKind.Unspecified).AddTicks(1031), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 3L,
                             UpdatedAt = new DateTime(2022, 8, 22, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1189,7 +1189,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 0,
                             MeetingLink = "https://coby.biz",
                             Name = "sunt",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 11, 25, 20, 44, 7, 672, DateTimeKind.Unspecified).AddTicks(9142), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 11, 25, 20, 50, 6, 870, DateTimeKind.Unspecified).AddTicks(2244), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 1L,
                             UpdatedAt = new DateTime(2022, 8, 22, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1204,7 +1204,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 1,
                             MeetingLink = "https://abe.org",
                             Name = "rerum",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 6, 3, 3, 7, 50, 141, DateTimeKind.Unspecified).AddTicks(9817), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 6, 3, 3, 13, 49, 339, DateTimeKind.Unspecified).AddTicks(2912), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 10L,
                             UpdatedAt = new DateTime(2022, 8, 22, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1219,7 +1219,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 1,
                             MeetingLink = "http://gwendolyn.net",
                             Name = "nam",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 8, 2, 7, 30, 54, 702, DateTimeKind.Unspecified).AddTicks(5282), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 8, 2, 7, 36, 53, 899, DateTimeKind.Unspecified).AddTicks(8370), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 3L,
                             UpdatedAt = new DateTime(2022, 8, 22, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1234,7 +1234,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 0,
                             MeetingLink = "http://shaylee.info",
                             Name = "est",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 2, 12, 6, 7, 9, 666, DateTimeKind.Unspecified).AddTicks(2991), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 2, 12, 6, 13, 8, 863, DateTimeKind.Unspecified).AddTicks(6077), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 8L,
                             UpdatedAt = new DateTime(2022, 8, 22, 0, 0, 0, 0, DateTimeKind.Local)
                         });
