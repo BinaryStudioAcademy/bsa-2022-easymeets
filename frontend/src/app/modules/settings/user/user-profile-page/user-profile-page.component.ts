@@ -110,6 +110,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     public OnSubmit(form: FormGroup) {
         const editedUser: IUser = {
             id: this.user.id,
+            uid: this.user.uid,
             email: this.user.email,
             image: this.user.image,
             phone: `+${this.countryCodeValues[form.value.country as Country]}${form.value.phone}`,

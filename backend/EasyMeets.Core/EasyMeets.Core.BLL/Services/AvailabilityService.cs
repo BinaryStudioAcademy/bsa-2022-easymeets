@@ -20,6 +20,13 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<UserPersonalAndTeamSlotsDto> GetUserPersonalAndTeamSlotsAsync(long id)
         {
+            var isSame = await _userService.ComparePassedIdAndCurrentUserIdAsync(id);
+
+            if (!isSame)
+            {
+                throw new ArgumentException("Trying to get another user's slots", nameof(id));
+            }
+            
             var availabilitySlots = await _context.AvailabilitySlots
                 .Include(x => x.Members)
                     .ThenInclude(x => x.User)

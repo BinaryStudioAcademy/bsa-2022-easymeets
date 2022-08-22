@@ -18,12 +18,17 @@
     padding: 50px
 
 .user-avatar-block
-    width: 100%
+    width: 80%
     display: flex
     align-items: center
     justify-content: space-around
     flex-wrap: wrap
     gap: 30px
+    .user-avatar
+        clip-path: circle()
+        width: 35%
+        height: 35%
+        background-color: $light-gray
 
 input, .mat-select
     height: 30px
@@ -86,7 +91,6 @@ label
     .mat-select-value
         color: $dark-gray
         font-size: 15px
-
 
 input
     &:focus
