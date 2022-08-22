@@ -10,20 +10,19 @@ namespace EasyMeets.Core.WebAPI.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService; 
+        private readonly IUserService _userService;
         public UserController(IUserService userService)
         {
-            _userService = userService; 
+            _userService = userService;
         }
-        
+
         [HttpGet("current")]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            var email =  _userService.GetCurrentUserEmail();
-            var user = await _userService.GetCurrentUserAsync(email);
+            var user = await _userService.GetCurrentUserAsync();
             return Ok(user);
-        } 
-        
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult<UserDto>> CreateUserPreferences([FromBody] NewUserDto user)
@@ -44,6 +43,6 @@ namespace EasyMeets.Core.WebAPI.Controllers
             var email = _userService.GetCurrentUserEmail();
             await _userService.UpdateUserPreferences(user, email);
             return Ok();
-        } 
+        }
     }
 }

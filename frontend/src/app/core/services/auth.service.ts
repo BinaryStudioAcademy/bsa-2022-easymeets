@@ -21,9 +21,7 @@ export class AuthService {
     ) {
         this.afAuth.authState.subscribe((user) => {
             this.currentUser = user;
-
             if (this.currentUser) {
-                localStorage.setItem('user', JSON.stringify(this.currentUser));
                 this.currentUser.getIdToken().then(t => localStorage.setItem('access-token', t));
             }
         });
