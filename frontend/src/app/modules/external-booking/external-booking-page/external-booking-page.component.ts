@@ -32,7 +32,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         });
     }
 
-    public addDurationAndLocationInMenu(data: any): void {
+    public addDurationAndLocationInMenu(data: { duration: number; location: LocationType }): void {
         this.menu = {
             ...this.menu,
             duration: data.duration,
