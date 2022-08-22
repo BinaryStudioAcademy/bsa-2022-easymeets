@@ -71,7 +71,7 @@ export class SignUpFormComponent extends BaseComponent {
                     image: resp.user?.photoURL ?? undefined,
                     language: this.getLanguage(),
                     timeFormat: this.getTimeFormat(),
-                    dateFormat: DateFormat.Hyphen,
+                    dateFormat: DateFormat.MonthDayYear,
                     phone: resp.user?.phoneNumber ?? undefined,
                     timeZone: new Date().getTimezoneOffset(),
                 })
