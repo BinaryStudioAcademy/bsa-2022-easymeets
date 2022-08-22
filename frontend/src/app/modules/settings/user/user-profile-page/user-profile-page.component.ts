@@ -16,6 +16,7 @@ import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
 import { TimeZone } from '@shared/enums/timeZone';
+import { removePhoneNumberCodeHelper } from "@core/helpers/remove-phone-number-code-helper";
 
 @Component({
     selector: 'app-user-profile-page',
@@ -94,7 +95,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                 this.user = user;
                 this.userForm.patchValue({
                     userName: user.userName,
-                    phone: user.phone?.substr(user.phone.length - 10),
+                    phone: removePhoneNumberCodeHelper(user.phone),
                     country: user.country,
                     dateFormat: user.dateFormat,
                     timeFormat: user.timeFormat,
