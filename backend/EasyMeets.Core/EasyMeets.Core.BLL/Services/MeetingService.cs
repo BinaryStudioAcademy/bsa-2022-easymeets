@@ -25,7 +25,7 @@ namespace EasyMeets.Core.BLL.Services
 
         private void ConvertTimeZone(ref List<MeetingThreeMembersDTO> meetings)
         {
-            foreach (var user in meetings.SelectMany(x => x?.MeetingMembers))
+            foreach (var user in meetings.SelectMany(x => x.MeetingMembers ?? new List<UserMeetingDTO>()))
             {
                 switch (user.TimeZone)
                 {
