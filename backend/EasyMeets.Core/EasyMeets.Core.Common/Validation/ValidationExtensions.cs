@@ -12,7 +12,7 @@ public static class ValidationExtensions
         { "TeamName", @"^[a-zA-Z\d- ]+$" },
         { "Description", @"^[.,іІїЇa-zA-Z\dа-яА-Я-\s]*$" },
         { "PhoneNumber", @"^\+\d{10,14}$" },
-        { "TeamLink", @"^/[a-zA-Z\d\-]+\d*$" },
+        { "TeamLink", @"^[a-zA-Z\d\-]*$" },
         { "Password", @"^[^ ]+$" },
         { "Url", @"^(http|http(s)?://)?([\w-]+\.)+[\w-]+[.com|.in|.org]+(\[\?%&=]*)?"}
     };

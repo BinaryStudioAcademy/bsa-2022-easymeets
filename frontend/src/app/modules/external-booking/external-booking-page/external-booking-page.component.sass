@@ -50,12 +50,28 @@
     flex-direction: column
     align-items: flex-start
     border-right: 2px solid $athens-gray
-    padding: 30px
+    padding: 30px 30px 0px 30px
+    @media screen and (max-width: $desktop-min-width)
+        margin-top: 75%
     img
         height: 78px
         width: 78px
         border-radius: 100%
         margin-bottom: 20px
+    .sidebar-list
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        @media screen and (max-width: $desktop-min-width)
+            width: 100%
+            flex-direction: row
+            .sidebar-list-item
+                margin-right: 5%
+        .sidebar-list-item
+            width: 100%
+    .welcome-message
+        @media screen and (max-width: $desktop-min-width)
+            display: none
 
 .choice
     position: relative
@@ -64,44 +80,24 @@
     align-items: flex-start
     padding: 30px 23px
 
-h1, h3, h4
+h1, h2, h3, h4, h5
     font-family: 'Inter'
     font-style: normal
     line-height: 20px
     color: $pale-sky
 
-h3, h4
+h5
+    font-weight: 400
+    font-size: 12px
+
+h3
+    font-weight: 700
+    font-size: 14px
+
+h2, h4
     font-weight: 400
     font-size: 14px
 
 h1
     font-weight: 700
     font-size: 20px
-
-::ng-deep .card.mat-card
-    width: 45%
-    height: 101px
-    margin: 5px 0
-    padding-top: 20px !important
-    padding-left: 20px !important
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16) !important
-    border-radius: 4px !important
-    @media screen and (max-width: $desktop-min-width)
-        width: 100%
-    .mat-card-title, .mat-card-subtitle
-        font-family: 'Inter' !important
-        font-style: normal
-        line-height: 20px
-        color: $pale-sky
-    .mat-card-title
-        font-weight: 700 !important
-        font-size: 20px !important
-        margin-top: 5px !important
-    .mat-card-subtitle
-        font-weight: 400 !important
-        font-size: 14px !important
-        margin-top: 10px !important
-
-::ng-deep .card.mat-card:hover
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important
-    cursor: pointer

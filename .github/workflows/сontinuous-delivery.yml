@@ -50,6 +50,48 @@ jobs:
           build-args: PROJECT_PORT=5070
           push: true
 
+  build_watcher_service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push Watcher Service
+        uses: docker/build-push-action@v2
+        with:
+          tags: tatihutii/easymeets_watcher:latest
+          context: ./backend
+          file: ./backend/EasyMeets.Watcher/Dockerfile
+          build-args: PROJECT_PORT=5060
+          push: true
+
+  build_emailer_service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push Emailer Service
+        uses: docker/build-push-action@v2
+        with:
+          tags: tatihutii/easymeets_emailer:latest
+          context: ./backend
+          file: ./backend/EasyMeets.Emailer/Dockerfile
+          build-args: PROJECT_PORT=5090
+          push: true
+
   build_frontend:
     runs-on: ubuntu-latest
     steps:
@@ -71,7 +113,14 @@ jobs:
 
   deploy_images:
     runs-on: ubuntu-latest
-    needs: [build_core_service, build_notifier_service, build_frontend]
+    needs:
+      [
+        build_core_service,
+        build_notifier_service,
+        build_watcher_service,
+        build_emailer_service,
+        build_frontend,
+      ]
     steps:
       - uses: actions/checkout@v2
       - name: Update PROD images

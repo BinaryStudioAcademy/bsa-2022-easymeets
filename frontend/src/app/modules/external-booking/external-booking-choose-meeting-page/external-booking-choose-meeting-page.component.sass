@@ -1,0 +1,47 @@
+@import '../../../../styles/color-variables'
+@import '../../../../styles/screen-variables'
+
+.meeting-cards
+    width: 770px
+
+h1, h3, h4
+    font-family: 'Inter'
+    font-style: normal
+    line-height: 20px
+    color: $pale-sky
+
+h3, h4
+    font-weight: 400
+    font-size: 14px
+
+h1
+    font-weight: 700
+    font-size: 20px
+
+::ng-deep .card.mat-card
+    width: 45% !important
+    height: 101px !important
+    margin: 5px 0
+    padding-top: 20px !important
+    padding-left: 20px !important
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16) !important
+    border-radius: 4px !important
+    @media screen and (max-width: $tablet-min-width)
+        width: 25% !important
+    .mat-card-title, .mat-card-subtitle
+        font-family: 'Inter' !important
+        font-style: normal
+        line-height: 20px
+        color: $pale-sky
+    .mat-card-title
+        font-weight: 700 !important
+        font-size: 20px !important
+        margin-top: 5px !important
+    .mat-card-subtitle
+        font-weight: 400 !important
+        font-size: 14px !important
+        margin-top: 10px !important
+
+::ng-deep .card.mat-card:hover
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important
+    cursor: pointer
