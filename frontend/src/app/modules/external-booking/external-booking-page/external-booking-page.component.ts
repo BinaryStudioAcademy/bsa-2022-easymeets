@@ -24,7 +24,7 @@ export class ExternalBookingPageComponent implements OnInit {
     constructor(public spinnerService: SpinnerService, private userService: UserService, public router: Router) {}
 
     ngOnInit(): void {
-        this.userService.getCurrentUserById(this.selectedUserId).subscribe((user) => {
+        this.userService.getCurrentUser().subscribe((user) => {
             this.menu.user = user;
         });
     }
