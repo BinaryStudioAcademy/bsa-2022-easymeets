@@ -13,7 +13,7 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
         Questions = new List<Question>();
     }
     public long TeamId { get; set; }
-    public long MeetingId { get; set; }
+    public long? MeetingId { get; set; }
     public LocationType LocationType { get; set; }
     public string Name { get; set; } = string.Empty;
     public string WelcomeMessage { get; set; } = string.Empty;
