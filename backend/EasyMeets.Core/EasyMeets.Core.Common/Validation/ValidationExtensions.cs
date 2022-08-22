@@ -9,10 +9,10 @@ public static class ValidationExtensions
     {
         { "Email", @"^([a-zA-z0-9]+([._\-][a-zA-z0-9]+)?)+@([a-zA-z0-9]+([.\-][a-zA-Z0-9]+)?)+\.[a-zA-Z]{2,4}$" },
         { "Username", @"^[\w\d]+[\w\d\- ]+$" },
-        { "PhoneNumber", @"^\+\d{10,13}$" },
-        { "TeamLink", @"^[a-zA-Z\d]+$" },
         { "TeamName", @"^[a-zA-Z\d- ]+$" },
         { "Description", @"^[.,іІїЇa-zA-Z\dа-яА-Я-\s]*$" },
+        { "PhoneNumber", @"^\+\d{10,14}$" },
+        { "TeamLink", @"^/[a-zA-Z\d\-]+\d*$" },
         { "Password", @"^[^ ]+$" },
         { "Url", @"^(http|http(s)?://)?([\w-]+\.)+[\w-]+[.com|.in|.org]+(\[\?%&=]*)?"}
     };
