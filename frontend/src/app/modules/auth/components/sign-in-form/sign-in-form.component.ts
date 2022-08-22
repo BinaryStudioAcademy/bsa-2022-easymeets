@@ -7,6 +7,7 @@ import { SpinnerService } from '@core/services/spinner.service';
 import { UserService } from '@core/services/user.service';
 import { EmailValidator } from '@modules/auth/validators/email-validator';
 import firebase from 'firebase/compat';
+import { takeUntil } from "rxjs/operators";
 
 @Component({
     selector: 'app-sign-in-form',
@@ -47,6 +48,7 @@ export class SignInFormComponent extends BaseComponent {
         if (resp) {
             this.userService
                 .getCurrentUser()
+                .pipe(this.untilThis)
                 .subscribe(() => this.router.navigateByUrl('availability'));
         } else {
             this.setCredentialsIncorrect();
