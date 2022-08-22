@@ -4,7 +4,6 @@ import { BaseComponent } from '@core/base/base.component';
 import { LocationTypeToLabelMapping } from '@core/helpers/location-type-label-mapping';
 import { IExternalBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
 import { LocationType } from '@core/models/locationType';
-import { ILocalUser } from '@core/models/IUser';
 import { SpinnerService } from '@core/services/spinner.service';
 import { UserService } from '@core/services/user.service';
 
