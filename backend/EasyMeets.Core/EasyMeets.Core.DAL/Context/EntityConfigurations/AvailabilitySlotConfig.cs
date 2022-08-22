@@ -73,7 +73,7 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
 
         builder.HasOne(s => s.Meeting)
             .WithOne(s => s.AvailabilitySlot)
-            .HasForeignKey<AvailabilitySlot>(s => s.MeetingId)
+            .HasForeignKey<Meeting>(s => s.AvailabilitySlotId)
             .OnDelete(DeleteBehavior.NoAction);
     }
 }
