@@ -45,8 +45,9 @@ export class SignInFormComponent extends BaseComponent {
 
     private handleAuthenticationResponse(resp: firebase.auth.UserCredential | void): void {
         if (resp) {
-            this.userService.getCurrentUser();
-            this.router.navigateByUrl('availability');
+            this.userService
+                .getCurrentUser()
+                .subscribe(() => this.router.navigateByUrl('availability'));
         } else {
             this.setCredentialsIncorrect();
         }
