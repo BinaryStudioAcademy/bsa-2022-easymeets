@@ -165,13 +165,16 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     }
 
     public confirmCancelDialog(): void {
-        this.confirmationWindowService
-            .openConfirmDialog({
-                buttonsOptions: [{
+        this.confirmationWindowService.openConfirmDialog({
+            buttonsOptions: [
+                {
                     class: 'confirm-accept-button',
                     label: 'Ok',
-                    onClickEvent: this.clickEvent }],
-                title: 'Oops...',
-                message: 'Image can\'t be heavier than 5MB!' });
+                    onClickEvent: this.clickEvent,
+                },
+            ],
+            title: 'Oops...',
+            message: "Image can't be heavier than 5MB!",
+        });
     }
 }
