@@ -58,7 +58,10 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         Validators.pattern(/^[єЄіІїЇa-zA-Z\dа-яА-Я-]+(\s|)[єЄіІїЇa-zA-Z\dа-яА-Я-]*$/),
     ]);
 
-    public phoneControl: FormControl = new FormControl('', [Validators.required, Validators.minLength(10)]);
+    public phoneControl: FormControl = new FormControl('', [
+        Validators.required,
+        Validators.minLength(9),
+        Validators.maxLength(11)]);
 
     public ngOnInit(): void {
         this.userForm = new FormGroup({
