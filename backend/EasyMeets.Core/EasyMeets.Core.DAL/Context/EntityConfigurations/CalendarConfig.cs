@@ -11,6 +11,18 @@ public class CalendarConfig : IEntityTypeConfiguration<Calendar>
         builder.Property(c => c.UserId)
             .IsRequired();
         
+        builder.Property(c => c.AccessToken)
+            .IsRequired()
+            .HasMaxLength(255);
+        
+        builder.Property(c => c.RefreshToken)
+            .HasMaxLength(255)
+            .IsRequired();
+        
+        builder.Property(c => c.ConnectedCalendar)
+            .HasMaxLength(50)
+            .IsRequired();
+        
         builder.Property(c => c.AddEventsFromTeamId)
             .IsRequired();
         

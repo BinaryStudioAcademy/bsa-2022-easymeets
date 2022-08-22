@@ -10,6 +10,7 @@ public class Calendar : AuditEntity<long>
     public long UserId { get; set; }
     public long? AddEventsFromTeamId { get; set; }
     public bool CheckForConflicts { get; set; }
+    public string ConnectedCalendar { get; set; }
     public string AccessToken { get; set; }
     public string RefreshToken { get; set; }
 
