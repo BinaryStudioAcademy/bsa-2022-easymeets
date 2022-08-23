@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="timezone">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" class="timezone-mat-form-field">
             <mat-label>Select Time Zone</mat-label>
             <mat-select>
                 <mat-option value="zone.value" *ngFor="let zone of timeZone | keyvalue">
@@ -43,7 +43,8 @@
                 <ng-container
                     *ngIf="
                         isDateInRange(theEarliestStartOfTimeRanges, day.startTime, day.finishTime, i);
-                        else defaultTimeSlot">
+                        else defaultTimeSlot
+                    ">
                     <span
                         class="enabled"
                         *ngIf="isLastDate(this.calendarWeek.firstDay, j); else defaultTimeSlotPreviousDate">
