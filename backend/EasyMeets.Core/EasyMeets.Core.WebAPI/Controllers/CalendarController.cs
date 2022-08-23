@@ -40,11 +40,5 @@ namespace EasyMeets.Core.WebAPI.Controllers
         {
             return Ok(await _calendarsService.UpdateGoogleCalendar(calendarDtoList));
         }
-
-        [HttpPost("create-calendar")]
-        public async Task<IActionResult> CreateGoogleCalendar()
-        {
-            return Ok(await _calendarsService.CreateCalendar());
-        }
     }
 }

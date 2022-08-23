@@ -19,6 +19,10 @@ public class CalendarConfig : IEntityTypeConfiguration<Calendar>
             .HasMaxLength(255)
             .IsRequired();
         
+        builder.Property(c => c.Uid)
+            .HasMaxLength(100)
+            .IsRequired();
+        
         builder.Property(c => c.ConnectedCalendar)
             .HasMaxLength(50)
             .IsRequired();

@@ -2,14 +2,13 @@ using System.Security.Claims;
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Calendar;
-using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
+using Google.Apis.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Calendar = Google.Apis.Calendar.v3.Data.Calendar;
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -25,15 +24,6 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<bool> CreateGoogleCalendarConnection(UserCredentialsDto credentialsDto)
         {
-            var currentUserEmail = GetCurrentUserEmail();
-            
-            var calendarExist = await _context.Calendars.FirstOrDefaultAsync(el => el.ConnectedCalendar == currentUserEmail);
-            
-            if (calendarExist != null)
-            {
-                return false;
-            }
-            
             var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                         new ClientSecrets
                         {
@@ -41,19 +31,36 @@ namespace EasyMeets.Core.BLL.Services
                             ClientSecret = credentialsDto.ClientSecret
                         }, 
                         new [] { CalendarService.Scope.Calendar },
-                        currentUserEmail, 
+                        Guid.NewGuid().ToString(), 
                         CancellationToken.None,
                         null);
             
-            var currentUser = await _context.Users.FirstAsync(el => el.Email == currentUserEmail);
+            _service = new CalendarService(new BaseClientService.Initializer(){
+                HttpClientInitializer = credential,
+                ApplicationName = ApplicationName
+            });
+
+            var calendars = await _service.CalendarList.List().ExecuteAsync();
+
+            var connectedEmail = calendars.Items.FirstOrDefault(el => el.Primary == true)?.Id;
+            
+            var calendarExist = await _context.Calendars.FirstOrDefaultAsync(el => el.ConnectedCalendar == connectedEmail);
+            
+            if (calendarExist != null)
+            {
+                return false;
+            }
+            
+            var currentUser = await _context.Users.FirstAsync(el => el.Email == GetCurrentUserEmail());
             
             var calendar = new DAL.Entities.Calendar
             {
                 UserId = currentUser.Id,
                 CheckForConflicts = false,
-                ConnectedCalendar = credential.UserId,
+                ConnectedCalendar = connectedEmail!,
                 AccessToken = credential.Token.AccessToken,
                 RefreshToken = credential.Token.RefreshToken,
+                Uid = credential.UserId,
                 CreatedBy = currentUser.Id,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
@@ -124,22 +131,6 @@ namespace EasyMeets.Core.BLL.Services
                 .ToListAsync();
 
             return _mapper.Map<List<UserCalendarDto>>(calendarsList);
-        }
-
-        public async Task<Calendar> CreateCalendar()
-        {
-            var eventRequest = _service.Calendars.Insert(new Calendar()
-            {
-                Description = "Description",
-                TimeZone = "America/Los_Angeles",
-                Summary = "Just nice calendar"
-            });
-
-            var c = await eventRequest.ExecuteAsync();
-
-            c.Id = ApplicationName;
-
-            return c;
         }
 
         public async Task<bool> DeleteCalendar(long id)

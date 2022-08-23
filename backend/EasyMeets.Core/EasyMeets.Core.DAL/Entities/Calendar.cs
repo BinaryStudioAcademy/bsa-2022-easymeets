@@ -13,6 +13,7 @@ public class Calendar : AuditEntity<long>
     public string ConnectedCalendar { get; set; }
     public string AccessToken { get; set; }
     public string RefreshToken { get; set; }
+    public string Uid { get; set; }
 
     public User User { get; set; } = null!;
     public Team? ImportEventsFromTeam { get; set; }
