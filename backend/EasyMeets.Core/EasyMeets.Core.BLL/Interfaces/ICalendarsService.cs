@@ -8,4 +8,5 @@ public interface ICalendarsService
     Task<bool> CreateGoogleCalendarConnection(UserCredentialsDto credentialsDto);
     Task<List<UserCalendarDto>> GetCurrentUserCalendars();
     Task<Calendar> CreateCalendar();
+    Task<bool> DeleteCalendar(long id);
 }

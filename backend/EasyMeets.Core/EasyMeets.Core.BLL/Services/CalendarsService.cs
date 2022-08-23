@@ -25,6 +25,13 @@ namespace EasyMeets.Core.BLL.Services
         {
             var currentUserEmail = GetCurrentUserEmail();
             
+            var calendarExist = await _context.Calendars.FirstOrDefaultAsync(el => el.ConnectedCalendar == currentUserEmail);
+            
+            if (calendarExist != null)
+            {
+                return false;
+            }
+            
             var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                         new ClientSecrets
                         {
@@ -35,9 +42,9 @@ namespace EasyMeets.Core.BLL.Services
                         currentUserEmail, 
                         CancellationToken.None,
                         null);
-
+            
             var currentUser = await _context.Users.FirstAsync(el => el.Email == currentUserEmail);
-
+            
             var calendar = new DAL.Entities.Calendar
             {
                 UserId = currentUser.Id,
@@ -86,8 +93,24 @@ namespace EasyMeets.Core.BLL.Services
 
             return c;
         }
-        
-        public string GetCurrentUserEmail()
+
+        public async Task<bool> DeleteCalendar(long id)
+        {
+            var calendar = await _context.Calendars
+                .Include(el => el.VisibleForTeams)
+                .FirstOrDefaultAsync(el => el.Id == id);
+
+            if (calendar != null)
+            {
+                _context.Calendars.Remove(calendar);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        private string GetCurrentUserEmail()
         {
             var claimsList = _httpContextAccessor.HttpContext!.User.Claims.ToList();
             var email = claimsList.Find(el => el.Type == ClaimTypes.Email);

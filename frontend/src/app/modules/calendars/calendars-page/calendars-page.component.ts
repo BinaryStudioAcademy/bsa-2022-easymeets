@@ -60,6 +60,29 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
             .pipe(this.untilThis)
             .subscribe((response) => {
                 this.userCalendars = response;
+
+                this.userCalendars.forEach((element) => {
+                    const teamsNames = element?.visibleForTeams?.map((x) => x.name);
+
+                    element.visibleForTeams = this.allTeams?.filter((x) => teamsNames?.includes(x.name));
+                    element.importEventsFromTeam = this.allTeams?.find(
+                        (x) => x.name === element.importEventsFromTeam?.name,
+                    );
+                });
+            });
+    }
+
+    removeCalendar(id: bigint) {
+        this.calendarService
+            .deleteGoogleCalendar(id)
+            .pipe(this.untilThis)
+            .subscribe((response) => {
+                if (response) {
+                    this.notificationService.showSuccessMessage('Calendar was successfully deleted');
+                } else {
+                    this.notificationService.showErrorMessage("Something went wrong. Calendar did't deleted");
+                }
+                this.refreshData();
             });
     }
 
@@ -100,7 +123,10 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
             .subscribe((response) => {
                 if (response) {
                     this.notificationService.showSuccessMessage('Calendar was successfully created');
+                } else {
+                    this.notificationService.showErrorMessage('Calendar is already exist');
                 }
+                this.refreshData();
             });
     }
 

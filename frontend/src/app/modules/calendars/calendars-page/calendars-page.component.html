@@ -9,7 +9,8 @@
                 <th mat-header-cell *matHeaderCellDef>Connected Calendar</th>
                 <td mat-cell *matCellDef="let element">
                     <div class="email-wrapper">
-                        <mat-icon class="cancel">cancel</mat-icon>
+                        <button (click)="removeCalendar(element.id)"><mat-icon class="cancel">cancel</mat-icon></button>
+
                         <div class="email">{{ element.connectedCalendar }}</div>
                     </div>
                 </td>
@@ -26,10 +27,10 @@
                             (ngModelChange)="(element.visibleForTeams)"
                             name="selectedTeams"
                             multiple>
-                            <mat-select-trigger *ngIf="element.visibleForTeams?.length < 2">
+                            <!-- <mat-select-trigger *ngIf="element.visibleForTeams?.length < 2">
                                 {{ element.visibleForTeams ? element.visibleForTeams[0].name : '' }}
                                 {{ element.visibleForTeams?.length === allTeams?.length ? 'All teams' : '' }}
-                            </mat-select-trigger>
+                            </mat-select-trigger> -->
                             <mat-select-trigger
                                 *ngIf="
                                     element.visibleForTeams?.length >= 2 &&

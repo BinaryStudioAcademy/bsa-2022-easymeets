@@ -21,4 +21,8 @@ export class CalendarsService {
     public getUserGoogleCalendars(): Observable<IUserCalendar[]> {
         return this.httpService.getRequest<IUserCalendar[]>(`${this.routePrefix}/user-calendars`);
     }
+
+    public deleteGoogleCalendar(id: bigint): Observable<boolean> {
+        return this.httpService.deleteRequest<boolean>(`${this.routePrefix}/${id}`);
+    }
 }
