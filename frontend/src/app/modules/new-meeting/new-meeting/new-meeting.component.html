@@ -19,18 +19,26 @@
                 </div>
                 <div class="duration-container">
                     <p class="location-label">Location</p>
-                    <mat-select placeholder="30 min">
+                    <mat-select placeholder="Google Meet">
                         <mat-option *ngFor="let location of locations" [value]="locations.indexOf(location)">
                             {{location}}
                         </mat-option>
                     </mat-select>
                 </div>
-                <p class="add-team-member-label">Add Team Member</p>
-                <input matInput type="text" placeholder="Type..." list="cityname">
-                <datalist id="cityname">
-                    <option value="Boston">
-                    <option value="Cambridge">
-                </datalist>
+                <div class="search-list">
+                    <p class="add-team-member-label">Add Team Member</p>
+                    <mat-select #singleSelect placeholder="Type...">
+                        <mat-option>
+                            <ngx-mat-select-search
+                            placeholderLabel=""
+                            noEntriesFoundLabel="'no matching team member found'">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let member of teamMembers">
+                            {{member.name}}
+                        </mat-option>
+                    </mat-select>
+                </div>
             </form>
             <div class="team-members-container" >
                 <p class="team-members-label">Team members {{teamMembers.length}}:</p>
@@ -61,6 +69,18 @@
                         </mat-option>
                     </mat-select>
                 </div>
+            </div>
+            <div class="custom-container">
+                <p class="custom-label">Custom time</p>
+                <input matInput type="text" placeholder="Custom time">
+                <mat-select>
+                    <mat-option>
+                        min
+                    </mat-option>
+                    <mat-option>
+                        hour
+                    </mat-option>
+                </mat-select>
             </div>
         </div>
     </div>

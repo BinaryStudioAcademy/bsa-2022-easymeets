@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { getDisplayDate } from '@core/helpers/date-helper';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
 import { INewMeetingTeamMember } from '@core/models/INewMeetingTeamMember';
@@ -18,6 +19,8 @@ export class NewMeetingComponent {
     public dates = getDisplayDate();
 
     public isLoading: boolean = true;
+
+    public meetingForm: FormGroup;
 
     public locations = Object.keys(LocationType).filter(key => Number.isNaN(Number(key)));
 

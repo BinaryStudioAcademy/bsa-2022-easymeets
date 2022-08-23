@@ -15,6 +15,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 export { MatSelectModule } from '@angular/material/select';
 
@@ -39,6 +40,7 @@ export { MatSelectModule } from '@angular/material/select';
         MatTableModule,
         MatTabsModule,
         MatSlideToggleModule,
+        NgxMatSelectSearchModule,
     ],
     exports: [
         FormsModule,
@@ -59,6 +61,7 @@ export { MatSelectModule } from '@angular/material/select';
         MatTableModule,
         MatTabsModule,
         MatSlideToggleModule,
+        NgxMatSelectSearchModule,
     ],
 })
 export class MaterialModule {}
