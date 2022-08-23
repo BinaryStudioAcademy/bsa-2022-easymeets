@@ -4,7 +4,7 @@ import { getDisplayDate } from '@core/helpers/date-helper';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
 import { INewMeetingTeamMember } from '@core/models/INewMeetingTeamMember';
 import { NewMeetingService } from '@core/services/new-meeting.service';
-import { meetingNameRegex, naturalNumberRegex } from '@shared/constants/model-validation';
+import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
 import { LocationType } from '@shared/enums/locationType';
 
 @Component({
@@ -29,7 +29,7 @@ export class NewMeetingComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(meetingNameRegex),
+        Validators.pattern(newMeetingNameRegex),
     ]);
 
     public customTimeControl: FormControl = new FormControl('', [
