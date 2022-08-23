@@ -13,9 +13,11 @@ namespace EasyMeets.Core.BLL.Services
     public class UserService : BaseService, IUserService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper)
+        private readonly IUploadFileService _uploadFileService;
+        public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUploadFileService uploadFileService) : base(context, mapper)
         {
             _httpContextAccessor = httpContextAccessor;
+            _uploadFileService = uploadFileService;
         }
 
         public async Task<UserDto> GetCurrentUserAsync()
@@ -76,6 +78,24 @@ namespace EasyMeets.Core.BLL.Services
             var user = await _context.Users.FindAsync(id);
 
             return user?.Uid == currentUserId;
+        }
+
+        public async Task<string> UploadImageAsync(IFormFile file)
+        {
+            var imageUrl = await _uploadFileService.UploadFileBlobAsync(file);
+
+            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == GetCurrentUserEmail());
+
+            if (currentUser == null)
+            {
+                throw new KeyNotFoundException("User doesn't exist");
+            }
+
+            currentUser.ImagePath = imageUrl;
+
+            _context.Users.Update(currentUser);
+            await _context.SaveChangesAsync();
+            return imageUrl;
         }
     }
 }

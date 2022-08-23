@@ -9,7 +9,6 @@ import { TimeFormatLabelMapping } from '@core/helpers/time-format-label-mapping'
 import { IUser } from '@core/models/IUser';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
-import { UploadImageService } from '@core/services/upload-image.service';
 import { UserService } from '@core/services/user.service';
 import { Country } from '@shared/enums/country';
 import { DateFormat } from '@shared/enums/dateFormat';
@@ -27,7 +26,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     constructor(
         private userService: UserService,
         public notificationService: NotificationService,
-        private uploadImageService: UploadImageService,
         private confirmationWindowService: ConfirmationWindowService,
     ) {
         super();
@@ -153,7 +151,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
         formData.append('file', fileToUpload, fileToUpload.name);
 
-        this.uploadImageService
+        this.userService
             .uploadImage(formData)
             .pipe(this.untilThis)
             .subscribe(

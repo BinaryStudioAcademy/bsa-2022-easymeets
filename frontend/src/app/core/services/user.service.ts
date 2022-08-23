@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { INewUser } from '@core/models/INewUser';
 import { ILocalUser, IUser } from '@core/models/IUser';
-import { map } from 'rxjs';
+import { HttpResponse } from '@microsoft/signalr';
+import { map, Observable } from 'rxjs';
 
 import { HttpInternalService } from './http-internal.service';
 
@@ -62,6 +63,10 @@ export class UserService {
     public updateUser(user: IUser) {
         localStorage.removeItem('user');
         this.setUser(user);
+    }
+
+    public uploadImage(data: FormData): Observable<HttpResponse> {
+        return this.httpService.putRequest<HttpResponse>(`${this.routePrefix}/uploadimage`, data);
     }
 
     public getUserFromStorage(): ILocalUser {
