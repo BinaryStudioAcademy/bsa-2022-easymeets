@@ -25,15 +25,20 @@ hr
 
 .time-options
     height: 10%
+    max-width: 15vw
     div
         display: flex
         align-items: center
         justify-content: flex-start
+        min-height: 5vh
     p
         font-size: 1.2em
         margin: 0.4em 0 0.4em 0
         font-weight: bold
         color: $pale-sky
+        overflow: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
     i
         margin-left: 0.7em
         filter: invert(94%) sepia(3%) saturate(1127%) hue-rotate(185deg) brightness(88%) contrast(86%)

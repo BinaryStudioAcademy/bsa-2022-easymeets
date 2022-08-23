@@ -6,6 +6,7 @@ EXPOSE $PROJECT_PORT
 FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
 WORKDIR /src
 COPY ["EasyMeets.Emailer/EasyMeets.Emailer.WebAPI/EasyMeets.Emailer.WebAPI.csproj", "EasyMeets.Emailer/EasyMeets.Emailer.WebAPI/"]
+
 RUN dotnet restore "EasyMeets.Emailer/EasyMeets.Emailer.WebAPI/EasyMeets.Emailer.WebAPI.csproj"
 COPY . .
 WORKDIR "/src/EasyMeets.Emailer/EasyMeets.Emailer.WebAPI"
@@ -18,4 +19,4 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENV ASPNETCORE_URLS http://*:5090
-ENTRYPOINT ["dotnet", "EasyMeets.Emailer.dll"]
+ENTRYPOINT ["dotnet", "EasyMeets.Emailer.WebAPI.dll"]
