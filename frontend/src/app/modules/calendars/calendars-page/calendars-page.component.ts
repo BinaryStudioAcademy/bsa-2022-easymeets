@@ -1,10 +1,9 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { getDefaultOptions } from '@core/helpers/options-helper';
-import { getDefaultCalendars } from '@core/helpers/users-calendar-helper';
 import { ICheckOption } from '@core/interfaces/check-option-interface';
-import { ITeam } from '@core/interfaces/team-interface';
-import { IUserCalendar } from '@core/interfaces/user-calendar-interface';
+import { IUserCalendar } from '@core/models/calendar/IUserCalendar';
+import { ITeam } from '@core/models/ITeam';
 import { IUserCredentials } from '@core/models/IUserCredentials';
 import { CalendarsService } from '@core/services/calendars.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
@@ -20,7 +19,7 @@ import { environment } from '@env/environment';
 export class CalendarsPageComponent extends BaseComponent implements OnInit {
     userCalendars: IUserCalendar[];
 
-    allTeams: ITeam[];
+    allTeams?: ITeam[];
 
     checkOptions: ICheckOption[];
 
@@ -43,6 +42,12 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.refreshData();
+
+        this.checkOptions = getDefaultOptions();
+    }
+
+    refreshData() {
         this.teamService
             .getCurrentUserTeams()
             .pipe(this.untilThis)
@@ -50,9 +55,12 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
                 this.allTeams = response;
             });
 
-        this.userCalendars = getDefaultCalendars();
-
-        this.checkOptions = getDefaultOptions();
+        this.calendarService
+            .getUserGoogleCalendars()
+            .pipe(this.untilThis)
+            .subscribe((response) => {
+                this.userCalendars = response;
+            });
     }
 
     confirmDialog() {

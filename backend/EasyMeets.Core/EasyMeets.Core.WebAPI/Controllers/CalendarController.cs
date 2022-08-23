@@ -22,6 +22,12 @@ namespace EasyMeets.Core.WebAPI.Controllers
         {
             return Ok(await _calendarsService.CreateGoogleCalendarConnection(userCredentialsDto));
         }
+
+        [HttpGet("user-calendars")] 
+        public async Task<ActionResult<List<UserCalendarDto>>> GetCurrentUserGoogleCalendars()
+        {
+            return Ok(await _calendarsService.GetCurrentUserCalendars());
+        }
         
         [HttpPost("create-calendar")]
         public async Task<IActionResult> CreateGoogleCalendar()

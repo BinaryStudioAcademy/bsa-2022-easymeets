@@ -9,6 +9,14 @@ namespace EasyMeets.Core.DAL.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterColumn<long>(
+                name: "AddEventsFromTeamId",
+                table: "Calendars",
+                type: "bigint",
+                nullable: true,
+                oldClrType: typeof(long),
+                oldType: "bigint");
+
             migrationBuilder.AddColumn<string>(
                 name: "AccessToken",
                 table: "Calendars",
@@ -108,210 +116,210 @@ namespace EasyMeets.Core.DAL.Migrations
                 keyColumn: "Id",
                 keyValue: 1L,
                 columns: new[] { "EndEvent", "StartEvent" },
-                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3104), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(2873), new TimeSpan(0, 3, 0, 0, 0)) });
+                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(4858), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(4733), new TimeSpan(0, 3, 0, 0, 0)) });
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendeeAvailabilities",
                 keyColumn: "Id",
                 keyValue: 2L,
                 columns: new[] { "EndEvent", "StartEvent" },
-                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3525), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3502), new TimeSpan(0, 3, 0, 0, 0)) });
+                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5103), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5087), new TimeSpan(0, 3, 0, 0, 0)) });
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendeeAvailabilities",
                 keyColumn: "Id",
                 keyValue: 3L,
                 columns: new[] { "EndEvent", "StartEvent" },
-                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3582), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3565), new TimeSpan(0, 3, 0, 0, 0)) });
+                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5130), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5121), new TimeSpan(0, 3, 0, 0, 0)) });
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendeeAvailabilities",
                 keyColumn: "Id",
                 keyValue: 4L,
                 columns: new[] { "EndEvent", "StartEvent" },
-                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3614), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3604), new TimeSpan(0, 3, 0, 0, 0)) });
+                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5152), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5145), new TimeSpan(0, 3, 0, 0, 0)) });
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendeeAvailabilities",
                 keyColumn: "Id",
                 keyValue: 5L,
                 columns: new[] { "EndEvent", "StartEvent" },
-                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3657), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3634), new TimeSpan(0, 3, 0, 0, 0)) });
+                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5173), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5166), new TimeSpan(0, 3, 0, 0, 0)) });
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendeeAvailabilities",
                 keyColumn: "Id",
                 keyValue: 6L,
                 columns: new[] { "EndEvent", "StartEvent" },
-                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3687), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3678), new TimeSpan(0, 3, 0, 0, 0)) });
+                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5195), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5187), new TimeSpan(0, 3, 0, 0, 0)) });
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendeeAvailabilities",
                 keyColumn: "Id",
                 keyValue: 7L,
                 columns: new[] { "EndEvent", "StartEvent" },
-                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3716), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3707), new TimeSpan(0, 3, 0, 0, 0)) });
+                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5216), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5209), new TimeSpan(0, 3, 0, 0, 0)) });
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendeeAvailabilities",
                 keyColumn: "Id",
                 keyValue: 8L,
                 columns: new[] { "EndEvent", "StartEvent" },
-                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3744), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3735), new TimeSpan(0, 3, 0, 0, 0)) });
+                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5237), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5230), new TimeSpan(0, 3, 0, 0, 0)) });
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendeeAvailabilities",
                 keyColumn: "Id",
                 keyValue: 9L,
                 columns: new[] { "EndEvent", "StartEvent" },
-                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3776), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3767), new TimeSpan(0, 3, 0, 0, 0)) });
+                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5259), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5251), new TimeSpan(0, 3, 0, 0, 0)) });
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendeeAvailabilities",
                 keyColumn: "Id",
                 keyValue: 10L,
                 columns: new[] { "EndEvent", "StartEvent" },
-                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3805), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 22, 31, 33, 922, DateTimeKind.Unspecified).AddTicks(3795), new TimeSpan(0, 3, 0, 0, 0)) });
+                values: new object[] { new DateTimeOffset(new DateTime(2022, 8, 24, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5280), new TimeSpan(0, 3, 0, 0, 0)), new DateTimeOffset(new DateTime(2022, 8, 23, 23, 32, 35, 935, DateTimeKind.Unspecified).AddTicks(5273), new TimeSpan(0, 3, 0, 0, 0)) });
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendees",
                 keyColumn: "Id",
                 keyValue: 1L,
                 column: "EventTime",
-                value: new DateTimeOffset(new DateTime(2022, 11, 27, 17, 32, 33, 694, DateTimeKind.Unspecified).AddTicks(9434), new TimeSpan(0, 2, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2022, 11, 27, 18, 33, 35, 715, DateTimeKind.Unspecified).AddTicks(4654), new TimeSpan(0, 2, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendees",
                 keyColumn: "Id",
                 keyValue: 2L,
                 column: "EventTime",
-                value: new DateTimeOffset(new DateTime(2022, 12, 21, 15, 41, 28, 730, DateTimeKind.Unspecified).AddTicks(1885), new TimeSpan(0, 2, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2022, 12, 21, 16, 42, 30, 750, DateTimeKind.Unspecified).AddTicks(6949), new TimeSpan(0, 2, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendees",
                 keyColumn: "Id",
                 keyValue: 3L,
                 column: "EventTime",
-                value: new DateTimeOffset(new DateTime(2022, 9, 13, 18, 10, 39, 548, DateTimeKind.Unspecified).AddTicks(9724), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2022, 9, 13, 19, 11, 41, 569, DateTimeKind.Unspecified).AddTicks(4577), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendees",
                 keyColumn: "Id",
                 keyValue: 4L,
                 column: "EventTime",
-                value: new DateTimeOffset(new DateTime(2023, 4, 7, 0, 5, 35, 499, DateTimeKind.Unspecified).AddTicks(6402), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 4, 7, 1, 6, 37, 520, DateTimeKind.Unspecified).AddTicks(1119), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendees",
                 keyColumn: "Id",
                 keyValue: 5L,
                 column: "EventTime",
-                value: new DateTimeOffset(new DateTime(2023, 2, 26, 17, 37, 50, 180, DateTimeKind.Unspecified).AddTicks(9250), new TimeSpan(0, 2, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 2, 26, 18, 38, 52, 201, DateTimeKind.Unspecified).AddTicks(3851), new TimeSpan(0, 2, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendees",
                 keyColumn: "Id",
                 keyValue: 6L,
                 column: "EventTime",
-                value: new DateTimeOffset(new DateTime(2022, 12, 24, 9, 55, 22, 825, DateTimeKind.Unspecified).AddTicks(38), new TimeSpan(0, 2, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2022, 12, 24, 10, 56, 24, 845, DateTimeKind.Unspecified).AddTicks(4156), new TimeSpan(0, 2, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendees",
                 keyColumn: "Id",
                 keyValue: 7L,
                 column: "EventTime",
-                value: new DateTimeOffset(new DateTime(2023, 7, 10, 15, 39, 36, 248, DateTimeKind.Unspecified).AddTicks(3924), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 7, 10, 16, 40, 38, 262, DateTimeKind.Unspecified).AddTicks(7879), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendees",
                 keyColumn: "Id",
                 keyValue: 8L,
                 column: "EventTime",
-                value: new DateTimeOffset(new DateTime(2023, 1, 10, 11, 33, 19, 376, DateTimeKind.Unspecified).AddTicks(231), new TimeSpan(0, 2, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 1, 10, 12, 34, 21, 390, DateTimeKind.Unspecified).AddTicks(2461), new TimeSpan(0, 2, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendees",
                 keyColumn: "Id",
                 keyValue: 9L,
                 column: "EventTime",
-                value: new DateTimeOffset(new DateTime(2023, 4, 1, 6, 16, 28, 36, DateTimeKind.Unspecified).AddTicks(4990), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 4, 1, 7, 17, 30, 50, DateTimeKind.Unspecified).AddTicks(6579), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "ExternalAttendees",
                 keyColumn: "Id",
                 keyValue: 10L,
                 column: "EventTime",
-                value: new DateTimeOffset(new DateTime(2023, 4, 10, 16, 10, 3, 993, DateTimeKind.Unspecified).AddTicks(3570), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 4, 10, 17, 11, 6, 7, DateTimeKind.Unspecified).AddTicks(4116), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 1L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2023, 1, 12, 22, 47, 50, 559, DateTimeKind.Unspecified).AddTicks(9935), new TimeSpan(0, 2, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 1, 12, 23, 48, 52, 584, DateTimeKind.Unspecified).AddTicks(888), new TimeSpan(0, 2, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 2L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2022, 9, 21, 8, 10, 38, 374, DateTimeKind.Unspecified).AddTicks(8458), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2022, 9, 21, 9, 11, 40, 398, DateTimeKind.Unspecified).AddTicks(9273), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 3L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2023, 6, 25, 2, 50, 36, 410, DateTimeKind.Unspecified).AddTicks(513), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 6, 25, 3, 51, 38, 434, DateTimeKind.Unspecified).AddTicks(1306), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 4L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2023, 5, 6, 5, 58, 52, 684, DateTimeKind.Unspecified).AddTicks(7474), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 5, 6, 6, 59, 54, 708, DateTimeKind.Unspecified).AddTicks(8436), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 5L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2022, 12, 1, 10, 6, 30, 772, DateTimeKind.Unspecified).AddTicks(6328), new TimeSpan(0, 2, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2022, 12, 1, 11, 7, 32, 796, DateTimeKind.Unspecified).AddTicks(7368), new TimeSpan(0, 2, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 6L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2022, 9, 18, 19, 15, 57, 814, DateTimeKind.Unspecified).AddTicks(4499), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2022, 9, 18, 20, 16, 59, 838, DateTimeKind.Unspecified).AddTicks(5725), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 7L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2022, 11, 26, 2, 29, 2, 410, DateTimeKind.Unspecified).AddTicks(5952), new TimeSpan(0, 2, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2022, 11, 26, 3, 30, 4, 434, DateTimeKind.Unspecified).AddTicks(7202), new TimeSpan(0, 2, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 8L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2023, 6, 3, 8, 52, 44, 879, DateTimeKind.Unspecified).AddTicks(6736), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 6, 3, 9, 53, 46, 903, DateTimeKind.Unspecified).AddTicks(8072), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 9L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2023, 8, 2, 13, 15, 49, 440, DateTimeKind.Unspecified).AddTicks(2292), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 8, 2, 14, 16, 51, 464, DateTimeKind.Unspecified).AddTicks(3628), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 10L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2023, 2, 12, 11, 52, 4, 404, DateTimeKind.Unspecified).AddTicks(140), new TimeSpan(0, 2, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 2, 12, 12, 53, 6, 428, DateTimeKind.Unspecified).AddTicks(1522), new TimeSpan(0, 2, 0, 0, 0)));
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -327,6 +335,16 @@ namespace EasyMeets.Core.DAL.Migrations
             migrationBuilder.DropColumn(
                 name: "RefreshToken",
                 table: "Calendars");
+
+            migrationBuilder.AlterColumn<long>(
+                name: "AddEventsFromTeamId",
+                table: "Calendars",
+                type: "bigint",
+                nullable: false,
+                defaultValue: 0L,
+                oldClrType: typeof(long),
+                oldType: "bigint",
+                oldNullable: true);
 
             migrationBuilder.UpdateData(
                 table: "Calendars",

@@ -12,7 +12,7 @@ namespace EasyMeets.Core.BLL.Services;
 public class TeamService : BaseService, ITeamService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private IUserService _userService;
+    private readonly IUserService _userService;
     public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IHttpContextAccessor httpContextAccessor) : base(context, mapper)
     {
         _httpContextAccessor = httpContextAccessor;
@@ -126,7 +126,7 @@ public class TeamService : BaseService, ITeamService
         return _mapper.Map<List<TeamDto>>(teams);
     }
         
-    public string GetCurrentUserEmail()
+    private string GetCurrentUserEmail()
     {
         var claimsList = _httpContextAccessor.HttpContext!.User.Claims.ToList();
         var email = claimsList.Find(el => el.Type == ClaimTypes.Email);

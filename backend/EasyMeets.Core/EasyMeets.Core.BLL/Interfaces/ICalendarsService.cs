@@ -6,5 +6,6 @@ namespace EasyMeets.Core.BLL.Interfaces;
 public interface ICalendarsService
 {
     Task<bool> CreateGoogleCalendarConnection(UserCredentialsDto credentialsDto);
+    Task<List<UserCalendarDto>> GetCurrentUserCalendars();
     Task<Calendar> CreateCalendar();
 }

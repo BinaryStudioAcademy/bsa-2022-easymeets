@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { IUserCalendar } from '@core/models/calendar/IUserCalendar';
 import { IUserCredentials } from '@core/models/IUserCredentials';
 import { Observable } from 'rxjs';
 
@@ -15,5 +16,9 @@ export class CalendarsService {
 
     public createGoogleCalendarConnection(credentials: IUserCredentials): Observable<boolean> {
         return this.httpService.postRequest<boolean>(`${this.routePrefix}/create-connection`, credentials);
+    }
+
+    public getUserGoogleCalendars(): Observable<IUserCalendar[]> {
+        return this.httpService.getRequest<IUserCalendar[]>(`${this.routePrefix}/user-calendars`);
     }
 }

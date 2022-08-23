@@ -6,9 +6,8 @@ using EasyMeets.Core.DAL.Context;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
-using Google.Apis.Services;
-using Google.Apis.Util.Store;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -24,6 +23,8 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<bool> CreateGoogleCalendarConnection(UserCredentialsDto credentialsDto)
         {
+            var currentUserEmail = GetCurrentUserEmail();
+            
             var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                         new ClientSecrets
                         {
@@ -31,12 +32,43 @@ namespace EasyMeets.Core.BLL.Services
                             ClientSecret = credentialsDto.ClientSecret
                         }, 
                         new [] { CalendarService.Scope.Calendar },
-                        GetCurrentUserEmail(), 
+                        currentUserEmail, 
                         CancellationToken.None,
                         null);
-            var t = credential.Token.AccessToken;
+
+            var currentUser = await _context.Users.FirstAsync(el => el.Email == currentUserEmail);
+
+            var calendar = new DAL.Entities.Calendar
+            {
+                UserId = currentUser.Id,
+                CheckForConflicts = false,
+                ConnectedCalendar = credential.UserId,
+                AccessToken = credential.Token.AccessToken,
+                RefreshToken = credential.Token.RefreshToken,
+                CreatedBy = currentUser.Id,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
+
+            _context.Calendars.Add(calendar);
+            await _context.SaveChangesAsync();
             
             return true;
+        }
+
+        public async Task<List<UserCalendarDto>> GetCurrentUserCalendars()
+        {
+            var currentUserEmail = GetCurrentUserEmail();
+            var currentUser = await _context.Users.FirstAsync(el => el.Email == currentUserEmail);
+            var calendarsList = await _context.Calendars
+                .Where(c => c.UserId == currentUser.Id)
+                .Include(c => c.User)
+                .Include(c => c.ImportEventsFromTeam)
+                .Include(c => c.VisibleForTeams)
+                    .ThenInclude(v => v.Team)
+                .ToListAsync();
+
+            return _mapper.Map<List<UserCalendarDto>>(calendarsList);
         }
 
         public async Task<Calendar> CreateCalendar()

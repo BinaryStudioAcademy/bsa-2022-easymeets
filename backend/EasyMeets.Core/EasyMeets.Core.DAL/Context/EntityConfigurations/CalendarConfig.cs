@@ -22,10 +22,7 @@ public class CalendarConfig : IEntityTypeConfiguration<Calendar>
         builder.Property(c => c.ConnectedCalendar)
             .HasMaxLength(50)
             .IsRequired();
-        
-        builder.Property(c => c.AddEventsFromTeamId)
-            .IsRequired();
-        
+
         builder.HasOne(c => c.User)
             .WithMany(u => u.Calendars)
             .HasForeignKey(c => c.UserId)
