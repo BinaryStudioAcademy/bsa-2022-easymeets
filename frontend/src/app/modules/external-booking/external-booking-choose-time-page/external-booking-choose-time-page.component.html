@@ -43,8 +43,7 @@
                 <ng-container
                     *ngIf="
                         isDateInRange(theEarliestStartOfTimeRanges, day.startTime, day.finishTime, i);
-                        else defaultTimeSlot
-                    ">
+                        else defaultTimeSlot">
                     <span
                         class="enabled"
                         *ngIf="isLastDate(this.calendarWeek.firstDay, j); else defaultTimeSlotPreviousDate">
