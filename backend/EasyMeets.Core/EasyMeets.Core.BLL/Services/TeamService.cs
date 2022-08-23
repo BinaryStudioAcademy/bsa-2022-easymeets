@@ -4,14 +4,17 @@ using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 namespace EasyMeets.Core.BLL.Services;
 
 public class TeamService : BaseService, ITeamService
 {
     private IUserService _userService;
-    public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService) : base(context, mapper)
+    private IUploadFileService _uploadFileService;
+    public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IUploadFileService uploadFileService) : base(context, mapper)
     {
+        _uploadFileService = uploadFileService;
         _userService = userService;
     }
 
@@ -91,6 +94,19 @@ public class TeamService : BaseService, ITeamService
         {
             throw new Exception("User is not allowed enough access");
         }
+    }
+
+    public async Task<string> UploadLogoAsync(IFormFile file, long teamId)
+    {
+        var imageUrl = await _uploadFileService.UploadFileBlobAsync(file);
+
+        var teamEntity = await GetTeamByIdAsync(teamId);
+
+        teamEntity.LogoPath = imageUrl;
+
+        _context.Teams.Update(teamEntity);
+        await _context.SaveChangesAsync();
+        return imageUrl;
     }
 
     private async Task<bool> UserIsAdmin(long teamId)

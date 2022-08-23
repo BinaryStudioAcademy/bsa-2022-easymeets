@@ -53,6 +53,24 @@ public class TeamController : ControllerBase
         return Ok();
     }
 
+    [HttpPut("uploadlogo/{teamId}")]
+    public async Task<IActionResult> UploadImageAsync([FromForm] IFormFile file, [FromRoute] long teamId)
+    {
+        try
+        {
+            var imageUrl = await _teamService.UploadLogoAsync(file, teamId);
+            if (imageUrl is null)
+            {
+                return NotFound();
+            }
+            return Ok(new { imagePath = imageUrl });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex);
+        }
+    }
+
     [HttpDelete("{teamId}")]
     public async Task<ActionResult> DeleteAsync(int teamId)
     {
