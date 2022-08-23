@@ -25,6 +25,10 @@ export class NewMeetingComponent implements OnInit {
 
     public locations = Object.keys(LocationType).filter(key => Number.isNaN(Number(key)));
 
+    public durationValue: string;
+
+    public customTimeShown: boolean = false;
+
     public meetingNameControl: FormControl = new FormControl('', [
         Validators.required,
         Validators.minLength(2),
@@ -46,6 +50,11 @@ export class NewMeetingComponent implements OnInit {
         this.meetingForm = new FormGroup({
             meetingName: this.meetingNameControl,
             customTime: this.customTimeControl,
+            unitOfTime: new FormControl(),
+            location: new FormControl(),
+            duration: new FormControl(),
+            mainPageDuration: new FormControl(),
+            teamMembers: new FormControl(),
         });
     }
 
@@ -61,5 +70,14 @@ export class NewMeetingComponent implements OnInit {
         const filter = value.toLowerCase();
 
         return this.teamMembers.filter(option => option.name.toLowerCase().startsWith(filter));
+    }
+
+    public changeDuration(form: FormGroup) {
+        this.durationValue = form.value.duration;
+        if (this.durationValue === 'Custom') {
+            this.customTimeShown = true;
+        } else {
+            this.customTimeShown = false;
+        }
     }
 }

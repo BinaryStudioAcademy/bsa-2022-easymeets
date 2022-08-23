@@ -7,23 +7,27 @@
     <div class="main-content">
         <div class="sidebar">
             <form class="add-new-meeting-info-form" [formGroup]="meetingForm">
-                <p class="name-label">Name</p>
-                <input matInput type="text" placeholder="New meeting" formControlName="meetingName">
-                <div *ngIf="meetingNameControl.invalid && meetingNameControl.touched" class="validation">
-                    <small *ngIf="meetingNameControl.errors?.['required']">This field is required.</small>
-                    <small *ngIf="meetingNameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
-                    <small *ngIf="meetingNameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
-                    <small *ngIf="meetingNameControl.errors?.['pattern']">Invalid characters.</small>
+                <div class="item">
+                    <p class="name-label">Name</p>
+                    <input matInput type="text" placeholder="New meeting" formControlName="meetingName">
+                    <div *ngIf="meetingNameControl.invalid && meetingNameControl.touched" class="validation">
+                        <small *ngIf="meetingNameControl.errors?.['required']">This field is required.</small>
+                        <small *ngIf="meetingNameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
+                        <small *ngIf="meetingNameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
+                        <small *ngIf="meetingNameControl.errors?.['pattern']">Invalid characters.</small>
+                    </div>
                 </div>
-                <div class="duration-container">
-                    <p class="duration-label">Duration</p>
-                    <mat-select placeholder="30 min" >
-                        <mat-option *ngFor="let duration of durations" [value]="duration">
-                            {{duration}}
-                        </mat-option>
-                    </mat-select>
+                <div class="item">
+                    <div class="duration-container">
+                        <p class="duration-label">Duration</p>
+                        <mat-select formControlName="duration" (selectionChange)="changeDuration(meetingForm)">
+                            <mat-option *ngFor="let duration of durations" [value]="duration" >
+                                {{duration}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
                 </div>
-                <div class="custom-container">
+                <div class="custom-container" *ngIf="customTimeShown">
                     <p class="custom-label">Custom time</p>
                     <div class="custom-time">
                         <input matInput type="text" placeholder="Custom time" formControlName="customTime">
@@ -43,8 +47,8 @@
                 </div>
                 <div class="duration-container">
                     <p class="location-label">Location</p>
-                    <mat-select placeholder="Google Meet">
-                        <mat-option *ngFor="let location of locations" [value]="locations.indexOf(location)">
+                    <mat-select formControlName="location">
+                        <mat-option *ngFor="let location of locations" [value]="location">
                             {{location}}
                         </mat-option>
                     </mat-select>
