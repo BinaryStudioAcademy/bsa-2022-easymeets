@@ -28,7 +28,7 @@ export class SignUpFormComponent extends BaseComponent {
         email: new FormControl('', {
             validators: [Validators.required, Validators.email],
             asyncValidators: [EmailValidator.signUpEmailValidator(this.authService)],
-            updateOn: 'submit',
+            updateOn: 'blur',
         }),
         name: new FormControl('', {
             validators: [
@@ -37,7 +37,7 @@ export class SignUpFormComponent extends BaseComponent {
                 Validators.maxLength(50),
                 Validators.pattern(userNameRegex),
             ],
-            updateOn: 'submit',
+            updateOn: 'blur',
         }),
         password: new FormControl('', {
             validators: [Validators.required, Validators.minLength(8), Validators.maxLength(30)],
