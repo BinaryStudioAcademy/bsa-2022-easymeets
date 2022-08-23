@@ -38,7 +38,7 @@ namespace EasyMeets.Core.BLL.Services
                 throw new KeyNotFoundException("No meeting found");
             }
 
-            var members = _mapper.Map<List<UserMeetingDTO>>(meeting.SlotMembers);
+            var members = _mapper.Map<List<UserMeetingDTO>>(meeting.SlotMembers.Select(s => s.User));
             
             if (meeting.AvailabilitySlot is not null)
             {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { IMeetingBooking } from '@core/models/IMeetingBooking';
 import { MeetingBookingsService } from '@core/services/meeting-bookings.service';
@@ -9,7 +10,10 @@ import { MeetingBookingsService } from '@core/services/meeting-bookings.service'
     styleUrls: ['./bookings-page.component.sass'],
 })
 export class BookingsPageComponent extends BaseComponent implements OnInit {
-    constructor(public meetingService: MeetingBookingsService) {
+    constructor(
+        private meetingService: MeetingBookingsService,
+        private router: Router,
+    ) {
         super();
         this.meetings = [];
     }
@@ -23,5 +27,9 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             .subscribe((resp: IMeetingBooking[]) => {
                 this.meetings = resp;
             });
+    }
+
+    public goToPage(pageName: string) {
+        this.router.navigate([`${pageName}`]);
     }
 }
