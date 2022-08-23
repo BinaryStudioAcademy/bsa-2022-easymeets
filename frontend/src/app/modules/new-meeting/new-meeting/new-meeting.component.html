@@ -6,9 +6,15 @@
     </div>
     <div class="main-content">
         <div class="sidebar">
-            <form class="add-new-meeting-info-form">
+            <form class="add-new-meeting-info-form" [formGroup]="meetingForm">
                 <p class="name-label">Name</p>
-                <input matInput type="text" placeholder="New meeting">
+                <input matInput type="text" placeholder="New meeting" formControlName="meetingName">
+                <div *ngIf="meetingNameControl.invalid && meetingNameControl.touched" class="validation">
+                    <small *ngIf="meetingNameControl.errors?.['required']">This field is required.</small>
+                    <small *ngIf="meetingNameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
+                    <small *ngIf="meetingNameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
+                    <small *ngIf="meetingNameControl.errors?.['pattern']">Invalid characters.</small>
+                </div>
                 <div class="duration-container">
                     <p class="duration-label">Duration</p>
                     <mat-select placeholder="30 min" >
@@ -16,6 +22,24 @@
                             {{duration}}
                         </mat-option>
                     </mat-select>
+                </div>
+                <div class="custom-container">
+                    <p class="custom-label">Custom time</p>
+                    <div class="custom-time">
+                        <input matInput type="text" placeholder="Custom time" formControlName="customTime">
+                        <mat-select >
+                            <mat-option>
+                                min
+                            </mat-option>
+                            <mat-option>
+                                hour
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                    <div *ngIf="customTimeControl.invalid && customTimeControl.touched" class="validation">
+                        <small *ngIf="customTimeControl.errors?.['required']">This field is required.</small>
+                        <small *ngIf="customTimeControl.errors?.['pattern']">Invalid numbers.</small>
+                    </div>
                 </div>
                 <div class="duration-container">
                     <p class="location-label">Location</p>
@@ -69,18 +93,6 @@
                         </mat-option>
                     </mat-select>
                 </div>
-            </div>
-            <div class="custom-container">
-                <p class="custom-label">Custom time</p>
-                <input matInput type="text" placeholder="Custom time">
-                <mat-select>
-                    <mat-option>
-                        min
-                    </mat-option>
-                    <mat-option>
-                        hour
-                    </mat-option>
-                </mat-select>
             </div>
         </div>
     </div>

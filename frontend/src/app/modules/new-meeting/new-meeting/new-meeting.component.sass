@@ -108,8 +108,41 @@ input, .mat-select
     i
         color: $royal-blue
 
-.name-label, .duration-label, .location-label
+.name-label, .duration-label,
+.location-label,.custom-label
     margin: 15px 0 6px 0
     font-size: 1.1em
     font-weight: bold
     color: $regent-gray
+.custom-container
+    width: calc(100% - 3em)
+
+.custom-time
+    display: flex
+    align-items: flex-start
+    justify-content: space-around
+    input
+        width: 70%
+        margin-right: 0.5em
+    .mat-select
+        width: 30%
+small
+    color: $cinnabar
+
+input
+    &:focus
+        outline: $royal-blue
+        border-color: $royal-blue
+        &.ng-valid
+            outline: $royal-blue
+            border-color: $royal-blue
+
+input
+    &:focus
+        &.ng-invalid.ng-touched
+            border-color: 2px solid $cinnabar
+            outline: $cinnabar
+
+    &.ng-invalid.ng-touched
+        border: 2px solid $cinnabar
+        outline: $cinnabar
