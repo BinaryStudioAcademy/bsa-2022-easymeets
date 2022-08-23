@@ -13,9 +13,11 @@ namespace EasyMeets.Core.BLL.Services
         public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync()
         {
             var meetings = await _context.Meetings
-            .Include(meeting => meeting.SlotMembers)
-            .ThenInclude(teammeat => teammeat.User)
-            .ToListAsync();
+                .Include(m => m.AvailabilitySlot)
+                    .ThenInclude(s => s.ExternalAttendees)
+                .Include(meeting => meeting.SlotMembers)
+                    .ThenInclude(teammeat => teammeat.User)
+                .ToListAsync();
 
             var mapped = _mapper.Map<List<MeetingThreeMembersDTO>>(meetings);
             ConvertTimeZone(ref mapped);
