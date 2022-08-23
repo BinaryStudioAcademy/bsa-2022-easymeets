@@ -9,7 +9,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
         public TeamMemberProfile()
         {
             CreateMap<TeamMember, NewMeetingTeamMemberDto>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.User.Name)); 
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.User.Name)) 
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.User.Id));
         }
     }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
+import { BaseComponent } from '@core/base/base.component';
 import { getDisplayDate } from '@core/helpers/date-helper';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
 import { INewMeetingTeamMember } from '@core/models/INewMeetingTeamMember';
@@ -14,18 +15,18 @@ import { ReplaySubject } from 'rxjs';
     templateUrl: './new-meeting.component.html',
     styleUrls: ['./new-meeting.component.sass'],
 })
-export class NewMeetingComponent implements OnInit {
+export class NewMeetingComponent extends BaseComponent implements OnInit {
     @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
 
     public teamMembers: INewMeetingTeamMember[];
 
+    public filteredMembers: ReplaySubject<INewMeetingTeamMember[]> = new ReplaySubject<INewMeetingTeamMember[]>(1);
+
+    public addedMembers: INewMeetingTeamMember[] = [];
+
     public durations = getDisplayDuration();
 
     public dates = getDisplayDate();
-
-    public isLoading: boolean = true;
-
-    public meetingForm: FormGroup;
 
     public locations = Object.keys(LocationType).filter(key => Number.isNaN(Number(key)));
 
@@ -33,7 +34,7 @@ export class NewMeetingComponent implements OnInit {
 
     public customTimeShown: boolean = false;
 
-    public filteredMembers: ReplaySubject<INewMeetingTeamMember[]> = new ReplaySubject<INewMeetingTeamMember[]>(1);
+    public meetingForm: FormGroup;
 
     public memberCtrl: FormControl = new FormControl();
 
@@ -53,6 +54,7 @@ export class NewMeetingComponent implements OnInit {
 
     // eslint-disable-next-line no-unused-vars
     constructor(private newMeetingService: NewMeetingService) {
+        super();
         this.getTeamMembersOfCurrentUser();
     }
 
@@ -64,11 +66,11 @@ export class NewMeetingComponent implements OnInit {
             location: new FormControl(),
             duration: new FormControl(),
             mainPageDuration: new FormControl(),
-            teamMembers: new FormControl(),
+            teamMember: new FormControl(),
         });
     }
 
-    protected filterMembers() {
+    public filterMembers() {
         let search = this.memberFilterCtrl.value;
 
         if (!search) {
@@ -86,10 +88,13 @@ export class NewMeetingComponent implements OnInit {
     public getTeamMembersOfCurrentUser() {
         this.newMeetingService
             .getTeamMembersOfCurrentUser()
+            .pipe(this.untilThis)
             .subscribe((resp) => {
                 this.teamMembers = resp;
+
                 this.filteredMembers.next(this.teamMembers.slice());
                 this.memberFilterCtrl.valueChanges
+                    .pipe(this.untilThis)
                     .subscribe(() => {
                         this.filterMembers();
                     });
@@ -103,5 +108,9 @@ export class NewMeetingComponent implements OnInit {
         } else {
             this.customTimeShown = false;
         }
+    }
+
+    public addMemberToList(form: FormGroup) {
+        this.addedMembers.push({ id: form.value.teamMember.id, name: form.value.teamMember.name });
     }
 }

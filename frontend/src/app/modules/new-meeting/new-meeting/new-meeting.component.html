@@ -12,8 +12,10 @@
                     <input matInput type="text" #searchBar placeholder="New meeting" formControlName="meetingName">
                     <div *ngIf="meetingNameControl.invalid && meetingNameControl.touched">
                         <small *ngIf="meetingNameControl.errors?.['required']">This field is required.</small>
-                        <small *ngIf="meetingNameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
-                        <small *ngIf="meetingNameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
+                        <small *ngIf="meetingNameControl.errors?.['minlength']">Length must be more than 2
+                            characters.</small>
+                        <small *ngIf="meetingNameControl.errors?.['maxlength']">Length must be less than 50
+                            characters.</small>
                         <small *ngIf="meetingNameControl.errors?.['pattern']">Invalid characters.</small>
                     </div>
                 </div>
@@ -21,7 +23,7 @@
                     <div class="duration-container">
                         <p class="duration-label">Duration</p>
                         <mat-select formControlName="duration" (selectionChange)="changeDuration(meetingForm)">
-                            <mat-option *ngFor="let duration of durations" [value]="duration" >
+                            <mat-option *ngFor="let duration of durations" [value]="duration">
                                 {{duration}}
                             </mat-option>
                         </mat-select>
@@ -31,7 +33,7 @@
                     <p class="custom-label">Custom time</p>
                     <div class="custom-time">
                         <input matInput type="text" placeholder="Custom time" formControlName="customTime">
-                        <mat-select >
+                        <mat-select>
                             <mat-option>
                                 min
                             </mat-option>
@@ -55,12 +57,15 @@
                 </div>
                 <div class="search-list">
                     <p class="add-team-member-label">Add Team Member</p>
-                    <mat-select #singleSelect placeholder="Type..." [formControl]="memberCtrl">
+                    <mat-select
+                        #singleSelect
+                        placeholder="Type..."
+                        [formControl]="memberCtrl"
+                        formControlName="teamMember"
+                        (selectionChange)="addMemberToList(meetingForm)">
                         <mat-option>
-                            <ngx-mat-select-search
-                            [formControl]="memberFilterCtrl"
-                            placeholderLabel=""
-                            noEntriesFoundLabel="no matching team member found">
+                            <ngx-mat-select-search [formControl]="memberFilterCtrl" placeholderLabel=""
+                                noEntriesFoundLabel="no matching team member found">
                             </ngx-mat-select-search>
                         </mat-option>
                         <mat-option *ngFor="let member of filteredMembers | async" [value]="member">
@@ -69,9 +74,9 @@
                     </mat-select>
                 </div>
             </form>
-            <div class="team-members-container" >
-                <p class="team-members-label">Team members {{teamMembers.length}}:</p>
-                <div class="member-info-container" *ngFor="let member of teamMembers">
+            <div class="team-members-container">
+                <p class="team-members-label">Team members {{addedMembers.length}}:</p>
+                <div class="member-info-container" *ngFor="let member of addedMembers">
                     <div class="member-info">
                         <p>{{member.name}}</p>
                         <i class="fa-solid fa-xmark fa-lg cancel-icon"></i>
@@ -87,7 +92,7 @@
                     <mat-select placeholder="Date">
                         <mat-option *ngFor="let date of dates">
                             {{date}}
-                          </mat-option>
+                        </mat-option>
                     </mat-select>
                 </div>
                 <div class="duration-container">
