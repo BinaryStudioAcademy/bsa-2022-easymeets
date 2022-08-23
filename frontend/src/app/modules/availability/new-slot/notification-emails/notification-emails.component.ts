@@ -13,6 +13,15 @@ export class NotificationEmailsComponent implements OnInit {
 
     public slot?: IAvailabilitySlot;
 
+    public navLinks = [
+        { path: '', label: 'Confirmation Email' },
+        { path: ' ', label: 'Cancellation Email' },
+        { path: ' ', label: 'Email Reminders' },
+        { path: ' ', label: 'Email Follow-Up' },
+    ];
+
+    public activeTab = this.navLinks[0].label;
+
     // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
     ngOnInit(): void {}
 }
