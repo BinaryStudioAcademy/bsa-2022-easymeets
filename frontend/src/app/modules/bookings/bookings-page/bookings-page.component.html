@@ -22,13 +22,7 @@
 
             <div class="listScrollBlock">
                 <div *ngFor="let user of item.meetingMembers">
-                    <div class="item itemScroll">
-                        <span class="timeTitle">{{ user.name }}</span>
-                        <p class="itemText">{{ user.email }}</p>
-                        <p class="itemText">{{ user.timeZone }}</p>
-                        <p class="listItemAnswers">Answers: 2/3</p>
-                        <p class="itemText">Booked: 19:21, 13 Aug, 2022</p>
-                    </div>
+                    <app-booker [booker]="user"></app-booker>
                 </div>
             </div>
 
