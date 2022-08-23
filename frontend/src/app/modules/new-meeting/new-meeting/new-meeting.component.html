@@ -9,8 +9,8 @@
             <form class="add-new-meeting-info-form" [formGroup]="meetingForm">
                 <div class="item">
                     <p class="name-label">Name</p>
-                    <input matInput type="text" placeholder="New meeting" formControlName="meetingName">
-                    <div *ngIf="meetingNameControl.invalid && meetingNameControl.touched" class="validation">
+                    <input matInput type="text" #searchBar placeholder="New meeting" formControlName="meetingName">
+                    <div *ngIf="meetingNameControl.invalid && meetingNameControl.touched">
                         <small *ngIf="meetingNameControl.errors?.['required']">This field is required.</small>
                         <small *ngIf="meetingNameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
                         <small *ngIf="meetingNameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
@@ -55,14 +55,15 @@
                 </div>
                 <div class="search-list">
                     <p class="add-team-member-label">Add Team Member</p>
-                    <mat-select #singleSelect placeholder="Type...">
+                    <mat-select #singleSelect placeholder="Type..." [formControl]="memberCtrl">
                         <mat-option>
                             <ngx-mat-select-search
+                            [formControl]="memberFilterCtrl"
                             placeholderLabel=""
-                            noEntriesFoundLabel="'no matching team member found'">
+                            noEntriesFoundLabel="no matching team member found">
                             </ngx-mat-select-search>
                         </mat-option>
-                        <mat-option *ngFor="let member of teamMembers">
+                        <mat-option *ngFor="let member of filteredMembers | async" [value]="member">
                             {{member.name}}
                         </mat-option>
                     </mat-select>

@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
 import { getDisplayDate } from '@core/helpers/date-helper';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
 import { INewMeetingTeamMember } from '@core/models/INewMeetingTeamMember';
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
 import { LocationType } from '@shared/enums/locationType';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
     selector: 'app-new-meeting',
@@ -13,6 +15,8 @@ import { LocationType } from '@shared/enums/locationType';
     styleUrls: ['./new-meeting.component.sass'],
 })
 export class NewMeetingComponent implements OnInit {
+    @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
+
     public teamMembers: INewMeetingTeamMember[];
 
     public durations = getDisplayDuration();
@@ -28,6 +32,12 @@ export class NewMeetingComponent implements OnInit {
     public durationValue: string;
 
     public customTimeShown: boolean = false;
+
+    public filteredMembers: ReplaySubject<INewMeetingTeamMember[]> = new ReplaySubject<INewMeetingTeamMember[]>(1);
+
+    public memberCtrl: FormControl = new FormControl();
+
+    public memberFilterCtrl: FormControl = new FormControl();
 
     public meetingNameControl: FormControl = new FormControl('', [
         Validators.required,
@@ -58,18 +68,32 @@ export class NewMeetingComponent implements OnInit {
         });
     }
 
+    protected filterMembers() {
+        let search = this.memberFilterCtrl.value;
+
+        if (!search) {
+            this.filteredMembers.next(this.teamMembers.slice());
+
+            return;
+        }
+        search = search.toLowerCase();
+
+        this.filteredMembers.next(
+            this.teamMembers.filter(member => member.name.toLowerCase().indexOf(search) > -1),
+        );
+    }
+
     public getTeamMembersOfCurrentUser() {
         this.newMeetingService
             .getTeamMembersOfCurrentUser()
             .subscribe((resp) => {
                 this.teamMembers = resp;
+                this.filteredMembers.next(this.teamMembers.slice());
+                this.memberFilterCtrl.valueChanges
+                    .subscribe(() => {
+                        this.filterMembers();
+                    });
             });
-    }
-
-    public searchMember(value: string) {
-        const filter = value.toLowerCase();
-
-        return this.teamMembers.filter(option => option.name.toLowerCase().startsWith(filter));
     }
 
     public changeDuration(form: FormGroup) {
