@@ -1,7 +1,7 @@
 <div class="container">
     <div id="container-item1">
         <mat-card-content>
-            <nav class="tab-panel" mat-tab-nav-bar>
+            <nav class="tab-panel tab-panel-custom" mat-tab-nav-bar>
                 <a
                     mat-tab-link
                     *ngFor="let link of navLinks"
@@ -9,8 +9,7 @@
                     routerLinkActive
                     #rla="routerLinkActive"
                     (click)="activeTab = link.path"
-                    [active]="rla.isActive"
-                    class="mat-tab-custom">
+                    [active]="rla.isActive">
                     {{ link.label }}
                 </a>
             </nav>
@@ -18,7 +17,7 @@
     </div>
     <div id="container-item2">
         <div class="input-send-email">
-            <mat-slide-toggle class="form-switch"></mat-slide-toggle>
+            <mat-slide-toggle class="form-switch" [(ngModel)]="settings.allowToSend"></mat-slide-toggle>
             <p class="input-field">Send</p>
         </div>
     </div>
@@ -28,7 +27,7 @@
                 class="fa-solid fa-circle-question input-description-icon"
                 data-title="Some Text About Email Subject"></i>
         </p>
-        <textarea id="emailSubject" class="input-message"></textarea>
+        <textarea id="emailSubject" class="input-message" [(ngModel)]="settings.emailSubject"></textarea>
     </div>
     <div id="container-item4">
         <p class="input-description">
@@ -36,6 +35,6 @@
                 class="fa-solid fa-circle-question input-description-icon"
                 data-title="Some Text About Email Body"></i>
         </p>
-        <textarea id="emailBody" class="input-message"></textarea>
+        <textarea id="emailBody" class="input-message" [(ngModel)]="settings.emailBody"></textarea>
     </div>
 </div>

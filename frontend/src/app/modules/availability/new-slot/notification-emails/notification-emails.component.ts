@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { ISaveConfirmationEmailDetails } from '@core/models/save-availability-slot/ISaveConfirmationEmailDetails';
 
 @Component({
     selector: 'app-notification-emails',
@@ -9,9 +10,16 @@ import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 export class NotificationEmailsComponent implements OnInit {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
+        this.settings = {
+            allowToSend: this.slot?.confirmationEmailSettings?.allowToSend ?? false,
+            emailSubject: this.slot?.confirmationEmailSettings?.emailSubject ?? '',
+            emailBody: this.slot?.confirmationEmailSettings?.emailBody ?? '',
+        };
     }
 
     public slot?: IAvailabilitySlot;
+
+    public settings: ISaveConfirmationEmailDetails;
 
     public navLinks = [
         { path: '', label: 'Confirmation Email' },
@@ -22,6 +30,12 @@ export class NotificationEmailsComponent implements OnInit {
 
     public activeTab = this.navLinks[0].label;
 
-    // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.settings = {
+            allowToSend: this.slot?.confirmationEmailSettings?.allowToSend ?? true,
+            emailSubject: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            emailBody:
+                'Lorem ipsum dolor sit amet. Lorem ipsum dolor, consectetur adipiscing elit. Lorem amet, consectetur adipiscing elit.',
+        };
+    }
 }
