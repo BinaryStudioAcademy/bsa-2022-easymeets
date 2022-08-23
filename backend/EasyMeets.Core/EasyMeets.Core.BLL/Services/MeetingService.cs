@@ -14,7 +14,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             var meetings = await _context.Meetings
                 .Include(m => m.AvailabilitySlot)
-                    .ThenInclude(s => s.ExternalAttendees)
+                    .ThenInclude(s => s!.ExternalAttendees )
                 .Include(meeting => meeting.SlotMembers)
                     .ThenInclude(teammeat => teammeat.User)
                 .ToListAsync();
@@ -23,6 +23,29 @@ namespace EasyMeets.Core.BLL.Services
             ConvertTimeZone(ref mapped);
 
             return mapped;
+        }
+
+        public async Task<List<UserMeetingDTO>> GetAllMembers(int id)
+        {
+            var meeting = await _context.Meetings
+                .Include(m => m.AvailabilitySlot)
+                    .ThenInclude(s => s!.ExternalAttendees)
+                .Include(meeting => meeting.SlotMembers)
+                    .ThenInclude(m => m.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (meeting is null)
+            {
+                throw new KeyNotFoundException("No meeting found");
+            }
+
+            var members = _mapper.Map<List<UserMeetingDTO>>(meeting.SlotMembers);
+            
+            if (meeting.AvailabilitySlot is not null)
+            {
+                members = members.Union(_mapper.Map<List<UserMeetingDTO>>(meeting.AvailabilitySlot.ExternalAttendees)).ToList();
+            }
+
+            return members;
         }
 
         private void ConvertTimeZone(ref List<MeetingThreeMembersDTO> meetings)
