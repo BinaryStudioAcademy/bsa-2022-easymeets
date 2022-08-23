@@ -19,11 +19,15 @@ namespace EasyMeets.Core.BLL.Services
         public async Task<ICollection<NewMeetingTeamMemberDto>> GetTeamMembersOfCurrentUserAsync(long userId)
         {
             var teamMembers = await _context.Users
-                .Include(x=>x.TeamMembers)
                 .Where(x => x.Id == userId)
+                .Include(x => x.TeamMembers)
+                    .ThenInclude(x => x.Team)
+                    .ThenInclude(x => x.TeamMembers)
+                    .ThenInclude(x => x.User)
+                .SelectMany(x => x.TeamMembers.SelectMany(x => x.Team.TeamMembers))
                 .Select(x => _mapper.Map<NewMeetingTeamMemberDto>(x))
                 .ToListAsync();
-            
+
             return teamMembers;
         }
 
@@ -122,4 +126,4 @@ namespace EasyMeets.Core.BLL.Services
                 .FirstOrDefaultAsync(t => t.Id == id) ?? throw new KeyNotFoundException("Team doesn't exist");
         }
     }
-}  
+}
