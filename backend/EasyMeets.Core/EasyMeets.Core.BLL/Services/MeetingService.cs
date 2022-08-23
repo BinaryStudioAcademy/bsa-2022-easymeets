@@ -32,11 +32,7 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(s => s!.ExternalAttendees)
                 .Include(meeting => meeting.SlotMembers)
                     .ThenInclude(m => m.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (meeting is null)
-            {
-                throw new KeyNotFoundException("No meeting found");
-            }
+                .FirstOrDefaultAsync(m => m.Id == id) ?? throw new KeyNotFoundException("No meeting found");
 
             var members = _mapper.Map<List<UserMeetingDTO>>(meeting.SlotMembers.Select(s => s.User));
             

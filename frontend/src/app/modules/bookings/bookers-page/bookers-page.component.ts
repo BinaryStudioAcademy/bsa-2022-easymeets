@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { IUserMeeting } from '@core/models/IUserMeeting';
 import { MeetingBookingsService } from '@core/services/meeting-bookings.service';
+import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
 
 @Component({
@@ -20,6 +21,7 @@ export class BookersPageComponent extends BaseComponent {
         private activateRoute: ActivatedRoute,
         private spinnerService: SpinnerService,
         private meetingService: MeetingBookingsService,
+        private notifications: NotificationService,
     ) {
         super();
         this.activateRoute.params.subscribe(params => {
@@ -27,10 +29,13 @@ export class BookersPageComponent extends BaseComponent {
             this.spinnerService.show();
             this.meetingService.getAllMembers(this.id)
                 .pipe(this.untilThis)
-                .subscribe(members => {
-                    this.members = members;
-                    this.spinnerService.hide();
-                });
+                .subscribe(
+                    members => {
+                        this.members = members;
+                        this.spinnerService.hide();
+                    },
+                    error => this.notifications.showErrorMessage(error),
+                );
         });
     }
 

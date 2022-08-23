@@ -39,7 +39,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             return GetAllParticipants(meeting).Take(3).ToList();
         }
 
-        private List<UserMeetingDTO> GetAllParticipants(Meeting meeting)
+        private IEnumerable<UserMeetingDTO> GetAllParticipants(Meeting meeting)
         {
             var slotMembers = meeting.SlotMembers
                 .Select(x => new UserMeetingDTO
@@ -54,7 +54,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 return slotMembers.Union(external).ToList();
             }
 
-            return slotMembers.ToList();
+            return slotMembers;
         }
     }
 }
