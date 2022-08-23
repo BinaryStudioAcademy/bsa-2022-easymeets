@@ -86,6 +86,20 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
             });
     }
 
+    updateCalendar() {
+        this.calendarService
+            .updateGoogleCalendar(this.userCalendars)
+            .pipe(this.untilThis)
+            .subscribe((response) => {
+                if (response) {
+                    this.notificationService.showSuccessMessage('Calendars was successfully updated');
+                } else {
+                    this.notificationService.showErrorMessage("Something went wrong. Calendars did't update");
+                }
+                this.refreshData();
+            });
+    }
+
     confirmDialog() {
         this.dialog.openConfirmDialog({
             buttonsOptions: [

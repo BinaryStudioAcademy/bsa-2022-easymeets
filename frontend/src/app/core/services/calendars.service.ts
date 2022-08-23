@@ -25,4 +25,8 @@ export class CalendarsService {
     public deleteGoogleCalendar(id: bigint): Observable<boolean> {
         return this.httpService.deleteRequest<boolean>(`${this.routePrefix}/${id}`);
     }
+
+    public updateGoogleCalendar(userCalendars: IUserCalendar[]): Observable<boolean> {
+        return this.httpService.putRequest<boolean>(`${this.routePrefix}/update-calendar`, userCalendars);
+    }
 }

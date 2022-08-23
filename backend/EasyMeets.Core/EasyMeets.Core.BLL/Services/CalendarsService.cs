@@ -2,12 +2,14 @@ using System.Security.Claims;
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Calendar;
+using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.DAL.Context;
+using EasyMeets.Core.DAL.Entities;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
-using Google.Apis.Calendar.v3.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Calendar = Google.Apis.Calendar.v3.Data.Calendar;
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -59,6 +61,52 @@ namespace EasyMeets.Core.BLL.Services
 
             _context.Calendars.Add(calendar);
             await _context.SaveChangesAsync();
+            
+            return true;
+        }
+
+        public async Task<bool> UpdateGoogleCalendar(List<UserCalendarDto> calendarDtoList)
+        {
+            foreach (var calendarDto in calendarDtoList)
+            {
+                var calendar = await _context.Calendars
+                    .Include(c => c.ImportEventsFromTeam)
+                    .Include(c => c.VisibleForTeams)
+                    .FirstOrDefaultAsync(el => el.Id == calendarDto.Id);
+
+                if (calendar == null)
+                {
+                    return false;
+                }
+
+                foreach (var visibleFor in calendar.VisibleForTeams.ToList())
+                {
+                    _context.CalendarVisibleForTeams.Remove(visibleFor);
+                    calendar.VisibleForTeams.Remove(visibleFor);
+                }
+
+                var newVisibleForList = calendarDto.VisibleForTeams?.Select(el =>
+                {
+                    return new CalendarVisibleForTeam()
+                    {
+                        CalendarId = calendar.Id,
+                        TeamId = el.Id,
+                        IsDeleted = false,
+                    };
+                }).ToList();
+
+                if (newVisibleForList != null)
+                {
+                    calendar.VisibleForTeams = newVisibleForList;
+                    await _context.CalendarVisibleForTeams.AddRangeAsync(newVisibleForList);
+                }
+
+                calendar.CheckForConflicts = calendarDto.CheckForConflicts;
+                calendar.AddEventsFromTeamId = calendarDto.ImportEventsFromTeam?.Id;
+            
+                _context.Calendars.Update(calendar);
+                await _context.SaveChangesAsync();
+            }
             
             return true;
         }

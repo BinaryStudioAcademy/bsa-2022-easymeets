@@ -27,10 +27,6 @@
                             (ngModelChange)="(element.visibleForTeams)"
                             name="selectedTeams"
                             multiple>
-                            <!-- <mat-select-trigger *ngIf="element.visibleForTeams?.length < 2">
-                                {{ element.visibleForTeams ? element.visibleForTeams[0].name : '' }}
-                                {{ element.visibleForTeams?.length === allTeams?.length ? 'All teams' : '' }}
-                            </mat-select-trigger> -->
                             <mat-select-trigger
                                 *ngIf="
                                     element.visibleForTeams?.length >= 2 &&
@@ -85,5 +81,5 @@
         </table>
     </div>
 
-    <button [disabled]="true" class="update-references">Update References</button>
+    <button (click)="updateCalendar()" class="update-references">Update References</button>
 </div>
