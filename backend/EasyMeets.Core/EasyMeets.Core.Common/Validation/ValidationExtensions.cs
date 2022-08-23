@@ -13,8 +13,7 @@ public static class ValidationExtensions
         { "Description", @"^[.,іІїЇa-zA-Z\dа-яА-Я-\s]*$" },
         { "PhoneNumber", @"^\+\d{10,14}$" },
         { "TeamLink", @"^[a-zA-Z\d\-]*$" },
-        { "Password", @"^[^ ]+$" },
-        { "Url", @"^http|http(s)?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"}
+        { "Password", @"^[^ ]+$" }
     };
 
     public static bool IsValidMeetingLocation(this string value)
@@ -91,7 +90,10 @@ public static class ValidationExtensions
 
     public static bool IsValidUrl(this string value)
     {
-        var pattern = RegularExpressions["Url"];
-        return Regex.IsMatch(value, pattern);
+        if (value.StartsWith(@"https://easymeetsblobstorage.blob.core.windows.net/fileupload/"))
+        {
+            return true;
+        }
+        return false;
     }
 }
