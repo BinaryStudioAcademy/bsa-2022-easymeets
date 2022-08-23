@@ -25,7 +25,7 @@ namespace EasyMeets.Core.BLL.Services
 
             stream.Close();
 
-            return blob.Uri.ToString();
+            return blob.Uri.ToString() ?? throw new FileLoadException("File not loaded.");
         }
     }
 }

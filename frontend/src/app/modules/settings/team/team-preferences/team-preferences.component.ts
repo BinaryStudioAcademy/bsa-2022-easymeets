@@ -133,18 +133,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         const formData = new FormData();
 
         formData.append('file', fileToUpload, fileToUpload.name);
-
-        this.teamService
-            .uploadLogo(formData, this.team.id)
-            .pipe(this.untilThis)
-            .subscribe(
-                (resp: any) => {
-                    this.imageUrl = resp.imagePath;
-                },
-                () => {
-                    this.notificationService.showErrorMessage('Something went wrong. Picture was not uploaded.');
-                },
-            );
+        this.uploadLogo(formData);
     }
 
     public confirmCancelDialog(): void {
@@ -159,6 +148,20 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
             title: 'Oops...',
             message: "Image can't be heavier than 5MB!",
         });
+    }
+
+    private uploadLogo(formData: FormData) {
+        this.teamService
+            .uploadLogo(formData, this.team.id)
+            .pipe(this.untilThis)
+            .subscribe(
+                (resp: any) => {
+                    this.imageUrl = resp.imagePath;
+                },
+                () => {
+                    this.notificationService.showErrorMessage('Something went wrong. Picture was not uploaded.');
+                },
+            );
     }
 
     private getUniquePageLink(teamName: string) {

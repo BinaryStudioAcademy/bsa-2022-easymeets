@@ -49,19 +49,8 @@ namespace EasyMeets.Core.WebAPI.Controllers
         [HttpPut("uploadimage")]
         public async Task<IActionResult> UploadImageAsync([FromForm] IFormFile file)
         {
-            try
-            {
-                var user = await _userService.GetCurrentUserAsync();
-                var imageUrl = await _userService.UploadImageAsync(file); if (imageUrl is null)
-                {
-                    return NotFound();
-                }
-                return Ok(new { imagePath = imageUrl });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            var imageUrl = await _userService.UploadImageAsync(file);
+            return Ok(new { imagePath = imageUrl });
         }
     }
 }
