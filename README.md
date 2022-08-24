@@ -93,6 +93,10 @@ erDiagram
       bigint UserId
       boolean IsDeleted
       int AddEventFromTeamId
+      nvarchar ConnectedCalendar
+      nvarchar AccessToken
+      nvarchar RefreshToken
+      nvarchar Uid
       datetime CreatedAt
       datetime UpdatedAt
   }
@@ -238,7 +242,7 @@ Also, there are some best practices for frontend development: [Angular](https://
 #### Setup environment for local development:
 
 1. Download and install [.NET 6 SDK](https://dotnet.microsoft.com/download).
-2. It might be usefull to have EF CLI. Install via command: _dotnet tool install --global dotnet-ef_
+2. It might be useful to have EF CLI. Install via command: _dotnet tool install --global dotnet-ef_
 3. Download and install LTS version of [Node.js](https://nodejs.org/en/)
 4. Install Angular-CLI via: _npm install -g @angular/cli_. _[What is Angular-CLI?](https://angular.io/cli)_
 

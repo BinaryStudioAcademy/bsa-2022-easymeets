@@ -34,8 +34,8 @@ namespace EasyMeets.Core.BLL.Services
                         Guid.NewGuid().ToString(), 
                         CancellationToken.None,
                         null);
-            
-            _service = new CalendarService(new BaseClientService.Initializer(){
+
+            _service = new CalendarService(new BaseClientService.Initializer{
                 HttpClientInitializer = credential,
                 ApplicationName = ApplicationName
             });
@@ -53,7 +53,7 @@ namespace EasyMeets.Core.BLL.Services
             
             var currentUser = await _context.Users.FirstAsync(el => el.Email == GetCurrentUserEmail());
             
-            var calendar = new DAL.Entities.Calendar
+            var calendar = new Calendar
             {
                 UserId = currentUser.Id,
                 CheckForConflicts = false,
@@ -81,26 +81,16 @@ namespace EasyMeets.Core.BLL.Services
                     .Include(c => c.VisibleForTeams)
                     .FirstOrDefaultAsync(el => el.Id == calendarDto.Id);
 
-                if (calendar == null)
-                {
-                    return false;
-                }
+                _context.CalendarVisibleForTeams.RemoveRange(calendar!.VisibleForTeams);
+                calendar.VisibleForTeams = Array.Empty<CalendarVisibleForTeam>();
 
-                foreach (var visibleFor in calendar.VisibleForTeams.ToList())
-                {
-                    _context.CalendarVisibleForTeams.Remove(visibleFor);
-                    calendar.VisibleForTeams.Remove(visibleFor);
-                }
-
-                var newVisibleForList = calendarDto.VisibleForTeams?.Select(el =>
-                {
-                    return new CalendarVisibleForTeam()
+                var newVisibleForList = calendarDto.VisibleForTeams?
+                    .Select(el => new CalendarVisibleForTeam
                     {
                         CalendarId = calendar.Id,
                         TeamId = el.Id,
                         IsDeleted = false,
-                    };
-                }).ToList();
+                    }).ToList();
 
                 if (newVisibleForList != null)
                 {
@@ -122,6 +112,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             var currentUserEmail = GetCurrentUserEmail();
             var currentUser = await _context.Users.FirstAsync(el => el.Email == currentUserEmail);
+            
             var calendarsList = await _context.Calendars
                 .Where(c => c.UserId == currentUser.Id)
                 .Include(c => c.User)
