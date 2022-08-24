@@ -12,6 +12,7 @@ import { NewAvailabilityComponent } from './new-slot/new-availability/new-availa
 import { NewAvailabilityPageComponent } from './new-slot/new-availability-page/new-availability-page.component';
 import { ScheduleComponent } from './new-slot/schedule/schedule.component';
 import { ScheduleListItemComponent } from './new-slot/schedule-list-item/schedule-list-item.component';
+import { ScheduleWeekComponent } from './new-slot/schedule-week/schedule-week.component';
 import { SlotComponent } from './slot/slot.component';
 import { TeamComponent } from './team/team.component';
 import { UserSlotComponent } from './user-slot/user-slot.component';
@@ -30,6 +31,7 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         ScheduleListItemComponent,
         EditAvailabilityPageComponent,
         NewAvailabilityPageComponent,
+        ScheduleWeekComponent,
     ],
     imports: [CommonModule, AvailabilityRoutingModule, MaterialModule, SideMenuModule, HeaderModule],
 })
