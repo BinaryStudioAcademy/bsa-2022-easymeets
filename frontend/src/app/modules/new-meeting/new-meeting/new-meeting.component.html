@@ -33,8 +33,8 @@
                     <div class="custom-container" *ngIf="customTimeShown">
                         <p class="custom-label">Custom time</p>
                         <div class="custom-time">
-                            <input matInput class="select-input" type="text" placeholder="Custom time" formControlName="customTime">
-                            <mat-select formControlName="unitOfTime">
+                            <input matInput class="select-input time" type="text" placeholder="Custom time" formControlName="customTime">
+                            <mat-select formControlName="unitOfTime" class="select-input unit-of-time">
                                 <mat-option *ngFor="let unit of unitOfTime" [value]="unit" unitOfTime>
                                     {{unit}}
                                 </mat-option>
@@ -111,24 +111,6 @@
                     </mat-select>
                 </div>
             </div>
-            <!-- <div class="date-duration-container item">
-                <div>
-                    <mat-form-field formControlName="date">
-                        <mat-label>Choose a date</mat-label>
-                        <input matInput [matDatepicker]="picker" [(ngModel)]="startTime">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker>meetingDate</mat-datepicker>
-                    </mat-form-field>
-                </div>
-                <div class="duration-container">
-                    <p class="duration-label">Duration</p>
-                    <mat-select placeholder="Duration" formControlName="mainContainerDuration">
-                        <mat-option *ngFor="let duration of durations" [value]="duration">
-                            {{duration}}
-                        </mat-option>
-                    </mat-select>
-                </div>
-            </div> -->
         </div>
     </form>
 </div>
