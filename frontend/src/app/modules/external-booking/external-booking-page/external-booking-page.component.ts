@@ -1,3 +1,4 @@
+import { Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
@@ -40,7 +41,20 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         };
     }
 
+    public addTimeAndDateInMenu(data: { date: Date; timeStart: Time; timeFinish: Time }): void {
+        this.menu = {
+            ...this.menu,
+            date: data.date,
+            timeStart: data.timeStart,
+            timeFinish: data.timeFinish,
+        };
+    }
+
     isBookingChooseTimeRoute(): boolean {
         return this.router.url.includes('/external-booking/choose-time');
+    }
+
+    isConfirmBookingRoute(): boolean {
+        return this.router.url.includes('/external-booking/confirm-booking');
     }
 }

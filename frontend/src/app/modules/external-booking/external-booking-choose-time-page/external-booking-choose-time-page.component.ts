@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Time } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getExternalBookingTimeSlotsItems } from '@core/helpers/external-booking-time-slots-helper';
@@ -23,6 +24,8 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     @Input() selectedMeetingDuration: number;
 
+    @Output() selectedTimeAndDateEvent = new EventEmitter<{ date: Date; timeStart: Time; timeFinish: Time }>();
+
     public slotsCount: Array<object>;
 
     public theLatestFinishOfTimeRanges: Date;
@@ -30,6 +33,8 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     public theEarliestStartOfTimeRanges: Date;
 
     public timeZone = TimeZone;
+
+    public pickedTimeZone: TimeZone;
 
     public calendarWeek: ICalendarWeek;
 
@@ -87,6 +92,13 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         const week: ICalendarWeek = { firstDay, lastDay };
 
         return week;
+    }
+
+    public AddTimeAndDate(index: number): void {
+        const dateNumber = this.theEarliestStartOfTimeRanges.getTime() + this.selectedMeetingDuration * index * 60000;
+        const parsedDate = new Date(dateNumber);
+
+        console.log(parsedDate);
     }
 
     public changeWeek(addingMode: boolean): void {

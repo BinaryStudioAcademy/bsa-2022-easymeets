@@ -1,0 +1,58 @@
+@import '../../../../styles/color-variables'
+
+.container
+    display: grid
+    flex-flow: column
+    height: 100%
+    margin-left: 150px
+    grid-template-rows: 1fr 0.5fr 1fr 1fr 1fr 1fr
+    grid-template-areas: "item0" "item1" "item2" "item3" "item4" "item5"
+    resize: none
+    overflow: auto
+
+#container-item1
+    grid-area: item1
+    vertical-align: middle
+
+#container-item2
+    grid-area: item2
+
+#container-item3
+    grid-area: item3
+
+#container-item4
+    grid-area: item4
+
+#container-item5
+    margin-top: 30px
+    grid-area: item5
+
+.input-message
+    background: $white-color
+    padding-top: 0
+    border: 2px solid $loblolly
+    border-radius: 4px
+    display: flex
+    resize: none
+    align-items: flex-start
+    justify-content: flex-start
+    width: 337px
+    padding-left: 5px
+    padding-top: 5px
+
+.input-title
+    font-weight: 575
+    font-size: 14px
+    line-height: 20px
+    color: $pale-sky
+    margin-top: 20px
+    margin-bottom: 2px
+
+.back-text
+    font-weight: 575
+    font-size: 24px
+    line-height: 20px
+    color: $pale-sky
+
+.back-container
+    cursor: pointer

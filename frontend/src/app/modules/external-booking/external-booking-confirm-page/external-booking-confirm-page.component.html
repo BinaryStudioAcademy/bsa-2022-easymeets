@@ -1,0 +1,20 @@
+<div class="container">
+    <div id="container-item1" class="back-container" onclick="history.back()">
+        <p class="back-text"><- Enter details</p>
+    </div>
+    <div id="container-item2" class="name-container">
+        <p class="input-title">Your name</p>
+        <textarea class="input-message" [(ngModel)]="externalAnswers.externalName"></textarea>
+    </div>
+    <div id="container-item3" class="email-container">
+        <p class="input-title">Your Email</p>
+        <textarea class="input-message" [(ngModel)]="externalAnswers.externalEmail"></textarea>
+    </div>
+    <div id="container-item4" class="extrainfo-container">
+        <p class="input-title">Please share anything that will help prepare<br>for our meeting</p>
+        <textarea class="input-message" [(ngModel)]="externalAnswers.externalExtraInfo"></textarea>
+    </div>
+    <div id="container-item5" class="confirm-container">
+        <button mat-flat-button color="primary">Confirm booking</button>
+    </div>
+</div>
