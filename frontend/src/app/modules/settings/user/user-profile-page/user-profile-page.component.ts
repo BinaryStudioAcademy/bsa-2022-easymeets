@@ -103,7 +103,11 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                     image: user.image,
                 });
                 this.imageUrl = user.image;
-                this.changeCountryCode(this.userForm);
+                if (user.phoneCode) {
+                    this.countryCode = user.phoneCode;
+                } else {
+                    this.changeCountryCode(this.userForm);
+                }
             });
     }
 
