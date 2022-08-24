@@ -55,8 +55,8 @@ erDiagram
       boolean IsDeleted
   }
 
-  TeamMember ||--o{ User : UserId
-  TeamMember ||--o{ Team : TeamId
+  TeamMember }o--|| User : UserId
+  TeamMember }o--|| Team : TeamId
   TeamMember {
       bigint Id
       bigint UserId
@@ -76,8 +76,8 @@ erDiagram
       boolean IsDeleted
   }
 
-  CalendarVisibleForTeam ||--o{ Calendar : CalendarId
-  CalendarVisibleForTeam ||--o{ Team : TeamId
+  CalendarVisibleForTeam }o--|| Calendar : CalendarId
+  CalendarVisibleForTeam }o--|| Team : TeamId
   CalendarVisibleForTeam {
       bigint Id
       bigint CalendarId
@@ -85,8 +85,8 @@ erDiagram
       bool IsDeleted
   }
 
-  Calendar ||--o{ User : UserId
-  Calendar ||--o{ Team : AddEventFromTeamId
+  Calendar }o--|| User : UserId
+  Calendar }o--|| Team : AddEventFromTeamId
   Calendar{
       bigint Id
       boolean CheckForConflicts
@@ -97,13 +97,13 @@ erDiagram
       datetime UpdatedAt
   }
 
-  SlotMember ||--o{ User : UserTeamId
-  SlotMember ||--o{ Meeting : EventId
-  SlotMember ||--o{ Schedule : ScheduleId
+  SlotMember }o--|| User : MemberId
+  SlotMember }o--|| AvailabilitySlot : SlotId
+  SlotMember }o--|| Schedule : ScheduleId
   SlotMember {
       bigint Id
-      bigint UserTeamId
-      int EventId
+      bigint MemberId
+      int SlotId
       bigint ScheduleId
       int Priority
       bool IsDeleted
@@ -111,10 +111,10 @@ erDiagram
 
   Meeting ||--o{ User : AuthorId
   Meeting ||--o{ Team : TeamId
+  Meeting }o--o| AvailabilitySlot : AvailabilitySlotId
   Meeting {
       bigint Id
       nvarchar Name
-      nvarchar Description
       int Duration
       datetime StartTime
       bigint AuthorId
@@ -123,20 +123,20 @@ erDiagram
       boolean IsDeleted
       datetime CreatedAt
       datetime UpdatedAt
+      nvarchar MeetingLink
+      bigint AvailabilitySlotId
   }
 
-  UserSlot ||--o{ User : UserId
-  UserSlot ||--o{ AvailabilitySlot : AvailabilitySlotId
-  UserSlot {
-    bigint Id
-    bigint UserId
-    bigint AvailabilitySlotId
-    bool IsDeleted
+  MeetingMember }o--||Meeting: MeetingId
+  MeetingMember }o--||TeamMember: TeamMemberId
+  MeetingMember {
+      bigint MeetingId
+      bigint TeamMemberId
   }
 
+  AvailabilitySlot }o--|| Team : TeamId
   AvailabilitySlot{
     bigint Id
-    bigint ScheduleId
     nvarchar Name
     nvarchar WelcomeMessage
     nvarchar Link
@@ -160,7 +160,7 @@ erDiagram
     datetime UpdatedAt
   }
 
-  Questions ||--o{ AvailabilitySlot : AvailabilitySlotId
+  Questions }o--|| AvailabilitySlot : AvailabilitySlotId
   Questions {
     bigint Id
     bigint AvailabilitySlotId
@@ -168,8 +168,8 @@ erDiagram
     boolean IsDeleted
   }
 
-  AdvansedSlotSettings ||--o{ AvailabilitySlot : AvailabilitySlotId
-  AdvansedSlotSettings {
+  AdvancedSlotSettings |o--|| AvailabilitySlot : AvailabilitySlotId
+  AdvancedSlotSettings {
     bigint Id
     bigint AvailabilitySlotId
     int ActivityType
@@ -182,17 +182,18 @@ erDiagram
     bool IsDeleted
   }
 
-  ExternalAttendee ||--o{ AvailabilitySlot : AvailabilitySlotId
+  ExternalAttendee }o--|| AvailabilitySlot : AvailabilitySlotId
   ExternalAttendee{
     bigint Id
     bigint AvailabilitySlotId
     datetime EventTime
     nvarchar Name
     nvarchar Email
+    int TimeZone
     boolean IsDeleted
   }
 
-  ExternalAttendeeAvailability ||--o{ ExternalAttendee : ExternalAttendeeId
+  ExternalAttendeeAvailability }o--|| ExternalAttendee : ExternalAttendeeId
   ExternalAttendeeAvailability{
     bigint Id
     bigint ExternalAttendeeId
@@ -201,16 +202,14 @@ erDiagram
     bool IsDeleted
   }
 
-  Schedule ||--o{ AvailabilitySlot : AvailabilitySlotId
   Schedule{
     bigint Id
-    bigint AvailabilitySlotId
     int TimeZone
     bool WithTeamMembers
     bool IsDeleted
   }
 
-  ScheduleItem ||--o{ Schedule : ScheduleId
+  ScheduleItem }o--|| Schedule : ScheduleId
   ScheduleItem{
     bigint Id
     bigint ScheduleId
