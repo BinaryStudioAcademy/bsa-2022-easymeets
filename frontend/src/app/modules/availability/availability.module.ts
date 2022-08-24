@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { HeaderModule } from '@modules/header/header.module';
 import { SideMenuModule } from '@modules/side-menu/side-menu.module';
 import { MaterialModule } from '@shared/material/material.module';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { AvailabilityPageComponent } from './availability-page/availability-page.component';
 import { EditAvailabilityPageComponent } from './edit-slot/edit-availability-page/edit-availability-page.component';
@@ -33,6 +36,16 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         NewAvailabilityPageComponent,
         ScheduleWeekComponent,
     ],
-    imports: [CommonModule, AvailabilityRoutingModule, MaterialModule, SideMenuModule, HeaderModule],
+    imports: [
+        CommonModule,
+        AvailabilityRoutingModule,
+        MaterialModule,
+        SideMenuModule,
+        HeaderModule,
+        FormsModule,
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+        })],
 })
 export class AvailabilityModule {}
