@@ -1,5 +1,5 @@
 <div class="container">
-    <div id="container-item1">
+    <div id="container-tabs">
         <mat-card-content>
             <nav class="tab-panel tab-panel-custom" mat-tab-nav-bar>
                 <a
@@ -15,13 +15,13 @@
             </nav>
         </mat-card-content>
     </div>
-    <div id="container-item2">
+    <div id="container-toggle">
         <div class="input-send-email">
             <mat-slide-toggle class="form-switch" [(ngModel)]="settings.allowToSend"></mat-slide-toggle>
             <p class="input-field">Send</p>
         </div>
     </div>
-    <div id="container-item3">
+    <div id="container-emailSubject">
         <p class="input-description">
             Subject<i
                 class="fa-solid fa-circle-question input-description-icon"
@@ -29,7 +29,7 @@
         </p>
         <textarea id="emailSubject" class="input-message" [(ngModel)]="settings.emailSubject"></textarea>
     </div>
-    <div id="container-item4">
+    <div id="container-emailBody">
         <p class="input-description">
             Body<i
                 class="fa-solid fa-circle-question input-description-icon"
