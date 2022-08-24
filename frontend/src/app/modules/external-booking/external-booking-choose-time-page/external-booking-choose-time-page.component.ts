@@ -1,4 +1,3 @@
-import { Time } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
@@ -24,7 +23,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     @Input() selectedMeetingDuration: number;
 
-    @Output() selectedTimeAndDateEvent = new EventEmitter<{ date: Date; timeStart: Time; timeFinish: Time }>();
+    @Output() selectedTimeAndDateEvent = new EventEmitter<{ date: Date; timeFinish: Date }>();
 
     public slotsCount: Array<object>;
 
@@ -96,9 +95,10 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     public AddTimeAndDate(index: number): void {
         const dateNumber = this.theEarliestStartOfTimeRanges.getTime() + this.selectedMeetingDuration * index * 60000;
-        const parsedDate = new Date(dateNumber);
+        const date = new Date(dateNumber);
+        const timeFinish = new Date(date.getTime() + this.selectedMeetingDuration * 60000);
 
-        console.log(parsedDate);
+        this.selectedTimeAndDateEvent.emit({ date, timeFinish });
     }
 
     public changeWeek(addingMode: boolean): void {
