@@ -183,12 +183,14 @@ erDiagram
   }
 
   ExternalAttendee }o--|| AvailabilitySlot : AvailabilitySlotId
+  ExternalAttendee }o--|| Meeting : MeetingId
   ExternalAttendee{
     bigint Id
     bigint AvailabilitySlotId
     datetime EventTime
     nvarchar Name
     nvarchar Email
+    bigint MeetingId
     int TimeZone
     boolean IsDeleted
   }
