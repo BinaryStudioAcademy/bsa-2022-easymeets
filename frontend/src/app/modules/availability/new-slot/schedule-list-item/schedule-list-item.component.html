@@ -1,13 +1,20 @@
 <div class="container">
     <div class="weekday-container">
         <mat-slide-toggle [(ngModel)]="item.isEnabled" (change)="onItemChange()"></mat-slide-toggle>
-        <p>{{displayDay}}</p>
+        <p>{{ displayDay }}</p>
     </div>
-    <div class="dates-container">
-        <input type="text" class="date-input" [value]="startValue" (change)="onDateChange($event, true)">
-        <p>-</p>
-        <input type="text" class="date-input" [value]="endValue" (change)="onDateChange($event, false)">
-    </div>
+    <form class="formDate" [formGroup]="scheduleForm">
+        <div class="dates-container">
+            <div class="time-container">
+                <input type="text" class="date-input" formControlName="startTime" [value]="startValue" (change)="onDateChange($event, true)">
+                <p class="centerline">-</p>
+                <input type="text" class="date-input" formControlName="endTime" [value]="endValue" (change)="onDateChange($event, false)">
+            </div>
+            <div class="error-container">
+                <span *ngIf="endTime && endTime.invalid || startTime && startTime.invalid" ><p class="validText">Input filed is not valid. Correct format is hh:mm.</p></span>
+            </div>
+        </div>
+    </form>
     <button mat-icon-button>
         <mat-icon>add_circle_outline</mat-icon>
     </button>
