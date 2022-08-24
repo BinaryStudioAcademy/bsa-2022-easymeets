@@ -5,7 +5,6 @@ import { CountryLabelMapping } from '@core/helpers/country-label-mapping';
 import { CountryCode } from '@core/helpers/countryCode';
 import { DateFormatLabelMapping } from '@core/helpers/date-format-label-mapping';
 import { LanguageLabelMapping } from '@core/helpers/language-label-mapping';
-import { removePhoneNumberCodeHelper } from '@core/helpers/remove-phone-number-code-helper';
 import { TimeFormatLabelMapping } from '@core/helpers/time-format-label-mapping';
 import { IUser } from '@core/models/IUser';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
@@ -95,7 +94,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                 this.user = user;
                 this.userForm.patchValue({
                     userName: user.userName,
-                    phone: removePhoneNumberCodeHelper(user.phone),
+                    phone: user.phone,
                     country: user.country,
                     dateFormat: user.dateFormat,
                     timeFormat: user.timeFormat,
@@ -114,7 +113,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             uid: this.user.uid,
             email: this.user.email,
             image: this.user.image,
-            phone: `+${this.countryCodeValues[form.value.country as Country]}${form.value.phone}`,
+            phoneCode: this.countryCodeValues[form.value.country as Country],
+            phone: form.value.phone,
             userName: form.value.userName,
             country: form.value.country,
             dateFormat: form.value.dateFormat,
