@@ -34,14 +34,23 @@
         width: 25%
     .menu-item-container
         width: 75%
-        margin: 2.3em 0 0 1em
-        .duration-container, .date-container
-            width: 30%
+        margin-left: 1em
 
 .date-duration-container
-    display: flex
+    height: 20%
+    display: grid
+    grid-template-columns: repeat(2, 30%)
+    grid-template-rows: 100%
     justify-content: space-between
-    align-items: center
+    align-items: flex-start
+
+.duration-container
+    grid-column: 2
+    grid-row: 1
+
+.date-container
+    grid-column: 1
+    grid-row: 1
 
 .sidebar
     position: relative
@@ -50,7 +59,7 @@
     align-items: flex-start
     border-right: 2px solid $athens-gray
     width: 100%
-    margin: 2.3em 0 0 0.8em
+    margin: 0 0 0 0.8em
     padding-bottom: 80px
 
 .add-new-meeting-info-form
@@ -62,8 +71,8 @@
         color: $regent-gray
         margin: 1em 0 0.5em 0
 
-input, .mat-select
-    height: 35px
+.select-input
+    height: 33px
     color: $dark-gray
     font-size: 15px
     background: $white
@@ -110,7 +119,7 @@ input, .mat-select
 
 .name-label, .duration-label,
 .location-label,.custom-label
-    margin: 15px 0 6px 0
+    margin: 12px 0 6px 0
     font-size: 1.1em
     font-weight: bold
     color: $regent-gray
@@ -146,3 +155,15 @@ input
     &.ng-invalid.ng-touched
         border: 2px solid $cinnabar
         outline: $cinnabar
+
+::ng-deep .item
+    .mat-select
+        align-items: center
+        display: flex
+
+    .mat-select-value
+        color: $dark-gray
+        font-size: 15px
+
+.item
+    width: 100%

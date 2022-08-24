@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingTeamMember } from '@core/models/INewMeetingTeamMember';
 
 import { HttpInternalService } from './http-internal.service';
@@ -14,5 +15,9 @@ export class NewMeetingService {
 
     public getTeamMembersOfCurrentUser() {
         return this.httpService.getRequest<INewMeetingTeamMember[]>(`${this.routePrefix}`);
+    }
+
+    public saveNewMeeting(data: INewMeeting) {
+        return this.httpService.postRequest(`${this.routePrefix}`, data);
     }
 }

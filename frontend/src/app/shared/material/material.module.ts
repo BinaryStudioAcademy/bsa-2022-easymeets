@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -41,6 +43,8 @@ export { MatSelectModule } from '@angular/material/select';
         MatTabsModule,
         MatSlideToggleModule,
         NgxMatSelectSearchModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
     ],
     exports: [
         FormsModule,
@@ -62,6 +66,8 @@ export { MatSelectModule } from '@angular/material/select';
         MatTabsModule,
         MatSlideToggleModule,
         NgxMatSelectSearchModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
     ],
 })
 export class MaterialModule {}

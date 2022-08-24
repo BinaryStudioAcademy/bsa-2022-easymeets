@@ -4,12 +4,12 @@
         <p class="new-meeting-header-label">New meeting</p>
         <button color="primary" mat-flat-button class="new-meeting-header-button">Create</button>
     </div>
-    <div class="main-content">
+    <form class="main-content"  [formGroup]="meetingForm" (ngSubmit)="create(meetingForm)">
         <div class="sidebar">
-            <form class="add-new-meeting-info-form" [formGroup]="meetingForm">
+            <div class="add-new-meeting-info-form">
                 <div class="item">
                     <p class="name-label">Name</p>
-                    <input matInput type="text" #searchBar placeholder="New meeting" formControlName="meetingName">
+                    <input matInput type="text" placeholder="New meeting" formControlName="meetingName" class="select-input">
                     <div *ngIf="meetingNameControl.invalid && meetingNameControl.touched">
                         <small *ngIf="meetingNameControl.errors?.['required']">This field is required.</small>
                         <small *ngIf="meetingNameControl.errors?.['minlength']">Length must be more than 2
@@ -22,88 +22,113 @@
                 <div class="item">
                     <div class="duration-container">
                         <p class="duration-label">Duration</p>
-                        <mat-select formControlName="duration" (selectionChange)="changeDuration(meetingForm)">
+                        <mat-select class="select-input" formControlName="duration"  placeholder="Duration" (selectionChange)="changeDuration(meetingForm)">
                             <mat-option *ngFor="let duration of durations" [value]="duration">
                                 {{duration}}
                             </mat-option>
                         </mat-select>
                     </div>
                 </div>
-                <div class="custom-container" *ngIf="customTimeShown">
-                    <p class="custom-label">Custom time</p>
-                    <div class="custom-time">
-                        <input matInput type="text" placeholder="Custom time" formControlName="customTime">
-                        <mat-select>
-                            <mat-option>
-                                min
-                            </mat-option>
-                            <mat-option>
-                                hour
+                <div class="item">
+                    <div class="custom-container" *ngIf="customTimeShown">
+                        <p class="custom-label">Custom time</p>
+                        <div class="custom-time">
+                            <input matInput class="select-input" type="text" placeholder="Custom time" formControlName="customTime">
+                            <mat-select formControlName="unitOfTime">
+                                <mat-option *ngFor="let unit of unitOfTime" [value]="unit" unitOfTime>
+                                    {{unit}}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                        <div *ngIf="customTimeControl.invalid && customTimeControl.touched">
+                            <small *ngIf="customTimeControl.errors?.['required']">This field is required.</small>
+                            <small *ngIf="customTimeControl.errors?.['pattern']">Invalid numbers.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="duration-container">
+                        <p class="location-label">Location</p>
+                        <mat-select formControlName="location" class="select-input">
+                            <mat-option *ngFor="let location of locations" [value]="location">
+                                {{location}}
                             </mat-option>
                         </mat-select>
                     </div>
-                    <div *ngIf="customTimeControl.invalid && customTimeControl.touched" class="validation">
-                        <small *ngIf="customTimeControl.errors?.['required']">This field is required.</small>
-                        <small *ngIf="customTimeControl.errors?.['pattern']">Invalid numbers.</small>
+                </div>
+                <div class="item">
+                    <div class="search-list">
+                        <p class="add-team-member-label">Add Team Member</p>
+                        <mat-select
+                            class="select-input"
+                            #singleSelect
+                            placeholder="Type..."
+                            [formControl]="memberCtrl"
+                            formControlName="teamMember"
+                            (selectionChange)="addMemberToList(meetingForm)">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="memberFilterCtrl" placeholderLabel=""
+                                    noEntriesFoundLabel="no matching team member found">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let member of filteredMembers | async" [value]="member">
+                                {{member.name}}
+                            </mat-option>
+                        </mat-select>
                     </div>
                 </div>
-                <div class="duration-container">
-                    <p class="location-label">Location</p>
-                    <mat-select formControlName="location">
-                        <mat-option *ngFor="let location of locations" [value]="location">
-                            {{location}}
-                        </mat-option>
-                    </mat-select>
-                </div>
-                <div class="search-list">
-                    <p class="add-team-member-label">Add Team Member</p>
-                    <mat-select
-                        #singleSelect
-                        placeholder="Type..."
-                        [formControl]="memberCtrl"
-                        formControlName="teamMember"
-                        (selectionChange)="addMemberToList(meetingForm)">
-                        <mat-option>
-                            <ngx-mat-select-search [formControl]="memberFilterCtrl" placeholderLabel=""
-                                noEntriesFoundLabel="no matching team member found">
-                            </ngx-mat-select-search>
-                        </mat-option>
-                        <mat-option *ngFor="let member of filteredMembers | async" [value]="member">
-                            {{member.name}}
-                        </mat-option>
-                    </mat-select>
-                </div>
-            </form>
-            <div class="team-members-container">
-                <p class="team-members-label">Team members {{addedMembers.length}}:</p>
-                <div class="member-info-container" *ngFor="let member of addedMembers">
-                    <div class="member-info">
-                        <p>{{member.name}}</p>
-                        <i class="fa-solid fa-xmark fa-lg cancel-icon"></i>
+            </div>
+            <div class="item">
+                <div class="team-members-container">
+                    <p class="team-members-label">Team members {{addedMembers.length}}:</p>
+                    <div class="member-info-container" *ngFor="let member of addedMembers">
+                        <div class="member-info">
+                            <p>{{member.name}}</p>
+                            <i class="fa-solid fa-xmark fa-lg cancel-icon"></i>
+                        </div>
+                        <mat-divider></mat-divider>
                     </div>
-                    <mat-divider></mat-divider>
                 </div>
             </div>
         </div>
         <div class="menu-item-container">
             <div class="date-duration-container">
-                <div class="date-container">
-                    <p class="date-label">Date</p>
-                    <mat-select placeholder="Date">
-                        <mat-option *ngFor="let date of dates">
-                            {{date}}
-                        </mat-option>
-                    </mat-select>
+                <div class="date-container item">
+                    <p class="duration-label">Date</p>
+                    <mat-form-field formControlName="date" appearance="legacy" class="select-input">
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="startTime">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker>meetingDate</mat-datepicker>
+                    </mat-form-field>
                 </div>
-                <div class="duration-container">
+                <div class="duration-container item">
                     <p class="duration-label">Duration</p>
-                    <mat-select>
+                    <mat-select formControlName="mainContainerDuration" class="select-input">
                         <mat-option *ngFor="let duration of durations" [value]="duration">
                             {{duration}}
                         </mat-option>
                     </mat-select>
                 </div>
             </div>
+            <!-- <div class="date-duration-container item">
+                <div>
+                    <mat-form-field formControlName="date">
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="startTime">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker>meetingDate</mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="duration-container">
+                    <p class="duration-label">Duration</p>
+                    <mat-select placeholder="Duration" formControlName="mainContainerDuration">
+                        <mat-option *ngFor="let duration of durations" [value]="duration">
+                            {{duration}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div> -->
         </div>
-    </div>
+    </form>
 </div>

@@ -4,10 +4,13 @@ import { MatSelect } from '@angular/material/select';
 import { BaseComponent } from '@core/base/base.component';
 import { getDisplayDate } from '@core/helpers/date-helper';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
+import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingTeamMember } from '@core/models/INewMeetingTeamMember';
 import { NewMeetingService } from '@core/services/new-meeting.service';
+import { NotificationService } from '@core/services/notification.service';
 import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
 import { LocationType } from '@shared/enums/locationType';
+import { UnitOfTime } from '@shared/enums/unitOfTime';
 import { ReplaySubject } from 'rxjs';
 
 @Component({
@@ -16,6 +19,11 @@ import { ReplaySubject } from 'rxjs';
     styleUrls: ['./new-meeting.component.sass'],
 })
 export class NewMeetingComponent extends BaseComponent implements OnInit {
+    constructor(private newMeetingService: NewMeetingService, public notificationService: NotificationService) {
+        super();
+        this.getTeamMembersOfCurrentUser();
+    }
+
     @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
 
     public teamMembers: INewMeetingTeamMember[];
@@ -30,7 +38,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public locations = Object.keys(LocationType).filter(key => Number.isNaN(Number(key)));
 
+    public unitOfTime = Object.keys(UnitOfTime).filter(key => Number.isNaN(Number(key)));
+
     public durationValue: string;
+
+    public startTime: Date;
 
     public customTimeShown: boolean = false;
 
@@ -52,12 +64,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         Validators.pattern(naturalNumberRegex),
     ]);
 
-    // eslint-disable-next-line no-unused-vars
-    constructor(private newMeetingService: NewMeetingService) {
-        super();
-        this.getTeamMembersOfCurrentUser();
-    }
-
     ngOnInit(): void {
         this.meetingForm = new FormGroup({
             meetingName: this.meetingNameControl,
@@ -65,9 +71,33 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
             unitOfTime: new FormControl(),
             location: new FormControl(),
             duration: new FormControl(),
-            mainPageDuration: new FormControl(),
+            mainContainerDuration: new FormControl(),
+            date: new FormControl(),
             teamMember: new FormControl(),
         });
+
+        this.meetingForm.patchValue({
+            location: this.locations[0],
+            duration: this.durations[0],
+            unitOfTime: this.unitOfTime[0],
+            mainContainerDuration: this.durations[0],
+        });
+    }
+
+    public create(form: FormGroup) {
+        const newMeeting: INewMeeting = {
+            name: form.value.meetingName,
+            location: form.value.location,
+            duration: form.value.duration,
+            description: form.value.meetingName,
+            unitOfTime: form.value.unitOfTime,
+            teamId: 2,
+            startTime: this.startTime,
+        };
+
+        this.newMeetingService.saveNewMeeting(newMeeting)
+            .pipe(this.untilThis)
+            .subscribe(() => this.notificationService.showSuccessMessage('New meeting was created successfully.'));
     }
 
     public filterMembers() {
@@ -112,5 +142,9 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public addMemberToList(form: FormGroup) {
         this.addedMembers.push({ id: form.value.teamMember.id, name: form.value.teamMember.name });
+    }
+
+    public removeMemberToList(form: FormGroup) {
+        this.addedMembers = this.addedMembers.filter((member) => member.id !== form.value.teamMember.id);
     }
 }
