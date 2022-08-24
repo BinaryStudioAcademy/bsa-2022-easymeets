@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
+import { timeNumberRegex } from '@shared/constants/model-validation';
 
 @Component({
     selector: 'app-schedule-list-item',
@@ -16,6 +18,11 @@ export class ScheduleListItemComponent implements OnInit {
     public startValue: string;
 
     public endValue: string;
+
+    public scheduleForm = new FormGroup({
+        startTime: new FormControl('16:00', [Validators.pattern(timeNumberRegex)]),
+        endTime: new FormControl('17:30', [Validators.pattern(timeNumberRegex)]),
+    });
 
     public onDateChange($event: Event, isStart: boolean) {
         const target = $event.target as HTMLInputElement;
@@ -36,5 +43,13 @@ export class ScheduleListItemComponent implements OnInit {
     ngOnInit(): void {
         this.startValue = this.item.start.substring(0, 5);
         this.endValue = this.item.end.substring(0, 5);
+    }
+
+    get startTime() {
+        return this.scheduleForm.get('startTime');
+    }
+
+    get endTime() {
+        return this.scheduleForm.get('endTime');
     }
 }
