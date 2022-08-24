@@ -2,8 +2,7 @@
     <form class="form-wrapper" [formGroup]="formGroup" (ngSubmit)="OnSubmit(formGroup)">
         <div class="item">
             <div class="logo-block">
-                <div class="logo" *ngIf="!imageUrl"></div>
-                <img *ngIf="imageUrl" mat-card-image src="{{ imageUrl }}" class="logo">
+                <div class="logo" style="background-image: url('{{ imageUrl }}')"></div>
                 <input enctype="multipart/form-data" method="put" hidden #file accept="image/png,.gif,.jpg" type="file"
                        (change)="loadImage($event)"/>
                 <button type="button" class="white-button" mat-flat-button (click)="file.click()">Upload Logo</button>

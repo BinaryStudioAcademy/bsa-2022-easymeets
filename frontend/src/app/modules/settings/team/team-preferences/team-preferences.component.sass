@@ -16,23 +16,29 @@
     padding: 50px
 
 .logo-block
-    width: 100%
+    width: 80%
     display: flex
     align-items: center
-    justify-content: space-around
+    justify-content: space-between
     gap: 30px
-    flex-wrap: wrap
+    @media (max-width: 550px)
+        width: 100%
+        justify-content: space-around
+        flex-direction: column
+
 
 .item
     width: 100%
 
 .logo
     background-color: $light-gray
-    border: none
-    box-shadow: none
-    border-radius: 50%
+    background-size: cover
+    background-repeat: no-repeat
+    background-position: center center
     width: 100px
     height: 100px
+    border-radius: 50% 50%
+    overflow: hidden
 
 .white-button
     background-color: white
