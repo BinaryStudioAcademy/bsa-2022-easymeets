@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Calendar;
@@ -7,28 +6,30 @@ using EasyMeets.Core.DAL.Entities;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace EasyMeets.Core.BLL.Services
 {
     public class CalendarsService : BaseService, ICalendarsService
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IConfiguration _configuration;
+        private readonly IUserService _userService;
         private const string ApplicationName = "EasyMeets";
         private CalendarService _service = new();
-        public CalendarsService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper)
+        public CalendarsService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IConfiguration configuration) : base(context, mapper)
         {
-            _httpContextAccessor = httpContextAccessor;
+            _userService = userService;
+            _configuration = configuration;
         }
 
-        public async Task<bool> CreateGoogleCalendarConnection(UserCredentialsDto credentialsDto)
+        public async Task<bool> CreateGoogleCalendarConnection()
         {
             var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                         new ClientSecrets
                         {
-                            ClientId = credentialsDto.ClientId,
-                            ClientSecret = credentialsDto.ClientSecret
+                            ClientId = _configuration["GoogleCalendar:client_id"],
+                            ClientSecret = _configuration["GoogleCalendar:client_secret"]
                         }, 
                         new [] { CalendarService.Scope.Calendar },
                         Guid.NewGuid().ToString(), 
@@ -43,15 +44,13 @@ namespace EasyMeets.Core.BLL.Services
             var calendars = await _service.CalendarList.List().ExecuteAsync();
 
             var connectedEmail = calendars.Items.FirstOrDefault(el => el.Primary == true)?.Id;
-            
-            var calendarExist = await _context.Calendars.FirstOrDefaultAsync(el => el.ConnectedCalendar == connectedEmail);
-            
-            if (calendarExist != null)
+
+            if (await _context.Calendars.AnyAsync(el => el.ConnectedCalendar == connectedEmail))
             {
-                return false;
+                throw new ArgumentException($"Calendar {connectedEmail} is already connected!");
             }
             
-            var currentUser = await _context.Users.FirstAsync(el => el.Email == GetCurrentUserEmail());
+            var currentUser = await _userService.GetCurrentUserAsync();
             
             var calendar = new Calendar
             {
@@ -81,24 +80,9 @@ namespace EasyMeets.Core.BLL.Services
                     .Include(c => c.VisibleForTeams)
                     .FirstOrDefaultAsync(el => el.Id == calendarDto.Id);
 
-                _context.CalendarVisibleForTeams.RemoveRange(calendar!.VisibleForTeams);
-                calendar.VisibleForTeams = Array.Empty<CalendarVisibleForTeam>();
+                await UpdateVisibleForTeamsTable(calendar!, calendarDto);
 
-                var newVisibleForList = calendarDto.VisibleForTeams?
-                    .Select(el => new CalendarVisibleForTeam
-                    {
-                        CalendarId = calendar.Id,
-                        TeamId = el.Id,
-                        IsDeleted = false,
-                    }).ToList();
-
-                if (newVisibleForList != null)
-                {
-                    calendar.VisibleForTeams = newVisibleForList;
-                    await _context.CalendarVisibleForTeams.AddRangeAsync(newVisibleForList);
-                }
-
-                calendar.CheckForConflicts = calendarDto.CheckForConflicts;
+                calendar!.CheckForConflicts = calendarDto.CheckForConflicts;
                 calendar.AddEventsFromTeamId = calendarDto.ImportEventsFromTeam?.Id;
             
                 _context.Calendars.Update(calendar);
@@ -110,8 +94,7 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<List<UserCalendarDto>> GetCurrentUserCalendars()
         {
-            var currentUserEmail = GetCurrentUserEmail();
-            var currentUser = await _context.Users.FirstAsync(el => el.Email == currentUserEmail);
+            var currentUser = await _userService.GetCurrentUserAsync();
             
             var calendarsList = await _context.Calendars
                 .Where(c => c.UserId == currentUser.Id)
@@ -137,14 +120,27 @@ namespace EasyMeets.Core.BLL.Services
                 return true;
             }
 
-            return false;
+            throw new ArgumentException("Calendar doesn't exist in database");
         }
 
-        private string GetCurrentUserEmail()
+        private async Task UpdateVisibleForTeamsTable(Calendar calendar, UserCalendarDto calendarDto)
         {
-            var claimsList = _httpContextAccessor.HttpContext!.User.Claims.ToList();
-            var email = claimsList.Find(el => el.Type == ClaimTypes.Email);
-            return email!.Value;
+            _context.CalendarVisibleForTeams.RemoveRange(calendar!.VisibleForTeams);
+            calendar.VisibleForTeams = Array.Empty<CalendarVisibleForTeam>();
+
+            var newVisibleForList = calendarDto.VisibleForTeams?
+                .Select(el => new CalendarVisibleForTeam
+                {
+                    CalendarId = calendar.Id,
+                    TeamId = el.Id,
+                    IsDeleted = false,
+                }).ToList();
+
+            if (newVisibleForList != null)
+            {
+                calendar.VisibleForTeams = newVisibleForList;
+                await _context.CalendarVisibleForTeams.AddRangeAsync(newVisibleForList);
+            }
         }
     }
 }

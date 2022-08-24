@@ -4,12 +4,10 @@ import { getDefaultOptions } from '@core/helpers/options-helper';
 import { ICheckOption } from '@core/interfaces/check-option-interface';
 import { IUserCalendar } from '@core/models/calendar/IUserCalendar';
 import { ITeam } from '@core/models/ITeam';
-import { IUserCredentials } from '@core/models/IUserCredentials';
 import { CalendarsService } from '@core/services/calendars.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-calendars-page',
@@ -61,43 +59,62 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
             .subscribe((response) => {
                 this.userCalendars = response;
 
-                this.userCalendars.forEach((element) => {
-                    const teamsNames = element?.visibleForTeams?.map((x) => x.name);
-
-                    element.visibleForTeams = this.allTeams?.filter((x) => teamsNames?.includes(x.name));
-                    element.importEventsFromTeam = this.allTeams?.find(
-                        (x) => x.name === element.importEventsFromTeam?.name,
-                    );
-                });
+                this.updateSelectedItems();
             });
+    }
+
+    updateSelectedItems() {
+        this.userCalendars.forEach((element) => {
+            const teamsNames = element?.visibleForTeams?.map((x) => x.name);
+
+            element.visibleForTeams = this.allTeams?.filter((x) => teamsNames?.includes(x.name));
+            element.importEventsFromTeam = this.allTeams?.find((x) => x.name === element.importEventsFromTeam?.name);
+        });
+    }
+
+    connectGoogle() {
+        this.calendarService
+            .createGoogleCalendarConnection()
+            .pipe(this.untilThis)
+            .subscribe(
+                () => {
+                    this.notificationService.showSuccessMessage('Calendar was successfully created');
+                    this.refreshData();
+                },
+                (error) => {
+                    this.notificationService.showErrorMessage(error);
+                },
+            );
     }
 
     removeCalendar(id: bigint) {
         this.calendarService
             .deleteGoogleCalendar(id)
             .pipe(this.untilThis)
-            .subscribe((response) => {
-                if (response) {
+            .subscribe(
+                () => {
                     this.notificationService.showSuccessMessage('Calendar was successfully deleted');
-                } else {
-                    this.notificationService.showErrorMessage("Something went wrong. Calendar did't deleted");
-                }
-                this.refreshData();
-            });
+                    this.refreshData();
+                },
+                (error) => {
+                    this.notificationService.showErrorMessage(error);
+                },
+            );
     }
 
     updateCalendar() {
         this.calendarService
             .updateGoogleCalendar(this.userCalendars)
             .pipe(this.untilThis)
-            .subscribe((response) => {
-                if (response) {
-                    this.notificationService.showSuccessMessage('Calendars was successfully updated');
-                } else {
-                    this.notificationService.showErrorMessage("Something went wrong. Calendars did't update");
-                }
-                this.refreshData();
-            });
+            .subscribe(
+                () => {
+                    this.notificationService.showSuccessMessage('Calendar was successfully updated');
+                    this.refreshData();
+                },
+                (error) => {
+                    this.notificationService.showErrorMessage(error);
+                },
+            );
     }
 
     confirmDialog() {
@@ -123,25 +140,6 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
             message:
                 'Connect your calendar to let EasyMeets know when you are available and update your calendar as events are scheduled.',
         });
-    }
-
-    connectGoogle() {
-        const credentials: IUserCredentials = {
-            clientId: environment.googleCalendar.client_id,
-            clientSecret: environment.googleCalendar.client_secret,
-        };
-
-        this.calendarService
-            .createGoogleCalendarConnection(credentials)
-            .pipe(this.untilThis)
-            .subscribe((response) => {
-                if (response) {
-                    this.notificationService.showSuccessMessage('Calendar was successfully created');
-                } else {
-                    this.notificationService.showErrorMessage('Calendar is already exist');
-                }
-                this.refreshData();
-            });
     }
 
     displayedColumns: string[] = ['connected-calendars', 'events-for', 'events-from', 'check'];

@@ -15,10 +15,6 @@ export const environment = {
         appId: '1:681019224003:web:f114bfb64139e3146a1776',
         measurementId: 'G-CZQ7Z16TJZ',
     },
-    googleCalendar: {
-        client_id: '681019224003-5mu3opslvcph730e40sue437pvdo1qa0.apps.googleusercontent.com',
-        client_secret: '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',
-    },
 };
 
 /*

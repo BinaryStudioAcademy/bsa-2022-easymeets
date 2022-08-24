@@ -34,7 +34,6 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddAutoMapper(Assembly.GetAssembly(typeof(AvailabilityProfile)));
             services.AddAutoMapper(Assembly.GetAssembly(typeof(MeetingProfile)));
             services.AddAutoMapper(Assembly.GetAssembly(typeof(UserProfile)));
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(CalendarProfile)));
         }
 
         public static void AddValidation(this IServiceCollection services)
