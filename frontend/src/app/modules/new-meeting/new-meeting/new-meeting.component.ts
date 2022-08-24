@@ -85,6 +85,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     }
 
     public create(form: FormGroup) {
+        // eslint-disable-next-line no-debugger
+        debugger;
         const newMeeting: INewMeeting = {
             name: form.value.meetingName,
             location: form.value.location,
@@ -93,6 +95,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
             unitOfTime: form.value.unitOfTime,
             teamId: 2,
             startTime: this.startTime,
+            teamMembers: this.addedMembers,
         };
 
         this.newMeetingService.saveNewMeeting(newMeeting)

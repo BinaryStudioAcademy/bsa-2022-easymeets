@@ -2,7 +2,7 @@
 <div class="container">
     <div class="new-meeting-header">
         <p class="new-meeting-header-label">New meeting</p>
-        <button color="primary" mat-flat-button class="new-meeting-header-button">Create</button>
+        <button color="primary" type="submit" mat-flat-button class="new-meeting-header-button">Create</button>
     </div>
     <form class="main-content"  [formGroup]="meetingForm" (ngSubmit)="create(meetingForm)">
         <div class="sidebar">
