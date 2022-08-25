@@ -23,6 +23,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddTransient<IAvailabilityService, AvailabilityService>();
             services.AddTransient<IUploadFileService, UploadFileService>();
             services.AddTransient<IUserService, UserService>(); 
+            services.AddTransient<ICalendarsService, CalendarsService>();
             services.AddTransient<IMeetingService, MeetingService>();
             services.AddTransient<ITeamService, TeamService>();
         }

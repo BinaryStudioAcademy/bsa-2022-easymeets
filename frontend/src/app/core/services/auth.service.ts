@@ -22,8 +22,14 @@ export class AuthService {
         this.afAuth.authState.subscribe((user) => {
             this.currentUser = user;
             if (this.currentUser) {
-                this.currentUser.getIdToken().then(t => localStorage.setItem('access-token', t));
+                this.currentUser.getIdToken().then((t) => localStorage.setItem('access-token', t));
                 localStorage.setItem('email-verified', JSON.stringify(this.currentUser.emailVerified));
+            }
+        });
+
+        this.afAuth.user.subscribe(user => {
+            if (user) {
+                localStorage.setItem('email-verified', JSON.stringify(user.emailVerified));
             }
         });
     }
@@ -42,6 +48,13 @@ export class AuthService {
     public signIn(email: string, password: string) {
         return this.afAuth
             .signInWithEmailAndPassword(email, password)
+            .then(async userCredential => {
+                if (userCredential.user) {
+                    localStorage.setItem('access-token', await userCredential.user.getIdToken());
+                }
+
+                return userCredential;
+            })
             .catch((error) => this.notificationService.showErrorMessage(error.message));
     }
 
@@ -67,7 +80,10 @@ export class AuthService {
     }
 
     public refreshToken() {
-        return firebase.auth().currentUser?.getIdToken().then(t => localStorage.setItem('access-token', t));
+        return firebase
+            .auth()
+            .currentUser?.getIdToken()
+            .then((t) => localStorage.setItem('access-token', t));
     }
 
     public getAccessToken() {
