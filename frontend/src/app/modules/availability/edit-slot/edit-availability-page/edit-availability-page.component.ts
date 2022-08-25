@@ -1,12 +1,14 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
+import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { NewAvailabilityComponent } from '@modules/availability/new-slot/new-availability/new-availability.component';
+import { deletionMessage } from '@shared/constants/shared-messages';
 
 @Component({
     selector: 'app-edit-availability-page',
@@ -20,23 +22,27 @@ export class EditAvailabilityPageComponent extends BaseComponent {
 
     @ViewChild(NewAvailabilityComponent) newAvailabilityComponent: NewAvailabilityComponent;
 
+    private deleteEventEmitter = new EventEmitter<void>();
+
     constructor(
         private router: Router,
         private activateRoute: ActivatedRoute,
         private spinnerService: SpinnerService,
         private http: AvailabilitySlotService,
         private notifications: NotificationService,
+        private confirmWindowService: ConfirmationWindowService,
     ) {
         super();
-        this.activateRoute.params.subscribe(params => {
+        this.activateRoute.params.subscribe((params) => {
             this.id = params['id'];
             this.spinnerService.show();
-            this.http.getSlotById(this.id)
-                .subscribe(slotResponse => {
-                    this.slot = slotResponse;
-                    this.spinnerService.hide();
-                });
+            this.http.getSlotById(this.id).subscribe((slotResponse) => {
+                this.slot = slotResponse;
+                this.spinnerService.hide();
+            });
         });
+
+        this.deleteEventEmitter.subscribe(() => this.deleteSlot());
     }
 
     public goToPage(pageName: string) {
@@ -68,6 +74,25 @@ export class EditAvailabilityPageComponent extends BaseComponent {
                     this.notifications.showErrorMessage(error);
                 },
             );
+    }
+
+    public deleteButtonClick() {
+        this.confirmWindowService.openConfirmDialog({
+            buttonsOptions: [
+                {
+                    class: 'confirm-accept-button',
+                    label: 'Yes',
+                    onClickEvent: this.deleteEventEmitter,
+                },
+                {
+                    class: 'confirm-cancel-button',
+                    label: 'Cancel',
+                    onClickEvent: new EventEmitter<void>(),
+                },
+            ],
+            title: 'Confirm Slot Deletion',
+            message: deletionMessage,
+        });
     }
 
     public deleteSlot() {

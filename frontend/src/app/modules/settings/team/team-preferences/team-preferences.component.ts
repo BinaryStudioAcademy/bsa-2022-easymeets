@@ -1,11 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnInit } from '@angular/core';
+import {
+    AbstractControl,
+    AsyncValidatorFn,
+    FormControl,
+    FormGroup,
+    ValidationErrors,
+    Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
+import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
+import { deletionMessage } from '@shared/constants/shared-messages';
 import { TimeZone } from '@shared/enums/timeZone';
 import { map, Observable } from 'rxjs';
 
@@ -15,13 +24,18 @@ import { map, Observable } from 'rxjs';
     styleUrls: ['./team-preferences.component.sass'],
 })
 export class TeamPreferencesComponent extends BaseComponent implements OnInit {
+    private deleteEventEmitter = new EventEmitter<void>();
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private teamService: TeamService,
         public notificationService: NotificationService,
+        private confirmWindowService: ConfirmationWindowService,
     ) {
         super();
+
+        this.deleteEventEmitter.subscribe(() => this.deleteTeam());
     }
 
     public isNewTeam: boolean = true;
@@ -78,6 +92,25 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
                 });
                 this.isNewTeam = false;
             });
+    }
+
+    public deleteButtonClick() {
+        this.confirmWindowService.openConfirmDialog({
+            buttonsOptions: [
+                {
+                    class: 'confirm-accept-button',
+                    label: 'Yes',
+                    onClickEvent: this.deleteEventEmitter,
+                },
+                {
+                    class: 'confirm-cancel-button',
+                    label: 'Cancel',
+                    onClickEvent: new EventEmitter<void>(),
+                },
+            ],
+            title: 'Confirm Team Deletion',
+            message: deletionMessage,
+        });
     }
 
     public deleteTeam() {
