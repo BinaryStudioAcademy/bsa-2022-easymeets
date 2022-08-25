@@ -4,6 +4,7 @@ using EasyMeets.Core.Common.DTO.Calendar;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Services;
 using Microsoft.EntityFrameworkCore;
@@ -24,16 +25,21 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<bool> CreateGoogleCalendarConnection()
         {
-            var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                        new ClientSecrets
-                        {
-                            ClientId = Environment.GetEnvironmentVariable("google_calendar_client_id"),
-                            ClientSecret = Environment.GetEnvironmentVariable("google_calendar_client_secret")
-                        }, 
-                        new [] { CalendarService.Scope.Calendar },
-                        Guid.NewGuid().ToString(), 
-                        CancellationToken.None,
-                        null);
+            string[] scopes = { CalendarService.Scope.Calendar };
+            
+            var clientSecrets = new ClientSecrets
+            {
+                ClientId = Environment.GetEnvironmentVariable("google_calendar_client_id"),
+                ClientSecret = Environment.GetEnvironmentVariable("google_calendar_client_secret")
+            };
+            
+            var initializer = new GoogleAuthorizationCodeFlow.Initializer
+            {
+                ClientSecrets = clientSecrets,
+                Scopes = scopes
+            };
+
+            var credential = await AuthorizeAsync(initializer, Guid.NewGuid().ToString());
 
             _service = new CalendarService(new BaseClientService.Initializer{
                 HttpClientInitializer = credential,
@@ -68,6 +74,15 @@ namespace EasyMeets.Core.BLL.Services
             await _context.SaveChangesAsync();
             
             return true;
+        }
+
+        private async Task<UserCredential> AuthorizeAsync(GoogleAuthorizationCodeFlow.Initializer initializer, string user)
+        {
+            var flow = new GoogleAuthorizationCodeFlow(initializer);
+            var codeReceiver = new LocalServerCodeReceiver();
+            
+            return await new AuthorizationCodeInstalledApp(flow, codeReceiver).AuthorizeAsync
+                (user, CancellationToken.None).ConfigureAwait(false);
         }
 
         public async Task<bool> UpdateGoogleCalendar(List<UserCalendarDto> calendarDtoList)
