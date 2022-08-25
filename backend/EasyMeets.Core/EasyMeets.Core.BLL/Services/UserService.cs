@@ -6,15 +6,20 @@ using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using EasyMeets.Core.BLL.Extentions;
+using FirebaseAdmin.Auth;
 
 namespace EasyMeets.Core.BLL.Services
 {
     public class UserService : BaseService, IUserService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper)
+        private readonly FirebaseAuth _firebaseAuth;
+        public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, FirebaseAuth firebaseAuth) : base(context, mapper)
         {
             _httpContextAccessor = httpContextAccessor;
+            _firebaseAuth = firebaseAuth;
         }
 
         public async Task<UserDto> GetCurrentUserAsync()
@@ -26,6 +31,8 @@ namespace EasyMeets.Core.BLL.Services
                 throw new KeyNotFoundException("User doesn't exist");
             }
 
+            await AddUserClaims(currentUser.Uid, currentUser.Id);
+            
             var currentUserDto = _mapper.Map<UserDto>(currentUser);
             return currentUserDto;
         }
@@ -58,7 +65,41 @@ namespace EasyMeets.Core.BLL.Services
             var newUser = _mapper.Map<NewUserDto, User>(userDto);
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
-            return _mapper.Map<User, UserDto>(newUser);
+
+            var addedUser = await _context.Users.FirstOrDefaultAsync(user => user.Email == userDto.Email);
+
+            await AddUserClaims(addedUser?.Uid, addedUser?.Id);
+
+            return _mapper.Map<User, UserDto>(addedUser);
+        }
+        
+        private async Task AddUserClaims(string? uid, long? id)
+        {
+            if (uid is null || id is null)
+            {
+                return;
+            }
+
+            var userRecord = await _firebaseAuth.GetUserAsync(uid);
+
+            if (userRecord.CustomClaims.ContainsKey("id"))
+            {
+                return;
+            }
+            
+            var userClaims = new Dictionary<string, object>
+            {
+                { "id", id }
+            };
+
+            await _firebaseAuth.SetCustomUserClaimsAsync(uid, userClaims);
+        }
+
+        public string GetCurrentUserEmail()
+        {
+            var claimsList = _httpContextAccessor.HttpContext!.User.Claims.ToList();
+            var email = claimsList.Find(el => el.Type == ClaimTypes.Email);
+            return email!.Value;
         }
 
         public async Task<bool> ComparePassedIdAndCurrentUserIdAsync(long id)

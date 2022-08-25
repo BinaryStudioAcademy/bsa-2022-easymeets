@@ -6,8 +6,14 @@ using EasyMeets.Core.WebAPI.Validators;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using EasyMeets.Core.WebAPI.DTO;
+using FirebaseAdmin;
+using FirebaseAdmin.Auth;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace EasyMeets.Core.WebAPI.Extentions
 {
@@ -69,6 +75,30 @@ namespace EasyMeets.Core.WebAPI.Extentions
                         ValidateLifetime = true
                     };
                 });
+        }
+
+        public static void AddFirebaseAdmin(this IServiceCollection services, IConfiguration configuration)
+        {
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }
+            };
+
+            var serviceAccount = JsonConvert.DeserializeObject<ServiceAccount>(
+                File.ReadAllText("service-account-file.json"),
+                jsonSerializerSettings);
+
+            if (serviceAccount is not null)
+            {
+                serviceAccount.PrivateKey = configuration["Firebase_Service_Account_Private_Key"].Replace(@"\n", "\n");
+            }
+            
+            FirebaseApp.Create(new AppOptions
+            {
+                Credential = GoogleCredential.FromJson(JsonConvert.SerializeObject(serviceAccount, jsonSerializerSettings)),
+            });
+
+            services.AddTransient<FirebaseAuth>(_ => FirebaseAuth.DefaultInstance);
         }
     }
 }
