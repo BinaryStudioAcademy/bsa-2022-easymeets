@@ -103,12 +103,16 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, AfterV
             location: form.value.location,
             duration: this.duration,
             startTime: form.value.date,
+            meetingLink: form.value.meetingName,
             meetingMembers: this.addedMembers,
         };
 
         this.newMeetingService.saveNewMeeting(newMeeting)
             .pipe(this.untilThis)
-            .subscribe(() => this.notificationService.showSuccessMessage('New meeting was created successfully.'));
+            .subscribe(() => {
+                this.notificationService.showSuccessMessage('New meeting was created successfully.');
+                this.meetingForm.reset();
+            });
     }
 
     public filterMembers() {

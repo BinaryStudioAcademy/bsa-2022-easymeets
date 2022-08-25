@@ -5,7 +5,7 @@ export interface INewMeeting {
     name: string,
     location: LocationType,
     duration: number,
-    startTime?: Date
-    teamId?: number
+    startTime: Date,
+    meetingLink: string,
     meetingMembers: INewMeetingMember[]
 }
