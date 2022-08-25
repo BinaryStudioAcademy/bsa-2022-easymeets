@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EasyMeets.Core.DAL.Migrations
 {
-    public partial class UpdateMeetingUser_Relations : Migration
+    public partial class Update_MeetingUser_Relations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -13,7 +13,7 @@ namespace EasyMeets.Core.DAL.Migrations
 {
     [DbContext(typeof(EasyMeetsCoreContext))]
     [Migration("20220825155627_Update-MeetingUser_Relations")]
-    partial class UpdateMeetingUser_Relations
+    partial class Update_MeetingUser_Relations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
