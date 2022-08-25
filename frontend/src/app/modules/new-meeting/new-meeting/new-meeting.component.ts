@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { BaseComponent } from '@core/base/base.component';
@@ -12,14 +12,14 @@ import { NotificationService } from '@core/services/notification.service';
 import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, take } from 'rxjs';
 
 @Component({
     selector: 'app-new-meeting',
     templateUrl: './new-meeting.component.html',
     styleUrls: ['./new-meeting.component.sass'],
 })
-export class NewMeetingComponent extends BaseComponent implements OnInit {
+export class NewMeetingComponent extends BaseComponent implements OnInit, AfterViewInit {
     constructor(private newMeetingService: NewMeetingService, public notificationService: NotificationService) {
         super();
         this.getTeamMembersOfCurrentUser();
@@ -42,8 +42,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     public unitOfTime = Object.keys(UnitOfTime).filter(key => Number.isNaN(Number(key)));
 
     public duration: number;
-
-    public startTime: string;
 
     public customTimeShown: boolean = false;
 
@@ -85,6 +83,18 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         });
     }
 
+    ngAfterViewInit() {
+        this.setInitialValue();
+    }
+
+    protected setInitialValue() {
+        this.filteredMembers
+            .pipe(take(1), this.untilThis)
+            .subscribe(() => {
+                //this.singleSelect.compareWith = (a: INewMeetingTeamMember, b: INewMeetingTeamMember) => a && b && a.id === b.id;
+            });
+    }
+
     public create(form: FormGroup) {
         // eslint-disable-next-line no-debugger
         debugger;
@@ -92,6 +102,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
             name: form.value.meetingName,
             location: form.value.location,
             duration: this.duration,
+            startTime: form.value.date,
             teamMembers: this.addedMembers,
         };
 
@@ -161,7 +172,9 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     }
 
     public addMemberToList(form: FormGroup) {
-        this.addedMembers.push({ id: form.value.teamMember.id, name: form.value.teamMember.name });
+        if (!this.addedMembers.includes({ id: form.value.teamMember.id, name: form.value.teamMember.name })) {
+            this.addedMembers.push({ id: form.value.teamMember.id, name: form.value.teamMember.name });
+        }
     }
 
     public removeMemberToList(form: FormGroup) {

@@ -65,6 +65,7 @@
                             placeholder="Type..."
                             [formControl]="memberCtrl"
                             formControlName="teamMember"
+                            ngDefaultControl
                             (selectionChange)="addMemberToList(meetingForm)">
                             <mat-option>
                                 <ngx-mat-select-search [formControl]="memberFilterCtrl" placeholderLabel=""
@@ -78,7 +79,7 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="item">
+            <div class="item">
                 <div class="team-members-container">
                     <p class="team-members-label">Team members {{addedMembers.length}}:</p>
                     <div class="member-info-container" *ngFor="let member of addedMembers">
@@ -89,32 +90,26 @@
                         <mat-divider></mat-divider>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
         <div class="menu-item-container">
             <div class="date-duration-container">
                 <div class="date-container item">
                     <p class="duration-label">Date</p>
-                    <!-- <mat-form-field appearance="legacy" class="select-input">
+                    <mat-form-field appearance="legacy" class="select-input">
                         <mat-label>Choose a date</mat-label>
                         <input formControlName="date"  matInput [matDatepicker]="picker">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field> -->
-                    <!-- <mat-form-field>
-                        <mat-label>Date of Birth</mat-label>
-                        <input matInput [matDatepicker]="dob">
-                        <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
-                        <mat-datepicker #dob></mat-datepicker>
-                      </mat-form-field> -->
+                    </mat-form-field>
                 </div>
                 <div class="duration-container item">
                     <p class="duration-label">Duration</p>
-                    <!-- <mat-select formControlName="mainContainerDuration" class="select-input">
+                    <mat-select formControlName="mainContainerDuration" class="select-input">
                         <mat-option *ngFor="let duration of durations" [value]="duration">
-                            {{duration}}
+                            {{duration.time}} {{duration.unitOfTime }}
                         </mat-option>
-                    </mat-select> -->
+                    </mat-select>
                 </div>
             </div>
         </div>
