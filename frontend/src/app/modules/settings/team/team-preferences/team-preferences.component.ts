@@ -220,16 +220,14 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit, O
         return (control: AbstractControl): Observable<ValidationErrors | null> =>
             this.validateTeamLink(control.value)
                 .pipe(this.untilThis)
-                .pipe(
-                    map((responce) => (responce ? null : { teamLinkUniq: true })),
-                );
+                .pipe(map((responce) => (responce ? null : { teamLinkUniq: true })));
     }
 
     private validateTeamLink(teamlink: string): Observable<boolean> {
         return this.teamService.validatePageLink(this.team ? this.team.id : 0, teamlink);
     }
-	
-	override ngOnDestroy(): void {
+
+    override ngOnDestroy(): void {
         super.ngOnDestroy();
 
         this.deleteEventSubscription.unsubscribe();
