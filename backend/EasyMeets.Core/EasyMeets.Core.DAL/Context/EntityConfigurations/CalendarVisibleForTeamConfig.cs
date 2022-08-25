@@ -16,10 +16,12 @@ public class CalendarVisibleForTeamConfig : IEntityTypeConfiguration<CalendarVis
 
         builder.HasOne(c => c.Calendar)
             .WithMany(cl => cl.VisibleForTeams)
-            .HasForeignKey(c => c.CalendarId);
+            .HasForeignKey(c => c.CalendarId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         builder.HasOne(c => c.Team)
             .WithMany(t => t.VisibleCalendars)
-            .HasForeignKey(c => c.TeamId);
+            .HasForeignKey(c => c.TeamId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
