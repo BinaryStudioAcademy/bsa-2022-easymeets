@@ -1,4 +1,4 @@
-﻿using EasyMeets.Core.Common.DTO.Common;
+using EasyMeets.Core.Common.DTO.Common;
 namespace EasyMeets.Core.Common.DTO.Team;
 
 public class TeamDto : EntityDto<long>
