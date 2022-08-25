@@ -8,5 +8,6 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task<UserDto> GetCurrentUserAsync();
         Task<UserDto> CreateUserPreferences(NewUserDto userDto);
         Task<bool> ComparePassedIdAndCurrentUserIdAsync(long id);
+        Task CreateZoomCredentials(string authCode, string redirectUri);
     }
 }

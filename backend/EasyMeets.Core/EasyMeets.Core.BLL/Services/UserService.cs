@@ -2,6 +2,7 @@ using AutoMapper;
 using EasyMeets.Core.BLL.Extentions;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.User;
+using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.DAL.Entities;
@@ -12,19 +13,16 @@ namespace EasyMeets.Core.BLL.Services
     public class UserService : BaseService, IUserService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper)
+        private readonly ZoomService _zoomService;
+        public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, ZoomService zoomService) : base(context, mapper)
         {
             _httpContextAccessor = httpContextAccessor;
+            _zoomService = zoomService;
         }
 
         public async Task<UserDto> GetCurrentUserAsync()
         {
-            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId());
-
-            if (currentUser == null)
-            {
-                throw new KeyNotFoundException("User doesn't exist");
-            }
+            User? currentUser = await GetCurrentUserInternalAsync();
 
             var currentUserDto = _mapper.Map<UserDto>(currentUser);
             return currentUserDto;
@@ -74,6 +72,31 @@ namespace EasyMeets.Core.BLL.Services
         {
             var userId = _httpContextAccessor.HttpContext.User.GetUid();
             return userId;
+        }
+
+        public async Task CreateZoomCredentials(string authCode, string redirectUri)
+        {
+            var user = await GetCurrentUserInternalAsync();
+            var credentialsDto = await _zoomService.GetNewCredentials(authCode, redirectUri);
+            var credentials = _mapper.Map<Credentials>(credentialsDto, opts => opts.AfterMap((_, dest) =>
+            {
+                dest.Type = CredentialsType.Zoom;
+                dest.UserId = user.Id;
+            }));
+            await _context.Credentials.AddAsync(credentials);
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task<User> GetCurrentUserInternalAsync()
+        {
+            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId());
+
+            if (currentUser is null)
+            {
+                throw new KeyNotFoundException("User doesn't exist");
+            }
+
+            return currentUser;
         }
     }
 }

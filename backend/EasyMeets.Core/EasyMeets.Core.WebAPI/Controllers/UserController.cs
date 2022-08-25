@@ -44,5 +44,12 @@ namespace EasyMeets.Core.WebAPI.Controllers
             await _userService.UpdateUserPreferences(user, currentUser.Email);
             return Ok();
         }
+
+        [HttpPost("zoom/add/{authCode}/{redirectUri}")]
+        public async Task<ActionResult> CreateZoomCredentials(string authCode, string redirectUri)
+        {
+            await _userService.CreateZoomCredentials(authCode, redirectUri);
+            return Ok();
+        }
     }
 }
