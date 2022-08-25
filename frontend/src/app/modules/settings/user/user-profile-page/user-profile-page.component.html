@@ -1,11 +1,15 @@
- <div class="wrapper">
+<div class="wrapper">
     <form class="form-container" [formGroup]="userForm" (ngSubmit)="OnSubmit(userForm)">
         <div class="item">
             <div class="user-avatar-block">
-                <div class="user-avatar" style="background-image: url('{{ imageUrl }}')"></div>
+                <div class="user-avatar" >
+                    <img *ngIf="imageUrl" src="{{imageUrl}}">
+                </div>
                 <input enctype="multipart/form-data" method="put" hidden #file accept="image/png,.gif,.jpg" type="file"
                        (change)="loadImage($event)"/>
-                <button type="button" class="upload-picture-button" mat-flat-button (click)="file.click()">Upload Picture</button>
+                <button type="button" class="upload-picture-button" mat-flat-button (click)="file.click()">Upload
+                    Picture
+                </button>
             </div>
         </div>
         <div class="item">
@@ -13,7 +17,7 @@
                 <div>Name</div>
             </label>
             <div>
-                <input type="text" formControlName="userName" />
+                <input type="text" formControlName="userName"/>
             </div>
             <div *ngIf="userNameControl.invalid && userNameControl.touched" class="validation">
                 <small *ngIf="userNameControl.errors?.['required']">This field is required.</small>
@@ -75,7 +79,7 @@
                     formControlName="phone"
                     mask="00000000000"
                     prefix="+{{ countryCode }} "
-                    [validation]="false" />
+                    [validation]="false"/>
             </div>
             <div *ngIf="phoneControl.invalid && phoneControl.touched" class="validation">
                 <small *ngIf="phoneControl.errors?.['required']">This field is required.</small>
@@ -92,7 +96,9 @@
         </div>
         <div class="item">
             <div class="update-preferences-button">
-                <button mat-flat-button type="submit" [disabled]="userForm.invalid || !userForm.touched">Update Preferences</button>
+                <button mat-flat-button type="submit" [disabled]="userForm.invalid || !userForm.touched">Update
+                    Preferences
+                </button>
             </div>
         </div>
     </form>
