@@ -50,6 +50,7 @@ h1
             input[type="checkbox"]
                 transform: scale(1.25)
                 cursor: pointer
+                accent-color: $royal-blue
 
 ::ng-deep .team-member-card.mat-card:hover
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important
@@ -70,6 +71,8 @@ h1
         color: $pale-sky
         line-height: 45px
         cursor: pointer
+        @media screen and (max-width: $desktop-min-width)
+            margin-left: 0
     .nav-text
         h1
             line-height: 45px
@@ -80,6 +83,7 @@ h1
             color: $pale-sky
             border: 2px solid $loblolly
             border-radius: 4px
+            margin-bottom: 4px
         .cancel-btn-active:hover
             background-color: $athens-gray
             border-color: $pale-sky
@@ -89,6 +93,7 @@ h1
             border: 2px solid $loblolly
             border-radius: 4px
             cursor: default
+            margin-bottom: 4px
         .next-btn
             border: 2px solid $royal-blue
             border-radius: 4px
