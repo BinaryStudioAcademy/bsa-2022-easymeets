@@ -6,6 +6,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
 {
     public sealed class MeetingProfile : Profile
     {
+        //TODO
         public MeetingProfile()
         {
             CreateMap<Meeting, MeetingThreeMembersDTO>()
@@ -16,30 +17,51 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                     .ForMember(dest => dest.MembersTitle, src => src.MapFrom(s => CreateMemberTitle(s)))
                     .ForMember(dest => dest.MeetingLink, src => src.MapFrom(s => s.MeetingLink))
                     .ForMember(dest => dest.MeetingMembers, src => src.MapFrom(s => GetThreeMembersForMeeting(s)))
-                    .ForMember(dest => dest.MeetingCount, src => src.MapFrom(s => s.SlotMembers.
-                    Select(x => new UserMeetingDTO { Name = x.User.Name, Email = x.User.Email, TimeZone = x.User.TimeZone.ToString() }).ToList().Count()))
+                    .ForMember(dest => dest.MeetingCount, src => src.MapFrom(s => s.MeetingMembers.
+                     Select(x => new UserMeetingDTO { Name = x.TeamMember.User.Name, Email = x.TeamMember.User.Email, TimeZone = x.TeamMember.User.TimeZone.ToString() }).ToList().Count()))
+                    .ForMember(dest => dest.MeetingCount, src => src.MapFrom(s => s.MeetingMembers.
+                     Select(x => new UserMeetingDTO { Name = x.TeamMember.User.Name, Email = x.TeamMember.User.Email, TimeZone = x.TeamMember.User.TimeZone.ToString() }).ToList().Count()))
                     .ForMember(dest => dest.Location, src => src.MapFrom(s => s.LocationType.ToString()));
         }
 
         private string CreateMemberTitle(Meeting meeting)
         {
-            return meeting.SlotMembers.Count() switch
+            //return meeting.SlotMembers.Count() switch
+            //{
+            //    0 => "Empty meeting.",
+            //    1 => meeting.SlotMembers.First().User.Name,
+            //    _ => $"{meeting.SlotMembers.Count()} + Team Members"
+            //};
+            return meeting.MeetingMembers.Count() switch
             {
                 0 => "Empty meeting.",
-                1 => meeting.SlotMembers.First().User.Name,
-                _ => $"{meeting.SlotMembers.Count()} + Team Members"
-            };
+                1 => meeting.MeetingMembers.First().TeamMember.User.Name,
+                _ => $"{meeting.MeetingMembers.Count()} + Team Members"
+            }; 
         }
 
         private List<UserMeetingDTO> GetThreeMembersForMeeting(Meeting meeting)
         {
-            var members1 = meeting.SlotMembers
-                .Select(x => new UserMeetingDTO { Name = x.User.Name, Email = x.User.Email, TimeZone = x.User.TimeZone.ToString() }).ToList();
+            //var members1 = meeting.SlotMembers
+            //    .Select(x => new UserMeetingDTO { Name = x.User.Name, Email = x.User.Email, TimeZone = x.User.TimeZone.ToString() }).ToList();
+
+            //if (meeting.AvailabilitySlot != null)
+            //{ 
+            //  var members2 = meeting.AvailabilitySlot.ExternalAttendees
+            //        .Select(x => new UserMeetingDTO { Name = x.Name, Email = x.Email, TimeZone = x.TimeZone.ToString() }).ToList();
+
+            //    return members1.Union(members2).Take(3).ToList();
+            //}
+
+            //return members1.Take(3).ToList();
+
+            var members1 = meeting.MeetingMembers
+                .Select(x => new UserMeetingDTO { Name = x.TeamMember.User.Name, Email = x.TeamMember.User.Email, TimeZone = x.TeamMember.User.TimeZone.ToString() }).ToList();
 
             if (meeting.AvailabilitySlot != null)
-            { 
-              var members2 = meeting.AvailabilitySlot.ExternalAttendees
-                    .Select(x => new UserMeetingDTO { Name = x.Name, Email = x.Email, TimeZone = x.TimeZone.ToString() }).ToList();
+            {
+                var members2 = meeting.AvailabilitySlot.ExternalAttendees
+                      .Select(x => new UserMeetingDTO { Name = x.Name, Email = x.Email, TimeZone = x.TimeZone.ToString() }).ToList();
 
                 return members1.Union(members2).Take(3).ToList();
             }
