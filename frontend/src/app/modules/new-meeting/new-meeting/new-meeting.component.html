@@ -24,7 +24,7 @@
                         <p class="duration-label">Duration</p>
                         <mat-select class="select-input" formControlName="duration"  placeholder="Duration" (selectionChange)="changeDuration(meetingForm)">
                             <mat-option *ngFor="let duration of durations" [value]="duration">
-                                {{duration}}
+                                {{duration.time}} {{duration.unitOfTime}}
                             </mat-option>
                         </mat-select>
                     </div>

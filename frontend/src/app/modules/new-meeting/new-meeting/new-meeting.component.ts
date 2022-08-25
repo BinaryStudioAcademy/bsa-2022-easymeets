@@ -4,6 +4,7 @@ import { MatSelect } from '@angular/material/select';
 import { BaseComponent } from '@core/base/base.component';
 import { getDisplayDate } from '@core/helpers/date-helper';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
+import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingTeamMember } from '@core/models/INewMeetingTeamMember';
 import { NewMeetingService } from '@core/services/new-meeting.service';
@@ -32,7 +33,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public addedMembers: INewMeetingTeamMember[] = [];
 
-    public durations = getDisplayDuration();
+    public durations: IDuration[] = getDisplayDuration();
 
     public dates = getDisplayDate();
 
