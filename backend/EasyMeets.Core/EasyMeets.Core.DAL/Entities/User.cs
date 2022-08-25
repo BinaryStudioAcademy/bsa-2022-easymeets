@@ -9,6 +9,7 @@ public class User : Entity<long>, IValidatableObject
     public string? Uid { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
+    public string? PhoneCode { get; set; }
     public string? PhoneNumber { get; set; }
     public string? ImagePath { get; set; }
     public Language Language { get; set; }
@@ -34,6 +35,11 @@ public class User : Entity<long>, IValidatableObject
         if(!Email.IsValidEmail() || Email.Length is < 5 or > 51)
         {
             yield return new ValidationResult("Invalid email");
+        }
+        
+        if (!PhoneCode!.IsValidPhoneCode())
+        {
+            yield return new ValidationResult("Invalid phone code");
         }
 
         if (!PhoneNumber!.IsValidPhoneNumber())
