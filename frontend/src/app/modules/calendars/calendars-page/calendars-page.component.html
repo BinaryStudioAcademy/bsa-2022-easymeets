@@ -1,6 +1,6 @@
 <app-header-item></app-header-item>
 <div class="calendar-container">
-    <button class="connect-new"><mat-icon>add</mat-icon> Connect New Calendars</button>
+    <button (click)="confirmDialog()" class="connect-new"><mat-icon>add</mat-icon> Connect New Calendars</button>
 
     <div class="table-container">
         <table mat-table [dataSource]="userCalendars" class="mat-elevation-z8">
@@ -9,8 +9,9 @@
                 <th mat-header-cell *matHeaderCellDef>Connected Calendar</th>
                 <td mat-cell *matCellDef="let element">
                     <div class="email-wrapper">
-                        <mat-icon class="cancel">cancel</mat-icon>
-                        <div class="email">{{ element.email }}</div>
+                        <button (click)="removeCalendar(element.id)"><mat-icon class="cancel">cancel</mat-icon></button>
+
+                        <div class="email">{{ element.connectedCalendar }}</div>
                     </div>
                 </td>
             </ng-container>
@@ -20,24 +21,23 @@
                 <th mat-header-cell *matHeaderCellDef>Event names visible for</th>
                 <td mat-cell *matCellDef="let element">
                     <mat-form-field appearance="fill">
-                        <mat-label *ngIf="!element.teamsFor?.length">None</mat-label>
+                        <mat-label *ngIf="!element.visibleForTeams?.length">None</mat-label>
                         <mat-select
-                            [(ngModel)]="element.teamsFor"
-                            (ngModelChange)="(element.teamsFor)"
+                            [(ngModel)]="element.visibleForTeams"
+                            (ngModelChange)="(element.visibleForTeams)"
                             name="selectedTeams"
                             multiple>
-                            <mat-select-trigger *ngIf="element.teamsFor?.length < 2">
-                                {{ element.teamsFor ? element.teamsFor[0] : '' }}
-                                {{ element.teamsFor?.length === allTeams.length ? 'All teams' : '' }}
-                            </mat-select-trigger>
                             <mat-select-trigger
-                                *ngIf="element.teamsFor?.length >= 2 && element.teamsFor?.length !== allTeams.length">
-                                {{ element.teamsFor?.length }} Teams
+                                *ngIf="
+                                    element.visibleForTeams?.length >= 2 &&
+                                    element.visibleForTeams?.length !== allTeams?.length
+                                ">
+                                {{ element.visibleForTeams?.length }} Teams
                             </mat-select-trigger>
-                            <mat-select-trigger *ngIf="element.teamsFor?.length === allTeams.length">
+                            <mat-select-trigger *ngIf="element.visibleForTeams?.length === allTeams?.length">
                                 All teams
                             </mat-select-trigger>
-                            <mat-option *ngFor="let team of allTeams" [value]="team.name">{{ team.name }}</mat-option>
+                            <mat-option *ngFor="let team of allTeams" [value]="team">{{ team.name }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </td>
@@ -48,9 +48,11 @@
                 <th mat-header-cell *matHeaderCellDef>Add event from</th>
                 <td mat-cell *matCellDef="let element">
                     <mat-form-field appearance="fill">
-                        <mat-label *ngIf="!element.teamFrom">None</mat-label>
-                        <mat-select [(ngModel)]="element.teamFrom" (ngModelChange)="(element.teamFrom)">
-                            <mat-option *ngFor="let team of allTeams" [value]="team.name">
+                        <mat-label *ngIf="!element.importEventsFromTeam">None</mat-label>
+                        <mat-select
+                            [(ngModel)]="element.importEventsFromTeam"
+                            (ngModelChange)="(element.importEventsFromTeam)">
+                            <mat-option *ngFor="let team of allTeams" [value]="team">
                                 {{ team.name }}
                             </mat-option>
                         </mat-select>
@@ -79,5 +81,5 @@
         </table>
     </div>
 
-    <button [disabled]="true" class="update-references">Update References</button>
+    <button (click)="updateCalendar()" class="update-references">Update References</button>
 </div>
