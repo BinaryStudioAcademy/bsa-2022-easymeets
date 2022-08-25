@@ -13,6 +13,7 @@ export interface IUser {
     timeFormat: TimeFormat;
     dateFormat: DateFormat;
     country?: Country;
+    phoneCode?: string;
     phone?: string;
     timeZone: number;
 }
