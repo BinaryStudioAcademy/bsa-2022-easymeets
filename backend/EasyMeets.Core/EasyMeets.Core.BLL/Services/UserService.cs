@@ -1,12 +1,11 @@
 using AutoMapper;
+using EasyMeets.Core.BLL.Extentions;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.User;
 using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
-using EasyMeets.Core.BLL.Extentions;
 using EasyMeets.Core.Common.DTO.UploadImage;
 
 namespace EasyMeets.Core.BLL.Services
@@ -23,7 +22,7 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<UserDto> GetCurrentUserAsync()
         {
-            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == GetCurrentUserEmail());
+            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId());
 
             if (currentUser == null)
             {
@@ -36,7 +35,7 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<bool> CheckExistingUserByEmail(string email)
         {
-            return await _context.Users.AnyAsync(u => u.Email == email);;
+            return await _context.Users.AnyAsync(u => u.Email == email);
         }
 
         public async Task UpdateUserPreferences(UserDto userDto, string currentUserEmail)
@@ -52,6 +51,7 @@ namespace EasyMeets.Core.BLL.Services
             _context.Users.Update(userEntity);
             await _context.SaveChangesAsync();
         }
+
         private async Task<User> GetUserById(long id)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id) ?? throw new KeyNotFoundException("User doesn't exist");
@@ -63,13 +63,6 @@ namespace EasyMeets.Core.BLL.Services
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
             return _mapper.Map<User, UserDto>(newUser);
-        }
-
-        public string GetCurrentUserEmail()
-        {
-            var claimsList = _httpContextAccessor.HttpContext!.User.Claims.ToList();
-            var email = claimsList.Find(el => el.Type == ClaimTypes.Email);
-            return email!.Value;
         }
 
         public async Task<bool> ComparePassedIdAndCurrentUserIdAsync(long id)
@@ -85,7 +78,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             var imagePath = await _uploadFileService.UploadFileBlobAsync(file);
 
-            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == GetCurrentUserEmail());
+            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId());
 
             if (currentUser == null)
             {
@@ -96,7 +89,13 @@ namespace EasyMeets.Core.BLL.Services
 
             _context.Users.Update(currentUser);
             await _context.SaveChangesAsync();
-            return new ImagePathDto(){Path = imagePath};
+            return new ImagePathDto() { Path = imagePath };
+        }
+
+        private string? GetCurrentUserId()
+        {
+            var userId = _httpContextAccessor.HttpContext.User.GetUid();
+            return userId;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.UploadImage;
@@ -11,12 +11,13 @@ namespace EasyMeets.Core.BLL.Services;
 
 public class TeamService : BaseService, ITeamService
 {
-    private IUserService _userService;
+
+    private readonly IUserService _userService;
     private IUploadFileService _uploadFileService;
     public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IUploadFileService uploadFileService) : base(context, mapper)
     {
-        _uploadFileService = uploadFileService;
         _userService = userService;
+        _uploadFileService = uploadFileService;
     }
 
     public async Task<TeamDto?> GetTeamAsync(long teamId)
@@ -125,5 +126,16 @@ public class TeamService : BaseService, ITeamService
     {
         return await _context.Teams
             .FirstOrDefaultAsync(t => t.Id == id) ?? throw new KeyNotFoundException("Team doesn't exist");
+    }
+
+    public async Task<List<TeamDto>> GetCurrentUserTeams()
+    {
+        var currentUser = await _userService.GetCurrentUserAsync();
+        var teams = await _context.TeamMembers.Where(el => el.UserId == currentUser!.Id)
+            .Include(el => el.Team)
+            .Select(el => el.Team)
+            .ToListAsync();
+
+        return _mapper.Map<List<TeamDto>>(teams);
     }
 }

@@ -1,10 +1,11 @@
-﻿using EasyMeets.Core.Common.DTO.Team;
+using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.UploadImage;
 using Microsoft.AspNetCore.Http;
 namespace EasyMeets.Core.BLL.Interfaces;
 
 public interface ITeamService
 {
+    Task<List<TeamDto>> GetCurrentUserTeams();
     Task<TeamDto?> GetTeamAsync(long teamId);
     Task<string> GenerateNewPageLinkAsync(long teamId, string teamName);
     Task<bool> ValidatePageLinkAsync(long teamId, string pageLink);

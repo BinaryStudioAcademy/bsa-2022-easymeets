@@ -1,4 +1,4 @@
-﻿using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.UploadImage;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +27,12 @@ public class TeamController : ControllerBase
     public async Task<ActionResult<string>> GenerateNewPageLinkAsync(long id, string teamname)
     {
         return Ok(await _teamService.GenerateNewPageLinkAsync(id, teamname));
+    }
+    
+    [HttpGet("user-teams")]
+    public async Task<ActionResult<List<TeamDto>>> GetCurrentUserTeams()
+    {
+        return Ok(await _teamService.GetCurrentUserTeams());
     }
 
     [HttpGet("validatepagelink")]

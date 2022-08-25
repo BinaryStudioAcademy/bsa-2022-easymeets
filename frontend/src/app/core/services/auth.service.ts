@@ -22,7 +22,7 @@ export class AuthService {
         this.afAuth.authState.subscribe((user) => {
             this.currentUser = user;
             if (this.currentUser) {
-                this.currentUser.getIdToken().then(t => localStorage.setItem('access-token', t));
+                this.currentUser.getIdToken().then((t) => localStorage.setItem('access-token', t));
                 localStorage.setItem('email-verified', JSON.stringify(this.currentUser.emailVerified));
             }
         });
@@ -80,7 +80,10 @@ export class AuthService {
     }
 
     public refreshToken() {
-        return firebase.auth().currentUser?.getIdToken().then(t => localStorage.setItem('access-token', t));
+        return firebase
+            .auth()
+            .currentUser?.getIdToken()
+            .then((t) => localStorage.setItem('access-token', t));
     }
 
     public getAccessToken() {
