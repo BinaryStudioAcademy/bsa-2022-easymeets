@@ -44,6 +44,7 @@ erDiagram
       bigint Id
       nvarchar Name
       nvarchar Email
+      nvarchar PhoneCode
       nvarchar PhoneNumber
       nvarchar ImagePath
       int Country

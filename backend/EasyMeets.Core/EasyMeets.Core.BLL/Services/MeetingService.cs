@@ -12,21 +12,38 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync()
         {
-           //TODO
-            // var meetings = await _context.Meetings
-            // .Include(meeting => meeting.SlotMembers)
-            //.ThenInclude(teammeat => teammeat.User)
-
-            var meetings = await _context.Meetings 
-            .Include(meeting => meeting.MeetingMembers)
-                .ThenInclude(meetingMember => meetingMember.TeamMember)
-                .ThenInclude(teamMember => teamMember.User)
-            .ToListAsync();
+            var meetings = await _context.Meetings
+                .Include(m => m.AvailabilitySlot)
+                    .ThenInclude(s => s!.ExternalAttendees)
+                .Include(meeting => meeting.MeetingMembers)
+                    .ThenInclude(meetingMember => meetingMember.TeamMember)
+                    .ThenInclude(teammeat => teammeat.User)
+                .ToListAsync();
 
             var mapped = _mapper.Map<List<MeetingThreeMembersDTO>>(meetings);
             ConvertTimeZone(mapped);
 
             return mapped;
+        }
+
+        public async Task<List<UserMeetingDTO>> GetAllMembers(int id)
+        {
+            var meeting = await _context.Meetings
+                .Include(m => m.AvailabilitySlot)
+                    .ThenInclude(s => s!.ExternalAttendees)
+                .Include(meeting => meeting.MeetingMembers)
+                    .ThenInclude(meetingMember => meetingMember.TeamMember)
+                    .ThenInclude(m => m.User)
+                .FirstOrDefaultAsync(m => m.Id == id) ?? throw new KeyNotFoundException("No meeting found");
+
+            var members = _mapper.Map<List<UserMeetingDTO>>(meeting.MeetingMembers.Select(s => s.TeamMember.User));
+
+            if (meeting.AvailabilitySlot is not null)
+            {
+                members = members.Union(_mapper.Map<List<UserMeetingDTO>>(meeting.AvailabilitySlot.ExternalAttendees)).ToList();
+            }
+
+            return members;
         }
 
         private void ConvertTimeZone(List<MeetingThreeMembersDTO> meetings)
