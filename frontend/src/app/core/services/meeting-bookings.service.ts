@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IMeetingBooking } from '@core/models/IMeetingBooking';
+import { IUserMeeting } from '@core/models/IUserMeeting';
 import { Observable } from 'rxjs';
 
 import { HttpInternalService } from './http-internal.service';
@@ -8,12 +9,16 @@ import { HttpInternalService } from './http-internal.service';
     providedIn: 'root',
 })
 export class MeetingBookingsService {
-    public routePrefix = '/meeting/getThreeMeetingMembers';
+    public routePrefix = '/meeting';
 
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService) {}
 
     public getThreeMeetings(): Observable<IMeetingBooking[]> {
-        return this.httpService.getRequest<IMeetingBooking[]>(`${this.routePrefix}`);
+        return this.httpService.getRequest<IMeetingBooking[]>(`${this.routePrefix}/getThreeMeetingMembers`);
+    }
+
+    public getAllMembers(id: number) {
+        return this.httpService.getRequest<IUserMeeting[]>(`${this.routePrefix}/${id}/members/all`);
     }
 }
