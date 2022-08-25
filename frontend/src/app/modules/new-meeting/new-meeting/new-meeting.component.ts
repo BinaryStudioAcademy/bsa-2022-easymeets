@@ -75,6 +75,10 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, AfterV
             teamMember: new FormControl(),
         });
 
+        this.patchFormValues();
+    }
+
+    public patchFormValues() {
         this.meetingForm.patchValue({
             location: this.locations[0],
             duration: this.durations[0],
@@ -98,25 +102,27 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, AfterV
     public create(form: FormGroup) {
         // eslint-disable-next-line no-debugger
         debugger;
-        if (this.meetingForm.valid) {
-            const newMeeting: INewMeeting = {
-                name: form.value.meetingName,
-                location: form.value.location,
-                duration: this.duration,
-                startTime: form.value.date,
-                meetingLink: form.value.meetingName,
-                meetingMembers: this.addedMembers,
-            };
+        //if (this.meetingForm.valid) {
+        const newMeeting: INewMeeting = {
+            name: form.value.meetingName,
+            location: form.value.location,
+            duration: this.duration,
+            startTime: form.value.date,
+            meetingLink: form.value.meetingName,
+            meetingMembers: this.addedMembers,
+        };
 
-            this.newMeetingService.saveNewMeeting(newMeeting)
-                .pipe(this.untilThis)
-                .subscribe(() => {
-                    this.notificationService.showSuccessMessage('New meeting was created successfully.');
-                    this.meetingForm.reset();
-                });
-        } else {
-            this.notificationService.showErrorMessage('All fields need to be set');
-        }
+        this.newMeetingService.saveNewMeeting(newMeeting)
+            .pipe(this.untilThis)
+            .subscribe(() => {
+                this.notificationService.showSuccessMessage('New meeting was created successfully.');
+                this.meetingForm.reset();
+                this.patchFormValues();
+                this.addedMembers = [];
+            });
+        // } else {
+        //     this.notificationService.showErrorMessage('All fields need to be set');
+        // }
     }
 
     public filterMembers() {

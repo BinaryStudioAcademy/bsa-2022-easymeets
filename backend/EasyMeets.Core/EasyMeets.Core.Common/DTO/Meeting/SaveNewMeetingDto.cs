@@ -9,9 +9,9 @@ namespace EasyMeets.Core.Common.DTO.Meeting
         public LocationType LocationType { get; set; }
         public string Name { get; set; } = string.Empty;
         public int Duration { get; set; }
-        public DateTimeOffset StartTime { get; set; }
+        public DateTimeOffset StartTime { get; set; } 
         public string MeetingLink { get; set; } = string.Empty;
 
-        public List<NewMeetingTeamMemberDto>? MeetingMembers { get; set; } 
+        public List<NewMeetingMemberDto>? MeetingMembers { get; set; }
     }
 }

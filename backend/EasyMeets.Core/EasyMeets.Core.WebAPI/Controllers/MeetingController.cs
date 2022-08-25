@@ -32,7 +32,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
 
         [HttpGet]
         [Route("GetTeamMembersOfCurrentUser")]
-        public async Task<ActionResult<ICollection<NewMeetingTeamMemberDto>>> GetTeamMembersOfCurrentUser()
+        public async Task<ActionResult<ICollection<NewMeetingMemberDto>>> GetTeamMembersOfCurrentUser()
         { 
             var teamMembers = await _teamService.GetTeamMembersOfCurrentUserAsync();
             return Ok(teamMembers);
@@ -41,7 +41,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         [HttpPost] 
         public async Task<ActionResult> SaveNewMeeting([FromBody] SaveMeetingDto newMeetingDto)
         { 
-            return Ok();
+            return Ok(_meetingService.CreateMeeting(newMeetingDto));
         } 
     }
 }

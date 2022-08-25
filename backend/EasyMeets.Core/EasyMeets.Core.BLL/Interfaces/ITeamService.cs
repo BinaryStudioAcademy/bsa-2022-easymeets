@@ -10,5 +10,5 @@ public interface ITeamService
     Task<TeamDto> CreateTeamAsync(NewTeamDto teamDto);
     Task UpdateTeamAsync(TeamDto team);
     Task DeleteTeamAsync(long teamId);
-    Task<ICollection<NewMeetingTeamMemberDto>> GetTeamMembersOfCurrentUserAsync();
+    Task<ICollection<NewMeetingMemberDto>> GetTeamMembersOfCurrentUserAsync();
 }

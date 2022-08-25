@@ -2,7 +2,7 @@
 
 namespace EasyMeets.Core.Common.DTO.Team
 {
-    public class NewMeetingTeamMemberDto : EntityDto<long>
+    public class NewMeetingMemberDto : EntityDto<long>
     {
         public string Name { get; set; } = string.Empty!;
     }

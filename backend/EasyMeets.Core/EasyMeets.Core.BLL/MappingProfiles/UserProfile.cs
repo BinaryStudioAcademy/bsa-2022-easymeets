@@ -28,7 +28,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             CreateMap<UserSlot, AvailabilitySlotMemberDto>()
                .ForMember(dest => dest.MemberImage, src => src.MapFrom(s => s.User.ImagePath));
 
-            CreateMap<User, NewMeetingTeamMemberDto>()
+            CreateMap<User, NewMeetingMemberDto>()
                 .ForMember(dest => dest.Name, src => src.MapFrom(s => s.Name)); 
         }
     }

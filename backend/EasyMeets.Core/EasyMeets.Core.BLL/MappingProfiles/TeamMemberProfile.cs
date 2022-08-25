@@ -8,9 +8,11 @@ namespace EasyMeets.Core.BLL.MappingProfiles
     {
         public TeamMemberProfile()
         {
-            CreateMap<TeamMember, NewMeetingTeamMemberDto>()
+            CreateMap<TeamMember, NewMeetingMemberDto>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.User.Name)) 
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.User.Id));
+            //CreateMap<NewMeetingMemberDto, SlotMember>()
+            //    .ForMember(dest=>dest.MemberId, opt=>opt.MapFrom(src=>src.));
         }
     }
 }
