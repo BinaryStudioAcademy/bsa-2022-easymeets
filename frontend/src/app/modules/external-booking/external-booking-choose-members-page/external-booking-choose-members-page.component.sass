@@ -1,1 +1,90 @@
+@import '../../../../styles/color-variables'
+@import '../../../../styles/screen-variables'
 
+h1, h3, h4
+    font-family: 'Inter'
+    font-style: normal
+    line-height: 20px
+    color: $pale-sky
+
+h3, h4
+    font-weight: 400
+    font-size: 14px
+
+h1
+    font-weight: 700
+    font-size: 20px
+
+.member-cards-container
+    display: inline-block
+    width: 20vw
+    margin: 0 5%
+
+::ng-deep .team-member-card.mat-card
+    height: 50px !important
+    width: 100% !important
+    height: 37px !important
+    margin: 5px 20px !important
+    padding-top: 20px !important
+    padding-left: 20px !important
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16) !important
+    border-radius: 4px !important
+    @media screen and (max-width: $tablet-min-width)
+        width: 25% !important
+    .mat-card-title
+        margin-top: 5px !important
+        display: flex
+        align-content: flex-start
+        flex-direction: row
+        .team-member-img
+            width: 51px
+            height: 51px
+            top: 0
+            img
+                width: 100%
+                height: 100%
+        .team-member-checkbox
+            margin-left: auto
+            input[type="checkbox"]
+                transform: scale(1.25)
+                cursor: pointer
+
+::ng-deep .team-member-card.mat-card:hover
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important
+
+.upper-bar
+    display: flex
+    align-content: flex-start
+    flex-direction: row
+    height: 200px
+    width: 100%
+    @media screen and (max-width: $desktop-min-width)
+        flex-direction: column
+    .upper-bar-icon
+        margin-left: 20px
+        margin-right: 40px
+        color: $pale-sky
+        line-height: 45px
+        cursor: pointer
+    .nav-text
+        h1
+            line-height: 45px
+    .nav-buttons
+        margin-left: auto
+        .cancel-btn
+            background-color: $white
+            color: $pale-sky
+            border: 2px solid $loblolly
+            border-radius: 4px
+        .cancel-btn:hover
+            background-color: $athens-gray
+            border-color: $pale-sky
+        .next-btn
+            border: 2px solid #4C7DE7
+            border-radius: 4px
+        .next-btn:hover
+            background-color: $dark-blue
+            border-color: $dark-blue
+
+::ng-deep .nav-button.mat-flat-button
+    margin-left: 20px !important

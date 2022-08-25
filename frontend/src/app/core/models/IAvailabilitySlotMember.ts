@@ -1,3 +1,4 @@
 export interface IAvailabilitySlotMember {
-    memberImage?: string
+    memberImage?: string;
+    name?: string;
 }
