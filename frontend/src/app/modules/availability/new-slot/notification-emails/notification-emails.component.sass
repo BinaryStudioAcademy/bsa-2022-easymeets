@@ -35,31 +35,31 @@
     flex-flow: column
     height: 90%
     margin-left: 60px
-    grid-template-rows: 0.4fr 0.3fr 0.8fr 1fr
-    grid-template-areas: "item1" "item2" "item3" "item4"
+    grid-template-rows: 0.4fr 0.3fr 1fr 3fr
+    grid-template-areas: "tabs" "toggle" "emailSubject" "emailBody"
     resize: none
     overflow: auto
 
 #container-tabs
-    grid-area: item1
+    grid-area: tabs
 
 #container-toggle
-    grid-area: item2
+    grid-area: toggle
 
-#container-item3
-    grid-area: item3
+#container-emailSubject
+    grid-area: emailSubject
 
 #container-emailBody
-    grid-area: item4
+    grid-area: emailBody
 
 .form-switch
     margin-left: 5px
 
 #emailSubject
-    height: 8vh
+    height: 40%
 
 #emailBody
-    height: 22vh
+    height: 70%
 
 .input-message
     background: $white-color
