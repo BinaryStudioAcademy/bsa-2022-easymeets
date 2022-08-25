@@ -43,8 +43,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public duration: number;
 
-    public customSelected: boolean;
-
     public startTime: string;
 
     public customTimeShown: boolean = false;

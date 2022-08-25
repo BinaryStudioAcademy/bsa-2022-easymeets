@@ -2,9 +2,9 @@
 <div class="container">
     <div class="new-meeting-header">
         <p class="new-meeting-header-label">New meeting</p>
-        <button color="primary" type="submit" mat-flat-button class="new-meeting-header-button">Create</button>
+        <button color="primary" type="submit" mat-flat-button class="new-meeting-header-button" (click)="create(meetingForm)">Create</button>
     </div>
-    <form class="main-content"  [formGroup]="meetingForm" (ngSubmit)="create(meetingForm)">
+    <form class="main-content"  [formGroup]="meetingForm">
         <div class="sidebar">
             <div class="add-new-meeting-info-form">
                 <div class="item">
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="item">
+                 <div class="item">
                     <div class="duration-container">
                         <p class="location-label">Location</p>
                         <mat-select formControlName="location" class="select-input">
@@ -76,7 +76,7 @@
                             </mat-option>
                         </mat-select>
                     </div>
-                </div> -->
+                </div>
             </div>
             <!-- <div class="item">
                 <div class="team-members-container">
