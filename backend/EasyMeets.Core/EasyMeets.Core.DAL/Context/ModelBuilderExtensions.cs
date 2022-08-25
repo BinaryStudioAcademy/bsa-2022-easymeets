@@ -49,7 +49,6 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.Entity<ExternalAttendee>().HasData(GenerateExternalAttendee());
             modelBuilder.Entity<ExternalAttendeeAvailability>().HasData(GenerateExternalAttendeeAvailabilities());
             modelBuilder.Entity<CalendarVisibleForTeam>().HasData(GenerateCalendarVisibleForTeams());
-            modelBuilder.Entity<UserSlot>().HasData(GenerateUserSlots());
             modelBuilder.Entity<Schedule>().HasData(GenerateSchedules());
             modelBuilder.Entity<ScheduleItem>().HasData(GenerateScheduleItems());
         }
@@ -214,7 +213,7 @@ namespace EasyMeets.Core.DAL.Context
         {
             var id = 1;
             var memberId = 1;
-            var eventId = 1;
+            var availabilitySlotId = 1;
             var scheduleId = 1;
             
             return new Faker<SlotMember>()
@@ -222,7 +221,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.MemberId, f => memberId++)
                 .RuleFor(u => u.ScheduleId, _ => scheduleId++)
-                .RuleFor(u => u.EventId, f => eventId++)
+                .RuleFor(u => u.AvailabilitySlotId, f => availabilitySlotId++)
                 .RuleFor(u => u.Priority, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
@@ -269,21 +268,6 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.CalendarId, f => calendarId++)
                 .RuleFor(u => u.TeamId, f => teamId++)
-                .RuleFor(u => u.IsDeleted, f => false)
-                .Generate(count);
-        }
-
-        private static IList<UserSlot> GenerateUserSlots(int count = 10)
-        {
-            var id = 1;
-            var userId = 1;
-            var slotId = 1;
-
-            return new Faker<UserSlot>()
-                .UseSeed(SeedNumber)
-                .RuleFor(u => u.Id, f => id++)
-                .RuleFor(u => u.UserId, f => userId++)
-                .RuleFor(u => u.AvailabilitySlotId, f => slotId++)
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
