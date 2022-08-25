@@ -115,8 +115,7 @@ namespace EasyMeets.Core.DAL.Context
                 .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AvailabilitySlotId, _ => slotId++)
-                .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50))
-                .RuleFor(u => u.Description, f => f.Lorem.Text().ClampLength(1, 50))
+                .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50)) 
                 .RuleFor(u => u.TeamId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.LocationType, f => f.PickRandom<LocationType>())
                 .RuleFor(u => u.CreatedBy, f => f.Random.Int(1, 10))
@@ -204,7 +203,7 @@ namespace EasyMeets.Core.DAL.Context
                 .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AvailabilitySlotId, f => f.Random.Int(1, 10))
-                .RuleFor(u => u.Text, f => f.Lorem.Text().ClampLength(50, 300))
+                .RuleFor(u => u.QuestionText, f => f.Lorem.Text().ClampLength(50, 300))
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
@@ -221,7 +220,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.MemberId, f => memberId++)
                 .RuleFor(u => u.ScheduleId, _ => scheduleId++)
-                .RuleFor(u => u.AvailabilitySlotId, f => availabilitySlotId++)
+                .RuleFor(u => u.SlotId, f => availabilitySlotId++)
                 .RuleFor(u => u.Priority, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
@@ -274,12 +273,10 @@ namespace EasyMeets.Core.DAL.Context
 
         private static IList<Schedule> GenerateSchedules(int count = 10)
         {
-            var id = 1;
-            var slotId = 1;
+            var id = 1; 
             return new Faker<Schedule>()
                 .UseSeed(SeedNumber)
-                .RuleFor(s => s.Id, _ => id++)
-                .RuleFor(s => s.AvailabilitySlotId, _ => slotId++)
+                .RuleFor(s => s.Id, _ => id++) 
                 .RuleFor(s => s.IsDeleted, _ => false)
                 .RuleFor(s => s.TimeZone, f => f.Random.Int(-11, 11) * 60)
                 .RuleFor(s => s.WithTeamMembers, f => f.Random.Bool())
