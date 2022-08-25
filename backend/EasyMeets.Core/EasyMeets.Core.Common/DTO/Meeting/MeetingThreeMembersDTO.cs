@@ -2,6 +2,7 @@
 {
     public class MeetingThreeMembersDTO
     {
+        public long Id { get; set; }
         public string? MeetingTime { get; set; }
         public string? MeetingTitle { get; set; }
         public string? MeetingDuration { get; set; }
