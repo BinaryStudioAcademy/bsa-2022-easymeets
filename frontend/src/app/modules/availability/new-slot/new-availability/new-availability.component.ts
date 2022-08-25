@@ -8,7 +8,6 @@ import { GeneralComponent } from '@modules/availability/new-slot/general/general
 import { ScheduleComponent } from '@modules/availability/new-slot/schedule/schedule.component';
 
 import { NotificationEmailsComponent } from '../notification-emails/notification-emails.component';
-
 import { QuestionsComponent } from '../questions/questions.component';
 
 @Component({
