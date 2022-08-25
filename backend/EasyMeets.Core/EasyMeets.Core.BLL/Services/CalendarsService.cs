@@ -7,16 +7,18 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace EasyMeets.Core.BLL.Services
 {
     public class CalendarsService : BaseService, ICalendarsService
     {
         private readonly IUserService _userService;
-        private const string ApplicationName = "EasyMeets";
+        private readonly IConfiguration _configuration;
         private CalendarService _service = new();
-        public CalendarsService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService) : base(context, mapper)
+        public CalendarsService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IConfiguration configuration) : base(context, mapper)
         {
+            _configuration = configuration;
             _userService = userService;
         }
 
@@ -35,7 +37,7 @@ namespace EasyMeets.Core.BLL.Services
 
             _service = new CalendarService(new BaseClientService.Initializer{
                 HttpClientInitializer = credential,
-                ApplicationName = ApplicationName
+                ApplicationName = _configuration["ApplicationName"]
             });
 
             var calendars = await _service.CalendarList.List().ExecuteAsync();
@@ -110,7 +112,7 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(el => el.VisibleForTeams)
                 .FirstOrDefaultAsync(el => el.Id == id);
 
-            if (calendar != null)
+            if (calendar is not null)
             {
                 _context.Calendars.Remove(calendar);
                 await _context.SaveChangesAsync();
@@ -133,7 +135,7 @@ namespace EasyMeets.Core.BLL.Services
                     IsDeleted = false,
                 }).ToList();
 
-            if (newVisibleForList != null)
+            if (newVisibleForList is not null)
             {
                 calendar.VisibleForTeams = newVisibleForList;
                 await _context.CalendarVisibleForTeams.AddRangeAsync(newVisibleForList);

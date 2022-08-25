@@ -113,10 +113,10 @@ public class TeamService : BaseService, ITeamService
     public async Task<List<TeamDto>> GetCurrentUserTeams()
     {
         var currentUser = await _userService.GetCurrentUserAsync();
-        var teams = _context.TeamMembers.Where(el => el.UserId == currentUser!.Id)
+        var teams = await _context.TeamMembers.Where(el => el.UserId == currentUser!.Id)
             .Include(el => el.Team)
             .Select(el => el.Team)
-            .ToList();
+            .ToListAsync();
 
         return _mapper.Map<List<TeamDto>>(teams);
     }
