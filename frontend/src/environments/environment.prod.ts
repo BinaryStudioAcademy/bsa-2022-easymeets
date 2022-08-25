@@ -11,4 +11,7 @@ export const environment = {
         appId: '1:681019224003:web:f114bfb64139e3146a1776',
         measurementId: 'G-CZQ7Z16TJZ',
     },
+    zoom: {
+        clientId: 'fOKEgzQKSMyOivUQgFk_Jw',
+    },
 };

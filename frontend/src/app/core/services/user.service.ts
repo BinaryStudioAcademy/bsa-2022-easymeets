@@ -70,4 +70,12 @@ export class UserService {
 
         return localUser;
     }
+
+    public createZoomCredentials(authCode: string, redirectUri: string) {
+        return this.httpService.postRequest(`${this.routePrefix}/zoom/add`, {
+            code: authCode,
+            grantType: 'authorization_code',
+            redirectUri,
+        });
+    }
 }

@@ -4,33 +4,37 @@ using System.Text;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Credentials;
 using EasyMeets.Core.Common.DTO.Credentials.Zoom;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace EasyMeets.Core.BLL.Services;
 
 public class ZoomService : IZoomService
 {
     private readonly HttpClient _httpClient;
-    private const string TokenUri = "zoom.us/oauth/token";
+    private const string TokenUri = "https://zoom.us/oauth/token";
 
     public ZoomService(HttpClient httpClient)
     {
         _httpClient = httpClient;
     }
 
-    public async Task<CredentialsDto> GetNewCredentials(string authCode, string redirectUri)
+    public async Task<CredentialsDto> GetNewCredentials(NewCredentialsRequestDto newCredentialsRequestDto)
     {
-        var body = new NewCredentialsRequestDto
+        var queryString = new Dictionary<string, string?>
         {
-            Code = authCode,
-            RedirectUri = redirectUri
+            { "code", newCredentialsRequestDto.Code },
+            { "grant_type", newCredentialsRequestDto.GrantType },
+            { "redirect_uri", newCredentialsRequestDto.RedirectUri }
         };
-        using var request = new HttpRequestMessage(HttpMethod.Post, TokenUri);
+        var uri = QueryHelpers.AddQueryString(TokenUri, queryString);
+        
+        using var request = new HttpRequestMessage(HttpMethod.Post, uri);
         var authValue = GetNewTokenAuthorization();
         request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authValue);
-        request.Content = JsonContent.Create(body);
-        request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
         var response = await _httpClient.SendAsync(request);
+
+        response.EnsureSuccessStatusCode();
 
         return (await response.Content.ReadFromJsonAsync<CredentialsDto>())!;
     }

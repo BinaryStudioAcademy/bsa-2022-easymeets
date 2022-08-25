@@ -1,4 +1,5 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.Common.DTO.Credentials.Zoom;
 using EasyMeets.Core.Common.DTO.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -45,10 +46,10 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok();
         }
 
-        [HttpPost("zoom/add/{authCode}/{redirectUri}")]
-        public async Task<ActionResult> CreateZoomCredentials(string authCode, string redirectUri)
+        [HttpPost("zoom/add")]
+        public async Task<ActionResult> CreateZoomCredentials([FromBody]NewCredentialsRequestDto newCredentialsRequestDto)
         {
-            await _userService.CreateZoomCredentials(authCode, redirectUri);
+            await _userService.CreateZoomCredentials(newCredentialsRequestDto);
             return Ok();
         }
     }

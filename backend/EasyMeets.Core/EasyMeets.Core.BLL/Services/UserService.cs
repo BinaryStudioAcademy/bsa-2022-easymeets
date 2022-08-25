@@ -1,6 +1,7 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Extentions;
 using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.Common.DTO.Credentials.Zoom;
 using EasyMeets.Core.Common.DTO.User;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
@@ -13,8 +14,8 @@ namespace EasyMeets.Core.BLL.Services
     public class UserService : BaseService, IUserService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ZoomService _zoomService;
-        public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, ZoomService zoomService) : base(context, mapper)
+        private readonly IZoomService _zoomService;
+        public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IZoomService zoomService) : base(context, mapper)
         {
             _httpContextAccessor = httpContextAccessor;
             _zoomService = zoomService;
@@ -74,16 +75,25 @@ namespace EasyMeets.Core.BLL.Services
             return userId;
         }
 
-        public async Task CreateZoomCredentials(string authCode, string redirectUri)
+        public async Task CreateZoomCredentials(NewCredentialsRequestDto newCredentialsRequestDto)
         {
-            var user = await GetCurrentUserInternalAsync();
-            var credentialsDto = await _zoomService.GetNewCredentials(authCode, redirectUri);
-            var credentials = _mapper.Map<Credentials>(credentialsDto, opts => opts.AfterMap((_, dest) =>
+            var user = await _context.Users.Include(u => u.Credentials)
+                .FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId());
+            var credentialsDto = await _zoomService.GetNewCredentials(newCredentialsRequestDto);
+            if (user!.Credentials.Any(cr => cr.Type == CredentialsType.Zoom))
             {
-                dest.Type = CredentialsType.Zoom;
-                dest.UserId = user.Id;
-            }));
-            await _context.Credentials.AddAsync(credentials);
+                var credentials = user.Credentials.First(cr => cr.Type == CredentialsType.Zoom);
+                _mapper.Map(credentialsDto, credentials);
+            }
+            else
+            {
+                var credentials = _mapper.Map<Credentials>(credentialsDto, opts => opts.AfterMap((_, dest) =>
+                {
+                    dest.Type = CredentialsType.Zoom;
+                    dest.UserId = user.Id;
+                }));
+                await _context.Credentials.AddAsync(credentials);
+            }
             await _context.SaveChangesAsync();
         }
 
