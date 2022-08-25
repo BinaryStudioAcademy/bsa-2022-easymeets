@@ -41,9 +41,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public unitOfTime = Object.keys(UnitOfTime).filter(key => Number.isNaN(Number(key)));
 
-    public durationValue: string;
+    public duration: number;
 
-    public startTime: Date;
+    public customSelected: boolean;
+
+    public startTime: string;
 
     public customTimeShown: boolean = false;
 
@@ -91,11 +93,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         const newMeeting: INewMeeting = {
             name: form.value.meetingName,
             location: form.value.location,
-            duration: form.value.duration,
-            description: form.value.meetingName,
-            unitOfTime: form.value.unitOfTime,
-            teamId: 2,
-            startTime: this.startTime,
+            duration: this.duration,
             teamMembers: this.addedMembers,
         };
 
@@ -135,13 +133,33 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
             });
     }
 
-    public changeDuration(form: FormGroup) {
-        this.durationValue = form.value.duration;
-        if (this.durationValue === 'Custom') {
+    public showUnshowCustomDuration(form: FormGroup) {
+        const durationValue = form.value.duration;
+
+        if (durationValue.time === 'Custom') {
             this.customTimeShown = true;
         } else {
             this.customTimeShown = false;
+            this.durationChanged(durationValue.time, durationValue.unitOfTime);
         }
+    }
+
+    public customDurationChanged(form: FormGroup) {
+        const { customTime, unitOfTime } = form.value;
+
+        this.durationChanged(customTime, unitOfTime);
+    }
+
+    public durationChanged(timeValue: string, unitOfTime: string) {
+        if (unitOfTime === 'hour') {
+            this.convertDuration(timeValue);
+        } else {
+            this.duration = parseInt(timeValue, 10);
+        }
+    }
+
+    public convertDuration(timeValue: string) {
+        this.duration = parseInt(timeValue, 10) * 60;
     }
 
     public addMemberToList(form: FormGroup) {
