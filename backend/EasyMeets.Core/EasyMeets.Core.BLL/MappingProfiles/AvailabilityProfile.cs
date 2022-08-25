@@ -30,8 +30,9 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(s => s.PasswordProtectionIsUsed,
                     opt => opt.MapFrom(src => src.EventDetails!.PasswordProtectionIsUsed))
                 .ForMember(s => s.PasswordProtection, opt => opt.MapFrom(src => src.EventDetails!.PasswordProtection))
-                .ForMember(s => s.TimeZoneVisibility, opt => opt.MapFrom(src => src.EventDetails!.TimeZoneVisibility));
-
+                .ForMember(s => s.TimeZoneVisibility, opt => opt.MapFrom(src => src.EventDetails!.TimeZoneVisibility))
+                .ForMember(s => s.Questions, opt => opt.Ignore());
+                
             CreateMap<SaveAdvancedSlotSettingsDto, AdvancedSlotSettings>();
             CreateMap<AdvancedSlotSettings, AdvancedSlotSettingsDto>();
             CreateMap<AdvancedSlotSettingsDto, AdvancedSlotSettings>();

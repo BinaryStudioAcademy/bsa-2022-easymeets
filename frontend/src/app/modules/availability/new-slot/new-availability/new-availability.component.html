@@ -24,7 +24,9 @@
             <mat-tab-group [(selectedIndex)]="index" class="header-less-tabs" animationDuration="0ms">
                 <mat-tab><app-general [newSlot]="slot"></app-general></mat-tab>
                 <mat-tab><app-event-detail [newSlot]="slot"></app-event-detail></mat-tab>
+                <mat-tab><app-questions [newSlot]="slot"></app-questions></mat-tab>
                 <mat-tab><app-schedule [newSlot]="slot"></app-schedule></mat-tab>
+                <mat-tab><app-notification-emails [newSlot]="slot"></app-notification-emails></mat-tab>
             </mat-tab-group>
         </div>
     </div>

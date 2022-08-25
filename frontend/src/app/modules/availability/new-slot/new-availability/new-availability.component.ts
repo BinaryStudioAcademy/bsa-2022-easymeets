@@ -7,6 +7,9 @@ import { EventDetailComponent } from '@modules/availability/new-slot/event-detai
 import { GeneralComponent } from '@modules/availability/new-slot/general/general.component';
 import { ScheduleComponent } from '@modules/availability/new-slot/schedule/schedule.component';
 
+import { NotificationEmailsComponent } from '../notification-emails/notification-emails.component';
+import { QuestionsComponent } from '../questions/questions.component';
+
 @Component({
     selector: 'app-new-availability',
     templateUrl: './new-availability.component.html',
@@ -29,7 +32,11 @@ export class NewAvailabilityComponent implements OnInit {
 
     @ViewChild(EventDetailComponent) eventDetailComponent: EventDetailComponent;
 
+    @ViewChild(QuestionsComponent) questionsComponent: QuestionsComponent;
+
     @ViewChild(ScheduleComponent) scheduleComponent: ScheduleComponent;
+
+    @ViewChild(NotificationEmailsComponent) notificationEmailsComponent: NotificationEmailsComponent;
 
     public sideMenuGroups: SideMenuGroupTabs[];
 
@@ -38,7 +45,7 @@ export class NewAvailabilityComponent implements OnInit {
     public index: number = 0;
 
     // eslint-disable-next-line no-empty-function
-    constructor(private router: Router) { }
+    constructor(private router: Router) {}
 
     ngOnInit(): void {
         this.initializeSideMenu();

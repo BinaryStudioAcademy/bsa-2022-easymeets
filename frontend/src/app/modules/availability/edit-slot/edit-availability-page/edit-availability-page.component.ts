@@ -28,14 +28,13 @@ export class EditAvailabilityPageComponent extends BaseComponent {
         private notifications: NotificationService,
     ) {
         super();
-        this.activateRoute.params.subscribe(params => {
+        this.activateRoute.params.subscribe((params) => {
             this.id = params['id'];
             this.spinnerService.show();
-            this.http.getSlotById(this.id)
-                .subscribe(slotResponse => {
-                    this.slot = slotResponse;
-                    this.spinnerService.hide();
-                });
+            this.http.getSlotById(this.id).subscribe((slotResponse) => {
+                this.slot = slotResponse;
+                this.spinnerService.hide();
+            });
         });
     }
 
@@ -48,16 +47,19 @@ export class EditAvailabilityPageComponent extends BaseComponent {
 
         general.isEnabled = this.newAvailabilityComponent.isActive;
         const advancedSettings = this.newAvailabilityComponent.generalComponent.addAdvanced
-            ? this.newAvailabilityComponent.generalComponent.advancedSettings! : null;
+            ? this.newAvailabilityComponent.generalComponent.advancedSettings!
+            : null;
         const updateAvailability: ISaveAvailability = {
             generalDetails: this.newAvailabilityComponent.generalComponent.settings,
-            eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
-            schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             advancedSettings,
+            eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
+            questions: this.newAvailabilityComponent.questionsComponent.questions,
+            schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
         };
 
-        this.http.updateSlot(updateAvailability, this.slot?.id)
+        this.http
+            .updateSlot(updateAvailability, this.slot?.id)
             .pipe(this.untilThis)
             .subscribe(
                 () => {

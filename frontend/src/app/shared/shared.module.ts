@@ -33,5 +33,9 @@ export class SharedModule {
             'google-logo',
             sanitizer.bypassSecurityTrustResourceUrl('./assets/icons/google-logo.svg'),
         );
+        matIconRegistry.addSvgIcon(
+            'plus-sign',
+            sanitizer.bypassSecurityTrustResourceUrl('./assets/icons/plus-sign.svg'),
+        );
     }
 }

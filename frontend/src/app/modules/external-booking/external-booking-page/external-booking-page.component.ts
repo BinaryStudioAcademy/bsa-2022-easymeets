@@ -40,7 +40,19 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         };
     }
 
+    public addTimeAndDateInMenu(data: { date: Date; timeFinish: Date }): void {
+        this.menu = {
+            ...this.menu,
+            date: data.date,
+            timeFinish: data.timeFinish,
+        };
+    }
+
     isBookingChooseTimeRoute(): boolean {
         return this.router.url.includes('/external-booking/choose-time');
+    }
+
+    isConfirmBookingRoute(): boolean {
+        return this.router.url.includes('/external-booking/confirm-booking');
     }
 }
