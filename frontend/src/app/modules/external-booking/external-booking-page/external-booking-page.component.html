@@ -46,6 +46,9 @@
             </app-external-booking-choose-meeting-page>
             <app-external-booking-choose-time-page *ngIf="isBookingChooseTimeRoute()">
             </app-external-booking-choose-time-page>
+            <app-external-booking-choose-members-page
+                *ngIf="this.router.url === '/external-booking/choose-team-members'">
+            </app-external-booking-choose-members-page>
         </div>
     </div>
 </div>

@@ -4,12 +4,18 @@ import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
 
 import { ExternalBookingMeetingComponent } from './external-booking-choose-meeting-page/external-booking-choose-meeting-page.component';
+import { ExternalBookingMembersComponent } from './external-booking-choose-members-page/external-booking-choose-members-page.component';
 import { ExternalBookingTimeComponent } from './external-booking-choose-time-page/external-booking-choose-time-page.component';
 import { ExternalBookingPageComponent } from './external-booking-page/external-booking-page.component';
 import { ExternalBookingRoutingModule } from './external-booking-routing.module';
 
 @NgModule({
-    declarations: [ExternalBookingPageComponent, ExternalBookingMeetingComponent, ExternalBookingTimeComponent],
+    declarations: [
+        ExternalBookingPageComponent,
+        ExternalBookingMeetingComponent,
+        ExternalBookingTimeComponent,
+        ExternalBookingMembersComponent,
+    ],
     imports: [SharedModule, ExternalBookingRoutingModule, CommonModule, MaterialModule],
 })
 export class ExternalBookingModule {}
