@@ -4,12 +4,22 @@
     </div>
     <div class="main-content">
         <div class="sidebar">
-            <img *ngIf="menu.user; else defaultImage" src="{{ menu.user.image }}" />
-            <ng-template #defaultImage>
-                <img src="assets/header/avatar-icon.png" />
+            <ng-container *ngIf="!isTeamBooking(); else teamSideMenu">
+                <img *ngIf="menu.user.image; else defaultImage" src="{{ menu.user.image }}" />
+                <ng-template #defaultImage>
+                    <img src="assets/header/avatar-icon.png" />
+                </ng-template>
+                <h2>{{ menu.user.userName }}</h2>
+                <h1>Booking Page</h1>
+            </ng-container>
+            <ng-template #teamSideMenu>
+                <img *ngIf="menu.team.image; else defaultImageTeam" src="{{ menu.team.image }}" class="team-img" />
+                <ng-template #defaultImageTeam>
+                    <img src="assets/header/header-logo.png" class="team-img" />
+                </ng-template>
+                <h2>{{ menu.team.name }}</h2>
+                <h1>Meeting with Designers</h1>
             </ng-template>
-            <h2>{{ menu.user.userName }}</h2>
-            <h1>Booking Page</h1>
             <h4 class="welcome-message">Hello! Welcome to my booking page, please choose a time that works for you.</h4>
             <div class="sidebar-list">
                 <div class="sidebar-list-item">
@@ -36,6 +46,15 @@
                         <h3>{{ LocationTypeToLabelMapping[menu.location] }}</h3>
                     </ng-container>
                 </div>
+                <div class="sidebar-list-item">
+                    <ng-container *ngIf="menu.teamSlotMembers">
+                        <h5>Team Members: {{ menu.teamSlotMembers.length }}</h5>
+                        <div *ngFor="let member of menu.teamSlotMembers">
+                            <img src="`member.image`" />
+                            <h3>{{ member.name }}</h3>
+                        </div>
+                    </ng-container>
+                </div>
             </div>
         </div>
         <div class="choice">
@@ -50,7 +69,8 @@
             </app-external-booking-choose-time-page>
             <app-external-booking-confirm-page *ngIf="isConfirmBookingRoute()"> </app-external-booking-confirm-page>
             <app-external-booking-choose-members-page
-                *ngIf="this.router.url === '/external-booking/choose-team-members'">
+                *ngIf="this.router.url === '/external-booking/team/choose-team-members'"
+                (selectedMembersEvent)="addMembersInMenu($event)">
             </app-external-booking-choose-members-page>
         </div>
     </div>

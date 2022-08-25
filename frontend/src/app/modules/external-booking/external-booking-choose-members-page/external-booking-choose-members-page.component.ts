@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { getTeamForMultipleChoice } from '@core/helpers/slot-with-members-multiple-helper';
 import { IAvailabilitySlotMember } from '@core/models/IAvailabilitySlotMember';
@@ -17,11 +17,13 @@ export class ExternalBookingMembersComponent extends BaseComponent {
 
     public checksAreDisabled: boolean;
 
+    @Output() selectedMembersEvent = new EventEmitter<IAvailabilitySlotMember[]>();
+
     constructor(private availabilitySlotService: AvailabilitySlotService) {
         super();
     }
 
-    public addMember(member: IAvailabilitySlotMember): void {
+    public selectMember(member: IAvailabilitySlotMember): void {
         if (this.selectedTeamMembers.includes(member)) {
             const index = this.selectedTeamMembers.findIndex((o) => o.name === member.name);
 
@@ -34,5 +36,9 @@ export class ExternalBookingMembersComponent extends BaseComponent {
     public cancelSelection(): void {
         this.selectedTeamMembers.splice(0, this.selectedTeamMembers.length);
         this.checksAreDisabled = false;
+    }
+
+    public addMembers(selectedMembers: IAvailabilitySlotMember[]) {
+        this.selectedMembersEvent.emit(selectedMembers);
     }
 }

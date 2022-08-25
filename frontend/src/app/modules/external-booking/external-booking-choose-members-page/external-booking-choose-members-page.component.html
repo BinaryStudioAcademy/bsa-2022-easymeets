@@ -17,7 +17,9 @@
         <ng-template #noSelectedMembers>
             <button mat-flat-button class="cancel-btn-inactive nav-button">Cancel Selection</button>
         </ng-template>
-        <button mat-flat-button color="primary" routerLink="" class="next-btn nav-button">Next Step</button>
+        <button mat-flat-button color="primary" class="next-btn nav-button" (click)="addMembers(selectedTeamMembers)">
+            Next Step
+        </button>
     </div>
 </div>
 <div *ngFor="let member of selectedAvailabilitySlot.members" class="member-cards-container">
@@ -30,7 +32,7 @@
                 <h3>{{ member.name }}</h3>
             </div>
             <div class="team-member-checkbox">
-                <input type="checkbox" [checked]="checksAreDisabled" (click)="addMember(member)" />
+                <input type="checkbox" [checked]="checksAreDisabled" (click)="selectMember(member)" />
             </div>
         </mat-card-title>
     </mat-card>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { LocationTypeToLabelMapping } from '@core/helpers/location-type-label-mapping';
+import { IAvailabilitySlotMember } from '@core/models/IAvailabilitySlotMember';
 import { IExternalBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
 import { LocationType } from '@core/models/locationType';
 import { SpinnerService } from '@core/services/spinner.service';
@@ -24,12 +25,32 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
     }
 
     ngOnInit(): void {
-        this.userService.getCurrentUser().subscribe((user) => {
+        if (this.isTeamBooking()) {
             this.menu = {
                 ...this.menu,
-                user,
+                team: {
+                    id: 1,
+                    image: '',
+                    name: 'My Default Team',
+                    pageLink: '',
+                    timeZone: '',
+                    description: '',
+                },
             };
-        });
+            this.userService.getCurrentUser().subscribe((user) => {
+                this.menu = {
+                    ...this.menu,
+                    user,
+                };
+            });
+        } else {
+            this.userService.getCurrentUser().subscribe((user) => {
+                this.menu = {
+                    ...this.menu,
+                    user,
+                };
+            });
+        }
     }
 
     public addDurationAndLocationInMenu(data: { duration: number; location: LocationType }): void {
@@ -48,11 +69,22 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         };
     }
 
+    public addMembersInMenu(selectedMembers: IAvailabilitySlotMember[]) {
+        this.menu = {
+            ...this.menu,
+            teamSlotMembers: selectedMembers,
+        };
+    }
+
     isBookingChooseTimeRoute(): boolean {
         return this.router.url.includes('/external-booking/choose-time');
     }
 
     isConfirmBookingRoute(): boolean {
         return this.router.url.includes('/external-booking/confirm-booking');
+    }
+
+    isTeamBooking(): boolean {
+        return this.router.url.includes('/team/');
     }
 }
