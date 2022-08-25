@@ -13,6 +13,7 @@ namespace EasyMeets.Core.Common.DTO.User
         public TimeFormat TimeFormat { get; set; }
         public DateFormat DateFormat { get; set; }
         public Country? Country { get; set; }
+        public string? PhoneCode { get; set; }
         public string? Phone { get; set; }
         public int TimeZone { get; set; }
     }
