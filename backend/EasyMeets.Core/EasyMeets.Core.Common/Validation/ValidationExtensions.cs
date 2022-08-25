@@ -5,7 +5,8 @@ namespace EasyMeets.Core.Common.Validation;
 
 public static class ValidationExtensions
 {
-    private static readonly IReadOnlyDictionary<string, string> RegularExpressions = new Dictionary<string, string>
+    private const string _linkPattern = @"https://easymeetsblobstorage.blob.core.windows.net/fileupload/";
+    public static IReadOnlyDictionary<string, string> RegularExpressions = new Dictionary<string, string>
     {
         { "Email", @"^([a-zA-z0-9]+([._\-][a-zA-z0-9]+)?)+@([a-zA-z0-9]+([.\-][a-zA-Z0-9]+)?)+\.[a-zA-Z]{2,4}$" },
         { "Username", @"^[\w\d]+[\w\d\- ]+$" },
@@ -14,8 +15,7 @@ public static class ValidationExtensions
         { "PhoneCode", @"^\d{1,3}$"},
         { "PhoneNumber", @"^\d{9,11}$" },
         { "TeamLink", @"^[a-zA-Z\d\-]*$" },
-        { "Password", @"^[^ ]+$" },
-        { "Url", @"^http|http(s)?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"}
+        { "Password", @"^[^ ]+$" }
     };
 
     public static bool IsValidEmail(this string value)
@@ -92,7 +92,10 @@ public static class ValidationExtensions
 
     public static bool IsValidUrl(this string value)
     {
-        var pattern = RegularExpressions["Url"];
-        return Regex.IsMatch(value, pattern);
+        if (value.StartsWith(_linkPattern))
+        {
+            return true;
+        }
+        return false;
     }
 }
