@@ -6,6 +6,7 @@ import { SharedModule } from '@shared/shared.module';
 import { ExternalBookingMeetingComponent } from './external-booking-choose-meeting-page/external-booking-choose-meeting-page.component';
 import { ExternalBookingMembersComponent } from './external-booking-choose-members-page/external-booking-choose-members-page.component';
 import { ExternalBookingTimeComponent } from './external-booking-choose-time-page/external-booking-choose-time-page.component';
+import { ExternalBookingConfirmPageComponent } from './external-booking-confirm-page/external-booking-confirm-page.component';
 import { ExternalBookingPageComponent } from './external-booking-page/external-booking-page.component';
 import { ExternalBookingRoutingModule } from './external-booking-routing.module';
 
@@ -14,6 +15,7 @@ import { ExternalBookingRoutingModule } from './external-booking-routing.module'
         ExternalBookingPageComponent,
         ExternalBookingMeetingComponent,
         ExternalBookingTimeComponent,
+        ExternalBookingConfirmPageComponent,
         ExternalBookingMembersComponent,
     ],
     imports: [SharedModule, ExternalBookingRoutingModule, CommonModule, MaterialModule],

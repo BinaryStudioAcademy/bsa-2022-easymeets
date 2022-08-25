@@ -13,15 +13,15 @@
             <h4 class="welcome-message">Hello! Welcome to my booking page, please choose a time that works for you.</h4>
             <div class="sidebar-list">
                 <div class="sidebar-list-item">
-                    <ng-container *ngIf="menu.timeStart && menu.timeFinish">
+                    <ng-container *ngIf="menu.timeFinish">
                         <h5>Time</h5>
-                        <h3>{{ menu.timeStart }} {{ menu.timeFinish }}</h3>
+                        <h3>{{ menu.date | date: 'HH:mm' }} - {{ menu.timeFinish | date: 'HH:mm' }}</h3>
                     </ng-container>
                 </div>
                 <div class="sidebar-list-item">
                     <ng-container *ngIf="menu.date">
                         <h5 *ngIf="menu.date">Date</h5>
-                        <h3>{{ menu.date }}</h3>
+                        <h3>{{ menu.date | date }}</h3>
                     </ng-container>
                 </div>
                 <div class="sidebar-list-item">
@@ -44,8 +44,11 @@
                 [selectedUserId]="this.menu.user.id"
                 (selectedDurationAndLocationEvent)="addDurationAndLocationInMenu($event)">
             </app-external-booking-choose-meeting-page>
-            <app-external-booking-choose-time-page *ngIf="isBookingChooseTimeRoute()">
+            <app-external-booking-choose-time-page
+                *ngIf="isBookingChooseTimeRoute()"
+                (selectedTimeAndDateEvent)="addTimeAndDateInMenu($event)">
             </app-external-booking-choose-time-page>
+            <app-external-booking-confirm-page *ngIf="isConfirmBookingRoute()"> </app-external-booking-confirm-page>
             <app-external-booking-choose-members-page
                 *ngIf="this.router.url === '/external-booking/choose-team-members'">
             </app-external-booking-choose-members-page>

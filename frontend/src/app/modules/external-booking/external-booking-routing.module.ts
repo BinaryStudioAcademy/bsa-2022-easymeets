@@ -5,6 +5,7 @@ import { AuthGuard } from '@core/guards/auth.guard';
 import { ExternalBookingMeetingComponent } from './external-booking-choose-meeting-page/external-booking-choose-meeting-page.component';
 import { ExternalBookingMembersComponent } from './external-booking-choose-members-page/external-booking-choose-members-page.component';
 import { ExternalBookingTimeComponent } from './external-booking-choose-time-page/external-booking-choose-time-page.component';
+import { ExternalBookingConfirmPageComponent } from './external-booking-confirm-page/external-booking-confirm-page.component';
 import { ExternalBookingPageComponent } from './external-booking-page/external-booking-page.component';
 
 const routes: Routes = [
@@ -19,6 +20,10 @@ const routes: Routes = [
             {
                 path: 'choose-time',
                 component: ExternalBookingTimeComponent,
+            },
+            {
+                path: 'confirm-booking',
+                component: ExternalBookingConfirmPageComponent,
             },
             {
                 path: 'choose-team-members',
