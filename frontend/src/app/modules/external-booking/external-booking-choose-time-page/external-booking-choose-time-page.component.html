@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="timezone">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" class="timezone-mat-form-field">
             <mat-label>Select Time Zone</mat-label>
             <mat-select [(ngModel)]="pickedTimeZone">
                 <mat-option *ngFor="let zone of timeZone | keyvalue" [value]="zone.value">
