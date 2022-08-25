@@ -25,8 +25,8 @@ namespace EasyMeets.Core.BLL.Services
             if (!isSame)
             {
                 throw new ArgumentException("Trying to get another user's slots", nameof(id));
-            }
-            //TODO
+            } 
+
             var availabilitySlots = await _context.AvailabilitySlots
                 .Include(x => x.SlotMembers)
                     .ThenInclude(x => x.User)

@@ -8,8 +8,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
     public sealed class UserProfile : Profile
     {
         public UserProfile()
-        {
-            //TODO
+        { 
             CreateMap<User, UserDto>()
                 .ForMember(dest => dest.Image, src => src.MapFrom(s => s.ImagePath))
                 .ForMember(dest => dest.UserName, src => src.MapFrom(s => s.Name))
