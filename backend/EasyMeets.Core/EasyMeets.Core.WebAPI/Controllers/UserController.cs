@@ -40,8 +40,8 @@ namespace EasyMeets.Core.WebAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdatePreferences([FromBody] UserDto user)
         {
-            var email = _userService.GetCurrentUserEmail();
-            await _userService.UpdateUserPreferences(user, email);
+            var currentUser = await _userService.GetCurrentUserAsync();
+            await _userService.UpdateUserPreferences(user, currentUser.Email);
             return Ok();
         }
     }
