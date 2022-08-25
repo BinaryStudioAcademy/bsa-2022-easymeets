@@ -7,20 +7,17 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace EasyMeets.Core.BLL.Services
 {
     public class CalendarsService : BaseService, ICalendarsService
     {
-        private readonly IConfiguration _configuration;
         private readonly IUserService _userService;
         private const string ApplicationName = "EasyMeets";
         private CalendarService _service = new();
-        public CalendarsService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IConfiguration configuration) : base(context, mapper)
+        public CalendarsService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService) : base(context, mapper)
         {
             _userService = userService;
-            _configuration = configuration;
         }
 
         public async Task<bool> CreateGoogleCalendarConnection()
@@ -28,8 +25,8 @@ namespace EasyMeets.Core.BLL.Services
             var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                         new ClientSecrets
                         {
-                            ClientId = _configuration["GoogleCalendar:client_id"],
-                            ClientSecret = _configuration["GoogleCalendar:client_secret"]
+                            ClientId = Environment.GetEnvironmentVariable("google_calendar_client_id"),
+                            ClientSecret = Environment.GetEnvironmentVariable("google_calendar_client_secret")
                         }, 
                         new [] { CalendarService.Scope.Calendar },
                         Guid.NewGuid().ToString(), 

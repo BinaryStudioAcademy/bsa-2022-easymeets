@@ -64,11 +64,13 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
     }
 
     updateSelectedItems() {
-        this.userCalendars.forEach((element) => {
+        this.userCalendars = this.userCalendars.map((element) => {
             const teamsNames = element?.visibleForTeams?.map((x) => x.name);
 
             element.visibleForTeams = this.allTeams?.filter((x) => teamsNames?.includes(x.name));
             element.importEventsFromTeam = this.allTeams?.find((x) => x.name === element.importEventsFromTeam?.name);
+
+            return element;
         });
     }
 
