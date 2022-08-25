@@ -8,13 +8,17 @@ namespace EasyMeets.Core.BLL.Services
 {
     public class MeetingService : BaseService, IMeetingService
     {
-        public MeetingService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) { }
+        private readonly IUserService _userService;
+        public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService) : base(context, mapper)
+        {
+            _userService = userService;
+        }
 
         public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync()
         {
             var meetings = await _context.Meetings
                 .Include(m => m.AvailabilitySlot)
-                    .ThenInclude(s => s!.ExternalAttendees )
+                    .ThenInclude(s => s!.ExternalAttendees)
                 .Include(meeting => meeting.SlotMembers)
                     .ThenInclude(teammeat => teammeat.User)
                 .ToListAsync();
@@ -35,7 +39,7 @@ namespace EasyMeets.Core.BLL.Services
                 .FirstOrDefaultAsync(m => m.Id == id) ?? throw new KeyNotFoundException("No meeting found");
 
             var members = _mapper.Map<List<UserMeetingDTO>>(meeting.SlotMembers.Select(s => s.User));
-            
+
             if (meeting.AvailabilitySlot is not null)
             {
                 members = members.Union(_mapper.Map<List<UserMeetingDTO>>(meeting.AvailabilitySlot.ExternalAttendees)).ToList();
@@ -55,6 +59,11 @@ namespace EasyMeets.Core.BLL.Services
                         break;
                 }
             }
+        }
+
+        public async Task CreateMeeting(SaveMeetingDto meetingDto)
+        {
+            var currentUser = await _userService.GetCurrentUserAsync();
         }
     }
 }

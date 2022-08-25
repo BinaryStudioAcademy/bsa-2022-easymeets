@@ -39,7 +39,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpPost] 
-        public async Task<ActionResult> SaveNewMeeting([FromBody] SaveNewMeetingDto newMeetingDto)
+        public async Task<ActionResult> SaveNewMeeting([FromBody] SaveMeetingDto newMeetingDto)
         { 
             return Ok();
         } 

@@ -1,4 +1,4 @@
-import { INewMeetingTeamMember } from './INewMeetingTeamMember';
+import { INewMeetingMember } from './INewMeetingTeamMember';
 import { LocationType } from './locationType';
 
 export interface INewMeeting {
@@ -7,5 +7,5 @@ export interface INewMeeting {
     duration: number,
     startTime?: Date
     teamId?: number
-    teamMembers: INewMeetingTeamMember[]
+    meetingMembers: INewMeetingMember[]
 }

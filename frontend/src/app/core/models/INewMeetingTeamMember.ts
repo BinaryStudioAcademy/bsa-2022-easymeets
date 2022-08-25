@@ -1,4 +1,4 @@
-export interface INewMeetingTeamMember {
+export interface INewMeetingMember {
     id: number
     name: string
 }

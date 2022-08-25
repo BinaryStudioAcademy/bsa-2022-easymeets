@@ -6,7 +6,7 @@ import { getDisplayDate } from '@core/helpers/date-helper';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
-import { INewMeetingTeamMember } from '@core/models/INewMeetingTeamMember';
+import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { NotificationService } from '@core/services/notification.service';
 import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
@@ -27,11 +27,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, AfterV
 
     @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
 
-    public teamMembers: INewMeetingTeamMember[];
+    public teamMembers: INewMeetingMember[];
 
-    public filteredMembers: ReplaySubject<INewMeetingTeamMember[]> = new ReplaySubject<INewMeetingTeamMember[]>(1);
+    public filteredMembers: ReplaySubject<INewMeetingMember[]> = new ReplaySubject<INewMeetingMember[]>(1);
 
-    public addedMembers: INewMeetingTeamMember[] = [];
+    public addedMembers: INewMeetingMember[] = [];
 
     public durations: IDuration[] = getDisplayDuration();
 
@@ -103,7 +103,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, AfterV
             location: form.value.location,
             duration: this.duration,
             startTime: form.value.date,
-            teamMembers: this.addedMembers,
+            meetingMembers: this.addedMembers,
         };
 
         this.newMeetingService.saveNewMeeting(newMeeting)
