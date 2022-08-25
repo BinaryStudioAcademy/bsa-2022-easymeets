@@ -30,14 +30,14 @@ namespace EasyMeets.Core.DAL.Migrations
             migrationBuilder.RenameColumn(
                 name: "Text",
                 table: "Questions",
-                newName: "QuestionText"); 
+                newName: "QuestionText");
 
             migrationBuilder.AddColumn<long>(
                 name: "MeetingId",
                 table: "ExternalAttendees",
                 type: "bigint",
                 nullable: false,
-                defaultValue: 1L);            
+                defaultValue: 1L);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExternalAttendees_MeetingId",
@@ -73,11 +73,11 @@ namespace EasyMeets.Core.DAL.Migrations
 
             migrationBuilder.DropIndex(
                 name: "IX_ExternalAttendees_MeetingId",
-                table: "ExternalAttendees"); 
+                table: "ExternalAttendees");
 
             migrationBuilder.DropColumn(
                 name: "MeetingId",
-                table: "ExternalAttendees"); 
+                table: "ExternalAttendees");
 
             migrationBuilder.RenameColumn(
                 name: "SlotId",
