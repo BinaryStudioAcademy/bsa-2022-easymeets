@@ -1,4 +1,4 @@
-import { Component, EventEmitter, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
@@ -9,13 +9,14 @@ import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { NewAvailabilityComponent } from '@modules/availability/new-slot/new-availability/new-availability.component';
 import { deletionMessage } from '@shared/constants/shared-messages';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-edit-availability-page',
     templateUrl: './edit-availability-page.component.html',
     styleUrls: ['./edit-availability-page.component.sass'],
 })
-export class EditAvailabilityPageComponent extends BaseComponent {
+export class EditAvailabilityPageComponent extends BaseComponent implements OnDestroy {
     private id: bigint | undefined;
 
     public slot?: IAvailabilitySlot;
@@ -23,6 +24,8 @@ export class EditAvailabilityPageComponent extends BaseComponent {
     @ViewChild(NewAvailabilityComponent) newAvailabilityComponent: NewAvailabilityComponent;
 
     private deleteEventEmitter = new EventEmitter<void>();
+
+    private deleteEventSubscription: Subscription;
 
     constructor(
         private router: Router,
@@ -42,7 +45,7 @@ export class EditAvailabilityPageComponent extends BaseComponent {
             });
         });
 
-        this.deleteEventEmitter.subscribe(() => this.deleteSlot());
+        this.deleteEventSubscription = this.deleteEventEmitter.subscribe(() => this.deleteSlot());
     }
 
     public goToPage(pageName: string) {
@@ -108,5 +111,11 @@ export class EditAvailabilityPageComponent extends BaseComponent {
                     this.notifications.showErrorMessage(error);
                 },
             );
+    }
+
+    override ngOnDestroy(): void {
+        super.ngOnDestroy();
+
+        this.deleteEventSubscription.unsubscribe();
     }
 }

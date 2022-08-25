@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
@@ -8,13 +8,14 @@ import { AvailabilitySlotService } from '@core/services/availability-slot.servic
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { deletionMessage } from '@shared/constants/shared-messages';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-slot',
     templateUrl: './slot.component.html',
     styleUrls: ['./slot.component.sass'],
 })
-export class SlotComponent extends BaseComponent {
+export class SlotComponent extends BaseComponent implements OnDestroy {
     @Input() public slot: IAvailabilitySlot;
 
     @Input() public hasOwner: boolean;
@@ -22,6 +23,8 @@ export class SlotComponent extends BaseComponent {
     @Output() isDeleted = new EventEmitter<boolean>();
 
     private deleteEventEmitter = new EventEmitter<void>();
+
+    private deleteEventSubscription: Subscription;
 
     public isChecked: boolean = true;
 
@@ -35,7 +38,7 @@ export class SlotComponent extends BaseComponent {
     ) {
         super();
 
-        this.deleteEventEmitter.subscribe(() => this.deleteSlot());
+        this.deleteEventSubscription = this.deleteEventEmitter.subscribe(() => this.deleteSlot());
     }
 
     public toggle(event: MatSlideToggleChange) {
@@ -82,5 +85,11 @@ export class SlotComponent extends BaseComponent {
 
     deleteEvent(isRemove: boolean) {
         this.isDeleted.emit(isRemove);
+    }
+
+    override ngOnDestroy(): void {
+        super.ngOnDestroy();
+
+        this.deleteEventSubscription.unsubscribe();
     }
 }
