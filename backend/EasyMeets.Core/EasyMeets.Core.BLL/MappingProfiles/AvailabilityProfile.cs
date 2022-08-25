@@ -9,8 +9,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
     public sealed class AvailabilityProfile : Profile
     {
         public AvailabilityProfile()
-        {
-            //TODO
+        { 
             CreateMap<AvailabilitySlot, AvailabilitySlotDto>()
                 .ForMember(dest => dest.Members, opt => opt.MapFrom(src => src.SlotMembers.Select(x => x.User)));
             CreateMap<AvailabilitySlotDto, AvailabilitySlot>();
