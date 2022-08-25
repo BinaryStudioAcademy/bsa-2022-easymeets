@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
+using EasyMeets.Core.Common.DTO.UploadImage;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
@@ -96,17 +97,17 @@ public class TeamService : BaseService, ITeamService
         }
     }
 
-    public async Task<string> UploadLogoAsync(IFormFile file, long teamId)
+    public async Task<ImagePathDto> UploadLogoAsync(IFormFile file, long teamId)
     {
-        var imageUrl = await _uploadFileService.UploadFileBlobAsync(file);
+        var imagePath = await _uploadFileService.UploadFileBlobAsync(file);
 
         var teamEntity = await GetTeamByIdAsync(teamId);
 
-        teamEntity.LogoPath = imageUrl;
+        teamEntity.LogoPath = imagePath;
 
         _context.Teams.Update(teamEntity);
         await _context.SaveChangesAsync();
-        return imageUrl;
+        return new ImagePathDto(){Path = imagePath};
     }
 
     private async Task<bool> UserIsAdmin(long teamId)

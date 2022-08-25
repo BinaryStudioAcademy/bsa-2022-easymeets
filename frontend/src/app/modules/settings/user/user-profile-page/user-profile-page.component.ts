@@ -6,6 +6,7 @@ import { CountryCode } from '@core/helpers/countryCode';
 import { DateFormatLabelMapping } from '@core/helpers/date-format-label-mapping';
 import { LanguageLabelMapping } from '@core/helpers/language-label-mapping';
 import { TimeFormatLabelMapping } from '@core/helpers/time-format-label-mapping';
+import { IImagePath } from '@core/models/IImagePath';
 import { IUser } from '@core/models/IUser';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -160,8 +161,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             .uploadImage(formData)
             .pipe(this.untilThis)
             .subscribe(
-                (resp: any) => {
-                    this.imageUrl = resp.imagePath;
+                (resp: IImagePath) => {
+                    this.imageUrl = resp.path;
                 },
                 () => {
                     this.notificationService.showErrorMessage('Something went wrong. Picture was not uploaded.');

@@ -1,5 +1,6 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
+using EasyMeets.Core.Common.DTO.UploadImage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace EasyMeets.Core.WebAPI.Controllers;
@@ -54,10 +55,10 @@ public class TeamController : ControllerBase
     }
 
     [HttpPut("uploadlogo/{teamId}")]
-    public async Task<IActionResult> UploadImageAsync([FromForm] IFormFile file, [FromRoute] long teamId)
+    public async Task<ActionResult<ImagePathDto>> UploadImageAsync([FromForm] IFormFile file, [FromRoute] long teamId)
     {
-        var imageUrl = await _teamService.UploadLogoAsync(file, teamId);
-        return Ok(new { imagePath = imageUrl });
+        var imagePath = await _teamService.UploadLogoAsync(file, teamId);
+        return Ok(imagePath);
     }
 
     [HttpDelete("{teamId}")]

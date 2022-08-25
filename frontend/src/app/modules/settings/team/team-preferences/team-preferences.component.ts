@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { IImagePath } from '@core/models/IImagePath';
 import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
@@ -155,8 +156,8 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
             .uploadLogo(formData, this.team.id)
             .pipe(this.untilThis)
             .subscribe(
-                (resp: any) => {
-                    this.imageUrl = resp.imagePath;
+                (resp: IImagePath) => {
+                    this.imageUrl = resp.path;
                 },
                 () => {
                     this.notificationService.showErrorMessage('Something went wrong. Picture was not uploaded.');

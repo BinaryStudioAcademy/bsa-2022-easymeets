@@ -1,4 +1,5 @@
-﻿using EasyMeets.Core.Common.DTO.User;
+﻿using EasyMeets.Core.Common.DTO.UploadImage;
+using EasyMeets.Core.Common.DTO.User;
 using Microsoft.AspNetCore.Http;
 namespace EasyMeets.Core.BLL.Interfaces
 {
@@ -10,6 +11,6 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task<UserDto> CreateUserPreferences(NewUserDto userDto);
         string GetCurrentUserEmail();
         Task<bool> ComparePassedIdAndCurrentUserIdAsync(long id);
-        Task<string> UploadImageAsync(IFormFile file);
+        Task<ImagePathDto> UploadImageAsync(IFormFile file);
     }
 }

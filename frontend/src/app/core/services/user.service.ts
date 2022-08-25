@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { IImagePath } from '@core/models/IImagePath';
 import { INewUser } from '@core/models/INewUser';
 import { ILocalUser, IUser } from '@core/models/IUser';
-import { HttpResponse } from '@microsoft/signalr';
-import { map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 
 import { HttpInternalService } from './http-internal.service';
 
@@ -65,8 +65,8 @@ export class UserService {
         this.setUser(user);
     }
 
-    public uploadImage(data: FormData): Observable<HttpResponse> {
-        return this.httpService.putRequest<HttpResponse>(`${this.routePrefix}/uploadimage`, data);
+    public uploadImage(data: FormData) {
+        return this.httpService.putRequest<IImagePath>(`${this.routePrefix}/uploadimage`, data);
     }
 
     public getUserFromStorage(): ILocalUser {

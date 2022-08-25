@@ -7,6 +7,7 @@ using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using EasyMeets.Core.BLL.Extentions;
+using EasyMeets.Core.Common.DTO.UploadImage;
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -80,9 +81,9 @@ namespace EasyMeets.Core.BLL.Services
             return user?.Uid == currentUserId;
         }
 
-        public async Task<string> UploadImageAsync(IFormFile file)
+        public async Task<ImagePathDto> UploadImageAsync(IFormFile file)
         {
-            var imageUrl = await _uploadFileService.UploadFileBlobAsync(file);
+            var imagePath = await _uploadFileService.UploadFileBlobAsync(file);
 
             var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == GetCurrentUserEmail());
 
@@ -91,11 +92,11 @@ namespace EasyMeets.Core.BLL.Services
                 throw new KeyNotFoundException("User doesn't exist");
             }
 
-            currentUser.ImagePath = imageUrl;
+            currentUser.ImagePath = imagePath;
 
             _context.Users.Update(currentUser);
             await _context.SaveChangesAsync();
-            return imageUrl;
+            return new ImagePathDto(){Path = imagePath};
         }
     }
 }

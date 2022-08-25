@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
+import { IImagePath } from '@core/models/IImagePath';
 import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
 import { HttpInternalService } from '@core/services/http-internal.service';
-import { HttpResponse } from '@microsoft/signalr';
-import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -45,7 +44,7 @@ export class TeamService {
         return this.httpService.putRequest<ITeam>(`${this.routePrefix}`, team);
     }
 
-    public uploadLogo(data: FormData, id: number): Observable<HttpResponse> {
-        return this.httpService.putRequest<HttpResponse>(`${this.routePrefix}/uploadlogo/${id}`, data);
+    public uploadLogo(data: FormData, id: number) {
+        return this.httpService.putRequest<IImagePath>(`${this.routePrefix}/uploadlogo/${id}`, data);
     }
 }
