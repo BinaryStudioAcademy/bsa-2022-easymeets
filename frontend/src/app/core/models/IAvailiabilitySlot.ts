@@ -1,6 +1,7 @@
 import { IAdvancedSlotSettings } from '@core/models/IAdvancedSlotSettings';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 
+import { ISaveConfirmationEmailDetails } from './save-availability-slot/ISaveConfirmationEmailDetails';
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
 import { IQuestion } from './IQuestion';
 import { LocationType } from './locationType';
@@ -27,4 +28,5 @@ export interface IAvailabilitySlot {
     passwordProtectionIsUsed: boolean;
     passwordProtection?: string;
     timeZoneVisibility: boolean;
+    confirmationEmailSettings?: ISaveConfirmationEmailDetails;
 }

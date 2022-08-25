@@ -1,0 +1,62 @@
+@import '../../../../styles/color-variables'
+
+.container
+    display: grid
+    flex-flow: column
+    height: 100%
+    margin-left: 150px
+    grid-template-rows: 1fr 0.5fr 1fr 1fr 1fr 1fr
+    grid-template-areas: "item0" "back" "name" "email" "extrainfo" "confirm"
+    resize: none
+    overflow: auto
+
+#container-back
+    grid-area: back
+    vertical-align: middle
+
+#container-name
+    grid-area: name
+
+#container-email
+    grid-area: email
+
+#container-extrainfo
+    grid-area: extrainfo
+
+#container-confirm
+    margin-top: 30px
+    grid-area: confirm
+
+.input-message
+    background: $white-color
+    padding-top: 0
+    border: 2px solid $loblolly
+    border-radius: 4px
+    display: flex
+    resize: none
+    align-items: flex-start
+    justify-content: flex-start
+    width: 337px
+    padding-left: 5px
+    padding-top: 5px
+
+.validationError
+    margin-top: 5px
+    color: red
+
+.input-title
+    font-weight: 575
+    font-size: 14px
+    line-height: 20px
+    color: $pale-sky
+    margin-top: 20px
+    margin-bottom: 2px
+
+.back-text
+    font-weight: 575
+    font-size: 24px
+    line-height: 20px
+    color: $pale-sky
+
+.back-container
+    cursor: pointer
