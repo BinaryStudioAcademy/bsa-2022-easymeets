@@ -39,10 +39,13 @@ export class EditAvailabilityPageComponent extends BaseComponent implements OnDe
         this.activateRoute.params.subscribe((params) => {
             this.id = params['id'];
             this.spinnerService.show();
-            this.http.getSlotById(this.id).subscribe((slotResponse) => {
-                this.slot = slotResponse;
-                this.spinnerService.hide();
-            });
+            this.http
+                .getSlotById(this.id)
+                .pipe(this.untilThis)
+                .subscribe((slotResponse) => {
+                    this.slot = slotResponse;
+                    this.spinnerService.hide();
+                });
         });
 
         this.deleteEventSubscription = this.deleteEventEmitter.subscribe(() => this.deleteSlot());
