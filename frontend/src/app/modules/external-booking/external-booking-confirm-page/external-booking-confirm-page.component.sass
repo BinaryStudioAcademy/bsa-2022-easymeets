@@ -6,26 +6,26 @@
     height: 100%
     margin-left: 150px
     grid-template-rows: 1fr 0.5fr 1fr 1fr 1fr 1fr
-    grid-template-areas: "item0" "item1" "item2" "item3" "item4" "item5"
+    grid-template-areas: "item0" "back" "name" "email" "extrainfo" "confirm"
     resize: none
     overflow: auto
 
-#container-item1
-    grid-area: item1
+#container-back
+    grid-area: back
     vertical-align: middle
 
-#container-item2
-    grid-area: item2
+#container-name
+    grid-area: name
 
-#container-item3
-    grid-area: item3
+#container-email
+    grid-area: email
 
-#container-item4
-    grid-area: item4
+#container-extrainfo
+    grid-area: extrainfo
 
-#container-item5
+#container-confirm
     margin-top: 30px
-    grid-area: item5
+    grid-area: confirm
 
 .input-message
     background: $white-color

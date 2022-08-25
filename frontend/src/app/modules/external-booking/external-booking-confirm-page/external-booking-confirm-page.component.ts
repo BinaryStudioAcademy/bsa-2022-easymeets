@@ -9,9 +9,6 @@ import { userNameRegex } from '@shared/constants/model-validation';
     styleUrls: ['./external-booking-confirm-page.component.sass'],
 })
 export class ExternalBookingConfirmPageComponent implements OnInit {
-    // eslint-disable-next-line @typescript-eslint/no-useless-constructor, no-empty-function, @typescript-eslint/no-empty-function
-    constructor() {}
-
     ngOnInit(): void {
         this.externalAnswers = {
             externalName: '',
