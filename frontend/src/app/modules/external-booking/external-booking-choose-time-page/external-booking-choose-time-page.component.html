@@ -17,8 +17,8 @@
     <div class="timezone">
         <mat-form-field appearance="fill" class="timezone-mat-form-field">
             <mat-label>Select Time Zone</mat-label>
-            <mat-select>
-                <mat-option value="zone.value" *ngFor="let zone of timeZone | keyvalue">
+            <mat-select [(ngModel)]="pickedTimeZone">
+                <mat-option *ngFor="let zone of timeZone | keyvalue" [value]="zone.value">
                     {{ zone.value }}
                 </mat-option>
             </mat-select>
@@ -45,8 +45,11 @@
                         isDateInRange(theEarliestStartOfTimeRanges, day.startTime, day.finishTime, i);
                         else defaultTimeSlot">
                     <span
+                        #dateFrom
                         class="enabled"
-                        *ngIf="isLastDate(this.calendarWeek.firstDay, j); else defaultTimeSlotPreviousDate">
+                        *ngIf="isLastDate(this.calendarWeek.firstDay, j); else defaultTimeSlotPreviousDate"
+                        [routerLink]="['/external-booking/confirm-booking']"
+                        (click)="AddTimeAndDate(i)">
                         {{
                             theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60000 | date: 'HH:mm'
                         }}
