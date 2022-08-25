@@ -29,7 +29,8 @@ export class NewAvailabilityPageComponent extends BaseComponent {
     public saveChanges() {
         const newSlot = this.getNewAvailability();
 
-        this.slotService.createSlot(newSlot)
+        this.slotService
+            .createSlot(newSlot)
             .pipe(this.untilThis)
             .subscribe(
                 () => {
@@ -46,13 +47,14 @@ export class NewAvailabilityPageComponent extends BaseComponent {
         const general = this.newAvailabilityComponent.generalComponent.settings;
 
         general.isEnabled = this.newAvailabilityComponent.isActive;
-        const eventDetails = this.newAvailabilityComponent.eventDetailComponent.settings;
         const advancedSettings = this.newAvailabilityComponent.generalComponent.addAdvanced
-            ? this.newAvailabilityComponent.generalComponent.advancedSettings! : null;
+            ? this.newAvailabilityComponent.generalComponent.advancedSettings!
+            : null;
         const newAvailability: ISaveAvailability = {
             generalDetails: general,
-            eventDetails,
             advancedSettings,
+            eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
+            questions: this.newAvailabilityComponent.questionsComponent.questions,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             teamId: 1,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,

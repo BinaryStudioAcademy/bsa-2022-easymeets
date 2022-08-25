@@ -15,7 +15,7 @@
 .mat-form-field-flex
     align-items: center !important
 
-.mat-form-field-appearance-outline .mat-form-field-infix
+.mat-form-field.mat-form-field-appearance-outline .mat-form-field-infix
     padding: 0.71428em 0 0.71428em 0
 
 .mat-form-field-appearance-outline .mat-form-field-outline-start,
@@ -29,5 +29,8 @@
 .mat-form-field-subscript-wrapper
     margin-top: 0.3em !important
 
-.mat-form-field-appearance-outline .mat-form-field-wrapper
-    padding-bottom: 1.42857em
+.mat-form-field-appearance-outline
+    & .mat-form-field-wrapper
+        padding-bottom: 1.42857em
+    &.no-padding .mat-form-field-wrapper
+        padding: 0

@@ -75,5 +75,10 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
             .WithOne(s => s.AvailabilitySlot)
             .HasForeignKey<Meeting>(s => s.AvailabilitySlotId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasMany(s => s.Questions)
+            .WithOne(q => q.AvailabilitySlot)
+            .HasForeignKey(q => q.AvailabilitySlotId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

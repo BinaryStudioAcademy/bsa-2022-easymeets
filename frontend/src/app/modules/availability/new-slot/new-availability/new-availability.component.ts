@@ -7,6 +7,8 @@ import { EventDetailComponent } from '@modules/availability/new-slot/event-detai
 import { GeneralComponent } from '@modules/availability/new-slot/general/general.component';
 import { ScheduleComponent } from '@modules/availability/new-slot/schedule/schedule.component';
 
+import { QuestionsComponent } from '../questions/questions.component';
+
 @Component({
     selector: 'app-new-availability',
     templateUrl: './new-availability.component.html',
@@ -28,6 +30,8 @@ export class NewAvailabilityComponent implements OnInit {
     @ViewChild(GeneralComponent) generalComponent: GeneralComponent;
 
     @ViewChild(EventDetailComponent) eventDetailComponent: EventDetailComponent;
+
+    @ViewChild(QuestionsComponent) questionsComponent: QuestionsComponent;
 
     @ViewChild(ScheduleComponent) scheduleComponent: ScheduleComponent;
 

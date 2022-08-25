@@ -2,6 +2,7 @@ import { IAdvancedSlotSettings } from '@core/models/IAdvancedSlotSettings';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
+import { IQuestion } from './IQuestion';
 import { LocationType } from './locationType';
 
 export interface IAvailabilitySlot {
@@ -16,6 +17,7 @@ export interface IAvailabilitySlot {
     members: IAvailabilitySlotMember[];
     advancedSlotSettingsId?: number;
     advancedSlotSettings?: IAdvancedSlotSettings;
+    questions: IQuestion[],
     schedule: ISchedule;
     welcomeMessage: string;
     frequency: number;
