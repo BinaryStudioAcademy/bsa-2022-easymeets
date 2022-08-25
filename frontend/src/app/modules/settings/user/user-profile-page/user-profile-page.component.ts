@@ -94,7 +94,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                 this.user = user;
                 this.userForm.patchValue({
                     userName: user.userName,
-                    phone: user.phone?.substr(user.phone.length - 10),
+                    phone: user.phone,
                     country: user.country,
                     dateFormat: user.dateFormat,
                     timeFormat: user.timeFormat,
@@ -103,7 +103,11 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                     image: user.image,
                 });
                 this.imageUrl = user.image;
-                this.changeCountryCode(this.userForm);
+                if (user.phoneCode) {
+                    this.countryCode = user.phoneCode;
+                } else {
+                    this.changeCountryCode(this.userForm);
+                }
             });
     }
 
@@ -113,7 +117,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             uid: this.user.uid,
             email: this.user.email,
             image: this.user.image,
-            phone: `+${this.countryCodeValues[form.value.country as Country]}${form.value.phone}`,
+            phoneCode: this.countryCodeValues[form.value.country as Country],
+            phone: form.value.phone,
             userName: form.value.userName,
             country: form.value.country,
             dateFormat: form.value.dateFormat,

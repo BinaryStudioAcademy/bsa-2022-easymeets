@@ -12,16 +12,11 @@ public static class ValidationExtensions
         { "Username", @"^[\w\d]+[\w\d\- ]+$" },
         { "TeamName", @"^[a-zA-Z\d- ]+$" },
         { "Description", @"^[.,іІїЇa-zA-Z\dа-яА-Я-\s]*$" },
-        { "PhoneNumber", @"^\+\d{10,14}$" },
+        { "PhoneCode", @"^\d{1,3}$"},
+        { "PhoneNumber", @"^\d{9,11}$" },
         { "TeamLink", @"^[a-zA-Z\d\-]*$" },
         { "Password", @"^[^ ]+$" }
     };
-
-    public static bool IsValidMeetingLocation(this string value)
-    {
-        string[] validLocations = { "Google Meet", "Zoom", "Offline" };
-        return validLocations.Contains(value);
-    }
 
     public static bool IsValidEmail(this string value)
     {
@@ -32,6 +27,12 @@ public static class ValidationExtensions
     public static bool IsValidUsername(this string value)
     {
         var pattern = RegularExpressions["Username"];
+        return Regex.IsMatch(value, pattern);
+    }
+    
+    public static bool IsValidPhoneCode(this string value)
+    {
+        var pattern = RegularExpressions["PhoneCode"];
         return Regex.IsMatch(value, pattern);
     }
 
