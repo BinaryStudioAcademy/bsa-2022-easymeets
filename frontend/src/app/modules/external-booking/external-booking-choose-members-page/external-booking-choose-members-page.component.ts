@@ -15,6 +15,8 @@ export class ExternalBookingMembersComponent extends BaseComponent {
 
     public selectedTeamMembers: IAvailabilitySlotMember[] = [];
 
+    public checksAreDisabled: boolean;
+
     constructor(private availabilitySlotService: AvailabilitySlotService) {
         super();
     }
@@ -27,5 +29,10 @@ export class ExternalBookingMembersComponent extends BaseComponent {
         } else {
             this.selectedTeamMembers.push(member);
         }
+    }
+
+    public cancelSelection(): void {
+        this.selectedTeamMembers.splice(0, this.selectedTeamMembers.length);
+        this.checksAreDisabled = false;
     }
 }

@@ -17,11 +17,11 @@ h1
 
 .member-cards-container
     display: inline-block
-    width: 20vw
-    margin: 0 5%
+    width: 40%
+    margin-right: 10%
+    margin-bottom: 3%
 
 ::ng-deep .team-member-card.mat-card
-    height: 50px !important
     width: 100% !important
     height: 37px !important
     margin: 5px 20px !important
@@ -29,22 +29,24 @@ h1
     padding-left: 20px !important
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16) !important
     border-radius: 4px !important
-    @media screen and (max-width: $tablet-min-width)
-        width: 25% !important
     .mat-card-title
-        margin-top: 5px !important
         display: flex
         align-content: flex-start
         flex-direction: row
         .team-member-img
             width: 51px
             height: 51px
-            top: 0
+            margin-right: 5px
+            margin-top: -7px
             img
                 width: 100%
                 height: 100%
+                border-radius: 100%
+        .team-member-name
+            margin-top: 5px
         .team-member-checkbox
             margin-left: auto
+            margin-top: 5px
             input[type="checkbox"]
                 transform: scale(1.25)
                 cursor: pointer
@@ -56,10 +58,12 @@ h1
     display: flex
     align-content: flex-start
     flex-direction: row
-    height: 200px
+    height: 40%
     width: 100%
     @media screen and (max-width: $desktop-min-width)
         flex-direction: column
+    @media screen and (max-width: $desktop-min-width)
+        height: 60%
     .upper-bar-icon
         margin-left: 20px
         margin-right: 40px
@@ -71,16 +75,22 @@ h1
             line-height: 45px
     .nav-buttons
         margin-left: auto
-        .cancel-btn
+        .cancel-btn-active
             background-color: $white
             color: $pale-sky
             border: 2px solid $loblolly
             border-radius: 4px
-        .cancel-btn:hover
+        .cancel-btn-active:hover
             background-color: $athens-gray
             border-color: $pale-sky
+        .cancel-btn-inactive
+            background-color: $loblolly
+            color: $pale-sky
+            border: 2px solid $loblolly
+            border-radius: 4px
+            cursor: default
         .next-btn
-            border: 2px solid #4C7DE7
+            border: 2px solid $royal-blue
             border-radius: 4px
         .next-btn:hover
             background-color: $dark-blue
