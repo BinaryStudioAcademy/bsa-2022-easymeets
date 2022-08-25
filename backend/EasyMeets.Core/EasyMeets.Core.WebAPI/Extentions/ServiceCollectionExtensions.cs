@@ -25,14 +25,14 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IMeetingService, MeetingService>();
             services.AddTransient<ITeamService, TeamService>();
+            services.AddTransient<IZoomService, ZoomService>();
+
+            services.AddHttpClient<IZoomService, ZoomService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
         {
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(SampleProfile)));
             services.AddAutoMapper(Assembly.GetAssembly(typeof(AvailabilityProfile)));
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(MeetingProfile)));
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(UserProfile)));
         }
 
         public static void AddValidation(this IServiceCollection services)
