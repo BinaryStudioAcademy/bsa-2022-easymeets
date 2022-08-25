@@ -35,7 +35,7 @@ public class User : Entity<long>, IValidatableObject
         {
             yield return new ValidationResult("Invalid email");
         }
-        
+
         if (!PhoneCode!.IsValidPhoneCode())
         {
             yield return new ValidationResult("Invalid phone code");

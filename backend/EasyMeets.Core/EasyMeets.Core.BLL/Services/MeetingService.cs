@@ -17,7 +17,7 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(s => s!.ExternalAttendees)
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
-                    .ThenInclude(teammeat => teammeat.User)
+                    .ThenInclude(teamMember => teamMember.User)
                 .ToListAsync();
 
             var mapped = _mapper.Map<List<MeetingThreeMembersDTO>>(meetings);
@@ -33,7 +33,7 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(s => s!.ExternalAttendees)
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
-                    .ThenInclude(m => m.User)
+                    .ThenInclude(teamMember => teamMember.User)
                 .FirstOrDefaultAsync(m => m.Id == id) ?? throw new KeyNotFoundException("No meeting found");
 
             var members = _mapper.Map<List<UserMeetingDTO>>(meeting.MeetingMembers.Select(s => s.TeamMember.User));
