@@ -143,6 +143,13 @@ namespace EasyMeets.Core.BLL.Services
             return new ImagePathDto() { Path = imagePath };
         }
 
+        public async Task<long> GetIdFromClaims(string uid)
+        {
+            var userRecord = await _firebaseAuth.GetUserAsync(uid);
+
+            return (long)userRecord.CustomClaims["id"];
+        }
+
         private string? GetCurrentUserId()
         {
             var userId = _httpContextAccessor.HttpContext.User.GetUid();

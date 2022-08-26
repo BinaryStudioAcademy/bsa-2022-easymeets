@@ -11,5 +11,6 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task<UserDto> CreateUserPreferences(NewUserDto userDto);
         Task<bool> ComparePassedIdAndCurrentUserIdAsync(long id);
         Task<ImagePathDto> UploadImageAsync(IFormFile file);
+        Task<long> GetIdFromClaims(string uid);
     }
 }
