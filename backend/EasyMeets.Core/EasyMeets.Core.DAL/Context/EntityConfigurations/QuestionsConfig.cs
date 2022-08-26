@@ -11,7 +11,7 @@ public class QuestionsConfig  : IEntityTypeConfiguration<Question>
         builder.Property(q => q.AvailabilitySlotId)
             .IsRequired();
 
-        builder.Property(q => q.Text)
+        builder.Property(q => q.QuestionText)
             .IsRequired()
             .HasMaxLength(300);
 

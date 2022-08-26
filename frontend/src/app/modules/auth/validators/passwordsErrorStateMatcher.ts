@@ -12,6 +12,12 @@ export class PasswordsErrorStateMatcher implements ErrorStateMatcher {
 
         this.passwordsMismatch = !(password === confirmPassword);
 
+        if (this.passwordsMismatch) {
+            control?.setErrors({ incorrectCredentials: true });
+        } else {
+            control?.updateValueAndValidity();
+        }
+
         return this.passwordsMismatch;
     }
 }
