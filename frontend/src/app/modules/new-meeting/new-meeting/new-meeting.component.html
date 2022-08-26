@@ -9,7 +9,11 @@
             <div class="add-new-meeting-info-form">
                 <div class="item">
                     <p class="name-label">Name</p>
-                    <input matInput type="text" placeholder="New meeting" formControlName="meetingName" class="select-input">
+                    <input
+                        matInput type="text"
+                        placeholder="New meeting"
+                        formControlName="meetingName"
+                        class="select-input">
                     <div *ngIf="meetingNameControl.invalid && meetingNameControl.touched">
                         <small *ngIf="meetingNameControl.errors?.['required']">This field is required.</small>
                         <small *ngIf="meetingNameControl.errors?.['minlength']">Length must be more than 2
