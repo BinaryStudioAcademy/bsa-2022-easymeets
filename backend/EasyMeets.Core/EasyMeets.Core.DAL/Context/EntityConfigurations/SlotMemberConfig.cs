@@ -11,7 +11,7 @@ public class SlotMemberConfig : IEntityTypeConfiguration<SlotMember>
         builder.Property(m => m.MemberId)
             .IsRequired();
         
-        builder.Property(m => m.EventId)
+        builder.Property(m => m.SlotId)
             .IsRequired();
         
         builder.Property(m => m.Priority)
@@ -25,9 +25,9 @@ public class SlotMemberConfig : IEntityTypeConfiguration<SlotMember>
             .HasForeignKey(m => m.ScheduleId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne(m => m.Event)
+        builder.HasOne(m => m.AvailabilitySlot)
             .WithMany(e => e.SlotMembers)
-            .HasForeignKey(m => m.EventId)
+            .HasForeignKey(m => m.SlotId)
             .OnDelete(DeleteBehavior.Cascade);
         
         builder.HasOne(m => m.User)

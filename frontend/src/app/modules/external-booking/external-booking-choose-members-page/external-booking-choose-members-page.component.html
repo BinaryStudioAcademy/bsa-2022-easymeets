@@ -1,0 +1,39 @@
+<div class="upper-bar">
+    <div class="upper-bar-icon">
+        <i class="fa-solid fa-arrow-left" routerLink=""></i>
+    </div>
+    <div class="nav-text">
+        <h1>
+            Please, choose Team member(s) for meeting
+            <h3>{{ selectedTeamMembers.length }} selected</h3>
+        </h1>
+    </div>
+    <div class="nav-buttons">
+        <ng-container *ngIf="this.selectedTeamMembers.length; else noSelectedMembers">
+            <button mat-flat-button class="cancel-btn-active nav-button" (click)="cancelSelection()">
+                Cancel Selection
+            </button>
+        </ng-container>
+        <ng-template #noSelectedMembers>
+            <button mat-flat-button class="cancel-btn-inactive nav-button">Cancel Selection</button>
+        </ng-template>
+        <button mat-flat-button color="primary" class="next-btn nav-button" (click)="addMembers(selectedTeamMembers)">
+            Next Step
+        </button>
+    </div>
+</div>
+<div *ngFor="let member of selectedAvailabilitySlot.members" class="member-cards-container">
+    <mat-card class="team-member-card">
+        <mat-card-title>
+            <div class="team-member-img">
+                <img src="assets/header/avatar-icon.png" />
+            </div>
+            <div class="team-member-name">
+                <h3>{{ member.name }}</h3>
+            </div>
+            <div class="team-member-checkbox">
+                <input type="checkbox" [checked]="isAllTeamMembersChecked" (click)="selectMember(member)" />
+            </div>
+        </mat-card-title>
+    </mat-card>
+</div>
