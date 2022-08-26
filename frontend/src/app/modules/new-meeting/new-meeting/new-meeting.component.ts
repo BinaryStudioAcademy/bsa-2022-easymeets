@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSelect } from '@angular/material/select';
 import { BaseComponent } from '@core/base/base.component';
 import { getDisplayDate } from '@core/helpers/date-helper';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
@@ -24,8 +23,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         super();
         this.getTeamMembersOfCurrentUser();
     }
-
-    @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
 
     public teamMembers: INewMeetingMember[];
 

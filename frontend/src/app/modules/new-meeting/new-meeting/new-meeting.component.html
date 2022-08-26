@@ -1,11 +1,11 @@
 <app-header-item></app-header-item>
-<form class="container" (ngSubmit)="create(meetingForm)">
+<form class="container" [formGroup]="meetingForm" (ngSubmit)="create(meetingForm)">
     <div class="new-meeting-header">
         <p class="new-meeting-header-label">New meeting</p>
         <button color="primary" type="submit" mat-flat-button
             class="new-meeting-header-button" [disabled]="meetingForm.invalid || !meetingForm.touched">Create</button>
     </div>
-    <div class="main-content" [formGroup]="meetingForm">
+    <div class="main-content">
         <div class="sidebar">
             <div class="add-new-meeting-info-form">
                 <div class="item">
@@ -66,9 +66,9 @@
                         <p class="add-team-member-label">Add Team Member</p>
                         <mat-form-field class="select-input">
                             <mat-label>Type...</mat-label>
-                            <input type="text" aria-label="Type..." matInput [formControl]="memberFilterCtrl"
-                                [matAutocomplete]="auto">
-                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayMemberName"
+                            <input type="text" matInput [formControl]="memberFilterCtrl"
+                                [matAutocomplete]="memberSearch">
+                            <mat-autocomplete #memberSearch="matAutocomplete" [displayWith]="displayMemberName"
                                 (optionSelected)='addMemberToList($event.option.value)'>
                                 <mat-option *ngFor="let member of filteredOptions | async" [value]="member">
                                     {{member.name}}
@@ -84,8 +84,7 @@
                     <div class="member-info-container" *ngFor="let member of addedMembers">
                         <div class="member-info">
                             <p>{{member.name}}</p>
-                            <i class="fa-solid fa-xmark fa-lg cancel-icon"
-                                (click)="removeMemberToList(meetingForm)"></i>
+                            <i class="fa-solid fa-xmark fa-lg cancel-icon" (click)="removeMemberToList(meetingForm)"></i>
                         </div>
                         <mat-divider></mat-divider>
                     </div>
