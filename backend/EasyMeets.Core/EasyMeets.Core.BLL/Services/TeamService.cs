@@ -1,18 +1,23 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
+using EasyMeets.Core.Common.DTO.UploadImage;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 namespace EasyMeets.Core.BLL.Services;
 
 public class TeamService : BaseService, ITeamService
 {
+
     private readonly IUserService _userService;
-    public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService) : base(context, mapper)
+    private IUploadFileService _uploadFileService;
+    public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IUploadFileService uploadFileService) : base(context, mapper)
     {
         _userService = userService;
+        _uploadFileService = uploadFileService;
     }
 
     public async Task<TeamDto?> GetTeamAsync(long teamId)
@@ -93,6 +98,19 @@ public class TeamService : BaseService, ITeamService
         }
     }
 
+    public async Task<ImagePathDto> UploadLogoAsync(IFormFile file, long teamId)
+    {
+        var imagePath = await _uploadFileService.UploadFileBlobAsync(file);
+
+        var teamEntity = await GetTeamByIdAsync(teamId);
+
+        teamEntity.LogoPath = imagePath;
+
+        _context.Teams.Update(teamEntity);
+        await _context.SaveChangesAsync();
+        return new ImagePathDto(){Path = imagePath};
+    }
+
     private async Task<bool> UserIsAdmin(long teamId)
     {
         var user = await _userService.GetCurrentUserAsync();
@@ -109,7 +127,7 @@ public class TeamService : BaseService, ITeamService
         return await _context.Teams
             .FirstOrDefaultAsync(t => t.Id == id) ?? throw new KeyNotFoundException("Team doesn't exist");
     }
-    
+
     public async Task<List<TeamDto>> GetCurrentUserTeams()
     {
         var currentUser = await _userService.GetCurrentUserAsync();

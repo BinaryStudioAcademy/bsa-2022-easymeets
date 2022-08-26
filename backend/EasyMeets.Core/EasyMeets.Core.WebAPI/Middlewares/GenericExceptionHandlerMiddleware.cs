@@ -31,6 +31,7 @@
             context.Response.StatusCode = exception switch
             {
                 ArgumentNullException => 400,
+                KeyNotFoundException => 404,
                 _ => 500
             };
 

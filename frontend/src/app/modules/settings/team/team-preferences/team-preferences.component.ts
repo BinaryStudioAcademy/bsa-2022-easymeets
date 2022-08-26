@@ -1,30 +1,51 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import {
+    AbstractControl,
+    AsyncValidatorFn,
+    FormControl,
+    FormGroup,
+    ValidationErrors,
+    Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { IImagePath } from '@core/models/IImagePath';
 import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
+import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
+import { deletionMessage } from '@shared/constants/shared-messages';
 import { TimeZone } from '@shared/enums/timeZone';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-team-preferences',
     templateUrl: './team-preferences.component.html',
     styleUrls: ['./team-preferences.component.sass'],
 })
-export class TeamPreferencesComponent extends BaseComponent implements OnInit {
+export class TeamPreferencesComponent extends BaseComponent implements OnInit, OnDestroy {
+    private deleteEventEmitter = new EventEmitter<void>();
+
+    private deleteEventSubscription: Subscription;
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private teamService: TeamService,
         public notificationService: NotificationService,
+        private confirmationWindowService: ConfirmationWindowService,
     ) {
         super();
+
+        this.deleteEventSubscription = this.deleteEventEmitter.subscribe(() => this.deleteTeam());
     }
 
+    public clickEvent = new EventEmitter<void>();
+
     public isNewTeam: boolean = true;
+
+    public imageUrl?: string;
 
     public team: ITeam;
 
@@ -80,6 +101,25 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
             });
     }
 
+    public deleteButtonClick() {
+        this.confirmationWindowService.openConfirmDialog({
+            buttonsOptions: [
+                {
+                    class: 'confirm-accept-button',
+                    label: 'Yes',
+                    onClickEvent: this.deleteEventEmitter,
+                },
+                {
+                    class: 'confirm-cancel-button',
+                    label: 'Cancel',
+                    onClickEvent: new EventEmitter<void>(),
+                },
+            ],
+            title: 'Confirm Team Deletion',
+            message: deletionMessage,
+        });
+    }
+
     public deleteTeam() {
         this.teamService
             .deleteTeam(this.team.id)
@@ -113,6 +153,49 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
                 });
             }
         }
+    }
+
+    public loadImage(event: Event) {
+        const target = event.target as HTMLInputElement;
+        const fileToUpload: File = (target.files as FileList)[0];
+
+        if (fileToUpload.size / 1000000 > 5) {
+            this.confirmCancelDialog();
+
+            return;
+        }
+        const formData = new FormData();
+
+        formData.append('file', fileToUpload, fileToUpload.name);
+        this.uploadLogo(formData);
+    }
+
+    public confirmCancelDialog(): void {
+        this.confirmationWindowService.openConfirmDialog({
+            buttonsOptions: [
+                {
+                    class: 'confirm-accept-button',
+                    label: 'Ok',
+                    onClickEvent: this.clickEvent,
+                },
+            ],
+            title: 'Oops...',
+            message: "Image can't be heavier than 5MB!",
+        });
+    }
+
+    private uploadLogo(formData: FormData) {
+        this.teamService
+            .uploadLogo(formData, this.team.id)
+            .pipe(this.untilThis)
+            .subscribe(
+                (resp: IImagePath) => {
+                    this.imageUrl = resp.path;
+                },
+                () => {
+                    this.notificationService.showErrorMessage('Something went wrong. Picture was not uploaded.');
+                },
+            );
     }
 
     private getUniquePageLink(teamName: string) {
@@ -185,12 +268,16 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         return (control: AbstractControl): Observable<ValidationErrors | null> =>
             this.validateTeamLink(control.value)
                 .pipe(this.untilThis)
-                .pipe(
-                    map((responce) => (responce ? null : { teamLinkUniq: true })),
-                );
+                .pipe(map((responce) => (responce ? null : { teamLinkUniq: true })));
     }
 
     private validateTeamLink(teamlink: string): Observable<boolean> {
         return this.teamService.validatePageLink(this.team ? this.team.id : 0, teamlink);
+    }
+
+    override ngOnDestroy(): void {
+        super.ngOnDestroy();
+
+        this.deleteEventSubscription.unsubscribe();
     }
 }
