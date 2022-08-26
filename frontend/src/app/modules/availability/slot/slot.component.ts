@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { LocationType } from '@core/models/locationType';
+import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
-import { deletionMessage } from '@shared/constants/shared-messages';
+import { activationSlotMessage, deletionMessage, inactivationSlotMessage } from '@shared/constants/shared-messages';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -26,6 +27,14 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
 
     private deleteEventSubscription: Subscription;
 
+    private changeActivityEventEmitter = new EventEmitter<void>();
+
+    private changeActivitySubscription: Subscription;
+
+    private cancelActivityEventEmitter = new EventEmitter<void>();
+
+    private cancelActivitySubscription: Subscription;
+
     public isChecked: boolean = true;
 
     LocationType = LocationType;
@@ -39,10 +48,8 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
         super();
 
         this.deleteEventSubscription = this.deleteEventEmitter.subscribe(() => this.deleteSlot());
-    }
-
-    public toggle(event: MatSlideToggleChange) {
-        this.isChecked = event.checked;
+        this.changeActivitySubscription = this.changeActivityEventEmitter.subscribe(() => this.changeSlotActivity());
+        this.cancelActivitySubscription = this.cancelActivityEventEmitter.subscribe(() => this.cancelSlotActivity());
     }
 
     public goToPage(pageName: string) {
@@ -87,9 +94,59 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
         this.isDeleted.emit(isRemove);
     }
 
+    public changeSlotActivityClick(event: MatSlideToggleChange) {
+        this.confirmWindowService.openConfirmDialog({
+            buttonsOptions: [
+                {
+                    class: 'confirm-accept-button',
+                    label: 'Yes',
+                    onClickEvent: this.changeActivityEventEmitter,
+                },
+                {
+                    class: 'confirm-cancel-button',
+                    label: 'Cancel',
+                    onClickEvent: this.cancelActivityEventEmitter,
+                },
+            ],
+            title: event.checked ? 'Confirm Slot Activation' : 'Confirm Slot Inactivation',
+            message: event.checked ? activationSlotMessage : inactivationSlotMessage,
+        });
+    }
+
+    public changeSlotActivity() {
+        /*
+        this.http
+            .updateSlot(updateAvailability, this.slot?.id)
+            .pipe(this.untilThis)
+            .subscribe(
+                () => {
+                    this.notifications.showSuccessMessage('Slot`s activity was successfully changed');
+                    this.goToPage('/availability');
+                },
+                (error) => {
+                    this.notifications.showErrorMessage(error);
+                },
+            );
+            */
+        alert('Slot activity changed');
+        console.log('PREVIOUS:');
+        console.log(this.slot);
+
+        this.slot = { ...this.slot, isEnabled: !this.slot.isEnabled };
+        console.log('NEW:');
+        console.log(this.slot);
+    }
+
+    public cancelSlotActivity() {
+        /*this.slot = { ...this.slot, isEnabled: this.slot.isEnabled };
+        console.log(this.slot);*/
+    }
+
     override ngOnDestroy(): void {
         super.ngOnDestroy();
 
         this.deleteEventSubscription.unsubscribe();
+        this.changeActivitySubscription.unsubscribe();
+        this.cancelActivitySubscription.unsubscribe();
     }
 }
