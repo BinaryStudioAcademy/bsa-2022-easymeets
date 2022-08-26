@@ -13,6 +13,7 @@ builder.Configuration
 
 builder.Services.AddControllers();
 builder.Services.AddEasyMeetsCoreContext(builder.Configuration);
+builder.Services.AddRabbitMQ(builder.Configuration);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.ConfigureJwt(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();

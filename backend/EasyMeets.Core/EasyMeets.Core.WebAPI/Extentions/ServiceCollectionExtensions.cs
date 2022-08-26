@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using RabbitMQ.Client;
+using EasyMeets.RabbitMQ.Settings;
+using EasyMeets.RabbitMQ.Service;
 
 namespace EasyMeets.Core.WebAPI.Extentions
 {
@@ -26,6 +29,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddTransient<ICalendarsService, CalendarsService>();
             services.AddTransient<IMeetingService, MeetingService>();
             services.AddTransient<ITeamService, TeamService>();
+            //services.AddTransient<INotifyQueueProducerService, NotifyQueueProducerService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
@@ -50,6 +54,42 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 options.UseSqlServer(
                     connectionsString,
                     opt => opt.MigrationsAssembly(typeof(EasyMeetsCoreContext).Assembly.GetName().Name)));
+        }
+        public static void AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton(x =>
+            {
+                var rabbitConnection = new Uri(configuration.GetSection("RabbitMQConfiguration:Uri").Value);
+
+                var connectionFactory = new ConnectionFactory
+                { Uri = rabbitConnection };
+
+                return connectionFactory.CreateConnection();
+            });
+
+            services.AddRabbitMQIssueQueues(configuration);
+        }
+
+        private static void AddRabbitMQIssueQueues(this IServiceCollection services, IConfiguration configuration)
+        {
+            var producerSettings = new ProducerSettings();
+            var consumerSettings = new ConsumerSettings();
+            configuration
+                .GetSection("RabbitMQConfiguration:Queues:InformProducer")
+                .Bind(producerSettings);
+
+            configuration
+                .GetSection("RabbitMQConfiguration:Queues:InformConsumer")
+                .Bind(consumerSettings);
+
+            var listener = new ConsumerService(consumerSettings);
+            listener.ListenQueue();
+
+            services.AddScoped<IInformQueueService>(provider =>
+                new InformQueueService(
+                    new ProducerService(
+                        provider.GetRequiredService<IConnection>(),
+                        producerSettings)));
         }
 
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
