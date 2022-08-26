@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Meeting;
-using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +20,13 @@ namespace EasyMeets.Core.BLL.Services
             var meetings = await _context.Meetings
                 .Include(m => m.AvailabilitySlot)
                     .ThenInclude(s => s!.ExternalAttendees)
-                .Include(meeting => meeting.SlotMembers)
-                    .ThenInclude(teammeat => teammeat.User)
+                .Include(meeting => meeting.MeetingMembers)
+                    .ThenInclude(meetingMember => meetingMember.TeamMember)
+                    .ThenInclude(teamMember => teamMember.User)
                 .ToListAsync();
 
             var mapped = _mapper.Map<List<MeetingThreeMembersDTO>>(meetings);
-            ConvertTimeZone(ref mapped);
+            ConvertTimeZone(mapped);
 
             return mapped;
         }
@@ -36,11 +36,12 @@ namespace EasyMeets.Core.BLL.Services
             var meeting = await _context.Meetings
                 .Include(m => m.AvailabilitySlot)
                     .ThenInclude(s => s!.ExternalAttendees)
-                .Include(meeting => meeting.SlotMembers)
-                    .ThenInclude(m => m.User)
+                .Include(meeting => meeting.MeetingMembers)
+                    .ThenInclude(meetingMember => meetingMember.TeamMember)
+                    .ThenInclude(teamMember => teamMember.User)
                 .FirstOrDefaultAsync(m => m.Id == id) ?? throw new KeyNotFoundException("No meeting found");
 
-            var members = _mapper.Map<List<UserMeetingDTO>>(meeting.SlotMembers.Select(s => s.User));
+            var members = _mapper.Map<List<UserMeetingDTO>>(meeting.MeetingMembers.Select(s => s.TeamMember.User));
 
             if (meeting.AvailabilitySlot is not null)
             {
@@ -50,7 +51,7 @@ namespace EasyMeets.Core.BLL.Services
             return members;
         }
 
-        private void ConvertTimeZone(ref List<MeetingThreeMembersDTO> meetings)
+        private void ConvertTimeZone(List<MeetingThreeMembersDTO> meetings)
         {
             foreach (var user in meetings.SelectMany(x => x.MeetingMembers ?? new List<UserMeetingDTO>()))
             {
@@ -62,7 +63,6 @@ namespace EasyMeets.Core.BLL.Services
                 }
             }
         }
-
         public async Task CreateMeeting(SaveMeetingDto meetingDto)
         {
             var currentUser = await _userService.GetCurrentUserAsync();
@@ -80,20 +80,6 @@ namespace EasyMeets.Core.BLL.Services
                     dest.TeamId = teamId;
                 })
             );
-
-            await _context.Meetings.AddAsync(meeting);
-
-            var slotMembers = _mapper.Map<ICollection<SlotMember>>(meetingDto.MeetingMembers, opts =>
-                opts.AfterMap((_, dest) =>
-                {
-                    dest.Select(x => x.EventId = meeting.Id);
-                    dest.Select(x => x.Priority = default(int));
-                    dest.Select(x => x.ScheduleId = default(long)); 
-                }));
-
-            await _context.SlotMembers.AddRangeAsync(slotMembers);
-
-            await _context.SaveChangesAsync();
         }
     }
 }
