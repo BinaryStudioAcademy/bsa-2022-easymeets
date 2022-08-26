@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { LocationType } from '@core/models/locationType';
-import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -114,9 +113,8 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
     }
 
     public changeSlotActivity() {
-        /*
         this.http
-            .updateSlot(updateAvailability, this.slot?.id)
+            .updateSlotEnabling(this.slot?.id)
             .pipe(this.untilThis)
             .subscribe(
                 () => {
@@ -127,7 +125,7 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
                     this.notifications.showErrorMessage(error);
                 },
             );
-            */
+        /*
         alert('Slot activity changed');
         console.log('PREVIOUS:');
         console.log(this.slot);
@@ -135,11 +133,12 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
         this.slot = { ...this.slot, isEnabled: !this.slot.isEnabled };
         console.log('NEW:');
         console.log(this.slot);
+        */
     }
 
     public cancelSlotActivity() {
-        /*this.slot = { ...this.slot, isEnabled: this.slot.isEnabled };
-        console.log(this.slot);*/
+        /*this.slot = { ...this.slot, isEnabled: this.slot.isEnabled };*/
+        alert('Slot activity changed');
     }
 
     override ngOnDestroy(): void {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
+import { Observable } from 'rxjs';
 
 import { HttpInternalService } from './http-internal.service';
 
@@ -26,8 +27,8 @@ export class AvailabilitySlotService {
         return this.httpService.putRequest<IAvailabilitySlot>(`/availability/${slotId}`, updateAvailability);
     }
 
-    public updateSlotEnabling(slotId: bigint | undefined) {
-        /*return this.httpService.postRequest(`/availability/changeEnabling/${slotId}`);*/
+    public updateSlotEnabling(slotId: bigint | undefined): Observable<boolean> {
+        return this.httpService.postRequest<boolean>(`${this.routePrefix}/enabling/${slotId}`, {});
     }
 
     public getSlotById(slotId: bigint | undefined) {

@@ -43,10 +43,10 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok(await _availabilityService.UpdateAvailabilitySlot(id, updateAvailabilityDto));
         }
 
-        [HttpPut("changeEnabling/{id}")]
-        public async Task<ActionResult<AvailabilitySlotDto>> UpdateAvailabilitySlot(long id, [FromBody] AvailabilitySlotDto updateAvailabilityDto)
+        [HttpPost("enabling/{id}")]
+        public async Task<ActionResult<bool>> UpdateAvailabilitySlotEnabling(long id)
         {
-            return Ok(await _availabilityService.UpdateAvailabilitySlotEnablingAsync(id, updateAvailabilityDto));
+            return Ok(await _availabilityService.UpdateAvailabilitySlotEnablingAsync(id));
         }
 
         [HttpDelete("{slotId}")]
