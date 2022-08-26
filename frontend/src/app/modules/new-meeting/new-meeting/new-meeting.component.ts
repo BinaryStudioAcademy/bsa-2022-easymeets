@@ -61,6 +61,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         Validators.pattern(naturalNumberRegex),
     ]);
 
+    public mainContainerCustomTimeControl: FormControl = new FormControl('', [
+        Validators.required,
+        Validators.pattern(naturalNumberRegex),
+    ]);
+
     filteredOptions: Observable<INewMeetingMember[]>;
 
     ngOnInit(): void {
@@ -71,6 +76,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
             location: new FormControl('', [Validators.required]),
             duration: new FormControl('', [Validators.required]),
             mainContainerDuration: new FormControl(),
+            mainContainerCustomTime: this.mainContainerCustomTimeControl,
+            mainContainerUnitOfTime: new FormControl('', [Validators.required]),
             date: new FormControl('', [Validators.required]),
             teamMember: new FormControl(),
         });

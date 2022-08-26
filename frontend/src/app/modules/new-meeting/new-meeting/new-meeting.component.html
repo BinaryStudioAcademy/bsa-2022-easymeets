@@ -1,10 +1,10 @@
 <app-header-item></app-header-item>
-<div class="container">
+<form class="container" (ngSubmit)="create(meetingForm)">
     <div class="new-meeting-header">
         <p class="new-meeting-header-label">New meeting</p>
-        <button color="primary" type="submit" mat-flat-button class="new-meeting-header-button" (click)="create(meetingForm)">Create</button>
+        <button color="primary" type="submit" mat-flat-button class="new-meeting-header-button">Create</button>
     </div>
-    <form class="main-content"  [formGroup]="meetingForm">
+    <div class="main-content"  [formGroup]="meetingForm">
         <div class="sidebar">
             <div class="add-new-meeting-info-form">
                 <div class="item">
@@ -107,13 +107,33 @@
                 </div>
                 <div class="duration-container item">
                     <p class="duration-label">Duration</p>
-                    <mat-select formControlName="mainContainerDuration" class="select-input">
-                        <mat-option *ngFor="let duration of durations" [value]="duration">
-                            {{duration.time}} {{duration.unitOfTime }}
-                        </mat-option>
-                    </mat-select>
+                    <div>
+                        <mat-select formControlName="mainContainerDuration" class="select-input">
+                            <mat-option *ngFor="let duration of durations" [value]="duration">
+                                {{duration.time}} {{duration.unitOfTime }}
+                            </mat-option>
+                        </mat-select>
+                        <div class="custom-container" *ngIf="customTimeShown">
+                            <p class="custom-label">Custom time</p>
+                            <div class="custom-time">
+                                <input
+                                    matInput
+                                    class="select-input time"
+                                    type="text"
+                                    placeholder="Custom time"
+                                    formControlName="mainContainerCustomTime">
+                                <mat-select
+                                    formControlName="mainContainerUnitOfTime"
+                                    class="select-input unit-of-time">
+                                    <mat-option *ngFor="let unit of unitOfTime" [value]="unit">
+                                        {{unit}}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </form>
-</div>
+    </div>
+</form>
