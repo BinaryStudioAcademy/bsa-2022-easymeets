@@ -26,6 +26,10 @@ export class AvailabilitySlotService {
         return this.httpService.putRequest<IAvailabilitySlot>(`/availability/${slotId}`, updateAvailability);
     }
 
+    public updateSlotEnabling(slotId: bigint | undefined) {
+        /*return this.httpService.postRequest(`/availability/changeEnabling/${slotId}`);*/
+    }
+
     public getSlotById(slotId: bigint | undefined) {
         return this.httpService.getRequest<IAvailabilitySlot>(`/availability/slot/${slotId}`);
     }

@@ -152,7 +152,7 @@ namespace EasyMeets.Core.BLL.Services
             return _mapper.Map<AvailabilitySlotDto>(await _context.AvailabilitySlots.FirstOrDefaultAsync(slot => slot.Id == id));
         }
 
-        public async Task<AvailabilitySlotDto> UpdateAvailabilitySlotEnablingAsync(long id)
+        public async Task<AvailabilitySlotDto> UpdateAvailabilitySlotEnablingAsync(long id, AvailabilitySlotDto updateAvailabilityDto)
         {
             var availabilitySlot = await _context.AvailabilitySlots.FirstOrDefaultAsync(slot => slot.Id == id);
             if (availabilitySlot is null)
