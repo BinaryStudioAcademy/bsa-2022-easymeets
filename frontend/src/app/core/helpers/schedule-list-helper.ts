@@ -4,12 +4,6 @@ export const getScheduleItems = (): IScheduleItem[] => [
     {
         start: '13:00:00',
         end: '15:00:00',
-        weekDay: 6,
-        isEnabled: false,
-    },
-    {
-        start: '13:00:00',
-        end: '15:00:00',
         weekDay: 0,
         isEnabled: true,
     },
@@ -41,6 +35,12 @@ export const getScheduleItems = (): IScheduleItem[] => [
         start: '13:00:00',
         end: '15:00:00',
         weekDay: 5,
+        isEnabled: false,
+    },
+    {
+        start: '13:00:00',
+        end: '15:00:00',
+        weekDay: 6,
         isEnabled: false,
     },
 ];
