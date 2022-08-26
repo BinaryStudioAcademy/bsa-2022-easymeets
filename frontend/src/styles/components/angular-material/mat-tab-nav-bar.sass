@@ -1,7 +1,7 @@
 @import '../../color-variables'
 
 .mat-tab-nav-bar .mat-tab-links .mat-tab-link
-    color: $dark-gray
+    color: $logo-color
     font-weight: 400
     padding: 0 20px
     padding-top: 20px
@@ -18,4 +18,10 @@
     justify-content: space-between
 
 .mat-tab-nav-bar .mat-ink-bar
-    background-color: $royal-blue !important
+    background-color: $royal-blue
+
+.mat-tab-nav-bar .mat-tab-links .mat-tab-link.mat-tab-label-active
+    color: $logo-color
+
+.mat-tab-nav-bar.mat-primary .mat-ink-bar
+    background-color: $logo-color
