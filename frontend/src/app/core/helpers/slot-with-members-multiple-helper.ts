@@ -15,18 +15,22 @@ export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
         locationType: LocationType.GoogleMeet,
         members: [
             {
+                id: 1n,
                 name: 'First Member',
                 memberImage: '',
             },
             {
+                id: 2n,
                 name: 'Second Member',
                 memberImage: '',
             },
             {
+                id: 3n,
                 name: 'Third Member',
                 memberImage: '',
             },
             {
+                id: 4n,
                 name: 'Fourth Member',
                 memberImage: '',
             },

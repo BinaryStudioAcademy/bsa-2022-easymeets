@@ -32,7 +32,7 @@ export class ExternalBookingMembersComponent extends BaseComponent {
     }
 
     public cancelSelection(): void {
-        this.selectedTeamMembers.length = 0;
+        this.selectedTeamMembers = [];
         this.checksAreDisabled = false;
     }
 
