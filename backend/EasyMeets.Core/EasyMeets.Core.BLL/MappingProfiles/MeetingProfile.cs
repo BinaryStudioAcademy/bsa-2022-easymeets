@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EasyMeets.Core.Common.DTO.Meeting;
+using EasyMeets.Core.Common.DTO.Zoom;
 using EasyMeets.Core.DAL.Entities;
 
 namespace EasyMeets.Core.BLL.MappingProfiles
@@ -22,6 +23,18 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(dest => dest.MeetingMembers, src => src.MapFrom(s => GetThreeMembersForMeeting(s)))
                 .ForMember(dest => dest.MeetingCount, src => src.MapFrom(s => GetAllParticipants(s).Count()))
                 .ForMember(dest => dest.Location, src => src.MapFrom(s => s.LocationType.ToString()));
+
+            CreateMap<Meeting, NewZoomMeetingDto>()
+                .ForMember(m => m.Agenda, o
+                    => o.MapFrom(s => s.Name))
+                .ForMember(m => m.Topic, o =>
+                    o.MapFrom(s => s.Description))
+                .ForMember(m => m.ScheduleFor, o =>
+                    o.MapFrom(s => s.Author.Email))
+                .ForMember(m => m.Settings.ContactName, o =>
+                    o.MapFrom(s => s.Author.Name))
+                .ForMember(m => m.Settings.ContactEmail, o =>
+                    o.MapFrom(s => s.Author.Email));
         }
 
         private string CreateMemberTitle(Meeting meeting)

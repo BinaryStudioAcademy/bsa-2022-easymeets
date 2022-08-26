@@ -1,10 +1,14 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Credentials;
 using EasyMeets.Core.Common.DTO.Credentials.Zoom;
+using EasyMeets.Core.Common.DTO.Zoom;
+using EasyMeets.Core.Common.Enums;
+using EasyMeets.Core.Common.NamingPolicies;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.WebUtilities;
@@ -15,6 +19,7 @@ public class ZoomService : BaseService, IZoomService
 {
     private readonly HttpClient _httpClient;
     private const string TokenUri = "https://zoom.us/oauth/token";
+    private const string BaseApiUri = "https://api.zoom.us/v2/";
     public ZoomService(EasyMeetsCoreContext context, IMapper mapper, HttpClient httpClient) : base(context, mapper)
     {
         _httpClient = httpClient;
@@ -29,6 +34,34 @@ public class ZoomService : BaseService, IZoomService
             { "redirect_uri", newCredentialsRequestDto.RedirectUri }
         };
         return await GetCredentials(queryString);
+    }
+
+    public async Task CreateZoomMeeting(Meeting meeting)
+    {
+        var credentials = meeting.Author.Credentials.FirstOrDefault(cr => cr.Type == CredentialsType.Zoom);
+        if (credentials is null)
+        {
+            throw new KeyNotFoundException("No zoom credentials found for meeting Author");
+        }
+
+        var newMeeting = _mapper.Map<NewZoomMeetingDto>(meeting);
+        
+        using var request = new HttpRequestMessage(HttpMethod.Post, $"{BaseApiUri}/users/me/meetings");
+        var options = new JsonSerializerOptions()
+        {
+            PropertyNamingPolicy = SnakeCaseNamingPolicy.Instance
+        };
+        var token = await GetAccessToken(credentials);
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        request.Content = JsonContent.Create(newMeeting, options:options);
+
+        var response = await _httpClient.SendAsync(request);
+
+        response.EnsureSuccessStatusCode();
+
+        var created = await response.Content.ReadFromJsonAsync<ZoomMeetingResponseDto>(options);
+        meeting.MeetingLink = created!.JoinUrl;
+        await _context.SaveChangesAsync();
     }
 
     private string GetTokenAuthorization()
