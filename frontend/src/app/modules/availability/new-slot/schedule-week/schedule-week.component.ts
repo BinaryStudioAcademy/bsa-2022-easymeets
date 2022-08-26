@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CalendarEvent } from 'angular-calendar';
-import { addDays, addHours, startOfDay } from 'date-fns';
+import { colors } from '@core/helpers/colors';
+import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
+import { addDays, addHours, setDay, startOfDay, subDays, subSeconds } from 'date-fns';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-schedule-week',
@@ -9,25 +11,52 @@ import { addDays, addHours, startOfDay } from 'date-fns';
     styleUrls: ['./schedule-week.component.sass'],
 })
 export class ScheduleWeekComponent {
+    view: CalendarView = CalendarView.Week;
+
     viewDate: Date = new Date();
 
     events: CalendarEvent[] = [
         {
-            start: addHours(startOfDay(new Date()), 5),
-            end: addHours(startOfDay(new Date()), 17),
-            title: 'Event 1',
-            allDay: true,
+            start: addHours(startOfDay(setDay(new Date(), 1)), 2),
+            end: subSeconds(addHours(startOfDay(setDay(new Date(), 1)), 2.1), 1),
+            title: '1',
+            color: colors.blue,
+            resizable: {
+                beforeStart: true,
+                afterEnd: true,
+            },
         },
         {
-            start: addHours(startOfDay(addDays(new Date(), 1)), 2),
-            end: addHours(startOfDay(addDays(new Date(), 1)), 18),
-            title: 'Event 2',
-            allDay: true,
+            start: addHours(startOfDay(setDay(new Date(), 2)), 2),
+            end: subSeconds(addHours(startOfDay(setDay(new Date(), 2)), 3), 1),
+            title: '2',
+            color: colors.blue,
+            resizable: {
+                beforeStart: true,
+                afterEnd: true,
+            },
         },
         {
-            start: addHours(startOfDay(new Date()), 8),
-            title: 'Event 3',
-            allDay: true,
+            start: addHours(startOfDay(setDay(new Date(), 3)), 5),
+            end: subSeconds(addHours(startOfDay(setDay(new Date(), 3)), 10), 1),
+            title: '3',
+            color: colors.blue,
+            resizable: {
+                beforeStart: true,
+                afterEnd: true,
+            },
         },
     ];
+
+    refresh = new Subject<void>();
+
+    eventTimesChanged({
+        event,
+        newStart,
+        newEnd,
+    }: CalendarEventTimesChangedEvent): void {
+        event.start = newStart;
+        event.end = newEnd;
+        this.refresh.next();
+    }
 }
