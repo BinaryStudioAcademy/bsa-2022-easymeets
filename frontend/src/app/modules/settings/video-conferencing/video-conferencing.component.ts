@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BaseComponent } from '@core/base/base.component';
 import { UserService } from '@core/services/user.service';
 import { ZoomService } from '@core/services/zoom.service';
 
@@ -8,7 +9,7 @@ import { ZoomService } from '@core/services/zoom.service';
     templateUrl: './video-conferencing.component.html',
     styleUrls: ['./video-conferencing.component.sass'],
 })
-export class VideoConferencingComponent {
+export class VideoConferencingComponent extends BaseComponent {
     private redirectUri: string = document.location.href.split('?')[0];
 
     constructor(
@@ -17,15 +18,18 @@ export class VideoConferencingComponent {
         private activatedRoute: ActivatedRoute,
         private userService: UserService,
     ) {
+        super();
         activatedRoute.queryParams.subscribe(params => {
             if (params['code']) {
                 const authCode = params['code'];
 
-                this.userService.createZoomCredentials(authCode, this.redirectUri).subscribe(() => router.navigate([], {
-                    queryParams: {
-                        code: null,
-                    },
-                }));
+                this.userService.createZoomCredentials(authCode, this.redirectUri)
+                    .pipe(this.untilThis)
+                    .subscribe(() => router.navigate([], {
+                        queryParams: {
+                            code: null,
+                        },
+                    }));
             }
         });
     }

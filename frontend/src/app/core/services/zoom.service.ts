@@ -6,6 +6,8 @@ import { environment } from '@env/environment';
     providedIn: 'root',
 })
 export class ZoomService {
+    private authUri: string = 'https://zoom.us/oauth/authorize';
+
     public authorizeUser(redirectUri: string) {
         const params = new HttpParams({
             fromObject: {
@@ -15,6 +17,6 @@ export class ZoomService {
             },
         });
 
-        document.location.href = `https://zoom.us/oauth/authorize?${params.toString()}`;
+        document.location.href = `${this.authUri}?${params.toString()}`;
     }
 }

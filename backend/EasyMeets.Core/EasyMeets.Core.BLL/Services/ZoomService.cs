@@ -18,11 +18,13 @@ namespace EasyMeets.Core.BLL.Services;
 public class ZoomService : BaseService, IZoomService
 {
     private readonly HttpClient _httpClient;
-    private const string TokenUri = "https://zoom.us/oauth/token";
-    private const string BaseApiUri = "https://api.zoom.us/v2";
-    public ZoomService(EasyMeetsCoreContext context, IMapper mapper, HttpClient httpClient) : base(context, mapper)
+    private readonly string _tokenUri;
+    private readonly string _baseApiUri;
+    public ZoomService(EasyMeetsCoreContext context, IMapper mapper, HttpClient httpClient, string tokenUri, string baseApiUri) : base(context, mapper)
     {
         _httpClient = httpClient;
+        _tokenUri = tokenUri;
+        _baseApiUri = baseApiUri;
     }
 
     public async Task<CredentialsDto> GetNewCredentials(NewCredentialsRequestDto newCredentialsRequestDto)
@@ -46,7 +48,7 @@ public class ZoomService : BaseService, IZoomService
 
         var newMeeting = _mapper.Map<NewZoomMeetingDto>(meeting);
         
-        using var request = new HttpRequestMessage(HttpMethod.Post, $"{BaseApiUri}/users/me/meetings");
+        using var request = new HttpRequestMessage(HttpMethod.Post, $"{_baseApiUri}/users/me/meetings");
         var options = new JsonSerializerOptions()
         {
             PropertyNamingPolicy = SnakeCaseNamingPolicy.Instance
@@ -74,12 +76,17 @@ public class ZoomService : BaseService, IZoomService
 
     private async Task<string> GetAccessToken(Credentials credentials)
     {
-        if (DateTimeOffset.UtcNow - credentials.UpdatedAt < TimeSpan.FromSeconds(credentials.LifeCycle * 0.8))
+        if (IsAlmostExpired(credentials))
         {
             await RefreshAccessToken(credentials);
         }
 
         return credentials.AccessToken;
+    }
+
+    private static bool IsAlmostExpired(Credentials credentials)
+    {
+        return DateTimeOffset.UtcNow - credentials.UpdatedAt < TimeSpan.FromSeconds(credentials.LifeCycle * 0.8);
     }
 
     private async Task RefreshAccessToken(Credentials credentials)
@@ -96,7 +103,7 @@ public class ZoomService : BaseService, IZoomService
 
     private async Task<CredentialsDto> GetCredentials(IDictionary<string, string?> queryString)
     {
-        var uri = QueryHelpers.AddQueryString(TokenUri, queryString);
+        var uri = QueryHelpers.AddQueryString(_tokenUri, queryString);
         
         using var request = new HttpRequestMessage(HttpMethod.Post, uri);
         var authValue = GetTokenAuthorization();
