@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { IImagePath } from '@core/models/IImagePath';
 import { INewUser } from '@core/models/INewUser';
 import { ILocalUser, IUser } from '@core/models/IUser';
 import { map } from 'rxjs';
@@ -62,6 +63,10 @@ export class UserService {
     public updateUser(user: IUser) {
         localStorage.removeItem('user');
         this.setUser(user);
+    }
+
+    public uploadImage(data: FormData) {
+        return this.httpService.putRequest<IImagePath>(`${this.routePrefix}/uploadimage`, data);
     }
 
     public getUserFromStorage(): ILocalUser {
