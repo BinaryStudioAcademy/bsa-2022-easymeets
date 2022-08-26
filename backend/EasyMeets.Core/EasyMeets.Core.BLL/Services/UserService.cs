@@ -6,22 +6,25 @@ using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
+using EasyMeets.Core.Common.DTO.UploadImage;
 
 namespace EasyMeets.Core.BLL.Services
 {
     public class UserService : BaseService, IUserService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper)
+        private readonly IUploadFileService _uploadFileService;
+        public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUploadFileService uploadFileService) : base(context, mapper)
         {
             _httpContextAccessor = httpContextAccessor;
+            _uploadFileService = uploadFileService;
         }
 
         public async Task<UserDto> GetCurrentUserAsync()
         {
             var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId());
 
-            if (currentUser == null)
+            if (currentUser is null)
             {
                 throw new KeyNotFoundException("User doesn't exist");
             }
@@ -32,7 +35,7 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<bool> CheckExistingUserByEmail(string email)
         {
-            return await _context.Users.AnyAsync(u => u.Email == email);;
+            return await _context.Users.AnyAsync(u => u.Email == email);
         }
 
         public async Task UpdateUserPreferences(UserDto userDto, string currentUserEmail)
@@ -48,6 +51,7 @@ namespace EasyMeets.Core.BLL.Services
             _context.Users.Update(userEntity);
             await _context.SaveChangesAsync();
         }
+
         private async Task<User> GetUserById(long id)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id) ?? throw new KeyNotFoundException("User doesn't exist");
@@ -69,7 +73,25 @@ namespace EasyMeets.Core.BLL.Services
 
             return user?.Uid == currentUserId;
         }
-        
+
+        public async Task<ImagePathDto> UploadImageAsync(IFormFile file)
+        {
+            var imagePath = await _uploadFileService.UploadFileBlobAsync(file);
+
+            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId());
+
+            if (currentUser is null)
+            {
+                throw new KeyNotFoundException("User doesn't exist");
+            }
+
+            currentUser.ImagePath = imagePath;
+
+            _context.Users.Update(currentUser);
+            await _context.SaveChangesAsync();
+            return new ImagePathDto() { Path = imagePath };
+        }
+
         private string? GetCurrentUserId()
         {
             var userId = _httpContextAccessor.HttpContext.User.GetUid();
