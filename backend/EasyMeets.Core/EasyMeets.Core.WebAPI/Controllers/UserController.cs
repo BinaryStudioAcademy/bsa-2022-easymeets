@@ -1,5 +1,6 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Credentials.Zoom;
+using EasyMeets.Core.Common.DTO.UploadImage;
 using EasyMeets.Core.Common.DTO.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,14 @@ namespace EasyMeets.Core.WebAPI.Controllers
             var currentUser = await _userService.GetCurrentUserAsync();
             await _userService.UpdateUserPreferences(user, currentUser.Email);
             return Ok();
+        }
+
+
+        [HttpPut("uploadimage")]
+        public async Task<ActionResult<ImagePathDto>> UploadImageAsync([FromForm] IFormFile file)
+        {
+            var imagePath = await _userService.UploadImageAsync(file);
+            return Ok(imagePath);
         }
 
         [HttpPost("zoom/add")]
