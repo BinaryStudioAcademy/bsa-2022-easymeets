@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { IImagePath } from '@core/models/IImagePath';
 import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
+import { IUpdateTeam } from '@core/models/IUpdateTeam';
 import { HttpInternalService } from '@core/services/http-internal.service';
 import { Observable, Subject } from 'rxjs';
 
@@ -67,7 +69,11 @@ export class TeamService {
         return this.httpService.deleteRequest<ITeam>(`${this.routePrefix}/${teamId}`);
     }
 
-    public editTeam(team: ITeam) {
+    public editTeam(team: IUpdateTeam) {
         return this.httpService.putRequest<ITeam>(`${this.routePrefix}`, team);
+    }
+
+    public uploadLogo(data: FormData, id: number | undefined) {
+        return this.httpService.putRequest<IImagePath>(`${this.routePrefix}/uploadlogo/${id !== undefined ? id : ''}`, data);
     }
 }

@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { ITeam } from '@core/models/ITeam';
+import { ILocalUser } from '@core/models/IUser';
 import { AuthService } from '@core/services/auth.service';
 import { TeamService } from '@core/services/team.service';
+import { UserService } from '@core/services/user.service';
 
 @Component({
     selector: 'app-header-item',
@@ -12,12 +14,15 @@ import { TeamService } from '@core/services/team.service';
 })
 export class HeaderItemComponent extends BaseComponent implements OnInit {
     public teams: ITeam[] = [];
+    
+    public currentUser: ILocalUser;
 
-    constructor(private authService: AuthService, private router: Router, private teamService: TeamService) {
+    constructor(private authService: AuthService, private router: Router, private teamService: TeamService, private userService: UserService) {
         super();
     }
 
     ngOnInit(): void {
+        this.currentUser = this.userService.getUserFromStorage();
         this.teamService.getCurrentUserTeams()
             .pipe(this.untilThis)
             .subscribe((teams) => {
