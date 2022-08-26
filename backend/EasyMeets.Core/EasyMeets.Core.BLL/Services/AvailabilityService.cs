@@ -89,7 +89,7 @@ namespace EasyMeets.Core.BLL.Services
 
             if (slotDto.Questions is not null)
             {
-                var notEmptyQuestions = slotDto.Questions.Where(q => !string.IsNullOrWhiteSpace(q.Text));
+                var notEmptyQuestions = slotDto.Questions.Where(q => !string.IsNullOrWhiteSpace(q.QuestionText));
                 var questionsToAdd = _mapper.Map<ICollection<Question>>(notEmptyQuestions,
                     opts => opts.AfterMap((_, dest) =>
                     {
@@ -169,7 +169,7 @@ namespace EasyMeets.Core.BLL.Services
             {
                 availabilitySlot.Questions.Clear();
 
-                var notEmptyQuestions = updateAvailabilityDto.Questions.Where(q => !string.IsNullOrWhiteSpace(q.Text));
+                var notEmptyQuestions = updateAvailabilityDto.Questions.Where(q => !string.IsNullOrWhiteSpace(q.QuestionText));
                 var questions = _mapper.Map<ICollection<Question>>(notEmptyQuestions);
                 foreach (var question in questions)
                 {

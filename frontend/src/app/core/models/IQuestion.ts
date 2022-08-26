@@ -1,4 +1,4 @@
 export interface IQuestion {
-    text: string;
+    questionText: string;
     isMandatory: boolean;
 }

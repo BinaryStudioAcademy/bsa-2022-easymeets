@@ -7,7 +7,7 @@
                 <div class="question-mandatory list-item-wrapper flex cross-axis-center">
                     <mat-label class="question-index bold">{{ i + 1 }}.</mat-label>
                     <mat-form-field class="question-input no-padding" appearance="outline">
-                        <input matInput type="text" [(ngModel)]="question.text" disabled />
+                        <input matInput type="text" [(ngModel)]="question.questionText" disabled />
                     </mat-form-field>
                 </div>
             </ng-container>
@@ -22,7 +22,7 @@
                     <div cdkDrag class="list-item-wrapper flex cross-axis-center">
                         <mat-label class="question-index bold" cdkDragHandle>{{ i + 1 }}.</mat-label>
                         <mat-form-field class="question-input no-padding" appearance="outline">
-                            <input matInput type="text" [(ngModel)]="question.text" />
+                            <input matInput type="text" [(ngModel)]="question.questionText" />
                         </mat-form-field>
                         <button mat-icon-button class="color-dark-grey" (click)="deleteQuestion(question)">
                             <mat-icon>close</mat-icon>

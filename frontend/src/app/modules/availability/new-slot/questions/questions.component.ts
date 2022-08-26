@@ -1,12 +1,8 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Input } from '@angular/core';
+import { getLocalMandatoryQuestions } from '@core/helpers/questions-mandatory-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IQuestion } from '@core/models/IQuestion';
-
-const tempMandatoryQuestions: IQuestion[] = [
-    { text: 'Name', isMandatory: true },
-    { text: 'Email', isMandatory: true },
-];
 
 @Component({
     selector: 'app-questions',
@@ -15,7 +11,7 @@ const tempMandatoryQuestions: IQuestion[] = [
 })
 export class QuestionsComponent {
     @Input() set newSlot(slot: IAvailabilitySlot | undefined) {
-        this.questions = slot?.questions ?? tempMandatoryQuestions;
+        this.questions = slot?.questions ?? getLocalMandatoryQuestions();
         this.mandatoryQuestions = this.questions.filter((q) => q.isMandatory);
         this.onQuestionsArrayChange();
     }
@@ -34,7 +30,7 @@ export class QuestionsComponent {
     }
 
     public addNewQuestion(): void {
-        this.questions.push({ text: '', isMandatory: false });
+        this.questions.push({ questionText: '', isMandatory: false });
         this.onQuestionsArrayChange();
     }
 
