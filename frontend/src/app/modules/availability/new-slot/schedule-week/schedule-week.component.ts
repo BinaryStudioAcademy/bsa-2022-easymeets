@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { colors } from '@core/helpers/colors';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { addHours, addMinutes, setDay, startOfDay } from 'date-fns';
@@ -14,27 +13,13 @@ import { Subject } from 'rxjs';
 export class ScheduleWeekComponent implements OnInit {
     @Input() public items: IScheduleItem[];
 
-    @Input() public displayDay: string;
+    @Input() public itemChange: EventEmitter<void> = new EventEmitter();
 
     ngOnInit(): void {
-        this.events = [];
-        this.items.forEach((item) => {
-            this.events = this.events.concat({
-                start: addMinutes(addHours(
-                    startOfDay(setDay(new Date(), item.weekDay)),
-                    this.parseTime(item.start).getHours(),
-                ), this.parseTime(item.start).getMinutes()),
-                end: addMinutes(addHours(
-                    startOfDay(setDay(new Date(), item.weekDay)),
-                    this.parseTime(item.end).getHours(),
-                ), this.parseTime(item.end).getMinutes()),
-                title: '1',
-                color: colors.blue,
-                resizable: {
-                    beforeStart: true,
-                    afterEnd: true,
-                },
-            });
+        this.updateEvents();
+
+        this.itemChange.subscribe(() => {
+            this.updateEvents();
         });
     }
 
@@ -52,8 +37,23 @@ export class ScheduleWeekComponent implements OnInit {
         newEnd,
     }: CalendarEventTimesChangedEvent): void {
         event.start = newStart;
-        event.end = newEnd;
+        event.end = newEnd as Date;
+        const index = this.events.indexOf(event);
+
+        this.items[index].start = `${this.reformat(newStart.getHours())}:${this.reformat(newStart.getMinutes())}:00`;
+        if (newEnd !== undefined) {
+            this.items[index].end = `${this.reformat(newEnd.getHours())}:${this.reformat(newEnd.getMinutes())}:00`;
+        }
+        this.itemChange.emit();
         this.refresh.next();
+    }
+
+    reformat(num: number): string {
+        if (num < 10) {
+            return `0${num}`;
+        }
+
+        return num.toString();
     }
 
     parseTime(time: string): Date {
@@ -65,5 +65,32 @@ export class ScheduleWeekComponent implements OnInit {
         d.setSeconds(+seconds);
 
         return d;
+    }
+
+    private updateEvents() {
+        let events: CalendarEvent[] = [];
+
+        this.items.forEach((item) => {
+            if (item.isEnabled) {
+                events = events.concat({
+                    start: addMinutes(addHours(
+                        startOfDay(setDay(new Date(), item.weekDay)),
+                        this.parseTime(item.start).getHours(),
+                    ), this.parseTime(item.start).getMinutes()),
+                    end: addMinutes(addHours(
+                        startOfDay(setDay(new Date(), item.weekDay)),
+                        this.parseTime(item.end).getHours(),
+                    ), this.parseTime(item.end).getMinutes()),
+                    title: '',
+                    resizable: {
+                        beforeStart: true,
+                        afterEnd: true,
+                    },
+                });
+            }
+        });
+
+        this.events = events;
+        this.refresh.next();
     }
 }
