@@ -59,7 +59,22 @@
                 <div class="item">
                     <div class="search-list">
                         <p class="add-team-member-label">Add Team Member</p>
-                        <mat-select
+                        <mat-form-field class="select-input" formControlName="teamMember">
+                            <mat-label>Type...</mat-label>
+                            <input type="text"
+                                   aria-label="Type..."
+                                   matInput
+                                   [formControl]="memberFilterCtrl"
+                                   [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayMemberName">
+                                <mat-option (click)="addMemberToList(meetingForm)"
+                                    *ngFor="let member of filteredOptions | async"
+                                    [value]="member">
+                                    {{member.name}}
+                                </mat-option>
+                            </mat-autocomplete>
+                          </mat-form-field>
+                        <!-- <mat-select
                             class="select-input"
                             #singleSelect
                             placeholder="Type..."
@@ -75,7 +90,7 @@
                             <mat-option *ngFor="let member of filteredMembers | async" [value]="member">
                                 {{member.name}}
                             </mat-option>
-                        </mat-select>
+                        </mat-select> -->
                     </div>
                 </div>
             </div>

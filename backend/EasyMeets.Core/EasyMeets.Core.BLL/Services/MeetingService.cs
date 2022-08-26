@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Meeting;
+using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -81,6 +82,17 @@ namespace EasyMeets.Core.BLL.Services
             );
 
             await _context.Meetings.AddAsync(meeting);
+
+            var slotMembers = _mapper.Map<ICollection<SlotMember>>(meetingDto.MeetingMembers, opts =>
+                opts.AfterMap((_, dest) =>
+                {
+                    dest.Select(x => x.EventId = meeting.Id);
+                    dest.Select(x => x.Priority = default(int));
+                    dest.Select(x => x.ScheduleId = default(long)); 
+                }));
+
+            await _context.SlotMembers.AddRangeAsync(slotMembers);
+
             await _context.SaveChangesAsync();
         }
     }

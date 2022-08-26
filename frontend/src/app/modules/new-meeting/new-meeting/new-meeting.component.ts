@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { BaseComponent } from '@core/base/base.component';
@@ -12,14 +12,14 @@ import { NotificationService } from '@core/services/notification.service';
 import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
-import { ReplaySubject, take } from 'rxjs';
+import { map, Observable, ReplaySubject, startWith } from 'rxjs';
 
 @Component({
     selector: 'app-new-meeting',
     templateUrl: './new-meeting.component.html',
     styleUrls: ['./new-meeting.component.sass'],
 })
-export class NewMeetingComponent extends BaseComponent implements OnInit, AfterViewInit {
+export class NewMeetingComponent extends BaseComponent implements OnInit {
     constructor(private newMeetingService: NewMeetingService, public notificationService: NotificationService) {
         super();
         this.getTeamMembersOfCurrentUser();
@@ -47,9 +47,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, AfterV
 
     public meetingForm: FormGroup;
 
-    public memberCtrl: FormControl = new FormControl();
-
-    public memberFilterCtrl: FormControl = new FormControl();
+    public memberFilterCtrl: FormControl = new FormControl('', [Validators.required]);
 
     public meetingNameControl: FormControl = new FormControl('', [
         Validators.required,
@@ -63,16 +61,18 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, AfterV
         Validators.pattern(naturalNumberRegex),
     ]);
 
+    filteredOptions: Observable<INewMeetingMember[]>;
+
     ngOnInit(): void {
         this.meetingForm = new FormGroup({
             meetingName: this.meetingNameControl,
             customTime: this.customTimeControl,
-            unitOfTime: new FormControl(),
-            location: new FormControl(),
-            duration: new FormControl(),
+            unitOfTime: new FormControl('', [Validators.required]),
+            location: new FormControl('', [Validators.required]),
+            duration: new FormControl('', [Validators.required]),
             mainContainerDuration: new FormControl(),
-            date: new FormControl(),
-            teamMember: new FormControl(),
+            date: new FormControl('', [Validators.required]),
+            teamMember: this.memberFilterCtrl,
         });
 
         this.patchFormValues();
@@ -87,57 +87,30 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, AfterV
         });
     }
 
-    ngAfterViewInit() {
-        this.setInitialValue();
-    }
-
-    protected setInitialValue() {
-        this.filteredMembers
-            .pipe(take(1), this.untilThis)
-            .subscribe(() => {
-                //this.singleSelect.compareWith = (a: INewMeetingTeamMember, b: INewMeetingTeamMember) => a && b && a.id === b.id;
-            });
-    }
-
     public create(form: FormGroup) {
         // eslint-disable-next-line no-debugger
         debugger;
-        //if (this.meetingForm.valid) {
-        const newMeeting: INewMeeting = {
-            name: form.value.meetingName,
-            location: form.value.location,
-            duration: this.duration,
-            startTime: form.value.date,
-            meetingLink: form.value.meetingName,
-            meetingMembers: this.addedMembers,
-        };
+        if (this.meetingForm.valid) {
+            const newMeeting: INewMeeting = {
+                name: form.value.meetingName,
+                location: form.value.location,
+                duration: this.duration,
+                startTime: form.value.date,
+                meetingLink: form.value.meetingName,
+                meetingMembers: this.addedMembers,
+            };
 
-        this.newMeetingService.saveNewMeeting(newMeeting)
-            .pipe(this.untilThis)
-            .subscribe(() => {
-                this.notificationService.showSuccessMessage('New meeting was created successfully.');
-                this.meetingForm.reset();
-                this.patchFormValues();
-                this.addedMembers = [];
-            });
-        // } else {
-        //     this.notificationService.showErrorMessage('All fields need to be set');
-        // }
-    }
-
-    public filterMembers() {
-        let search = this.memberFilterCtrl.value;
-
-        if (!search) {
-            this.filteredMembers.next(this.teamMembers.slice());
-
-            return;
+            this.newMeetingService.saveNewMeeting(newMeeting)
+                .pipe(this.untilThis)
+                .subscribe(() => {
+                    this.notificationService.showSuccessMessage('New meeting was created successfully.');
+                    this.meetingForm.reset();
+                    this.patchFormValues();
+                    this.addedMembers = [];
+                });
+        } else {
+            this.notificationService.showErrorMessage('All fields need to be set');
         }
-        search = search.toLowerCase();
-
-        this.filteredMembers.next(
-            this.teamMembers.filter(member => member.name.toLowerCase().indexOf(search) > -1),
-        );
     }
 
     public getTeamMembersOfCurrentUser() {
@@ -147,13 +120,21 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, AfterV
             .subscribe((resp) => {
                 this.teamMembers = resp;
 
-                this.filteredMembers.next(this.teamMembers.slice());
-                this.memberFilterCtrl.valueChanges
-                    .pipe(this.untilThis)
-                    .subscribe(() => {
-                        this.filterMembers();
-                    });
+                this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
+                    startWith(''),
+                    map(value => {
+                        const name = typeof value === 'string' ? value : value?.name;
+
+                        return name ? this._filter(name as string) : this.teamMembers.slice();
+                    }),
+                );
             });
+    }
+
+    private _filter(name: string): INewMeetingMember[] {
+        const filterValue = name.toLowerCase();
+
+        return this.teamMembers.filter(teamMembers => teamMembers.name.toLowerCase().includes(filterValue));
     }
 
     public showUnshowCustomDuration(form: FormGroup) {
@@ -188,7 +169,12 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, AfterV
     public addMemberToList(form: FormGroup) {
         if (!this.addedMembers.includes({ id: form.value.teamMember.id, name: form.value.teamMember.name })) {
             this.addedMembers.push({ id: form.value.teamMember.id, name: form.value.teamMember.name });
+            //this.meetingForm.get('memberFilterCtrl').setValue('');
         }
+    }
+
+    displayMemberName(teamMember: INewMeetingMember): string {
+        return teamMember && teamMember.name ? teamMember.name : '';
     }
 
     public removeMemberToList(form: FormGroup) {
