@@ -12,7 +12,7 @@ import { NotificationService } from '@core/services/notification.service';
 import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
-import { map, Observable, ReplaySubject, startWith } from 'rxjs';
+import { map, Observable, startWith } from 'rxjs';
 
 @Component({
     selector: 'app-new-meeting',
@@ -29,9 +29,9 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public teamMembers: INewMeetingMember[];
 
-    public filteredMembers: ReplaySubject<INewMeetingMember[]> = new ReplaySubject<INewMeetingMember[]>(1);
-
     public addedMembers: INewMeetingMember[] = [];
+
+    public filteredOptions: Observable<INewMeetingMember[]>;
 
     public durations: IDuration[] = getDisplayDuration();
 
@@ -45,6 +45,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public customTimeShown: boolean = false;
 
+    public mainContentCustomTimeShown: boolean = false;
+
     public meetingForm: FormGroup;
 
     public memberFilterCtrl: FormControl = new FormControl();
@@ -57,32 +59,37 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     ]);
 
     public customTimeControl: FormControl = new FormControl('', [
-        Validators.required,
         Validators.pattern(naturalNumberRegex),
     ]);
 
     public mainContainerCustomTimeControl: FormControl = new FormControl('', [
-        Validators.required,
         Validators.pattern(naturalNumberRegex),
     ]);
 
-    filteredOptions: Observable<INewMeetingMember[]>;
+    public setValidation() {
+        if (this.meetingForm.value.duration.time === 'Custom') {
+            this.meetingForm.controls['customTime'].setValidators(Validators.required);
+        } else {
+            this.meetingForm.controls['customTime'].clearValidators();
+        }
+    }
 
     ngOnInit(): void {
         this.meetingForm = new FormGroup({
             meetingName: this.meetingNameControl,
             customTime: this.customTimeControl,
-            unitOfTime: new FormControl('', [Validators.required]),
-            location: new FormControl('', [Validators.required]),
-            duration: new FormControl('', [Validators.required]),
+            unitOfTime: new FormControl(),
+            location: new FormControl(),
+            duration: new FormControl(),
             mainContainerDuration: new FormControl(),
             mainContainerCustomTime: this.mainContainerCustomTimeControl,
-            mainContainerUnitOfTime: new FormControl('', [Validators.required]),
+            mainContainerUnitOfTime: new FormControl(),
             date: new FormControl('', [Validators.required]),
             teamMember: new FormControl(),
         });
 
         this.patchFormValues();
+        this.setValidation();
     }
 
     public patchFormValues() {
@@ -95,8 +102,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     }
 
     public create(form: FormGroup) {
-        // eslint-disable-next-line no-debugger
-        debugger;
         if (this.meetingForm.valid) {
             const newMeeting: INewMeeting = {
                 name: form.value.meetingName,
@@ -105,6 +110,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
                 startTime: form.value.date,
                 meetingLink: form.value.meetingName,
                 meetingMembers: this.addedMembers,
+                createdAt: new Date(),
             };
 
             this.newMeetingService.saveNewMeeting(newMeeting)
@@ -116,7 +122,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
                     this.addedMembers = [];
                 });
         } else {
-            this.notificationService.showErrorMessage('All fields need to be set');
+            this.notificationService.showErrorMessage('All fiels need to be set');
         }
     }
 
@@ -150,12 +156,20 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public showUnshowCustomDuration(form: FormGroup) {
         const durationValue = form.value.duration;
+        const mainContainerDurationValue = form.value.mainContainerDuration;
 
         if (durationValue.time === 'Custom') {
             this.customTimeShown = true;
+            this.setValidation();
         } else {
             this.customTimeShown = false;
             this.durationChanged(durationValue.time, durationValue.unitOfTime);
+        }
+
+        if (mainContainerDurationValue.time === 'Custom') {
+            this.mainContentCustomTimeShown = true;
+        } else {
+            this.mainContentCustomTimeShown = false;
         }
     }
 

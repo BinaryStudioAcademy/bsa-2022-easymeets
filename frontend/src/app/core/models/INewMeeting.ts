@@ -7,5 +7,6 @@ export interface INewMeeting {
     duration: number,
     startTime: Date,
     meetingLink: string,
+    createdAt: Date,
     meetingMembers: INewMeetingMember[]
 }

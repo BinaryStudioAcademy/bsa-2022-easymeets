@@ -76,10 +76,13 @@ namespace EasyMeets.Core.BLL.Services
                 opts.AfterMap((_, dest) =>
                 {
                     dest.CreatedBy = currentUser.Id;
-                    dest.CreatedAt = DateTime.Now;
                     dest.TeamId = teamId;
                 })
             );
+
+            await _context.Meetings.AddAsync(meeting);
+
+            await _context.SaveChangesAsync();
         }
     }
 }
