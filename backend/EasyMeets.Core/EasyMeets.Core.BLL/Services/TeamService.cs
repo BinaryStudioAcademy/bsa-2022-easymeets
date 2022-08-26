@@ -38,7 +38,7 @@ public class TeamService : BaseService, ITeamService
         return $"{teamName}{index}";
     }
 
-    public async Task<bool> ValidatePageLinkAsync(long teamId, string pageLink)
+    public async Task<bool> ValidatePageLinkAsync(long? teamId, string pageLink)
     {
         var isUnique = !await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == pageLink);
         return isUnique;
@@ -114,6 +114,17 @@ public class TeamService : BaseService, ITeamService
     {
         var currentUser = await _userService.GetCurrentUserAsync();
         var teams = await _context.TeamMembers.Where(el => el.UserId == currentUser!.Id)
+            .Include(el => el.Team)
+            .Select(el => el.Team)
+            .ToListAsync();
+
+        return _mapper.Map<List<TeamDto>>(teams);
+    }
+    
+    public async Task<List<TeamDto>> GetCurrentUserAdminTeams()
+    {
+        var currentUser = await _userService.GetCurrentUserAsync();
+        var teams = await _context.TeamMembers.Where(el => el.UserId == currentUser.Id && el.Role == Role.Admin)
             .Include(el => el.Team)
             .Select(el => el.Team)
             .ToListAsync();

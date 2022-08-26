@@ -33,6 +33,12 @@ public class TeamController : ControllerBase
     {
         return Ok(await _teamService.GetCurrentUserTeams());
     }
+    
+    [HttpGet("user-teams-admin")]
+    public async Task<ActionResult<List<TeamDto>>> GetCurrentUserAdminTeams()
+    {
+        return Ok(await _teamService.GetCurrentUserAdminTeams());
+    }
 
     [HttpGet("validatepagelink")]
     public async Task<ActionResult<bool>> ValidatePageLinkAsync(long id, string pagelink)
