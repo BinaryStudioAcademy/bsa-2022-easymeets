@@ -15,7 +15,7 @@ export class ExternalBookingMembersComponent extends BaseComponent {
 
     public selectedTeamMembers: IAvailabilitySlotMember[] = [];
 
-    public checksAreDisabled: boolean;
+    public isAllTeamMembersChecked: boolean;
 
     @Output() selectedMembersEvent = new EventEmitter<IAvailabilitySlotMember[]>();
 
@@ -25,7 +25,7 @@ export class ExternalBookingMembersComponent extends BaseComponent {
 
     public selectMember(member: IAvailabilitySlotMember): void {
         if (this.selectedTeamMembers.includes(member)) {
-            this.selectedTeamMembers = this.selectedTeamMembers.filter((o) => o.name !== member.name);
+            this.selectedTeamMembers = this.selectedTeamMembers.filter((o) => o.id !== member.id);
         } else {
             this.selectedTeamMembers = [...this.selectedTeamMembers, member];
         }
@@ -33,7 +33,7 @@ export class ExternalBookingMembersComponent extends BaseComponent {
 
     public cancelSelection(): void {
         this.selectedTeamMembers = [];
-        this.checksAreDisabled = false;
+        this.isAllTeamMembersChecked = false;
     }
 
     public addMembers(selectedMembers: IAvailabilitySlotMember[]) {

@@ -32,7 +32,7 @@
                 <h3>{{ member.name }}</h3>
             </div>
             <div class="team-member-checkbox">
-                <input type="checkbox" [checked]="checksAreDisabled" (click)="selectMember(member)" />
+                <input type="checkbox" [checked]="isAllTeamMembersChecked" (click)="selectMember(member)" />
             </div>
         </mat-card-title>
     </mat-card>
