@@ -28,14 +28,13 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             CreateMap<Meeting, NewZoomMeetingDto>()
                 .ForMember(m => m.Agenda, o
                     => o.MapFrom(s => s.Name))
-                .ForMember(m => m.Topic, o =>
-                    o.MapFrom(s => s.Description))
                 .ForMember(m => m.ScheduleFor, o =>
                     o.MapFrom(s => s.Author.Email))
-                .ForMember(m => m.Settings.ContactName, o =>
-                    o.MapFrom(s => s.Author.Name))
-                .ForMember(m => m.Settings.ContactEmail, o =>
-                    o.MapFrom(s => s.Author.Email));
+                .AfterMap((src, dest) =>
+                {
+                    dest.Settings.ContactName = src.Author.Name;
+                    dest.Settings.ContactEmail = src.Author.Email;
+                });
         }
 
         private string CreateMemberTitle(Meeting meeting)

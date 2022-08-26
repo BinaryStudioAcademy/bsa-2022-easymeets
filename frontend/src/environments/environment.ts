@@ -16,7 +16,7 @@ export const environment = {
         measurementId: 'G-CZQ7Z16TJZ',
     },
     zoom: {
-        clientId: 'DGyQTt7qQQuAH7EfiFHSA',
+        clientId: '4xiMmGJEReegy4kzN2i7kg',
     },
 };
 

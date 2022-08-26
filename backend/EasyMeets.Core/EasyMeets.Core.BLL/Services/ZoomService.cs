@@ -19,7 +19,7 @@ public class ZoomService : BaseService, IZoomService
 {
     private readonly HttpClient _httpClient;
     private const string TokenUri = "https://zoom.us/oauth/token";
-    private const string BaseApiUri = "https://api.zoom.us/v2/";
+    private const string BaseApiUri = "https://api.zoom.us/v2";
     public ZoomService(EasyMeetsCoreContext context, IMapper mapper, HttpClient httpClient) : base(context, mapper)
     {
         _httpClient = httpClient;
