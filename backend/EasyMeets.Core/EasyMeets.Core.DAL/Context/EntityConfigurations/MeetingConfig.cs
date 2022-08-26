@@ -16,11 +16,7 @@ public class MeetingConfig : IEntityTypeConfiguration<Meeting>
         
         builder.Property(m => m.Name)
             .IsRequired()
-            .HasMaxLength(50);
-        
-        builder.Property(m => m.Description)
-            .IsRequired()
-            .HasMaxLength(300);
+            .HasMaxLength(50); 
         
         builder.Property(m => m.Duration)
             .IsRequired();

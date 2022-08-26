@@ -25,5 +25,9 @@ public class ExternalAttendeeConfig : IEntityTypeConfiguration<ExternalAttendee>
         builder.HasOne(at => at.AvailabilitySlot)
             .WithMany(s => s.ExternalAttendees)
             .HasForeignKey(at => at.AvailabilitySlotId);
+
+        builder.HasOne(at => at.Meeting)
+            .WithMany(s => s.ExternalAttendees)
+            .HasForeignKey(at => at.MeetingId);
     }
 }
