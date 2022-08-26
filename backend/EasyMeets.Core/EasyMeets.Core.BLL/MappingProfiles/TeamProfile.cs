@@ -11,7 +11,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
         {
             CreateMap<Team, AvailabilitySlotsGroupByTeamsDto>();
             CreateMap<AvailabilitySlotsGroupByTeamsDto, Team>();
-
+            
             CreateMap<TeamDto, Team>()
                 .ForMember(dest => dest.LogoPath, src => src.MapFrom(s => s.Image));
 
