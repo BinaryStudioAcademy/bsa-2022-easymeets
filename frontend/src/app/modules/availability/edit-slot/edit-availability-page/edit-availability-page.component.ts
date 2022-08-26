@@ -58,7 +58,7 @@ export class EditAvailabilityPageComponent extends BaseComponent implements OnDe
     sendChanges() {
         const general = this.newAvailabilityComponent.generalComponent.settings;
 
-        general.isEnabled = this.newAvailabilityComponent.isActive;
+        general.isEnabled = this.newAvailabilityComponent.slot?.isEnabled ?? true;
         const advancedSettings = this.newAvailabilityComponent.generalComponent.addAdvanced
             ? this.newAvailabilityComponent.generalComponent.advancedSettings! : null;
         const updateAvailability: ISaveAvailability = {

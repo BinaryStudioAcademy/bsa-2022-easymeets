@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IImagePath } from '@core/models/IImagePath';
 import { INewUser } from '@core/models/INewUser';
+import { IUpdateUser } from '@core/models/IUpdateUser';
 import { ILocalUser, IUser } from '@core/models/IUser';
 import { map } from 'rxjs';
 
@@ -25,7 +26,7 @@ export class UserService {
         );
     }
 
-    public editUser(put: IUser) {
+    public editUser(put: IUpdateUser) {
         return this.httpService.putRequest<IUser>(`${this.routePrefix}`, put);
     }
 

@@ -38,7 +38,7 @@ namespace EasyMeets.Core.BLL.Services
             return await _context.Users.AnyAsync(u => u.Email == email);
         }
 
-        public async Task UpdateUserPreferences(UserDto userDto, string currentUserEmail)
+        public async Task<UserDto> UpdateUserPreferences(UpdateUserDto userDto, string currentUserEmail)
         {
             var userEntity = await GetUserById(userDto.Id);
             userEntity = _mapper.Map(userDto, userEntity);
@@ -50,6 +50,8 @@ namespace EasyMeets.Core.BLL.Services
 
             _context.Users.Update(userEntity);
             await _context.SaveChangesAsync();
+
+            return _mapper.Map<UserDto>(userEntity);
         }
 
         private async Task<User> GetUserById(long id)
