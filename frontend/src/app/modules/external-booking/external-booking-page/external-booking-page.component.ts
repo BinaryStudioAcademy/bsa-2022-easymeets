@@ -36,21 +36,16 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
                     timeZone: '',
                     description: '',
                 },
+                duration: 30,
+                location: LocationType.GoogleMeet,
             };
-            this.userService.getCurrentUser().subscribe((user) => {
-                this.menu = {
-                    ...this.menu,
-                    user,
-                };
-            });
-        } else {
-            this.userService.getCurrentUser().subscribe((user) => {
-                this.menu = {
-                    ...this.menu,
-                    user,
-                };
-            });
         }
+        this.userService.getCurrentUser().subscribe((user) => {
+            this.menu = {
+                ...this.menu,
+                user,
+            };
+        });
     }
 
     public addDurationAndLocationInMenu(data: { duration: number; location: LocationType }): void {
