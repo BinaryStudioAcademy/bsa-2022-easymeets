@@ -24,7 +24,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId());
 
-            if (currentUser == null)
+            if (currentUser is null)
             {
                 throw new KeyNotFoundException("User doesn't exist");
             }
@@ -80,7 +80,7 @@ namespace EasyMeets.Core.BLL.Services
 
             var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId());
 
-            if (currentUser == null)
+            if (currentUser is null)
             {
                 throw new KeyNotFoundException("User doesn't exist");
             }
