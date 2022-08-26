@@ -13,7 +13,7 @@ namespace EasyMeets.Core.BLL.Services
         {
         }
 
-        public async Task<string> UploadFileBlobAsync(IFormFile file, long userId)
+        public async Task<string> UploadFileBlobAsync(IFormFile file)
         {
             var fileName = Path.GetFileName(file.FileName);
 
@@ -25,21 +25,7 @@ namespace EasyMeets.Core.BLL.Services
 
             stream.Close();
 
-            var imageUrl = blob.Uri.ToString();
-
-            var user = await _context.Users.FindAsync(userId);
-
-            if (user is null)
-            {
-                throw new NullReferenceException();
-            }
-
-            user.ImagePath = imageUrl;
-
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
-
-            return user.ImagePath;
+            return blob.Uri.ToString() ?? throw new FileLoadException("File not loaded.");
         }
     }
 }
