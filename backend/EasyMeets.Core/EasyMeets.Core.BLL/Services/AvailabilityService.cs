@@ -25,13 +25,13 @@ namespace EasyMeets.Core.BLL.Services
             {
                 throw new ArgumentException("Trying to get another user's slots", nameof(id));
             }
-            
+
             var availabilitySlots = await _context.AvailabilitySlots
-                .Include(x => x.Members)
+                .Include(x => x.SlotMembers)
                     .ThenInclude(x => x.User)
                 .Include(x => x.Author)
                 .Include(x => x.Team)
-                .Where(x => x.CreatedBy == id || x.Members.Any(x => x.UserId == id))
+                .Where(x => x.CreatedBy == id || x.SlotMembers.Any(x => x.MemberId == id))
                 .Select(y =>
                     new AvailabilitySlotDto
                     {
@@ -43,7 +43,7 @@ namespace EasyMeets.Core.BLL.Services
                         AuthorName = y.Author.Name,
                         TeamName = y.Team.Name,
                         LocationType = y.LocationType,
-                        Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.Members),
+                        Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.SlotMembers),
                     }
                 )
                 .ToListAsync();

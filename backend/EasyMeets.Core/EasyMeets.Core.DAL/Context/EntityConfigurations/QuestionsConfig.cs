@@ -8,7 +8,7 @@ public class QuestionsConfig  : IEntityTypeConfiguration<Question>
 {
     public void Configure(EntityTypeBuilder<Question> builder)
     {
-        builder.Property(q => q.Text)
+        builder.Property(q => q.QuestionText)
             .IsRequired()
             .HasMaxLength(300);
         
