@@ -136,6 +136,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
             duration: this.durations[0],
             unitOfTime: this.unitOfTime[0],
             mainContainerDuration: this.durations[0],
+            mainContainerUnitOfTime: this.unitOfTime[0],
         });
     }
 
