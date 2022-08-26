@@ -26,6 +26,8 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
 
     private deleteEventSubscription: Subscription;
 
+    @Output() isChangedActivity = new EventEmitter<boolean>();
+
     private changeActivityEventEmitter = new EventEmitter<void>();
 
     private changeActivitySubscription: Subscription;
@@ -119,7 +121,7 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
             .subscribe(
                 () => {
                     this.notifications.showSuccessMessage('Slot`s activity was successfully changed');
-                    window.location.reload();
+                    this.changeActivityEvent(true);
                 },
                 (error) => {
                     this.notifications.showErrorMessage(error);
@@ -127,8 +129,12 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
             );
     }
 
+    changeActivityEvent(isChanged: boolean) {
+        this.isChangedActivity.emit(isChanged);
+    }
+
     public cancelSlotActivity() {
-        window.location.reload();
+        this.changeActivityEvent(true);
     }
 
     override ngOnDestroy(): void {
