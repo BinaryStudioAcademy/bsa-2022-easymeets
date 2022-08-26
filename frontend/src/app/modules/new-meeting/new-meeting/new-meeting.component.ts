@@ -63,14 +63,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         Validators.pattern(naturalNumberRegex),
     ]);
 
-    public setValidation() {
-        if (this.meetingForm.value.duration.time === 'Custom') {
-            this.meetingForm.controls['customTime'].setValidators(Validators.required);
-        } else {
-            this.meetingForm.controls['customTime'].clearValidators();
-        }
-    }
-
     ngOnInit(): void {
         this.meetingForm = new FormGroup({
             meetingName: this.meetingNameControl,
@@ -89,15 +81,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         this.setValidation();
     }
 
-    public patchFormValues() {
-        this.meetingForm.patchValue({
-            location: this.locations[0],
-            duration: this.durations[0],
-            unitOfTime: this.unitOfTime[0],
-            mainContainerDuration: this.durations[0],
-        });
-    }
-
     public create(form: FormGroup) {
         if (this.meetingForm.valid) {
             const newMeeting: INewMeeting = {
@@ -114,9 +97,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
                 .pipe(this.untilThis)
                 .subscribe(() => {
                     this.notificationService.showSuccessMessage('New meeting was created successfully.');
-                    this.meetingForm.reset();
-                    this.patchFormValues();
-                    this.addedMembers = [];
+                    this.reset();
                 });
         } else {
             this.notificationService.showErrorMessage('All fiels need to be set');
@@ -139,6 +120,23 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
                     }),
                 );
             });
+    }
+
+    public setValidation() {
+        if (this.meetingForm.value.duration.time === 'Custom') {
+            this.meetingForm.controls['customTime'].setValidators(Validators.required);
+        } else {
+            this.meetingForm.controls['customTime'].clearValidators();
+        }
+    }
+
+    public patchFormValues() {
+        this.meetingForm.patchValue({
+            location: this.locations[0],
+            duration: this.durations[0],
+            unitOfTime: this.unitOfTime[0],
+            mainContainerDuration: this.durations[0],
+        });
     }
 
     private _filter(name: string): INewMeetingMember[] {
@@ -198,5 +196,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public removeMemberToList(form: FormGroup) {
         this.addedMembers = this.addedMembers.filter((member) => member.id !== form.value.teamMember.id);
+    }
+
+    public reset() {
+        this.meetingForm.reset();
+        this.patchFormValues();
+        this.addedMembers = [];
     }
 }
