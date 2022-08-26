@@ -77,7 +77,12 @@ namespace EasyMeets.Core.BLL.Services
 
             var addedUser = await _context.Users.FirstOrDefaultAsync(user => user.Email == userDto.Email);
 
-            await AddUserClaims(addedUser?.Uid, addedUser?.Id);
+            if (addedUser is null)
+            {
+                throw new KeyNotFoundException("User has not been added");
+            }
+            
+            await AddUserClaims(addedUser.Uid, addedUser.Id);
 
             return _mapper.Map<User, UserDto>(addedUser);
         }
