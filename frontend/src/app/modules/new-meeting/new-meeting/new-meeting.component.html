@@ -22,7 +22,9 @@
                 <div class="item">
                     <div class="duration-container">
                         <p class="duration-label">Duration</p>
-                        <mat-select class="select-input" formControlName="duration"  placeholder="Duration" (selectionChange)="showUnshowCustomDuration(meetingForm)">
+                        <mat-select class="select-input"
+                            formControlName="duration"
+                            (selectionChange)="showUnshowCustomDuration(meetingForm)">
                             <mat-option *ngFor="let duration of durations" [value]="duration">
                                 {{duration.time}} {{duration.unitOfTime}}
                             </mat-option>
@@ -59,38 +61,23 @@
                 <div class="item">
                     <div class="search-list">
                         <p class="add-team-member-label">Add Team Member</p>
-                        <mat-form-field class="select-input" formControlName="teamMember">
+                        <mat-form-field class="select-input" >
                             <mat-label>Type...</mat-label>
                             <input type="text"
                                    aria-label="Type..."
                                    matInput
                                    [formControl]="memberFilterCtrl"
                                    [matAutocomplete]="auto">
-                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayMemberName">
-                                <mat-option (click)="addMemberToList(meetingForm)"
+                            <mat-autocomplete #auto="matAutocomplete"
+                                [displayWith]="displayMemberName"
+                                (optionSelected)='addMemberToList($event.option.value)'>
+                                <mat-option
                                     *ngFor="let member of filteredOptions | async"
                                     [value]="member">
                                     {{member.name}}
                                 </mat-option>
                             </mat-autocomplete>
                           </mat-form-field>
-                        <!-- <mat-select
-                            class="select-input"
-                            #singleSelect
-                            placeholder="Type..."
-                            [formControl]="memberCtrl"
-                            formControlName="teamMember"
-                            ngDefaultControl
-                            (selectionChange)="addMemberToList(meetingForm)">
-                            <mat-option>
-                                <ngx-mat-select-search [formControl]="memberFilterCtrl" placeholderLabel=""
-                                    noEntriesFoundLabel="no matching team member found">
-                                </ngx-mat-select-search>
-                            </mat-option>
-                            <mat-option *ngFor="let member of filteredMembers | async" [value]="member">
-                                {{member.name}}
-                            </mat-option>
-                        </mat-select> -->
                     </div>
                 </div>
             </div>

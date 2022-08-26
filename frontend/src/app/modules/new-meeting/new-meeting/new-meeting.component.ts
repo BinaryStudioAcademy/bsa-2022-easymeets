@@ -47,7 +47,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public meetingForm: FormGroup;
 
-    public memberFilterCtrl: FormControl = new FormControl('', [Validators.required]);
+    public memberFilterCtrl: FormControl = new FormControl();
 
     public meetingNameControl: FormControl = new FormControl('', [
         Validators.required,
@@ -72,7 +72,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
             duration: new FormControl('', [Validators.required]),
             mainContainerDuration: new FormControl(),
             date: new FormControl('', [Validators.required]),
-            teamMember: this.memberFilterCtrl,
+            teamMember: new FormControl(),
         });
 
         this.patchFormValues();
@@ -137,6 +137,10 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         return this.teamMembers.filter(teamMembers => teamMembers.name.toLowerCase().includes(filterValue));
     }
 
+    public displayMemberName(teamMember: INewMeetingMember): string {
+        return teamMember && teamMember.name ? teamMember.name : '';
+    }
+
     public showUnshowCustomDuration(form: FormGroup) {
         const durationValue = form.value.duration;
 
@@ -166,15 +170,12 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         this.duration = parseInt(timeValue, 10) * 60;
     }
 
-    public addMemberToList(form: FormGroup) {
-        if (!this.addedMembers.includes({ id: form.value.teamMember.id, name: form.value.teamMember.name })) {
-            this.addedMembers.push({ id: form.value.teamMember.id, name: form.value.teamMember.name });
-            //this.meetingForm.get('memberFilterCtrl').setValue('');
+    public addMemberToList(value: INewMeetingMember) {
+        this.meetingForm.get('teamMember')?.setValue(value);
+        if (!this.addedMembers.includes(value)) {
+            this.addedMembers.push(value);
+            this.memberFilterCtrl = new FormControl();
         }
-    }
-
-    displayMemberName(teamMember: INewMeetingMember): string {
-        return teamMember && teamMember.name ? teamMember.name : '';
     }
 
     public removeMemberToList(form: FormGroup) {
