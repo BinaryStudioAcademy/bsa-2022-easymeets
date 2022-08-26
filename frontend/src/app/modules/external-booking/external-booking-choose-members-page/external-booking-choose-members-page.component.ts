@@ -25,16 +25,14 @@ export class ExternalBookingMembersComponent extends BaseComponent {
 
     public selectMember(member: IAvailabilitySlotMember): void {
         if (this.selectedTeamMembers.includes(member)) {
-            const index = this.selectedTeamMembers.findIndex((o) => o.name === member.name);
-
-            this.selectedTeamMembers.splice(index, 1);
+            this.selectedTeamMembers = this.selectedTeamMembers.filter((o) => o.name !== member.name);
         } else {
-            this.selectedTeamMembers.push(member);
+            this.selectedTeamMembers = [...this.selectedTeamMembers, member];
         }
     }
 
     public cancelSelection(): void {
-        this.selectedTeamMembers.splice(0, this.selectedTeamMembers.length);
+        this.selectedTeamMembers.length = 0;
         this.checksAreDisabled = false;
     }
 
