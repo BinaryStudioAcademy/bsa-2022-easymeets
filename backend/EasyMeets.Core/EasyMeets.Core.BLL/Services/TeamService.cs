@@ -69,13 +69,15 @@ public class TeamService : BaseService, ITeamService
         return _mapper.Map<TeamDto>(createdTeam);
     }
 
-    public async Task UpdateTeamAsync(TeamDto teamDto)
+    public async Task UpdateTeamAsync(UpdateTeamDto teamDto)
     {
         if (await UserIsAdmin(teamDto.Id))
         {
             var teamEntity = await GetTeamByIdAsync(teamDto.Id);
             teamEntity = _mapper.Map(teamDto, teamEntity);
+            
             _context.Teams.Update(teamEntity);
+            
             await _context.SaveChangesAsync();
         }
         else

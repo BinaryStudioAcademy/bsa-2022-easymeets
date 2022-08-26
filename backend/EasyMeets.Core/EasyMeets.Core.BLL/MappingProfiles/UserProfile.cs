@@ -30,6 +30,10 @@ namespace EasyMeets.Core.BLL.MappingProfiles
 
             CreateMap<User, NewMeetingMemberDto>()
                 .ForMember(dest => dest.Name, src => src.MapFrom(s => s.Name)); 
+            
+            CreateMap<UpdateUserDto, User>()
+                .ForMember(dest => dest.Name, src => src.MapFrom(s => s.UserName))
+                .ForMember(dest => dest.PhoneNumber, src => src.MapFrom(s => s.Phone));
         }
     }
 } 

@@ -20,6 +20,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
 
             CreateMap<NewTeamDto, Team>()
                 .ForMember(dest => dest.LogoPath, src => src.MapFrom(s => s.Image));
-       }
+
+            CreateMap<UpdateTeamDto, Team>();
+        }
     }
 }

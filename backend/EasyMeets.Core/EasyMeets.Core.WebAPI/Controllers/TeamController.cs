@@ -54,7 +54,7 @@ public class TeamController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateTeam([FromBody] TeamDto teamDto)
+    public async Task<IActionResult> UpdateTeam([FromBody] UpdateTeamDto teamDto)
     {
         await _teamService.UpdateTeamAsync(teamDto);
         return Ok();
