@@ -1,4 +1,5 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.Common.DTO.UploadImage;
 using EasyMeets.Core.Common.DTO.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,11 +39,21 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdatePreferences([FromBody] UserDto user)
+        public async Task<IActionResult> UpdatePreferences([FromBody] UpdateUserDto user)
         {
             var currentUser = await _userService.GetCurrentUserAsync();
-            await _userService.UpdateUserPreferences(user, currentUser.Email);
-            return Ok();
+            
+            var updatedUser = await _userService.UpdateUserPreferences(user, currentUser.Email);
+            
+            return Ok(updatedUser);
+        }
+
+
+        [HttpPut("uploadimage")]
+        public async Task<ActionResult<ImagePathDto>> UploadImageAsync([FromForm] IFormFile file)
+        {
+            var imagePath = await _userService.UploadImageAsync(file);
+            return Ok(imagePath);
         }
     }
 }
