@@ -1,3 +1,5 @@
 export interface IAvailabilitySlotMember {
-    memberImage?: string
+    id: bigint;
+    memberImage?: string;
+    name?: string;
 }
