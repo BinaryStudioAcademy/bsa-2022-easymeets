@@ -5,7 +5,7 @@
             <button mat-flat-button class="confirm-cancel-button" routerLink="/new-meeting">+ New Meeting</button>
             <button mat-flat-button color="primary" routerLink="/availability/new">+ New Availability Slots</button>
         </div>
-        <div *ngIf="userPersonalAndTeamSlots">
+        <div class="slots-container" *ngIf="userPersonalAndTeamSlots">
             <app-user-slot
                 (isReload)="reloadData($event)"
                 [userSlots]="userPersonalAndTeamSlots.userSlots"
