@@ -119,26 +119,16 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
             .subscribe(
                 () => {
                     this.notifications.showSuccessMessage('Slot`s activity was successfully changed');
-                    this.goToPage('/availability');
+                    window.location.reload();
                 },
                 (error) => {
                     this.notifications.showErrorMessage(error);
                 },
             );
-        /*
-        alert('Slot activity changed');
-        console.log('PREVIOUS:');
-        console.log(this.slot);
-
-        this.slot = { ...this.slot, isEnabled: !this.slot.isEnabled };
-        console.log('NEW:');
-        console.log(this.slot);
-        */
     }
 
     public cancelSlotActivity() {
-        /*this.slot = { ...this.slot, isEnabled: this.slot.isEnabled };*/
-        alert('Slot activity changed');
+        window.location.reload();
     }
 
     override ngOnDestroy(): void {
