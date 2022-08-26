@@ -12,6 +12,7 @@ import { BaseComponent } from '@core/base/base.component';
 import { IImagePath } from '@core/models/IImagePath';
 import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
+import { IUpdateTeam } from '@core/models/IUpdateTeam';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
@@ -241,9 +242,8 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit, O
     }
 
     private editeTeam(form: FormGroup) {
-        const editedTeam: ITeam = {
+        const editedTeam: IUpdateTeam = {
             id: this.team.id,
-            image: this.team.image,
             name: form.value.name,
             pageLink: form.value.pageLink,
             timeZone: form.value.timeZone,
