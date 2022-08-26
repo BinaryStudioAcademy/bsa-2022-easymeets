@@ -20,8 +20,8 @@ export class ScheduleListItemComponent implements OnInit {
     public endValue: string;
 
     public scheduleForm = new FormGroup({
-        startTime: new FormControl('16:00', [Validators.pattern(timeNumberRegex)]),
-        endTime: new FormControl('17:30', [Validators.pattern(timeNumberRegex)]),
+        startTime: new FormControl('', [Validators.pattern(timeNumberRegex)]),
+        endTime: new FormControl('', [Validators.pattern(timeNumberRegex)]),
     });
 
     public onDateChange($event: Event, isStart: boolean) {
@@ -41,6 +41,10 @@ export class ScheduleListItemComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.scheduleForm.patchValue({
+            startTime: this.item.start.substring(0, 5),
+            endTime: this.item.end.substring(0, 5),
+        });
         this.startValue = this.item.start.substring(0, 5);
         this.endValue = this.item.end.substring(0, 5);
     }
