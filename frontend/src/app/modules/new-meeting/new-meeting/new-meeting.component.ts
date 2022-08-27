@@ -20,7 +20,6 @@ import { map, Observable, startWith } from 'rxjs';
 export class NewMeetingComponent extends BaseComponent implements OnInit {
     constructor(private newMeetingService: NewMeetingService, public notificationService: NotificationService) {
         super();
-        this.getTeamMembersOfCurrentUser();
     }
 
     public teamMembers: INewMeetingMember[];
@@ -76,6 +75,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
         this.patchFormValues();
         this.setValidation();
+        this.getTeamMembersOfCurrentUser();
     }
 
     public create(form: FormGroup) {
