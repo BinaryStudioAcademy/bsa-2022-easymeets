@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
-import { addHours, addMinutes, setDay, startOfDay } from 'date-fns';
+import { addHours, addMinutes, isSameDay, setDay, startOfDay } from 'date-fns';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -93,4 +93,24 @@ export class ScheduleWeekComponent implements OnInit {
         this.events = events;
         this.refresh.next();
     }
+
+    validateEventTimesChanged = (
+        { event, newStart, newEnd }: CalendarEventTimesChangedEvent,
+    ) => {
+        if (event.allDay) {
+            return true;
+        }
+
+        if (newEnd === undefined) {
+            newEnd = newStart;
+        }
+        delete event.cssClass;
+        const sameDay = isSameDay(newStart, newEnd);
+
+        if (!sameDay) {
+            return false;
+        }
+
+        return true;
+    };
 }
