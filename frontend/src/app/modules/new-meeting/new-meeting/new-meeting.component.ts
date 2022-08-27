@@ -107,16 +107,23 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
             .pipe(this.untilThis)
             .subscribe((resp) => {
                 this.teamMembers = resp;
-
-                this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
-                    startWith(''),
-                    map(value => {
-                        const name = typeof value === 'string' ? value : value?.name;
-
-                        return name ? this._filter(name as string) : this.teamMembers.slice();
-                    }),
-                );
+                this._getFilteredOptions();
             });
+    }
+
+    private _getFilteredOptions() {
+        this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
+            startWith(''),
+            map(value => {
+                const filterValue = value || ''.toLowerCase();
+
+                return this.teamMembers.filter(teamMembers => teamMembers.name.toLowerCase().includes(filterValue));
+            }),
+        );
+    }
+
+    public displayMemberName(teamMember: INewMeetingMember): string {
+        return teamMember && teamMember.name ? teamMember.name : '';
     }
 
     public setValidation() {
@@ -135,16 +142,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
             mainContainerDuration: this.durations[0],
             mainContainerUnitOfTime: this.unitOfTime[0],
         });
-    }
-
-    private _filter(name: string): INewMeetingMember[] {
-        const filterValue = name.toLowerCase();
-
-        return this.teamMembers.filter(teamMembers => teamMembers.name.toLowerCase().includes(filterValue));
-    }
-
-    public displayMemberName(teamMember: INewMeetingMember): string {
-        return teamMember && teamMember.name ? teamMember.name : '';
     }
 
     public showUnshowCustomDuration(form: FormGroup) {
