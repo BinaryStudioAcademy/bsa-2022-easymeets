@@ -1,9 +1,5 @@
 @import '../../../../styles/color-variables'
 
-hr
-    border: 0
-    border-top: 3px solid $athens-gray
-
 .card-container-disabled
     opacity: 0.7
 
@@ -23,9 +19,17 @@ hr
                 font-size: 0.8em
                 color: $alto
 
+.color-line
+    height: 32%
+    max-width: 4px
+    border-left: 4px solid $royal-blue
+    position: absolute
+    border-radius: 5px
+
 .time-options
     height: 10%
     max-width: 15vw
+    margin-left: 10px
     div
         display: flex
         align-items: center
@@ -71,6 +75,7 @@ hr
 .meeting-details
     display: flex
     flex-direction: column
+    margin-left: 10px
     p
         color: $silver-chalice
         font-size: 1em
