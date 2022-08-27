@@ -57,7 +57,7 @@ export class NewAvailabilityComponent implements OnInit {
         this.router.navigate([`${pageName}`]);
     }
 
-    enableSlot() {
+    public enableSlot() {
         if (this.slot) {
             this.slot.isEnabled = !this.slot.isEnabled;
         }
@@ -69,5 +69,13 @@ export class NewAvailabilityComponent implements OnInit {
         }
 
         this.saveChangesClick.emit();
+    }
+
+    public getClass(index: number): string {
+        if (this.index === index) {
+            return 'item-container';
+        }
+
+        return 'display-none';
     }
 }

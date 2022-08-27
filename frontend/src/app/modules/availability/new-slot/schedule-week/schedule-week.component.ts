@@ -97,18 +97,13 @@ export class ScheduleWeekComponent implements OnInit {
     validateEventTimesChanged = (
         { event, newStart, newEnd }: CalendarEventTimesChangedEvent,
     ) => {
-        if (event.allDay) {
-            return true;
-        }
+        if (newEnd !== undefined) {
+            delete event.cssClass;
+            const sameDay = isSameDay(newStart, newEnd);
 
-        if (newEnd === undefined) {
-            newEnd = newStart;
-        }
-        delete event.cssClass;
-        const sameDay = isSameDay(newStart, newEnd);
-
-        if (!sameDay) {
-            return false;
+            if (!sameDay) {
+                return false;
+            }
         }
 
         return true;

@@ -9,7 +9,7 @@
                 </select>
             </div>
         </div>
-        <mat-tab-group animationDuration="0ms">
+        <mat-tab-group [disablePagination]="true" [disableRipple]="true"  animationDuration="0ms">
             <mat-tab label="List View">
                 <app-schedule-list-item
                     *ngFor="let item of schedule.scheduleItems; index as i"
@@ -25,9 +25,9 @@
                 >
                 </app-schedule-week>
             </mat-tab>
-            <!--            <mat-tab label="Month View">-->
-            <!--                Month View-->
-            <!--            </mat-tab>-->
+                        <mat-tab label="Month View">
+                            Month View
+                        </mat-tab>
         </mat-tab-group>
 
     </div>
