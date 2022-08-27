@@ -63,5 +63,12 @@ namespace EasyMeets.Core.WebAPI.Controllers
             await _userService.CreateZoomCredentials(newCredentialsRequestDto);
             return Ok();
         }
+
+        [HttpGet("zoom/client")]
+        public ActionResult<string> GetZoomClientId()
+        {
+            var clientId = Environment.GetEnvironmentVariable("ZoomClientId");
+            return Ok(clientId!);
+        }
     }
 }

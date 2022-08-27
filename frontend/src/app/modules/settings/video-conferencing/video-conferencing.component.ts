@@ -12,6 +12,8 @@ import { ZoomService } from '@core/services/zoom.service';
 export class VideoConferencingComponent extends BaseComponent {
     private redirectUri: string = document.location.href.split('?')[0];
 
+    private clientId: string;
+
     constructor(
         private zoomService: ZoomService,
         private router: Router,
@@ -19,6 +21,11 @@ export class VideoConferencingComponent extends BaseComponent {
         private userService: UserService,
     ) {
         super();
+        userService.getZoomClientId()
+            .pipe(this.untilThis)
+            .subscribe(clientId => {
+                this.clientId = clientId;
+            });
         activatedRoute.queryParams.subscribe(params => {
             if (params['code']) {
                 const authCode = params['code'];
@@ -35,6 +42,6 @@ export class VideoConferencingComponent extends BaseComponent {
     }
 
     public connectZoom() {
-        this.zoomService.authorizeUser(this.redirectUri);
+        this.zoomService.authorizeUser(this.redirectUri, this.clientId);
     }
 }

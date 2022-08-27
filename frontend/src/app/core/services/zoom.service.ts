@@ -1,6 +1,5 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '@env/environment';
 
 @Injectable({
     providedIn: 'root',
@@ -8,11 +7,11 @@ import { environment } from '@env/environment';
 export class ZoomService {
     private authUri: string = 'https://zoom.us/oauth/authorize';
 
-    public authorizeUser(redirectUri: string) {
+    public authorizeUser(redirectUri: string, clientId: string) {
         const params = new HttpParams({
             fromObject: {
                 response_type: 'code',
-                client_id: environment.zoom.clientId,
+                client_id: clientId,
                 redirect_uri: redirectUri,
             },
         });

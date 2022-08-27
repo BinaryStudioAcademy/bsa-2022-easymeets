@@ -84,4 +84,8 @@ export class UserService {
             redirectUri,
         });
     }
+
+    public getZoomClientId() {
+        return this.httpService.getStringRequest(`${this.routePrefix}/zoom/client`);
+    }
 }
