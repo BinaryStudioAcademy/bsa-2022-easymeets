@@ -18,6 +18,14 @@
             p
                 font-size: 0.8em
                 color: $alto
+            .menu-icon
+                color: $silver-chalice
+                outline: none
+                border: none
+                background-color: $white-color
+                cursor: pointer
+                width: 18px
+                height: 18px
 
 .color-line
     height: 32%
@@ -58,19 +66,13 @@
         align-items: center
         a
             color: $regent-gray
+            text-decoration-line: underline
+            text-transform: lowercase
         .icon
             width: 18px
             height: 18px
             margin-right: 0.7em
             filter: invert(94%) sepia(3%) saturate(1127%) hue-rotate(185deg) brightness(88%) contrast(86%)
-    .menu-icon
-        color: $silver-chalice
-        outline: none
-        border: none
-        background-color: $white-color
-        cursor: pointer
-        width: 18px
-        height: 18px
 
 .meeting-details
     display: flex
@@ -88,3 +90,8 @@
 .avatar-list
     display: flex
     align-items: center
+
+::ng-deep .card-container.mat-card
+    border-radius: 32px
+    border: 1px solid $solitude
+    box-shadow: 0px 10px 20px 1px $royal-blue
