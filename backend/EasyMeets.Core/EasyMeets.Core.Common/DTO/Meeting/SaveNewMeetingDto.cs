@@ -13,6 +13,6 @@ namespace EasyMeets.Core.Common.DTO.Meeting
         public DateTime CreatedAt { get; set; }
         public string MeetingLink { get; set; } = string.Empty;
 
-        public List<NewMeetingMemberDto> MeetingMembers { get; set; }
+        public List<NewMeetingMemberDto> MeetingMembers { get; set; } = new List<NewMeetingMemberDto>();
     }
 }
