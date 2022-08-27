@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
-import { getDisplayDate } from '@core/helpers/date-helper';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
@@ -31,8 +30,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     public filteredOptions: Observable<INewMeetingMember[]>;
 
     public durations: IDuration[] = getDisplayDuration();
-
-    public dates = getDisplayDate();
 
     public locations = Object.keys(LocationType).filter(key => Number.isNaN(Number(key)));
 
@@ -152,7 +149,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public showUnshowCustomDuration(form: FormGroup) {
         const durationValue = form.value.duration;
-        const mainContainerDurationValue = form.value.mainContainerDuration;
+
+        this.mainContentCustomTimeShown = form.value.mainContainerDuration.time === 'Custom';
 
         if (durationValue.time === 'Custom') {
             this.customTimeShown = true;
@@ -160,12 +158,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         } else {
             this.customTimeShown = false;
             this.durationChanged(durationValue.time, durationValue.unitOfTime);
-        }
-
-        if (mainContainerDurationValue.time === 'Custom') {
-            this.mainContentCustomTimeShown = true;
-        } else {
-            this.mainContentCustomTimeShown = false;
         }
     }
 
