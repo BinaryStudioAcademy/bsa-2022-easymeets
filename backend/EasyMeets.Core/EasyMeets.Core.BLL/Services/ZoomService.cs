@@ -18,13 +18,11 @@ namespace EasyMeets.Core.BLL.Services;
 public class ZoomService : BaseService, IZoomService
 {
     private readonly HttpClient _httpClient;
-    private readonly string _tokenUri;
-    private readonly string _baseApiUri;
-    public ZoomService(EasyMeetsCoreContext context, IMapper mapper, HttpClient httpClient, string tokenUri, string baseApiUri) : base(context, mapper)
+    private readonly ZoomUriData _zoomUriData;
+    public ZoomService(EasyMeetsCoreContext context, IMapper mapper, HttpClient httpClient, ZoomUriData zoomUriData) : base(context, mapper)
     {
         _httpClient = httpClient;
-        _tokenUri = tokenUri;
-        _baseApiUri = baseApiUri;
+        _zoomUriData = zoomUriData;
     }
 
     public async Task<CredentialsDto> GetNewCredentials(NewCredentialsRequestDto newCredentialsRequestDto)
@@ -48,7 +46,7 @@ public class ZoomService : BaseService, IZoomService
 
         var newMeeting = _mapper.Map<NewZoomMeetingDto>(meeting);
         
-        using var request = new HttpRequestMessage(HttpMethod.Post, $"{_baseApiUri}/users/me/meetings");
+        using var request = new HttpRequestMessage(HttpMethod.Post, $"{_zoomUriData.BaseApiUri}/users/me/meetings");
         var options = new JsonSerializerOptions()
         {
             PropertyNamingPolicy = SnakeCaseNamingPolicy.Instance
@@ -103,7 +101,7 @@ public class ZoomService : BaseService, IZoomService
 
     private async Task<CredentialsDto> GetCredentials(IDictionary<string, string?> queryString)
     {
-        var uri = QueryHelpers.AddQueryString(_tokenUri, queryString);
+        var uri = QueryHelpers.AddQueryString(_zoomUriData.AuthUri, queryString);
         
         using var request = new HttpRequestMessage(HttpMethod.Post, uri);
         var authValue = GetTokenAuthorization();
