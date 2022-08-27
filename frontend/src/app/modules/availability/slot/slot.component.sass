@@ -1,11 +1,12 @@
 @import '../../../../styles/color-variables'
+@import url('https://rsms.me/inter/inter.css')
 
 .card-container-disabled
     opacity: 0.7
 
 .card-container
     background-color: $white-color
-    padding: 1em
+    padding: 1.5em 1.5em 0.8em 1.5em
     .slot-content
         display: flex
         flex-direction: column
@@ -16,16 +17,22 @@
             align-items: center
             justify-content: space-between
             p
-                font-size: 0.8em
-                color: $alto
-            .menu-icon
-                color: $silver-chalice
-                outline: none
-                border: none
-                background-color: $white-color
-                cursor: pointer
-                width: 18px
-                height: 18px
+                font-family: 'Inter'
+                font-style: normal
+                font-weight: 400
+                font-size: 12px
+                line-height: 136%
+                color: $raven
+            .drop-down-menu
+                margin-top: -10px
+                .menu-icon
+                    color: $raven
+                    outline: none
+                    border: none
+                    background-color: $white-color
+                    cursor: pointer
+                    width: 18px
+                    height: 18px
 
 .color-line
     height: 32%
@@ -33,6 +40,7 @@
     border-left: 4px solid $royal-blue
     position: absolute
     border-radius: 5px
+    margin-top: -15px
 
 .time-options
     height: 10%
@@ -44,13 +52,16 @@
         justify-content: flex-start
         min-height: 5vh
     p
-        font-size: 1.2em
-        margin: 0.4em 0 0.4em 0
-        font-weight: bold
-        color: $pale-sky
+        margin: 0
         overflow: hidden
         white-space: nowrap
         text-overflow: ellipsis
+        font-family: 'Inter'
+        font-style: normal
+        font-weight: 900
+        font-size: 22px
+        line-height: 146%
+        color: $midnight
     i
         margin-left: 0.7em
         filter: invert(94%) sepia(3%) saturate(1127%) hue-rotate(185deg) brightness(88%) contrast(86%)
@@ -65,22 +76,31 @@
         display: flex
         align-items: center
         a
-            color: $regent-gray
             text-decoration-line: underline
             text-transform: lowercase
+            font-family: 'Inter'
+            font-style: normal
+            font-weight: 400
+            font-size: 14px
+            line-height: 20px
+            color: $raven
         .icon
             width: 18px
             height: 18px
             margin-right: 0.7em
-            filter: invert(94%) sepia(3%) saturate(1127%) hue-rotate(185deg) brightness(88%) contrast(86%)
+            filter: invert(41%) sepia(100%) saturate(43%) hue-rotate(184deg) brightness(86%) contrast(83%)
 
 .meeting-details
     display: flex
     flex-direction: column
     margin-left: 10px
     p
-        color: $silver-chalice
-        font-size: 1em
+        font-family: 'Inter'
+        font-style: normal
+        font-weight: 400
+        font-size: 14px
+        line-height: 146%
+        color: $raven
     .avatar
         width: 30px
         height: 30px
@@ -92,6 +112,7 @@
     align-items: center
 
 ::ng-deep .card-container.mat-card
+    width: 80%
     border-radius: 32px
     border: 1px solid $solitude
-    box-shadow: 0px 10px 20px 1px $royal-blue
+    box-shadow: 0px 10px 20px 1px $royal-blue-light
