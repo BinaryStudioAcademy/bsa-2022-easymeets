@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class AvailabilityController : ControllerBase
@@ -20,7 +19,8 @@ namespace EasyMeets.Core.WebAPI.Controllers
         [HttpGet("slot/{id}")]
         public async Task<ActionResult<AvailabilitySlotDto>> GetAvailabilitySlotById(long id)
         {
-            return Ok(await _availabilityService.GetAvailabilitySlotById(id));
+            var result = await _availabilityService.GetAvailabilitySlotById(id);
+            return Ok(result);
         }
 
         [HttpPost]

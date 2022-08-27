@@ -14,6 +14,7 @@ namespace EasyMeets.Core.DAL.Context
         public DbSet<ExternalAttendeeAvailability> ExternalAttendeeAvailabilities { get; private set; }
         public DbSet<Meeting> Meetings { get; private set; }
         public DbSet<Question> Questions { get; private set; }
+        public DbSet<EmailTemplate> EmailTemplates { get; private set; }
         public DbSet<Team> Teams { get; private set; }
         public DbSet<TeamMember> TeamMembers { get; private set; }
         public DbSet<SlotMember> SlotMembers { get; private set; }
@@ -34,6 +35,7 @@ namespace EasyMeets.Core.DAL.Context
             ExternalAttendeeAvailabilities = Set<ExternalAttendeeAvailability>();
             Meetings = Set<Meeting>();
             Questions = Set<Question>();
+            EmailTemplates = Set<EmailTemplate>();
             Teams = Set<Team>();
             TeamMembers = Set<TeamMember>();
             SlotMembers = Set<SlotMember>();

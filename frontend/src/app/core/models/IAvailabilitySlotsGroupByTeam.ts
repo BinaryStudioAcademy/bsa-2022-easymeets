@@ -1,6 +1,6 @@
-import { IAvailabilitySlot } from './IAvailiabilitySlot';
+import { IAvailabilitySlot } from './IAvailabilitySlot';
 
 export interface IAvailabilitySlotsGroupByTeamsDto {
-    name: string,
-    availabilitySlots: IAvailabilitySlot[]
+    name: string;
+    availabilitySlots: IAvailabilitySlot[];
 }

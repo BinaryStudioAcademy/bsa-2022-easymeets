@@ -3,6 +3,8 @@ import { ISaveEventDetails } from '@core/models/save-availability-slot/ISaveEven
 import { ISaveGeneralSettings } from '@core/models/save-availability-slot/ISaveGeneralSettings';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 
+import { ISaveConfirmationEmailDetails } from './ISaveConfirmationEmailDetails';
+
 export interface ISaveAvailability {
     teamId?: number;
     hasAdvancedSettings: boolean;
@@ -10,4 +12,5 @@ export interface ISaveAvailability {
     eventDetails: ISaveEventDetails;
     advancedSettings: ISaveAdvancedSettings | null;
     schedule: ISchedule;
+    emailSettings: ISaveConfirmationEmailDetails;
 }

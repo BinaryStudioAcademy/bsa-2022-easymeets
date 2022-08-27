@@ -32,6 +32,7 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(x => x.User)
                 .Include(x => x.Author)
                 .Include(x => x.Team)
+                .Include(x => x.EmailTemplates)
                 .Where(x => x.CreatedBy == id || x.Members.Any(x => x.UserId == id))
                 .Select(y =>
                     new AvailabilitySlotDto
@@ -45,6 +46,7 @@ namespace EasyMeets.Core.BLL.Services
                         TeamName = y.Team.Name,
                         LocationType = y.LocationType,
                         Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.Members),
+                        ConfirmationEmailSettings = _mapper.Map<List<EmailTemplatesSettingsDto>>(y.EmailTemplates)
                     }
                 )
                 .ToListAsync();
@@ -88,6 +90,17 @@ namespace EasyMeets.Core.BLL.Services
                 entity.AdvancedSlotSettings = advancedSettings;
             }
 
+            if (slotDto.EmailSettings is not null)
+            {
+                var emailTemplate = _mapper.Map<EmailTemplate>(slotDto.EmailSettings,
+                    opts => opts.AfterMap((_, dest) =>
+                    {
+                        dest.AvailabilitySlot = entity;
+                    }));
+                await _context.EmailTemplates.AddAsync(emailTemplate);
+                entity.EmailTemplates.Add(emailTemplate);
+            }
+
             var schedule = _mapper.Map<Schedule>(slotDto.Schedule,
                 opts => opts.AfterMap((_, dest) =>
                 {
@@ -105,6 +118,7 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(slot => slot.AdvancedSlotSettings)
                 .Include(slot => slot.Schedule)
                     .ThenInclude(s => s.ScheduleItems)
+                .Include(slot => slot.EmailTemplates)
                 .FirstOrDefaultAsync(slot => slot.Id == id);
             if (availabilitySlot is null)
             {
@@ -119,6 +133,7 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(slot => slot.AdvancedSlotSettings)
                 .Include(slot => slot.Schedule)
                     .ThenInclude(s => s.ScheduleItems)
+                .Include(slot => slot.EmailTemplates)
                 .FirstOrDefaultAsync(slot => slot.Id == id);
 
             _mapper.Map(updateAvailabilityDto, availabilitySlot);
@@ -142,6 +157,18 @@ namespace EasyMeets.Core.BLL.Services
             else if (!updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is not null)
             {
                 _context.Remove(availabilitySlot.AdvancedSlotSettings);
+            }
+
+            if (updateAvailabilityDto.EmailSettings is not null)
+            {
+                var newTemplate = _mapper.Map<EmailTemplate>(updateAvailabilityDto.EmailSettings);
+                var oldTemplate = await _context.EmailTemplates.Where(t => t.TemplateType == newTemplate.TemplateType && t.AvailabilitySlotId == availabilitySlot.Id).FirstOrDefaultAsync();
+                if (oldTemplate != null)
+                {
+                    _context.EmailTemplates.Remove(oldTemplate);
+                }
+
+                availabilitySlot.EmailTemplates.Add(newTemplate);
             }
 
             _mapper.Map(updateAvailabilityDto.Schedule, availabilitySlot.Schedule);

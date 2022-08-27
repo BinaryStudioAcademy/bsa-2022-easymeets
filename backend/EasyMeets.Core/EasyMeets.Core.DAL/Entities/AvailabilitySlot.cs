@@ -38,6 +38,7 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
     public ICollection<ExternalAttendee> ExternalAttendees { get; set; }
     public ICollection<UserSlot> Members { get; set; }
     public ICollection<Question> Questions { get; set; }
+    public ICollection<EmailTemplate> EmailTemplates { get; set; }
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if (!Name.IsValidUsername() || Name.Length is < 1 or > 50)

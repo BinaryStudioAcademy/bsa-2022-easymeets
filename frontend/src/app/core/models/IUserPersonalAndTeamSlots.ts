@@ -1,7 +1,7 @@
+import { IAvailabilitySlot } from './IAvailabilitySlot';
 import { IAvailabilitySlotsGroupByTeamsDto } from './IAvailabilitySlotsGroupByTeam';
-import { IAvailabilitySlot } from './IAvailiabilitySlot';
 
 export interface IUserPersonalAndTeamSlots {
-    userSlots: IAvailabilitySlot[],
-    teamSlots: IAvailabilitySlotsGroupByTeamsDto[]
+    userSlots: IAvailabilitySlot[];
+    teamSlots: IAvailabilitySlotsGroupByTeamsDto[];
 }

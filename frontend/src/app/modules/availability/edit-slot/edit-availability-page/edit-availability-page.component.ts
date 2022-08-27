@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -28,14 +28,13 @@ export class EditAvailabilityPageComponent extends BaseComponent {
         private notifications: NotificationService,
     ) {
         super();
-        this.activateRoute.params.subscribe(params => {
+        this.activateRoute.params.subscribe((params) => {
             this.id = params['id'];
             this.spinnerService.show();
-            this.http.getSlotById(this.id)
-                .subscribe(slotResponse => {
-                    this.slot = slotResponse;
-                    this.spinnerService.hide();
-                });
+            this.http.getSlotById(this.id).subscribe((slotResponse) => {
+                this.slot = slotResponse;
+                this.spinnerService.hide();
+            });
         });
     }
 
@@ -48,16 +47,19 @@ export class EditAvailabilityPageComponent extends BaseComponent {
 
         general.isEnabled = this.newAvailabilityComponent.isActive;
         const advancedSettings = this.newAvailabilityComponent.generalComponent.addAdvanced
-            ? this.newAvailabilityComponent.generalComponent.advancedSettings! : null;
+            ? this.newAvailabilityComponent.generalComponent.advancedSettings!
+            : null;
         const updateAvailability: ISaveAvailability = {
             generalDetails: this.newAvailabilityComponent.generalComponent.settings,
             eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
+            emailSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
             advancedSettings,
         };
 
-        this.http.updateSlot(updateAvailability, this.slot?.id)
+        this.http
+            .updateSlot(updateAvailability, this.slot?.id)
             .pipe(this.untilThis)
             .subscribe(
                 () => {

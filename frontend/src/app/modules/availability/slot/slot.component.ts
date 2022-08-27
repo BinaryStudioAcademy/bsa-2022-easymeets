@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { LocationType } from '@core/models/locationType';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { NotificationService } from '@core/services/notification.service';
