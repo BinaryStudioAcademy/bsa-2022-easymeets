@@ -122,16 +122,8 @@ namespace EasyMeets.Core.BLL.Services
             await _context.SaveChangesAsync();
         }
 
-        private async Task<User> GetCurrentUserInternalAsync()
-        {
-            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId());
-
-            if (currentUser is null)
-            {
-                throw new KeyNotFoundException("User doesn't exist");
-            }
-
-            return currentUser;
-        }
+        private Task<User> GetCurrentUserInternalAsync()
+            => (_context.Users.FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId())
+                ?? throw new KeyNotFoundException("User doesn't exist"))!;
     }
 }

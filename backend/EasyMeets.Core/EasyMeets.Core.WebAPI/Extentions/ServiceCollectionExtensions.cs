@@ -29,10 +29,6 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddTransient<IMeetingService, MeetingService>();
             services.AddTransient<ITeamService, TeamService>();
             services.AddTransient<IZoomService, ZoomService>();
-
-            var zoomUri = new ZoomUriData();
-            configuration.GetSection("Zoom").Bind(zoomUri);
-            services.AddSingleton(zoomUri);
             
             services.AddHttpClient<IZoomService, ZoomService>();
         }

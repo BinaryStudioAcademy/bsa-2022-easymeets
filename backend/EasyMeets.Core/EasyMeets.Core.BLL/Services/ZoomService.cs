@@ -12,17 +12,18 @@ using EasyMeets.Core.Common.NamingPolicies;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 
 namespace EasyMeets.Core.BLL.Services;
 
 public class ZoomService : BaseService, IZoomService
 {
     private readonly HttpClient _httpClient;
-    private readonly ZoomUriData _zoomUriData;
-    public ZoomService(EasyMeetsCoreContext context, IMapper mapper, HttpClient httpClient, ZoomUriData zoomUriData) : base(context, mapper)
+    private readonly IConfiguration _configuration;
+    public ZoomService(EasyMeetsCoreContext context, IMapper mapper, HttpClient httpClient, IConfiguration configuration) : base(context, mapper)
     {
         _httpClient = httpClient;
-        _zoomUriData = zoomUriData;
+        _configuration = configuration;
     }
 
     public async Task<CredentialsDto> GetNewCredentials(NewCredentialsRequestDto newCredentialsRequestDto)
@@ -38,15 +39,12 @@ public class ZoomService : BaseService, IZoomService
 
     public async Task CreateZoomMeeting(Meeting meeting)
     {
-        var credentials = meeting.Author.Credentials.FirstOrDefault(cr => cr.Type == CredentialsType.Zoom);
-        if (credentials is null)
-        {
-            throw new KeyNotFoundException("No zoom credentials found for meeting Author");
-        }
+        var credentials = meeting.Author.Credentials.FirstOrDefault(cr => cr.Type == CredentialsType.Zoom) 
+                          ?? throw new KeyNotFoundException("No zoom credentials found for meeting Author");
 
         var newMeeting = _mapper.Map<NewZoomMeetingDto>(meeting);
         
-        using var request = new HttpRequestMessage(HttpMethod.Post, $"{_zoomUriData.BaseApiUri}/users/me/meetings");
+        using var request = new HttpRequestMessage(HttpMethod.Post, $"{_configuration["Zoom:BaseApiUri"]}/users/me/meetings");
         var options = new JsonSerializerOptions()
         {
             PropertyNamingPolicy = SnakeCaseNamingPolicy.Instance
@@ -101,7 +99,7 @@ public class ZoomService : BaseService, IZoomService
 
     private async Task<CredentialsDto> GetCredentials(IDictionary<string, string?> queryString)
     {
-        var uri = QueryHelpers.AddQueryString(_zoomUriData.AuthUri, queryString);
+        var uri = QueryHelpers.AddQueryString(_configuration["Zoom:AuthUri"], queryString);
         
         using var request = new HttpRequestMessage(HttpMethod.Post, uri);
         var authValue = GetTokenAuthorization();
