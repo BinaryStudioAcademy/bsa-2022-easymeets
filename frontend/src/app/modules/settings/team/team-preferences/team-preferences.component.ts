@@ -77,7 +77,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
     }
 
     public generateNewPageLink(formGroup: FormGroup) {
-        if (formGroup.value.name.length > 0) {
+        if (formGroup.value.name.length) {
             this.getUniquePageLink(formGroup.value.name);
         }
     }
