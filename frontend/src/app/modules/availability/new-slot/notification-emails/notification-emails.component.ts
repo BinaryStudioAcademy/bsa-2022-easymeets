@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { Component, Input } from '@angular/core';
 import { TemplateType } from '@core/enums/template-type.enum';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
@@ -49,33 +50,23 @@ export class NotificationEmailsComponent {
     public changeTemplate(path: string) {
         switch (path) {
             case 'confirmation':
-                this.currentSetting = this.slot?.emailTemplateSettings?.find(
-                    (obj) => obj.type === TemplateType.Confirmation,
-                );
                 this.settings.type = TemplateType.Confirmation;
                 break;
             case 'cancellation':
-                this.currentSetting = this.slot?.emailTemplateSettings?.find(
-                    (obj) => obj.type === TemplateType.Cancellation,
-                );
                 this.settings.type = TemplateType.Cancellation;
                 break;
             case 'reminders':
-                this.currentSetting = this.slot?.emailTemplateSettings?.find(
-                    (obj) => obj.type === TemplateType.Reminders,
-                );
                 this.settings.type = TemplateType.Reminders;
                 break;
             case 'follow-up':
-                this.currentSetting = this.slot?.emailTemplateSettings?.find(
-                    (obj) => obj.type === TemplateType.Reminders,
-                );
                 this.settings.type = TemplateType.Reminders;
                 break;
             default:
                 break;
         }
         this.activeTab = path;
+        this.currentSetting = this.slot?.emailTemplateSettings?.find((obj) => obj.type === this.settings.type);
+        this.settings.allowToSend = this.currentSetting?.allowToSend ?? false;
         this.settings.emailSubject = this.currentSetting?.emailSubject ?? this._confirmationSubject;
         this.settings.emailBody = this.currentSetting?.emailBody ?? this._body;
     }
