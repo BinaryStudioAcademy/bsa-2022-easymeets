@@ -154,18 +154,12 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<bool> UpdateAvailabilitySlotEnablingAsync(long id)
         {
-            var availabilitySlot = await _context.AvailabilitySlots.FirstOrDefaultAsync(slot => slot.Id == id);
-            if (availabilitySlot is null)
-            {
-                throw new KeyNotFoundException("Availability slot doesn't exist");
-            }
-            else
-            {
-                availabilitySlot.IsEnabled = !availabilitySlot.IsEnabled;
-                _context.AvailabilitySlots.Update(availabilitySlot);
-                await _context.SaveChangesAsync();
-                return !availabilitySlot.IsEnabled;
-            }
+            var availabilitySlot = await _context.AvailabilitySlots.FirstOrDefaultAsync(slot => slot.Id == id) ?? throw new KeyNotFoundException("Availability slot doesn't exist");
+
+            availabilitySlot.IsEnabled = !availabilitySlot.IsEnabled;
+            _context.AvailabilitySlots.Update(availabilitySlot);
+            await _context.SaveChangesAsync();
+            return !availabilitySlot.IsEnabled;
         }
 
         public async Task DeleteAvailabilitySlot(long slotId)
