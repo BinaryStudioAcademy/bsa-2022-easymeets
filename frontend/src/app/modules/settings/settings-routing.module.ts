@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { CalendarsPageComponent } from '@modules/calendars/calendars-page/calendars-page.component';
 import { SettingsPageComponent } from '@modules/settings/settings-page/settings-page.component';
+import { VideoConferencingComponent } from '@modules/settings/video-conferencing/video-conferencing.component';
 
 const routes: Routes = [
     {
@@ -21,6 +22,10 @@ const routes: Routes = [
             {
                 path: 'integrations/calendars',
                 component: CalendarsPageComponent,
+            },
+            {
+                path: 'integrations/video-conferencing',
+                component: VideoConferencingComponent,
             },
             {
                 path: '**',
