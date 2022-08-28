@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IExternalAnswers } from '@core/models/IExternalAnswers';
-import { userNameRegex } from '@shared/constants/model-validation';
+import { nameWithoutSpaces, userNameRegex } from '@shared/constants/model-validation';
 
 @Component({
     selector: 'app-external-booking-confirm-page',
@@ -19,7 +19,7 @@ export class ExternalBookingConfirmPageComponent implements OnInit {
 
     public confirmForm = new FormGroup({
         characters: new FormControl('', [
-            Validators.pattern(userNameRegex),
+            Validators.pattern(userNameRegex), Validators.pattern(nameWithoutSpaces),
             Validators.minLength(2),
             Validators.maxLength(50),
         ]),
