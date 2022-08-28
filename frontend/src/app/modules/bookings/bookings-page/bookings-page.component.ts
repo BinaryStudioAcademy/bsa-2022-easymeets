@@ -27,16 +27,20 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
     public ngOnInit(): void {
         this.teamService.currentTeamEmitted$
             .subscribe(teamId => {
-                this.meetingService
-                    .getThreeMeetings(teamId)
-                    .pipe(this.untilThis)
-                    .subscribe(
-                        (resp: IMeetingBooking[]) => {
-                            this.meetings = resp;
-                        },
-                        error => this.notifications.showErrorMessage(error),
-                    );
+                this.loadMeetings(teamId);
             });
+    }
+
+    private loadMeetings(teamId?: number) {
+        this.meetingService
+            .getThreeMeetings(teamId)
+            .pipe(this.untilThis)
+            .subscribe(
+                (resp: IMeetingBooking[]) => {
+                    this.meetings = resp;
+                },
+                error => this.notifications.showErrorMessage(error),
+            );
     }
 
     public goToPage(pageName: string) {

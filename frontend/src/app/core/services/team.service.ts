@@ -53,7 +53,7 @@ export class TeamService {
         return this.httpService.getRequest<ITeam[]>(`${this.routePrefix}/user-teams-admin`);
     }
 
-    public validatePageLink(teamId: number | undefined, pageLink: string) {
+    public validatePageLink(pageLink: string, teamId?: number) {
         return this.httpService.getRequest<boolean>(`${this.routePrefix}/validatepagelink`, {
             pagelink: pageLink,
             id: teamId ?? '',
@@ -80,7 +80,7 @@ export class TeamService {
         return this.httpService.putRequest<ITeam>(`${this.routePrefix}`, team);
     }
 
-    public uploadLogo(data: FormData, id: number | undefined) {
+    public uploadLogo(data: FormData, id?: number) {
         return this.httpService.putRequest<IImagePath>(`${this.routePrefix}/uploadlogo/${id ?? ''}`, data);
     }
 }

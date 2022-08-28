@@ -146,6 +146,6 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
     }
 
     private validateTeamLink(teamLink: string): Observable<boolean> {
-        return this.teamService.validatePageLink(this.team?.id, teamLink);
+        return this.teamService.validatePageLink(teamLink, this.team?.id);
     }
 }
