@@ -30,9 +30,12 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public durations: IDuration[] = getDisplayDuration();
 
-    public locations = Object.keys(LocationType).filter(key => Number.isNaN(Number(key)));
+    public locations: string[] = [
+        LocationType[LocationType.Zoom],
+        LocationType[LocationType.GoogleMeet],
+        LocationType[LocationType.Office]];
 
-    public unitOfTime = Object.keys(UnitOfTime).filter(key => Number.isNaN(Number(key)));
+    public unitOfTime: string[] = [UnitOfTime[UnitOfTime.min], UnitOfTime[UnitOfTime.hour]];
 
     public duration: number;
 
