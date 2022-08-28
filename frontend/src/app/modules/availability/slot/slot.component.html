@@ -3,7 +3,7 @@
     <div class="slot-content">
         <div class="slot-header">
             <p>Availability slots for</p>
-            <mat-slide-toggle [checked]="slot.isEnabled" (change)="toggle($event)"></mat-slide-toggle>
+            <mat-slide-toggle [checked]="slot.isEnabled" (change)="changeSlotActivityClick($event)"></mat-slide-toggle>
         </div>
         <div class="color-line"></div>
         <div class="time-options">
@@ -56,7 +56,7 @@
     <div class="slot-content">
         <div class="slot-header">
             <p>Availability slots for</p>
-            <mat-slide-toggle [checked]="slot.isEnabled"></mat-slide-toggle>
+            <mat-slide-toggle [checked]="slot.isEnabled" (change)="changeSlotActivityClick($event)"></mat-slide-toggle>
         </div>
         <div class="color-line"></div>
         <div class="time-options">

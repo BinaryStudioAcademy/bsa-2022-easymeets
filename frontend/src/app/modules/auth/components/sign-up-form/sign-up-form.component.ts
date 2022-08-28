@@ -43,7 +43,6 @@ export class SignUpFormComponent extends BaseComponent {
             validators: [Validators.required, Validators.minLength(8), Validators.maxLength(30)],
             updateOn: 'blur',
         }),
-        confirmPassword: new FormControl('', { updateOn: 'change' }),
     });
 
     constructor(

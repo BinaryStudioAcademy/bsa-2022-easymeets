@@ -6,14 +6,19 @@ using EasyMeets.Core.WebAPI.Validators;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using AutoMapper;
+using EasyMeets.Core.Common.DTO.Zoom;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using RabbitMQ.Client;
+using EasyMeets.RabbitMQ.Settings;
+using EasyMeets.RabbitMQ.Service;
 
 namespace EasyMeets.Core.WebAPI.Extentions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void RegisterCustomServices(this IServiceCollection services)
+        public static void RegisterCustomServices(this IServiceCollection services, IConfiguration configuration)
         {
             services
                 .AddControllers()
@@ -26,14 +31,14 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddTransient<ICalendarsService, CalendarsService>();
             services.AddTransient<IMeetingService, MeetingService>();
             services.AddTransient<ITeamService, TeamService>();
+            services.AddTransient<IZoomService, ZoomService>();
+            
+            services.AddHttpClient<IZoomService, ZoomService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
         {
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(SampleProfile)));
             services.AddAutoMapper(Assembly.GetAssembly(typeof(AvailabilityProfile)));
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(MeetingProfile)));
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(UserProfile)));
         }
 
         public static void AddValidation(this IServiceCollection services)
@@ -50,6 +55,43 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 options.UseSqlServer(
                     connectionsString,
                     opt => opt.MigrationsAssembly(typeof(EasyMeetsCoreContext).Assembly.GetName().Name)));
+        }
+        public static void AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton(x =>
+            {
+                var rabbitConnection = new Uri(configuration.GetSection("RabbitMQConfiguration:Uri").Value);
+
+                var connectionFactory = new ConnectionFactory
+                { Uri = rabbitConnection };
+
+                return connectionFactory.CreateConnection();
+            });
+
+            services.AddRabbitMQInformEveryone(configuration);
+        }
+
+        private static void AddRabbitMQInformEveryone(this IServiceCollection services, IConfiguration configuration)
+        {
+            var producerSettings = new ProducerSettings();
+            var consumerSettings = new ConsumerSettings();
+
+            configuration
+                .GetSection("RabbitMQConfiguration:Queues:InformProducer")
+                .Bind(producerSettings);
+
+            configuration
+                .GetSection("RabbitMQConfiguration:Queues:InformConsumer")
+                .Bind(consumerSettings);
+
+            var listener = new ConsumerService(consumerSettings);
+            listener.ListenQueue();
+
+            services.AddScoped<IInformQueueService>(provider =>
+                new InformQueueService(
+                    new ProducerService(
+                        provider.GetRequiredService<IConnection>(),
+                        producerSettings)));
         }
 
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
