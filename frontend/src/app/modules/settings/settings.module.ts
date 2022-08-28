@@ -8,8 +8,10 @@ import { SideMenuModule } from '@modules/side-menu/side-menu.module';
 import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
 
+import { VideoConferencingComponent } from './video-conferencing/video-conferencing.component';
+
 @NgModule({
-    declarations: [SettingsPageComponent],
+    declarations: [SettingsPageComponent, VideoConferencingComponent],
     imports: [CommonModule, SettingsRoutingModule, SharedModule, MaterialModule, SideMenuModule, HeaderModule, CalendarModule],
 })
 export class SettingsModule { }
