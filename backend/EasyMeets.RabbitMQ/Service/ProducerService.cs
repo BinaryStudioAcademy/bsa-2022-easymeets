@@ -47,5 +47,19 @@ namespace EasyMeets.RabbitMQ.Service
                 properties,
                 body);
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _connection.Dispose();
+            }
+        }
     }
 }

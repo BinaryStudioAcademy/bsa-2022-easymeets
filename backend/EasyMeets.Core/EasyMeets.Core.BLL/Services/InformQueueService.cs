@@ -16,11 +16,5 @@ namespace EasyMeets.Core.BLL.Services
         {
             _producer.Send(message, null);
         }
-
-        public void Dispose()
-        {
-            _producer.Dispose();
-            GC.SuppressFinalize(this);
-        }
     }
 }
