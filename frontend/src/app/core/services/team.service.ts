@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TeamStateChangeActionEnum } from '@core/enums/team-state-change-action.enum';
 import { IImagePath } from '@core/models/IImagePath';
 import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
@@ -12,13 +13,9 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 export class TeamService {
     public routePrefix = '/team';
 
-    private emitTeamCreationSource = new Subject<ITeam>();
+    private emitTeamStateChangeSource = new Subject<{ teamId: number, action: TeamStateChangeActionEnum }>();
 
-    public teamCreationEmitted$ = this.emitTeamCreationSource.asObservable();
-
-    private emitTeamDeletionSource = new Subject<number>();
-
-    public teamDeletionEmitted$ = this.emitTeamDeletionSource.asObservable();
+    public teamStateChangeEmitted$ = this.emitTeamStateChangeSource.asObservable();
 
     private currentTeamSource = new BehaviorSubject<number | undefined>(undefined);
 
@@ -33,12 +30,8 @@ export class TeamService {
             });
     }
 
-    public emitTeamCreation(newTeam: ITeam) {
-        this.emitTeamCreationSource.next(newTeam);
-    }
-
-    public emitTeamDeletion(deletedTeamId: number) {
-        this.emitTeamDeletionSource.next(deletedTeamId);
+    public emitTeamStateChange(teamId: number, teamStateChangeActionEnum: TeamStateChangeActionEnum) {
+        this.emitTeamStateChangeSource.next({ teamId, action: teamStateChangeActionEnum });
     }
 
     public emitCurrentTeamChange(currentTeamId?: number) {

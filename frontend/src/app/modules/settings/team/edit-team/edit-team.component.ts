@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { TeamStateChangeActionEnum } from '@core/enums/team-state-change-action.enum';
 import { ITeam } from '@core/models/ITeam';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -94,7 +95,7 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
             .subscribe({
                 next: () => {
                     this.router.navigate(['/settings']);
-                    this.teamService.emitTeamDeletion(this.team.id);
+                    this.teamService.emitTeamStateChange(this.team.id, TeamStateChangeActionEnum.Deleted);
                     this.notificationService.showSuccessMessage('Team information was deleted successfully.');
                 },
                 error: () => {

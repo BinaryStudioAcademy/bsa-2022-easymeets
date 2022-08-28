@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { TeamStateChangeActionEnum } from '@core/enums/team-state-change-action.enum';
 import { INewTeam } from '@core/models/INewTeam';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
@@ -37,7 +38,7 @@ export class NewTeamComponent extends BaseComponent {
             .pipe(this.untilThis)
             .subscribe(
                 (team) => {
-                    this.teamService.emitTeamCreation(team);
+                    this.teamService.emitTeamStateChange(team.id, TeamStateChangeActionEnum.Created);
                     this.notificationService.showSuccessMessage('Team was created successfully.');
                     this.router.navigate(['settings', 'teams', 'edit', team.id.toString()]);
                 },

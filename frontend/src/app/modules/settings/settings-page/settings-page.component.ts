@@ -34,8 +34,7 @@ export class SettingsPageComponent extends BaseComponent implements OnInit {
     ngOnInit(): void {
         this.displayUserAdminTeams();
         this.initializeSideMenu();
-        this.teamService.teamCreationEmitted$.subscribe(() => this.displayUserAdminTeams());
-        this.teamService.teamDeletionEmitted$.subscribe(() => this.displayUserAdminTeams());
+        this.teamService.teamStateChangeEmitted$.subscribe(() => this.displayUserAdminTeams());
     }
 
     private displayUserAdminTeams() {

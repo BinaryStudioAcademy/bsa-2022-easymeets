@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { TeamStateChangeActionEnum } from '@core/enums/team-state-change-action.enum';
 import { ITeam } from '@core/models/ITeam';
 import { ILocalUser } from '@core/models/IUser';
 import { AuthService } from '@core/services/auth.service';
@@ -40,22 +41,13 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
                     });
             });
 
-        this.teamService.teamCreationEmitted$
-            .subscribe(() => {
+        this.teamService.teamStateChangeEmitted$
+            .subscribe((teamChange: { teamId: number, action: TeamStateChangeActionEnum }) => {
                 this.teamService.getCurrentUserTeams()
                     .pipe(this.untilThis)
                     .subscribe(result => {
                         this.teams = result;
-                    });
-            });
-
-        this.teamService.teamDeletionEmitted$
-            .subscribe((deletedTeamId: number) => {
-                this.teamService.getCurrentUserTeams()
-                    .pipe(this.untilThis)
-                    .subscribe(result => {
-                        this.teams = result;
-                        if (this.currentTeam?.id === deletedTeamId) {
+                        if (teamChange.action === TeamStateChangeActionEnum.Deleted && this.currentTeam?.id === teamChange.teamId) {
                             this.teamService.emitCurrentTeamChange(this.teams.length ? this.teams[0].id : undefined);
                         }
                     });
