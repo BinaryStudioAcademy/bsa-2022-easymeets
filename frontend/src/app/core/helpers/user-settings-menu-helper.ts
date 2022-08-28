@@ -13,7 +13,7 @@ export const getUserSettingsMenuItems = (): SideMenuGroup[] => [
         header: 'Integrations',
         items: [
             { text: 'Calendars', routerLink: 'integrations/calendars' },
-            { text: 'Video Conferencing', routerLink: 'default-route' },
+            { text: 'Video Conferencing', routerLink: 'integrations/video-conferencing' },
             { text: 'Mailing', routerLink: 'default-route' },
             { text: 'API & Tokens', routerLink: 'default-route' },
         ],
