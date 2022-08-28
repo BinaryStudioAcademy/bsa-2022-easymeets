@@ -18,7 +18,7 @@
         </mat-card-content>
     </div>
 
-    <button class="menu-team-btn" mat-button [matMenuTriggerFor]="menuTeam" *ngIf="teams.length > 0; else newTeam">
+    <button class="menu-team-btn" mat-button [matMenuTriggerFor]="menuTeam" *ngIf="teams.length; else newTeam">
         <label>{{currentTeam?.name ?? ''}}</label>
         <i class="fa-solid fa-caret-down"></i>
     </button>

@@ -124,7 +124,7 @@ namespace EasyMeets.Core.BLL.Services
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
                 .Include(slot => slot.Schedule)
-                .ThenInclude(s => s.ScheduleItems)
+                    .ThenInclude(s => s.ScheduleItems)
                 .FirstOrDefaultAsync(slot => slot.Id == id);
 
             _mapper.Map(updateAvailabilityDto, availabilitySlot);

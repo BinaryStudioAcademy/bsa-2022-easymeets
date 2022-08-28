@@ -38,20 +38,22 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
         this.activateRoute.params.subscribe(params => {
             this.id = params['id'];
             this.spinnerService.show();
-            this.teamService.getTeamById(this.id)
-                .pipe(this.untilThis)
-                .subscribe((team) => {
-                    this.team = team;
-                    this.teamPreferencesComponent.formGroup.patchValue({
-                        name: team.name,
-                        image: team.image,
-                        pageLink: team.pageLink,
-                        timeZone: team.timeZone,
-                        description: team.description,
+            if (this.id) {
+                this.teamService.getTeamById(this.id)
+                    .pipe(this.untilThis)
+                    .subscribe((team) => {
+                        this.team = team;
+                        this.teamPreferencesComponent.formGroup.patchValue({
+                            name: team.name,
+                            image: team.image,
+                            pageLink: team.pageLink,
+                            timeZone: team.timeZone,
+                            description: team.description,
+                        });
+                        this.teamPreferencesComponent.imageUrl = team.image;
+                        this.spinnerService.hide();
                     });
-                    this.teamPreferencesComponent.imageUrl = team.image;
-                    this.spinnerService.hide();
-                });
+            }
         });
 
         this.deleteEventSubscription = this.deleteEventEmitter.subscribe(() => this.deleteTeam());

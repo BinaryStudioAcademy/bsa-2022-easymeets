@@ -56,7 +56,7 @@ export class TeamService {
     public validatePageLink(teamId: number | undefined, pageLink: string) {
         return this.httpService.getRequest<boolean>(
             `${this.routePrefix}/validatepagelink`, (
-                (teamId === undefined)
+                (!teamId)
                     ? {
                         pagelink: pageLink,
                     }
@@ -71,7 +71,7 @@ export class TeamService {
         return this.httpService.getStringRequest(`${this.routePrefix}/newpagelink`, { id: teamId, teamname: teamName });
     }
 
-    public getTeamById(teamId: number | undefined) {
+    public getTeamById(teamId: number) {
         return this.httpService.getRequest<ITeam>(`${this.routePrefix}/${teamId}`);
     }
 
@@ -88,6 +88,6 @@ export class TeamService {
     }
 
     public uploadLogo(data: FormData, id: number | undefined) {
-        return this.httpService.putRequest<IImagePath>(`${this.routePrefix}/uploadlogo/${id !== undefined ? id : ''}`, data);
+        return this.httpService.putRequest<IImagePath>(`${this.routePrefix}/uploadlogo/${id ?? ''}`, data);
     }
 }
