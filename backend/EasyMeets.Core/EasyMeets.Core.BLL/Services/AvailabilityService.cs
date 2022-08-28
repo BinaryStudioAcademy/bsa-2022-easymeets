@@ -31,7 +31,7 @@ namespace EasyMeets.Core.BLL.Services
 
             var availabilitySlots = await _context.AvailabilitySlots
                 .Include(x => x.SlotMembers)
-                .ThenInclude(x => x.User)
+                    .ThenInclude(x => x.User)
                 .Include(x => x.Author)
                 .Include(x => x.Team)
                 .Where(x => x.CreatedBy == id || x.SlotMembers.Any(x => x.MemberId == id))
@@ -108,7 +108,7 @@ namespace EasyMeets.Core.BLL.Services
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
                 .Include(slot => slot.Schedule)
-                .ThenInclude(s => s.ScheduleItems)
+                    .ThenInclude(s => s.ScheduleItems)
                 .FirstOrDefaultAsync(slot => slot.Id == id);
             if (availabilitySlot is null)
             {
