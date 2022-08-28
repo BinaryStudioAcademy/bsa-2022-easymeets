@@ -66,4 +66,12 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
     public changeTeam(teamId: number) {
         this.teamService.emitCurrentTeamChange(teamId);
     }
+
+    public navigateToTeam() {
+        this.router.navigateByUrl(
+            this.currentTeam
+                ? `/settings/teams/edit/${this.currentTeam?.id}`
+                : '/settings/teams/new',
+        );
+    }
 }
