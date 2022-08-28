@@ -57,7 +57,7 @@ export class NewAvailabilityPageComponent extends BaseComponent {
             eventDetails,
             advancedSettings,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
-            emailSettings: templateSettings,
+            templateSettings,
             teamId: 1,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
         };

@@ -11,6 +11,7 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
         ExternalAttendees = new List<ExternalAttendee>();
         Members = new List<UserSlot>();
         Questions = new List<Question>();
+        EmailTemplates = new List<EmailTemplate>();
     }
     public long TeamId { get; set; }
     public LocationType LocationType { get; set; }

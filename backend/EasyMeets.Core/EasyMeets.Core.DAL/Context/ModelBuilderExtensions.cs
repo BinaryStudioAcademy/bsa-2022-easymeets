@@ -20,7 +20,6 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ExternalAttendeeConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MeetingConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(QuestionsConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(EmailTemplateConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamMemberConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SlotMemberConfig).Assembly);

@@ -26,7 +26,7 @@ namespace EasyMeets.Core.BLL.Services
             {
                 throw new ArgumentException("Trying to get another user's slots", nameof(id));
             }
-            
+
             var availabilitySlots = await _context.AvailabilitySlots
                 .Include(x => x.Members)
                     .ThenInclude(x => x.User)
@@ -46,7 +46,7 @@ namespace EasyMeets.Core.BLL.Services
                         TeamName = y.Team.Name,
                         LocationType = y.LocationType,
                         Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.Members),
-                        ConfirmationEmailSettings = _mapper.Map<List<EmailTemplatesSettingsDto>>(y.EmailTemplates)
+                        EmailTemplateSettings = _mapper.Map<List<EmailTemplatesSettingsDto>>(y.EmailTemplates)
                     }
                 )
                 .ToListAsync();
@@ -90,15 +90,9 @@ namespace EasyMeets.Core.BLL.Services
                 entity.AdvancedSlotSettings = advancedSettings;
             }
 
-            if (slotDto.EmailSettings is not null)
+            if (slotDto.TemplateSettings is not null)
             {
-                var emailTemplate = _mapper.Map<EmailTemplate>(slotDto.EmailSettings,
-                    opts => opts.AfterMap((_, dest) =>
-                    {
-                        dest.AvailabilitySlot = entity;
-                    }));
-                await _context.EmailTemplates.AddAsync(emailTemplate);
-                entity.EmailTemplates.Add(emailTemplate);
+                await SaveEmailTemplateConfig(slotDto.TemplateSettings, entity);
             }
 
             var schedule = _mapper.Map<Schedule>(slotDto.Schedule,
@@ -145,7 +139,7 @@ namespace EasyMeets.Core.BLL.Services
 
             if (updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is not null)
             {
-                _mapper.Map(updateAvailabilityDto, availabilitySlot.AdvancedSlotSettings);
+                _mapper.Map(updateAvailabilityDto.AdvancedSettings, availabilitySlot.AdvancedSlotSettings);
             }
             else if (updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is null)
             {
@@ -159,16 +153,20 @@ namespace EasyMeets.Core.BLL.Services
                 _context.Remove(availabilitySlot.AdvancedSlotSettings);
             }
 
-            if (updateAvailabilityDto.EmailSettings is not null)
+            if (updateAvailabilityDto.TemplateSettings is not null)
             {
-                var newTemplate = _mapper.Map<EmailTemplate>(updateAvailabilityDto.EmailSettings);
-                var oldTemplate = await _context.EmailTemplates.Where(t => t.TemplateType == newTemplate.TemplateType && t.AvailabilitySlotId == availabilitySlot.Id).FirstOrDefaultAsync();
-                if (oldTemplate != null)
-                {
-                    _context.EmailTemplates.Remove(oldTemplate);
-                }
+                var oldTemplate = await _context.EmailTemplates.FirstOrDefaultAsync(t => t.TemplateType == updateAvailabilityDto.TemplateSettings.Type
+                && t.AvailabilitySlotId == availabilitySlot.Id);
 
-                availabilitySlot.EmailTemplates.Add(newTemplate);
+                if (oldTemplate is not null)
+                {
+                    var newTemplate = _mapper.Map(updateAvailabilityDto.TemplateSettings, oldTemplate);
+                    _context.EmailTemplates.Update(oldTemplate);
+                }
+                else
+                {
+                    await SaveEmailTemplateConfig(updateAvailabilityDto.TemplateSettings, availabilitySlot);
+                }
             }
 
             _mapper.Map(updateAvailabilityDto.Schedule, availabilitySlot.Schedule);
@@ -185,6 +183,17 @@ namespace EasyMeets.Core.BLL.Services
             _context.Remove(slot);
 
             await _context.SaveChangesAsync();
+        }
+
+        private async Task SaveEmailTemplateConfig(EmailTemplatesSettingsDto settingsDto, AvailabilitySlot slot)
+        {
+            var emailTemplate = _mapper.Map<EmailTemplate>(settingsDto,
+                    opts => opts.AfterMap((_, dest) =>
+                    {
+                        dest.AvailabilitySlot = slot;
+                    }));
+            await _context.EmailTemplates.AddAsync(emailTemplate);
+            slot.EmailTemplates.Add(emailTemplate);
         }
     }
 }

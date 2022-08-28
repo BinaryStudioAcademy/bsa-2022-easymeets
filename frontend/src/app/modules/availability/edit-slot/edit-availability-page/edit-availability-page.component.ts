@@ -31,10 +31,13 @@ export class EditAvailabilityPageComponent extends BaseComponent {
         this.activateRoute.params.subscribe((params) => {
             this.id = params['id'];
             this.spinnerService.show();
-            this.http.getSlotById(this.id).subscribe((slotResponse) => {
-                this.slot = slotResponse;
-                this.spinnerService.hide();
-            });
+            this.http
+                .getSlotById(this.id)
+                .pipe(this.untilThis)
+                .subscribe((slotResponse) => {
+                    this.slot = slotResponse;
+                    this.spinnerService.hide();
+                });
         });
     }
 
@@ -54,7 +57,7 @@ export class EditAvailabilityPageComponent extends BaseComponent {
             eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
-            emailSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
+            templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
             advancedSettings,
         };
 

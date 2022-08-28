@@ -12,5 +12,5 @@ export interface ISaveAvailability {
     eventDetails: ISaveEventDetails;
     advancedSettings: ISaveAdvancedSettings | null;
     schedule: ISchedule;
-    emailSettings: ISaveConfirmationEmailDetails;
+    templateSettings: ISaveConfirmationEmailDetails;
 }

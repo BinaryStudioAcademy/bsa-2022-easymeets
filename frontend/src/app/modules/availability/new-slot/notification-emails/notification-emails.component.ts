@@ -11,10 +11,9 @@ import { ISaveConfirmationEmailDetails } from '@core/models/save-availability-sl
 export class NotificationEmailsComponent {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
-        this.confirmationSetting = this.slot?.confirmationEmailSettings?.find(
-            (obj) => obj.type === TemplateType.Confirmation,
-        );
-        this.settings = this.confirmationSetting ?? {
+        console.log(value);
+        this.currentSetting = this.slot?.emailTemplateSettings?.find((obj) => obj.type === TemplateType.Confirmation);
+        this.settings = this.currentSetting ?? {
             allowToSend: false,
             emailSubject: this._confirmationSubject,
             emailBody: this._body,
@@ -30,13 +29,12 @@ export class NotificationEmailsComponent {
 
     private _followUpSubject = 'Follow-Up Email';
 
-    private _body =
-        // eslint-disable-next-line max-len
-        'Hi {Invitee Full Name} \r\nYou {Event Name} with {My Name} at {Event Time} on {Event Date} is scheduled\r\n{Event Description}\r\n{Location}\r\n{Questions and Answers}';
+    private _body = `Hi {Invitee Full Name} \r\nYou {Event Name} with {My Name} 
+    at {Event Time} on {Event Date} is scheduled\r\n{Event Description}\r\n{Location}\r\n{Questions and Answers}`;
 
     public slot?: IAvailabilitySlot;
 
-    public confirmationSetting?: ISaveConfirmationEmailDetails;
+    public currentSetting?: ISaveConfirmationEmailDetails;
 
     public settings: ISaveConfirmationEmailDetails;
 
@@ -51,41 +49,28 @@ export class NotificationEmailsComponent {
 
     public changeTemplate(path: string) {
         if (path === 'confirmation') {
-            this.activeTab = path;
-
-            this.settings.emailSubject = this.confirmationSetting?.emailSubject ?? this._confirmationSubject;
+            this.currentSetting = this.slot?.emailTemplateSettings?.find(
+                (obj) => obj.type === TemplateType.Confirmation,
+            );
             this.settings.type = TemplateType.Confirmation;
-            this.settings.emailBody = this.confirmationSetting?.emailBody ?? this._body;
         }
         if (path === 'cancellation') {
-            this.activeTab = path;
-            const cancellationSetting = this.slot?.confirmationEmailSettings?.find(
+            this.currentSetting = this.slot?.emailTemplateSettings?.find(
                 (obj) => obj.type === TemplateType.Cancellation,
             );
-
-            this.settings.emailSubject = cancellationSetting?.emailSubject ?? this._cancellationSubject;
             this.settings.type = TemplateType.Cancellation;
-            this.settings.emailBody = cancellationSetting?.emailBody ?? this._body;
         }
         if (path === 'reminders') {
-            this.activeTab = path;
-            const reminderSetting = this.slot?.confirmationEmailSettings?.find(
-                (obj) => obj.type === TemplateType.Reminders,
-            );
-
-            this.settings.emailSubject = reminderSetting?.emailSubject ?? this._remindersSubject;
+            this.currentSetting = this.slot?.emailTemplateSettings?.find((obj) => obj.type === TemplateType.Reminders);
             this.settings.type = TemplateType.Reminders;
-            this.settings.emailBody = reminderSetting?.emailBody ?? this._body;
         }
         if (path === 'follow-up') {
-            this.activeTab = path;
-            const followUpSetting = this.slot?.confirmationEmailSettings?.find(
-                (obj) => obj.type === TemplateType.FollowUp,
-            );
-
-            this.settings.emailSubject = followUpSetting?.emailSubject ?? this._followUpSubject;
+            this.currentSetting = this.slot?.emailTemplateSettings?.find((obj) => obj.type === TemplateType.FollowUp);
             this.settings.type = TemplateType.FollowUp;
-            this.settings.emailBody = followUpSetting?.emailBody ?? this._body;
         }
+
+        this.activeTab = path;
+        this.settings.emailSubject = this.currentSetting?.emailSubject ?? this._confirmationSubject;
+        this.settings.emailBody = this.currentSetting?.emailBody ?? this._body;
     }
 }
