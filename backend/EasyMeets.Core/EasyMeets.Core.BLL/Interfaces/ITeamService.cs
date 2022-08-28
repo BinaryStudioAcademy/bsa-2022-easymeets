@@ -10,7 +10,7 @@ public interface ITeamService
     Task<string> GenerateNewPageLinkAsync(long teamId, string teamName);
     Task<bool> ValidatePageLinkAsync(long teamId, string pageLink);
     Task<TeamDto> CreateTeamAsync(NewTeamDto teamDto);
-    Task UpdateTeamAsync(TeamDto team);
+    Task UpdateTeamAsync(UpdateTeamDto team);
     Task DeleteTeamAsync(long teamId);
     Task<ImagePathDto> UploadLogoAsync(IFormFile file, long teamId);
 }

@@ -1,22 +1,35 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import {
+    AbstractControl,
+    AsyncValidatorFn,
+    FormControl,
+    FormGroup,
+    ValidationErrors,
+    Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { IImagePath } from '@core/models/IImagePath';
 import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
+import { IUpdateTeam } from '@core/models/IUpdateTeam';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
+import { deletionMessage } from '@shared/constants/shared-messages';
 import { TimeZone } from '@shared/enums/timeZone';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-team-preferences',
     templateUrl: './team-preferences.component.html',
     styleUrls: ['./team-preferences.component.sass'],
 })
-export class TeamPreferencesComponent extends BaseComponent implements OnInit {
+export class TeamPreferencesComponent extends BaseComponent implements OnInit, OnDestroy {
+    private deleteEventEmitter = new EventEmitter<void>();
+
+    private deleteEventSubscription: Subscription;
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -25,6 +38,8 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         private confirmationWindowService: ConfirmationWindowService,
     ) {
         super();
+
+        this.deleteEventSubscription = this.deleteEventEmitter.subscribe(() => this.deleteTeam());
     }
 
     public clickEvent = new EventEmitter<void>();
@@ -85,6 +100,25 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
                 });
                 this.isNewTeam = false;
             });
+    }
+
+    public deleteButtonClick() {
+        this.confirmationWindowService.openConfirmDialog({
+            buttonsOptions: [
+                {
+                    class: 'confirm-accept-button',
+                    label: 'Yes',
+                    onClickEvent: this.deleteEventEmitter,
+                },
+                {
+                    class: 'confirm-cancel-button',
+                    label: 'Cancel',
+                    onClickEvent: new EventEmitter<void>(),
+                },
+            ],
+            title: 'Confirm Team Deletion',
+            message: deletionMessage,
+        });
     }
 
     public deleteTeam() {
@@ -208,9 +242,8 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
     }
 
     private editeTeam(form: FormGroup) {
-        const editedTeam: ITeam = {
+        const editedTeam: IUpdateTeam = {
             id: this.team.id,
-            image: this.team.image,
             name: form.value.name,
             pageLink: form.value.pageLink,
             timeZone: form.value.timeZone,
@@ -235,12 +268,16 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         return (control: AbstractControl): Observable<ValidationErrors | null> =>
             this.validateTeamLink(control.value)
                 .pipe(this.untilThis)
-                .pipe(
-                    map((responce) => (responce ? null : { teamLinkUniq: true })),
-                );
+                .pipe(map((responce) => (responce ? null : { teamLinkUniq: true })));
     }
 
     private validateTeamLink(teamlink: string): Observable<boolean> {
         return this.teamService.validatePageLink(this.team ? this.team.id : 0, teamlink);
+    }
+
+    override ngOnDestroy(): void {
+        super.ngOnDestroy();
+
+        this.deleteEventSubscription.unsubscribe();
     }
 }

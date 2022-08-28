@@ -46,31 +46,16 @@
                 >Incorret authentication credentials</mat-error
             >
         </mat-form-field>
-        <mat-label class="outside-label bold">Repeat password</mat-label>
-        <mat-form-field appearance="outline">
-            <input
-                matInput
-                id="repeat-password"
-                [type]="hidePassword ? 'password' : 'text'"
-                formControlName="confirmPassword"
-                placeholder="●●●●●●●●●●"
-                [errorStateMatcher]="matcher" />
-            <button
-                mat-icon-button
-                matSuffix
-                type="button"
-                (click)="hidePassword = !hidePassword"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hidePassword">
-                <mat-icon color="primary">{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-            </button>
-            <mat-error *ngIf="matcher.passwordsMismatch">Passwords don't match</mat-error>
-        </mat-form-field>
     </div>
     <div class="form-actions flex-col h-align-center">
         <button class="full-width" mat-flat-button color="primary" type="submit">Register</button>
         <p class="bold">or</p>
-        <button mat-raised-button class="social-google-btn" color="primary" type="button" (click)="onSignInWithGoogle()">
+        <button
+            mat-raised-button
+            class="social-google-btn"
+            color="primary"
+            type="button"
+            (click)="onSignInWithGoogle()">
             <div class="btn-icon">
                 <mat-icon svgIcon="google-logo"></mat-icon>
             </div>

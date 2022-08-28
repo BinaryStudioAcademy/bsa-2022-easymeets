@@ -1,4 +1,5 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.Common.DTO.Credentials.Zoom;
 using EasyMeets.Core.Common.DTO.UploadImage;
 using EasyMeets.Core.Common.DTO.User;
 using Microsoft.AspNetCore.Authorization;
@@ -39,11 +40,13 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdatePreferences([FromBody] UserDto user)
+        public async Task<IActionResult> UpdatePreferences([FromBody] UpdateUserDto user)
         {
             var currentUser = await _userService.GetCurrentUserAsync();
-            await _userService.UpdateUserPreferences(user, currentUser.Email);
-            return Ok();
+            
+            var updatedUser = await _userService.UpdateUserPreferences(user, currentUser.Email);
+            
+            return Ok(updatedUser);
         }
 
 
@@ -52,6 +55,20 @@ namespace EasyMeets.Core.WebAPI.Controllers
         {
             var imagePath = await _userService.UploadImageAsync(file);
             return Ok(imagePath);
+        }
+
+        [HttpPost("zoom/add")]
+        public async Task<ActionResult> CreateZoomCredentials([FromBody]NewCredentialsRequestDto newCredentialsRequestDto)
+        {
+            await _userService.CreateZoomCredentials(newCredentialsRequestDto);
+            return Ok();
+        }
+
+        [HttpGet("zoom/client")]
+        public ActionResult<string> GetZoomClientId()
+        {
+            var clientId = Environment.GetEnvironmentVariable("ZoomClientId");
+            return Ok(clientId!);
         }
     }
 }
