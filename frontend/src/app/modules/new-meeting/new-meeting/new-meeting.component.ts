@@ -112,7 +112,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     }
 
     public displayMemberName(teamMember: INewMeetingMember): string {
-        return teamMember && teamMember.name ? teamMember.name : '';
+        return teamMember?.name ?? '';
     }
 
     public setValidation() {
