@@ -15,7 +15,15 @@ export class ScheduleWeekComponent implements OnInit {
 
     @Input() public itemChange: EventEmitter<void> = new EventEmitter();
 
-    ngOnInit(): void {
+    public view: CalendarView = CalendarView.Week;
+
+    public viewDate: Date = new Date();
+
+    public events: CalendarEvent[];
+
+    public refresh = new Subject<void>();
+
+    public ngOnInit(): void {
         this.updateEvents();
 
         this.itemChange.subscribe(() => {
@@ -23,15 +31,7 @@ export class ScheduleWeekComponent implements OnInit {
         });
     }
 
-    view: CalendarView = CalendarView.Week;
-
-    viewDate: Date = new Date();
-
-    events: CalendarEvent[];
-
-    refresh = new Subject<void>();
-
-    eventTimesChanged({
+    public eventTimesChanged({
         event,
         newStart,
         newEnd,
@@ -48,24 +48,20 @@ export class ScheduleWeekComponent implements OnInit {
         this.refresh.next();
     }
 
-    reformat(num: number): string {
-        if (num < 10) {
-            return `0${num}`;
+    public validateEventTimesChanged = (
+        { event, newStart, newEnd }: CalendarEventTimesChangedEvent,
+    ) => {
+        if (newEnd !== undefined) {
+            delete event.cssClass;
+            const sameDay = isSameDay(newStart, newEnd);
+
+            if (!sameDay) {
+                return false;
+            }
         }
 
-        return num.toString();
-    }
-
-    parseTime(time: string): Date {
-        const d = new Date();
-        const [hours, minutes, seconds] = time.split(':');
-
-        d.setHours(+hours);
-        d.setMinutes(+minutes);
-        d.setSeconds(+seconds);
-
-        return d;
-    }
+        return true;
+    };
 
     private updateEvents() {
         let events: CalendarEvent[] = [];
@@ -94,18 +90,22 @@ export class ScheduleWeekComponent implements OnInit {
         this.refresh.next();
     }
 
-    validateEventTimesChanged = (
-        { event, newStart, newEnd }: CalendarEventTimesChangedEvent,
-    ) => {
-        if (newEnd !== undefined) {
-            delete event.cssClass;
-            const sameDay = isSameDay(newStart, newEnd);
-
-            if (!sameDay) {
-                return false;
-            }
+    private reformat(num: number): string {
+        if (num < 10) {
+            return `0${num}`;
         }
 
-        return true;
-    };
+        return num.toString();
+    }
+
+    private parseTime(time: string): Date {
+        const d = new Date();
+        const [hours, minutes, seconds] = time.split(':');
+
+        d.setHours(+hours);
+        d.setMinutes(+minutes);
+        d.setSeconds(+seconds);
+
+        return d;
+    }
 }
