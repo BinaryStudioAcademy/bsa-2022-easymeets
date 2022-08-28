@@ -22,7 +22,10 @@ namespace EasyMeets.RabbitMQ.Service
             var properties = channel.CreateBasicProperties();
             properties.Persistent = true;
 
-            if (!string.IsNullOrEmpty(type)) properties.Type = type;
+            if (!string.IsNullOrEmpty(type))
+            {
+                properties.Type = type;
+            }
 
             channel.ExchangeDeclare(_producerSettings.ExchangeName, _producerSettings.ExchangeType);
 

@@ -29,7 +29,6 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddTransient<ICalendarsService, CalendarsService>();
             services.AddTransient<IMeetingService, MeetingService>();
             services.AddTransient<ITeamService, TeamService>();
-            //services.AddTransient<INotifyQueueProducerService, NotifyQueueProducerService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
@@ -67,13 +66,14 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 return connectionFactory.CreateConnection();
             });
 
-            services.AddRabbitMQIssueQueues(configuration);
+            services.AddRabbitMQInformEveryone(configuration);
         }
 
-        private static void AddRabbitMQIssueQueues(this IServiceCollection services, IConfiguration configuration)
+        private static void AddRabbitMQInformEveryone(this IServiceCollection services, IConfiguration configuration)
         {
             var producerSettings = new ProducerSettings();
             var consumerSettings = new ConsumerSettings();
+
             configuration
                 .GetSection("RabbitMQConfiguration:Queues:InformProducer")
                 .Bind(producerSettings);

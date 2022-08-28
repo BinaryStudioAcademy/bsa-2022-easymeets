@@ -37,9 +37,6 @@ namespace EasyMeets.RabbitMQ.Service
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                // message send to all some logic
-
-                Thread.Sleep(2500);
 
                 _channelReceive.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
             };
@@ -59,7 +56,7 @@ namespace EasyMeets.RabbitMQ.Service
         {
             if (disposing)
             {
-                if (_factory != null)
+                if (_factory is not null)
                 {
                     _connection.Dispose();
                     _channelReceive.Dispose();
