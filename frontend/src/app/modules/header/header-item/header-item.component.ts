@@ -6,7 +6,6 @@ import { ILocalUser } from '@core/models/IUser';
 import { AuthService } from '@core/services/auth.service';
 import { TeamService } from '@core/services/team.service';
 import { UserService } from '@core/services/user.service';
-import { combineLatest } from 'rxjs';
 
 @Component({
     selector: 'app-header-item',

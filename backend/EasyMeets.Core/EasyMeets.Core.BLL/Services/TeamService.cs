@@ -45,8 +45,7 @@ public class TeamService : BaseService, ITeamService
 
     public async Task<bool> ValidatePageLinkAsync(long? teamId, string pageLink)
     {
-        var isUnique = !await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == pageLink);
-        return isUnique;
+        return !await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == pageLink);
     }
 
     public async Task<TeamDto> CreateTeamAsync(NewTeamDto newTeamDto)
