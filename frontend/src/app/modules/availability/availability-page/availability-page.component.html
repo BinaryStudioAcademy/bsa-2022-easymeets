@@ -9,7 +9,8 @@
             <app-user-slot
                 (isReload)="reloadData($event)"
                 [userSlots]="userPersonalAndTeamSlots.userSlots"
-                [currentUser]="currentUser"></app-user-slot>
+                [currentUser]="currentUser"
+                [showArrow]="userPersonalAndTeamSlots.teamSlots.length === 0"></app-user-slot>
             <div *ngFor="let teamSlot of userPersonalAndTeamSlots.teamSlots">
                 <app-team (isReload)="reloadData($event)" [teamSlot]="teamSlot"></app-team>
             </div>
