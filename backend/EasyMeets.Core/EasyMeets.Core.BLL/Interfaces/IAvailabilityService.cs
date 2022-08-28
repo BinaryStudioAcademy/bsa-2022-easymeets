@@ -9,6 +9,7 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task CreateAvailabilitySlot(SaveAvailabilitySlotDto slotDto);
         Task<AvailabilitySlotDto> GetAvailabilitySlotById(long id);
         Task<AvailabilitySlotDto> UpdateAvailabilitySlot(long id, SaveAvailabilitySlotDto updateAvailabilityDto);
+        Task<bool> UpdateAvailabilitySlotEnablingAsync(long id);
         Task DeleteAvailabilitySlot(long slotId);
     }
 }

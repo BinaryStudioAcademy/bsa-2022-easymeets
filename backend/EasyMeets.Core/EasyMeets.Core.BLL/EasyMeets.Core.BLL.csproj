@@ -14,9 +14,13 @@
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.57.0.2759" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\EasyMeets.RabbitMQ\EasyMeets.RabbitMQ.csproj" />
     <ProjectReference Include="..\EasyMeets.Core.Common\EasyMeets.Core.Common.csproj" />
     <ProjectReference Include="..\EasyMeets.Core.DAL\EasyMeets.Core.DAL.csproj" />
   </ItemGroup>
