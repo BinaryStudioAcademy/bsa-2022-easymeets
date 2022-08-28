@@ -28,4 +28,8 @@ export class TeamComponent implements OnInit {
     isDeleted(isRemove: boolean) {
         this.isReload.emit(isRemove);
     }
+
+    isChangedActivity(isChanged: boolean) {
+        this.isReload.emit(isChanged);
+    }
 }

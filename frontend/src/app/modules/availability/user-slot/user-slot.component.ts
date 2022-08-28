@@ -21,4 +21,8 @@ export class UserSlotComponent {
     isDeleted(isRemove: boolean) {
         this.isReload.emit(isRemove);
     }
+
+    isChangedActivity(isChanged: boolean) {
+        this.isReload.emit(isChanged);
+    }
 }
