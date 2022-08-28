@@ -37,11 +37,11 @@ export class ScheduleWeekComponent implements OnInit {
         newEnd,
     }: CalendarEventTimesChangedEvent): void {
         event.start = newStart;
-        event.end = newEnd as Date;
+        event.end = newEnd;
         const index = this.events.indexOf(event);
 
         this.items[index].start = `${this.reformat(newStart.getHours())}:${this.reformat(newStart.getMinutes())}:00`;
-        if (newEnd !== undefined) {
+        if (newEnd) {
             this.items[index].end = `${this.reformat(newEnd.getHours())}:${this.reformat(newEnd.getMinutes())}:00`;
         }
         this.itemChange.emit();
@@ -51,7 +51,7 @@ export class ScheduleWeekComponent implements OnInit {
     public validateEventTimesChanged = (
         { event, newStart, newEnd }: CalendarEventTimesChangedEvent,
     ) => {
-        if (newEnd !== undefined) {
+        if (newEnd) {
             delete event.cssClass;
             const sameDay = isSameDay(newStart, newEnd);
 

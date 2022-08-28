@@ -39,18 +39,22 @@ export class NewAvailabilityComponent implements OnInit {
 
     public isActive: boolean = true;
 
+    public readonly generalIndex: number = 0;
+
+    public readonly bookingPageIndex: number = 1;
+
+    public readonly scheduleIndex: number = 2;
+
+    public readonly notificationEmailsIndex: number = 3;
+
     public index: number = 0;
 
     // eslint-disable-next-line no-empty-function
     constructor(private router: Router) {}
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.initializeSideMenu();
         this.isActive = this.slot?.isEnabled ?? true;
-    }
-
-    private initializeSideMenu() {
-        this.sideMenuGroups = getNewAvailabilityMenu();
     }
 
     public goToPage(pageName: string) {
@@ -71,11 +75,7 @@ export class NewAvailabilityComponent implements OnInit {
         this.saveChangesClick.emit();
     }
 
-    public getClass(index: number): string {
-        if (this.index === index) {
-            return 'item-container';
-        }
-
-        return 'display-none';
+    private initializeSideMenu() {
+        this.sideMenuGroups = getNewAvailabilityMenu();
     }
 }

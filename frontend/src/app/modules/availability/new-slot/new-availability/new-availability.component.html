@@ -21,10 +21,10 @@
             </div>
         </div>
         <div class="menu-item-container">
-            <div [className]="getClass(0)" ><app-general [newSlot]="slot"></app-general></div>
-            <div [className]="getClass(1)"><app-event-detail [newSlot]="slot"></app-event-detail></div>
-            <div [className]="getClass(2)"><app-schedule [newSlot]="slot"></app-schedule></div>
-            <div [className]="getClass(3)"><app-notification-emails [newSlot]="slot"></app-notification-emails></div>
+            <div class="item-container" [ngClass]="{'display-none': generalIndex !== index}"><app-general [newSlot]="slot"></app-general></div>
+            <div class="item-container" [ngClass]="{'display-none': bookingPageIndex !== index}"><app-event-detail [newSlot]="slot"></app-event-detail></div>
+            <div class="item-container" [ngClass]="{'display-none': scheduleIndex !== index}"><app-schedule [newSlot]="slot"></app-schedule></div>
+            <div class="item-container" [ngClass]="{'display-none': notificationEmailsIndex !== index}"><app-notification-emails [newSlot]="slot"></app-notification-emails></div>
         </div>
     </div>
 </div>
