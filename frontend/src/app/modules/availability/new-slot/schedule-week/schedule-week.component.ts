@@ -86,7 +86,7 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
 
     private createDate(weekDay: number, hours: string): Date {
         return addMinutes(addHours(
-            startOfDay(setDay(new Date(), weekDay)),
+            startOfDay(setDay(new Date(), this.recalculateDayIndexForCalenfar(weekDay))),
             this.parseTime(hours).getHours(),
         ), this.parseTime(hours).getMinutes());
     }
@@ -108,5 +108,13 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
         }
 
         return num.toString();
+    }
+
+    private recalculateDayIndexForCalenfar(weekDayIndex: number): number {
+        if (weekDayIndex < 6) {
+            return ++weekDayIndex;
+        }
+
+        return 0;
     }
 }
