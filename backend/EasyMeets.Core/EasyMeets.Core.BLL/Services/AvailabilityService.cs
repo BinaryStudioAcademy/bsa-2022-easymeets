@@ -65,11 +65,7 @@ namespace EasyMeets.Core.BLL.Services
 
             if (teamId is null) return new UserPersonalAndTeamSlotsDto(userSlots, availabilitySlotsGroupByTeams);
 
-            var team = await _context.Teams.FirstOrDefaultAsync(team => team.Id == teamId);
-            if (team is null)
-            {
-                throw new KeyNotFoundException("Team doesn't exist");
-            }
+            var team = await _context.Teams.FirstOrDefaultAsync(team => team.Id == teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
 
             return new UserPersonalAndTeamSlotsDto(
                 userSlots.Where(dto => dto.TeamName == team.Name).ToList(),
