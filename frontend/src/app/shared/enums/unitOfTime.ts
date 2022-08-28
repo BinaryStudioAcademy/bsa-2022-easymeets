@@ -1,4 +1,4 @@
 export enum UnitOfTime {
-    min,
-    hour
+    Min,
+    Hour
 }
