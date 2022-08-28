@@ -21,6 +21,7 @@ namespace EasyMeets.Core.DAL.Context
         public DbSet<User> Users { get; private set; } 
         public DbSet<Schedule> Schedules { get; private set; }
         public DbSet<ScheduleItem> ScheduleItems { get; private set; }
+        public DbSet<Credentials> Credentials { get; private set; }
 
 
         public EasyMeetsCoreContext(DbContextOptions<EasyMeetsCoreContext> options) : base(options)
@@ -41,6 +42,7 @@ namespace EasyMeets.Core.DAL.Context
             Schedules = Set<Schedule>();
             ScheduleItems = Set<ScheduleItem>();
             MeetingMembers = Set<MeetingMember>();
+            Credentials = Set<Credentials>();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
