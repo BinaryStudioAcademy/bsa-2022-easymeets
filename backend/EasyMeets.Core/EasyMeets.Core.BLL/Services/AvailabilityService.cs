@@ -29,12 +29,15 @@ namespace EasyMeets.Core.BLL.Services
                 throw new ArgumentException("Trying to get another user's slots", nameof(id));
             }
 
+            var team = await _context.Teams.FirstOrDefaultAsync(team => team.Id == teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
+
             var availabilitySlots = await _context.AvailabilitySlots
                 .Include(x => x.SlotMembers)
                     .ThenInclude(x => x.User)
                 .Include(x => x.Author)
                 .Include(x => x.Team)
                 .Where(x => x.CreatedBy == id || x.SlotMembers.Any(x => x.MemberId == id))
+                .Where(slot => teamId == null || slot.Team.Name == team.Name)
                 .Select(y =>
                     new AvailabilitySlotDto
                     {
@@ -63,14 +66,7 @@ namespace EasyMeets.Core.BLL.Services
                     })
                 .ToList();
 
-            if (teamId is null) return new UserPersonalAndTeamSlotsDto(userSlots, availabilitySlotsGroupByTeams);
-
-            var team = await _context.Teams.FirstOrDefaultAsync(team => team.Id == teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
-
-            return new UserPersonalAndTeamSlotsDto(
-                userSlots.Where(dto => dto.TeamName == team.Name).ToList(),
-                availabilitySlotsGroupByTeams.Where(dto => dto.Name == team.Name).ToList()
-            );
+            return new UserPersonalAndTeamSlotsDto(userSlots, availabilitySlotsGroupByTeams);
         }
 
         public async Task CreateAvailabilitySlot(SaveAvailabilitySlotDto slotDto)
