@@ -958,6 +958,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Subject = "illoA",
                             TemplateType = 1
                         });
+                });
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Credentials", b =>
                 {
@@ -965,14 +966,14 @@ namespace EasyMeets.Core.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-                    
+
                     b.Property<string>("AccessToken")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-                        
+
                     b.Property<int>("LifeCycle")
                         .HasColumnType("int");
 
@@ -995,6 +996,7 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.ToTable("Credentials");
                 });
+
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ExternalAttendee", b =>
                 {
@@ -3143,245 +3145,246 @@ namespace EasyMeets.Core.DAL.Migrations
                         .IsRequired();
                     b.Navigation("AvailabilitySlot");
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Credentials", b =>
-                {
-                    b.HasOne("EasyMeets.Core.DAL.Entities.User", "User")
-                        .WithMany("Credentials")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                    b.Navigation("User");
-                });
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Credentials", b =>
+                        {
+                            b.HasOne("EasyMeets.Core.DAL.Entities.User", "User")
+                                .WithMany("Credentials")
+                                .HasForeignKey("UserId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
+                            b.Navigation("User");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ExternalAttendee", b =>
-                {
-                    b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
-                        .WithMany("ExternalAttendees")
-                        .HasForeignKey("AvailabilitySlotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ExternalAttendee", b =>
+                        {
+                            b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
+                                .WithMany("ExternalAttendees")
+                                .HasForeignKey("AvailabilitySlotId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.HasOne("EasyMeets.Core.DAL.Entities.Meeting", "Meeting")
-                        .WithMany("ExternalAttendees")
-                        .HasForeignKey("MeetingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                            b.HasOne("EasyMeets.Core.DAL.Entities.Meeting", "Meeting")
+                                .WithMany("ExternalAttendees")
+                                .HasForeignKey("MeetingId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.Navigation("AvailabilitySlot");
+                            b.Navigation("AvailabilitySlot");
 
-                    b.Navigation("Meeting");
-                });
+                            b.Navigation("Meeting");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ExternalAttendeeAvailability", b =>
-                {
-                    b.HasOne("EasyMeets.Core.DAL.Entities.ExternalAttendee", "ExternalAttendee")
-                        .WithMany("ExternalAttendeeAvailabilities")
-                        .HasForeignKey("ExternalAttendeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ExternalAttendeeAvailability", b =>
+                        {
+                            b.HasOne("EasyMeets.Core.DAL.Entities.ExternalAttendee", "ExternalAttendee")
+                                .WithMany("ExternalAttendeeAvailabilities")
+                                .HasForeignKey("ExternalAttendeeId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.Navigation("ExternalAttendee");
-                });
+                            b.Navigation("ExternalAttendee");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Meeting", b =>
-                {
-                    b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
-                        .WithOne("Meeting")
-                        .HasForeignKey("EasyMeets.Core.DAL.Entities.Meeting", "AvailabilitySlotId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Meeting", b =>
+                        {
+                            b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
+                                .WithOne("Meeting")
+                                .HasForeignKey("EasyMeets.Core.DAL.Entities.Meeting", "AvailabilitySlotId")
+                                .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("EasyMeets.Core.DAL.Entities.User", "Author")
-                        .WithMany("CreatedMeetings")
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                            b.HasOne("EasyMeets.Core.DAL.Entities.User", "Author")
+                                .WithMany("CreatedMeetings")
+                                .HasForeignKey("CreatedBy")
+                                .OnDelete(DeleteBehavior.Restrict)
+                                .IsRequired();
 
-                    b.HasOne("EasyMeets.Core.DAL.Entities.Team", "Team")
-                        .WithMany("Meetings")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                            b.HasOne("EasyMeets.Core.DAL.Entities.Team", "Team")
+                                .WithMany("Meetings")
+                                .HasForeignKey("TeamId")
+                                .OnDelete(DeleteBehavior.Restrict)
+                                .IsRequired();
 
-                    b.Navigation("Author");
+                            b.Navigation("Author");
 
-                    b.Navigation("AvailabilitySlot");
+                            b.Navigation("AvailabilitySlot");
 
-                    b.Navigation("Team");
-                });
+                            b.Navigation("Team");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.MeetingMember", b =>
-                {
-                    b.HasOne("EasyMeets.Core.DAL.Entities.Meeting", "Meeting")
-                        .WithMany("MeetingMembers")
-                        .HasForeignKey("MeetingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.MeetingMember", b =>
+                        {
+                            b.HasOne("EasyMeets.Core.DAL.Entities.Meeting", "Meeting")
+                                .WithMany("MeetingMembers")
+                                .HasForeignKey("MeetingId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.HasOne("EasyMeets.Core.DAL.Entities.TeamMember", "TeamMember")
-                        .WithMany("MeetingMembers")
-                        .HasForeignKey("TeamMemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                            b.HasOne("EasyMeets.Core.DAL.Entities.TeamMember", "TeamMember")
+                                .WithMany("MeetingMembers")
+                                .HasForeignKey("TeamMemberId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.Navigation("Meeting");
+                            b.Navigation("Meeting");
 
-                    b.Navigation("TeamMember");
-                });
+                            b.Navigation("TeamMember");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Question", b =>
-                {
-                    b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
-                        .WithMany("Questions")
-                        .HasForeignKey("AvailabilitySlotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Question", b =>
+                        {
+                            b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
+                                .WithMany("Questions")
+                                .HasForeignKey("AvailabilitySlotId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.Navigation("AvailabilitySlot");
-                });
+                            b.Navigation("AvailabilitySlot");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Schedule", b =>
-                {
-                    b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
-                        .WithOne("Schedule")
-                        .HasForeignKey("EasyMeets.Core.DAL.Entities.Schedule", "AvailabilitySlotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Schedule", b =>
+                        {
+                            b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
+                                .WithOne("Schedule")
+                                .HasForeignKey("EasyMeets.Core.DAL.Entities.Schedule", "AvailabilitySlotId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.Navigation("AvailabilitySlot");
-                });
+                            b.Navigation("AvailabilitySlot");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ScheduleItem", b =>
-                {
-                    b.HasOne("EasyMeets.Core.DAL.Entities.Schedule", "Schedule")
-                        .WithMany("ScheduleItems")
-                        .HasForeignKey("ScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ScheduleItem", b =>
+                        {
+                            b.HasOne("EasyMeets.Core.DAL.Entities.Schedule", "Schedule")
+                                .WithMany("ScheduleItems")
+                                .HasForeignKey("ScheduleId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.Navigation("Schedule");
-                });
+                            b.Navigation("Schedule");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.SlotMember", b =>
-                {
-                    b.HasOne("EasyMeets.Core.DAL.Entities.User", "User")
-                        .WithMany("SlotMembers")
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.SlotMember", b =>
+                        {
+                            b.HasOne("EasyMeets.Core.DAL.Entities.User", "User")
+                                .WithMany("SlotMembers")
+                                .HasForeignKey("MemberId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.HasOne("EasyMeets.Core.DAL.Entities.Schedule", "Schedule")
-                        .WithMany("Members")
-                        .HasForeignKey("ScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                            b.HasOne("EasyMeets.Core.DAL.Entities.Schedule", "Schedule")
+                                .WithMany("Members")
+                                .HasForeignKey("ScheduleId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
-                        .WithMany("SlotMembers")
-                        .HasForeignKey("SlotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                            b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
+                                .WithMany("SlotMembers")
+                                .HasForeignKey("SlotId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.Navigation("AvailabilitySlot");
+                            b.Navigation("AvailabilitySlot");
 
-                    b.Navigation("Schedule");
+                            b.Navigation("Schedule");
 
-                    b.Navigation("User");
-                });
+                            b.Navigation("User");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.TeamMember", b =>
-                {
-                    b.HasOne("EasyMeets.Core.DAL.Entities.Team", "Team")
-                        .WithMany("TeamMembers")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.TeamMember", b =>
+                        {
+                            b.HasOne("EasyMeets.Core.DAL.Entities.Team", "Team")
+                                .WithMany("TeamMembers")
+                                .HasForeignKey("TeamId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.HasOne("EasyMeets.Core.DAL.Entities.User", "User")
-                        .WithMany("TeamMembers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                            b.HasOne("EasyMeets.Core.DAL.Entities.User", "User")
+                                .WithMany("TeamMembers")
+                                .HasForeignKey("UserId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.Navigation("Team");
+                            b.Navigation("Team");
 
-                    b.Navigation("User");
-                });
+                            b.Navigation("User");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.AvailabilitySlot", b =>
-                {
-                    b.Navigation("AdvancedSlotSettings");
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.AvailabilitySlot", b =>
+                        {
+                            b.Navigation("AdvancedSlotSettings");
 
-                    b.Navigation("EmailTemplates");
+                            b.Navigation("EmailTemplates");
 
-                    b.Navigation("ExternalAttendees");
+                            b.Navigation("ExternalAttendees");
 
-                    b.Navigation("Meeting");
+                            b.Navigation("Meeting");
 
-                    b.Navigation("Questions");
+                            b.Navigation("Questions");
 
-                    b.Navigation("Schedule")
-                        .IsRequired();
+                            b.Navigation("Schedule")
+                                .IsRequired();
 
-                    b.Navigation("SlotMembers");
-                });
+                            b.Navigation("SlotMembers");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Calendar", b =>
-                {
-                    b.Navigation("VisibleForTeams");
-                });
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Calendar", b =>
+                        {
+                            b.Navigation("VisibleForTeams");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ExternalAttendee", b =>
-                {
-                    b.Navigation("ExternalAttendeeAvailabilities");
-                });
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ExternalAttendee", b =>
+                        {
+                            b.Navigation("ExternalAttendeeAvailabilities");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Meeting", b =>
-                {
-                    b.Navigation("ExternalAttendees");
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Meeting", b =>
+                        {
+                            b.Navigation("ExternalAttendees");
 
-                    b.Navigation("MeetingMembers");
-                });
+                            b.Navigation("MeetingMembers");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Schedule", b =>
-                {
-                    b.Navigation("Members");
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Schedule", b =>
+                        {
+                            b.Navigation("Members");
 
-                    b.Navigation("ScheduleItems");
-                });
+                            b.Navigation("ScheduleItems");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Team", b =>
-                {
-                    b.Navigation("AvailabilitySlots");
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Team", b =>
+                        {
+                            b.Navigation("AvailabilitySlots");
 
-                    b.Navigation("ExportEventsToCalendars");
+                            b.Navigation("ExportEventsToCalendars");
 
-                    b.Navigation("Meetings");
+                            b.Navigation("Meetings");
 
-                    b.Navigation("TeamMembers");
+                            b.Navigation("TeamMembers");
 
-                    b.Navigation("VisibleCalendars");
-                });
+                            b.Navigation("VisibleCalendars");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.TeamMember", b =>
-                {
-                    b.Navigation("MeetingMembers");
-                });
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.TeamMember", b =>
+                        {
+                            b.Navigation("MeetingMembers");
+                        });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.User", b =>
-                {
-                    b.Navigation("Calendars");
+                    modelBuilder.Entity("EasyMeets.Core.DAL.Entities.User", b =>
+                        {
+                            b.Navigation("Calendars");
 
-                    b.Navigation("CreatedMeetings");
+                            b.Navigation("CreatedMeetings");
 
-                    b.Navigation("CreatedSlots");
+                            b.Navigation("CreatedSlots");
 
-                    b.Navigation("Credentials");
+                            b.Navigation("Credentials");
 
-                    b.Navigation("SlotMembers");
+                            b.Navigation("SlotMembers");
 
-                    b.Navigation("TeamMembers");
-                });
+                            b.Navigation("TeamMembers");
+                        });
 #pragma warning restore 612, 618
+                });
         }
     }
 }
