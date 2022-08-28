@@ -9,9 +9,9 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
     public AvailabilitySlot()
     {
         ExternalAttendees = new List<ExternalAttendee>();
-        Members = new List<UserSlot>();
         Questions = new List<Question>();
         EmailTemplates = new List<EmailTemplate>();
+        SlotMembers = new List<SlotMember>();
     }
     public long TeamId { get; set; }
     public LocationType LocationType { get; set; }
@@ -37,9 +37,9 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
     public AdvancedSlotSettings? AdvancedSlotSettings { get; set; } = null!;
     public Schedule Schedule { get; set; } = null!;
     public ICollection<ExternalAttendee> ExternalAttendees { get; set; }
-    public ICollection<UserSlot> Members { get; set; }
     public ICollection<Question> Questions { get; set; }
     public ICollection<EmailTemplate> EmailTemplates { get; set; }
+    public ICollection<SlotMember> SlotMembers { get; set; }
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if (!Name.IsValidUsername() || Name.Length is < 1 or > 50)

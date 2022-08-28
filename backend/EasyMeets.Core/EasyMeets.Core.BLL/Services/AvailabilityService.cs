@@ -28,12 +28,13 @@ namespace EasyMeets.Core.BLL.Services
             }
 
             var availabilitySlots = await _context.AvailabilitySlots
-                .Include(x => x.Members)
+                .Include(x => x.SlotMembers)
                     .ThenInclude(x => x.User)
                 .Include(x => x.Author)
                 .Include(x => x.Team)
                 .Include(x => x.EmailTemplates)
-                .Where(x => x.CreatedBy == id || x.Members.Any(x => x.UserId == id))
+                .Where(x => x.CreatedBy == id || x.SlotMembers.Any(x => x.MemberId == id))
+
                 .Select(y =>
                     new AvailabilitySlotDto
                     {
@@ -45,8 +46,8 @@ namespace EasyMeets.Core.BLL.Services
                         AuthorName = y.Author.Name,
                         TeamName = y.Team.Name,
                         LocationType = y.LocationType,
-                        Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.Members),
                         EmailTemplateSettings = _mapper.Map<List<EmailTemplatesSettingsDto>>(y.EmailTemplates)
+                        Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.SlotMembers),
                     }
                 )
                 .ToListAsync();
