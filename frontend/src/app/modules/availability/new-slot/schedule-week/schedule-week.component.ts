@@ -38,14 +38,16 @@ export class ScheduleWeekComponent implements OnInit {
     }: CalendarEventTimesChangedEvent): void {
         event.start = newStart;
         event.end = newEnd;
-        const index = this.events.indexOf(event);
+        const item = this.items.find(i => i.weekDay === event.id);
 
-        this.items[index].start = `${this.reformat(newStart.getHours())}:${this.reformat(newStart.getMinutes())}:00`;
-        if (newEnd) {
-            this.items[index].end = `${this.reformat(newEnd.getHours())}:${this.reformat(newEnd.getMinutes())}:00`;
+        if (item) {
+            item.start = `${this.reformat(newStart.getHours())}:${this.reformat(newStart.getMinutes())}:00`;
+            if (newEnd) {
+                item.end = `${this.reformat(newEnd.getHours())}:${this.reformat(newEnd.getMinutes())}:00`;
+            }
+            this.itemChange.emit();
+            this.refresh.next();
         }
-        this.itemChange.emit();
-        this.refresh.next();
     }
 
     public validateEventTimesChanged = (
@@ -64,38 +66,26 @@ export class ScheduleWeekComponent implements OnInit {
     };
 
     private updateEvents() {
-        let events: CalendarEvent[] = [];
-
-        this.items.forEach((item) => {
-            if (item.isEnabled) {
-                events = events.concat({
-                    start: addMinutes(addHours(
-                        startOfDay(setDay(new Date(), item.weekDay)),
-                        this.parseTime(item.start).getHours(),
-                    ), this.parseTime(item.start).getMinutes()),
-                    end: addMinutes(addHours(
-                        startOfDay(setDay(new Date(), item.weekDay)),
-                        this.parseTime(item.end).getHours(),
-                    ), this.parseTime(item.end).getMinutes()),
-                    title: '',
-                    resizable: {
-                        beforeStart: true,
-                        afterEnd: true,
-                    },
-                });
-            }
-        });
-
-        this.events = events;
+        this.events = this.items
+            .filter(item => item.isEnabled)
+            .map((item) => ({
+                start: this.createDate(item.weekDay, item.start),
+                end: this.createDate(item.weekDay, item.end),
+                title: '',
+                resizable: {
+                    beforeStart: true,
+                    afterEnd: true,
+                },
+                id: item.weekDay,
+            }));
         this.refresh.next();
     }
 
-    private reformat(num: number): string {
-        if (num < 10) {
-            return `0${num}`;
-        }
-
-        return num.toString();
+    private createDate(weekDay: number, hours: string): Date {
+        return addMinutes(addHours(
+            startOfDay(setDay(new Date(), weekDay)),
+            this.parseTime(hours).getHours(),
+        ), this.parseTime(hours).getMinutes());
     }
 
     private parseTime(time: string): Date {
@@ -107,5 +97,13 @@ export class ScheduleWeekComponent implements OnInit {
         d.setSeconds(+seconds);
 
         return d;
+    }
+
+    private reformat(num: number): string {
+        if (num < 10) {
+            return `0${num}`;
+        }
+
+        return num.toString();
     }
 }
