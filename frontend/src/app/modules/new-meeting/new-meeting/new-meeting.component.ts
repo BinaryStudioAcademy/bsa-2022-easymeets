@@ -107,19 +107,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
             .pipe(this.untilThis)
             .subscribe((resp) => {
                 this.teamMembers = resp;
-                this._getFilteredOptions();
+                this.getFilteredOptions();
             });
-    }
-
-    private _getFilteredOptions() {
-        this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
-            startWith(''),
-            map(value => {
-                const filterValue = value || ''.toLowerCase();
-
-                return this.teamMembers.filter(teamMembers => teamMembers.name.toLowerCase().includes(filterValue));
-            }),
-        );
     }
 
     public displayMemberName(teamMember: INewMeetingMember): string {
@@ -147,13 +136,12 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     public showUnshowCustomDuration(form: FormGroup) {
         const durationValue = form.value.duration;
 
+        this.customTimeShown = durationValue.time === 'Custom';
         this.mainContentCustomTimeShown = form.value.mainContainerDuration.time === 'Custom';
 
-        if (durationValue.time === 'Custom') {
-            this.customTimeShown = true;
+        if (this.customTimeShown) {
             this.setValidation();
         } else {
-            this.customTimeShown = false;
             this.durationChanged(durationValue.time, durationValue.unitOfTime);
         }
     }
@@ -192,5 +180,16 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         this.meetingForm.reset();
         this.patchFormValues();
         this.addedMembers = [];
+    }
+
+    private getFilteredOptions() {
+        this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
+            startWith(''),
+            map(value => {
+                const filterValue = value || ''.toLowerCase();
+
+                return this.teamMembers.filter(teamMembers => teamMembers.name.toLowerCase().includes(filterValue));
+            }),
+        );
     }
 }
