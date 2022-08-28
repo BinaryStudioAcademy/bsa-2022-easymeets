@@ -9,7 +9,11 @@
     </div>
     <div class="availability-slot">
         <div *ngFor="let _slot of userSlots">
-            <app-slot (isDeleted)="isDeleted($event)" [slot]="_slot" [hasOwner]="true"></app-slot>
+            <app-slot
+                (isDeleted)="isDeleted($event)"
+                (isChangedActivity)="isChangedActivity($event)"
+                [slot]="_slot"
+                [hasOwner]="true"></app-slot>
         </div>
     </div>
 </div>
