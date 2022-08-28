@@ -27,7 +27,7 @@ export class TeamService {
     constructor(private httpService: HttpInternalService) {
         this.getCurrentUserTeams()
             .subscribe(teams => {
-                if (teams.length > 0) {
+                if (teams.length) {
                     this.emitCurrentTeamChange(teams[0].id);
                 }
             });
