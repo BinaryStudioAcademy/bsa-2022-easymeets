@@ -226,6 +226,18 @@ erDiagram
     bool IsEnabled
     bool IsDeleted
   }
+
+  Credentials }o--|| User : UserId
+  Credentials{
+    bigint Id
+    bigint UserId
+    nvarchar AccessToken
+    nvarchar RefreshToken
+    int LifeCycle
+    datetimeoffset UpdatedAt
+    int Type
+    bit IsDeleted
+  }
 ```
 
 ## Code quality

@@ -6,6 +6,8 @@ using EasyMeets.Core.WebAPI.Validators;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using AutoMapper;
+using EasyMeets.Core.Common.DTO.Zoom;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using RabbitMQ.Client;
@@ -16,7 +18,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void RegisterCustomServices(this IServiceCollection services)
+        public static void RegisterCustomServices(this IServiceCollection services, IConfiguration configuration)
         {
             services
                 .AddControllers()
@@ -29,14 +31,14 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddTransient<ICalendarsService, CalendarsService>();
             services.AddTransient<IMeetingService, MeetingService>();
             services.AddTransient<ITeamService, TeamService>();
+            services.AddTransient<IZoomService, ZoomService>();
+            
+            services.AddHttpClient<IZoomService, ZoomService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
         {
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(SampleProfile)));
             services.AddAutoMapper(Assembly.GetAssembly(typeof(AvailabilityProfile)));
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(MeetingProfile)));
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(UserProfile)));
         }
 
         public static void AddValidation(this IServiceCollection services)
