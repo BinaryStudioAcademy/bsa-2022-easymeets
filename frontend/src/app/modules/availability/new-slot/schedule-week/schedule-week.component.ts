@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { BaseComponent } from '@core/base/base.component';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { addHours, addMinutes, isSameDay, setDay, startOfDay } from 'date-fns';
@@ -10,7 +11,7 @@ import { Subject } from 'rxjs';
     templateUrl: './schedule-week.component.html',
     styleUrls: ['./schedule-week.component.sass'],
 })
-export class ScheduleWeekComponent implements OnInit {
+export class ScheduleWeekComponent extends BaseComponent implements OnInit {
     @Input() public items: IScheduleItem[];
 
     @Input() public itemChange: EventEmitter<void> = new EventEmitter();
@@ -26,9 +27,11 @@ export class ScheduleWeekComponent implements OnInit {
     public ngOnInit(): void {
         this.updateEvents();
 
-        this.itemChange.subscribe(() => {
-            this.updateEvents();
-        });
+        this.itemChange
+            .pipe(this.untilThis)
+            .subscribe(() => {
+                this.updateEvents();
+            });
     }
 
     public eventTimesChanged({

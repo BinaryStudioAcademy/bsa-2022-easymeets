@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BaseComponent } from '@core/base/base.component';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 import { timeNumberRegex } from '@shared/constants/model-validation';
 
@@ -8,7 +9,7 @@ import { timeNumberRegex } from '@shared/constants/model-validation';
     templateUrl: './schedule-list-item.component.html',
     styleUrls: ['./schedule-list-item.component.sass'],
 })
-export class ScheduleListItemComponent implements OnInit {
+export class ScheduleListItemComponent extends BaseComponent implements OnInit {
     @Input() public item: IScheduleItem;
 
     @Input() public displayDay: string;
@@ -41,9 +42,11 @@ export class ScheduleListItemComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.itemChange.subscribe(() => {
-            this.updateTime();
-        });
+        this.itemChange
+            .pipe(this.untilThis)
+            .subscribe(() => {
+                this.updateTime();
+            });
         this.updateTime();
     }
 
