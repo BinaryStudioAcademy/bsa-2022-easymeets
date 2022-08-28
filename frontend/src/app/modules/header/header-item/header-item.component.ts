@@ -6,6 +6,7 @@ import { ILocalUser } from '@core/models/IUser';
 import { AuthService } from '@core/services/auth.service';
 import { TeamService } from '@core/services/team.service';
 import { UserService } from '@core/services/user.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
     selector: 'app-header-item',
@@ -14,20 +15,31 @@ import { UserService } from '@core/services/user.service';
 })
 export class HeaderItemComponent extends BaseComponent implements OnInit {
     public teams: ITeam[] = [];
-    
+
     public currentUser: ILocalUser;
 
-    constructor(private authService: AuthService, private router: Router, private teamService: TeamService, private userService: UserService) {
+    public currentTeam?: ITeam;
+
+    constructor(
+        private authService: AuthService,
+        private router: Router,
+        private teamService: TeamService,
+        private userService: UserService,
+    ) {
         super();
     }
 
     ngOnInit(): void {
         this.currentUser = this.userService.getUserFromStorage();
-        this.teamService.getCurrentUserTeams()
-            .pipe(this.untilThis)
-            .subscribe((teams) => {
-                this.teams = teams;
+        combineLatest([
+            this.teamService.getCurrentUserTeams(),
+            this.teamService.currentTeamEmitted$,
+        ])
+            .subscribe(result => {
+                [this.teams] = result;
+                this.currentTeam = this.teams.find(team => team.id === result[1]);
             });
+
         this.teamService.teamCreationEmitted$.subscribe(team => this.teams.push(team));
         this.teamService.teamDeletionEmitted$.subscribe(teamId => {
             const index = this.teams.findIndex(team => team.id === teamId);
@@ -49,5 +61,9 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
         return this.authService.signOut().then(() => {
             this.router.navigateByUrl('auth');
         });
+    }
+
+    public changeTeam(teamId: number) {
+        this.teamService.emitCurrentTeamChange(teamId);
     }
 }

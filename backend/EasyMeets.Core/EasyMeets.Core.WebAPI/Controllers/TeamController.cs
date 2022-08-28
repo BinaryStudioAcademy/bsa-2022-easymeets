@@ -19,8 +19,7 @@ public class TeamController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<TeamDto>> GetTeamById(long id)
     {
-        var teamDto = await _teamService.GetTeamAsync(id);
-        return Ok(teamDto);
+        return Ok(await _teamService.GetTeamAsync(id));
     }
 
     [HttpGet("newpagelink")]
@@ -54,9 +53,8 @@ public class TeamController : ControllerBase
         {
             return BadRequest();
         }
-
-        var sample = await _teamService.CreateTeamAsync(newTeamDto);
-        return Ok(sample);
+        
+        return Ok(await _teamService.CreateTeamAsync(newTeamDto));
     }
 
     [HttpPut]
@@ -69,8 +67,7 @@ public class TeamController : ControllerBase
     [HttpPut("uploadlogo/{teamId}")]
     public async Task<ActionResult<ImagePathDto>> UploadImageAsync([FromForm] IFormFile file, [FromRoute] long teamId)
     {
-        var imagePath = await _teamService.UploadLogoAsync(file, teamId);
-        return Ok(imagePath);
+        return Ok(await _teamService.UploadLogoAsync(file, teamId));
     }
 
     [HttpDelete("{teamId}")]

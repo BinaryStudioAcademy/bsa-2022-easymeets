@@ -4,6 +4,7 @@ import { BaseComponent } from '@core/base/base.component';
 import { IMeetingBooking } from '@core/models/IMeetingBooking';
 import { MeetingBookingsService } from '@core/services/meeting-bookings.service';
 import { NotificationService } from '@core/services/notification.service';
+import { TeamService } from '@core/services/team.service';
 
 @Component({
     selector: 'app-bookings-page',
@@ -15,6 +16,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
         private meetingService: MeetingBookingsService,
         private router: Router,
         private notifications: NotificationService,
+        private teamService: TeamService,
     ) {
         super();
         this.meetings = [];
@@ -23,15 +25,18 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
     public meetings: IMeetingBooking[];
 
     public ngOnInit(): void {
-        this.meetingService
-            .getThreeMeetings()
-            .pipe(this.untilThis)
-            .subscribe(
-                (resp: IMeetingBooking[]) => {
-                    this.meetings = resp;
-                },
-                error => this.notifications.showErrorMessage(error),
-            );
+        this.teamService.currentTeamEmitted$
+            .subscribe(teamId => {
+                this.meetingService
+                    .getThreeMeetings(teamId)
+                    .pipe(this.untilThis)
+                    .subscribe(
+                        (resp: IMeetingBooking[]) => {
+                            this.meetings = resp;
+                        },
+                        error => this.notifications.showErrorMessage(error),
+                    );
+            });
     }
 
     public goToPage(pageName: string) {

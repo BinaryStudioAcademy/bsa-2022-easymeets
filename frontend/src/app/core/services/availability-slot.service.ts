@@ -14,8 +14,8 @@ export class AvailabilitySlotService {
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService) {}
 
-    public getUserPersonalAndTeamSlots(currentUserId: number) {
-        return this.httpService.getRequest<IUserPersonalAndTeamSlots>(`${this.routePrefix}/${currentUserId}`);
+    public getUserPersonalAndTeamSlots(currentUserId: number, currentTeamId?: number) {
+        return this.httpService.getRequest<IUserPersonalAndTeamSlots>(`${this.routePrefix}/${currentUserId}/${currentTeamId ?? ''}`);
     }
 
     public deleteSlot(slotId: bigint | undefined) {

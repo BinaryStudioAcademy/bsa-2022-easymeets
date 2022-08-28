@@ -17,5 +17,5 @@ export const getUserSettingsMenuItems = (): SideMenuGroup[] => [
             { text: 'Mailing', routerLink: 'default-route' },
             { text: 'API & Tokens', routerLink: 'default-route' },
         ],
-    }
+    },
 ];

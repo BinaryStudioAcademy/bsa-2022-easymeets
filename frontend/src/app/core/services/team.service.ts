@@ -4,7 +4,7 @@ import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
 import { IUpdateTeam } from '@core/models/IUpdateTeam';
 import { HttpInternalService } from '@core/services/http-internal.service';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -20,8 +20,18 @@ export class TeamService {
 
     public teamDeletionEmitted$ = this.emitTeamDeletionSource.asObservable();
 
-    // eslint-disable-next-line no-empty-function
-    constructor(private httpService: HttpInternalService) {}
+    private currentTeamSource = new BehaviorSubject<number | undefined>(undefined);
+
+    public currentTeamEmitted$ = this.currentTeamSource.asObservable();
+
+    constructor(private httpService: HttpInternalService) {
+        this.getCurrentUserTeams()
+            .subscribe(teams => {
+                if (teams.length > 0) {
+                    this.emitCurrentTeamChange(teams[0].id);
+                }
+            });
+    }
 
     public emitTeamCreation(newTeam: ITeam) {
         this.emitTeamCreationSource.next(newTeam);
@@ -29,6 +39,10 @@ export class TeamService {
 
     public emitTeamDeletion(deletedTeamId: number) {
         this.emitTeamDeletionSource.next(deletedTeamId);
+    }
+
+    public emitCurrentTeamChange(currentTeamId: number) {
+        this.currentTeamSource.next(currentTeamId);
     }
 
     public getCurrentUserTeams(): Observable<ITeam[]> {

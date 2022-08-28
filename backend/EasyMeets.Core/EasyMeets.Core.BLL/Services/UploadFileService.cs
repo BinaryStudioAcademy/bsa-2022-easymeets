@@ -7,8 +7,8 @@ namespace EasyMeets.Core.BLL.Services
 {
     public class UploadFileService : BaseService, IUploadFileService
     {
-        private static readonly string _containerName = "fileupload";
-        private static readonly BlobContainerClient _container = new BlobContainerClient(Environment.GetEnvironmentVariable("AzureBlogStorageConnectionString"), _containerName);
+        private const string ContainerName = "fileupload";
+        private static readonly BlobContainerClient Container = new(Environment.GetEnvironmentVariable("AzureBlogStorageConnectionString"), ContainerName);
         public UploadFileService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper)
         {
         }
@@ -17,7 +17,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             var fileName = Path.GetFileName(file.FileName);
 
-            var blob = _container.GetBlobClient(fileName);
+            var blob = Container.GetBlobClient(fileName);
 
             Stream stream = file.OpenReadStream();
 

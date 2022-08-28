@@ -49,9 +49,12 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
                         timeZone: team.timeZone,
                         description: team.description,
                     });
+                    this.teamPreferencesComponent.imageUrl = team.image;
                     this.spinnerService.hide();
                 });
         });
+
+        this.deleteEventSubscription = this.deleteEventEmitter.subscribe(() => this.deleteTeam());
     }
 
     public deleteButtonClick() {
@@ -79,7 +82,7 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
             .pipe(this.untilThis)
             .subscribe({
                 next: () => {
-                    this.router.navigate(['../'], { relativeTo: this.activateRoute });
+                    this.router.navigate(['/settings']);
                     this.teamService.emitTeamDeletion(this.team.id);
                     this.notificationService.showSuccessMessage('Team information was deleted successfully.');
                 },
@@ -93,7 +96,7 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
         const form = this.teamPreferencesComponent.formGroup;
         const editedTeam: ITeam = {
             id: this.team.id,
-            image: this.team.image,
+            image: this.teamPreferencesComponent.imageUrl,
             name: form.value.name,
             pageLink: form.value.pageLink,
             timeZone: form.value.timeZone,

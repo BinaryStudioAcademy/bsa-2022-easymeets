@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { INewTeam } from '@core/models/INewTeam';
 import { NotificationService } from '@core/services/notification.service';
@@ -14,6 +15,7 @@ export class NewTeamComponent extends BaseComponent {
     constructor(
         private teamService: TeamService,
         public notificationService: NotificationService,
+        private router: Router,
     ) {
         super();
     }
@@ -23,7 +25,7 @@ export class NewTeamComponent extends BaseComponent {
     public createTeam() {
         const form = this.teamPreferencesComponent.formGroup;
         const newTeam: INewTeam = {
-            image: 'this.team.image',
+            image: this.teamPreferencesComponent.imageUrl,
             name: form.value.name,
             pageLink: form.value.pageLink,
             timeZone: form.value.timeZone,
@@ -37,6 +39,7 @@ export class NewTeamComponent extends BaseComponent {
                 (team) => {
                     this.teamService.emitTeamCreation(team);
                     this.notificationService.showSuccessMessage('Team was created successfully.');
+                    this.router.navigate(['settings', 'teams', 'edit', team.id.toString()]);
                 },
                 () => {
                     this.notificationService.showErrorMessage('There was an error while creating.');

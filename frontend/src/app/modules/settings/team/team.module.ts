@@ -4,9 +4,9 @@ import { TeamRoutingModule } from '@modules/settings/team/team-routing.module';
 import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
 
-import { TeamPreferencesComponent } from './team-preferences/team-preferences.component';
-import { NewTeamComponent } from './new-team/new-team.component';
 import { EditTeamComponent } from './edit-team/edit-team.component';
+import { NewTeamComponent } from './new-team/new-team.component';
+import { TeamPreferencesComponent } from './team-preferences/team-preferences.component';
 
 @NgModule({
     declarations: [

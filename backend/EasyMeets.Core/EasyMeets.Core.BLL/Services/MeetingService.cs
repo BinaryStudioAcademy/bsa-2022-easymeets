@@ -10,7 +10,7 @@ namespace EasyMeets.Core.BLL.Services
     {
         public MeetingService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) { }
 
-        public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync()
+        public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync(long? teamId)
         {
             var meetings = await _context.Meetings
                 .Include(m => m.AvailabilitySlot)
@@ -19,7 +19,18 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
                 .ToListAsync();
-
+            
+            if (teamId is null)
+            {
+                return new List<MeetingThreeMembersDTO>();
+            }
+            
+            var team = await _context.Teams.FirstOrDefaultAsync(team => team.Id == teamId);
+            if (team is null)
+            {
+                throw new KeyNotFoundException("Team doesn't exist");
+            }
+            meetings = meetings.Where(meeting => meeting.TeamId == teamId).ToList();
             var mapped = _mapper.Map<List<MeetingThreeMembersDTO>>(meetings);
             ConvertTimeZone(mapped);
 

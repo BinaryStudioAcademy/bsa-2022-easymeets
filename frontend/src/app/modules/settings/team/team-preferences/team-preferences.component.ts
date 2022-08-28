@@ -115,14 +115,14 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         this.teamService
             .uploadLogo(formData, this.team?.id)
             .pipe(this.untilThis)
-            .subscribe(
-                (resp: IImagePath) => {
+            .subscribe({
+                next: (resp: IImagePath) => {
                     this.imageUrl = resp.path;
                 },
-                () => {
+                error: () => {
                     this.notificationService.showErrorMessage('Something went wrong. Picture was not uploaded.');
                 },
-            );
+            });
     }
 
     private getUniquePageLink(teamName: string) {
