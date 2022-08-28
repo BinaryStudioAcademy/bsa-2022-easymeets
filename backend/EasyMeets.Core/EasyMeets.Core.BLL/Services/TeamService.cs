@@ -104,14 +104,14 @@ public class TeamService : BaseService, ITeamService
     {
         var imagePath = await _uploadFileService.UploadFileBlobAsync(file);
 
-        if (teamId is null) return new ImagePathDto() { Path = imagePath };
+        if (teamId is null) return new ImagePathDto(){Path = imagePath};
         
         var teamEntity = await GetTeamByIdAsync(teamId.Value);
         teamEntity.LogoPath = imagePath;
         _context.Teams.Update(teamEntity);
         await _context.SaveChangesAsync();
 
-        return new ImagePathDto{Path = imagePath};
+        return new ImagePathDto(){Path = imagePath};
     }
 
     private async Task<bool> UserIsAdmin(long teamId)

@@ -64,8 +64,8 @@ public class TeamController : ControllerBase
         return Ok();
     }
 
-    [HttpPut("uploadlogo/{teamId}")]
-    public async Task<ActionResult<ImagePathDto>> UploadImageAsync([FromForm] IFormFile file, [FromRoute] long teamId)
+    [HttpPut("uploadlogo/{teamId?}")]
+    public async Task<ActionResult<ImagePathDto>> UploadImageAsync([FromForm] IFormFile file, [FromRoute] long? teamId)
     {
         return Ok(await _teamService.UploadLogoAsync(file, teamId));
     }
