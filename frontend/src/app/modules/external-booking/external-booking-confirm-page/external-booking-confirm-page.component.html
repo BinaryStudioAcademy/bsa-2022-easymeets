@@ -1,12 +1,13 @@
 <div class="container">
     <div id="container-back" class="back-container" onclick="history.back()">
-        <p class="back-text"><- Enter details</p>
+        <span class="arrow-back"><mat-icon>keyboard_backspace</mat-icon></span><span class="back-text"> Enter details</span>
     </div>
     <div id="container-name" class="name-container" [formGroup]="confirmForm">
         <p class="input-title">Your name</p>
         <textarea class="input-message" formControlName="characters" [(ngModel)]="externalAnswers.externalName"></textarea>
         <span *ngIf="confirmForm.controls['characters'].hasError('minlength')"><p class="validationError">The minimum length is 2, the maximum is 50.</p></span>
-        <span *ngIf="confirmForm.controls['characters'].hasError('pattern')"><p class="validationError">The input field accepts only text, numbers, the symbol -</p></span>
+        <span *ngIf="confirmForm.controls['characters'].hasError('pattern')"><p class="validationError">Invalid input field. Allow only only text, numbers, the symbol -.
+        <br>Space cannot be the first or last character.</p></span>
     </div>
     <div id="container-email" class="email-container" [formGroup]="confirmForm">
         <p class="input-title">Your Email</p>
