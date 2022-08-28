@@ -13,8 +13,7 @@ import { NewMeetingRoutingModule } from './new-meeting-routing.module';
         NewMeetingComponent,
     ],
     imports: [
-        CommonModule,
-        NewMeetingRoutingModule, MaterialModule, HeaderModule, SideMenuModule, SharedModule,
+        CommonModule, NewMeetingRoutingModule, MaterialModule, HeaderModule, SideMenuModule, SharedModule,
     ],
 })
 export class NewMeetingModule { }
