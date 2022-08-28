@@ -31,24 +31,36 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         this.currentUser = this.userService.getUserFromStorage();
-        combineLatest([
-            this.teamService.getCurrentUserTeams(),
-            this.teamService.currentTeamEmitted$,
-        ])
+        this.teamService.currentTeamEmitted$
             .pipe(this.untilThis)
-            .subscribe(result => {
-                [this.teams] = result;
-                this.currentTeam = this.teams.find(team => team.id === result[1]);
+            .subscribe(currentTeamId => {
+                this.teamService.getCurrentUserTeams()
+                    .subscribe(teams => {
+                        this.teams = teams;
+                        this.currentTeam = this.teams.find(team => team.id === currentTeamId);
+                    });
             });
 
-        this.teamService.teamCreationEmitted$.subscribe(team => this.teams.push(team));
-        this.teamService.teamDeletionEmitted$.subscribe(teamId => {
-            const index = this.teams.findIndex(team => team.id === teamId);
+        this.teamService.teamCreationEmitted$
+            .subscribe(() => {
+                this.teamService.getCurrentUserTeams()
+                    .pipe(this.untilThis)
+                    .subscribe(result => {
+                        this.teams = result;
+                    });
+            });
 
-            if (index !== undefined) {
-                this.teams.splice(index, 1);
-            }
-        });
+        this.teamService.teamDeletionEmitted$
+            .subscribe((deletedTeamId: number) => {
+                this.teamService.getCurrentUserTeams()
+                    .pipe(this.untilThis)
+                    .subscribe(result => {
+                        this.teams = result;
+                        if (this.currentTeam?.id === deletedTeamId) {
+                            this.teamService.emitCurrentTeamChange(this.teams.length ? this.teams[0].id : undefined);
+                        }
+                    });
+            });
     }
 
     public navLinks = [

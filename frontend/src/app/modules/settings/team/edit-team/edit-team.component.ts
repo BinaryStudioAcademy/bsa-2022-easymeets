@@ -38,10 +38,18 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
         this.activateRoute.params.subscribe(params => {
             this.id = params['id'];
             this.spinnerService.show();
-            if (this.id) {
-                this.teamService.getTeamById(this.id)
-                    .pipe(this.untilThis)
-                    .subscribe((team) => {
+            this.loadTeamToEdit();
+        });
+
+        this.deleteEventSubscription = this.deleteEventEmitter.subscribe(() => this.deleteTeam());
+    }
+
+    private loadTeamToEdit() {
+        if (this.id) {
+            this.teamService.getTeamById(this.id)
+                .pipe(this.untilThis)
+                .subscribe({
+                    next: (team) => {
                         this.team = team;
                         this.teamPreferencesComponent.formGroup.patchValue({
                             name: team.name,
@@ -52,11 +60,12 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
                         });
                         this.teamPreferencesComponent.imageUrl = team.image;
                         this.spinnerService.hide();
-                    });
-            }
-        });
-
-        this.deleteEventSubscription = this.deleteEventEmitter.subscribe(() => this.deleteTeam());
+                    },
+                    error: (error) => {
+                        this.notificationService.showErrorMessage(error);
+                    },
+                });
+        }
     }
 
     public deleteButtonClick() {

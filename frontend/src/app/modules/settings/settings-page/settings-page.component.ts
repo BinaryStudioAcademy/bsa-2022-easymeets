@@ -32,15 +32,7 @@ export class SettingsPageComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.teamService.getCurrentUserAdminTeams()
-            .pipe(this.untilThis)
-            .subscribe((teams) => {
-                this.teams = teams;
-                this.teamsMenuGroup.items = teams.map(team => ({
-                    text: team.name,
-                    routerLink: this.teamEditBaseLink + team.id,
-                }));
-            });
+        this.displayUserAdminTeams();
         this.initializeSideMenu();
         this.teamService.teamCreationEmitted$.subscribe(team => this.teamsMenuGroup.items.push({
             text: team.name,
@@ -53,6 +45,18 @@ export class SettingsPageComponent extends BaseComponent implements OnInit {
                 this.teamsMenuGroup.items.splice(index, 1);
             }
         });
+    }
+
+    private displayUserAdminTeams() {
+        this.teamService.getCurrentUserAdminTeams()
+            .pipe(this.untilThis)
+            .subscribe((teams) => {
+                this.teams = teams;
+                this.teamsMenuGroup.items = teams.map(team => ({
+                    text: team.name,
+                    routerLink: this.teamEditBaseLink + team.id,
+                }));
+            });
     }
 
     private initializeSideMenu() {

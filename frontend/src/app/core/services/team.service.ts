@@ -41,7 +41,7 @@ export class TeamService {
         this.emitTeamDeletionSource.next(deletedTeamId);
     }
 
-    public emitCurrentTeamChange(currentTeamId: number) {
+    public emitCurrentTeamChange(currentTeamId?: number) {
         this.currentTeamSource.next(currentTeamId);
     }
 
