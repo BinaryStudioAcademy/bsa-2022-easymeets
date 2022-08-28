@@ -54,17 +54,10 @@ export class TeamService {
     }
 
     public validatePageLink(teamId: number | undefined, pageLink: string) {
-        return this.httpService.getRequest<boolean>(
-            `${this.routePrefix}/validatepagelink`, (
-                (!teamId)
-                    ? {
-                        pagelink: pageLink,
-                    }
-                    : {
-                        id: teamId,
-                        pagelink: pageLink,
-                    }),
-        );
+        return this.httpService.getRequest<boolean>(`${this.routePrefix}/validatepagelink`, {
+            pagelink: pageLink,
+            id: teamId ?? '',
+        });
     }
 
     public getNewPageLink(teamId: number, teamName: string) {

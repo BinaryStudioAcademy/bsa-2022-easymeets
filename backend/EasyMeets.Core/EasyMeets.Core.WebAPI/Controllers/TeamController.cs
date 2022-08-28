@@ -41,7 +41,7 @@ public class TeamController : ControllerBase
     }
 
     [HttpGet("validatepagelink")]
-    public async Task<ActionResult<bool>> ValidatePageLinkAsync(long id, string pagelink)
+    public async Task<ActionResult<bool>> ValidatePageLinkAsync(long? id, string pagelink)
     {
         return Ok(await _teamService.ValidatePageLinkAsync(id, pagelink));
     }
