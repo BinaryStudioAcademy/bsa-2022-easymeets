@@ -78,7 +78,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         this.getTeamMembersOfCurrentUser();
     }
 
-    public create(form: FormGroup) {
+    create(form: FormGroup) {
         if (this.meetingForm.valid) {
             const newMeeting: INewMeeting = {
                 name: form.value.meetingName,
@@ -101,7 +101,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         }
     }
 
-    public getTeamMembersOfCurrentUser() {
+    getTeamMembersOfCurrentUser() {
         this.newMeetingService
             .getTeamMembersOfCurrentUser()
             .pipe(this.untilThis)
@@ -111,11 +111,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
             });
     }
 
-    public displayMemberName(teamMember: INewMeetingMember): string {
+    displayMemberName(teamMember: INewMeetingMember): string {
         return teamMember?.name ?? '';
     }
 
-    public setValidation() {
+    setValidation() {
         if (this.meetingForm.value.duration.time === 'Custom') {
             this.meetingForm.controls['customTime'].setValidators(Validators.required);
         } else {
@@ -123,7 +123,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         }
     }
 
-    public patchFormValues() {
+    patchFormValues() {
         this.meetingForm.patchValue({
             location: this.locations[0],
             duration: this.durations[0],
@@ -133,7 +133,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         });
     }
 
-    public showUnshowCustomDuration(form: FormGroup) {
+    showUnshowCustomDuration(form: FormGroup) {
         const durationValue = form.value.duration;
 
         this.customTimeShown = durationValue.time === 'Custom';
@@ -146,13 +146,13 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         }
     }
 
-    public customDurationChanged(form: FormGroup) {
+    customDurationChanged(form: FormGroup) {
         const { customTime, unitOfTime } = form.value;
 
         this.durationChanged(customTime, unitOfTime);
     }
 
-    public durationChanged(timeValue: string, unitOfTime: string) {
+    durationChanged(timeValue: string, unitOfTime: string) {
         if (unitOfTime === 'hour') {
             this.convertDuration(timeValue);
         } else {
@@ -160,11 +160,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         }
     }
 
-    public convertDuration(timeValue: string) {
+    convertDuration(timeValue: string) {
         this.duration = parseInt(timeValue, 10) * 60;
     }
 
-    public addMemberToList(value: INewMeetingMember) {
+    addMemberToList(value: INewMeetingMember) {
         this.meetingForm.get('teamMember')?.setValue(value);
         if (!this.addedMembers.includes(value)) {
             this.addedMembers.push(value);
@@ -172,11 +172,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         }
     }
 
-    public removeMemberToList(form: FormGroup) {
+    removeMemberToList(form: FormGroup) {
         this.addedMembers = this.addedMembers.filter((member) => member.id !== form.value.teamMember.id);
     }
 
-    public reset() {
+    reset() {
         this.meetingForm.reset();
         this.patchFormValues();
         this.addedMembers = [];
