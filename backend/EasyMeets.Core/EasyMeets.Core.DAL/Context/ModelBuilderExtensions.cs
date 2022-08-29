@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Bogus;
+﻿using Bogus;
 using Bogus.Extensions;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Entities;
@@ -44,6 +43,7 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.Entity<AdvancedSlotSettings>().HasData(GenerateSlotSettingsList());
             modelBuilder.Entity<AvailabilitySlot>().HasData(GenerateAvailabilitySlots());
             modelBuilder.Entity<Question>().HasData(GenerateQuestions());
+            modelBuilder.Entity<EmailTemplate>().HasData(GenerateEmailTemplates());
             modelBuilder.Entity<Calendar>().HasData(GenerateCalendars());
             modelBuilder.Entity<SlotMember>().HasData(GenerateSlotMembers());
             modelBuilder.Entity<ExternalAttendee>().HasData(GenerateExternalAttendee());
@@ -211,7 +211,23 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
-        
+
+        private static IList<EmailTemplate> GenerateEmailTemplates(int count = 10)
+        {
+            var id = 1;
+
+            return new Faker<EmailTemplate>()
+                .UseSeed(SeedNumber)
+                .RuleFor(u => u.Id, f => id++)
+                .RuleFor(u => u.AvailabilitySlotId, f => f.Random.Int(1, 10))
+                .RuleFor(u => u.Subject, f => f.Lorem.Text().ClampLength(5, 30))
+                .RuleFor(u => u.Body, f => f.Lorem.Text().ClampLength(50, 300))
+                .RuleFor(u => u.TemplateType, f => (TemplateType)f.Random.Int(0, 3))
+                .RuleFor(u => u.IsSend, f => true)
+                .RuleFor(u => u.IsDeleted, f => false)
+                .Generate(count);
+        }
+
         private static IList<SlotMember> GenerateSlotMembers(int count = 10)
         {
             var id = 1;

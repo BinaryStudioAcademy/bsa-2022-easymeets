@@ -1,4 +1,4 @@
-import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { LocationType } from '@core/models/locationType';
 
 import { getScheduleItems } from './schedule-list-helper';

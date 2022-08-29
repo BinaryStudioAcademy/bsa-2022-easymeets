@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
 
