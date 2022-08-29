@@ -52,9 +52,7 @@ export class NewAvailabilityComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
         this.generalComponent.generalForm.statusChanges?.subscribe((status: FormControlStatus) => {
-            const isFormValid: boolean = status === 'VALID';
-
-            this.hasAnyErrors = !isFormValid;
+            this.hasAnyErrors = !(status === 'VALID');
         });
     }
 
