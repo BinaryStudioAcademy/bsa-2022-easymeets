@@ -71,7 +71,11 @@ export class AuthService {
     public signOut() {
         return this.afAuth
             .signOut()
-            .then(() => localStorage.removeItem('user'))
+            .then(() => {
+                localStorage.removeItem('user');
+                localStorage.removeItem('email-verified');
+                localStorage.removeItem('access-token');
+            })
             .catch((error) => this.notificationService.showErrorMessage(error.message));
     }
 
