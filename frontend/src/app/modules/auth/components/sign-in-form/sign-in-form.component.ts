@@ -2,10 +2,15 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { transformTextLanguageToEnum } from '@core/helpers/language-helper';
 import { AuthService } from '@core/services/auth.service';
+import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { UserService } from '@core/services/user.service';
 import { EmailValidator } from '@modules/auth/validators/email-validator';
+import { DateFormat } from '@shared/enums/dateFormat';
+import { Language } from '@shared/enums/language';
+import { TimeFormat } from '@shared/enums/timeFormat';
 import firebase from 'firebase/compat';
 
 @Component({
@@ -35,6 +40,7 @@ export class SignInFormComponent extends BaseComponent {
         private userService: UserService,
         private router: Router,
         private spinnerService: SpinnerService,
+        private notifications: NotificationService,
     ) {
         super();
     }
@@ -43,12 +49,41 @@ export class SignInFormComponent extends BaseComponent {
         this.signInForm.get('password')?.setErrors({ incorrectCredentials: true });
     }
 
+    // private handleAuthenticationResponse(resp: firebase.auth.UserCredential | void): void {
+    //     if (resp) {
+    //         this.userService
+    //             .getCurrentUser()
+    //             .pipe(this.untilThis)
+    //             .subscribe(() => this.router.navigateByUrl('availability'));
+    //     } else {
+    //         this.setCredentialsIncorrect();
+    //     }
+    // }
+
     private handleAuthenticationResponse(resp: firebase.auth.UserCredential | void): void {
         if (resp) {
             this.userService
-                .getCurrentUser()
+                .createUser({
+                    uid: resp.user?.uid,
+                    userName: resp.user?.displayName ?? this.signInForm.get('name')?.value ?? '',
+                    email: resp.user?.email ?? '',
+                    image: resp.user?.photoURL ?? undefined,
+                    language: this.getLanguage(),
+                    timeFormat: this.getTimeFormat(),
+                    dateFormat: DateFormat.MonthDayYear,
+                    phone: resp.user?.phoneNumber ?? undefined,
+                    timeZone: new Date().getTimezoneOffset(),
+                })
                 .pipe(this.untilThis)
-                .subscribe(() => this.router.navigateByUrl('availability'));
+                .subscribe(
+                    () => {
+                        this.notifications.showSuccessMessage('You are successfully registered');
+                        this.router.navigateByUrl('availability');
+                    },
+                    (error) => {
+                        this.notifications.showErrorMessage(error);
+                    },
+                );
         } else {
             this.setCredentialsIncorrect();
         }
@@ -70,5 +105,16 @@ export class SignInFormComponent extends BaseComponent {
             .loginWithGoogle()
             .then((resp) => this.handleAuthenticationResponse(resp))
             .finally(() => this.spinnerService.hide());
+    }
+
+    private getLanguage(): Language {
+        const userLanguageBrowser =
+            navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language;
+
+        return transformTextLanguageToEnum(userLanguageBrowser);
+    }
+
+    private getTimeFormat() {
+        return new Intl.DateTimeFormat().resolvedOptions().hour12 ? TimeFormat.TwelveHour : TimeFormat.TwentyFourHour;
     }
 }
