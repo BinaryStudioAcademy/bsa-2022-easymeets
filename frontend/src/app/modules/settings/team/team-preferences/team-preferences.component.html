@@ -1,10 +1,13 @@
 <div class="wrapper">
-    <form class="form-wrapper" [formGroup]="formGroup" (ngSubmit)="OnSubmit(formGroup)">
+    <form class="form-wrapper" [formGroup]="formGroup" (ngSubmit)="submitClick.emit()">
         <div class="item">
             <div class="logo-block">
                 <div class="logo">
+                    <img *ngIf="imageUrl" src="{{imageUrl}}">
                 </div>
-                <button type="button" class="white-button" mat-flat-button>Upload Logo</button>
+                <input enctype="multipart/form-data" method="put" hidden #file accept="image/png,.gif,.jpg" type="file"
+                       (change)="loadImage($event)"/>
+                <button type="button" class="white-button" mat-flat-button (click)="file.click()">Upload Logo</button>
             </div>
         </div>
         <div class="item">
@@ -57,11 +60,11 @@
         </div>
         <div class="item">
             <div class="buttons-block">
-                <button mat-flat-button class="white-button" type="button" (click)="deleteTeam()">
+                <button mat-flat-button class="white-button" type="button" (click)="deleteClick.emit(formGroup)" *ngIf="showDeleteButton">
                     <mat-icon class="icon">delete_outline</mat-icon>
                     Delete Team
                 </button>
-                <button mat-flat-button type="submit">Update Preferences</button>
+                <button mat-flat-button type="submit">{{submitButtonText}}</button>
             </div>
         </div>
     </form>

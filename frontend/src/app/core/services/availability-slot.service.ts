@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
 
@@ -14,8 +14,8 @@ export class AvailabilitySlotService {
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService) {}
 
-    public getUserPersonalAndTeamSlots(currentUserId: number) {
-        return this.httpService.getRequest<IUserPersonalAndTeamSlots>(`${this.routePrefix}/${currentUserId}`);
+    public getUserPersonalAndTeamSlots(currentUserId: number, currentTeamId?: number) {
+        return this.httpService.getRequest<IUserPersonalAndTeamSlots>(`${this.routePrefix}/${currentUserId}/${currentTeamId ?? ''}`);
     }
 
     public deleteSlot(slotId: bigint | undefined) {
@@ -24,6 +24,10 @@ export class AvailabilitySlotService {
 
     public updateSlot(updateAvailability: ISaveAvailability, slotId: bigint | undefined) {
         return this.httpService.putRequest<IAvailabilitySlot>(`/availability/${slotId}`, updateAvailability);
+    }
+
+    public updateSlotEnabling(slotId: bigint | undefined) {
+        return this.httpService.postRequest<boolean>(`${this.routePrefix}/enabling/${slotId}`, {});
     }
 
     public getSlotById(slotId: bigint | undefined) {

@@ -12,15 +12,17 @@ namespace EasyMeets.Core.DAL.Context
         public DbSet<CalendarVisibleForTeam> CalendarVisibleForTeams { get; private set; }
         public DbSet<ExternalAttendee> ExternalAttendees { get; private set; }
         public DbSet<ExternalAttendeeAvailability> ExternalAttendeeAvailabilities { get; private set; }
-        public DbSet<Meeting> Meetings { get; private set; }
+        public DbSet<Meeting> Meetings { get; private set; } 
+        public DbSet<MeetingMember> MeetingMembers { get; private set; } 
         public DbSet<Question> Questions { get; private set; }
+        public DbSet<EmailTemplate> EmailTemplates { get; private set; }
         public DbSet<Team> Teams { get; private set; }
         public DbSet<TeamMember> TeamMembers { get; private set; }
         public DbSet<SlotMember> SlotMembers { get; private set; }
-        public DbSet<User> Users { get; private set; }
-        public DbSet<UserSlot> UserSlot { get; private set; }
+        public DbSet<User> Users { get; private set; } 
         public DbSet<Schedule> Schedules { get; private set; }
         public DbSet<ScheduleItem> ScheduleItems { get; private set; }
+        public DbSet<Credentials> Credentials { get; private set; }
 
 
         public EasyMeetsCoreContext(DbContextOptions<EasyMeetsCoreContext> options) : base(options)
@@ -34,13 +36,15 @@ namespace EasyMeets.Core.DAL.Context
             ExternalAttendeeAvailabilities = Set<ExternalAttendeeAvailability>();
             Meetings = Set<Meeting>();
             Questions = Set<Question>();
+            EmailTemplates = Set<EmailTemplate>();
             Teams = Set<Team>();
             TeamMembers = Set<TeamMember>();
             SlotMembers = Set<SlotMember>();
-            Users = Set<User>();
-            UserSlot = Set<UserSlot>();
+            Users = Set<User>(); 
             Schedules = Set<Schedule>();
             ScheduleItems = Set<ScheduleItem>();
+            MeetingMembers = Set<MeetingMember>();
+            Credentials = Set<Credentials>();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

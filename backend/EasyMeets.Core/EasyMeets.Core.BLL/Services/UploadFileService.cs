@@ -1,19 +1,24 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Azure.Storage.Blobs;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.DAL.Context;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+
 namespace EasyMeets.Core.BLL.Services
 {
     public class UploadFileService : BaseService, IUploadFileService
     {
-        private static readonly string _containerName = "fileupload";
-        private static readonly BlobContainerClient _container = new BlobContainerClient(Environment.GetEnvironmentVariable("AzureBlogStorageConnectionString"), _containerName);
-        public UploadFileService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper)
+        private readonly BlobContainerClient _container;
+        public UploadFileService(EasyMeetsCoreContext context, IMapper mapper, IConfiguration configuration) : base(context, mapper)
         {
+            _container = new(
+                Environment.GetEnvironmentVariable("AzureBlogStorageConnectionString"), 
+                configuration["AzureBlobStorage:ContainerName"]
+            );
         }
 
-        public async Task<string> UploadFileBlobAsync(IFormFile file, long userId)
+        public async Task<string> UploadFileBlobAsync(IFormFile file)
         {
             var fileName = Path.GetFileName(file.FileName);
 
@@ -25,21 +30,7 @@ namespace EasyMeets.Core.BLL.Services
 
             stream.Close();
 
-            var imageUrl = blob.Uri.ToString();
-
-            var user = await _context.Users.FindAsync(userId);
-
-            if (user is null)
-            {
-                throw new NullReferenceException();
-            }
-
-            user.ImagePath = imageUrl;
-
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
-
-            return user.ImagePath;
+            return blob.Uri.ToString() ?? throw new FileLoadException("File not loaded.");
         }
     }
 }

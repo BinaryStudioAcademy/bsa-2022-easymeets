@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { IImagePath } from '@core/models/IImagePath';
 import { INewUser } from '@core/models/INewUser';
+import { IUpdateUser } from '@core/models/IUpdateUser';
 import { ILocalUser, IUser } from '@core/models/IUser';
 import { map } from 'rxjs';
 
@@ -24,7 +26,7 @@ export class UserService {
         );
     }
 
-    public editUser(put: IUser) {
+    public editUser(put: IUpdateUser) {
         return this.httpService.putRequest<IUser>(`${this.routePrefix}`, put);
     }
 
@@ -64,10 +66,26 @@ export class UserService {
         this.setUser(user);
     }
 
+    public uploadImage(data: FormData) {
+        return this.httpService.putRequest<IImagePath>(`${this.routePrefix}/uploadimage`, data);
+    }
+
     public getUserFromStorage(): ILocalUser {
         const user = localStorage.getItem('user');
         const localUser = JSON.parse(user!) as ILocalUser;
 
         return localUser;
+    }
+
+    public createZoomCredentials(authCode: string, redirectUri: string) {
+        return this.httpService.postRequest(`${this.routePrefix}/zoom/add`, {
+            code: authCode,
+            grantType: 'authorization_code',
+            redirectUri,
+        });
+    }
+
+    public getZoomClientId() {
+        return this.httpService.getStringRequest(`${this.routePrefix}/zoom/client`);
     }
 }

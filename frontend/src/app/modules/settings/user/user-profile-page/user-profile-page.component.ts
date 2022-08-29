@@ -6,10 +6,11 @@ import { CountryCode } from '@core/helpers/countryCode';
 import { DateFormatLabelMapping } from '@core/helpers/date-format-label-mapping';
 import { LanguageLabelMapping } from '@core/helpers/language-label-mapping';
 import { TimeFormatLabelMapping } from '@core/helpers/time-format-label-mapping';
+import { IImagePath } from '@core/models/IImagePath';
+import { IUpdateUser } from '@core/models/IUpdateUser';
 import { IUser } from '@core/models/IUser';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
-import { UploadImageService } from '@core/services/upload-image.service';
 import { UserService } from '@core/services/user.service';
 import { Country } from '@shared/enums/country';
 import { DateFormat } from '@shared/enums/dateFormat';
@@ -27,7 +28,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     constructor(
         private userService: UserService,
         public notificationService: NotificationService,
-        private uploadImageService: UploadImageService,
         private confirmationWindowService: ConfirmationWindowService,
     ) {
         super();
@@ -112,11 +112,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     }
 
     public OnSubmit(form: FormGroup) {
-        const editedUser: IUser = {
+        const editedUser: IUpdateUser = {
             id: this.user.id,
-            uid: this.user.uid,
-            email: this.user.email,
-            image: this.user.image,
             phoneCode: this.countryCodeValues[form.value.country as Country],
             phone: form.value.phone,
             userName: form.value.userName,
@@ -158,12 +155,12 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
         formData.append('file', fileToUpload, fileToUpload.name);
 
-        this.uploadImageService
+        this.userService
             .uploadImage(formData)
             .pipe(this.untilThis)
             .subscribe(
-                (resp: any) => {
-                    this.imageUrl = resp.imagePath;
+                (resp: IImagePath) => {
+                    this.imageUrl = resp.path;
                 },
                 () => {
                     this.notificationService.showErrorMessage('Something went wrong. Picture was not uploaded.');

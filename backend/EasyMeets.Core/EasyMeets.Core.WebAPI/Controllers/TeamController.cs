@@ -1,5 +1,6 @@
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
+using EasyMeets.Core.Common.DTO.UploadImage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace EasyMeets.Core.WebAPI.Controllers;
@@ -18,8 +19,7 @@ public class TeamController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<TeamDto>> GetTeamById(long id)
     {
-        var teamDto = await _teamService.GetTeamAsync(id);
-        return Ok(teamDto);
+        return Ok(await _teamService.GetTeamAsync(id));
     }
 
     [HttpGet("newpagelink")]
@@ -33,9 +33,15 @@ public class TeamController : ControllerBase
     {
         return Ok(await _teamService.GetCurrentUserTeams());
     }
+    
+    [HttpGet("user-teams-admin")]
+    public async Task<ActionResult<List<TeamDto>>> GetCurrentUserAdminTeams()
+    {
+        return Ok(await _teamService.GetCurrentUserAdminTeams());
+    }
 
     [HttpGet("validatepagelink")]
-    public async Task<ActionResult<bool>> ValidatePageLinkAsync(long id, string pagelink)
+    public async Task<ActionResult<bool>> ValidatePageLinkAsync(long? id, string pagelink)
     {
         return Ok(await _teamService.ValidatePageLinkAsync(id, pagelink));
     }
@@ -47,16 +53,21 @@ public class TeamController : ControllerBase
         {
             return BadRequest();
         }
-
-        var sample = await _teamService.CreateTeamAsync(newTeamDto);
-        return Ok(sample);
+        
+        return Ok(await _teamService.CreateTeamAsync(newTeamDto));
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateTeam([FromBody] TeamDto teamDto)
+    public async Task<IActionResult> UpdateTeam([FromBody] UpdateTeamDto teamDto)
     {
         await _teamService.UpdateTeamAsync(teamDto);
         return Ok();
+    }
+
+    [HttpPut("uploadlogo/{teamId?}")]
+    public async Task<ActionResult<ImagePathDto>> UploadImageAsync([FromForm] IFormFile file, [FromRoute] long? teamId)
+    {
+        return Ok(await _teamService.UploadLogoAsync(file, teamId));
     }
 
     [HttpDelete("{teamId}")]

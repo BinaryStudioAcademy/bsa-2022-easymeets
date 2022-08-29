@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Bogus;
+﻿using Bogus;
 using Bogus.Extensions;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Entities;
@@ -44,12 +43,12 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.Entity<AdvancedSlotSettings>().HasData(GenerateSlotSettingsList());
             modelBuilder.Entity<AvailabilitySlot>().HasData(GenerateAvailabilitySlots());
             modelBuilder.Entity<Question>().HasData(GenerateQuestions());
+            modelBuilder.Entity<EmailTemplate>().HasData(GenerateEmailTemplates());
             modelBuilder.Entity<Calendar>().HasData(GenerateCalendars());
             modelBuilder.Entity<SlotMember>().HasData(GenerateSlotMembers());
             modelBuilder.Entity<ExternalAttendee>().HasData(GenerateExternalAttendee());
             modelBuilder.Entity<ExternalAttendeeAvailability>().HasData(GenerateExternalAttendeeAvailabilities());
             modelBuilder.Entity<CalendarVisibleForTeam>().HasData(GenerateCalendarVisibleForTeams());
-            modelBuilder.Entity<UserSlot>().HasData(GenerateUserSlots());
             modelBuilder.Entity<Schedule>().HasData(GenerateSchedules());
             modelBuilder.Entity<ScheduleItem>().HasData(GenerateScheduleItems());
         }
@@ -116,8 +115,7 @@ namespace EasyMeets.Core.DAL.Context
                 .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AvailabilitySlotId, _ => slotId++)
-                .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50))
-                .RuleFor(u => u.Description, f => f.Lorem.Text().ClampLength(1, 50))
+                .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50)) 
                 .RuleFor(u => u.TeamId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.LocationType, f => f.PickRandom<LocationType>())
                 .RuleFor(u => u.CreatedBy, f => f.Random.Int(1, 10))
@@ -209,16 +207,32 @@ namespace EasyMeets.Core.DAL.Context
                 .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AvailabilitySlotId, f => f.Random.Int(1, 10))
-                .RuleFor(u => u.Text, f => f.Lorem.Text().ClampLength(50, 300))
+                .RuleFor(u => u.QuestionText, f => f.Lorem.Text().ClampLength(50, 300))
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
-        
+
+        private static IList<EmailTemplate> GenerateEmailTemplates(int count = 10)
+        {
+            var id = 1;
+
+            return new Faker<EmailTemplate>()
+                .UseSeed(SeedNumber)
+                .RuleFor(u => u.Id, f => id++)
+                .RuleFor(u => u.AvailabilitySlotId, f => f.Random.Int(1, 10))
+                .RuleFor(u => u.Subject, f => f.Lorem.Text().ClampLength(5, 30))
+                .RuleFor(u => u.Body, f => f.Lorem.Text().ClampLength(50, 300))
+                .RuleFor(u => u.TemplateType, f => (TemplateType)f.Random.Int(0, 3))
+                .RuleFor(u => u.IsSend, f => true)
+                .RuleFor(u => u.IsDeleted, f => false)
+                .Generate(count);
+        }
+
         private static IList<SlotMember> GenerateSlotMembers(int count = 10)
         {
             var id = 1;
             var memberId = 1;
-            var eventId = 1;
+            var availabilitySlotId = 1;
             var scheduleId = 1;
             
             return new Faker<SlotMember>()
@@ -226,7 +240,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.MemberId, f => memberId++)
                 .RuleFor(u => u.ScheduleId, _ => scheduleId++)
-                .RuleFor(u => u.EventId, f => eventId++)
+                .RuleFor(u => u.SlotId, f => availabilitySlotId++)
                 .RuleFor(u => u.Priority, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
@@ -277,29 +291,12 @@ namespace EasyMeets.Core.DAL.Context
                 .Generate(count);
         }
 
-        private static IList<UserSlot> GenerateUserSlots(int count = 10)
-        {
-            var id = 1;
-            var userId = 1;
-            var slotId = 1;
-
-            return new Faker<UserSlot>()
-                .UseSeed(SeedNumber)
-                .RuleFor(u => u.Id, f => id++)
-                .RuleFor(u => u.UserId, f => userId++)
-                .RuleFor(u => u.AvailabilitySlotId, f => slotId++)
-                .RuleFor(u => u.IsDeleted, f => false)
-                .Generate(count);
-        }
-
         private static IList<Schedule> GenerateSchedules(int count = 10)
         {
-            var id = 1;
-            var slotId = 1;
+            var id = 1; 
             return new Faker<Schedule>()
                 .UseSeed(SeedNumber)
-                .RuleFor(s => s.Id, _ => id++)
-                .RuleFor(s => s.AvailabilitySlotId, _ => slotId++)
+                .RuleFor(s => s.Id, _ => id++) 
                 .RuleFor(s => s.IsDeleted, _ => false)
                 .RuleFor(s => s.TimeZone, f => f.Random.Int(-11, 11) * 60)
                 .RuleFor(s => s.WithTeamMembers, f => f.Random.Bool())

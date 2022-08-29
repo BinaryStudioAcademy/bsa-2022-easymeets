@@ -10,18 +10,26 @@ namespace EasyMeets.Core.BLL.Services
     {
         public MeetingService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) { }
 
-        public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync()
+        public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync(long? teamId)
         {
+            if (teamId is null)
+            {
+                return new List<MeetingThreeMembersDTO>();
+            }
+
+            var team = await _context.Teams.FirstOrDefaultAsync(team => team.Id == teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
+
             var meetings = await _context.Meetings
                 .Include(m => m.AvailabilitySlot)
-                    .ThenInclude(s => s!.ExternalAttendees )
-                .Include(meeting => meeting.SlotMembers)
-                    .ThenInclude(teammeat => teammeat.User)
+                    .ThenInclude(s => s!.ExternalAttendees)
+                .Include(meeting => meeting.MeetingMembers)
+                    .ThenInclude(meetingMember => meetingMember.TeamMember)
+                    .ThenInclude(teamMember => teamMember.User)
+                .Where(meeting => meeting.TeamId == team.Id)
                 .ToListAsync();
 
             var mapped = _mapper.Map<List<MeetingThreeMembersDTO>>(meetings);
-            ConvertTimeZone(ref mapped);
-
+            ConvertTimeZone(mapped);
             return mapped;
         }
 
@@ -30,12 +38,13 @@ namespace EasyMeets.Core.BLL.Services
             var meeting = await _context.Meetings
                 .Include(m => m.AvailabilitySlot)
                     .ThenInclude(s => s!.ExternalAttendees)
-                .Include(meeting => meeting.SlotMembers)
-                    .ThenInclude(m => m.User)
+                .Include(meeting => meeting.MeetingMembers)
+                    .ThenInclude(meetingMember => meetingMember.TeamMember)
+                    .ThenInclude(teamMember => teamMember.User)
                 .FirstOrDefaultAsync(m => m.Id == id) ?? throw new KeyNotFoundException("No meeting found");
 
-            var members = _mapper.Map<List<UserMeetingDTO>>(meeting.SlotMembers.Select(s => s.User));
-            
+            var members = _mapper.Map<List<UserMeetingDTO>>(meeting.MeetingMembers.Select(s => s.TeamMember.User));
+
             if (meeting.AvailabilitySlot is not null)
             {
                 members = members.Union(_mapper.Map<List<UserMeetingDTO>>(meeting.AvailabilitySlot.ExternalAttendees)).ToList();
@@ -44,7 +53,7 @@ namespace EasyMeets.Core.BLL.Services
             return members;
         }
 
-        private void ConvertTimeZone(ref List<MeetingThreeMembersDTO> meetings)
+        private void ConvertTimeZone(List<MeetingThreeMembersDTO> meetings)
         {
             foreach (var user in meetings.SelectMany(x => x.MeetingMembers ?? new List<UserMeetingDTO>()))
             {

@@ -1,18 +1,23 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
+using EasyMeets.Core.Common.DTO.UploadImage;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 namespace EasyMeets.Core.BLL.Services;
 
 public class TeamService : BaseService, ITeamService
 {
+
     private readonly IUserService _userService;
-    public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService) : base(context, mapper)
+    private IUploadFileService _uploadFileService;
+    public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IUploadFileService uploadFileService) : base(context, mapper)
     {
         _userService = userService;
+        _uploadFileService = uploadFileService;
     }
 
     public async Task<TeamDto?> GetTeamAsync(long teamId)
@@ -38,10 +43,9 @@ public class TeamService : BaseService, ITeamService
         return $"{teamName}{index}";
     }
 
-    public async Task<bool> ValidatePageLinkAsync(long teamId, string pageLink)
+    public async Task<bool> ValidatePageLinkAsync(long? teamId, string pageLink)
     {
-        var isUnique = !await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == pageLink);
-        return isUnique;
+        return !await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == pageLink);
     }
 
     public async Task<TeamDto> CreateTeamAsync(NewTeamDto newTeamDto)
@@ -64,13 +68,15 @@ public class TeamService : BaseService, ITeamService
         return _mapper.Map<TeamDto>(createdTeam);
     }
 
-    public async Task UpdateTeamAsync(TeamDto teamDto)
+    public async Task UpdateTeamAsync(UpdateTeamDto teamDto)
     {
         if (await UserIsAdmin(teamDto.Id))
         {
             var teamEntity = await GetTeamByIdAsync(teamDto.Id);
             teamEntity = _mapper.Map(teamDto, teamEntity);
+            
             _context.Teams.Update(teamEntity);
+            
             await _context.SaveChangesAsync();
         }
         else
@@ -93,6 +99,23 @@ public class TeamService : BaseService, ITeamService
         }
     }
 
+    public async Task<ImagePathDto> UploadLogoAsync(IFormFile file, long? teamId)
+    {
+        var imagePath = await _uploadFileService.UploadFileBlobAsync(file);
+
+        if (teamId is null)
+        {
+            return new ImagePathDto(){Path = imagePath};
+        }
+        
+        var teamEntity = await GetTeamByIdAsync(teamId.Value);
+        teamEntity.LogoPath = imagePath;
+        _context.Teams.Update(teamEntity);
+        await _context.SaveChangesAsync();
+
+        return new ImagePathDto(){Path = imagePath};
+    }
+
     private async Task<bool> UserIsAdmin(long teamId)
     {
         var user = await _userService.GetCurrentUserAsync();
@@ -109,11 +132,22 @@ public class TeamService : BaseService, ITeamService
         return await _context.Teams
             .FirstOrDefaultAsync(t => t.Id == id) ?? throw new KeyNotFoundException("Team doesn't exist");
     }
-    
+
     public async Task<List<TeamDto>> GetCurrentUserTeams()
     {
         var currentUser = await _userService.GetCurrentUserAsync();
         var teams = await _context.TeamMembers.Where(el => el.UserId == currentUser!.Id)
+            .Include(el => el.Team)
+            .Select(el => el.Team)
+            .ToListAsync();
+
+        return _mapper.Map<List<TeamDto>>(teams);
+    }
+    
+    public async Task<List<TeamDto>> GetCurrentUserAdminTeams()
+    {
+        var currentUser = await _userService.GetCurrentUserAsync();
+        var teams = await _context.TeamMembers.Where(el => el.UserId == currentUser.Id && el.Role == Role.Admin)
             .Include(el => el.Team)
             .Select(el => el.Team)
             .ToListAsync();

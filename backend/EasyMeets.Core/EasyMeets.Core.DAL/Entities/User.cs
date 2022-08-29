@@ -23,8 +23,9 @@ public class User : Entity<long>, IValidatableObject
     public ICollection<Calendar> Calendars { get; set; } = new List<Calendar>();
     public ICollection<Meeting> CreatedMeetings { get; set; } = new List<Meeting>();
     public ICollection<SlotMember> SlotMembers { get; set; } = new List<SlotMember>();
-    public ICollection<UserSlot> Slots { get; set; } = new List<UserSlot>();
     public ICollection<AvailabilitySlot> CreatedSlots { get; set; } = new List<AvailabilitySlot>();
+
+    public ICollection<Credentials> Credentials { get; set; } = new List<Credentials>();
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if (!Name.IsValidUsername() || Name.Length is < 2 or > 50)
@@ -32,11 +33,11 @@ public class User : Entity<long>, IValidatableObject
             yield return new ValidationResult("Invalid user name");
         }
 
-        if(!Email.IsValidEmail() || Email.Length is < 5 or > 51)
+        if (!Email.IsValidEmail() || Email.Length is < 5 or > 51)
         {
             yield return new ValidationResult("Invalid email");
         }
-        
+
         if (!PhoneCode!.IsValidPhoneCode())
         {
             yield return new ValidationResult("Invalid phone code");
