@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormControlStatus } from '@angular/forms';
 import { Router } from '@angular/router';
 import { getNewAvailabilityMenu } from '@core/helpers/new-availability-menu-helper';
 import { SideMenuGroupTabs } from '@core/interfaces/sideMenu/tabs/sideMenuGroupTabs';
@@ -15,7 +16,7 @@ import { QuestionsComponent } from '../questions/questions.component';
     templateUrl: './new-availability.component.html',
     styleUrls: ['./new-availability.component.sass'],
 })
-export class NewAvailabilityComponent implements OnInit {
+export class NewAvailabilityComponent implements OnInit, AfterViewInit {
     @Input() showDeleteBlock: boolean = true;
 
     @Input() slot?: IAvailabilitySlot;
@@ -44,8 +45,18 @@ export class NewAvailabilityComponent implements OnInit {
 
     index: number = 0;
 
+    hasAnyErrors: boolean = false;
+
     // eslint-disable-next-line no-empty-function
     constructor(private router: Router) {}
+
+    ngAfterViewInit(): void {
+        this.generalComponent.generalForm.statusChanges?.subscribe((status: FormControlStatus) => {
+            const isFormValid: boolean = status === 'VALID';
+
+            this.hasAnyErrors = !isFormValid;
+        });
+    }
 
     ngOnInit(): void {
         this.initializeSideMenu();
