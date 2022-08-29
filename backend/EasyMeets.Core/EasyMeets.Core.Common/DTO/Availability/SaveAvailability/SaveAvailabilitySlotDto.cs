@@ -10,4 +10,5 @@ public class SaveAvailabilitySlotDto
     public EventDetailsDto? EventDetails { get; set; }
     public SaveAdvancedSlotSettingsDto? AdvancedSettings { get; set; }
     public ScheduleDto Schedule { get; set; } = null!;
+    public EmailTemplatesSettingsDto? TemplateSettings { get; set; }
 }

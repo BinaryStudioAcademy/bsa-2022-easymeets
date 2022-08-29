@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input } from '@angular/core';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
 import { getScheduleItems } from '@core/helpers/schedule-list-helper';
 import { getPossibleTimeZones } from '@core/helpers/time-zone-helper';
-import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ITimeZone } from '@core/models/ITimeZone';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 
@@ -39,10 +39,10 @@ export class ScheduleComponent {
     }
 
     getSelectedTimeZoneValue() {
-        return this.timeZones.find(x => x.displayValue === this.selectedTimeZone)!.value;
+        return this.timeZones.find((x) => x.displayValue === this.selectedTimeZone)!.value;
     }
 
     getDisplayTimeZone(value: number) {
-        return this.timeZones.find(x => x.value === value)!.displayValue;
+        return this.timeZones.find((x) => x.value === value)!.displayValue;
     }
 }

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
@@ -60,16 +60,19 @@ export class EditAvailabilityPageComponent extends BaseComponent implements OnDe
 
         general.isEnabled = this.newAvailabilityComponent.slot?.isEnabled ?? true;
         const advancedSettings = this.newAvailabilityComponent.generalComponent.addAdvanced
-            ? this.newAvailabilityComponent.generalComponent.advancedSettings! : null;
+            ? this.newAvailabilityComponent.generalComponent.advancedSettings!
+            : null;
         const updateAvailability: ISaveAvailability = {
             generalDetails: this.newAvailabilityComponent.generalComponent.settings,
             eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
+            templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
             advancedSettings,
         };
 
-        this.http.updateSlot(updateAvailability, this.slot?.id)
+        this.http
+            .updateSlot(updateAvailability, this.slot?.id)
             .pipe(this.untilThis)
             .subscribe(
                 () => {
