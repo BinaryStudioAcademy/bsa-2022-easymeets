@@ -46,7 +46,7 @@
         <div class="options">
             <div class="link">
                 <img src="assets/copy_icon.png" class="icon" />
-                <a href="#">.../30 Min Meeting</a>
+                <a href="#">{{ slot.link }}</a>
             </div>
             <div class="toggle">
                 <mat-slide-toggle [checked]="slot.isEnabled" (change)="changeSlotActivityClick($event)">
@@ -102,7 +102,7 @@
         <div class="options">
             <div class="link">
                 <img src="assets/copy_icon.png" class="icon" />
-                <a href="#">.../30 Min Meeting</a>
+                <a href="#">{{ slot.link }}</a>
             </div>
             <div class="toggle">
                 <mat-slide-toggle [checked]="slot.isEnabled" (change)="changeSlotActivityClick($event)">
