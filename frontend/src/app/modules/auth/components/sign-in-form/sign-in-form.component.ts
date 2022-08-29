@@ -49,17 +49,6 @@ export class SignInFormComponent extends BaseComponent {
         this.signInForm.get('password')?.setErrors({ incorrectCredentials: true });
     }
 
-    // private handleAuthenticationResponse(resp: firebase.auth.UserCredential | void): void {
-    //     if (resp) {
-    //         this.userService
-    //             .getCurrentUser()
-    //             .pipe(this.untilThis)
-    //             .subscribe(() => this.router.navigateByUrl('availability'));
-    //     } else {
-    //         this.setCredentialsIncorrect();
-    //     }
-    // }
-
     private handleAuthenticationResponse(resp: firebase.auth.UserCredential | void): void {
         if (resp) {
             this.userService
