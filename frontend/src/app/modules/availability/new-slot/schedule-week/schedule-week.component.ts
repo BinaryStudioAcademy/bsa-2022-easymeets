@@ -110,9 +110,11 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
         return num.toString();
     }
 
-    private recalculateDayIndexForCalenfar(weekDayIndex: number): number {
+    private recalculateDayIndexForCalendar(weekDayIndex: number): number {
+        let index = weekDayIndex;
+
         if (weekDayIndex < 6) {
-            return ++weekDayIndex;
+            return ++index;
         }
 
         return 0;
