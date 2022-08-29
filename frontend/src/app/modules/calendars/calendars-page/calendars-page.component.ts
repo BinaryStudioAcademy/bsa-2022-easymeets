@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getDefaultOptions } from '@core/helpers/options-helper';
 import { ICheckOption } from '@core/interfaces/check-option-interface';
@@ -6,6 +7,7 @@ import { IUserCalendar } from '@core/models/calendar/IUserCalendar';
 import { ITeam } from '@core/models/ITeam';
 import { CalendarsService } from '@core/services/calendars.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
+import { GoogleOauthService } from '@core/services/google-oauth.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
 
@@ -29,9 +31,11 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
 
     constructor(
         private teamService: TeamService,
+        private oauthService: GoogleOauthService,
         private dialog: ConfirmationWindowService,
         private calendarService: CalendarsService,
         private notificationService: NotificationService,
+        private router: Router,
     ) {
         super();
         this.connectGoogleCalendar.subscribe(() => {
@@ -75,18 +79,14 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
     }
 
     connectGoogle() {
-        this.calendarService
-            .createGoogleCalendarConnection()
-            .pipe(this.untilThis)
-            .subscribe(
-                () => {
-                    this.notificationService.showSuccessMessage('Calendar was successfully created');
-                    this.refreshData();
-                },
-                (error) => {
-                    this.notificationService.showErrorMessage(error);
-                },
-            );
+        this.oauthService.getRedirectUrl().subscribe(
+            (response) => {
+                window.location.href = response;
+            },
+            (error) => {
+                this.notificationService.showErrorMessage(error);
+            },
+        );
     }
 
     removeCalendar(id: bigint) {
