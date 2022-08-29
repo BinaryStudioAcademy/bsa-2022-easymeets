@@ -18,24 +18,22 @@
         </mat-card-content>
     </div>
 
-    <button class="menu-team-btn" mat-button [matMenuTriggerFor]="menuTeam">
-        <label>Binary Team</label>
+    <button class="menu-team-btn" mat-button [matMenuTriggerFor]="menuTeam" *ngIf="teams.length; else newTeam">
+        <label>{{currentTeam?.name ?? ''}}</label>
         <i class="fa-solid fa-caret-down"></i>
     </button>
+    <ng-template #newTeam>
+        <button class="menu-team-btn" mat-button routerLink="/settings/teams/new">
+            <i class="fa-solid fa-plus"></i>
+            <span> New Team</span>
+        </button>
+    </ng-template>
     <mat-menu #menuTeam="matMenu">
-        <button mat-menu-item routerLink="#">
+        <button mat-menu-item routerLink="#" *ngFor="let team of teams" (click)="changeTeam(team.id)">
             <i class="fa-solid fa-people-group"></i>
-            <span>Binary Team</span>
+            <span>{{team.name}}</span>
         </button>
-        <button mat-menu-item routerLink="#">
-            <i class="fa-solid fa-people-group"></i>
-            <span>Team 2</span>
-        </button>
-        <button mat-menu-item routerLink="#">
-            <i class="fa-solid fa-people-group"></i>
-            <span>Team 3</span>
-        </button>
-        <button class="mat-menu-btn" mat-menu-item routerLink="#">
+        <button class="mat-menu-btn" mat-menu-item routerLink="/settings/teams/new">
             <i class="fa-solid fa-plus"></i>
             <span>New Team</span>
         </button>
@@ -61,7 +59,7 @@
             <i class="fa-solid fa-screwdriver-wrench"></i>
             <span>Integrations</span>
         </button>
-        <button mat-menu-item routerLink="#">
+        <button mat-menu-item (click)="navigateToTeam()">
             <i class="fa-solid fa-people-group"></i>
             <span>Team</span>
         </button>
