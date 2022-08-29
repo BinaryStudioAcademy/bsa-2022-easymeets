@@ -23,7 +23,6 @@ import { TimeZone } from '@shared/enums/timeZone';
     templateUrl: './user-profile-page.component.html',
     styleUrls: ['./user-profile-page.component.sass'],
 })
-
 export class UserProfilePageComponent extends BaseComponent implements OnInit {
     constructor(
         private userService: UserService,
@@ -55,7 +54,14 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public timeZoneValues = Object.keys(TimeZone);
 
-    public countryValues = [Country.UnitedStates, Country.Ukraine, Country.Poland, Country.Sweden, Country.Italy, Country.Uganda];
+    public countryValues = [
+        Country.UnitedStates,
+        Country.Ukraine,
+        Country.Poland,
+        Country.Sweden,
+        Country.Italy,
+        Country.Uganda,
+    ];
 
     public countryLabelMapping = CountryLabelMapping;
 
@@ -73,7 +79,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     public phoneControl: FormControl = new FormControl('', [
         Validators.required,
         Validators.minLength(9),
-        Validators.maxLength(11)]);
+        Validators.maxLength(11),
+    ]);
 
     public ngOnInit(): void {
         this.userForm = new FormGroup({
