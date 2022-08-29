@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HeaderModule } from '@modules/header/header.module';
 import { SideMenuModule } from '@modules/side-menu/side-menu.module';
 import { MaterialModule } from '@shared/material/material.module';
+import { SharedModule } from '@shared/shared.module';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
@@ -40,6 +41,7 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
     ],
     imports: [
         CommonModule,
+        SharedModule,
         AvailabilityRoutingModule,
         MaterialModule,
         SideMenuModule,
