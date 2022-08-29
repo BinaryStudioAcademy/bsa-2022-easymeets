@@ -43,10 +43,9 @@ public class TeamService : BaseService, ITeamService
         return $"{teamName}{index}";
     }
 
-    public async Task<bool> ValidatePageLinkAsync(long teamId, string pageLink)
+    public async Task<bool> ValidatePageLinkAsync(long? teamId, string pageLink)
     {
-        var isUnique = !await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == pageLink);
-        return isUnique;
+        return !await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == pageLink);
     }
 
     public async Task<TeamDto> CreateTeamAsync(NewTeamDto newTeamDto)
@@ -100,16 +99,20 @@ public class TeamService : BaseService, ITeamService
         }
     }
 
-    public async Task<ImagePathDto> UploadLogoAsync(IFormFile file, long teamId)
+    public async Task<ImagePathDto> UploadLogoAsync(IFormFile file, long? teamId)
     {
         var imagePath = await _uploadFileService.UploadFileBlobAsync(file);
 
-        var teamEntity = await GetTeamByIdAsync(teamId);
-
+        if (teamId is null)
+        {
+            return new ImagePathDto(){Path = imagePath};
+        }
+        
+        var teamEntity = await GetTeamByIdAsync(teamId.Value);
         teamEntity.LogoPath = imagePath;
-
         _context.Teams.Update(teamEntity);
         await _context.SaveChangesAsync();
+
         return new ImagePathDto(){Path = imagePath};
     }
 
@@ -134,6 +137,17 @@ public class TeamService : BaseService, ITeamService
     {
         var currentUser = await _userService.GetCurrentUserAsync();
         var teams = await _context.TeamMembers.Where(el => el.UserId == currentUser!.Id)
+            .Include(el => el.Team)
+            .Select(el => el.Team)
+            .ToListAsync();
+
+        return _mapper.Map<List<TeamDto>>(teams);
+    }
+    
+    public async Task<List<TeamDto>> GetCurrentUserAdminTeams()
+    {
+        var currentUser = await _userService.GetCurrentUserAsync();
+        var teams = await _context.TeamMembers.Where(el => el.UserId == currentUser.Id && el.Role == Role.Admin)
             .Include(el => el.Team)
             .Select(el => el.Team)
             .ToListAsync();

@@ -14,8 +14,8 @@ export class MeetingBookingsService {
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService) {}
 
-    public getThreeMeetings(): Observable<IMeetingBooking[]> {
-        return this.httpService.getRequest<IMeetingBooking[]>(`${this.routePrefix}/getThreeMeetingMembers`);
+    public getThreeMeetings(currentTeamId?: number): Observable<IMeetingBooking[]> {
+        return this.httpService.getRequest<IMeetingBooking[]>(`${this.routePrefix}/getThreeMeetingMembers/${currentTeamId ?? ''}`);
     }
 
     public getAllMembers(id: number) {

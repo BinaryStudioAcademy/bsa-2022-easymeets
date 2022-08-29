@@ -1,6 +1,11 @@
 <mat-nav-list class="side-list" [disableRipple]="true">
     <ng-container *ngFor="let group of groups">
-        <div class="group-header" *ngIf="group.header" mat-subheader>{{ group.header }}</div>
+        <div class="group-header" *ngIf="group.header" mat-subheader>
+            {{ group.header }}
+            <button class="group-button" mat-button routerLink="{{group.buttonRouterLink}}" *ngIf="group.showButton">
+                <span>{{group.buttonText}}</span>
+            </button>
+        </div>
         <a
             mat-list-item
             *ngFor="let item of group.items"

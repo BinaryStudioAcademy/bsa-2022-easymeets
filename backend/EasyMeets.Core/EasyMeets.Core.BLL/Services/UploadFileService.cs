@@ -1,16 +1,21 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Azure.Storage.Blobs;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.DAL.Context;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+
 namespace EasyMeets.Core.BLL.Services
 {
     public class UploadFileService : BaseService, IUploadFileService
     {
-        private static readonly string _containerName = "fileupload";
-        private static readonly BlobContainerClient _container = new BlobContainerClient(Environment.GetEnvironmentVariable("AzureBlogStorageConnectionString"), _containerName);
-        public UploadFileService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper)
+        private readonly BlobContainerClient _container;
+        public UploadFileService(EasyMeetsCoreContext context, IMapper mapper, IConfiguration configuration) : base(context, mapper)
         {
+            _container = new(
+                Environment.GetEnvironmentVariable("AzureBlogStorageConnectionString"), 
+                configuration["AzureBlobStorage:ContainerName"]
+            );
         }
 
         public async Task<string> UploadFileBlobAsync(IFormFile file)
