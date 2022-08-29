@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { BaseComponent } from '@core/base/base.component';
 import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { IUser } from '@core/models/IUser';
 import { SpinnerService } from '@core/services/spinner.service';
@@ -9,7 +10,7 @@ import { SpinnerService } from '@core/services/spinner.service';
     templateUrl: './user-slot.component.html',
     styleUrls: ['./user-slot.component.sass'],
 })
-export class UserSlotComponent {
+export class UserSlotComponent extends BaseComponent {
     @Input() public userSlots: Array<IAvailabilitySlot>;
 
     @Input() public currentUser: IUser;
@@ -18,8 +19,9 @@ export class UserSlotComponent {
 
     @Output() isReload = new EventEmitter<boolean>();
 
-    // eslint-disable-next-line no-empty-function
-    constructor(public spinnerService: SpinnerService, private router: Router) {}
+    constructor(public spinnerService: SpinnerService, private router: Router) {
+        super();
+    }
 
     goToPage(pageName: string) {
         this.router.navigate([`${pageName}`]);
