@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TeamPreferencesComponent } from '@modules/settings/team/team-preferences/team-preferences.component';
+import { EditTeamComponent } from '@modules/settings/team/edit-team/edit-team.component';
+import { NewTeamComponent } from '@modules/settings/team/new-team/new-team.component';
 
 const routes: Routes = [
     {
-        path: '',
-        component: TeamPreferencesComponent,
-        children: [
-            {
-                path: '**',
-                redirectTo: '',
-            },
-        ],
+        path: 'edit/:id',
+        component: EditTeamComponent,
+    },
+    {
+        path: 'new',
+        component: NewTeamComponent,
     },
 ];
 
