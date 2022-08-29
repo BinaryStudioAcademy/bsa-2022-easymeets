@@ -9,7 +9,8 @@
 
 .availability-slot
     display: grid
-    grid-gap: 32px
+    row-gap: 32px
+    column-gap: 22px
     padding-bottom: 1.2em
 
 @media (min-device-width: $phone-min-width)
@@ -20,8 +21,6 @@
         height: 50px
 
 @media (min-device-width: $tablet-min-width)
-    .availability-slot
-        grid-template-columns: repeat(2, 1fr)
     .user-name p
         font-size: 28px
     .avatar
@@ -30,12 +29,16 @@
 
 @media (min-device-width: $desktop-min-width)
     .availability-slot
-        grid-template-columns: repeat(3, 1fr)
+        grid-template-columns: repeat(2, 1fr)
     .user-name p
         font-size: 32px
     .avatar
         width: 100px
         height: 100px
+
+@media screen and (max-width: $tablet-min-width)
+    .availability-slot
+        grid-template-columns: repeat(1, 1fr)
 
 .user-info
     display: flex

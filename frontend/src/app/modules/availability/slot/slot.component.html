@@ -1,4 +1,4 @@
-<mat-card class="card-container" *ngIf="slot.isEnabled">
+<mat-card class="card-container active-card-container" *ngIf="slot.isEnabled">
     <div class="slot-content">
         <div class="slot-header">
             <p>Availability Slots for</p>
@@ -40,6 +40,7 @@
                 <div *ngFor="let member of slot.members">
                     <img [src]="member.memberImage" class="avatar" />
                 </div>
+                <img src="assets/header/avatar-icon.png" class="avatar" />
             </div>
         </div>
         <div class="options">
@@ -47,7 +48,7 @@
                 <img src="assets/copy_icon.png" class="icon" />
                 <a href="#">.../30 Min Meeting</a>
             </div>
-            <div>
+            <div class="toggle">
                 <mat-slide-toggle [checked]="slot.isEnabled" (change)="changeSlotActivityClick($event)">
                 </mat-slide-toggle>
             </div>
@@ -82,7 +83,9 @@
         </div>
         <div class="color-line"></div>
         <div class="time-options">
-            <p>{{ slot.name }}</p>
+            <div>
+                <p>{{ slot.name }}</p>
+            </div>
         </div>
         <div class="meeting-details">
             <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ LocationType[slot.locationType] }}</p>
@@ -93,6 +96,7 @@
                 <div *ngFor="let member of slot.members">
                     <img [src]="member.memberImage" class="avatar" />
                 </div>
+                <img src="assets/header/avatar-icon.png" class="avatar" />
             </div>
         </div>
         <div class="options">
@@ -100,7 +104,7 @@
                 <img src="assets/copy_icon.png" class="icon" />
                 <a href="#">.../30 Min Meeting</a>
             </div>
-            <div>
+            <div class="toggle">
                 <mat-slide-toggle [checked]="slot.isEnabled" (change)="changeSlotActivityClick($event)">
                 </mat-slide-toggle>
             </div>

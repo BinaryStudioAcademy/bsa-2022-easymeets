@@ -1,5 +1,6 @@
 @import '../../../../styles/color-variables'
 @import url('https://rsms.me/inter/inter.css')
+@import '../../../../styles/screen-variables'
 
 .card-container-disabled
     opacity: 0.7
@@ -35,12 +36,12 @@
                     height: 18px
 
 .color-line
-    height: 32%
+    height: 28%
     max-width: 4px
     border-left: 4px solid $royal-blue
     position: absolute
     border-radius: 5px
-    margin-bottom: 10%
+    margin-top: -66px
 
 .time-options
     height: 10%
@@ -52,6 +53,9 @@
         align-items: center
         justify-content: flex-start
         min-height: 5vh
+        min-width: 10vw
+        @media screen and (max-width: $tablet-min-width)
+            min-width: 30vw
     p
         margin: 0
         overflow: hidden
@@ -90,6 +94,8 @@
             height: 18px
             margin-right: 0.7em
             filter: invert(41%) sepia(100%) saturate(43%) hue-rotate(184deg) brightness(86%) contrast(83%)
+    .toggle
+        height: 29px
 
 .meeting-details
     display: flex
@@ -111,9 +117,14 @@
 .avatar-list
     display: flex
     align-items: center
+    margin-left: -8%
 
 ::ng-deep .card-container.mat-card
+    margin-left: auto
     width: 80%
     border-radius: 32px
     border: 1px solid $solitude
+    box-shadow: 0px 10px 20px 1px $solitude
+
+::ng-deep .active-card-container.mat-card
     box-shadow: 0px 10px 20px 1px $royal-blue-light
