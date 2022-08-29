@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Input } from '@angular/core';
 import { getLocalMandatoryQuestions } from '@core/helpers/questions-mandatory-helper';
-import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IQuestion } from '@core/models/IQuestion';
 
 @Component({
