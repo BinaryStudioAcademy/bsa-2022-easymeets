@@ -1,7 +1,12 @@
 <div class="container">
     <div class="user-info">
         <div class="avatar-container" (click)="goToPage('settings/account/personal')">
-            <img class="avatar" src="{{ currentUser.image }}">
+            <ng-container *ngIf="currentUser.image; else noAvatarAvailabilityPage">
+                <img class="avatar" src="{{ currentUser.image }}" />
+            </ng-container>
+            <ng-template #noAvatarAvailabilityPage>
+                <img class="avatar" src="assets/header/avatar-icon.png" />
+            </ng-template>
         </div>
         <div class="user-name">
             <div>
@@ -18,6 +23,6 @@
                 [slot]="_slot"
                 [hasOwner]="true"></app-slot>
         </div>
-        <img src="assets/arrow.png" class="default-image" *ngIf="showArrow">
+        <img src="assets/arrow.png" class="default-image" *ngIf="showArrow" />
     </div>
 </div>

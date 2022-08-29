@@ -1,33 +1,35 @@
 <app-header-item></app-header-item>
 <div class="container">
-    <div *ngFor="let item of meetings">
-        <div class="infoRow">
-            <div class="item itemInfo">
-                <div class="itemTextInfo">
-                    <span class="timeTitle">{{ item.meetingTime }}</span>
-                    <p class="itemText">
-                        {{ item.meetingTitle }}<br />{{ item.meetingDuration }}, {{ item.membersTitle }}
-                    </p>
-                </div>
+    <div class="bookings-container">
+        <div *ngFor="let item of meetings">
+            <div class="infoRow">
+                <div class="item itemInfo">
+                    <div class="itemTextInfo">
+                        <span class="timeTitle">{{ item.meetingTime }}</span>
+                        <p class="itemText">
+                            {{ item.meetingTitle }}<br />{{ item.meetingDuration }}, {{ item.membersTitle }}
+                        </p>
+                    </div>
 
-                <div class="buttonRow">
-                    <button class="buttonZoom">Open {{ item.location }} Link</button>
-                    <div class="threeDots">
-                        <div class="oneDot"></div>
-                        <div class="oneDot"></div>
-                        <div class="oneDot"></div>
+                    <div class="buttonRow">
+                        <button class="buttonZoom">Open {{ item.location }} Link</button>
+                        <div class="threeDots">
+                            <div class="oneDot"></div>
+                            <div class="oneDot"></div>
+                            <div class="oneDot"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="listScrollBlock">
-                <div *ngFor="let user of item.meetingMembers">
-                    <app-booker [booker]="user"></app-booker>
+                <div class="listScrollBlock">
+                    <div *ngFor="let user of item.meetingMembers">
+                        <app-booker [booker]="user"></app-booker>
+                    </div>
                 </div>
-            </div>
 
-            <div *ngIf="item.meetingCount > 3">
-                <div class="moreBlock" (click)="goToPage('/bookings/bookers/'+item.id)">{{ item.meetingCount - 3 }}+ Booker</div>
+                <div *ngIf="item.meetingCount > 3">
+                    <div class="moreBlock" (click)="goToPage('/bookings/bookers/'+item.id)">{{ item.meetingCount - 3 }}+ Booker</div>
+                </div>
             </div>
         </div>
     </div>

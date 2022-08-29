@@ -11,9 +11,11 @@ namespace EasyMeets.Core.WebAPI.Controllers;
 public class TeamController : ControllerBase
 {
     private readonly ITeamService _teamService;
-    public TeamController(ITeamService teamService)
+    private readonly ITeamSharedService _sharedService;
+    public TeamController(ITeamService teamService, ITeamSharedService sharedService)
     {
         _teamService = teamService;
+        _sharedService = sharedService;
     }
 
     [HttpGet("{id}")]
@@ -25,7 +27,7 @@ public class TeamController : ControllerBase
     [HttpGet("newpagelink")]
     public async Task<ActionResult<string>> GenerateNewPageLinkAsync(long id, string teamname)
     {
-        return Ok(await _teamService.GenerateNewPageLinkAsync(id, teamname));
+        return Ok(await _sharedService.GenerateNewPageLinkAsync(id, teamname));
     }
     
     [HttpGet("user-teams")]
