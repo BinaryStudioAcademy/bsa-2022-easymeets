@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveEventDetails } from '@core/models/save-availability-slot/ISaveEventDetails';
 
 @Component({
@@ -26,7 +26,7 @@ export class EventDetailComponent implements OnInit {
 
     public settings: ISaveEventDetails;
 
-    public timeZoneChoices: { text: string; value: boolean; }[] = [
+    public timeZoneChoices: { text: string; value: boolean }[] = [
         {
             text: 'Automatically detect and show the times in Bookers time zone',
             value: true,
@@ -37,16 +37,9 @@ export class EventDetailComponent implements OnInit {
         },
     ];
 
-    public languages: string[] = [
-        'English',
-        'Ukrainian',
-    ];
+    public languages: string[] = ['English', 'Ukrainian'];
 
-    public allowedBooking: number[] = [
-        1,
-        2,
-        3,
-    ];
+    public allowedBooking: number[] = [1, 2, 3];
 
     ngOnInit(): void {
         this.settings = {
