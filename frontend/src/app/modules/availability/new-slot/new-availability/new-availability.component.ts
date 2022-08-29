@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { Router } from '@angular/router';
 import { getNewAvailabilityMenu } from '@core/helpers/new-availability-menu-helper';
 import { SideMenuGroupTabs } from '@core/interfaces/sideMenu/tabs/sideMenuGroupTabs';
-import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { EventDetailComponent } from '@modules/availability/new-slot/event-detail/event-detail.component';
 import { GeneralComponent } from '@modules/availability/new-slot/general/general.component';
 import { ScheduleComponent } from '@modules/availability/new-slot/schedule/schedule.component';

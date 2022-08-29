@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
@@ -69,6 +69,7 @@ export class EditAvailabilityPageComponent extends BaseComponent implements OnDe
             eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
             questions: this.newAvailabilityComponent.questionsComponent.questions,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
+            templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
         };
 
         this.http

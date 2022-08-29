@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IAvailabilitySlotsGroupByTeamsDto } from '@core/models/IAvailabilitySlotsGroupByTeam';
-import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { SpinnerService } from '@core/services/spinner.service';
 
 @Component({
@@ -27,5 +27,9 @@ export class TeamComponent implements OnInit {
 
     isDeleted(isRemove: boolean) {
         this.isReload.emit(isRemove);
+    }
+
+    isChangedActivity(isChanged: boolean) {
+        this.isReload.emit(isChanged);
     }
 }

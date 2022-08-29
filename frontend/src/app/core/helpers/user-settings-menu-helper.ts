@@ -10,20 +10,12 @@ export const getUserSettingsMenuItems = (): SideMenuGroup[] => [
         ],
     },
     {
-        header: 'Intergations',
+        header: 'Integrations',
         items: [
             { text: 'Calendars', routerLink: 'integrations/calendars' },
-            { text: 'Video Conferencing', routerLink: 'default-route' },
+            { text: 'Video Conferencing', routerLink: 'integrations/video-conferencing' },
             { text: 'Mailing', routerLink: 'default-route' },
             { text: 'API & Tokens', routerLink: 'default-route' },
-        ],
-    },
-    {
-        header: 'Teams',
-        items: [
-            { text: 'Binary Team', routerLink: 'teams' },
-            { text: 'Work 2', routerLink: 'default-route' },
-            { text: 'Work Team 3', routerLink: 'default-route' },
         ],
     },
 ];

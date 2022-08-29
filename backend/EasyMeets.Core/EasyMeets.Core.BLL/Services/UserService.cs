@@ -1,7 +1,9 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Extentions;
 using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.Common.DTO.Credentials.Zoom;
 using EasyMeets.Core.Common.DTO.User;
+using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.DAL.Entities;
@@ -13,21 +15,19 @@ namespace EasyMeets.Core.BLL.Services
     public class UserService : BaseService, IUserService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IZoomService _zoomService;
         private readonly IUploadFileService _uploadFileService;
-        public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUploadFileService uploadFileService) : base(context, mapper)
+        public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor,
+            IUploadFileService uploadFileService, IZoomService zoomService) : base(context, mapper)
         {
             _httpContextAccessor = httpContextAccessor;
+            _zoomService = zoomService;
             _uploadFileService = uploadFileService;
         }
 
         public async Task<UserDto> GetCurrentUserAsync()
         {
-            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId());
-
-            if (currentUser is null)
-            {
-                throw new KeyNotFoundException("User doesn't exist");
-            }
+            var currentUser = await GetCurrentUserInternalAsync();
 
             var currentUserDto = _mapper.Map<UserDto>(currentUser);
             return currentUserDto;
@@ -38,7 +38,7 @@ namespace EasyMeets.Core.BLL.Services
             return await _context.Users.AnyAsync(u => u.Email == email);
         }
 
-        public async Task UpdateUserPreferences(UserDto userDto, string currentUserEmail)
+        public async Task<UserDto> UpdateUserPreferences(UpdateUserDto userDto, string currentUserEmail)
         {
             var userEntity = await GetUserById(userDto.Id);
             userEntity = _mapper.Map(userDto, userEntity);
@@ -50,6 +50,8 @@ namespace EasyMeets.Core.BLL.Services
 
             _context.Users.Update(userEntity);
             await _context.SaveChangesAsync();
+
+            return _mapper.Map<UserDto>(userEntity);
         }
 
         private async Task<User> GetUserById(long id)
@@ -97,5 +99,31 @@ namespace EasyMeets.Core.BLL.Services
             var userId = _httpContextAccessor.HttpContext.User.GetUid();
             return userId;
         }
+
+        public async Task CreateZoomCredentials(NewCredentialsRequestDto newCredentialsRequestDto)
+        {
+            var user = await _context.Users.Include(u => u.Credentials)
+                .FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId());
+            var credentialsDto = await _zoomService.GetNewCredentials(newCredentialsRequestDto);
+            if (user!.Credentials.Any(cr => cr.Type == CredentialsType.Zoom))
+            {
+                var credentials = user.Credentials.First(cr => cr.Type == CredentialsType.Zoom);
+                _mapper.Map(credentialsDto, credentials);
+            }
+            else
+            {
+                var credentials = _mapper.Map<Credentials>(credentialsDto, opts => opts.AfterMap((_, dest) =>
+                {
+                    dest.Type = CredentialsType.Zoom;
+                    dest.UserId = user.Id;
+                }));
+                await _context.Credentials.AddAsync(credentials);
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        private Task<User> GetCurrentUserInternalAsync()
+            => (_context.Users.FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId())
+                ?? throw new KeyNotFoundException("User doesn't exist"))!;
     }
 }

@@ -4,6 +4,7 @@ import { BaseComponent } from '@core/base/base.component';
 import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { NotificationService } from '@core/services/notification.service';
+import { TeamService } from '@core/services/team.service';
 import { NewAvailabilityComponent } from '@modules/availability/new-slot/new-availability/new-availability.component';
 
 @Component({
@@ -16,11 +17,17 @@ export class NewAvailabilityPageComponent extends BaseComponent {
         private router: Router,
         private slotService: AvailabilitySlotService,
         private notifications: NotificationService,
+        private teamService: TeamService,
     ) {
         super();
+        teamService.currentTeamEmitted$.subscribe(teamId => {
+            this.currentTeamId = teamId;
+        });
     }
 
     @ViewChild(NewAvailabilityComponent) newAvailabilityComponent: NewAvailabilityComponent;
+
+    public currentTeamId?: number;
 
     public goToPage(pageName: string) {
         this.router.navigate([`${pageName}`]);
@@ -56,7 +63,8 @@ export class NewAvailabilityPageComponent extends BaseComponent {
             eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
             questions: this.newAvailabilityComponent.questionsComponent.questions,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
-            teamId: 1,
+            templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
+            teamId: this.currentTeamId,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
         };
 

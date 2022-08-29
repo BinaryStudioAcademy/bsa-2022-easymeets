@@ -11,4 +11,5 @@ public class SaveAvailabilitySlotDto
     public SaveAdvancedSlotSettingsDto? AdvancedSettings { get; set; }
     public ICollection<QuestionDto>? Questions { get; set; }
     public ScheduleDto Schedule { get; set; } = null!;
+    public EmailTemplatesSettingsDto? TemplateSettings { get; set; }
 }

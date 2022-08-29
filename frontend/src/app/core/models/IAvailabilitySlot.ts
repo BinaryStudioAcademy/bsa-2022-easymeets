@@ -28,5 +28,5 @@ export interface IAvailabilitySlot {
     passwordProtectionIsUsed: boolean;
     passwordProtection?: string;
     timeZoneVisibility: boolean;
-    confirmationEmailSettings?: ISaveConfirmationEmailDetails;
+    emailTemplateSettings?: ISaveConfirmationEmailDetails[];
 }

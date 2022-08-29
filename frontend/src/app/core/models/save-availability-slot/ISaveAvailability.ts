@@ -3,6 +3,8 @@ import { ISaveEventDetails } from '@core/models/save-availability-slot/ISaveEven
 import { ISaveGeneralSettings } from '@core/models/save-availability-slot/ISaveGeneralSettings';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 
+import { ISaveConfirmationEmailDetails } from './ISaveConfirmationEmailDetails';
+
 import { IQuestion } from '../IQuestion';
 
 export interface ISaveAvailability {
@@ -13,4 +15,5 @@ export interface ISaveAvailability {
     eventDetails: ISaveEventDetails;
     questions: IQuestion[]
     schedule: ISchedule;
+    templateSettings: ISaveConfirmationEmailDetails;
 }

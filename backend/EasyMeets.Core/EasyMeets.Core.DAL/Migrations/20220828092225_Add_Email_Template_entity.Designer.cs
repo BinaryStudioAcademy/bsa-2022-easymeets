@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyMeets.Core.DAL.Migrations
 {
     [DbContext(typeof(EasyMeetsCoreContext))]
-    [Migration("20220826114511_AddedIsMandatoryIntoQuestions")]
-    partial class AddedIsMandatoryIntoQuestions
+    [Migration("20220828092225_Add_Email_Template_entity")]
+    partial class Add_Email_Template_entity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -79,7 +79,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 1,
                             MinBookingMeetingDifference = 5,
                             PaddingMeeting = 6,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -92,7 +92,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 6,
                             MinBookingMeetingDifference = 1,
                             PaddingMeeting = 13,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -105,7 +105,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 8,
                             MinBookingMeetingDifference = 4,
                             PaddingMeeting = 14,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -118,7 +118,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 5,
                             MinBookingMeetingDifference = 4,
                             PaddingMeeting = 3,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -131,7 +131,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 1,
                             MinBookingMeetingDifference = 4,
                             PaddingMeeting = 1,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -144,7 +144,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 10,
                             MinBookingMeetingDifference = 5,
                             PaddingMeeting = 2,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -157,7 +157,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 5,
                             MinBookingMeetingDifference = 1,
                             PaddingMeeting = 10,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -170,7 +170,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 4,
                             MinBookingMeetingDifference = 4,
                             PaddingMeeting = 2,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -183,7 +183,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 5,
                             MinBookingMeetingDifference = 1,
                             PaddingMeeting = 6,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -196,7 +196,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 5,
                             MinBookingMeetingDifference = 2,
                             PaddingMeeting = 3,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         });
                 });
 
@@ -306,7 +306,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 3L,
                             TimeZoneVisibility = true,
                             Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Corrupti adipisci reprehenderit unde consequatur explicabo aliquid deserunt aut."
                         },
                         new
@@ -329,7 +329,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 7L,
                             TimeZoneVisibility = true,
                             Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Consequatur optio iste."
                         },
                         new
@@ -352,7 +352,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 5L,
                             TimeZoneVisibility = true,
                             Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Aliquid beatae cumque.\nVoluptatem quia qui qui velit quibusdam placeat."
                         },
                         new
@@ -375,7 +375,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 10L,
                             TimeZoneVisibility = true,
                             Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Ut est nesciunt non numquam accusantium."
                         },
                         new
@@ -398,7 +398,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 10L,
                             TimeZoneVisibility = true,
                             Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "voluptate"
                         },
                         new
@@ -421,7 +421,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 10L,
                             TimeZoneVisibility = true,
                             Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Eius labore esse neque labore dolor quia saepe.\nInventore aut fuga.\nDebitis quo velit voluptatem rerum.\nVitae voluptatem quia iste itaque officia.\nExercitationem dolor repudiandae nihil alias asperiores nam quis voluptate sit.\nNon accusamus qui ut modi ea et."
                         },
                         new
@@ -444,7 +444,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 3L,
                             TimeZoneVisibility = true,
                             Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "nobis"
                         },
                         new
@@ -467,7 +467,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 9L,
                             TimeZoneVisibility = true,
                             Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Et odit sit mollitia nulla aspernatur voluptas."
                         },
                         new
@@ -490,7 +490,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 9L,
                             TimeZoneVisibility = true,
                             Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "enim"
                         },
                         new
@@ -513,7 +513,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 6L,
                             TimeZoneVisibility = true,
                             Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "sunt"
                         });
                 });
@@ -588,7 +588,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Harum soluta vitae atque dolores tempore debitis explicabo.\nBeatae consequatur optio iste qui.\nRepudiandae odit quo aut quisquam et quam.\nQuia id veritatis ab aliquid beatae cumque quas.\nQuia qui qui.\nQuibusdam placeat magni et.",
                             Uid = "Voluptatem rerum esse vitae. Quia iste itaque offi",
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 2L
                         },
                         new
@@ -603,7 +603,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Voluptas et architecto.\nAccusantium aliquam quis quia reiciendis qui est aut.\nEnim est aspernatur.\nDolorum recusandae voluptas dolore inventore mollitia ab voluptatibus.\nSunt ut neque.\nNeque fuga recusandae modi voluptas omnis in.",
                             Uid = "Magni perferendis quia asperiores fugiat omnis ali",
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 3L
                         },
                         new
@@ -618,7 +618,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Accusantium eum cupiditate qui dolores sunt. Ut nihil et tenetur earum. Cum voluptatem non ipsa aut esse et. Molestiae qui quis architecto aut et quo rerum. Vel voluptatum excepturi veritatis expedita id. Et unde dolores.",
                             Uid = "vitae",
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 10L
                         },
                         new
@@ -633,7 +633,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Provident consectetur veniam quia.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                             Uid = "Molestiae omnis exercitationem soluta et labore co",
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 3L
                         },
                         new
@@ -648,7 +648,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Id id voluptatem vero voluptas natus nesciunt.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                             Uid = "Quia sed ipsum officiis qui qui molestias sint. Ea",
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 6L
                         },
                         new
@@ -663,7 +663,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Commodi iure voluptatum et quia molestiae quis ut natus voluptatem. Pariatur facere et nihil id. Saepe sit et. Tempore a nulla et eveniet enim exercitationem. Id nihil consequatur molestiae et delectus autem recusandae et. Sint quisquam veritatis sequi te",
                             Uid = "enim",
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 8L
                         },
                         new
@@ -678,7 +678,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Et qui non eum aut aliquid sed.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                             Uid = "Vel aspernatur deleniti voluptate nobis possimus v",
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 8L
                         },
                         new
@@ -693,7 +693,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Impedit est et sequi accusantium est nam aut.\nSit nulla sed dolor iste.AAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                             Uid = "Beatae magnam velit architecto. Est quos officiis",
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 10L
                         },
                         new
@@ -708,7 +708,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Quos officia quaerat omnis.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                             Uid = "Quo voluptatem eveniet sunt tempora et ut dolor.\nA",
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 8L
                         },
                         new
@@ -723,7 +723,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Nulla voluptas est.\nRepudiandae ea a debitis et autem.\nQuia id quod perferendis sunt consectetur expedita autem at sit.\nHic dolores nihil.\nProvident sit dignissimos ipsa nesciunt non.",
                             Uid = "hic",
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 4L
                         });
                 });
@@ -826,6 +826,143 @@ namespace EasyMeets.Core.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.EmailTemplate", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("AvailabilitySlotId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSend")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TemplateType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AvailabilitySlotId");
+
+                    b.ToTable("EmailTemplates");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            AvailabilitySlotId = 3L,
+                            Body = "Corrupti adipisci reprehenderit unde consequatur explicabo aliquid deserunt aut.",
+                            IsDeleted = false,
+                            IsSend = true,
+                            Subject = "doloremque",
+                            TemplateType = 2
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            AvailabilitySlotId = 9L,
+                            Body = "quibusdamAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                            IsDeleted = false,
+                            IsSend = true,
+                            Subject = "Vitae atque dolores tempore de",
+                            TemplateType = 2
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            AvailabilitySlotId = 2L,
+                            Body = "Quos iusto atque ut est nesciunt.\nNumquam accusantium et maxime.\nFuga cupiditate perferendis.\nSunt maiores autem odit alias voluptate fugit ea.\nLibero sunt modi sint dolore doloribus ipsa quasi.\nEos rerum eius labore esse neque labore dolor.",
+                            IsDeleted = false,
+                            IsSend = true,
+                            Subject = "Ad et voluptate amet.",
+                            TemplateType = 0
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            AvailabilitySlotId = 9L,
+                            Body = "Debitis quo velit voluptatem rerum. Vitae voluptatem quia iste itaque officia. Exercitationem dolor repudiandae nihil alias asperiores nam quis voluptate sit. Non accusamus qui ut modi ea et. Rerum sapiente ipsa voluptate temporibus est sit eius dolor.",
+                            IsDeleted = false,
+                            IsSend = true,
+                            Subject = "inventore",
+                            TemplateType = 1
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            AvailabilitySlotId = 1L,
+                            Body = "Voluptas dolore inventore mollitia ab voluptatibus architecto sunt ut neque.\nNeque fuga recusandae modi voluptas omnis in.\nModi et voluptatem at voluptatem incidunt eaque beatae quo nesciunt.\nNon totam in distinctio alias at nihil nemo voluptatem.\nHic soluta rem sapiente commodi expedita voluptatem",
+                            IsDeleted = false,
+                            IsSend = true,
+                            Subject = "Dolore rerum reprehenderit rei",
+                            TemplateType = 3
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            AvailabilitySlotId = 10L,
+                            Body = "Quia non saepe sit perferendis qui.\nQui voluptatem dignissimos consequuntur ea.\nDolores repellendus temporibus quia assumenda.",
+                            IsDeleted = false,
+                            IsSend = true,
+                            Subject = "Qui nemo qui reprehenderit quo",
+                            TemplateType = 0
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            AvailabilitySlotId = 3L,
+                            Body = "Laborum placeat voluptates expedita provident consequatur quas iste soluta.",
+                            IsDeleted = false,
+                            IsSend = true,
+                            Subject = "etAAA",
+                            TemplateType = 0
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            AvailabilitySlotId = 6L,
+                            Body = "Voluptatum excepturi veritatis expedita id quae. Unde dolores pariatur voluptatem aut qui natus autem nemo voluptatem. Eaque dolores ipsa voluptatum laboriosam fugiat animi non ut. Aliquam tenetur et deserunt modi corrupti deleniti et.",
+                            IsDeleted = false,
+                            IsSend = true,
+                            Subject = "Fugit natus vel mollitia sint",
+                            TemplateType = 2
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            AvailabilitySlotId = 1L,
+                            Body = "Voluptates nisi suscipit.AAAAAAAAAAAAAAAAAAAAAAAAA",
+                            IsDeleted = false,
+                            IsSend = true,
+                            Subject = "Quia natus minima aut rerum ip",
+                            TemplateType = 3
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            AvailabilitySlotId = 2L,
+                            Body = "Nostrum dolor quam molestiae. Et vitae rerum et ullam aliquid sequi perferendis deleniti velit. Consectetur veniam quia molestias quae nobis distinctio. Nobis aut voluptatem deleniti quaerat. Delectus id quasi rerum enim. Eum numquam molestiae.",
+                            IsDeleted = false,
+                            IsSend = true,
+                            Subject = "illoA",
+                            TemplateType = 1
+                        });
+                });
+
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ExternalAttendee", b =>
                 {
                     b.Property<long>("Id")
@@ -848,9 +985,6 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<long>("MeetingId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -863,8 +997,6 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.HasIndex("AvailabilitySlotId");
 
-                    b.HasIndex("MeetingId");
-
                     b.ToTable("ExternalAttendees");
 
                     b.HasData(
@@ -873,9 +1005,8 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 1L,
                             AvailabilitySlotId = 3L,
                             Email = "Donald_Hills@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 1, 9, 46, 9, 283, DateTimeKind.Unspecified).AddTicks(2249), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 3, 7, 23, 24, 705, DateTimeKind.Unspecified).AddTicks(2493), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
-                            MeetingId = 0L,
                             Name = "Donald Hills",
                             TimeZone = 0
                         },
@@ -884,9 +1015,8 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 2L,
                             AvailabilitySlotId = 7L,
                             Email = "Leonard62@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 25, 7, 55, 4, 318, DateTimeKind.Unspecified).AddTicks(4052), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 27, 5, 32, 19, 740, DateTimeKind.Unspecified).AddTicks(3984), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
-                            MeetingId = 0L,
                             Name = "Leonard Effertz",
                             TimeZone = 0
                         },
@@ -895,9 +1025,8 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 3L,
                             AvailabilitySlotId = 6L,
                             Email = "Dewey_Schuppe@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 9, 17, 10, 24, 15, 137, DateTimeKind.Unspecified).AddTicks(1290), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 9, 19, 8, 1, 30, 559, DateTimeKind.Unspecified).AddTicks(951), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
-                            MeetingId = 0L,
                             Name = "Dewey Schuppe",
                             TimeZone = 0
                         },
@@ -906,9 +1035,8 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 4L,
                             AvailabilitySlotId = 6L,
                             Email = "Elijah.Blanda@gmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 10, 16, 19, 11, 87, DateTimeKind.Unspecified).AddTicks(7659), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 12, 13, 56, 26, 509, DateTimeKind.Unspecified).AddTicks(6663), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
-                            MeetingId = 0L,
                             Name = "Elijah Blanda",
                             TimeZone = 0
                         },
@@ -917,9 +1045,8 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 5L,
                             AvailabilitySlotId = 5L,
                             Email = "Joel_Goldner@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 3, 2, 9, 51, 25, 769, DateTimeKind.Unspecified).AddTicks(156), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 3, 4, 7, 28, 41, 190, DateTimeKind.Unspecified).AddTicks(8885), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
-                            MeetingId = 0L,
                             Name = "Joel Goldner",
                             TimeZone = 0
                         },
@@ -928,9 +1055,8 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 6L,
                             AvailabilitySlotId = 4L,
                             Email = "Jaime.Veum2@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 28, 2, 8, 58, 413, DateTimeKind.Unspecified).AddTicks(172), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 29, 23, 46, 13, 834, DateTimeKind.Unspecified).AddTicks(8559), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
-                            MeetingId = 0L,
                             Name = "Jaime Veum",
                             TimeZone = 0
                         },
@@ -939,9 +1065,8 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 7L,
                             AvailabilitySlotId = 9L,
                             Email = "Patti.Feil@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 7, 14, 7, 53, 11, 830, DateTimeKind.Unspecified).AddTicks(3477), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 7, 16, 5, 30, 27, 252, DateTimeKind.Unspecified).AddTicks(1534), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
-                            MeetingId = 0L,
                             Name = "Patti Feil",
                             TimeZone = 0
                         },
@@ -950,9 +1075,8 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 8L,
                             AvailabilitySlotId = 2L,
                             Email = "Jesus9@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 1, 14, 3, 46, 54, 957, DateTimeKind.Unspecified).AddTicks(7673), new TimeSpan(0, 2, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 1, 16, 1, 24, 10, 379, DateTimeKind.Unspecified).AddTicks(5377), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
-                            MeetingId = 0L,
                             Name = "Jesus Gorczany",
                             TimeZone = 0
                         },
@@ -961,9 +1085,8 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 9L,
                             AvailabilitySlotId = 1L,
                             Email = "Jacob.Ondricka6@yahoo.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 4, 22, 30, 3, 618, DateTimeKind.Unspecified).AddTicks(1508), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 6, 20, 7, 19, 39, DateTimeKind.Unspecified).AddTicks(8869), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
-                            MeetingId = 0L,
                             Name = "Jacob Ondricka",
                             TimeZone = 0
                         },
@@ -972,9 +1095,8 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 10L,
                             AvailabilitySlotId = 1L,
                             Email = "Erma.MacGyver86@hotmail.com",
-                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 14, 8, 23, 39, 574, DateTimeKind.Unspecified).AddTicks(8587), new TimeSpan(0, 3, 0, 0, 0)),
+                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 16, 6, 0, 54, 996, DateTimeKind.Unspecified).AddTicks(5669), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
-                            MeetingId = 0L,
                             Name = "Erma MacGyver",
                             TimeZone = 0
                         });
@@ -1010,82 +1132,82 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 28, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3441), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 30, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6517), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 3L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 27, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3309), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 29, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6442), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 2L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 28, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3664), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 30, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6638), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 2L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 27, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3644), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 29, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6631), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 3L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 28, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3701), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 30, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6653), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 1L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 27, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3688), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 29, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6649), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 4L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 28, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3733), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 30, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6667), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 4L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 27, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3721), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 29, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6662), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 5L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 28, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3764), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 30, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6679), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 9L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 27, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3752), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 29, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6675), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 6L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 28, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3793), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 30, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6690), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 5L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 27, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3781), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 29, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6687), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 7L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 28, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3822), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 30, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6702), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 2L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 27, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3810), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 29, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6698), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 8L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 28, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3851), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 30, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6713), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 4L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 27, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3840), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 29, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6709), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 9L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 28, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3880), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 30, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6724), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 6L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 27, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3869), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 29, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6721), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
                             Id = 10L,
-                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 28, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3914), new TimeSpan(0, 3, 0, 0, 0)),
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 8, 30, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6735), new TimeSpan(0, 3, 0, 0, 0)),
                             ExternalAttendeeId = 9L,
                             IsDeleted = false,
-                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 27, 14, 45, 9, 502, DateTimeKind.Unspecified).AddTicks(3897), new TimeSpan(0, 3, 0, 0, 0))
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 8, 29, 12, 22, 24, 923, DateTimeKind.Unspecified).AddTicks(6732), new TimeSpan(0, 3, 0, 0, 0))
                         });
                 });
 
@@ -1106,6 +1228,11 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<long?>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<int>("Duration")
                         .HasColumnType("int");
@@ -1151,167 +1278,162 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 1L,
                             AvailabilitySlotId = 1L,
-                            CreatedAt = new DateTime(2021, 2, 28, 9, 59, 54, 64, DateTimeKind.Unspecified).AddTicks(3687),
-                            CreatedBy = 4L,
-                            Duration = 52,
+                            CreatedAt = new DateTime(2020, 6, 15, 11, 55, 19, 331, DateTimeKind.Unspecified).AddTicks(2144),
+                            CreatedBy = 5L,
+                            Description = "doloremque",
+                            Duration = 19,
                             IsDeleted = false,
-                            LocationType = 0,
-                            MeetingLink = "http://karson.net",
+                            LocationType = 2,
+                            MeetingLink = "https://austyn.info",
                             Name = "ut",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 2, 20, 4, 33, 1, 519, DateTimeKind.Unspecified).AddTicks(471), new TimeSpan(0, 2, 0, 0, 0)),
-                            TeamId = 2L,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local)
+                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 18, 12, 38, 41, 576, DateTimeKind.Unspecified).AddTicks(6084), new TimeSpan(0, 2, 0, 0, 0)),
+                            TeamId = 4L,
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 2L,
                             AvailabilitySlotId = 2L,
-                            CreatedAt = new DateTime(2020, 2, 15, 17, 20, 37, 304, DateTimeKind.Unspecified).AddTicks(5765),
-                            CreatedBy = 2L,
-                            Duration = 46,
+                            CreatedAt = new DateTime(2020, 8, 1, 14, 28, 56, 205, DateTimeKind.Unspecified).AddTicks(1044),
+                            CreatedBy = 7L,
+                            Description = "impedit",
+                            Duration = 44,
                             IsDeleted = false,
-                            LocationType = 1,
-                            MeetingLink = "https://mariela.com",
-                            Name = "explicabo",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 7, 14, 14, 17, 50, 52, DateTimeKind.Unspecified).AddTicks(4850), new TimeSpan(0, 3, 0, 0, 0)),
-                            TeamId = 4L,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local)
+                            LocationType = 2,
+                            MeetingLink = "http://margret.org",
+                            Name = "deserunt",
+                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 26, 22, 1, 29, 391, DateTimeKind.Unspecified).AddTicks(4211), new TimeSpan(0, 3, 0, 0, 0)),
+                            TeamId = 9L,
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 3L,
                             AvailabilitySlotId = 3L,
-                            CreatedAt = new DateTime(2021, 5, 24, 10, 18, 7, 49, DateTimeKind.Unspecified).AddTicks(3480),
-                            CreatedBy = 9L,
-                            Duration = 14,
+                            CreatedAt = new DateTime(2021, 5, 7, 1, 31, 28, 26, DateTimeKind.Unspecified).AddTicks(3205),
+                            CreatedBy = 10L,
+                            Description = "Consequatur optio iste.",
+                            Duration = 15,
                             IsDeleted = false,
-                            LocationType = 2,
-                            MeetingLink = "http://maximilian.name",
-                            Name = "atque",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 12, 24, 8, 14, 34, 448, DateTimeKind.Unspecified).AddTicks(6785), new TimeSpan(0, 2, 0, 0, 0)),
-                            TeamId = 2L,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local)
+                            LocationType = 1,
+                            MeetingLink = "https://jessika.info",
+                            Name = "explicabo",
+                            StartTime = new DateTimeOffset(new DateTime(2023, 6, 30, 16, 41, 27, 426, DateTimeKind.Unspecified).AddTicks(6167), new TimeSpan(0, 3, 0, 0, 0)),
+                            TeamId = 4L,
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 4L,
                             AvailabilitySlotId = 4L,
-                            CreatedAt = new DateTime(2020, 2, 7, 23, 19, 36, 468, DateTimeKind.Unspecified).AddTicks(7065),
-                            CreatedBy = 2L,
-                            Duration = 52,
+                            CreatedAt = new DateTime(2020, 7, 15, 4, 5, 9, 977, DateTimeKind.Unspecified).AddTicks(5517),
+                            CreatedBy = 4L,
+                            Description = "id",
+                            Duration = 14,
                             IsDeleted = false,
-                            LocationType = 2,
-                            MeetingLink = "http://heath.name",
-                            Name = "qui",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 2, 12, 46, 35, 973, DateTimeKind.Unspecified).AddTicks(7639), new TimeSpan(0, 3, 0, 0, 0)),
-                            TeamId = 7L,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local)
+                            LocationType = 0,
+                            MeetingLink = "http://enola.info",
+                            Name = "et",
+                            StartTime = new DateTimeOffset(new DateTime(2023, 5, 11, 19, 49, 43, 701, DateTimeKind.Unspecified).AddTicks(3052), new TimeSpan(0, 3, 0, 0, 0)),
+                            TeamId = 1L,
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 5L,
                             AvailabilitySlotId = 5L,
-                            CreatedAt = new DateTime(2020, 2, 22, 16, 14, 10, 519, DateTimeKind.Unspecified).AddTicks(2388),
-                            CreatedBy = 1L,
-                            Duration = 27,
+                            CreatedAt = new DateTime(2020, 7, 18, 9, 43, 31, 951, DateTimeKind.Unspecified).AddTicks(1276),
+                            CreatedBy = 5L,
+                            Description = "quibusdam",
+                            Duration = 17,
                             IsDeleted = false,
                             LocationType = 0,
-                            MeetingLink = "https://alan.biz",
-                            Name = "quia",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 24, 8, 28, 39, 525, DateTimeKind.Unspecified).AddTicks(601), new TimeSpan(0, 3, 0, 0, 0)),
+                            MeetingLink = "http://christopher.net",
+                            Name = "qui",
+                            StartTime = new DateTimeOffset(new DateTime(2022, 12, 6, 23, 57, 21, 789, DateTimeKind.Unspecified).AddTicks(1841), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 8L,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 6L,
                             AvailabilitySlotId = 6L,
-                            CreatedAt = new DateTime(2020, 9, 7, 9, 56, 27, 842, DateTimeKind.Unspecified).AddTicks(5139),
-                            CreatedBy = 8L,
+                            CreatedAt = new DateTime(2020, 4, 18, 7, 5, 24, 18, DateTimeKind.Unspecified).AddTicks(9612),
+                            CreatedBy = 10L,
+                            Description = "Iusto atque ut est nesciunt non.",
                             Duration = 48,
                             IsDeleted = false,
                             LocationType = 0,
-                            MeetingLink = "http://dortha.name",
-                            Name = "qui",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 13, 5, 28, 10, 751, DateTimeKind.Unspecified).AddTicks(4506), new TimeSpan(0, 3, 0, 0, 0)),
-                            TeamId = 4L,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local)
+                            MeetingLink = "https://adrianna.name",
+                            Name = "doloribus",
+                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 24, 9, 6, 48, 830, DateTimeKind.Unspecified).AddTicks(9966), new TimeSpan(0, 3, 0, 0, 0)),
+                            TeamId = 3L,
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 7L,
                             AvailabilitySlotId = 7L,
-                            CreatedAt = new DateTime(2020, 9, 4, 1, 47, 58, 897, DateTimeKind.Unspecified).AddTicks(8324),
-                            CreatedBy = 10L,
-                            Duration = 31,
+                            CreatedAt = new DateTime(2019, 10, 18, 20, 48, 53, 800, DateTimeKind.Unspecified).AddTicks(6711),
+                            CreatedBy = 9L,
+                            Description = "Alias voluptate fugit. Impedit libero sunt modi si",
+                            Duration = 41,
                             IsDeleted = false,
-                            LocationType = 2,
-                            MeetingLink = "http://dimitri.name",
-                            Name = "voluptate",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 2, 21, 11, 12, 6, 801, DateTimeKind.Unspecified).AddTicks(3952), new TimeSpan(0, 2, 0, 0, 0)),
-                            TeamId = 2L,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local)
+                            LocationType = 0,
+                            MeetingLink = "https://coby.biz",
+                            Name = "sunt",
+                            StartTime = new DateTimeOffset(new DateTime(2022, 12, 1, 16, 19, 53, 427, DateTimeKind.Unspecified).AddTicks(1183), new TimeSpan(0, 2, 0, 0, 0)),
+                            TeamId = 1L,
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 8L,
                             AvailabilitySlotId = 8L,
-                            CreatedAt = new DateTime(2021, 5, 27, 4, 45, 13, 67, DateTimeKind.Unspecified).AddTicks(7571),
-                            CreatedBy = 1L,
-                            Duration = 56,
+                            CreatedAt = new DateTime(2019, 9, 20, 7, 13, 59, 255, DateTimeKind.Unspecified).AddTicks(5552),
+                            CreatedBy = 10L,
+                            Description = "Voluptatem quia iste.",
+                            Duration = 25,
                             IsDeleted = false,
-                            LocationType = 0,
-                            MeetingLink = "https://jules.com",
-                            Name = "nesciunt",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 5, 26, 1, 16, 39, 963, DateTimeKind.Unspecified).AddTicks(704), new TimeSpan(0, 3, 0, 0, 0)),
-                            TeamId = 3L,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local)
+                            LocationType = 1,
+                            MeetingLink = "https://abe.org",
+                            Name = "rerum",
+                            StartTime = new DateTimeOffset(new DateTime(2023, 6, 8, 22, 43, 35, 896, DateTimeKind.Unspecified).AddTicks(1863), new TimeSpan(0, 3, 0, 0, 0)),
+                            TeamId = 10L,
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 9L,
                             AvailabilitySlotId = 9L,
-                            CreatedAt = new DateTime(2020, 9, 24, 6, 10, 0, 75, DateTimeKind.Unspecified).AddTicks(7738),
-                            CreatedBy = 4L,
-                            Duration = 15,
+                            CreatedAt = new DateTime(2019, 8, 16, 0, 11, 59, 983, DateTimeKind.Unspecified).AddTicks(7435),
+                            CreatedBy = 7L,
+                            Description = "Sit sunt non accusamus qui ut.",
+                            Duration = 54,
                             IsDeleted = false,
-                            LocationType = 2,
-                            MeetingLink = "http://floy.net",
-                            Name = "fuga",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 8, 26, 18, 15, 43, 682, DateTimeKind.Unspecified).AddTicks(7981), new TimeSpan(0, 3, 0, 0, 0)),
-                            TeamId = 6L,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local)
+                            LocationType = 1,
+                            MeetingLink = "http://gwendolyn.net",
+                            Name = "nam",
+                            StartTime = new DateTimeOffset(new DateTime(2023, 8, 8, 3, 6, 40, 456, DateTimeKind.Unspecified).AddTicks(7372), new TimeSpan(0, 3, 0, 0, 0)),
+                            TeamId = 3L,
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 10L,
                             AvailabilitySlotId = 10L,
-                            CreatedAt = new DateTime(2021, 6, 19, 1, 47, 28, 792, DateTimeKind.Unspecified).AddTicks(1417),
-                            CreatedBy = 10L,
-                            Duration = 22,
+                            CreatedAt = new DateTime(2020, 5, 26, 8, 54, 35, 224, DateTimeKind.Unspecified).AddTicks(7095),
+                            CreatedBy = 1L,
+                            Description = "eius",
+                            Duration = 44,
                             IsDeleted = false,
                             LocationType = 0,
-                            MeetingLink = "http://loren.org",
-                            Name = "libero",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 8, 22, 23, 6, 23, 427, DateTimeKind.Unspecified).AddTicks(2057), new TimeSpan(0, 3, 0, 0, 0)),
-                            TeamId = 6L,
-                            UpdatedAt = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Local)
+                            MeetingLink = "http://shaylee.info",
+                            Name = "est",
+                            StartTime = new DateTimeOffset(new DateTime(2023, 2, 18, 1, 42, 55, 420, DateTimeKind.Unspecified).AddTicks(5088), new TimeSpan(0, 2, 0, 0, 0)),
+                            TeamId = 8L,
+                            UpdatedAt = new DateTime(2022, 8, 28, 0, 0, 0, 0, DateTimeKind.Local)
                         });
-                });
-
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.MeetingMember", b =>
-                {
-                    b.Property<long>("TeamMemberId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("MeetingId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("TeamMemberId", "MeetingId");
-
-                    b.HasIndex("MeetingId");
-
-                    b.ToTable("MeetingMembers");
                 });
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Question", b =>
@@ -1328,10 +1450,7 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsMandatory")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("QuestionText")
+                    b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
@@ -1345,267 +1464,73 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 3L,
-                            AvailabilitySlotId = 1L,
-                            IsDeleted = false,
-                            IsMandatory = false,
-                            QuestionText = "Doloremque consequatur eum.AAAAAAAAAAAAAAAAAAAAAAA"
-                        },
-                        new
-                        {
                             Id = 1L,
-                            AvailabilitySlotId = 1L,
+                            AvailabilitySlotId = 3L,
                             IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Name"
+                            Text = "doloremqueAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                         },
                         new
                         {
                             Id = 2L,
-                            AvailabilitySlotId = 1L,
+                            AvailabilitySlotId = 4L,
                             IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Email"
+                            Text = "Reprehenderit unde consequatur explicabo. Deserunt aut impedit aut quo. Soluta vitae atque dolores tempore debitis explicabo voluptas. Consequatur optio iste."
                         },
                         new
                         {
-                            Id = 6L,
-                            AvailabilitySlotId = 2L,
+                            Id = 3L,
+                            AvailabilitySlotId = 4L,
                             IsDeleted = false,
-                            IsMandatory = false,
-                            QuestionText = "Doloremque consequatur eum.AAAAAAAAAAAAAAAAAAAAAAA"
+                            Text = "Quo aut quisquam.\nQuam et quia id veritatis ab.\nBeatae cumque quas voluptatem quia.\nQui velit quibusdam placeat magni et.\nAd et voluptate amet.\nDoloribus esse quos iusto atque ut est nesciunt."
                         },
                         new
                         {
                             Id = 4L,
-                            AvailabilitySlotId = 2L,
+                            AvailabilitySlotId = 3L,
                             IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Name"
+                            Text = "accusantiumAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                         },
                         new
                         {
                             Id = 5L,
-                            AvailabilitySlotId = 2L,
+                            AvailabilitySlotId = 10L,
                             IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Email"
+                            Text = "Cupiditate perferendis fuga sunt maiores autem odit alias.\nFugit ea impedit libero sunt modi."
                         },
                         new
                         {
-                            Id = 9L,
-                            AvailabilitySlotId = 3L,
+                            Id = 6L,
+                            AvailabilitySlotId = 10L,
                             IsDeleted = false,
-                            IsMandatory = false,
-                            QuestionText = "Doloremque consequatur eum.AAAAAAAAAAAAAAAAAAAAAAA"
+                            Text = "doloribusAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                         },
                         new
                         {
                             Id = 7L,
-                            AvailabilitySlotId = 3L,
+                            AvailabilitySlotId = 1L,
                             IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Name"
+                            Text = "harumAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                         },
                         new
                         {
                             Id = 8L,
-                            AvailabilitySlotId = 3L,
+                            AvailabilitySlotId = 9L,
                             IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Email"
+                            Text = "Esse neque labore dolor.\nSaepe alias inventore aut.\nQuaerat debitis quo velit voluptatem rerum esse vitae."
                         },
                         new
                         {
-                            Id = 12L,
+                            Id = 9L,
                             AvailabilitySlotId = 4L,
                             IsDeleted = false,
-                            IsMandatory = false,
-                            QuestionText = "Doloremque consequatur eum.AAAAAAAAAAAAAAAAAAAAAAA"
+                            Text = "isteAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                         },
                         new
                         {
                             Id = 10L,
-                            AvailabilitySlotId = 4L,
-                            IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Name"
-                        },
-                        new
-                        {
-                            Id = 11L,
-                            AvailabilitySlotId = 4L,
-                            IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Email"
-                        },
-                        new
-                        {
-                            Id = 15L,
-                            AvailabilitySlotId = 5L,
-                            IsDeleted = false,
-                            IsMandatory = false,
-                            QuestionText = "Doloremque consequatur eum.AAAAAAAAAAAAAAAAAAAAAAA"
-                        },
-                        new
-                        {
-                            Id = 16L,
-                            AvailabilitySlotId = 5L,
-                            IsDeleted = false,
-                            IsMandatory = false,
-                            QuestionText = "Reprehenderit unde consequatur explicabo.AAAAAAAAA"
-                        },
-                        new
-                        {
-                            Id = 13L,
-                            AvailabilitySlotId = 5L,
-                            IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Name"
-                        },
-                        new
-                        {
-                            Id = 14L,
-                            AvailabilitySlotId = 5L,
-                            IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Email"
-                        },
-                        new
-                        {
-                            Id = 19L,
-                            AvailabilitySlotId = 6L,
-                            IsDeleted = false,
-                            IsMandatory = false,
-                            QuestionText = "Doloremque consequatur eum.AAAAAAAAAAAAAAAAAAAAAAA"
-                        },
-                        new
-                        {
-                            Id = 17L,
-                            AvailabilitySlotId = 6L,
-                            IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Name"
-                        },
-                        new
-                        {
-                            Id = 18L,
-                            AvailabilitySlotId = 6L,
-                            IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Email"
-                        },
-                        new
-                        {
-                            Id = 22L,
-                            AvailabilitySlotId = 7L,
-                            IsDeleted = false,
-                            IsMandatory = false,
-                            QuestionText = "Doloremque consequatur eum.AAAAAAAAAAAAAAAAAAAAAAA"
-                        },
-                        new
-                        {
-                            Id = 20L,
-                            AvailabilitySlotId = 7L,
-                            IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Name"
-                        },
-                        new
-                        {
-                            Id = 21L,
-                            AvailabilitySlotId = 7L,
-                            IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Email"
-                        },
-                        new
-                        {
-                            Id = 25L,
-                            AvailabilitySlotId = 8L,
-                            IsDeleted = false,
-                            IsMandatory = false,
-                            QuestionText = "Doloremque consequatur eum.AAAAAAAAAAAAAAAAAAAAAAA"
-                        },
-                        new
-                        {
-                            Id = 23L,
-                            AvailabilitySlotId = 8L,
-                            IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Name"
-                        },
-                        new
-                        {
-                            Id = 24L,
-                            AvailabilitySlotId = 8L,
-                            IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Email"
-                        },
-                        new
-                        {
-                            Id = 28L,
-                            AvailabilitySlotId = 9L,
-                            IsDeleted = false,
-                            IsMandatory = false,
-                            QuestionText = "Doloremque consequatur eum.AAAAAAAAAAAAAAAAAAAAAAA"
-                        },
-                        new
-                        {
-                            Id = 29L,
-                            AvailabilitySlotId = 9L,
-                            IsDeleted = false,
-                            IsMandatory = false,
-                            QuestionText = "Reprehenderit unde consequatur explicabo.AAAAAAAAA"
-                        },
-                        new
-                        {
-                            Id = 26L,
-                            AvailabilitySlotId = 9L,
-                            IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Name"
-                        },
-                        new
-                        {
-                            Id = 27L,
-                            AvailabilitySlotId = 9L,
-                            IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Email"
-                        },
-                        new
-                        {
-                            Id = 32L,
                             AvailabilitySlotId = 10L,
                             IsDeleted = false,
-                            IsMandatory = false,
-                            QuestionText = "Doloremque consequatur eum.AAAAAAAAAAAAAAAAAAAAAAA"
-                        },
-                        new
-                        {
-                            Id = 33L,
-                            AvailabilitySlotId = 10L,
-                            IsDeleted = false,
-                            IsMandatory = false,
-                            QuestionText = "Reprehenderit unde consequatur explicabo.AAAAAAAAA"
-                        },
-                        new
-                        {
-                            Id = 30L,
-                            AvailabilitySlotId = 10L,
-                            IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Name"
-                        },
-                        new
-                        {
-                            Id = 31L,
-                            AvailabilitySlotId = 10L,
-                            IsDeleted = false,
-                            IsMandatory = true,
-                            QuestionText = "Email"
+                            Text = "Dolor repudiandae nihil alias asperiores.\nQuis voluptate sit sunt non accusamus qui ut.\nEa et et rerum.\nIpsa voluptate temporibus est sit eius dolor quia explicabo nobis.\nSunt dolore rerum reprehenderit reiciendis ullam.\nVel sapiente necessitatibus."
                         });
                 });
 
@@ -1673,7 +1598,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            AvailabilitySlotId = 0L,
+                            AvailabilitySlotId = 1L,
                             IsDeleted = false,
                             TimeZone = -300,
                             WithTeamMembers = true
@@ -1681,7 +1606,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 2L,
-                            AvailabilitySlotId = 0L,
+                            AvailabilitySlotId = 2L,
                             IsDeleted = false,
                             TimeZone = -660,
                             WithTeamMembers = true
@@ -1689,7 +1614,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 3L,
-                            AvailabilitySlotId = 0L,
+                            AvailabilitySlotId = 3L,
                             IsDeleted = false,
                             TimeZone = 480,
                             WithTeamMembers = true
@@ -1697,7 +1622,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 4L,
-                            AvailabilitySlotId = 0L,
+                            AvailabilitySlotId = 4L,
                             IsDeleted = false,
                             TimeZone = -420,
                             WithTeamMembers = true
@@ -1705,7 +1630,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 5L,
-                            AvailabilitySlotId = 0L,
+                            AvailabilitySlotId = 5L,
                             IsDeleted = false,
                             TimeZone = 60,
                             WithTeamMembers = false
@@ -1713,7 +1638,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 6L,
-                            AvailabilitySlotId = 0L,
+                            AvailabilitySlotId = 6L,
                             IsDeleted = false,
                             TimeZone = -540,
                             WithTeamMembers = true
@@ -1721,7 +1646,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 7L,
-                            AvailabilitySlotId = 0L,
+                            AvailabilitySlotId = 7L,
                             IsDeleted = false,
                             TimeZone = 120,
                             WithTeamMembers = true
@@ -1729,7 +1654,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 8L,
-                            AvailabilitySlotId = 0L,
+                            AvailabilitySlotId = 8L,
                             IsDeleted = false,
                             TimeZone = 300,
                             WithTeamMembers = false
@@ -1737,7 +1662,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 9L,
-                            AvailabilitySlotId = 0L,
+                            AvailabilitySlotId = 9L,
                             IsDeleted = false,
                             TimeZone = 300,
                             WithTeamMembers = false
@@ -1745,7 +1670,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 10L,
-                            AvailabilitySlotId = 0L,
+                            AvailabilitySlotId = 10L,
                             IsDeleted = false,
                             TimeZone = 240,
                             WithTeamMembers = true
@@ -2495,6 +2420,9 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
+                    b.Property<long>("EventId")
+                        .HasColumnType("bigint");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -2507,16 +2435,13 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<long>("ScheduleId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("SlotId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("EventId");
 
                     b.HasIndex("MemberId");
 
                     b.HasIndex("ScheduleId");
-
-                    b.HasIndex("SlotId");
 
                     b.ToTable("SlotMembers");
 
@@ -2524,92 +2449,92 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 1L,
+                            EventId = 1L,
                             IsDeleted = false,
                             MemberId = 1L,
                             Priority = 3,
-                            ScheduleId = 1L,
-                            SlotId = 1L
+                            ScheduleId = 1L
                         },
                         new
                         {
                             Id = 2L,
+                            EventId = 2L,
                             IsDeleted = false,
                             MemberId = 2L,
                             Priority = 2,
-                            ScheduleId = 2L,
-                            SlotId = 2L
+                            ScheduleId = 2L
                         },
                         new
                         {
                             Id = 3L,
+                            EventId = 3L,
                             IsDeleted = false,
                             MemberId = 3L,
                             Priority = 1,
-                            ScheduleId = 3L,
-                            SlotId = 3L
+                            ScheduleId = 3L
                         },
                         new
                         {
                             Id = 4L,
+                            EventId = 4L,
                             IsDeleted = false,
                             MemberId = 4L,
                             Priority = 4,
-                            ScheduleId = 4L,
-                            SlotId = 4L
+                            ScheduleId = 4L
                         },
                         new
                         {
                             Id = 5L,
+                            EventId = 5L,
                             IsDeleted = false,
                             MemberId = 5L,
                             Priority = 9,
-                            ScheduleId = 5L,
-                            SlotId = 5L
+                            ScheduleId = 5L
                         },
                         new
                         {
                             Id = 6L,
+                            EventId = 6L,
                             IsDeleted = false,
                             MemberId = 6L,
                             Priority = 5,
-                            ScheduleId = 6L,
-                            SlotId = 6L
+                            ScheduleId = 6L
                         },
                         new
                         {
                             Id = 7L,
+                            EventId = 7L,
                             IsDeleted = false,
                             MemberId = 7L,
                             Priority = 2,
-                            ScheduleId = 7L,
-                            SlotId = 7L
+                            ScheduleId = 7L
                         },
                         new
                         {
                             Id = 8L,
+                            EventId = 8L,
                             IsDeleted = false,
                             MemberId = 8L,
                             Priority = 4,
-                            ScheduleId = 8L,
-                            SlotId = 8L
+                            ScheduleId = 8L
                         },
                         new
                         {
                             Id = 9L,
+                            EventId = 9L,
                             IsDeleted = false,
                             MemberId = 9L,
                             Priority = 6,
-                            ScheduleId = 9L,
-                            SlotId = 9L
+                            ScheduleId = 9L
                         },
                         new
                         {
                             Id = 10L,
+                            EventId = 10L,
                             IsDeleted = false,
                             MemberId = 10L,
                             Priority = 9,
-                            ScheduleId = 10L,
-                            SlotId = 10L
+                            ScheduleId = 10L
                         });
                 });
 
@@ -3095,6 +3020,104 @@ namespace EasyMeets.Core.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.UserSlot", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("AvailabilitySlotId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AvailabilitySlotId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserSlot");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            AvailabilitySlotId = 1L,
+                            IsDeleted = false,
+                            UserId = 1L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            AvailabilitySlotId = 2L,
+                            IsDeleted = false,
+                            UserId = 2L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            AvailabilitySlotId = 3L,
+                            IsDeleted = false,
+                            UserId = 3L
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            AvailabilitySlotId = 4L,
+                            IsDeleted = false,
+                            UserId = 4L
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            AvailabilitySlotId = 5L,
+                            IsDeleted = false,
+                            UserId = 5L
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            AvailabilitySlotId = 6L,
+                            IsDeleted = false,
+                            UserId = 6L
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            AvailabilitySlotId = 7L,
+                            IsDeleted = false,
+                            UserId = 7L
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            AvailabilitySlotId = 8L,
+                            IsDeleted = false,
+                            UserId = 8L
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            AvailabilitySlotId = 9L,
+                            IsDeleted = false,
+                            UserId = 9L
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            AvailabilitySlotId = 10L,
+                            IsDeleted = false,
+                            UserId = 10L
+                        });
+                });
+
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.AdvancedSlotSettings", b =>
                 {
                     b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
@@ -3161,6 +3184,17 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Navigation("Team");
                 });
 
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.EmailTemplate", b =>
+                {
+                    b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
+                        .WithMany("EmailTemplates")
+                        .HasForeignKey("AvailabilitySlotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AvailabilitySlot");
+                });
+
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ExternalAttendee", b =>
                 {
                     b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
@@ -3169,15 +3203,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EasyMeets.Core.DAL.Entities.Meeting", "Meeting")
-                        .WithMany("ExternalAttendees")
-                        .HasForeignKey("MeetingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("AvailabilitySlot");
-
-                    b.Navigation("Meeting");
                 });
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ExternalAttendeeAvailability", b =>
@@ -3217,25 +3243,6 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Navigation("Team");
                 });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.MeetingMember", b =>
-                {
-                    b.HasOne("EasyMeets.Core.DAL.Entities.Meeting", "Meeting")
-                        .WithMany("MeetingMembers")
-                        .HasForeignKey("MeetingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EasyMeets.Core.DAL.Entities.TeamMember", "TeamMember")
-                        .WithMany("MeetingMembers")
-                        .HasForeignKey("TeamMemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Meeting");
-
-                    b.Navigation("TeamMember");
-                });
-
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Question", b =>
                 {
                     b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
@@ -3271,6 +3278,12 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.SlotMember", b =>
                 {
+                    b.HasOne("EasyMeets.Core.DAL.Entities.Meeting", "Event")
+                        .WithMany("SlotMembers")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EasyMeets.Core.DAL.Entities.User", "User")
                         .WithMany("SlotMembers")
                         .HasForeignKey("MemberId")
@@ -3283,13 +3296,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
-                        .WithMany("SlotMembers")
-                        .HasForeignKey("SlotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AvailabilitySlot");
+                    b.Navigation("Event");
 
                     b.Navigation("Schedule");
 
@@ -3315,20 +3322,41 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.UserSlot", b =>
+                {
+                    b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
+                        .WithMany("Members")
+                        .HasForeignKey("AvailabilitySlotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EasyMeets.Core.DAL.Entities.User", "User")
+                        .WithMany("Slots")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AvailabilitySlot");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.AvailabilitySlot", b =>
                 {
                     b.Navigation("AdvancedSlotSettings");
+
+                    b.Navigation("EmailTemplates");
 
                     b.Navigation("ExternalAttendees");
 
                     b.Navigation("Meeting");
 
+                    b.Navigation("Members");
+
                     b.Navigation("Questions");
 
                     b.Navigation("Schedule")
                         .IsRequired();
-
-                    b.Navigation("SlotMembers");
                 });
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Calendar", b =>
@@ -3343,9 +3371,7 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Meeting", b =>
                 {
-                    b.Navigation("ExternalAttendees");
-
-                    b.Navigation("MeetingMembers");
+                    b.Navigation("SlotMembers");
                 });
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Schedule", b =>
@@ -3368,11 +3394,6 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Navigation("VisibleCalendars");
                 });
 
-            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.TeamMember", b =>
-                {
-                    b.Navigation("MeetingMembers");
-                });
-
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.User", b =>
                 {
                     b.Navigation("Calendars");
@@ -3382,6 +3403,8 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Navigation("CreatedSlots");
 
                     b.Navigation("SlotMembers");
+
+                    b.Navigation("Slots");
 
                     b.Navigation("TeamMembers");
                 });
