@@ -1,0 +1,78 @@
+@import '../../../../../styles/color-variables'
+@import '../../../../../styles/screen-variables'
+
+$container-padding-top-bottom: 33px
+$question-input-width: 337px
+
+.bold
+    font-weight: 700
+
+.outside-label
+    margin-bottom: 20px
+
+.flex
+    display: flex
+
+.flex-col
+    display: flex
+    flex-direction: column
+
+.cross-axis-center
+    align-items: center
+
+.mat-label,
+.mat-input
+    font-size: 14px
+
+.color-dark-grey
+    color: $dark-gray
+
+.container
+    padding: $container-padding-top-bottom 47px
+    @media screen and (max-width: $tablet-min-width)
+        padding: $container-padding-top-bottom 20px
+    @media screen and (max-width: $phone-min-width)
+        padding: $container-padding-top-bottom 14px
+
+.list-item-wrapper
+    padding-bottom: 20px
+
+.question-index
+    margin-right: 17px
+
+.question-input
+    width: 100%
+    min-width: 0
+    max-width: $question-input-width
+
+.question-mandatory
+    .question-index
+        color: $light-gray
+    .question-input
+        background-color: $light-gray
+
+.optional-questions-wrapper
+    padding-left: 22px
+    @media screen and (max-width: $tablet-min-width)
+        padding-left: 0
+    .list-item-wrapper .question-index
+        cursor: ns-resize
+
+.questions-divider
+    margin-bottom: 20px
+
+.plus-sign-btn
+    color: $dark-gray
+    .mat-icon
+        scale: 0.8
+
+.cdk-drag-placeholder
+    opacity: 0
+
+.cdk-drag-animating
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)
+
+.cdk-drop-list-dragging
+    cursor: ns-resize
+    .cdk-drag:not(.cdk-drag-placeholder)
+        transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)
