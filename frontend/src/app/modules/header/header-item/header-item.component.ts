@@ -37,7 +37,12 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
                 this.teamService.getCurrentUserTeams()
                     .subscribe(teams => {
                         this.teams = teams;
-                        this.currentTeam = this.teams.find(team => team.id === currentTeamId);
+
+                        if (!currentTeamId && teams.length) {
+                            this.teamService.emitCurrentTeamChange(teams[0].id);
+                        } else {
+                            this.currentTeam = this.teams.find(team => team.id === currentTeamId);
+                        }
                     });
             });
 

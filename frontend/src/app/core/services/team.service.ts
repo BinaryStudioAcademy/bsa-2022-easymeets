@@ -21,14 +21,8 @@ export class TeamService {
 
     public currentTeamEmitted$ = this.currentTeamSource.asObservable();
 
-    constructor(private httpService: HttpInternalService) {
-        this.getCurrentUserTeams()
-            .subscribe(teams => {
-                if (teams.length) {
-                    this.emitCurrentTeamChange(teams[0].id);
-                }
-            });
-    }
+    // eslint-disable-next-line no-empty-function
+    constructor(private httpService: HttpInternalService) {}
 
     public emitTeamStateChange(teamId: number, teamStateChangeActionEnum: TeamStateChangeActionEnum) {
         this.emitTeamStateChangeSource.next({ teamId, action: teamStateChangeActionEnum });
