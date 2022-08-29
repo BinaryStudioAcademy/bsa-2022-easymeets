@@ -12,13 +12,9 @@ import { ISaveConfirmationEmailDetails } from '@core/models/save-availability-sl
 export class NotificationEmailsComponent {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
-        this.currentSetting = this.slot?.emailTemplateSettings?.find((obj) => obj.type === TemplateType.Confirmation);
-        this.settings = this.currentSetting ?? {
-            allowToSend: false,
-            emailSubject: this._confirmationSubject,
-            emailBody: this._body,
-            type: TemplateType.Confirmation,
-        };
+        this.settings =
+            this.slot?.emailTemplateSettings?.find((obj) => obj.type === TemplateType.Confirmation) ??
+            this._defaultSettings;
     }
 
     private _confirmationSubject = 'Confirmation Email';
@@ -31,6 +27,13 @@ export class NotificationEmailsComponent {
 
     private _body = `Hi {Invitee Full Name} \r\nYou {Event Name} with {My Name} 
     at {Event Time} on {Event Date} is scheduled\r\n{Event Description}\r\n{Location}\r\n{Questions and Answers}`;
+
+    private _defaultSettings: ISaveConfirmationEmailDetails = {
+        allowToSend: false,
+        type: TemplateType.Confirmation,
+        emailBody: this._body,
+        emailSubject: this._confirmationSubject,
+    };
 
     public slot?: IAvailabilitySlot;
 
@@ -51,23 +54,25 @@ export class NotificationEmailsComponent {
         switch (path) {
             case 'confirmation':
                 this.settings.type = TemplateType.Confirmation;
+                this._defaultSettings.type = TemplateType.Confirmation;
                 break;
             case 'cancellation':
                 this.settings.type = TemplateType.Cancellation;
+                this._defaultSettings.type = TemplateType.Cancellation;
                 break;
             case 'reminders':
                 this.settings.type = TemplateType.Reminders;
+                this._defaultSettings.type = TemplateType.Reminders;
                 break;
             case 'follow-up':
-                this.settings.type = TemplateType.Reminders;
+                this.settings.type = TemplateType.FollowUp;
+                this._defaultSettings.type = TemplateType.FollowUp;
                 break;
             default:
                 break;
         }
         this.activeTab = path;
         this.currentSetting = this.slot?.emailTemplateSettings?.find((obj) => obj.type === this.settings.type);
-        this.settings.allowToSend = this.currentSetting?.allowToSend ?? false;
-        this.settings.emailSubject = this.currentSetting?.emailSubject ?? this._confirmationSubject;
-        this.settings.emailBody = this.currentSetting?.emailBody ?? this._body;
+        this.settings = this.currentSetting ?? this._defaultSettings;
     }
 }
