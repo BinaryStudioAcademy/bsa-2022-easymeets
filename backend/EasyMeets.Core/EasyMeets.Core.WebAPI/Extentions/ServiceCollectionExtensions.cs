@@ -31,9 +31,10 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddTransient<ICalendarsService, CalendarsService>();
             services.AddTransient<IMeetingService, MeetingService>();
             services.AddTransient<ITeamService, TeamService>();
+            services.AddTransient<IGoogleOAuthService, GoogleOAuthService>();
             services.AddTransient<IZoomService, ZoomService>();
-            
             services.AddHttpClient<IZoomService, ZoomService>();
+
         }
 
         public static void AddAutoMapper(this IServiceCollection services)

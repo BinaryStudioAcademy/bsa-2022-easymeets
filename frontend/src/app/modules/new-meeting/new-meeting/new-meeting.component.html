@@ -41,7 +41,7 @@
                             <mat-select formControlName="unitOfTime" class="select-input unit-of-time"
                                 (selectionChange)="customDurationChanged(meetingForm)">
                                 <mat-option *ngFor="let unit of unitOfTime" [value]="unit">
-                                    {{unitOfTimeLabelMapping[unit]}}
+                                    {{unit}}
                                 </mat-option>
                             </mat-select>
                         </div>
@@ -56,7 +56,7 @@
                         <p class="location-label">Location</p>
                         <mat-select formControlName="location" class="select-input">
                             <mat-option *ngFor="let location of locations" [value]="location">
-                                {{locationTypeLabelMapping[location]}}
+                                {{location}}
                             </mat-option>
                         </mat-select>
                     </div>
@@ -118,7 +118,7 @@
                                     formControlName="mainContainerCustomTime">
                                 <mat-select formControlName="mainContainerUnitOfTime" class="select-input unit-of-time">
                                     <mat-option *ngFor="let unit of unitOfTime" [value]="unit">
-                                        {{unitOfTimeLabelMapping[unit]}}
+                                        {{unit}}
                                     </mat-option>
                                 </mat-select>
                             </div>

@@ -64,11 +64,12 @@ export class EditAvailabilityPageComponent extends BaseComponent implements OnDe
             : null;
         const updateAvailability: ISaveAvailability = {
             generalDetails: this.newAvailabilityComponent.generalComponent.settings,
-            eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
+            advancedSettings,
+            eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
+            questions: this.newAvailabilityComponent.questionsComponent.questions,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
-            advancedSettings,
         };
 
         this.http

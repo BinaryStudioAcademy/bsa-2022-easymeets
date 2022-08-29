@@ -1,5 +1,5 @@
 export enum LocationType {
-    Zoom,
-    GoogleMeet,
-    Office
+    Zoom = 'Zoom',
+    GoogleMeet = 'GoogleMeet',
+    Office = 'Office'
 }

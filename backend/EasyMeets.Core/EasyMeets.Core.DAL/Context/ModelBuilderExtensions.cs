@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using Bogus.Extensions;
 using EasyMeets.Core.Common.Enums;
+using EasyMeets.Core.DAL.Context.EntityConfigurations;
 using EasyMeets.Core.DAL.Entities;
 using EasyMeets.Core.DAL.Entities.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -36,13 +37,15 @@ namespace EasyMeets.Core.DAL.Context
 
         public static void Seed(this ModelBuilder modelBuilder)
         {
+            var availabilitySlots = GenerateAvailabilitySlots();
+
             modelBuilder.Entity<User>().HasData(GenerateUsers());
             modelBuilder.Entity<Team>().HasData(GenerateTeams());
             modelBuilder.Entity<TeamMember>().HasData(GenerateTeamMembers());
             modelBuilder.Entity<Meeting>().HasData(GenerateMeetings());
             modelBuilder.Entity<AdvancedSlotSettings>().HasData(GenerateSlotSettingsList());
-            modelBuilder.Entity<AvailabilitySlot>().HasData(GenerateAvailabilitySlots());
-            modelBuilder.Entity<Question>().HasData(GenerateQuestions());
+            modelBuilder.Entity<AvailabilitySlot>().HasData(availabilitySlots);
+            modelBuilder.Entity<Question>().HasData(GenerateQuestions(availabilitySlots));
             modelBuilder.Entity<EmailTemplate>().HasData(GenerateEmailTemplates());
             modelBuilder.Entity<Calendar>().HasData(GenerateCalendars());
             modelBuilder.Entity<SlotMember>().HasData(GenerateSlotMembers());
@@ -115,7 +118,7 @@ namespace EasyMeets.Core.DAL.Context
                 .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.AvailabilitySlotId, _ => slotId++)
-                .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50)) 
+                .RuleFor(u => u.Name, f => f.Lorem.Word().ClampLength(1, 50))
                 .RuleFor(u => u.TeamId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.LocationType, f => f.PickRandom<LocationType>())
                 .RuleFor(u => u.CreatedBy, f => f.Random.Int(1, 10))
@@ -190,8 +193,8 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.CreatedBy, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.AccessToken, f => f.Lorem.Text().ClampLength(100, 255))
                 .RuleFor(u => u.RefreshToken, f => f.Lorem.Text().ClampLength(100, 255))
-                .RuleFor(u => u.ConnectedCalendar, f => f.Person.Email.ClampLength(max:50))
-                .RuleFor(u => u.Uid, f => f.Lorem.Text().ClampLength(max:50))
+                .RuleFor(u => u.ConnectedCalendar, f => f.Person.Email.ClampLength(max: 50))
+                .RuleFor(u => u.Uid, f => f.Lorem.Text().ClampLength(max: 50))
                 .RuleFor(u => u.CheckForConflicts, f => false)
                 .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
                 .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
@@ -199,17 +202,31 @@ namespace EasyMeets.Core.DAL.Context
                 .Generate(count);
         }
 
-        private static IList<Question> GenerateQuestions(int count = 10)
+        private static IList<Question> GenerateQuestions(ICollection<AvailabilitySlot> availabilitySlots, int minOptionalQuestions = 1, int maxOptionalQuestions = 3)
         {
+            var random = new Random(SeedNumber);
             var id = 1;
 
-            return new Faker<Question>()
-                .UseSeed(SeedNumber)
-                .RuleFor(u => u.Id, f => id++)
-                .RuleFor(u => u.AvailabilitySlotId, f => f.Random.Int(1, 10))
-                .RuleFor(u => u.QuestionText, f => f.Lorem.Text().ClampLength(50, 300))
-                .RuleFor(u => u.IsDeleted, f => false)
-                .Generate(count);
+            return availabilitySlots.SelectMany(s =>
+            {
+                var mandatoryQuestions = new List<Question>()
+                {
+                    new() { Id = id++, QuestionText = "Name", AvailabilitySlotId = s.Id, IsMandatory = true, IsDeleted = false },
+                    new() { Id = id++, QuestionText = "Email", AvailabilitySlotId = s.Id, IsMandatory = true, IsDeleted = false },
+                };
+
+                var questions = new Faker<Question>()
+                    .UseSeed(SeedNumber)
+                    .RuleFor(u => u.Id, f => id++)
+                    .RuleFor(u => u.QuestionText, f => f.Lorem.Text().ClampLength(50, 300))
+                    .RuleFor(u => u.AvailabilitySlotId, f => s.Id)
+                    .RuleFor(u => u.IsMandatory, f => false)
+                    .RuleFor(u => u.IsDeleted, f => false)
+                    .Generate(random.Next(minOptionalQuestions, maxOptionalQuestions));
+                questions.AddRange(mandatoryQuestions);
+
+                return questions;
+            }).ToList();
         }
 
         private static IList<EmailTemplate> GenerateEmailTemplates(int count = 10)
@@ -234,7 +251,7 @@ namespace EasyMeets.Core.DAL.Context
             var memberId = 1;
             var availabilitySlotId = 1;
             var scheduleId = 1;
-            
+
             return new Faker<SlotMember>()
                 .UseSeed(SeedNumber)
                 .RuleFor(u => u.Id, f => id++)
@@ -293,10 +310,10 @@ namespace EasyMeets.Core.DAL.Context
 
         private static IList<Schedule> GenerateSchedules(int count = 10)
         {
-            var id = 1; 
+            var id = 1;
             return new Faker<Schedule>()
                 .UseSeed(SeedNumber)
-                .RuleFor(s => s.Id, _ => id++) 
+                .RuleFor(s => s.Id, _ => id++)
                 .RuleFor(s => s.IsDeleted, _ => false)
                 .RuleFor(s => s.TimeZone, f => f.Random.Int(-11, 11) * 60)
                 .RuleFor(s => s.WithTeamMembers, f => f.Random.Bool())

@@ -27,13 +27,13 @@ export class NewAvailabilityPageComponent extends BaseComponent {
 
     @ViewChild(NewAvailabilityComponent) newAvailabilityComponent: NewAvailabilityComponent;
 
-    public currentTeamId?: number;
+    currentTeamId?: number;
 
-    public goToPage(pageName: string) {
+    goToPage(pageName: string) {
         this.router.navigate([`${pageName}`]);
     }
 
-    public saveChanges() {
+    saveChanges() {
         const newSlot = this.getNewAvailability();
 
         this.slotService
@@ -54,17 +54,16 @@ export class NewAvailabilityPageComponent extends BaseComponent {
         const general = this.newAvailabilityComponent.generalComponent.settings;
 
         general.isEnabled = this.newAvailabilityComponent.isActive;
-        const eventDetails = this.newAvailabilityComponent.eventDetailComponent.settings;
-        const templateSettings = this.newAvailabilityComponent.notificationEmailsComponent.settings;
         const advancedSettings = this.newAvailabilityComponent.generalComponent.addAdvanced
             ? this.newAvailabilityComponent.generalComponent.advancedSettings!
             : null;
         const newAvailability: ISaveAvailability = {
             generalDetails: general,
-            eventDetails,
             advancedSettings,
+            eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
+            questions: this.newAvailabilityComponent.questionsComponent.questions,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
-            templateSettings,
+            templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
             teamId: this.currentTeamId,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
         };

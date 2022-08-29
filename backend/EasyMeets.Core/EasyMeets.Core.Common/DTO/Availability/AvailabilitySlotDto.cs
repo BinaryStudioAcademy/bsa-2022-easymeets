@@ -18,6 +18,7 @@ namespace EasyMeets.Core.Common.DTO.Availability
         public long? AdvancedSlotSettingsId { get; set; }
         public AdvancedSlotSettingsDto? AdvancedSlotSettings { get; set; }
         public List<EmailTemplatesSettingsDto>? EmailTemplateSettings { get; set; }
+        public ICollection<QuestionDto> Questions { get; set; } = null!;
         public ScheduleDto Schedule { get; set; } = null!;
         public string WelcomeMessage { get; set; } = string.Empty;
         public string Link { get; set; } = string.Empty;

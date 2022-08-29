@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.DAL.Entities;
 using EasyMeets.Core.Common.Enums;
 
-
 namespace EasyMeets.Core.BLL.Services
 {
     public class AvailabilityService : BaseService, IAvailabilityService
@@ -97,6 +96,26 @@ namespace EasyMeets.Core.BLL.Services
                 entity.AdvancedSlotSettings = advancedSettings;
             }
 
+
+            if (slotDto.Questions is not null)
+            {
+                var notEmptyQuestions = slotDto.Questions.Where(q => !string.IsNullOrWhiteSpace(q.QuestionText));
+                var questionsToAdd = _mapper.Map<ICollection<Question>>(notEmptyQuestions,
+                    opts => opts.AfterMap((_, dest) =>
+                    {
+                        var i = 0;
+                        foreach (var question in dest)
+                        {
+                            question.Id = 0;
+                            question.Order = i++;
+                            question.AvailabilitySlot = entity;
+                        }
+                    }));
+                _context.Questions.AddRange(questionsToAdd);
+                entity.Questions = questionsToAdd;
+            }
+
+
             if (slotDto.TemplateSettings is not null)
             {
                 await SaveEmailTemplateConfig(slotDto.TemplateSettings, entity);
@@ -114,6 +133,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
+                .Include(slot => slot.Questions.OrderBy(q => q.Order))
                 .Include(slot => slot.Schedule)
                     .ThenInclude(s => s.ScheduleItems)
                 .Include(slot => slot.EmailTemplates)
@@ -131,17 +151,23 @@ namespace EasyMeets.Core.BLL.Services
         {
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
+                .Include(slot => slot.Questions)
                 .Include(slot => slot.Schedule)
                     .ThenInclude(s => s.ScheduleItems)
                 .Include(slot => slot.EmailTemplates)
                 .FirstOrDefaultAsync(slot => slot.Id == id);
 
-            _mapper.Map(updateAvailabilityDto, availabilitySlot);
-
             if (availabilitySlot is null)
             {
                 throw new KeyNotFoundException("Availability slot doesn't exist");
             }
+
+            if (updateAvailabilityDto is null)
+            {
+                throw new ArgumentNullException(nameof(updateAvailabilityDto), "Updated slot cannot be null.");
+            }
+
+            _mapper.Map(updateAvailabilityDto, availabilitySlot);
 
             if (updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is not null)
             {
@@ -158,7 +184,7 @@ namespace EasyMeets.Core.BLL.Services
             {
                 _context.Remove(availabilitySlot.AdvancedSlotSettings);
             }
-
+            
             if (updateAvailabilityDto.TemplateSettings is not null)
             {
                 var oldTemplate = await _context.EmailTemplates.FirstOrDefaultAsync(t => t.TemplateType == updateAvailabilityDto.TemplateSettings.Type
@@ -175,6 +201,23 @@ namespace EasyMeets.Core.BLL.Services
                 }
             }
 
+            if (updateAvailabilityDto.Questions is not null)
+            {
+                availabilitySlot.Questions.Clear();
+
+                var notEmptyQuestions = updateAvailabilityDto.Questions.Where(q => !string.IsNullOrWhiteSpace(q.QuestionText));
+                var questions = _mapper.Map<ICollection<Question>>(notEmptyQuestions);
+                var i = 0;
+                foreach (var question in questions)
+                {
+                    question.Id = 0;
+                    question.Order = i++;
+                    availabilitySlot.Questions.Add(question);
+                }
+
+                _context.Update(availabilitySlot);
+            }
+            
             _mapper.Map(updateAvailabilityDto.Schedule, availabilitySlot.Schedule);
 
             availabilitySlot.LocationType = updateAvailabilityDto.GeneralDetails!.LocationType;

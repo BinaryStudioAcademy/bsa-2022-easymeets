@@ -3,8 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
-import { LocationTypeToLabelMapping } from '@core/helpers/location-type-label-mapping';
-import { UnitOfTimeLabelMapping } from '@core/helpers/unit-of-time-label-mapping';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
@@ -33,13 +31,9 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public durations: IDuration[] = getDisplayDuration();
 
-    public locations = [LocationType.Zoom, LocationType.GoogleMeet, LocationType.Office];
+    public locations = Object.keys(LocationType);
 
-    public locationTypeLabelMapping = LocationTypeToLabelMapping;
-
-    public unitOfTime = [UnitOfTime.Min, UnitOfTime.Hour];
-
-    public unitOfTimeLabelMapping = UnitOfTimeLabelMapping;
+    public unitOfTime = Object.keys(UnitOfTime);
 
     public duration: number;
 
@@ -82,8 +76,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         this.patchFormValues();
         this.setValidation();
         this.getTeamMembersOfCurrentUser();
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        type locationType = keyof typeof LocationType;
     }
 
     public create(form: FormGroup) {

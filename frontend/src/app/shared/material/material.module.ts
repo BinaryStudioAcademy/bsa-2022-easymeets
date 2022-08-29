@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -44,6 +45,7 @@ export { MatSelectModule } from '@angular/material/select';
         MatSlideToggleModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        DragDropModule,
         MatAutocompleteModule,
     ],
     exports: [
@@ -68,6 +70,7 @@ export { MatSelectModule } from '@angular/material/select';
         MatDatepickerModule,
         MatNativeDateModule,
         MatAutocompleteModule,
+        DragDropModule,
     ],
 })
 export class MaterialModule {}

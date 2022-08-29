@@ -1,0 +1,41 @@
+<div class="container flex-col">
+    <mat-label class="outside-label bold">Questions for Booker</mat-label>
+    <!-- Mandatory questions -->
+    <ng-container *ngIf="mandatoryQuestionsExist">
+        <ng-container *ngFor="let question of questions; let i = index">
+            <ng-container *ngIf="question.isMandatory">
+                <div class="question-mandatory list-item-wrapper flex cross-axis-center">
+                    <mat-label class="question-index bold">{{ i + 1 }}.</mat-label>
+                    <mat-form-field class="question-input no-padding" appearance="outline">
+                        <input matInput type="text" [(ngModel)]="question.questionText" disabled />
+                    </mat-form-field>
+                </div>
+            </ng-container>
+        </ng-container>
+        <mat-divider class="questions-divider"></mat-divider>
+    </ng-container>
+    <!-- Optional questions -->
+    <div cdkDropList class="optional-questions-wrapper" (cdkDropListDropped)="drop($event)">
+        <ng-container *ngIf="optionalQuestionsExist">
+            <ng-container *ngFor="let question of questions; let i = index">
+                <ng-container *ngIf="!question.isMandatory">
+                    <div cdkDrag class="list-item-wrapper flex cross-axis-center">
+                        <mat-label class="question-index bold" cdkDragHandle>{{ i + 1 }}.</mat-label>
+                        <mat-form-field class="question-input no-padding" appearance="outline">
+                            <input matInput type="text" [(ngModel)]="question.questionText" />
+                        </mat-form-field>
+                        <button mat-icon-button class="color-dark-grey" (click)="deleteQuestion(question.order)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+        <button class="plus-sign-btn" mat-flat-button (click)="addNewQuestion()">
+            <div class="flex cross-axis-center">
+                <mat-icon>add</mat-icon>
+                <span class="bold">Add New question</span>
+            </div>
+        </button>
+    </div>
+</div>
