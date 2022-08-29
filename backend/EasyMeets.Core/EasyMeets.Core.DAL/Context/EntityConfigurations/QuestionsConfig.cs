@@ -8,6 +8,9 @@ public class QuestionsConfig  : IEntityTypeConfiguration<Question>
 {
     public void Configure(EntityTypeBuilder<Question> builder)
     {
+        builder.Property(q => q.Order)
+            .IsRequired();
+        
         builder.Property(q => q.QuestionText)
             .IsRequired()
             .HasMaxLength(300);

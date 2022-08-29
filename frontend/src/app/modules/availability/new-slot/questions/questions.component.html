@@ -24,7 +24,7 @@
                         <mat-form-field class="question-input no-padding" appearance="outline">
                             <input matInput type="text" [(ngModel)]="question.questionText" />
                         </mat-form-field>
-                        <button mat-icon-button class="color-dark-grey" (click)="deleteQuestion(question)">
+                        <button mat-icon-button class="color-dark-grey" (click)="deleteQuestion(question.id)">
                             <mat-icon>close</mat-icon>
                         </button>
                     </div>

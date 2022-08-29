@@ -93,8 +93,11 @@ namespace EasyMeets.Core.BLL.Services
                 var questionsToAdd = _mapper.Map<ICollection<Question>>(notEmptyQuestions,
                     opts => opts.AfterMap((_, dest) =>
                     {
+                        var i = 0;
                         foreach (var question in dest)
                         {
+                            question.Id = 0;
+                            question.Order = i++;
                             question.AvailabilitySlot = entity;
                         }
                     }));
@@ -117,7 +120,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
-                .Include(slot => slot.Questions)
+                .Include(slot => slot.Questions.OrderBy(q => q.Order))
                 .Include(slot => slot.Schedule)
                     .ThenInclude(s => s.ScheduleItems)
                 .FirstOrDefaultAsync(slot => slot.Id == id);
@@ -171,8 +174,11 @@ namespace EasyMeets.Core.BLL.Services
 
                 var notEmptyQuestions = updateAvailabilityDto.Questions.Where(q => !string.IsNullOrWhiteSpace(q.QuestionText));
                 var questions = _mapper.Map<ICollection<Question>>(notEmptyQuestions);
+                var i = 0;
                 foreach (var question in questions)
                 {
+                    question.Id = 0;
+                    question.Order = i++;
                     availabilitySlot.Questions.Add(question);
                 }
 

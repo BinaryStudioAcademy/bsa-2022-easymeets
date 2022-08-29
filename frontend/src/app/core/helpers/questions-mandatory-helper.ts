@@ -1,6 +1,6 @@
 import { IQuestion } from '@core/models/IQuestion';
 
 export const getLocalMandatoryQuestions = (): IQuestion[] => [
-    { questionText: 'Name', isMandatory: true },
-    { questionText: 'Email', isMandatory: true },
+    { id: 0, questionText: 'Name', isMandatory: true },
+    { id: 1, questionText: 'Email', isMandatory: true },
 ];

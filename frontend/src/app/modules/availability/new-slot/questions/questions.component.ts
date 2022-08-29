@@ -13,6 +13,9 @@ export class QuestionsComponent {
     @Input() set newSlot(slot: IAvailabilitySlot | undefined) {
         this.questions = slot?.questions ?? getLocalMandatoryQuestions();
         this.mandatoryQuestions = this.questions.filter((q) => q.isMandatory);
+        let biggestIdInQuestions = Math.max(...this.questions.map(q => q.id));
+        this.newQuestionId = biggestIdInQuestions + 1;
+        console.log(this.newQuestionId);
         this.onQuestionsArrayChange();
     }
 
@@ -23,6 +26,7 @@ export class QuestionsComponent {
     public optionalQuestionsExist: boolean = false;
 
     public mandatoryQuestionsExist: boolean = false;
+    private newQuestionId: number = 0;
 
     private onQuestionsArrayChange(): void {
         this.mandatoryQuestionsExist = this.questions.some((q) => q.isMandatory);
@@ -30,16 +34,12 @@ export class QuestionsComponent {
     }
 
     public addNewQuestion(): void {
-        this.questions.push({ questionText: '', isMandatory: false });
+        this.questions.push({ id: this.newQuestionId++, questionText: '', isMandatory: false });
         this.onQuestionsArrayChange();
     }
 
-    public deleteQuestion(question: IQuestion): void {
-        const index: number = this.questions.indexOf(question, 0);
-
-        if (index > -1) {
-            this.questions.splice(index, 1);
-        }
+    public deleteQuestion(questionId: number): void {
+        this.questions = this.questions.filter((q) => q.id !== questionId);
         this.onQuestionsArrayChange();
     }
 
