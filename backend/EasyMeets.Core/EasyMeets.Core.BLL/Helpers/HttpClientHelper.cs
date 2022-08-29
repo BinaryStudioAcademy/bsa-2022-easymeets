@@ -60,6 +60,6 @@ public static class HttpClientHelper
         }
 
         var result = JsonConvert.DeserializeObject<T>(resultJson);
-        return result;
+        return result!;
     }
 }
