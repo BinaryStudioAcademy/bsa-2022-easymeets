@@ -55,8 +55,8 @@
                     <div class="duration-container">
                         <p class="location-label">Location</p>
                         <mat-select formControlName="location" class="select-input">
-                            <mat-option *ngFor="let location of locationType | keyvalue" [value]="location.value">
-                                {{ location.value }}
+                            <mat-option *ngFor="let location of locations" [value]="location">
+                                {{locationTypeLabelMapping[location]}}
                             </mat-option>
                         </mat-select>
                     </div>

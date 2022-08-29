@@ -37,8 +37,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public locationTypeLabelMapping = LocationTypeToLabelMapping;
 
-    public locationType: typeof LocationType[keyof typeof LocationType];
-
     public unitOfTime = [UnitOfTime.Min, UnitOfTime.Hour];
 
     public unitOfTimeLabelMapping = UnitOfTimeLabelMapping;
