@@ -11,10 +11,11 @@ import { NgxMaskModule } from 'ngx-mask';
 import { ConfirmationWindowComponent } from './components/confirmation-window/confirmation-window.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive';
 
 @NgModule({
     imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, RouterModule, MatDialogModule, MatButtonModule, NgxMaskModule],
-    declarations: [LoadingSpinnerComponent, NotFoundComponent, ConfirmationWindowComponent],
+    declarations: [LoadingSpinnerComponent, NotFoundComponent, ConfirmationWindowComponent, HeaderLessTabsDirective],
     exports: [
         CommonModule,
         RouterModule,
@@ -25,6 +26,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
         NotFoundComponent,
         ConfirmationWindowComponent,
         NgxMaskModule,
+        HeaderLessTabsDirective,
     ],
 })
 export class SharedModule {

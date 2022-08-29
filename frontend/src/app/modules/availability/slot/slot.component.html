@@ -1,37 +1,14 @@
-<mat-card class="card-container" *ngIf="slot.isEnabled">
+<mat-card class="card-container active-card-container" *ngIf="slot.isEnabled">
     <div class="slot-content">
         <div class="slot-header">
-            <p>Availability slots for</p>
-            <mat-slide-toggle [checked]="slot.isEnabled" (change)="toggle($event)"></mat-slide-toggle>
-        </div>
-        <div class="time-options">
+            <p>Availability Slots for</p>
             <div>
-                <p>{{ slot.name }}</p>
-                <i *ngIf="slot.isVisible" class="fa-solid fa-eye-slash"></i>
-            </div>
-        </div>
-        <div class="meeting-details">
-            <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ LocationType[slot.locationType] }}</p>
-            <p *ngIf="!hasOwner">
-                {{ slot.size }} min, 1 of {{ slot.members.length }} members, {{ LocationType[slot.locationType] }}
-            </p>
-            <div class="avatar-list">
-                <div *ngFor="let member of slot.members">
-                    <img [src]="member.memberImage" class="avatar" />
-                </div>
-            </div>
-        </div>
-        <hr />
-        <div class="options">
-            <div class="link">
-                <img src="assets/copy_icon.png" class="icon" />
-                <a href="#">{{ slot.link }}</a>
-            </div>
-            <div>
-                <div>
+                <div class="drop-down-menu">
                     <button class="fas fa-ellipsis menu-icon" [matMenuTriggerFor]="menu"></button>
                     <mat-menu #menu="matMenu" class="drop-down-menu">
-                        <button mat-menu-item class="btn edit" (click)="goToPage('/availability/edit/'+slot.id)"><i class="fa-solid fa-pen"></i>Edit</button>
+                        <button mat-menu-item class="btn edit" (click)="goToPage('/availability/edit/' + slot.id)">
+                            <i class="fa-solid fa-pen"></i>Edit
+                        </button>
                         <button mat-menu-item class="btn share">
                             <i class="fa-solid fa-arrow-up-from-bracket"></i>Share
                         </button>
@@ -47,16 +24,12 @@
                 </div>
             </div>
         </div>
-    </div>
-</mat-card>
-<mat-card class="card-container card-container-disabled" *ngIf="!slot.isEnabled">
-    <div class="slot-content">
-        <div class="slot-header">
-            <p>Availability slots for</p>
-            <mat-slide-toggle [checked]="slot.isEnabled"></mat-slide-toggle>
-        </div>
+        <div class="color-line"></div>
         <div class="time-options">
-            <p>{{ slot.size }} min meeting</p>
+            <div>
+                <p>{{ slot.name }}</p>
+                <i *ngIf="slot.isVisible" class="fa-solid fa-eye-slash"></i>
+            </div>
         </div>
         <div class="meeting-details">
             <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ LocationType[slot.locationType] }}</p>
@@ -67,18 +40,73 @@
                 <div *ngFor="let member of slot.members">
                     <img [src]="member.memberImage" class="avatar" />
                 </div>
+                <img src="assets/header/avatar-icon.png" class="avatar" />
             </div>
         </div>
-        <hr />
         <div class="options">
             <div class="link">
                 <img src="assets/copy_icon.png" class="icon" />
                 <a href="#">{{ slot.link }}</a>
             </div>
+            <div class="toggle">
+                <mat-slide-toggle [checked]="slot.isEnabled" (change)="changeSlotActivityClick($event)">
+                </mat-slide-toggle>
+            </div>
+        </div>
+    </div>
+</mat-card>
+<mat-card class="card-container card-container-disabled" *ngIf="!slot.isEnabled">
+    <div class="slot-content">
+        <div class="slot-header">
+            <p>Availability Slots for</p>
             <div>
                 <div class="drop-down-menu">
-                    <button class="fas fa-ellipsis menu-icon"></button>
+                    <button class="fas fa-ellipsis menu-icon" [matMenuTriggerFor]="menu"></button>
+                    <mat-menu #menu="matMenu" class="drop-down-menu">
+                        <button mat-menu-item class="btn edit" (click)="goToPage('/availability/edit/' + slot.id)">
+                            <i class="fa-solid fa-pen"></i>Edit
+                        </button>
+                        <button mat-menu-item class="btn share">
+                            <i class="fa-solid fa-arrow-up-from-bracket"></i>Share
+                        </button>
+                        <button mat-menu-item class="btn bookings">
+                            <i class="fa-solid fa-calendar"></i>View bookings
+                        </button>
+                        <button mat-menu-item class="btn delete" (click)="deleteButtonClick()">
+                            <i class="fa-solid fa-trash"></i>Delete
+                        </button>
+                        <button mat-menu-item class="btn duplicate"><i class="fa-solid fa-clone"></i>Duplicate</button>
+                        <button mat-menu-item class="btn select"><i class="fa-solid fa-plus"></i>Select</button>
+                    </mat-menu>
                 </div>
+            </div>
+        </div>
+        <div class="color-line"></div>
+        <div class="time-options">
+            <div>
+                <p>{{ slot.name }}</p>
+            </div>
+        </div>
+        <div class="meeting-details">
+            <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ LocationType[slot.locationType] }}</p>
+            <p *ngIf="!hasOwner">
+                {{ slot.size }} min, 1 of {{ slot.members.length }} members, {{ LocationType[slot.locationType] }}
+            </p>
+            <div class="avatar-list">
+                <div *ngFor="let member of slot.members">
+                    <img [src]="member.memberImage" class="avatar" />
+                </div>
+                <img src="assets/header/avatar-icon.png" class="avatar" />
+            </div>
+        </div>
+        <div class="options">
+            <div class="link">
+                <img src="assets/copy_icon.png" class="icon" />
+                <a href="#">{{ slot.link }}</a>
+            </div>
+            <div class="toggle">
+                <mat-slide-toggle [checked]="slot.isEnabled" (change)="changeSlotActivityClick($event)">
+                </mat-slide-toggle>
             </div>
         </div>
     </div>

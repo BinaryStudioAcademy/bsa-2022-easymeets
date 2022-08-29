@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BaseComponent } from '@core/base/base.component';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 import { timeNumberRegex } from '@shared/constants/model-validation';
 
@@ -8,23 +9,23 @@ import { timeNumberRegex } from '@shared/constants/model-validation';
     templateUrl: './schedule-list-item.component.html',
     styleUrls: ['./schedule-list-item.component.sass'],
 })
-export class ScheduleListItemComponent implements OnInit {
-    @Input() public item: IScheduleItem;
+export class ScheduleListItemComponent extends BaseComponent implements OnInit {
+    @Input() item: IScheduleItem;
 
-    @Output() public itemChange: EventEmitter<IScheduleItem> = new EventEmitter<IScheduleItem>();
+    @Input() displayDay: string;
 
-    @Input() public displayDay: string;
+    @Input() itemChange: EventEmitter<void> = new EventEmitter();
 
-    public startValue: string;
+    startValue: string;
 
-    public endValue: string;
+    endValue: string;
 
-    public scheduleForm = new FormGroup({
-        startTime: new FormControl('16:00', [Validators.pattern(timeNumberRegex)]),
-        endTime: new FormControl('17:30', [Validators.pattern(timeNumberRegex)]),
+    scheduleForm = new FormGroup({
+        startTime: new FormControl('', [Validators.pattern(timeNumberRegex)]),
+        endTime: new FormControl('', [Validators.pattern(timeNumberRegex)]),
     });
 
-    public onDateChange($event: Event, isStart: boolean) {
+    onDateChange($event: Event, isStart: boolean) {
         const target = $event.target as HTMLInputElement;
         const dateValue = `${target.value}:00`;
 
@@ -36,13 +37,17 @@ export class ScheduleListItemComponent implements OnInit {
         this.onItemChange();
     }
 
-    public onItemChange() {
-        this.itemChange.emit(this.item);
+    onItemChange() {
+        this.itemChange.emit();
     }
 
     ngOnInit(): void {
-        this.startValue = this.item.start.substring(0, 5);
-        this.endValue = this.item.end.substring(0, 5);
+        this.itemChange
+            .pipe(this.untilThis)
+            .subscribe(() => {
+                this.updateTime();
+            });
+        this.updateTime();
     }
 
     get startTime() {
@@ -51,5 +56,14 @@ export class ScheduleListItemComponent implements OnInit {
 
     get endTime() {
         return this.scheduleForm.get('endTime');
+    }
+
+    private updateTime() {
+        this.scheduleForm.patchValue({
+            startTime: this.item.start.substring(0, 5),
+            endTime: this.item.end.substring(0, 5),
+        });
+        this.startValue = this.item.start.substring(0, 5);
+        this.endValue = this.item.end.substring(0, 5);
     }
 }

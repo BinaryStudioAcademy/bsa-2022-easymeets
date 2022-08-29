@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyMeets.Emailer", "EasyMeets.Emailer\EasyMeets.Emailer.WebAPI\EasyMeets.Emailer.WebAPI.csproj", "{1A55A428-0BC0-4C81-87CA-01A72E7FBD99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Emailer.WebAPI", "EasyMeets.Emailer\EasyMeets.Emailer.WebAPI\EasyMeets.Emailer.WebAPI.csproj", "{1A55A428-0BC0-4C81-87CA-01A72E7FBD99}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Notifier.WebAPI", "EasyMeets.Notifier\EasyMeets.Notifier.WebAPI\EasyMeets.Notifier.WebAPI.csproj", "{093D275F-9FAC-4C20-B662-DFAAEADCFFA4}"
 EndProject
@@ -15,9 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Core.BLL", "EasyM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Core.DAL", "EasyMeets.Core\EasyMeets.Core.DAL\EasyMeets.Core.DAL.csproj", "{362BD70C-D988-433E-9F73-7415A2C0F669}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyMeets.Watcher.WebAPI", "EasyMeets.Watcher\EasyMeets.Watcher.WebAPI\EasyMeets.Watcher.WebAPI.csproj", "{4DC65B4F-67B6-4C08-BCE9-81886674A928}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Watcher.WebAPI", "EasyMeets.Watcher\EasyMeets.Watcher.WebAPI\EasyMeets.Watcher.WebAPI.csproj", "{4DC65B4F-67B6-4C08-BCE9-81886674A928}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyMeets.Watcher.BLL", "EasyMeets.Watcher\EasyMeets.Watcher.BLL\EasyMeets.Watcher.BLL.csproj", "{2C5682DC-2F43-43F5-8B46-FBD1328EEC1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMeets.Watcher.BLL", "EasyMeets.Watcher\EasyMeets.Watcher.BLL\EasyMeets.Watcher.BLL.csproj", "{2C5682DC-2F43-43F5-8B46-FBD1328EEC1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyMeets.RabbitMQ", "EasyMeets.RabbitMQ\EasyMeets.RabbitMQ.csproj", "{B627D8C5-39A7-49CE-9464-8D211D654EBA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{2C5682DC-2F43-43F5-8B46-FBD1328EEC1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C5682DC-2F43-43F5-8B46-FBD1328EEC1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C5682DC-2F43-43F5-8B46-FBD1328EEC1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B627D8C5-39A7-49CE-9464-8D211D654EBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B627D8C5-39A7-49CE-9464-8D211D654EBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B627D8C5-39A7-49CE-9464-8D211D654EBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B627D8C5-39A7-49CE-9464-8D211D654EBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
