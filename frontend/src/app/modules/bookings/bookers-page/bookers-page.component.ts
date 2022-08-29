@@ -27,16 +27,20 @@ export class BookersPageComponent extends BaseComponent {
         this.activateRoute.params.subscribe(params => {
             this.id = params['id'];
             this.spinnerService.show();
-            this.meetingService.getAllMembers(this.id)
-                .pipe(this.untilThis)
-                .subscribe(
-                    members => {
-                        this.members = members;
-                        this.spinnerService.hide();
-                    },
-                    error => this.notifications.showErrorMessage(error),
-                );
+            this.loadMembers();
         });
+    }
+
+    private loadMembers() {
+        this.meetingService.getAllMembers(this.id)
+            .pipe(this.untilThis)
+            .subscribe(
+                members => {
+                    this.members = members;
+                    this.spinnerService.hide();
+                },
+                error => this.notifications.showErrorMessage(error),
+            );
     }
 
     public goToPage(pageName: string) {

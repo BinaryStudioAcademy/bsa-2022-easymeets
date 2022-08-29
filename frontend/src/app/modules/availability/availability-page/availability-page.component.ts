@@ -5,6 +5,7 @@ import { IUser } from '@core/models/IUser';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
+import { TeamService } from '@core/services/team.service';
 import { UserService } from '@core/services/user.service';
 
 @Component({
@@ -23,14 +24,15 @@ export class AvailabilityPageComponent extends BaseComponent {
         private userService: UserService,
         private availabilitySlotService: AvailabilitySlotService,
         private spinnerService: SpinnerService,
+        private teamService: TeamService,
     ) {
         super();
         this.getCurrentUser();
     }
 
-    public getUserPersonalAndTeamSlots() {
+    public getUserPersonalAndTeamSlots(teamId?: number) {
         this.availabilitySlotService
-            .getUserPersonalAndTeamSlots(this.currentUser.id)
+            .getUserPersonalAndTeamSlots(this.currentUser.id, teamId)
             .pipe(this.untilThis)
             .subscribe((resp) => {
                 this.userPersonalAndTeamSlots = resp;
@@ -47,6 +49,9 @@ export class AvailabilityPageComponent extends BaseComponent {
                 if (resp) {
                     this.currentUser = resp;
                     this.getUserPersonalAndTeamSlots();
+                    this.teamService.currentTeamEmitted$.subscribe(teamId => {
+                        this.getUserPersonalAndTeamSlots(teamId);
+                    });
                 }
             });
     }
