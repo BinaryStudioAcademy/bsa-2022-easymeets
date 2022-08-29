@@ -170,6 +170,7 @@ erDiagram
     bigint Id
     bigint AvailabilitySlotId
     nvarchar QuestionText
+    boolean IsMandatory
     boolean IsDeleted
   }
 

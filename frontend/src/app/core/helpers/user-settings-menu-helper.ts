@@ -18,12 +18,4 @@ export const getUserSettingsMenuItems = (): SideMenuGroup[] => [
             { text: 'API & Tokens', routerLink: 'default-route' },
         ],
     },
-    {
-        header: 'Teams',
-        items: [
-            { text: 'Binary Team', routerLink: 'teams' },
-            { text: 'Work 2', routerLink: 'default-route' },
-            { text: 'Work Team 3', routerLink: 'default-route' },
-        ],
-    },
 ];

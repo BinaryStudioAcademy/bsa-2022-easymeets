@@ -1,11 +1,10 @@
 using AutoMapper;
+using EasyMeets.Core.BLL.Helpers;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Calendar;
+using EasyMeets.Core.Common.DTO.User;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Calendar.v3;
-using Google.Apis.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -15,50 +14,32 @@ namespace EasyMeets.Core.BLL.Services
     {
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
-        private CalendarService _service = new();
         public CalendarsService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IConfiguration configuration) : base(context, mapper)
         {
             _configuration = configuration;
             _userService = userService;
         }
 
-        public async Task<bool> CreateGoogleCalendarConnection()
+        public async Task<bool> CreateGoogleCalendarConnection(TokenResultDto tokenResultDto, UserDto currentUser)
         {
-            var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                        new ClientSecrets
-                        {
-                            ClientId = Environment.GetEnvironmentVariable("google_calendar_client_id"),
-                            ClientSecret = Environment.GetEnvironmentVariable("google_calendar_client_secret")
-                        }, 
-                        new [] { CalendarService.Scope.Calendar },
-                        Guid.NewGuid().ToString(), 
-                        CancellationToken.None,
-                        null);
+            var response = await HttpClientHelper.SendGetRequest<GoogleCalendarDto>($"{_configuration["GoogleCalendar:GetCalendarAPI"]}/primary", null,
+                tokenResultDto.AccessToken);
 
-            _service = new CalendarService(new BaseClientService.Initializer{
-                HttpClientInitializer = credential,
-                ApplicationName = _configuration["ApplicationName"]
-            });
-
-            var calendars = await _service.CalendarList.List().ExecuteAsync();
-
-            var connectedEmail = calendars.Items.FirstOrDefault(el => el.Primary == true)?.Id;
+            var connectedEmail = response.Id;
 
             if (await _context.Calendars.AnyAsync(el => el.ConnectedCalendar == connectedEmail))
             {
                 throw new ArgumentException($"Calendar {connectedEmail} is already connected!");
             }
-            
-            var currentUser = await _userService.GetCurrentUserAsync();
-            
+
             var calendar = new Calendar
             {
                 UserId = currentUser.Id,
                 CheckForConflicts = false,
-                ConnectedCalendar = connectedEmail!,
-                AccessToken = credential.Token.AccessToken,
-                RefreshToken = credential.Token.RefreshToken,
-                Uid = credential.UserId,
+                ConnectedCalendar = connectedEmail,
+                AccessToken = tokenResultDto.AccessToken,
+                RefreshToken = tokenResultDto.RefreshToken,
+                Uid = Environment.GetEnvironmentVariable("codeVerifier")!,
                 CreatedBy = currentUser.Id,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
