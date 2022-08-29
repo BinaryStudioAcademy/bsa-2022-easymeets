@@ -18,9 +18,9 @@ import { QuestionsComponent } from '../questions/questions.component';
 export class NewAvailabilityComponent implements OnInit {
     @Input() showDeleteBlock: boolean = true;
 
-    @Input() public slot?: IAvailabilitySlot;
+    @Input() slot?: IAvailabilitySlot;
 
-    @Input() public title: string;
+    @Input() title: string;
 
     @Output() saveChangesClick: EventEmitter<void> = new EventEmitter();
 
@@ -38,11 +38,11 @@ export class NewAvailabilityComponent implements OnInit {
 
     @ViewChild(NotificationEmailsComponent) notificationEmailsComponent: NotificationEmailsComponent;
 
-    public sideMenuGroups: SideMenuGroupTabs[];
+    sideMenuGroups: SideMenuGroupTabs[];
 
-    public isActive: boolean = true;
+    isActive: boolean = true;
 
-    public index: number = 0;
+    index: number = 0;
 
     // eslint-disable-next-line no-empty-function
     constructor(private router: Router) {}
@@ -52,11 +52,7 @@ export class NewAvailabilityComponent implements OnInit {
         this.isActive = this.slot?.isEnabled ?? true;
     }
 
-    private initializeSideMenu() {
-        this.sideMenuGroups = getNewAvailabilityMenu();
-    }
-
-    public goToPage(pageName: string) {
+    goToPage(pageName: string) {
         this.router.navigate([`${pageName}`]);
     }
 
@@ -66,11 +62,15 @@ export class NewAvailabilityComponent implements OnInit {
         }
     }
 
-    public saveChanges() {
+    saveChanges() {
         if (this.generalComponent.generalForm.invalid) {
             return;
         }
 
         this.saveChangesClick.emit();
+    }
+
+    private initializeSideMenu() {
+        this.sideMenuGroups = getNewAvailabilityMenu();
     }
 }

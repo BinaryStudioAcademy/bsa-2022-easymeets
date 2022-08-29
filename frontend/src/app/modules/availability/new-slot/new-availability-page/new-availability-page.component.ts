@@ -27,13 +27,13 @@ export class NewAvailabilityPageComponent extends BaseComponent {
 
     @ViewChild(NewAvailabilityComponent) newAvailabilityComponent: NewAvailabilityComponent;
 
-    public currentTeamId?: number;
+    currentTeamId?: number;
 
-    public goToPage(pageName: string) {
+    goToPage(pageName: string) {
         this.router.navigate([`${pageName}`]);
     }
 
-    public saveChanges() {
+    saveChanges() {
         const newSlot = this.getNewAvailability();
 
         this.slotService
