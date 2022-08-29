@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
-import { hourMinutesRegex } from '@shared/constants/model-validation';
+import { timeNumberRegex } from '@shared/constants/model-validation';
 
 @Component({
     selector: 'app-schedule-list-item',
@@ -21,13 +21,8 @@ export class ScheduleListItemComponent extends BaseComponent implements OnInit {
     public endValue: string;
 
     public scheduleForm = new FormGroup({
-<<<<<<< HEAD
         startTime: new FormControl('', [Validators.pattern(timeNumberRegex)]),
         endTime: new FormControl('', [Validators.pattern(timeNumberRegex)]),
-=======
-        startTime: new FormControl('16:00', [Validators.pattern(hourMinutesRegex)]),
-        endTime: new FormControl('17:30', [Validators.pattern(hourMinutesRegex)]),
->>>>>>> development
     });
 
     public onDateChange($event: Event, isStart: boolean) {

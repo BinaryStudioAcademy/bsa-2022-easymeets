@@ -86,7 +86,7 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
 
     private createDate(weekDay: number, hours: string): Date {
         return addMinutes(addHours(
-            startOfDay(setDay(new Date(), this.recalculateDayIndexForCalenfar(weekDay))),
+            startOfDay(setDay(new Date(), this.recalculateDayIndexForCalendar(weekDay))),
             this.parseTime(hours).getHours(),
         ), this.parseTime(hours).getMinutes());
     }
