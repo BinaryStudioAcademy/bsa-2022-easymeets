@@ -42,14 +42,6 @@ export class NewAvailabilityComponent implements OnInit {
 
     isActive: boolean = true;
 
-    readonly generalIndex: number = 0;
-
-    readonly bookingPageIndex: number = 1;
-
-    readonly scheduleIndex: number = 2;
-
-    readonly notificationEmailsIndex: number = 3;
-
     index: number = 0;
 
     // eslint-disable-next-line no-empty-function
