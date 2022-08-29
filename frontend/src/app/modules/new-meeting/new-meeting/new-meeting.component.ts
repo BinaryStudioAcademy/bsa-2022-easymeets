@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
@@ -35,6 +36,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     public locations = [LocationType.Zoom, LocationType.GoogleMeet, LocationType.Office];
 
     public locationTypeLabelMapping = LocationTypeToLabelMapping;
+
+    public locationType: typeof LocationType[keyof typeof LocationType];
 
     public unitOfTime = [UnitOfTime.Min, UnitOfTime.Hour];
 
@@ -78,10 +81,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
             date: new FormControl('', [Validators.required]),
             teamMember: new FormControl(),
         });
-
         this.patchFormValues();
         this.setValidation();
         this.getTeamMembersOfCurrentUser();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        type locationType = keyof typeof LocationType;
     }
 
     public create(form: FormGroup) {

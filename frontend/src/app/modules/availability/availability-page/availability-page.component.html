@@ -2,14 +2,15 @@
 <div class="container">
     <div class="teams-container">
         <div class="buttons-container">
-            <button mat-flat-button class="confirm-cancel-button" routerLink="/new-meeting">+ New Meeting</button>
-            <button mat-flat-button color="primary" routerLink="/availability/new">+ New Availability Slots</button>
+            <button mat-flat-button class="new-meeting-button">+ New Meeting</button>
+            <button mat-flat-button color="primary" routerLink="/availability/new" class="new-availability-button">+ New Availability Slots</button>
         </div>
         <div *ngIf="userPersonalAndTeamSlots">
             <app-user-slot
                 (isReload)="reloadData($event)"
                 [userSlots]="userPersonalAndTeamSlots.userSlots"
-                [currentUser]="currentUser"></app-user-slot>
+                [currentUser]="currentUser"
+                [showArrow]="!userPersonalAndTeamSlots.teamSlots.length && !userPersonalAndTeamSlots.userSlots.length"></app-user-slot>
             <div *ngFor="let teamSlot of userPersonalAndTeamSlots.teamSlots">
                 <app-team (isReload)="reloadData($event)" [teamSlot]="teamSlot"></app-team>
             </div>
