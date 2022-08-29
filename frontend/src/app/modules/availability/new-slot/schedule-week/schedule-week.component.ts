@@ -34,31 +34,25 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
             });
     }
 
-    eventTimesChanged({
-        event,
-        newStart,
-        newEnd,
-    }: CalendarEventTimesChangedEvent): void {
-        event.start = newStart;
-        event.end = newEnd;
-        const item = this.items.find(i => i.weekDay === event.id);
+    eventTimesChanged(changedEvent: CalendarEventTimesChangedEvent): void {
+        changedEvent.event.start = changedEvent.newStart;
+        changedEvent.event.end = changedEvent.newEnd;
+        const item = this.items.find(i => i.weekDay === changedEvent.event.id);
 
         if (item) {
-            item.start = `${this.reformat(newStart.getHours())}:${this.reformat(newStart.getMinutes())}:00`;
-            if (newEnd) {
-                item.end = `${this.reformat(newEnd.getHours())}:${this.reformat(newEnd.getMinutes())}:00`;
+            item.start = `${this.reformat(changedEvent.newStart.getHours())}:${this.reformat(changedEvent.newStart.getMinutes())}:00`;
+            if (changedEvent.newEnd) {
+                item.end = `${this.reformat(changedEvent.newEnd.getHours())}:${this.reformat(changedEvent.newEnd.getMinutes())}:00`;
             }
             this.itemChange.emit();
             this.refresh.next();
         }
     }
 
-    validateEventTimesChanged = (
-        { event, newStart, newEnd }: CalendarEventTimesChangedEvent,
-    ) => {
-        if (newEnd) {
-            delete event.cssClass;
-            const sameDay = isSameDay(newStart, newEnd);
+    validateEventTimesChanged = (changedEvent: CalendarEventTimesChangedEvent) => {
+        if (changedEvent.newEnd) {
+            delete changedEvent.event.cssClass;
+            const sameDay = isSameDay(changedEvent.newStart, changedEvent.newEnd);
 
             if (!sameDay) {
                 return false;
