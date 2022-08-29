@@ -3,12 +3,11 @@ import { NgForm } from '@angular/forms';
 import { ActivityType } from '@core/enums/activity-type.enum';
 import { Color } from '@core/enums/color.enum';
 import { SlotType } from '@core/enums/slot-type.enum';
-import { LocationTypeToLabelMapping } from '@core/helpers/location-type-label-mapping';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
-import { LocationType } from '@core/models/locationType';
 import { ISaveAdvancedSettings } from '@core/models/save-availability-slot/ISaveAdvancedSettings';
 import { ISaveGeneralSettings } from '@core/models/save-availability-slot/ISaveGeneralSettings';
 import { meetingNameRegex, naturalNumberRegex } from '@shared/constants/model-validation';
+import { LocationType } from '@shared/enums/locationType';
 
 @Component({
     selector: 'app-general',
@@ -65,9 +64,7 @@ export class GeneralComponent implements OnInit {
 
     public slotsFrequencies: number[] = [30, 60];
 
-    public LocationTypeToLabelMapping = LocationTypeToLabelMapping;
-
-    public locationTypes: LocationType[] = [LocationType.Zoom, LocationType.GoogleMeet, LocationType.Office];
+    public locations = Object.keys(LocationType);
 
     public meetingPaddings: number[] = [15, 30];
 

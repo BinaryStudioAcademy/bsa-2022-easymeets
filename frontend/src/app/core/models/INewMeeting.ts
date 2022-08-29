@@ -1,5 +1,6 @@
+import { LocationType } from '@shared/enums/locationType';
+
 import { INewMeetingMember } from './INewMeetingTeamMember';
-import { LocationType } from './locationType';
 
 export interface INewMeeting {
     name: string,
