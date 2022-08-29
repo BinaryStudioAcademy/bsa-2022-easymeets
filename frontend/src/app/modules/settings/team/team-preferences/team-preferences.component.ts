@@ -52,7 +52,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         [
             Validators.required,
             Validators.minLength(2),
-            Validators.maxLength(50),
+            Validators.maxLength(80),
             Validators.pattern(/^[.,іІїЇaєЄa-zA-Z\dа-яА-Я-\s]*$/)],
     );
 
