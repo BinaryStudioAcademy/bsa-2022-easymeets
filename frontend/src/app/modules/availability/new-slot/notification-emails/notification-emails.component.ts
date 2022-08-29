@@ -17,22 +17,22 @@ export class NotificationEmailsComponent {
             this._defaultSettings;
     }
 
-    private _confirmationSubject = 'Confirmation Email';
+    private confirmationSubject = 'Confirmation Email';
 
-    private _cancellationSubject = 'Cancellation Email';
+    private cancellationSubject = 'Cancellation Email';
 
-    private _remindersSubject = 'Reminders Email';
+    private remindersSubject = 'Reminders Email';
 
-    private _followUpSubject = 'Follow-Up Email';
+    private followUpSubject = 'Follow-Up Email';
 
-    private _body = `Hi {Invitee Full Name} \r\nYou {Event Name} with {My Name} 
+    private body = `Hi {Invitee Full Name} \r\nYou {Event Name} with {My Name} 
     at {Event Time} on {Event Date} is scheduled\r\n{Event Description}\r\n{Location}\r\n{Questions and Answers}`;
 
     private _defaultSettings: ISaveConfirmationEmailDetails = {
         allowToSend: false,
         type: TemplateType.Confirmation,
-        emailBody: this._body,
-        emailSubject: this._confirmationSubject,
+        emailBody: this.body,
+        emailSubject: this.confirmationSubject,
     };
 
     public slot?: IAvailabilitySlot;
@@ -42,10 +42,10 @@ export class NotificationEmailsComponent {
     public settings: ISaveConfirmationEmailDetails;
 
     public navLinks = [
-        { path: 'confirmation', label: this._confirmationSubject },
-        { path: 'cancellation', label: this._cancellationSubject },
-        { path: 'reminders', label: this._remindersSubject },
-        { path: 'follow-up', label: this._followUpSubject },
+        { path: 'confirmation', label: this.confirmationSubject },
+        { path: 'cancellation', label: this.cancellationSubject },
+        { path: 'reminders', label: this.remindersSubject },
+        { path: 'follow-up', label: this.followUpSubject },
     ];
 
     public activeTab = this.navLinks[0].path;
@@ -53,20 +53,16 @@ export class NotificationEmailsComponent {
     public changeTemplate(path: string) {
         switch (path) {
             case 'confirmation':
-                this.settings.type = TemplateType.Confirmation;
-                this._defaultSettings.type = TemplateType.Confirmation;
+                this.changeTemplateType(TemplateType.Confirmation);
                 break;
             case 'cancellation':
-                this.settings.type = TemplateType.Cancellation;
-                this._defaultSettings.type = TemplateType.Cancellation;
+                this.changeTemplateType(TemplateType.Cancellation);
                 break;
             case 'reminders':
-                this.settings.type = TemplateType.Reminders;
-                this._defaultSettings.type = TemplateType.Reminders;
+                this.changeTemplateType(TemplateType.Reminders);
                 break;
             case 'follow-up':
-                this.settings.type = TemplateType.FollowUp;
-                this._defaultSettings.type = TemplateType.FollowUp;
+                this.changeTemplateType(TemplateType.FollowUp);
                 break;
             default:
                 break;
@@ -74,5 +70,10 @@ export class NotificationEmailsComponent {
         this.activeTab = path;
         this.currentSetting = this.slot?.emailTemplateSettings?.find((obj) => obj.type === this.settings.type);
         this.settings = this.currentSetting ?? this._defaultSettings;
+    }
+
+    private changeTemplateType(type: TemplateType) {
+        this.settings.type = type;
+        this._defaultSettings.type = type;
     }
 }
