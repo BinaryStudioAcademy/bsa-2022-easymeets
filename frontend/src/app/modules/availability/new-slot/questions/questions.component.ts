@@ -13,7 +13,8 @@ export class QuestionsComponent {
     @Input() set newSlot(slot: IAvailabilitySlot | undefined) {
         this.questions = slot?.questions ?? getLocalMandatoryQuestions();
         this.mandatoryQuestions = this.questions.filter((q) => q.isMandatory);
-        let biggestOrderInQuestions = Math.max(...this.questions.map(q => q.order));
+        const biggestOrderInQuestions = Math.max(...this.questions.map(q => q.order));
+
         this.newQuestionOrder = biggestOrderInQuestions + 1;
         this.onQuestionsArrayChange();
     }
@@ -25,6 +26,7 @@ export class QuestionsComponent {
     public optionalQuestionsExist: boolean = false;
 
     public mandatoryQuestionsExist: boolean = false;
+
     private newQuestionOrder: number = 0;
 
     private onQuestionsArrayChange(): void {
@@ -38,7 +40,7 @@ export class QuestionsComponent {
                 id: 0,
                 order: this.newQuestionOrder++,
                 questionText: '',
-                isMandatory: false
+                isMandatory: false,
             }];
         this.onQuestionsArrayChange();
     }
