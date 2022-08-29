@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input } from '@angular/core';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
 import { getScheduleItems } from '@core/helpers/schedule-list-helper';
 import { getPossibleTimeZones } from '@core/helpers/time-zone-helper';
@@ -22,25 +22,27 @@ export class ScheduleComponent {
         this.selectedTimeZone = this.getDisplayTimeZone(this.schedule.timeZone);
     }
 
-    public slot?: IAvailabilitySlot;
+    changeEvent: EventEmitter<any> = new EventEmitter();
 
-    public schedule: ISchedule;
+    slot?: IAvailabilitySlot;
 
-    public displayDays: string[] = getDisplayDays();
+    schedule: ISchedule;
+
+    displayDays: string[] = getDisplayDays();
 
     readonly timeZones: ITimeZone[] = getPossibleTimeZones();
 
-    public selectedTimeZone: string;
+    selectedTimeZone: string;
 
-    public changeTimeZone() {
+    changeTimeZone() {
         this.schedule.timeZone = this.getSelectedTimeZoneValue();
     }
 
-    public getSelectedTimeZoneValue() {
+    getSelectedTimeZoneValue() {
         return this.timeZones.find((x) => x.displayValue === this.selectedTimeZone)!.value;
     }
 
-    public getDisplayTimeZone(value: number) {
+    getDisplayTimeZone(value: number) {
         return this.timeZones.find((x) => x.value === value)!.displayValue;
     }
 }
