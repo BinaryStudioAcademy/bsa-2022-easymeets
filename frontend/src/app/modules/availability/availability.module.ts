@@ -15,6 +15,7 @@ import { GeneralComponent } from './new-slot/general/general.component';
 import { NewAvailabilityComponent } from './new-slot/new-availability/new-availability.component';
 import { NewAvailabilityPageComponent } from './new-slot/new-availability-page/new-availability-page.component';
 import { NotificationEmailsComponent } from './new-slot/notification-emails/notification-emails.component';
+import { QuestionsComponent } from './new-slot/questions/questions.component';
 import { ScheduleComponent } from './new-slot/schedule/schedule.component';
 import { ScheduleListItemComponent } from './new-slot/schedule-list-item/schedule-list-item.component';
 import { ScheduleWeekComponent } from './new-slot/schedule-week/schedule-week.component';
@@ -38,6 +39,7 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         NewAvailabilityPageComponent,
         ScheduleWeekComponent,
         NotificationEmailsComponent,
+        QuestionsComponent,
     ],
     imports: [
         CommonModule,
