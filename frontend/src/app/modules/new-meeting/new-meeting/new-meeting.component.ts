@@ -83,7 +83,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
             const newMeeting: INewMeeting = {
                 name: form.value.meetingName,
                 location: form.value.location,
-                duration: this.duration,
+                duration: form.value.duration.time,
                 startTime: form.value.date,
                 meetingLink: form.value.meetingName,
                 meetingMembers: this.addedMembers,
