@@ -9,6 +9,7 @@ public class SaveAvailabilitySlotDto
     public GeneralDetailsDto? GeneralDetails { get; set; }
     public EventDetailsDto? EventDetails { get; set; }
     public SaveAdvancedSlotSettingsDto? AdvancedSettings { get; set; }
+    public ICollection<QuestionDto>? Questions { get; set; }
     public ScheduleDto Schedule { get; set; } = null!;
     public EmailTemplatesSettingsDto? TemplateSettings { get; set; }
 }
