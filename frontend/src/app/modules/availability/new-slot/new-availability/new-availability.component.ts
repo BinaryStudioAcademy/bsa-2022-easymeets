@@ -17,9 +17,9 @@ import { NotificationEmailsComponent } from '../notification-emails/notification
 export class NewAvailabilityComponent implements OnInit {
     @Input() showDeleteBlock: boolean = true;
 
-    @Input() public slot?: IAvailabilitySlot;
+    @Input() slot?: IAvailabilitySlot;
 
-    @Input() public title: string;
+    @Input() title: string;
 
     @Output() saveChangesClick: EventEmitter<void> = new EventEmitter();
 
@@ -35,39 +35,39 @@ export class NewAvailabilityComponent implements OnInit {
 
     @ViewChild(NotificationEmailsComponent) notificationEmailsComponent: NotificationEmailsComponent;
 
-    public sideMenuGroups: SideMenuGroupTabs[];
+    sideMenuGroups: SideMenuGroupTabs[];
 
-    public isActive: boolean = true;
+    isActive: boolean = true;
 
-    public readonly generalIndex: number = 0;
+    readonly generalIndex: number = 0;
 
-    public readonly bookingPageIndex: number = 1;
+    readonly bookingPageIndex: number = 1;
 
-    public readonly scheduleIndex: number = 2;
+    readonly scheduleIndex: number = 2;
 
-    public readonly notificationEmailsIndex: number = 3;
+    readonly notificationEmailsIndex: number = 3;
 
-    public index: number = 0;
+    index: number = 0;
 
     // eslint-disable-next-line no-empty-function
     constructor(private router: Router) {}
 
-    public ngOnInit(): void {
+    ngOnInit(): void {
         this.initializeSideMenu();
         this.isActive = this.slot?.isEnabled ?? true;
     }
 
-    public goToPage(pageName: string) {
+    goToPage(pageName: string) {
         this.router.navigate([`${pageName}`]);
     }
 
-    public enableSlot() {
+    enableSlot() {
         if (this.slot) {
             this.slot.isEnabled = !this.slot.isEnabled;
         }
     }
 
-    public saveChanges() {
+    saveChanges() {
         if (this.generalComponent.generalForm.invalid) {
             return;
         }

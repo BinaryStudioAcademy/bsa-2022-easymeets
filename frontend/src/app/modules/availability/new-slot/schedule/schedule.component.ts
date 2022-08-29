@@ -22,27 +22,27 @@ export class ScheduleComponent {
         this.selectedTimeZone = this.getDisplayTimeZone(this.schedule.timeZone);
     }
 
-    public changeEvent: EventEmitter<any> = new EventEmitter();
+    changeEvent: EventEmitter<any> = new EventEmitter();
 
-    public slot?: IAvailabilitySlot;
+    slot?: IAvailabilitySlot;
 
-    public schedule: ISchedule;
+    schedule: ISchedule;
 
-    public displayDays: string[] = getDisplayDays();
+    displayDays: string[] = getDisplayDays();
 
     readonly timeZones: ITimeZone[] = getPossibleTimeZones();
 
-    public selectedTimeZone: string;
+    selectedTimeZone: string;
 
-    public changeTimeZone() {
+    changeTimeZone() {
         this.schedule.timeZone = this.getSelectedTimeZoneValue();
     }
 
-    public getSelectedTimeZoneValue() {
+    getSelectedTimeZoneValue() {
         return this.timeZones.find(x => x.displayValue === this.selectedTimeZone)!.value;
     }
 
-    public getDisplayTimeZone(value: number) {
+    getDisplayTimeZone(value: number) {
         return this.timeZones.find(x => x.value === value)!.displayValue;
     }
 }

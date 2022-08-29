@@ -12,19 +12,19 @@ import { Subject } from 'rxjs';
     styleUrls: ['./schedule-week.component.sass'],
 })
 export class ScheduleWeekComponent extends BaseComponent implements OnInit {
-    @Input() public items: IScheduleItem[];
+    @Input() items: IScheduleItem[];
 
-    @Input() public itemChange: EventEmitter<void> = new EventEmitter();
+    @Input() itemChange: EventEmitter<void> = new EventEmitter();
 
-    public view: CalendarView = CalendarView.Week;
+    view: CalendarView = CalendarView.Week;
 
-    public viewDate: Date = new Date();
+    viewDate: Date = new Date();
 
-    public events: CalendarEvent[];
+    events: CalendarEvent[];
 
-    public refresh = new Subject<void>();
+    refresh = new Subject<void>();
 
-    public ngOnInit(): void {
+    ngOnInit(): void {
         this.updateEvents();
 
         this.itemChange
@@ -34,7 +34,7 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
             });
     }
 
-    public eventTimesChanged({
+    eventTimesChanged({
         event,
         newStart,
         newEnd,
@@ -53,7 +53,7 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
         }
     }
 
-    public validateEventTimesChanged = (
+    validateEventTimesChanged = (
         { event, newStart, newEnd }: CalendarEventTimesChangedEvent,
     ) => {
         if (newEnd) {

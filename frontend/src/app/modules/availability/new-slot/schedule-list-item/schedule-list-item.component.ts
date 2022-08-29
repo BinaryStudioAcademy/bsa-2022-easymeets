@@ -10,22 +10,22 @@ import { timeNumberRegex } from '@shared/constants/model-validation';
     styleUrls: ['./schedule-list-item.component.sass'],
 })
 export class ScheduleListItemComponent extends BaseComponent implements OnInit {
-    @Input() public item: IScheduleItem;
+    @Input() item: IScheduleItem;
 
-    @Input() public displayDay: string;
+    @Input() displayDay: string;
 
-    @Input() public itemChange: EventEmitter<void> = new EventEmitter();
+    @Input() itemChange: EventEmitter<void> = new EventEmitter();
 
-    public startValue: string;
+    startValue: string;
 
-    public endValue: string;
+    endValue: string;
 
-    public scheduleForm = new FormGroup({
+    scheduleForm = new FormGroup({
         startTime: new FormControl('', [Validators.pattern(timeNumberRegex)]),
         endTime: new FormControl('', [Validators.pattern(timeNumberRegex)]),
     });
 
-    public onDateChange($event: Event, isStart: boolean) {
+    onDateChange($event: Event, isStart: boolean) {
         const target = $event.target as HTMLInputElement;
         const dateValue = `${target.value}:00`;
 
@@ -37,11 +37,11 @@ export class ScheduleListItemComponent extends BaseComponent implements OnInit {
         this.onItemChange();
     }
 
-    public onItemChange() {
+    onItemChange() {
         this.itemChange.emit();
     }
 
-    public ngOnInit(): void {
+    ngOnInit(): void {
         this.itemChange
             .pipe(this.untilThis)
             .subscribe(() => {
