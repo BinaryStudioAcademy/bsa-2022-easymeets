@@ -9,7 +9,8 @@
 
 .availability-slot
     display: grid
-    grid-gap: 32px
+    row-gap: 42px
+    column-gap: 32px
     padding-bottom: 1.2em
 
 @media (min-device-width: $phone-min-width)
@@ -17,16 +18,18 @@
         font-size: 24px
 
 @media (min-device-width: $tablet-min-width)
-    .availability-slot
-        grid-template-columns: repeat(2, 1fr)
     .team-name p
         font-size: 28px
 
 @media (min-device-width: $desktop-min-width)
     .availability-slot
-        grid-template-columns: repeat(3, 1fr)
+        grid-template-columns: repeat(2, 1fr)
     .team-name p
         font-size: 32px
+
+@media screen and (max-width: $tablet-min-width)
+    .availability-slot
+        grid-template-columns: repeat(1, 1fr)
 
 .team-info
     display: flex

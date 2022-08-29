@@ -87,22 +87,30 @@ snack-bar-container
     background-color: $royal-blue
 
 .mat-slide-toggle-thumb
-    width: 10px !important
-    height: 10px !important
-    transform: translate(50%, 50%)
+    width: 12px !important
+    height: 12px !important
+    transform: translate(35%, 50%)
+    box-shadow: none
 
 .mat-slide-toggle-bar
-    border-radius: 15px !important
+    border-radius: 12px !important
     height: 16px !important
 
 .mat-slide-toggle-thumb-container
-    top: -2px !important
+    top: -4px !important
 
 .mat-slide-toggle.mat-checked:not(.mat-disabled)
     .mat-slide-toggle-bar
-        background-color: $royal-blue
-    .mat-slide-toggle-thumb
         background-color: $white
+        border: 2px solid $raven
+    .mat-slide-toggle-thumb
+        background-color: $midnight
+
+.mat-slide-toggle-bar
+    background: $white
+    border: 2px solid $pattens-blue
+.mat-slide-toggle-thumb
+    background-color: $nepal
 
 .mat-form-field-underline
     display: none
