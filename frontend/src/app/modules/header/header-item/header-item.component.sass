@@ -28,6 +28,7 @@ header
         width: 176px
         height: 30px
         left: 0
+        margin-right: 2%
 
 .tab-panel
     height: 100%
@@ -93,12 +94,10 @@ label:hover
 
 .mat-icon-button
     height: 100%
-    margin-left: 5%
-    margin-right: 10%
 
 .mat-button
     margin-left: auto
-    margin-right: -5%
+    margin-right: 3%
 
 @media screen and (max-width: $desktop-min-width)
     header
@@ -112,13 +111,20 @@ label:hover
             margin-right: 2%
             margin-left: 2%
         .logo
-            width: 80px
+            display: none
+    .mat-button
+        margin-right: 0
 
 @media screen and (max-width: $phone-min-width)
     header
         .header-wrapper
             margin-right: 0
             margin-left: 0
-        .logo
+    .tab-panel
+        margin-left: 3px
+    .avatar
+        margin-left: 3%
+    .menu-team-btn
+        label
             display: none
 
