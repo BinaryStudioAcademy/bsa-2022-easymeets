@@ -3,11 +3,11 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
-import { LocationType } from '@core/models/locationType';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { activationSlotMessage, deletionMessage, inactivationSlotMessage } from '@shared/constants/shared-messages';
+import { LocationType } from '@shared/enums/locationType';
 import { Subscription } from 'rxjs';
 
 @Component({
