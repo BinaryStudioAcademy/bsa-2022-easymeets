@@ -1,0 +1,196 @@
+@import '../../../../styles/color-variables'
+@import '../../../../styles/screen-variables'
+
+.container
+    display: flex
+    height: 100%
+    flex-direction: column
+    justify-items: center
+    background-color: $athens-gray
+    padding: 0 100px 90px 100px
+    @media screen and ( max-width: $tablet-min-width)
+        padding: 0 30px 40px 30px
+
+    .new-meeting-header
+        display: flex
+        justify-content: space-between
+        align-items: center
+        padding: 20px 0
+        p
+            margin: 0 25px 0 0
+        .new-meeting-header-label
+            font-size: 20px
+            font-weight: bold
+            color: $regent-gray
+        .new-meeting-header-button
+            width: 12%
+            @media screen and ( max-width: $tablet-min-width)
+                width: 24%
+
+    .main-content
+        background-color: $white
+        height: 100%
+        display: flex
+        flex-direction: row
+        justify-content: center
+        padding: 0 0.5em
+        @media screen and ( max-width: $desktop-min-width  )
+            flex-direction: column
+        .sidebar
+            width: 25%
+            @media screen and ( max-width: $desktop-min-width  )
+                width: 100%
+
+        .menu-item-container
+            width: 75%
+            margin-left: 1em
+            @media screen and ( max-width: $desktop-min-width  )
+                width: 100%
+
+    .date-duration-container
+        height: 20%
+        display: flex
+        justify-content: space-between
+        align-items: flex-start
+        @media (max-width: $tablet-min-width)
+            width: 100%
+            justify-content: space-between
+            flex-direction: column
+        .duration-container, .date-container
+            width: 30%
+            @media (max-width: $tablet-min-width)
+                width: 100%
+
+    .sidebar
+        position: relative
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        border-right: 2px solid $athens-gray
+        width: 100%
+        margin: 0 0 0 0.8em
+        padding-bottom: 80px
+        @media screen and ( max-width: $desktop-min-width  )
+            border-right: none
+
+    .item
+        width: 100%
+
+    .add-new-meeting-info-form
+        width: 100%
+        margin: 2em 0
+        .add-team-member-label, .team-members-label
+            font-size: 1.1em
+            font-weight: bold
+            color: $regent-gray
+            margin: 1em 0 0.5em 0
+
+    .select-input
+        height: 33px
+        color: $dark-gray
+        font-size: 15px
+        background: $white
+        border: 2px solid $loblolly
+        border-radius: 4px
+        width: calc(100% - 3em)
+        padding-left: 5px
+        margin: 0
+        @media screen and ( max-width: $desktop-min-width  )
+            width: calc(100% - 5em)
+
+    input::placeholder
+        color: $dark-gray
+
+    .select-input
+        &:focus
+            &.ng-invalid.ng-touched
+                border-color: 2px solid $cinnabar
+                outline: $cinnabar
+
+        &.ng-invalid.ng-touched
+            border: 2px solid $cinnabar
+            outline: $cinnabar
+
+    .calendar-select-input
+        margin: 0
+        height: 33px
+        font-size: 15px
+        color: $dark-gray
+        border: 2px solid $loblolly
+        border-radius: 4px
+        padding-left: 5px
+        margin: 0
+        @media (max-width: $tablet-min-width)
+            width: calc(100% - 5em)
+
+    .calendar-select-input
+        &.ng-invalid.ng-touched
+            border: 2px solid $cinnabar
+            outline: $cinnabar
+            height: 33px
+
+    ::ng-deep .item
+        .mat-select
+            align-items: center
+            display: flex
+
+        .mat-select-value
+            color: $dark-gray
+            font-size: 15px
+
+    .date-label, .duration-label,.team-members-label
+        font-size: 1.1em
+        font-weight: bold
+        color: $regent-gray
+
+    .team-members-container
+        width: 100%
+        display: flex
+        flex-direction: column
+        justify-content: center
+        .member-info-container
+            width: 85%
+
+    .member-info
+        padding: 0.4em 0.5em
+        margin-bottom: 0.3em
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: space-between
+        p
+            font-size: 1.1em
+            margin-bottom: 0.1em
+            color: $silver-chalice
+        i
+            color: $silver-chalice
+
+    .member-info:hover
+        background-color: $zumthor
+        border-radius: 8px
+        p
+            color: $royal-blue
+        i
+            color: $royal-blue
+
+    .name-label, .duration-label,
+    .location-label,.custom-label
+        margin: 12px 0 6px 0
+        font-size: 1.1em
+        font-weight: bold
+        color: $regent-gray
+
+    .custom-container
+        width: calc(100% - 2.5em)
+
+    .custom-time
+        display: flex
+        align-items: flex-start
+        justify-content: space-between
+        .time
+            width: 70%
+            margin-right: 0.5em
+        .unit-of-time
+            width: 30%
+    small
+        color: $cinnabar
