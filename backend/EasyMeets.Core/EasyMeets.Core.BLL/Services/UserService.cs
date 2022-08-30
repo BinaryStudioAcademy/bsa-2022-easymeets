@@ -64,12 +64,23 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<UserDto> CreateUserPreferences(NewUserDto userDto)
         {
+            if (userDto is null)
+            {
+                throw new ArgumentNullException(nameof(userDto), "New user cannot be null");
+            }
+
+            var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(userDto.Email));
+            if (userEntity is not null)
+            {
+                return _mapper.Map<UserDto>(userEntity);
+            }
+
             var newUser = _mapper.Map<NewUserDto, User>(userDto);
             var user = _context.Users.Add(newUser).Entity;
             await _context.SaveChangesAsync();
 
             await _teamSharedService.CreateDefaultUsersTeamAsync(user);
-            
+
             return _mapper.Map<User, UserDto>(newUser);
         }
 

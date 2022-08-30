@@ -16,17 +16,17 @@ import { map, Observable } from 'rxjs';
     styleUrls: ['./team-preferences.component.sass'],
 })
 export class TeamPreferencesComponent extends BaseComponent implements OnInit {
-    @Input() public team?: ITeam;
-
     @Input() showDeleteButton: boolean = true;
 
     @Input() submitButtonText: string;
 
-    public imageUrl?: string;
-
     @Output() submitClick: EventEmitter<void> = new EventEmitter();
 
     @Output() deleteClick: EventEmitter<FormGroup> = new EventEmitter();
+
+    public team?: ITeam;
+
+    public imageUrl?: string;
 
     public clickEvent = new EventEmitter<void>();
 
@@ -52,7 +52,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         [
             Validators.required,
             Validators.minLength(2),
-            Validators.maxLength(50),
+            Validators.maxLength(80),
             Validators.pattern(/^[.,іІїЇaєЄa-zA-Z\dа-яА-Я-\s]*$/)],
     );
 
