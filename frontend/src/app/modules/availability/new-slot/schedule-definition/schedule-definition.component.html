@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="schedule-container">
+        <div class="schedule-select-container">
+            <p>Schedule</p>
+            <div class="input">
+                <select [(ngModel)]="selectedTimeZone" (change)="changeTimeZone()">
+                    <option *ngFor="let timeZone of timeZones"
+                            [value]="timeZone.displayValue">{{timeZone.displayValue}}</option>
+                </select>
+            </div>
+        </div>
+        <mat-tab-group [disablePagination]="true" [disableRipple]="true" (selectedTabChange)="changeEvent.emit()"
+                       animationDuration="0ms">
+            <mat-tab label="List View">
+                <app-schedule-list-item
+                    *ngFor="let item of schedule.scheduleItems; index as i"
+                    [item]="schedule.scheduleItems[i]"
+                    [itemChange]="changeEvent"
+                    [displayDay]="displayDays[i]">
+                </app-schedule-list-item>
+            </mat-tab>
+            <mat-tab label="Week View">
+                <app-schedule-week
+                    [items]="schedule.scheduleItems"
+                    [itemChange]="changeEvent"
+                >
+                </app-schedule-week>
+            </mat-tab>
+            <mat-tab label="Month View">
+                Month View
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+    <div class="override-container">
+        <button mat-flat-button>+ Add Date overrides</button>
+    </div>
+</div>
