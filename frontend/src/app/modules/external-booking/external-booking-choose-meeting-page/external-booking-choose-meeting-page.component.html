@@ -10,9 +10,9 @@
             [routerLink]="['/external-booking/choose-time']"
             [queryParams]="{ duration: item.size }"
             (click)="addDurationAndLocation(item.size, item.locationType)">
-            <mat-card-title>{{ item.name }}</mat-card-title>
+            <mat-card-title><p class="title">{{ item.name }}</p></mat-card-title>
             <mat-card-subtitle>
-                {{ item.size }} Min, {{ LocationTypeToLabelMapping[item.locationType] }}
+                {{ item.size }} Min, {{ item.locationType}}
             </mat-card-subtitle>
         </mat-card>
     </ng-template>
