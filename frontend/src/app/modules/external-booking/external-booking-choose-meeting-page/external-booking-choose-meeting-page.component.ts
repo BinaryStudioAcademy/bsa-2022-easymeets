@@ -30,18 +30,9 @@ export class ExternalBookingMeetingComponent extends BaseComponent implements On
             .subscribe((slots) => {
                 this.selectedUserAvailabilitySlots = slots;
             });
-
-        /*console.log(Object.values(LocationType).toString());*/
-
-        /*console.log(this.LocationTypeType[1]);
-        console.log(this.LocationTypeType['1']);*/
     }
 
     addDurationAndLocation(duration: number, location: LocationType) {
         this.selectedDurationAndLocationEvent.emit({ duration, location });
     }
-
-    /*stringToNumber(location: LocationType): number {
-        return location as unknown as number;
-    }*/
 }

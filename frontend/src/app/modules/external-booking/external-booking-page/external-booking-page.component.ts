@@ -15,7 +15,7 @@ import { LocationType } from '@shared/enums/locationType';
 export class ExternalBookingPageComponent extends BaseComponent implements OnInit {
     public menu: IExternalBookingSideMenu = {} as IExternalBookingSideMenu;
 
-    public LocationType = LocationType;
+    public LocationType: string[] = Object.values(LocationType);
 
     constructor(public spinnerService: SpinnerService, private userService: UserService, public router: Router) {
         super();
