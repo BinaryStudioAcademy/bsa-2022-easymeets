@@ -2,7 +2,7 @@
 <div class="container">
     <div class="teams-container">
         <div class="buttons-container">
-            <button mat-flat-button class="new-meeting-button">+ New Meeting</button>
+            <button mat-flat-button class="new-meeting-button" routerLink="/new-meeting">+ New Meeting</button>
             <button mat-flat-button color="primary" routerLink="/availability/new" class="new-availability-button">+ New Availability Slots</button>
         </div>
         <div *ngIf="userPersonalAndTeamSlots">

@@ -1,5 +1,7 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.BLL.Services;
 using EasyMeets.Core.Common.DTO.Meeting;
+using EasyMeets.Core.Common.DTO.Team;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +13,11 @@ namespace EasyMeets.Core.WebAPI.Controllers
     public class MeetingController : ControllerBase
     {
         private readonly IMeetingService _meetingService;
-
-        public MeetingController(IMeetingService meetingService)
+        private readonly ITeamService _teamService; 
+        public MeetingController(IMeetingService meetingService, ITeamService teamService)
         {
             _meetingService = meetingService;
+            _teamService = teamService; 
         }
 
         [HttpGet("GetThreeMeetingMembers/{teamId?}")]
@@ -26,5 +29,19 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok(await _meetingService.GetAllMembers(id));
         }
 
+        [HttpGet]
+        [Route("getTeamMembersOfCurrentUser")]
+        public async Task<ActionResult<ICollection<NewMeetingMemberDto>>> GetTeamMembersOfCurrentUser()
+        { 
+            var teamMembers = await _teamService.GetTeamMembersOfCurrentUserAsync();
+            return Ok(teamMembers);
+        }
+
+        [HttpPost] 
+        public async Task<ActionResult> SaveNewMeeting([FromBody] SaveMeetingDto newMeetingDto)
+        {
+            await _meetingService.CreateMeeting(newMeetingDto);
+            return Ok();
+        } 
     }
 }
