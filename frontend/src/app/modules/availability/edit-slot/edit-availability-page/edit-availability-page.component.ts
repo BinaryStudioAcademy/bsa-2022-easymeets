@@ -9,6 +9,7 @@ import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { NewAvailabilityComponent } from '@modules/availability/new-slot/new-availability/new-availability.component';
 import { deletionMessage } from '@shared/constants/shared-messages';
+import { LocationType } from '@shared/enums/locationType';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -44,11 +45,27 @@ export class EditAvailabilityPageComponent extends BaseComponent implements OnDe
                 .pipe(this.untilThis)
                 .subscribe((slotResponse) => {
                     this.slot = slotResponse;
+                    const locationName: string = this.locationTypeValues[+this.slot.locationType];
+
+                    this.slot.locationType = this.getLocation(locationName);
                     this.spinnerService.hide();
                 });
         });
 
         this.deleteEventSubscription = this.deleteEventEmitter.subscribe(() => this.deleteSlot());
+    }
+
+    locationTypeValues: string[] = Object.values(LocationType);
+
+    getLocation(name: string): LocationType {
+        switch (name) {
+            case 'Google Meet':
+                return LocationType.GoogleMeet;
+            case 'Office':
+                return LocationType.Office;
+            default:
+                return LocationType.Zoom;
+        }
     }
 
     public goToPage(pageName: string) {
