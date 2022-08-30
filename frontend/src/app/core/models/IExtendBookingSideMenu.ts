@@ -1,7 +1,8 @@
+import { LocationType } from '@shared/enums/locationType';
+
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
 import { ITeam } from './ITeam';
 import { IUser } from './IUser';
-import { LocationType } from './locationType';
 
 export interface IExternalBookingSideMenu {
     user: IUser;
