@@ -18,15 +18,17 @@ import { Subscription } from 'rxjs';
 export class SlotComponent extends BaseComponent implements OnDestroy {
     @Input() public slot: IAvailabilitySlot;
 
-    @Input() public hasOwner: boolean;
+    @Input() hasOwner: boolean;
 
     @Output() isDeleted = new EventEmitter<boolean>();
+
+    @Output() isChangedActivity = new EventEmitter<boolean>();
+
+    locationTypeValues: string[] = Object.values(LocationType);
 
     private deleteEventEmitter = new EventEmitter<void>();
 
     private deleteEventSubscription: Subscription;
-
-    @Output() isChangedActivity = new EventEmitter<boolean>();
 
     private changeActivityEventEmitter = new EventEmitter<void>();
 
@@ -35,10 +37,6 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
     private cancelActivityEventEmitter = new EventEmitter<void>();
 
     private cancelActivitySubscription: Subscription;
-
-    public isChecked: boolean = true;
-
-    LocationType = LocationType;
 
     constructor(
         private http: AvailabilitySlotService,
