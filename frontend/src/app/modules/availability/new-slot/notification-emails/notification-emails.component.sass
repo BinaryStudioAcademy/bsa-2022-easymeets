@@ -33,7 +33,7 @@
 .container
     display: grid
     flex-flow: column
-    height: 90%
+    max-height: 80vh
     margin-left: 60px
     grid-template-rows: 0.4fr 0.3fr 1fr 3fr
     grid-template-areas: "tabs" "toggle" "emailSubject" "emailBody"
@@ -98,9 +98,15 @@ p
 
 .tab-panel
     padding-top: 10px
-    width: 40vw
+    width: 45vw
     @media screen and ( max-width: $tablet-min-width)
         width: 70vw
 
-::ng-deep .tab-panel-custom.mat-tab-nav-bar
+::ng-deep .tab-panel-custom.mat-tab-nav-bar .mat-tab-links .mat-tab-link
     border-bottom: none
+    &:hover
+        background-color: $light-gray
+        border-radius: 5px
+
+:host ::ng-deep .mat-tab-label-active:hover
+    background-color: $light-blue !important

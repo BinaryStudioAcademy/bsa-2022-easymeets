@@ -1,6 +1,7 @@
-import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
-import { LocationType } from '@core/models/locationType';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
+import { LocationType } from '@shared/enums/locationType';
 
+import { getLocalMandatoryQuestions } from './questions-mandatory-helper';
 import { getScheduleItems } from './schedule-list-helper';
 
 export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
@@ -35,6 +36,7 @@ export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
                 memberImage: '',
             },
         ],
+        questions: getLocalMandatoryQuestions(),
         schedule: {
             timeZone: 1,
             scheduleItems: getScheduleItems(),

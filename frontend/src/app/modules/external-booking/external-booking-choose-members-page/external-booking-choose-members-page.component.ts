@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { getTeamForMultipleChoice } from '@core/helpers/slot-with-members-multiple-helper';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IAvailabilitySlotMember } from '@core/models/IAvailabilitySlotMember';
-import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 
 @Component({

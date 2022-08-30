@@ -15,7 +15,7 @@ export class JwtInterceptor implements HttpInterceptor {
     private handleAccess(req: HttpRequest<unknown>, next: HttpHandler) {
         const accessToken = this.authService.getAccessToken();
 
-        if (accessToken) {
+        if (accessToken && !req.url.includes('zoom.us')) {
             req = req.clone({ setHeaders: { Authorization: `Bearer ${accessToken}` } });
         }
 

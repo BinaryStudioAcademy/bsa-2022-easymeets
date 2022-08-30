@@ -16,8 +16,8 @@ builder.Services.AddEasyMeetsCoreContext(builder.Configuration);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.ConfigureJwt(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.RegisterCustomServices();
 builder.Services.AddAutoMapper();
+builder.Services.RegisterCustomServices(builder.Configuration);
 builder.Services.AddSwaggerGen();
 builder.Services.AddValidation();
 builder.Services.AddFirebaseAdmin(builder.Configuration);

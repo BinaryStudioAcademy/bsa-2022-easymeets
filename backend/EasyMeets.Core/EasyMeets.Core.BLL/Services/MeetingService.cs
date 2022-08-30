@@ -2,27 +2,39 @@
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.DAL.Context;
+using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyMeets.Core.BLL.Services
 {
     public class MeetingService : BaseService, IMeetingService
     {
-        public MeetingService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) { }
-
-        public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync()
+        private readonly IUserService _userService;
+        public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService) : base(context, mapper)
         {
+            _userService = userService;
+        }
+
+        public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync(long? teamId)
+        {
+            if (teamId is null)
+            {
+                return new List<MeetingThreeMembersDTO>();
+            }
+
+            var team = await _context.Teams.FirstOrDefaultAsync(team => team.Id == teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
+
             var meetings = await _context.Meetings
                 .Include(m => m.AvailabilitySlot)
                     .ThenInclude(s => s!.ExternalAttendees)
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
+                .Where(meeting => meeting.TeamId == team.Id)
                 .ToListAsync();
 
             var mapped = _mapper.Map<List<MeetingThreeMembersDTO>>(meetings);
             ConvertTimeZone(mapped);
-
             return mapped;
         }
 
@@ -57,6 +69,27 @@ namespace EasyMeets.Core.BLL.Services
                         break;
                 }
             }
+        }
+        public async Task CreateMeeting(SaveMeetingDto meetingDto)
+        {
+            var currentUser = await _userService.GetCurrentUserAsync();
+
+            var teamId = await _context.TeamMembers
+                .Where(x => x.UserId == currentUser.Id)
+                .Select(x => x.Team.Id)
+                .FirstOrDefaultAsync();
+
+            var meeting = _mapper.Map<Meeting>(meetingDto, opts =>
+                opts.AfterMap((_, dest) =>
+                {
+                    dest.CreatedBy = currentUser.Id;
+                    dest.TeamId = teamId;
+                })
+            );
+
+            await _context.Meetings.AddAsync(meeting);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

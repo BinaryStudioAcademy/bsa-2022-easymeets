@@ -1,25 +1,26 @@
 @import '../../../../styles/color-variables'
 
 .container
-    width: 100vw
-    margin-top: 68px
-    min-height: 100vh
+    box-sizing: border-box
+    width: 100%
     display: flex
     flex-direction: column
     align-items: center
-    background-color: $athens-gray
+    background-color: $white-color
 
 .teams-container
-    width: 76%
+    width: 80%
     height: 45%
-    position: relative
     .buttons-container
+        justify-content: flex-end
         box-sizing: border-box
         height: 72px
-        position: absolute
-        top: 0
-        right: 0
         display: flex
         flex-direction: row
         gap: 20px
         padding: 22px 0 14px 0
+        ::ng-deep .new-availability-button.mat-flat-button.mat-primary
+            background-color: $logo-color
+            border-radius: 32px
+        .new-meeting-button
+            border-radius: 32px

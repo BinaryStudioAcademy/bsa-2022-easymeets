@@ -7,6 +7,7 @@ import { DateFormatLabelMapping } from '@core/helpers/date-format-label-mapping'
 import { LanguageLabelMapping } from '@core/helpers/language-label-mapping';
 import { TimeFormatLabelMapping } from '@core/helpers/time-format-label-mapping';
 import { IImagePath } from '@core/models/IImagePath';
+import { IUpdateUser } from '@core/models/IUpdateUser';
 import { IUser } from '@core/models/IUser';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -22,7 +23,6 @@ import { TimeZone } from '@shared/enums/timeZone';
     templateUrl: './user-profile-page.component.html',
     styleUrls: ['./user-profile-page.component.sass'],
 })
-
 export class UserProfilePageComponent extends BaseComponent implements OnInit {
     constructor(
         private userService: UserService,
@@ -54,7 +54,14 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public timeZoneValues = Object.keys(TimeZone);
 
-    public countryValues = [Country.UnitedStates, Country.Ukraine, Country.Poland, Country.Sweden, Country.Italy, Country.Uganda];
+    public countryValues = [
+        Country.UnitedStates,
+        Country.Ukraine,
+        Country.Poland,
+        Country.Sweden,
+        Country.Italy,
+        Country.Uganda,
+    ];
 
     public countryLabelMapping = CountryLabelMapping;
 
@@ -72,7 +79,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     public phoneControl: FormControl = new FormControl('', [
         Validators.required,
         Validators.minLength(9),
-        Validators.maxLength(11)]);
+        Validators.maxLength(11),
+    ]);
 
     public ngOnInit(): void {
         this.userForm = new FormGroup({
@@ -111,11 +119,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     }
 
     public OnSubmit(form: FormGroup) {
-        const editedUser: IUser = {
+        const editedUser: IUpdateUser = {
             id: this.user.id,
-            uid: this.user.uid,
-            email: this.user.email,
-            image: this.user.image,
             phoneCode: this.countryCodeValues[form.value.country as Country],
             phone: form.value.phone,
             userName: form.value.userName,

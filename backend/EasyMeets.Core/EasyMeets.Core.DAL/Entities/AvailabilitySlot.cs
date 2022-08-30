@@ -10,6 +10,7 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
     {
         ExternalAttendees = new List<ExternalAttendee>();
         Questions = new List<Question>();
+        EmailTemplates = new List<EmailTemplate>();
         SlotMembers = new List<SlotMember>();
     }
     public long TeamId { get; set; }
@@ -37,6 +38,7 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
     public Schedule Schedule { get; set; } = null!;
     public ICollection<ExternalAttendee> ExternalAttendees { get; set; }
     public ICollection<Question> Questions { get; set; }
+    public ICollection<EmailTemplate> EmailTemplates { get; set; }
     public ICollection<SlotMember> SlotMembers { get; set; }
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {

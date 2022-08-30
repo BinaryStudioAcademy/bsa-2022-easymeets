@@ -2,12 +2,12 @@ import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { IAvailabilitySlot } from '@core/models/IAvailiabilitySlot';
-import { LocationType } from '@core/models/locationType';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
-import { deletionMessage } from '@shared/constants/shared-messages';
+import { activationSlotMessage, deletionMessage, inactivationSlotMessage } from '@shared/constants/shared-messages';
+import { LocationType } from '@shared/enums/locationType';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -26,6 +26,16 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
 
     private deleteEventSubscription: Subscription;
 
+    @Output() isChangedActivity = new EventEmitter<boolean>();
+
+    private changeActivityEventEmitter = new EventEmitter<void>();
+
+    private changeActivitySubscription: Subscription;
+
+    private cancelActivityEventEmitter = new EventEmitter<void>();
+
+    private cancelActivitySubscription: Subscription;
+
     public isChecked: boolean = true;
 
     LocationType = LocationType;
@@ -39,10 +49,8 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
         super();
 
         this.deleteEventSubscription = this.deleteEventEmitter.subscribe(() => this.deleteSlot());
-    }
-
-    public toggle(event: MatSlideToggleChange) {
-        this.isChecked = event.checked;
+        this.changeActivitySubscription = this.changeActivityEventEmitter.subscribe(() => this.changeSlotActivity());
+        this.cancelActivitySubscription = this.cancelActivityEventEmitter.subscribe(() => this.cancelSlotActivity());
     }
 
     public goToPage(pageName: string) {
@@ -87,9 +95,53 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
         this.isDeleted.emit(isRemove);
     }
 
+    public changeSlotActivityClick(event: MatSlideToggleChange) {
+        this.confirmWindowService.openConfirmDialog({
+            buttonsOptions: [
+                {
+                    class: 'confirm-accept-button',
+                    label: 'Yes',
+                    onClickEvent: this.changeActivityEventEmitter,
+                },
+                {
+                    class: 'confirm-cancel-button',
+                    label: 'Cancel',
+                    onClickEvent: this.cancelActivityEventEmitter,
+                },
+            ],
+            title: event.checked ? 'Confirm Slot Activation' : 'Confirm Slot Inactivation',
+            message: event.checked ? activationSlotMessage : inactivationSlotMessage,
+        });
+    }
+
+    public changeSlotActivity() {
+        this.http
+            .updateSlotEnabling(this.slot?.id)
+            .pipe(this.untilThis)
+            .subscribe(
+                () => {
+                    this.notifications.showSuccessMessage('Slot`s activity was successfully changed');
+                    this.changeActivityEvent(true);
+                },
+                (error) => {
+                    this.notifications.showErrorMessage(error);
+                },
+            );
+    }
+
+    changeActivityEvent(isChanged: boolean) {
+        this.isChangedActivity.emit(isChanged);
+    }
+
+    public cancelSlotActivity() {
+        this.changeActivityEvent(true);
+    }
+
     override ngOnDestroy(): void {
         super.ngOnDestroy();
 
         this.deleteEventSubscription.unsubscribe();
+        this.changeActivitySubscription.unsubscribe();
+        this.cancelActivitySubscription.unsubscribe();
     }
 }

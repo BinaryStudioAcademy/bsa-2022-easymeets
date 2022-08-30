@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { LocationTypeToLabelMapping } from '@core/helpers/location-type-label-mapping';
 import { IAvailabilitySlotMember } from '@core/models/IAvailabilitySlotMember';
 import { IExternalBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
-import { LocationType } from '@core/models/locationType';
 import { SpinnerService } from '@core/services/spinner.service';
 import { UserService } from '@core/services/user.service';
+import { LocationType } from '@shared/enums/locationType';
 
 @Component({
     selector: 'app-external-booking-page',
@@ -15,8 +14,6 @@ import { UserService } from '@core/services/user.service';
 })
 export class ExternalBookingPageComponent extends BaseComponent implements OnInit {
     public menu: IExternalBookingSideMenu = {} as IExternalBookingSideMenu;
-
-    public LocationTypeToLabelMapping = LocationTypeToLabelMapping;
 
     public LocationType = LocationType;
 

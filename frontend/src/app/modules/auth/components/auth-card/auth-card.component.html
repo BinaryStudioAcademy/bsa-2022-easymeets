@@ -1,23 +1,25 @@
-<mat-card class="auth-card">
-    <div class="card-header">
-        <img class="header-logo" src="./assets/sign-form-logo.svg" alt="binaryLogo" />
-        <div class="application-name">EasyMeets</div>
-    </div>
-    <mat-card-content>
-        <nav class="tab-panel" mat-tab-nav-bar [tabPanel]="tabPanel">
-            <a
-                mat-tab-link
-                *ngFor="let link of navLinks"
-                [routerLink]="link.path"
-                routerLinkActive
-                #rla="routerLinkActive"
-                (click)="activeTab = link.path"
-                [active]="rla.isActive">
-                {{ link.label }}
-            </a>
-        </nav>
-        <mat-tab-nav-panel #tabPanel>
-            <router-outlet></router-outlet>
-        </mat-tab-nav-panel>
-    </mat-card-content>
-</mat-card>
+<div class="wrapper">
+    <mat-card class="auth-card">
+        <div class="card-header">
+            <img class="header-logo" src="./assets/sign-form-logo.svg" alt="binaryLogo"/>
+            <div class="application-name">EasyMeets</div>
+        </div>
+        <mat-card-content>
+            <nav class="tab-panel" mat-tab-nav-bar [tabPanel]="tabPanel">
+                <a
+                    mat-tab-link
+                    *ngFor="let link of navLinks"
+                    [routerLink]="link.path"
+                    routerLinkActive
+                    #rla="routerLinkActive"
+                    (click)="activeTab = link.path"
+                    [active]="rla.isActive">
+                    {{ link.label }}
+                </a>
+            </nav>
+            <mat-tab-nav-panel #tabPanel>
+                <router-outlet></router-outlet>
+            </mat-tab-nav-panel>
+        </mat-card-content>
+    </mat-card>
+</div>

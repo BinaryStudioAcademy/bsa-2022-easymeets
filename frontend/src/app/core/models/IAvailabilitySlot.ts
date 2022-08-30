@@ -1,9 +1,10 @@
 import { IAdvancedSlotSettings } from '@core/models/IAdvancedSlotSettings';
 import { ISchedule } from '@core/models/schedule/ISchedule';
+import { LocationType } from '@shared/enums/locationType';
 
 import { ISaveConfirmationEmailDetails } from './save-availability-slot/ISaveConfirmationEmailDetails';
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
-import { LocationType } from './locationType';
+import { IQuestion } from './IQuestion';
 
 export interface IAvailabilitySlot {
     id: bigint;
@@ -17,6 +18,7 @@ export interface IAvailabilitySlot {
     members: IAvailabilitySlotMember[];
     advancedSlotSettingsId?: number;
     advancedSlotSettings?: IAdvancedSlotSettings;
+    questions: IQuestion[],
     schedule: ISchedule;
     welcomeMessage: string;
     frequency: number;
@@ -26,5 +28,5 @@ export interface IAvailabilitySlot {
     passwordProtectionIsUsed: boolean;
     passwordProtection?: string;
     timeZoneVisibility: boolean;
-    confirmationEmailSettings?: ISaveConfirmationEmailDetails;
+    emailTemplateSettings?: ISaveConfirmationEmailDetails[];
 }

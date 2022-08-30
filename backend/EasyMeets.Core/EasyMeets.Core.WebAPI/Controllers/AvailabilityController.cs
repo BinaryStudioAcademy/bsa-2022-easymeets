@@ -20,7 +20,8 @@ namespace EasyMeets.Core.WebAPI.Controllers
         [HttpGet("slot/{id}")]
         public async Task<ActionResult<AvailabilitySlotDto>> GetAvailabilitySlotById(long id)
         {
-            return Ok(await _availabilityService.GetAvailabilitySlotById(id));
+            var result = await _availabilityService.GetAvailabilitySlotById(id);
+            return Ok(result);
         }
 
         [HttpPost]
@@ -30,10 +31,10 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok();
         } 
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserPersonalAndTeamSlotsDto>> GetUserPersonalAndTeamSlotsAsync(long id)
+        [HttpGet("{id}/{teamId?}")]
+        public async Task<ActionResult<UserPersonalAndTeamSlotsDto>> GetUserPersonalAndTeamSlotsAsync(long id, long? teamId)
         {
-            var availabilitySlots = await _availabilityService.GetUserPersonalAndTeamSlotsAsync(id);
+            var availabilitySlots = await _availabilityService.GetUserPersonalAndTeamSlotsAsync(id, teamId);
             return Ok(availabilitySlots);
         }
 
@@ -42,7 +43,13 @@ namespace EasyMeets.Core.WebAPI.Controllers
         {
             return Ok(await _availabilityService.UpdateAvailabilitySlot(id, updateAvailabilityDto));
         }
-        
+
+        [HttpPost("enabling/{id}")]
+        public async Task<ActionResult<bool>> UpdateAvailabilitySlotEnabling(long id)
+        {
+            return Ok(await _availabilityService.UpdateAvailabilitySlotEnablingAsync(id));
+        }
+
         [HttpDelete("{slotId}")]
         public async Task<IActionResult> DeleteAvailabilitySlot(int slotId)
         {

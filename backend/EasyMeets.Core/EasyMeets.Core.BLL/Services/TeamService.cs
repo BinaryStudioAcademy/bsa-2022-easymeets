@@ -11,9 +11,8 @@ namespace EasyMeets.Core.BLL.Services;
 
 public class TeamService : BaseService, ITeamService
 {
-
     private readonly IUserService _userService;
-    private IUploadFileService _uploadFileService;
+    private readonly IUploadFileService _uploadFileService;
     public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IUploadFileService uploadFileService) : base(context, mapper)
     {
         _userService = userService;
@@ -26,27 +25,9 @@ public class TeamService : BaseService, ITeamService
         return _mapper.Map<TeamDto>(teamEntity);
     }
 
-    public async Task<string> GenerateNewPageLinkAsync(long teamId, string teamName)
+    public async Task<bool> ValidatePageLinkAsync(long? teamId, string pageLink)
     {
-        if (!await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == teamName))
-        {
-            return teamName;
-        }
-
-        int index = 1;
-
-        while (await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == $"{teamName}{index}"))
-        {
-            index++;
-        }
-
-        return $"{teamName}{index}";
-    }
-
-    public async Task<bool> ValidatePageLinkAsync(long teamId, string pageLink)
-    {
-        var isUnique = !await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == pageLink);
-        return isUnique;
+        return !await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == pageLink);
     }
 
     public async Task<TeamDto> CreateTeamAsync(NewTeamDto newTeamDto)
@@ -69,13 +50,15 @@ public class TeamService : BaseService, ITeamService
         return _mapper.Map<TeamDto>(createdTeam);
     }
 
-    public async Task UpdateTeamAsync(TeamDto teamDto)
+    public async Task UpdateTeamAsync(UpdateTeamDto teamDto)
     {
         if (await UserIsAdmin(teamDto.Id))
         {
             var teamEntity = await GetTeamByIdAsync(teamDto.Id);
             teamEntity = _mapper.Map(teamDto, teamEntity);
+            
             _context.Teams.Update(teamEntity);
+            
             await _context.SaveChangesAsync();
         }
         else
@@ -98,16 +81,20 @@ public class TeamService : BaseService, ITeamService
         }
     }
 
-    public async Task<ImagePathDto> UploadLogoAsync(IFormFile file, long teamId)
+    public async Task<ImagePathDto> UploadLogoAsync(IFormFile file, long? teamId)
     {
         var imagePath = await _uploadFileService.UploadFileBlobAsync(file);
 
-        var teamEntity = await GetTeamByIdAsync(teamId);
-
+        if (teamId is null)
+        {
+            return new ImagePathDto(){Path = imagePath};
+        }
+        
+        var teamEntity = await GetTeamByIdAsync(teamId.Value);
         teamEntity.LogoPath = imagePath;
-
         _context.Teams.Update(teamEntity);
         await _context.SaveChangesAsync();
+
         return new ImagePathDto(){Path = imagePath};
     }
 
@@ -132,6 +119,28 @@ public class TeamService : BaseService, ITeamService
     {
         var currentUser = await _userService.GetCurrentUserAsync();
         var teams = await _context.TeamMembers.Where(el => el.UserId == currentUser!.Id)
+            .Include(el => el.Team)
+            .Select(el => el.Team)
+            .ToListAsync();
+
+        return _mapper.Map<List<TeamDto>>(teams);
+    } 
+    public async Task<ICollection<NewMeetingMemberDto>> GetTeamMembersOfCurrentUserAsync()
+    {
+        var currentUser = await _userService.GetCurrentUserAsync();
+        var teamMembers = await _context.Users
+            .Include(x => x.TeamMembers)
+            .Where(x => x.Id == currentUser.Id)
+            .Select(x => _mapper.Map<NewMeetingMemberDto>(x))
+            .ToListAsync();
+
+        return teamMembers;
+    }
+    
+    public async Task<List<TeamDto>> GetCurrentUserAdminTeams()
+    {
+        var currentUser = await _userService.GetCurrentUserAsync();
+        var teams = await _context.TeamMembers.Where(el => el.UserId == currentUser.Id && el.Role == Role.Admin)
             .Include(el => el.Team)
             .Select(el => el.Team)
             .ToListAsync();
