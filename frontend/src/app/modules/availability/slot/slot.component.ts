@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
     templateUrl: './slot.component.html',
     styleUrls: ['./slot.component.sass'],
 })
-export class SlotComponent extends BaseComponent implements OnDestroy {
+export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
     @Input() public slot: IAvailabilitySlot;
 
     @Input() public hasOwner: boolean;
@@ -32,10 +32,6 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
 
     private changeActivitySubscription: Subscription;
 
-    private cancelActivityEventEmitter = new EventEmitter<void>();
-
-    private cancelActivitySubscription: Subscription;
-
     public isChecked: boolean = true;
 
     LocationType = LocationType;
@@ -50,7 +46,10 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
 
         this.deleteEventSubscription = this.deleteEventEmitter.subscribe(() => this.deleteSlot());
         this.changeActivitySubscription = this.changeActivityEventEmitter.subscribe(() => this.changeSlotActivity());
-        this.cancelActivitySubscription = this.cancelActivityEventEmitter.subscribe(() => this.cancelSlotActivity());
+    }
+
+    ngOnInit(): void {
+        this.isChecked = this.slot.isEnabled;
     }
 
     public goToPage(pageName: string) {
@@ -96,6 +95,8 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
     }
 
     public changeSlotActivityClick(event: MatSlideToggleChange) {
+        event.source.checked = this.isChecked;
+
         this.confirmWindowService.openConfirmDialog({
             buttonsOptions: [
                 {
@@ -106,7 +107,7 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
                 {
                     class: 'confirm-cancel-button',
                     label: 'Cancel',
-                    onClickEvent: this.cancelActivityEventEmitter,
+                    onClickEvent: new EventEmitter<void>(),
                 },
             ],
             title: event.checked ? 'Confirm Slot Activation' : 'Confirm Slot Inactivation',
@@ -142,6 +143,5 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
 
         this.deleteEventSubscription.unsubscribe();
         this.changeActivitySubscription.unsubscribe();
-        this.cancelActivitySubscription.unsubscribe();
     }
 }

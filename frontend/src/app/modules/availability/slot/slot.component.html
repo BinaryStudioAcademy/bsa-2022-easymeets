@@ -49,8 +49,7 @@
                 <a href="#">{{ slot.link }}</a>
             </div>
             <div class="toggle">
-                <mat-slide-toggle [checked]="slot.isEnabled" (change)="changeSlotActivityClick($event)">
-                </mat-slide-toggle>
+                <mat-slide-toggle [checked]="isChecked" (change)="changeSlotActivityClick($event)"> </mat-slide-toggle>
             </div>
         </div>
     </div>
@@ -105,8 +104,7 @@
                 <a href="#">{{ slot.link }}</a>
             </div>
             <div class="toggle">
-                <mat-slide-toggle [checked]="slot.isEnabled" (change)="changeSlotActivityClick($event)">
-                </mat-slide-toggle>
+                <mat-slide-toggle [checked]="isChecked" (change)="changeSlotActivityClick($event)"> </mat-slide-toggle>
             </div>
         </div>
     </div>
