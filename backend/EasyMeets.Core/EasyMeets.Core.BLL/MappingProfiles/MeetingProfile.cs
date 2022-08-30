@@ -50,7 +50,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
 
         private List<UserMeetingDTO> GetThreeMembersForMeeting(Meeting meeting)
         {
-            return GetAllParticipants(meeting).Take(3).ToList();
+            return GetAllParticipants(meeting).Take(4).ToList();
         }
 
         private IEnumerable<UserMeetingDTO> GetAllParticipants(Meeting meeting)
