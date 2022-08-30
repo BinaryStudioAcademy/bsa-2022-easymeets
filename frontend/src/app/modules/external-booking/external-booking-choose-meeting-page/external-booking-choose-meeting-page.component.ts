@@ -17,9 +17,7 @@ export class ExternalBookingMeetingComponent extends BaseComponent implements On
 
     @Output() selectedDurationAndLocationEvent = new EventEmitter<{ duration: number; location: LocationType }>();
 
-    public LocationType = LocationType;
-
-    public LocationTypeType: string[] = Object.values(LocationType);
+    public LocationType: string[] = Object.values(LocationType);
 
     constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {
         super();
@@ -33,7 +31,7 @@ export class ExternalBookingMeetingComponent extends BaseComponent implements On
                 this.selectedUserAvailabilitySlots = slots;
             });
 
-        console.log(Object.values(LocationType).toString());
+        /*console.log(Object.values(LocationType).toString());*/
 
         /*console.log(this.LocationTypeType[1]);
         console.log(this.LocationTypeType['1']);*/

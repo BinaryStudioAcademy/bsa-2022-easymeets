@@ -13,7 +13,7 @@
             <mat-card-title>
                 <p class="title">{{ item.name }}</p>
             </mat-card-title>
-            <mat-card-subtitle> {{ item.size }} Min, {{ LocationType[item.locationType] }} </mat-card-subtitle>
+            <mat-card-subtitle> {{ item.size }} Min, {{ LocationType[+item.locationType] }} </mat-card-subtitle>
         </mat-card>
     </ng-template>
     <ng-template #noUserSlots>
