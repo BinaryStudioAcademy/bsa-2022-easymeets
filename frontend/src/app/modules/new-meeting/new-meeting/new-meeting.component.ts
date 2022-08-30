@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
@@ -37,13 +36,15 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public duration: number;
 
+    public durationValue: number;
+
     public customTimeShown: boolean = false;
 
     public mainContentCustomTimeShown: boolean = false;
 
     public meetingForm: FormGroup;
 
-    public memberFilterCtrl: FormControl = new FormControl();
+    public memberFilterCtrl: FormControl = new FormControl('');
 
     public meetingNameControl: FormControl = new FormControl('', [
         Validators.required,
@@ -79,11 +80,14 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     }
 
     create(form: FormGroup) {
+        if (!this.customTimeShown) {
+            this.durationValue = form.value.duration.time;
+        }
         if (this.meetingForm.valid) {
             const newMeeting: INewMeeting = {
                 name: form.value.meetingName,
                 location: form.value.location,
-                duration: form.value.duration.time,
+                duration: this.durationValue,
                 startTime: form.value.date,
                 meetingLink: form.value.meetingName,
                 meetingMembers: this.addedMembers,
@@ -168,8 +172,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         this.meetingForm.get('teamMember')?.setValue(value);
         if (!this.addedMembers.includes(value)) {
             this.addedMembers.push(value);
-            this.memberFilterCtrl = new FormControl();
         }
+        this.memberFilterCtrl.setValue('');
     }
 
     removeMemberToList(form: FormGroup) {
@@ -186,7 +190,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
             startWith(''),
             map(value => {
-                const filterValue = value || ''.toLowerCase();
+                const filterValue = value.toLowerCase() || '';
 
                 return this.teamMembers.filter(teamMembers => teamMembers.name.toLowerCase().includes(filterValue));
             }),
