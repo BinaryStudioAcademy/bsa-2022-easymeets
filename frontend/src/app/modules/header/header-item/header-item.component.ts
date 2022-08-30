@@ -46,8 +46,6 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
                     });
             });
 
-
-
         this.teamService.teamStateChangeEmitted$
             .subscribe((teamChange: { teamId: number, action: TeamStateChangeActionEnum }) => {
                 this.teamService.getCurrentUserTeams()
