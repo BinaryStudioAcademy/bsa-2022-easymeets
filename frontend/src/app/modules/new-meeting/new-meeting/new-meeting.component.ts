@@ -52,13 +52,9 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         Validators.pattern(newMeetingNameRegex),
     ]);
 
-    public customTimeControl: FormControl = new FormControl('', [
-        Validators.pattern(naturalNumberRegex),
-    ]);
+    public customTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
 
-    public mainContainerCustomTimeControl: FormControl = new FormControl('', [
-        Validators.pattern(naturalNumberRegex),
-    ]);
+    public mainContainerCustomTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
 
     ngOnInit(): void {
         this.meetingForm = new FormGroup({
@@ -90,7 +86,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
                 createdAt: new Date(),
             };
 
-            this.newMeetingService.saveNewMeeting(newMeeting)
+            this.newMeetingService
+                .saveNewMeeting(newMeeting)
                 .pipe(this.untilThis)
                 .subscribe(() => {
                     this.notificationService.showSuccessMessage('New meeting was created successfully.');
@@ -185,10 +182,10 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     private getFilteredOptions() {
         this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
             startWith(''),
-            map(value => {
+            map((value) => {
                 const filterValue = value || ''.toLowerCase();
 
-                return this.teamMembers.filter(teamMembers => teamMembers.name.toLowerCase().includes(filterValue));
+                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(filterValue));
             }),
         );
     }
