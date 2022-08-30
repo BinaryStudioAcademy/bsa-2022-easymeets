@@ -21,8 +21,8 @@ export class NotificationEmailsComponent {
     private _defaultSettings: ISaveConfirmationEmailDetails = {
         allowToSend: false,
         type: TemplateType.Confirmation,
-        emailBody: getNotificationTemplate(TemplateType.Confirmation).body,
-        emailSubject: getNotificationTemplate(TemplateType.Confirmation).label,
+        emailBody: getNotificationTemplate(TemplateType.Confirmation)?.body,
+        emailSubject: getNotificationTemplate(TemplateType.Confirmation)?.label,
     };
 
     public slot?: IAvailabilitySlot;
@@ -32,10 +32,10 @@ export class NotificationEmailsComponent {
     public settings: ISaveConfirmationEmailDetails;
 
     public navLinks = [
-        { path: 'confirmation', label: getNotificationTemplate(TemplateType.Confirmation).label },
-        { path: 'cancellation', label: getNotificationTemplate(TemplateType.Cancellation).label },
-        { path: 'reminders', label: getNotificationTemplate(TemplateType.Reminders).label },
-        { path: 'follow-up', label: getNotificationTemplate(TemplateType.FollowUp).label },
+        { path: 'confirmation', label: getNotificationTemplate(TemplateType.Confirmation)?.label },
+        { path: 'cancellation', label: getNotificationTemplate(TemplateType.Cancellation)?.label },
+        { path: 'reminders', label: getNotificationTemplate(TemplateType.Reminders)?.label },
+        { path: 'follow-up', label: getNotificationTemplate(TemplateType.FollowUp)?.label },
     ];
 
     public activeTab = this.navLinks[0].path;
@@ -64,7 +64,7 @@ export class NotificationEmailsComponent {
 
     private changeTemplateType(type: TemplateType) {
         this.settings.type = type;
-        this.settings.emailSubject = getNotificationTemplate(type).label;
-        this.settings.emailBody = getNotificationTemplate(type).body;
+        this.settings.emailSubject = getNotificationTemplate(type)?.label;
+        this.settings.emailBody = getNotificationTemplate(type)?.body;
     }
 }
