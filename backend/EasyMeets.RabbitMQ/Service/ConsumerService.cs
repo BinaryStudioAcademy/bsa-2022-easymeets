@@ -8,16 +8,15 @@ namespace EasyMeets.RabbitMQ.Service
 {
     public class ConsumerService : IConsumerService
     {
-        private readonly ConnectionFactory _factory = new() { HostName = "localhost" };
         private readonly IConnection _connection;
         private readonly IModel _channelReceive;
         private readonly string _receiveNotificationFrom;
 
-        public ConsumerService(ConsumerSettings settings)
+        public ConsumerService(IConnection connection, ConsumerSettings settings)
         {
             _receiveNotificationFrom = settings.QueueName;
 
-            _connection = _factory.CreateConnection();
+            _connection = connection;
             _channelReceive = _connection.CreateModel();
             _channelReceive.QueueDeclare(
                     queue: _receiveNotificationFrom,
@@ -25,6 +24,8 @@ namespace EasyMeets.RabbitMQ.Service
                     exclusive: false,
                     autoDelete: false,
                     arguments: null);
+
+            _channelReceive.QueueBind(settings.QueueName, settings.ExchangeName, settings.RoutingKey);
 
             _channelReceive.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
         }
@@ -56,7 +57,7 @@ namespace EasyMeets.RabbitMQ.Service
         {
             if (disposing)
             {
-                if (_factory is not null)
+                if (_connection is not null)
                 {
                     _connection.Dispose();
                     _channelReceive.Dispose();
