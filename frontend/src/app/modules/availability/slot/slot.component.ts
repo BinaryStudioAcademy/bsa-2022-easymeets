@@ -82,16 +82,12 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
             .subscribe(
                 () => {
                     this.notifications.showSuccessMessage('Slot was successfully deleted');
-                    this.deleteEvent(true);
+                    this.isDeleted.emit(true);
                 },
                 (error) => {
                     this.notifications.showErrorMessage(error);
                 },
             );
-    }
-
-    deleteEvent(isRemove: boolean) {
-        this.isDeleted.emit(isRemove);
     }
 
     public changeSlotActivityClick(event: MatSlideToggleChange) {
@@ -122,16 +118,12 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
             .subscribe(
                 () => {
                     this.notifications.showSuccessMessage('Slot`s activity was successfully changed');
-                    this.changeActivityEvent(true);
+                    this.isChangedActivity.emit(true);
                 },
                 (error) => {
                     this.notifications.showErrorMessage(error);
                 },
             );
-    }
-
-    changeActivityEvent(isChanged: boolean) {
-        this.isChangedActivity.emit(isChanged);
     }
 
     override ngOnDestroy(): void {
