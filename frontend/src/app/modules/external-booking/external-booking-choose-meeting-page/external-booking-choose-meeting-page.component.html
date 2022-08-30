@@ -12,7 +12,7 @@
             (click)="addDurationAndLocation(item.size, item.locationType)">
             <mat-card-title>{{ item.name }}</mat-card-title>
             <mat-card-subtitle>
-                {{ item.size }} Min, {{ LocationTypeToLabelMapping[item.locationType] }}
+                {{ item.size }} Min, {{ item.locationType}}
             </mat-card-subtitle>
         </mat-card>
     </ng-template>
