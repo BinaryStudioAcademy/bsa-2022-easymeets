@@ -32,10 +32,12 @@
             </div>
         </div>
         <div class="meeting-details">
-            <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ LocationType[slot.locationType] }}</p>
+            <!--
+                <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ LocationType[slot.locationType] }}</p>
             <p *ngIf="!hasOwner">
                 {{ slot.size }} min, 1 of {{ slot.members.length }} members, {{ LocationType[slot.locationType] }}
             </p>
+             -->
             <div class="avatar-list">
                 <div *ngFor="let member of slot.members">
                     <img [src]="member.memberImage" class="avatar" />
@@ -88,10 +90,12 @@
             </div>
         </div>
         <div class="meeting-details">
-            <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ LocationType[slot.locationType] }}</p>
+            <!--
+                <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ LocationType[slot.locationType] }}</p>
             <p *ngIf="!hasOwner">
                 {{ slot.size }} min, 1 of {{ slot.members.length }} members, {{ LocationType[slot.locationType] }}
             </p>
+             -->
             <div class="avatar-list">
                 <div *ngFor="let member of slot.members">
                     <img [src]="member.memberImage" class="avatar" />

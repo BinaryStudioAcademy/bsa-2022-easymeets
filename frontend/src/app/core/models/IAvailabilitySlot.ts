@@ -18,7 +18,7 @@ export interface IAvailabilitySlot {
     members: IAvailabilitySlotMember[];
     advancedSlotSettingsId?: number;
     advancedSlotSettings?: IAdvancedSlotSettings;
-    questions: IQuestion[],
+    questions: IQuestion[];
     schedule: ISchedule;
     welcomeMessage: string;
     frequency: number;
