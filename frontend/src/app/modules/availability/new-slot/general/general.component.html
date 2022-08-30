@@ -34,8 +34,8 @@
             <div class="input-container">
                 <p class="input-description">Meeting Location</p>
                 <select [(ngModel)]="settings.locationType" name="meetingLocation">
-                    <option *ngFor="let meetingLocation of locationTypes" [value]="meetingLocation">
-                        {{ LocationTypeToLabelMapping[meetingLocation] }}
+                    <option *ngFor="let meetingLocation of locations" [value]="meetingLocation">
+                        {{ meetingLocation }}
                     </option>
                 </select>
             </div>
