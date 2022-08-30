@@ -19,7 +19,7 @@ import { Subscription } from 'rxjs';
 export class EditTeamComponent extends BaseComponent implements OnDestroy {
     private id: number | undefined;
 
-    public team: ITeam = {} as ITeam;
+    public team: ITeam;
 
     private deleteEventEmitter = new EventEmitter<void>();
 
@@ -53,12 +53,8 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
                     next: (team) => {
                         this.teamPreferencesComponent.formGroup.reset();
 
-                        this.team.id = team.id;
-                        this.team.image = team.image;
-                        this.team.pageLink = team.pageLink;
-                        this.team.name = team.name;
-                        this.team.description = team.description;
-                        this.team.timeZone = team.timeZone;
+                        this.team = team;
+                        this.teamPreferencesComponent.team = team;
 
                         this.teamPreferencesComponent.formGroup.patchValue({
                             name: team.name,
