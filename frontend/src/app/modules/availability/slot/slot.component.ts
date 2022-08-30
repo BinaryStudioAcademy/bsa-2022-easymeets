@@ -36,6 +36,10 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
 
     LocationType = LocationType;
 
+    private activationTitle = 'Confirm Slot Activation';
+
+    private inactivationTitle = 'Confirm Slot Inactivation';
+
     constructor(
         private http: AvailabilitySlotService,
         private notifications: NotificationService,
@@ -106,7 +110,7 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
                     onClickEvent: new EventEmitter<void>(),
                 },
             ],
-            title: event.checked ? 'Confirm Slot Activation' : 'Confirm Slot Inactivation',
+            title: event.checked ? this.activationTitle : this.inactivationTitle,
             message: event.checked ? activationSlotMessage : inactivationSlotMessage,
         });
     }
