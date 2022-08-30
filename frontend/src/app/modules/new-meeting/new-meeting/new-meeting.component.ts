@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
@@ -36,6 +35,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     public unitOfTime = Object.keys(UnitOfTime);
 
     public duration: number;
+
+    public durationValue: number;
 
     public customTimeShown: boolean = false;
 
@@ -79,11 +80,14 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     }
 
     create(form: FormGroup) {
+        if (!this.customTimeShown) {
+            this.durationValue = form.value.duration.time;
+        }
         if (this.meetingForm.valid) {
             const newMeeting: INewMeeting = {
                 name: form.value.meetingName,
                 location: form.value.location,
-                duration: form.value.duration.time,
+                duration: this.durationValue,
                 startTime: form.value.date,
                 meetingLink: form.value.meetingName,
                 meetingMembers: this.addedMembers,
