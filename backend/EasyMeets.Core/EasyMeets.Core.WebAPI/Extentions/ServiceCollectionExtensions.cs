@@ -123,19 +123,20 @@ namespace EasyMeets.Core.WebAPI.Extentions
 
         public static void AddFirebaseAdmin(this IServiceCollection services, IConfiguration configuration)
         {
+            var serviceAccount = configuration
+                .GetSection("FirebaseServiceAccount")
+                .Get<ServiceAccount>();
+
+            if (serviceAccount is not null)
+            {
+                serviceAccount.PrivateKeyId = configuration["Firebase_Service_Account_Private_Id"];
+                serviceAccount.PrivateKey = configuration["Firebase_Service_Account_Private_Key"].Replace(@"\n", "\n");
+            }
+            
             var jsonSerializerSettings = new JsonSerializerSettings
             {
                 ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }
             };
-
-            var serviceAccount = JsonConvert.DeserializeObject<ServiceAccount>(
-                File.ReadAllText("service-account-file.json"),
-                jsonSerializerSettings);
-
-            if (serviceAccount is not null)
-            {
-                serviceAccount.PrivateKey = configuration["Firebase_Service_Account_Private_Key"].Replace(@"\n", "\n");
-            }
             
             FirebaseApp.Create(new AppOptions
             {

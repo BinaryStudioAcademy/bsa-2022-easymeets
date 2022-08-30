@@ -85,17 +85,11 @@ namespace EasyMeets.Core.BLL.Services
             var user = _context.Users.Add(newUser).Entity;
             await _context.SaveChangesAsync();
 
-<<<<<<< HEAD
-            var addedUser = await _context.Users.FirstOrDefaultAsync(user => user.Email == userDto.Email);
-
-            if (addedUser is null)
-            {
-                throw new KeyNotFoundException("User has not been added");
-            }
+            await _teamSharedService.CreateDefaultUsersTeamAsync(user);
             
-            await AddUserClaims(addedUser.Uid, addedUser.Id);
+            await AddUserClaims(user.Uid, user.Id);
 
-            return _mapper.Map<User, UserDto>(addedUser);
+            return _mapper.Map<User, UserDto>(user);
         }
         
         private async Task AddUserClaims(string? uid, long? id)
@@ -118,18 +112,6 @@ namespace EasyMeets.Core.BLL.Services
             };
 
             await _firebaseAuth.SetCustomUserClaimsAsync(uid, userClaims);
-        }
-
-        public string GetCurrentUserEmail()
-        {
-            var claimsList = _httpContextAccessor.HttpContext!.User.Claims.ToList();
-            var email = claimsList.Find(el => el.Type == ClaimTypes.Email);
-            return email!.Value;
-=======
-            await _teamSharedService.CreateDefaultUsersTeamAsync(user);
-
-            return _mapper.Map<User, UserDto>(newUser);
->>>>>>> development
         }
 
         public async Task<bool> ComparePassedIdAndCurrentUserIdAsync(long id)
@@ -157,13 +139,6 @@ namespace EasyMeets.Core.BLL.Services
             _context.Users.Update(currentUser);
             await _context.SaveChangesAsync();
             return new ImagePathDto() { Path = imagePath };
-        }
-
-        public async Task<long> GetIdFromClaims(string uid)
-        {
-            var userRecord = await _firebaseAuth.GetUserAsync(uid);
-
-            return (long)userRecord.CustomClaims["id"];
         }
 
         private string? GetCurrentUserId()
