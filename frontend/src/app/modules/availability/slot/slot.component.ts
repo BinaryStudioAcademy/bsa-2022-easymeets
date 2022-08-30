@@ -134,10 +134,6 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
         this.isChangedActivity.emit(isChanged);
     }
 
-    public cancelSlotActivity() {
-        this.changeActivityEvent(true);
-    }
-
     override ngOnDestroy(): void {
         super.ngOnDestroy();
 
