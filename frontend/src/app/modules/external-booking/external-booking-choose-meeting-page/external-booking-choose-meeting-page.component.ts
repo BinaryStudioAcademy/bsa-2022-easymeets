@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
-import { LocationTypeToLabelMapping } from '@core/helpers/location-type-label-mapping';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
-import { LocationType } from '@core/models/locationType';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
+import { LocationType } from '@shared/enums/locationType';
 
 @Component({
     selector: 'app-external-booking-choose-meeting-page',
@@ -19,8 +18,6 @@ export class ExternalBookingMeetingComponent extends BaseComponent implements On
     @Output() selectedDurationAndLocationEvent = new EventEmitter<{ duration: number; location: LocationType }>();
 
     public LocationType = LocationType;
-
-    public LocationTypeToLabelMapping = LocationTypeToLabelMapping;
 
     constructor(public spinnerService: SpinnerService, private availabilitySlotService: AvailabilitySlotService) {
         super();

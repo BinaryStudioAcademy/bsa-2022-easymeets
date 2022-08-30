@@ -60,7 +60,7 @@ export class SignUpFormComponent extends BaseComponent {
         this.signUpForm.get('password')?.setErrors({ incorrectCredentials: true });
     }
 
-    private handleAuthenticationResponce(resp: firebase.auth.UserCredential | void): void {
+    private handleAuthenticationResponse(resp: firebase.auth.UserCredential | void): void {
         if (resp) {
             this.userService
                 .createUser({
@@ -94,12 +94,12 @@ export class SignUpFormComponent extends BaseComponent {
             const email = this.signUpForm.value.email ?? '';
             const password = this.signUpForm.value.password ?? '';
 
-            this.authService.signUp(email, password).then((resp) => this.handleAuthenticationResponce(resp));
+            this.authService.signUp(email, password).then((resp) => this.handleAuthenticationResponse(resp));
         }
     }
 
     public onSignInWithGoogle(): void {
-        this.authService.loginWithGoogle().then((resp) => this.handleAuthenticationResponce(resp));
+        this.authService.loginWithGoogle().then((resp) => this.handleAuthenticationResponse(resp));
     }
 
     public getEmailErrorMessage(): string {

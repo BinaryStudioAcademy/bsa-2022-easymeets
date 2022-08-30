@@ -1,5 +1,5 @@
 import { SlotType } from '@core/enums/slot-type.enum';
-import { LocationType } from '@core/models/locationType';
+import { LocationType } from '@shared/enums/locationType';
 
 export interface ISaveGeneralSettings {
     locationType: LocationType;
