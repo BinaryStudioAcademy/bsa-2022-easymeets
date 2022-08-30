@@ -43,7 +43,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public meetingForm: FormGroup;
 
-    public memberFilterCtrl: FormControl = new FormControl();
+    public memberFilterCtrl: FormControl = new FormControl('');
 
     public meetingNameControl: FormControl = new FormControl('', [
         Validators.required,
@@ -168,8 +168,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         this.meetingForm.get('teamMember')?.setValue(value);
         if (!this.addedMembers.includes(value)) {
             this.addedMembers.push(value);
-            this.memberFilterCtrl = new FormControl();
         }
+        this.memberFilterCtrl.setValue('');
     }
 
     removeMemberToList(form: FormGroup) {
@@ -186,7 +186,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
             startWith(''),
             map(value => {
-                const filterValue = value || ''.toLowerCase();
+                const filterValue = value.toLowerCase() || '';
 
                 return this.teamMembers.filter(teamMembers => teamMembers.name.toLowerCase().includes(filterValue));
             }),
