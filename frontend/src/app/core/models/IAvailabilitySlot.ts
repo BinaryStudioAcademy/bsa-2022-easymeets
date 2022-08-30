@@ -1,10 +1,10 @@
 import { IAdvancedSlotSettings } from '@core/models/IAdvancedSlotSettings';
 import { ISchedule } from '@core/models/schedule/ISchedule';
+import { LocationType } from '@shared/enums/locationType';
 
 import { ISaveConfirmationEmailDetails } from './save-availability-slot/ISaveConfirmationEmailDetails';
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
 import { IQuestion } from './IQuestion';
-import { LocationType } from './locationType';
 
 export interface IAvailabilitySlot {
     id: bigint;
