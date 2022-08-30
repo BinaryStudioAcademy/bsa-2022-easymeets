@@ -17,7 +17,7 @@ public class Schedule : Entity<long>, IValidatableObject
     public ICollection<ScheduleItem> ScheduleItems { get; set; } = new List<ScheduleItem>();
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
-        if (DefinedExternally && (DefinedBy is null || !DefinedBy.IsValidEmail()))
+        if (DefinedBy is not null && !DefinedBy.IsValidEmail())
         {
             yield return new ValidationResult("Schedule definer's email isn't valid");
         }

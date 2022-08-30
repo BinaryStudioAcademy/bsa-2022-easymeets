@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControlStatus } from '@angular/forms';
 import { Router } from '@angular/router';
+import { getAppDomain } from '@core/helpers/app-domain-helper';
 import { getNewAvailabilityMenu } from '@core/helpers/new-availability-menu-helper';
 import { SideMenuGroupTabs } from '@core/interfaces/sideMenu/tabs/sideMenuGroupTabs';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
@@ -19,7 +20,12 @@ import { QuestionsComponent } from '../questions/questions.component';
 export class NewAvailabilityComponent implements OnInit, AfterViewInit {
     @Input() showDeleteBlock: boolean = true;
 
-    @Input() slot?: IAvailabilitySlot;
+    @Input() set slotValue(value: IAvailabilitySlot | undefined) {
+        this.slot = value;
+        this.link = value?.link ?? '';
+    }
+
+    public slot?: IAvailabilitySlot;
 
     @Input() title: string;
 
@@ -45,6 +51,10 @@ export class NewAvailabilityComponent implements OnInit, AfterViewInit {
 
     index: number = 0;
 
+    link: string;
+
+    public appDomain = getAppDomain();
+
     hasAnyErrors: boolean = false;
 
     // eslint-disable-next-line no-empty-function
@@ -59,6 +69,7 @@ export class NewAvailabilityComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         this.initializeSideMenu();
         this.isActive = this.slot?.isEnabled ?? true;
+        this.link = this.slot?.link ?? '';
     }
 
     goToPage(pageName: string) {
@@ -81,5 +92,9 @@ export class NewAvailabilityComponent implements OnInit, AfterViewInit {
 
     private initializeSideMenu() {
         this.sideMenuGroups = getNewAvailabilityMenu();
+    }
+
+    onLinkChange($event: string) {
+        this.link = $event;
     }
 }
