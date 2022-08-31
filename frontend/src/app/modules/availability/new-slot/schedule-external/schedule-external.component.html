@@ -1,0 +1,51 @@
+<div class="container">
+    <img class="logo" src="assets/header/header-logo.svg" alt="header-logo"/>
+    <div class="main-content">
+            <div class="schedule-definition" *ngIf="definingSchedule">
+                <div class="info-header">
+                    <p class="info-label">Please, define Availability Schedule for {{slot?.name ?? ''}}</p>
+                    <button mat-flat-button color="primary" class="next-page-button" (click)="nextClicked()">Next step
+                    </button>
+                </div>
+                <app-schedule-definition [schedule]="schedule" [slot]="slot"></app-schedule-definition>
+            </div>
+            <div class="email-definition" *ngIf="definingEmail">
+                <div class="info-header">
+                    <button mat-icon-button (click)="returnToSchedule()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    <p class="info-label">Please, enter your Email</p>
+                    <button mat-flat-button color="primary" class="next-page-button" (click)="doneClicked()">Done
+                    </button>
+                </div>
+                <div class="wrapper">
+                    <div class="email-container">
+                        <p> System in future will send meeting invitations to this email. </p>
+                        <p class="description">Email</p>
+                        <input
+                            [(ngModel)]="schedule.definedBy"
+                            name="meetingName"
+                            #name="ngModel"
+                            type="text"
+                            matInput
+                            required
+                            maxlength="50"
+                            [pattern]="emailPattern"/>
+                        <div *ngIf="name.invalid && name.touched" class="error">
+                            <div *ngIf="name.errors?.['required']">Field is required</div>
+                            <div *ngIf="name.errors?.['pattern']">Invalid email</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="done-window" *ngIf="done">
+                <div class="wrapper">
+                    <div class="done-content">
+                        <p class="description">Thanks for defining schedule!</p>
+                        <p> System in future will send meeting invaitations to {{schedule.definedBy}}</p>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+

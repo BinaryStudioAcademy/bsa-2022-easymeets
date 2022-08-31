@@ -2,6 +2,7 @@ using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
+using EasyMeets.Core.Common.DTO.Availability.Schedule;
 using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.DAL.Entities;
@@ -258,6 +259,39 @@ namespace EasyMeets.Core.BLL.Services
             _context.Remove(slot);
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<AvailabilitySlotDto?> GetByLink(string link)
+        {
+            var slot = await GetByLinkInternal(link);
+            return slot is null ? null : _mapper.Map<AvailabilitySlotDto>(slot);
+        }
+
+        public async Task UpdateScheduleExternally(string link, ScheduleDto scheduleDto)
+        {
+            var slot = await GetByLinkInternal(link);
+            foreach (var member in slot!.SlotMembers)
+            {
+                _mapper.Map(scheduleDto, member.Schedule);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task<AvailabilitySlot?> GetByLinkInternal(string link)
+        {
+            try
+            {
+                return await _context.AvailabilitySlots
+                    .Include(slot => slot.SlotMembers)
+                        .ThenInclude(slot => slot.Schedule)
+                            .ThenInclude(s => s.ScheduleItems)
+                    .SingleAsync(s => s.Link == link);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private async Task SaveEmailTemplateConfig(EmailTemplatesSettingsDto settingsDto, AvailabilitySlot slot)

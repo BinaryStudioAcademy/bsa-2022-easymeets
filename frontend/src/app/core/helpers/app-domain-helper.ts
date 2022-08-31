@@ -1,1 +1,5 @@
-export const getAppDomain = (): string => `https://${document.location.href.split('/')[2]}/`;
+export const getAppDomain = (): string => {
+    const split = document.location.href.split('/');
+
+    return `${split[0]}//${split[2]}/`;
+};
