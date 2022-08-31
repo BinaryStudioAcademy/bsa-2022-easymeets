@@ -11,9 +11,11 @@ import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogD
 export class ConfirmationWindowComponent {
     public title: string;
 
-    public message: string;
+    public message?: string;
 
     public buttonsOptions: IConfirmButtonOptions[];
+
+    public titleImagePath?: string;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData,
@@ -22,6 +24,7 @@ export class ConfirmationWindowComponent {
         this.title = data.title;
         this.message = data.message;
         this.buttonsOptions = data.buttonsOptions;
+        this.titleImagePath = data.titleImagePath;
     }
 
     onClick(event: EventEmitter<void>) {

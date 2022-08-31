@@ -2,6 +2,7 @@ import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButt
 
 export interface IConfirmDialogData {
     title: string;
-    message: string;
+    message?: string;
     buttonsOptions: IConfirmButtonOptions[];
+    titleImagePath?: string;
 }

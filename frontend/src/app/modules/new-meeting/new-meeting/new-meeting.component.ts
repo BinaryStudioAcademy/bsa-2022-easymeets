@@ -1,25 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
+import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { NotificationService } from '@core/services/notification.service';
 import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
-import { map, Observable, startWith } from 'rxjs';
+import { map, Observable, startWith, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-new-meeting',
     templateUrl: './new-meeting.component.html',
     styleUrls: ['./new-meeting.component.sass'],
 })
-export class NewMeetingComponent extends BaseComponent implements OnInit {
-    constructor(private newMeetingService: NewMeetingService, public notificationService: NotificationService) {
+export class NewMeetingComponent extends BaseComponent implements OnInit, OnDestroy {
+    constructor(
+        private newMeetingService: NewMeetingService,
+        public notificationService: NotificationService,
+        private confirmationWindowService: ConfirmationWindowService,
+        private router: Router,
+    ) {
         super();
+        this.redirectEventSubscription = this.redirectEventEmitter.subscribe(() => this.goToBookingsPage());
     }
 
     public teamMembers: INewMeetingMember[];
@@ -46,6 +54,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     public memberFilterCtrl: FormControl = new FormControl('');
 
+    private bookedIconPath: string = 'assets/booked-icon.png';
+
     public meetingNameControl: FormControl = new FormControl('', [
         Validators.required,
         Validators.minLength(2),
@@ -56,6 +66,10 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     public customTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
 
     public mainContainerCustomTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
+
+    private redirectEventEmitter = new EventEmitter<void>();
+
+    private redirectEventSubscription: Subscription;
 
     ngOnInit(): void {
         this.meetingForm = new FormGroup({
@@ -73,6 +87,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         this.patchFormValues();
         this.setValidation();
         this.getTeamMembersOfCurrentUser();
+        this.showConfirmWindow();
     }
 
     create(form: FormGroup) {
@@ -186,11 +201,35 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     private getFilteredOptions() {
         this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
             startWith(''),
-            map(value => {
+            map((value) => {
                 const filterValue = value.toLowerCase() || '';
 
                 return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(filterValue));
             }),
         );
+    }
+
+    showConfirmWindow() {
+        this.confirmationWindowService.openConfirmDialog({
+            buttonsOptions: [
+                {
+                    class: 'confirm-accept-button',
+                    label: 'Done',
+                    onClickEvent: this.redirectEventEmitter,
+                },
+            ],
+            title: 'Meeting Created !',
+            titleImagePath: this.bookedIconPath,
+        });
+    }
+
+    goToBookingsPage() {
+        this.router.navigate(['/bookings']);
+    }
+
+    override ngOnDestroy(): void {
+        super.ngOnDestroy();
+
+        this.redirectEventSubscription.unsubscribe();
     }
 }

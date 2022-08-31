@@ -1,12 +1,97 @@
+@import url('https://rsms.me/inter/inter.css')
+@import '../../../../styles/color-variables'
+
 .wrapper
     width: 400px
     display: flex
     flex-direction: column
     align-items: center
     padding: 20px 0
+    .title-container
+        display: flex
+        flex-direction: row
+        .mat-title-img
+            margin-top: -10px
+            img
+                width: 56px
+                height: 56px
+        .mat-title-text
+            .mat-dialog-title
+                font-family: 'Inter'
+                font-style: normal
+                font-weight: 900
+                font-size: 22px
+                line-height: 146%
+    .mat-dialog-buttons
+        padding-top: 20px
+    .created-meeting-options
+        width: 100%
+        display: flex
+        flex-direction: row
+        align-items: left
+        justify-content: left
+        margin-bottom: 30px
+        .option
+            padding-right: 35px
+        .option:last-child
+            padding-right: 0
+
+    .created-meeting-participants
+        width: 100%
+        display: flex
+        flex-direction: column
+        align-items: left
+        justify-content: left
+        margin-bottom: 30px
+        .patricipants-label
+            margin-bottom: 5px
+        .patricipants-avatar img
+            width: 32px
+            height: 32px
+            border: 1.5px solid $white
+            border-radius: 200px
+        .patricipants-avatar img:first-child
+            border: none
 
 .mat-flat-button
     height: 40px
-    width: 250px
+    width: 400px
     margin: 5px
-    border-radius: 20px
+    background: $midnight
+    border-radius: 24px
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
+    font-size: 14px
+    line-height: 146%
+    color: $white
+
+.option-name
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
+    font-size: 12px
+    line-height: 136%
+    color: $raven
+.option-value
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 700
+    font-size: 14px
+    line-height: 20px
+    color: $midnight
+    padding-top: 5px
+
+hr
+    width: 400px
+    border: 1px solid $header-border-color
+
+.link-value
+    font-weight: 400
+    font-size: 16px
+    text-decoration-line: underline
+    text-transform: lowercase
+    color: $raven
+    img
+        width: 24px
+        height: 24px
