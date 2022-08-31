@@ -1,56 +1,77 @@
 <div class="wrapper">
-    <div class="title-container">
-        <ng-container *ngIf="titleImagePath; else windowTitleWithoutImage">
+    <ng-container *ngIf="titleImagePath; else windowTitleWithoutImage">
+        <div class="title-container with-image-container">
             <div class="mat-title-img">
                 <img src="{{ titleImagePath }}" />
             </div>
             <div class="mat-title-text">
                 <h1 mat-dialog-title>{{ title }}</h1>
             </div>
-        </ng-container>
-        <ng-template #windowTitleWithoutImage>
-            <div class="mat-title-text centered">
+        </div>
+    </ng-container>
+    <ng-template #windowTitleWithoutImage>
+        <div class="title-container">
+            <div class="mat-title-text">
                 <h1 mat-dialog-title>{{ title }}</h1>
             </div>
-        </ng-template>
-    </div>
-    <div *ngIf="message" mat-dialog-content [align]="'center'">
+        </div>
+    </ng-template>
+    <div *ngIf="message" mat-dialog-content [align]="'center'" class="message">
         {{ message }}
     </div>
-    <div class="created-meeting-options">
+    <div *ngIf="date || time || duration || meetingName" class="created-meeting-options">
         <div class="option">
             <div class="option-name">Date</div>
-            <div class="option-value">22 Aug 2022</div>
+            <div class="option-value">{{ date }}</div>
         </div>
         <div class="option">
             <div class="option-name">Time</div>
-            <div class="option-value">13:30</div>
+            <div class="option-value">{{ time }}</div>
         </div>
         <div class="option">
             <div class="option-name">Duration</div>
-            <div class="option-value">30 min</div>
+            <div class="option-value">{{ duration }} min</div>
         </div>
         <div class="option">
             <div class="option-name">Meeting Name</div>
-            <div class="option-value">30 Min Meeting</div>
+            <div class="option-value">{{ meetingName }}</div>
         </div>
     </div>
-    <div class="created-meeting-participants">
-        <div class="patricipants-label">
-            <div class="option-name">Participants: 16</div>
+    <div *ngIf="participants" class="created-meeting-participants">
+        <div class="participants-label">
+            <div class="option-name">Participants: {{ participants.length }}</div>
         </div>
-        <div class="patricipants-avatar">
-            <img src="assets/booked-icon.png" />
+        <div class="participants-avatars">
+            <span class="avatar"><img src="assets/header/avatar-icon.png" /></span>
+            <span class="avatar"><img src="assets/booked-icon.png" /></span>
+            <span class="avatar"><img src="assets/header/avatar-icon.png" /></span>
+            <span class="avatar"><img src="assets/booked-icon.png" /></span>
+            <span class="avatar"><img src="assets/header/avatar-icon.png" /></span>
+            <span class="avatar"><img src="assets/booked-icon.png" /></span>
+            <span class="avatar"><img src="assets/header/avatar-icon.png" /></span>
+            <span class="avatar"><img src="assets/booked-icon.png" /></span>
+            <span class="avatar"><img src="assets/header/avatar-icon.png" /></span>
+            <span class="avatar"><img src="assets/booked-icon.png" /></span>
+            <span class="avatar"><img src="assets/header/avatar-icon.png" /></span>
+            <span class="avatar"><img src="assets/booked-icon.png" /></span>
+            <span class="avatar"><img src="assets/header/avatar-icon.png" /></span>
+            <span class="avatar"><img src="assets/booked-icon.png" /></span>
+            <span class="avatar" *ngIf="participants.length > 10">
+                <div class="left-participants">+{{ participants.length - maxVisibleMembers }}</div>
+            </span>
         </div>
     </div>
-    <div class="created-meeting-options">
+    <div *ngIf="location && link" class="created-meeting-options">
         <div class="option">
             <div class="option-name">Location</div>
-            <div class="option-value">Google Meet</div>
+            <div class="option-value">{{ location }}</div>
         </div>
         <div class="option">
             <div class="option-name">Link</div>
-            <div class="option-value link-value"><img src="assets/copy_icon.png" />.../asdasdas/sds/30-min-meeting</div>
+            <div class="option-value-link">
+                <img src="assets/copy_icon.png" />
+                <div class="option-value link-value">{{ link }}</div>
+            </div>
         </div>
     </div>
     <hr />

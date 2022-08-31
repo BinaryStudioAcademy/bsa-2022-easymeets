@@ -220,6 +220,13 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             ],
             title: 'Meeting Created !',
             titleImagePath: this.bookedIconPath,
+            date: '22 Aug 2022',
+            time: '13:30',
+            duration: 30,
+            meetingName: '30 Min Meeting',
+            participants: this.addedMembers,
+            location: 'Google Meet',
+            link: '.../asdasdas/sds/30-min-meeting',
         });
     }
 

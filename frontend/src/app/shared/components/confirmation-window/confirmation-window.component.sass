@@ -2,7 +2,7 @@
 @import '../../../../styles/color-variables'
 
 .wrapper
-    width: 400px
+    width: 420px
     display: flex
     flex-direction: column
     align-items: center
@@ -22,6 +22,18 @@
                 font-weight: 900
                 font-size: 22px
                 line-height: 146%
+    .with-image-container
+        margin-right: auto
+        .mat-title-text
+            .mat-dialog-title
+                padding-left: 30px
+
+    .message
+        font-family: 'Inter'
+        font-style: normal
+        font-weight: 400
+        font-size: 16px
+        padding-bottom: 20px
     .mat-dialog-buttons
         padding-top: 20px
     .created-meeting-options
@@ -31,6 +43,7 @@
         align-items: left
         justify-content: left
         margin-bottom: 30px
+        margin-top: 30px
         .option
             padding-right: 35px
         .option:last-child
@@ -42,20 +55,24 @@
         flex-direction: column
         align-items: left
         justify-content: left
-        margin-bottom: 30px
-        .patricipants-label
+        .participants-label
             margin-bottom: 5px
-        .patricipants-avatar img
+        .participants-avatars .avatar img
             width: 32px
             height: 32px
-            border: 1.5px solid $white
+            border: 2px solid $white
             border-radius: 200px
-        .patricipants-avatar img:first-child
-            border: none
+            position: relative
+            margin-left: -12px
+            display: none
+        .participants-avatars .avatar:nth-child(-n+10) img
+            display: inline-flex
+        .participants-avatars img:first-child
+            margin-left: -2px
 
 .mat-flat-button
     height: 40px
-    width: 400px
+    width: 420px
     margin: 5px
     background: $midnight
     border-radius: 24px
@@ -83,15 +100,37 @@
     padding-top: 5px
 
 hr
-    width: 400px
+    width: 420px
     border: 1px solid $header-border-color
+    background-color: $header-border-color
 
-.link-value
-    font-weight: 400
-    font-size: 16px
-    text-decoration-line: underline
-    text-transform: lowercase
-    color: $raven
+.option-value-link
+    display: flex
+    .link-value
+        font-weight: 400
+        font-size: 16px
+        text-decoration-line: underline
+        text-transform: lowercase
+        color: $raven
     img
+        padding-top: 5px
+        padding-right: 10px
         width: 24px
         height: 24px
+        filter: invert(46%) sepia(10%) saturate(374%) hue-rotate(185deg) brightness(92%) contrast(86%)
+
+.avatar .left-participants
+    background: #F8F9FC
+    border: 2px solid #FFFFFF
+    border-radius: 200px
+    width: 32px
+    height: 32px
+    display: inline-flex
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 500
+    font-size: 14px
+    line-height: 32px
+    color: #4a505c
+    position: absolute
+    margin-left: -12px

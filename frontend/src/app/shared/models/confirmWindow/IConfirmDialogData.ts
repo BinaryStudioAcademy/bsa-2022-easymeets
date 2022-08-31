@@ -1,3 +1,4 @@
+import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
 
 export interface IConfirmDialogData {
@@ -5,4 +6,11 @@ export interface IConfirmDialogData {
     message?: string;
     buttonsOptions: IConfirmButtonOptions[];
     titleImagePath?: string;
+    date?: string;
+    time?: string;
+    duration?: number;
+    meetingName?: string;
+    participants?: INewMeetingMember[];
+    location?: string;
+    link?: string;
 }

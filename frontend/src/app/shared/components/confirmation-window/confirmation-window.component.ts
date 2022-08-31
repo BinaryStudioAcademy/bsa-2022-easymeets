@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
 import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
 
@@ -17,6 +18,22 @@ export class ConfirmationWindowComponent {
 
     public titleImagePath?: string;
 
+    public date?: string;
+
+    public time?: string;
+
+    public duration?: number;
+
+    public meetingName?: string;
+
+    public participants?: INewMeetingMember[] = [];
+
+    public location?: string;
+
+    public link?: string;
+
+    public maxVisibleMembers: number = 10;
+
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData,
         private dialogRef: MatDialogRef<ConfirmationWindowComponent>,
@@ -25,6 +42,13 @@ export class ConfirmationWindowComponent {
         this.message = data.message;
         this.buttonsOptions = data.buttonsOptions;
         this.titleImagePath = data.titleImagePath;
+        this.date = data.date;
+        this.time = data.time;
+        this.duration = data.duration;
+        this.meetingName = data.meetingName;
+        this.participants = data.participants;
+        this.location = data.location;
+        this.link = data.link;
     }
 
     onClick(event: EventEmitter<void>) {
