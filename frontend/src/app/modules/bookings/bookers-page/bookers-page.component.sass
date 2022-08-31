@@ -3,8 +3,12 @@
 .container
     background-color: $athens-gray
     box-sizing: border-box
+    overflow: auto
     height: 100%
     padding: 20px
+    .back-btn
+        margin-bottom: 20px
     .bookers-container
-        display: flex
-        gap: 20px
+        display: grid
+        grid-template-columns: repeat(auto-fit, minmax(22em, 1fr))
+        grid-gap: 20px
