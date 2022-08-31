@@ -1,6 +1,6 @@
 <header class="main-header">
     <div class="header-wrapper">
-        <img class="logo" src="assets/header/header-logo.svg"  alt="header-logo"/>
+        <img class="logo" src="assets/header/header-logo.svg" alt="header-logo" />
         <nav class="tab-panel" mat-tab-nav-bar>
             <a
                 mat-tab-link
@@ -16,8 +16,8 @@
         </nav>
 
         <button class="menu-team-btn" mat-button [matMenuTriggerFor]="menuTeam" *ngIf="teams.length; else newTeam">
-            <label>{{currentTeam?.name ?? ''}}</label>
-            <img src="assets/icons/angle-down.svg"  alt="angle-down"/>
+            <label class="current-team">{{ currentTeam?.name ?? '' }}</label>
+            <img src="assets/icons/angle-down.svg" alt="angle-down" />
         </button>
         <ng-template #newTeam>
             <button class="menu-team-btn" mat-button routerLink="/settings/teams/new">
@@ -28,7 +28,7 @@
         <mat-menu #menuTeam="matMenu">
             <button mat-menu-item routerLink="#" *ngFor="let team of teams" (click)="changeTeam(team.id)">
                 <i class="fa-solid fa-people-group"></i>
-                <span>{{team.name}}</span>
+                <span class="team-name">{{ team.name }}</span>
             </button>
             <button class="mat-menu-btn" mat-menu-item routerLink="/settings/teams/new">
                 <i class="fa-solid fa-plus"></i>
