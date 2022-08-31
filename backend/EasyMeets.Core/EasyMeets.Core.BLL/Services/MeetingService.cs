@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Meeting;
+using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -84,12 +85,24 @@ namespace EasyMeets.Core.BLL.Services
                 {
                     dest.CreatedBy = currentUser.Id;
                     dest.TeamId = teamId;
+                    dest.MeetingMembers = GetMeetingMembers(meetingDto.MeetingMembers, teamId);
                 })
             );
 
             await _context.Meetings.AddAsync(meeting);
 
             await _context.SaveChangesAsync();
+        }
+
+        private List<MeetingMember> GetMeetingMembers(List<NewMeetingMemberDto> meetingMembers, long teamId)
+        {
+            return meetingMembers
+                   .SelectMany(x =>
+                       _context.TeamMembers
+                       .Where(i => i.UserId == x.Id && i.TeamId == teamId)
+                       .Select(y => new MeetingMember { TeamMemberId = y.Id }))
+                       .ToList()
+                   .ToList();
         }
     }
 }
