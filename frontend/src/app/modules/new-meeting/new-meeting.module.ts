@@ -9,11 +9,7 @@ import { NewMeetingComponent } from './new-meeting/new-meeting.component';
 import { NewMeetingRoutingModule } from './new-meeting-routing.module';
 
 @NgModule({
-    declarations: [
-        NewMeetingComponent,
-    ],
-    imports: [
-        CommonModule, NewMeetingRoutingModule, MaterialModule, HeaderModule, SideMenuModule, SharedModule,
-    ],
+    declarations: [NewMeetingComponent],
+    imports: [CommonModule, NewMeetingRoutingModule, MaterialModule, HeaderModule, SideMenuModule, SharedModule],
 })
-export class NewMeetingModule { }
+export class NewMeetingModule {}
