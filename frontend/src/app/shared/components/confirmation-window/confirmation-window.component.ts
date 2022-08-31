@@ -20,7 +20,7 @@ export class ConfirmationWindowComponent {
 
     public date?: string;
 
-    public time?: string;
+    public time?: Date;
 
     public duration?: number;
 

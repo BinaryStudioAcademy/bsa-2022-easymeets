@@ -67,7 +67,7 @@
             display: none
         .participants-avatars .avatar:nth-child(-n+10) img
             display: inline-flex
-        .participants-avatars img:first-child
+        .participants-avatars .avatar:first-child img
             margin-left: -2px
 
 .mat-flat-button
@@ -120,8 +120,8 @@ hr
         filter: invert(46%) sepia(10%) saturate(374%) hue-rotate(185deg) brightness(92%) contrast(86%)
 
 .avatar .left-participants
-    background: #F8F9FC
-    border: 2px solid #FFFFFF
+    background: $ghost-white
+    border: 2px solid $white
     border-radius: 200px
     width: 32px
     height: 32px
@@ -131,6 +131,9 @@ hr
     font-weight: 500
     font-size: 14px
     line-height: 32px
-    color: #4a505c
+    color: $bright-grey
     position: absolute
     margin-left: -12px
+    h4
+        margin-top: 4px
+        margin-left: 7px

@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { getMembersForBookedWindow } from '@core/helpers/booked-window-members-helper';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
@@ -71,6 +72,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     private redirectEventSubscription: Subscription;
 
+    private createdMeeting: INewMeeting;
+
     ngOnInit(): void {
         this.meetingForm = new FormGroup({
             meetingName: this.meetingNameControl,
@@ -87,7 +90,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.patchFormValues();
         this.setValidation();
         this.getTeamMembersOfCurrentUser();
-        this.showConfirmWindow();
     }
 
     create(form: FormGroup) {
@@ -105,6 +107,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 createdAt: new Date(),
             };
 
+            this.createdMeeting = newMeeting;
+
             this.newMeetingService
                 .saveNewMeeting(newMeeting)
                 .pipe(this.untilThis)
@@ -115,6 +119,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         } else {
             this.notificationService.showErrorMessage('All fiels need to be set');
         }
+
+        this.showConfirmWindow();
     }
 
     getTeamMembersOfCurrentUser() {
@@ -221,12 +227,12 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             title: 'Meeting Created !',
             titleImagePath: this.bookedIconPath,
             date: '22 Aug 2022',
-            time: '13:30',
-            duration: 30,
-            meetingName: '30 Min Meeting',
-            participants: this.addedMembers,
-            location: 'Google Meet',
-            link: '.../asdasdas/sds/30-min-meeting',
+            time: this.createdMeeting.startTime,
+            duration: this.duration,
+            meetingName: this.createdMeeting.name,
+            participants: getMembersForBookedWindow(),
+            location: this.createdMeeting.location,
+            link: this.createdMeeting.meetingLink,
         });
     }
 

@@ -7,7 +7,7 @@ export interface IConfirmDialogData {
     buttonsOptions: IConfirmButtonOptions[];
     titleImagePath?: string;
     date?: string;
-    time?: string;
+    time?: Date;
     duration?: number;
     meetingName?: string;
     participants?: INewMeetingMember[];
