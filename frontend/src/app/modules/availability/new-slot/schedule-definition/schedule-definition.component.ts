@@ -14,6 +14,8 @@ export class ScheduleDefinitionComponent implements OnInit {
 
     @Input() schedule: ISchedule;
 
+    @Input() disabled: boolean = false;
+
     displayDays: string[] = getDisplayDays();
 
     readonly timeZones: ITimeZone[] = getPossibleTimeZones();

@@ -1,6 +1,6 @@
 <div class="container">
     <div class="external-definition-toggle-container">
-        <mat-slide-toggle (change)="externalDefinitionToggle($event)"></mat-slide-toggle>
+        <mat-slide-toggle [checked]="schedule.definedExternally" (change)="externalDefinitionToggle($event)"></mat-slide-toggle>
         <p>Another person defines Availability Slots</p>
     </div>
     <app-schedule-definition *ngIf="!schedule.definedExternally" [schedule]="schedule" [changeEvent]="changeEvent"></app-schedule-definition>
@@ -10,8 +10,9 @@
             <img src="assets/copy_icon.png" class="copy-button" (click)="saveLink()">
             <p class="definition-link">{{getDefinitionLink()}}</p>
         </div>
-        <div class="placeholder">
+        <div class="placeholder" *ngIf="!schedule.definedBy">
             <p>Schedule and Availability Slots will appear here after defining</p>
         </div>
+        <app-schedule-definition *ngIf="schedule.definedBy" [schedule]="schedule" [changeEvent]="changeEvent" [disabled]="true"></app-schedule-definition>
     </div>
 </div>
