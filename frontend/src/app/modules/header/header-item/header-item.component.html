@@ -38,7 +38,7 @@
         <button class="avatar-btn" mat-icon-button [matMenuTriggerFor]="menuAvatar" disableRipple="true">
             <div class="avatar">
                 <div class="avatar-container">
-                    <ng-container *ngIf="currentUser.image; else noCurrentUserImage">
+                    <ng-container *ngIf="currentUser && currentUser.image; else noCurrentUserImage">
                         <img src="{{ currentUser.image }}" />
                     </ng-container>
                     <ng-template #noCurrentUserImage>

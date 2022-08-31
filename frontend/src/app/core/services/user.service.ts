@@ -3,7 +3,7 @@ import { IImagePath } from '@core/models/IImagePath';
 import { INewUser } from '@core/models/INewUser';
 import { IUpdateUser } from '@core/models/IUpdateUser';
 import { ILocalUser, IUser } from '@core/models/IUser';
-import { map } from 'rxjs';
+import { BehaviorSubject, first, Observable, tap } from 'rxjs';
 
 import { HttpInternalService } from './http-internal.service';
 
@@ -13,71 +13,52 @@ import { HttpInternalService } from './http-internal.service';
 export class UserService {
     public routePrefix = '/user';
 
+    private onUserChanged = new BehaviorSubject<IUser | undefined>(undefined);
+
+    public userChangedEvent$ = this.onUserChanged.asObservable();
+
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService) {}
 
-    public getCurrentUser() {
-        return this.httpService.getRequest<IUser>(`${this.routePrefix}/current`).pipe(
-            map((resp) => {
-                this.setUser(resp);
-
-                return resp;
-            }),
-        );
+    /* Api calls */
+    public getCurrentUser(): Observable<IUser> {
+        return this.httpService
+            .getRequest<IUser>(`${this.routePrefix}/current`)
+            .pipe(tap((user) => this.updateUser(user)));
     }
 
-    public editUser(put: IUpdateUser) {
-        return this.httpService.putRequest<IUser>(`${this.routePrefix}`, put);
+    public createUser(newUser: INewUser): Observable<IUser> {
+        return this.httpService
+            .postRequest<IUser>(`${this.routePrefix}`, newUser)
+            .pipe(tap((user) => this.updateUser(user)));
     }
 
-    public checkExistingEmail(email: string) {
+    public editUser(put: IUpdateUser): Observable<IUser> {
+        return this.httpService
+            .putRequest<IUser>(`${this.routePrefix}`, put)
+            .pipe(tap((user) => this.updateUser(user)));
+    }
+
+    public checkExistingEmail(email: string): Observable<boolean> {
         return this.httpService.getRequest<boolean>(`${this.routePrefix}/check-email?email=${email}`);
     }
 
-    public createUser(user: INewUser) {
-        return this.httpService.postRequest<IUser>(`${this.routePrefix}`, user).pipe(
-            map((resp) => {
-                this.setUser(resp);
-
-                return resp;
+    public uploadImage(data: FormData): Observable<IImagePath> {
+        return this.httpService.putRequest<IImagePath>(`${this.routePrefix}/uploadimage`, data).pipe(
+            tap({
+                next: (image) => {
+                    this.userChangedEvent$.pipe(first()).subscribe((user) => {
+                        if (user) {
+                            user.image = image.path;
+                            this.updateUser(user);
+                        }
+                    });
+                },
             }),
         );
     }
 
-    public setUser(_user: IUser) {
-        if (_user) {
-            const localUser: ILocalUser = {
-                id: _user.id,
-                uid: _user.uid,
-                userName: _user.userName,
-                image: _user.image,
-            };
-
-            localStorage.setItem('user', JSON.stringify(localUser));
-        }
-    }
-
-    public removeUser() {
-        localStorage.removeItem('user');
-    }
-
-    public updateUser(user: IUser) {
-        localStorage.removeItem('user');
-        this.setUser(user);
-    }
-
-    public uploadImage(data: FormData) {
-        return this.httpService.putRequest<IImagePath>(`${this.routePrefix}/uploadimage`, data);
-    }
-
-    public getUserFromStorage(): ILocalUser {
-        const user = localStorage.getItem('user');
-        const localUser = JSON.parse(user!) as ILocalUser;
-
-        return localUser;
-    }
-
-    public createZoomCredentials(authCode: string, redirectUri: string) {
+    public createZoomCredentials(authCode: string, redirectUri: string): Observable<unknown> {
         return this.httpService.postRequest(`${this.routePrefix}/zoom/add`, {
             code: authCode,
             grantType: 'authorization_code',
@@ -85,7 +66,35 @@ export class UserService {
         });
     }
 
-    public getZoomClientId() {
+    public getZoomClientId(): Observable<string> {
         return this.httpService.getStringRequest(`${this.routePrefix}/zoom/client`);
+    }
+
+    /* Local storage */
+    private updateUser(user: IUser): void {
+        if (user) {
+            const localUser: ILocalUser = {
+                id: user.id,
+                uid: user.uid,
+                userName: user.userName,
+                image: user.image,
+            };
+
+            this.updateUserInLocalStorage(localUser);
+            this.onUserChanged.next(user);
+        }
+    }
+
+    public removeUser(): void {
+        this.removeUserFromLocalStorage();
+        this.onUserChanged.next(undefined);
+    }
+
+    private updateUserInLocalStorage(localUser: ILocalUser): void {
+        localStorage.setItem('user', JSON.stringify(localUser));
+    }
+
+    private removeUserFromLocalStorage(): void {
+        localStorage.removeItem('user');
     }
 }
