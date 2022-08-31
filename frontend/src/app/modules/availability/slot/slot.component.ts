@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
     templateUrl: './slot.component.html',
     styleUrls: ['./slot.component.sass'],
 })
-export class SlotComponent extends BaseComponent implements OnDestroy {
+export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
     @Input() slot: IAvailabilitySlot;
 
     @Input() hasOwner: boolean;
@@ -32,11 +32,13 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
 
     private changeActivitySubscription: Subscription;
 
-    private cancelActivityEventEmitter = new EventEmitter<void>();
-
-    private cancelActivitySubscription: Subscription;
+    public isChecked: boolean = true;
 
     locationTypeMapping = LocationTypeMapping;
+
+    private activationTitle = 'Confirm Slot Activation';
+
+    private inactivationTitle = 'Confirm Slot Inactivation';
 
     constructor(
         private http: AvailabilitySlotService,
@@ -48,7 +50,10 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
 
         this.deleteEventSubscription = this.deleteEventEmitter.subscribe(() => this.deleteSlot());
         this.changeActivitySubscription = this.changeActivityEventEmitter.subscribe(() => this.changeSlotActivity());
-        this.cancelActivitySubscription = this.cancelActivityEventEmitter.subscribe(() => this.cancelSlotActivity());
+    }
+
+    ngOnInit(): void {
+        this.isChecked = this.slot.isEnabled;
     }
 
     public goToPage(pageName: string) {
@@ -81,7 +86,7 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
             .subscribe(
                 () => {
                     this.notifications.showSuccessMessage('Slot was successfully deleted');
-                    this.deleteEvent(true);
+                    this.isDeleted.emit(true);
                 },
                 (error) => {
                     this.notifications.showErrorMessage(error);
@@ -89,11 +94,9 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
             );
     }
 
-    deleteEvent(isRemove: boolean) {
-        this.isDeleted.emit(isRemove);
-    }
-
     public changeSlotActivityClick(event: MatSlideToggleChange) {
+        event.source.checked = this.isChecked;
+
         this.confirmWindowService.openConfirmDialog({
             buttonsOptions: [
                 {
@@ -104,10 +107,10 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
                 {
                     class: 'confirm-cancel-button',
                     label: 'Cancel',
-                    onClickEvent: this.cancelActivityEventEmitter,
+                    onClickEvent: new EventEmitter<void>(),
                 },
             ],
-            title: event.checked ? 'Confirm Slot Activation' : 'Confirm Slot Inactivation',
+            title: event.checked ? this.activationTitle : this.inactivationTitle,
             message: event.checked ? activationSlotMessage : inactivationSlotMessage,
         });
     }
@@ -119,7 +122,7 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
             .subscribe(
                 () => {
                     this.notifications.showSuccessMessage('Slot`s activity was successfully changed');
-                    this.changeActivityEvent(true);
+                    this.isChangedActivity.emit(true);
                 },
                 (error) => {
                     this.notifications.showErrorMessage(error);
@@ -127,19 +130,10 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
             );
     }
 
-    changeActivityEvent(isChanged: boolean) {
-        this.isChangedActivity.emit(isChanged);
-    }
-
-    public cancelSlotActivity() {
-        this.changeActivityEvent(true);
-    }
-
     override ngOnDestroy(): void {
         super.ngOnDestroy();
 
         this.deleteEventSubscription.unsubscribe();
         this.changeActivitySubscription.unsubscribe();
-        this.cancelActivitySubscription.unsubscribe();
     }
 }
