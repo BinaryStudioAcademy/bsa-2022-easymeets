@@ -84,6 +84,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
             this.durationValue = form.value.duration.time;
         }
         if (this.meetingForm.valid) {
+            // eslint-disable-next-line no-debugger
+            debugger;
             const newMeeting: INewMeeting = {
                 name: form.value.meetingName,
                 location: form.value.location,

@@ -23,11 +23,11 @@
 
                 <div class="listScrollBlock">
                     <div *ngFor="let user of item.meetingMembers">
-                        <app-booker [booker]="user"></app-booker>
+                        <app-booker class="boker" [booker]="user"></app-booker>
                     </div>
                 </div>
 
-                <div *ngIf="item.meetingCount > 3">
+                <div *ngIf="item.meetingCount > numberOfMembersToDisplay">
                     <div class="moreBlock" (click)="goToPage('/bookings/bookers/'+item.id)">{{ item.meetingCount - 3 }}+ Booker</div>
                 </div>
             </div>
