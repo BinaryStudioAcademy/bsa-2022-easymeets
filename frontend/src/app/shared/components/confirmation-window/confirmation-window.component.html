@@ -16,7 +16,7 @@
             </div>
         </div>
     </ng-template>
-    <div *ngIf="message" mat-dialog-content [align]="'center'" class="message">
+    <div *ngIf="message" mat-dialog-content class="message">
         {{ message }}
     </div>
     <div *ngIf="date || time || duration || meetingName" class="created-meeting-options">
@@ -71,7 +71,7 @@
         </div>
     </div>
     <hr />
-    <div mat-dialog-actions [align]="'center'" class="mat-dialog-buttons">
+    <div mat-dialog-actions class="mat-dialog-buttons">
         <button
             *ngFor="let buttonOptions of buttonsOptions"
             [ngClass]="buttonOptions.class"
