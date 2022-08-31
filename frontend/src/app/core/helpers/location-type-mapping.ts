@@ -1,4 +1,4 @@
-﻿import { LocationType } from '@shared/enums/locationType';
+import { LocationType } from '@shared/enums/locationType';
 
 export function LocationTypeMapping(locationType: LocationType | string): string {
     switch (locationType) {
