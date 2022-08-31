@@ -264,7 +264,7 @@ namespace EasyMeets.Core.BLL.Services
         public async Task<AvailabilitySlotDto?> GetByLink(string link)
         {
             var slot = await GetByLinkInternal(link);
-            return slot is null ? null : _mapper.Map<AvailabilitySlotDto>(slot);
+            return _mapper.Map<AvailabilitySlotDto>(slot);
         }
 
         public async Task UpdateScheduleExternally(string link, ScheduleDto scheduleDto)
