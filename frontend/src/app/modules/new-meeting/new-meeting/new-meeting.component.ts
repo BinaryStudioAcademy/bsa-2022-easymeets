@@ -31,7 +31,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     durations: IDuration[] = getDisplayDuration();
 
-    locations = Object.keys(LocationType);
+    locations = Object.values(LocationType);
 
     unitOfTime = Object.keys(UnitOfTime);
 

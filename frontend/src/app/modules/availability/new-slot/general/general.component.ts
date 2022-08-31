@@ -65,7 +65,7 @@ export class GeneralComponent implements OnInit {
 
     public slotsFrequencies: number[] = [30, 60];
 
-    public locations = Object.keys(LocationType);
+    public locations = Object.values(LocationType);
 
     public meetingPaddings: number[] = [15, 30];
 
