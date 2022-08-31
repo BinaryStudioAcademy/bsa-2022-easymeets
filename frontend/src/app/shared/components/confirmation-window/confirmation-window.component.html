@@ -44,10 +44,10 @@
         <div class="participants-avatars">
             <ng-container *ngFor="let participant of participants">
                 <ng-container *ngIf="participant.image; else noImageParticipant">
-                    <span class="avatar"><img src="{{ participant.image }}" /></span>
+                    <span class="avatar"><img src="{{ participant.image }}" alt="member" /></span>
                 </ng-container>
                 <ng-template #noImageParticipant>
-                    <span class="avatar"><img src="assets/header/avatar-icon.png" /></span>
+                    <span class="avatar"><img src="assets/header/avatar-icon.png" alt="member" /></span>
                 </ng-template>
             </ng-container>
             <span class="avatar" *ngIf="participants.length > 10">
