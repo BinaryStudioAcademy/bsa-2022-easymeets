@@ -24,12 +24,8 @@
                         class="select-input" />
                     <div *ngIf="meetingNameControl.invalid && meetingNameControl.touched">
                         <small *ngIf="meetingNameControl.errors?.['required']">This field is required.</small>
-                        <small *ngIf="meetingNameControl.errors?.['minlength']"
-                            >Length must be more than 2 characters.</small
-                        >
-                        <small *ngIf="meetingNameControl.errors?.['maxlength']"
-                            >Length must be less than 50 characters.</small
-                        >
+                        <small *ngIf="meetingNameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
+                        <small *ngIf="meetingNameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
                         <small *ngIf="meetingNameControl.errors?.['pattern']">Invalid characters.</small>
                     </div>
                 </div>
@@ -67,9 +63,7 @@
                             </mat-select>
                         </div>
                         <div *ngIf="customTimeControl.invalid && customTimeControl.touched">
-                            <small *ngIf="customTimeShown && customTimeControl.errors?.['required']"
-                                >This field is required.</small
-                            >
+                            <small *ngIf="customTimeShown && customTimeControl.errors?.['required']">This field is required.</small>
                             <small *ngIf="customTimeControl.errors?.['pattern']">Invalid numbers.</small>
                         </div>
                     </div>
@@ -112,9 +106,7 @@
                     <div class="member-info-container" *ngFor="let member of addedMembers">
                         <div class="member-info">
                             <p>{{ member.name }}</p>
-                            <i
-                                class="fa-solid fa-xmark fa-lg cancel-icon"
-                                (click)="removeMemberToList(meetingForm)"></i>
+                            <i class="fa-solid fa-xmark fa-lg cancel-icon" (click)="removeMemberToList(meetingForm)"></i>
                         </div>
                         <mat-divider></mat-divider>
                     </div>
