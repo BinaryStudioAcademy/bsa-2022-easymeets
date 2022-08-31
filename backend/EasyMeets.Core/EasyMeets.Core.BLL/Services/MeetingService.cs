@@ -98,8 +98,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             return meetingMembers
                    .SelectMany(x =>
-                       _context.TeamMembers
-                       .Where(i => i.UserId == x.Id && i.TeamId == teamId)
+                       _context.TeamMembers.Where(i => i.UserId == x.Id && i.TeamId == teamId)
                        .Select(y => new MeetingMember { TeamMemberId = y.Id }))
                        .ToList()
                    .ToList();

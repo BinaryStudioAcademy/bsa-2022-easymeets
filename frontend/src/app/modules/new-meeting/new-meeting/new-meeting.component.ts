@@ -190,9 +190,13 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
             startWith(''),
             map(value => {
-                const filterValue = value.toLowerCase() || '';
+                if (typeof value === 'string') {
+                    const filterValue = value.toLowerCase() || '';
 
-                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(filterValue));
+                    return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(filterValue));
+                }
+
+                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(value.name));
             }),
         );
     }
