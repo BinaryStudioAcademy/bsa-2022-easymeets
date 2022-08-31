@@ -28,7 +28,7 @@
                 </div>
 
                 <div *ngIf="item.meetingCount > numberOfMembersToDisplay">
-                    <div class="moreBlock" (click)="goToPage('/bookings/bookers/'+item.id)">{{ item.meetingCount - 3 }}+ Booker</div>
+                    <div class="moreBlock" (click)="goToPage('/bookings/bookers/'+item.id)">{{ item.meetingCount - numberOfMembersToDisplay }}+ Booker</div>
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { IMeetingBooking } from '@core/models/IMeetingBooking';
@@ -17,6 +17,8 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
 
     public booker = document.getElementsByClassName('boker') as HTMLCollectionOf<HTMLElement>;
 
+    public container = document.getElementsByClassName('bookings-container') as HTMLCollectionOf<HTMLElement>;
+
     public meetingMemberRequest: IMeetingMembersRequest;
 
     public teamId?: number;
@@ -33,21 +35,29 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
         this.meetings = [];
     }
 
+    @HostListener('window:resize', ['$event'])
+    onResize() {
+        console.log(this.container[0].offsetWidth);
+    }
+
     public meetings: IMeetingBooking[];
 
     public ngOnInit(): void {
+        // eslint-disable-next-line no-debugger
+        debugger;
+        const width = this.container[0].offsetWidth;
+
+        this.detectMeetingMembersNumber(width);
         this.teamService.currentTeamEmitted$
             .subscribe(teamId => {
                 this.teamId = teamId;
-                this.meetingMemberRequest = { teamId: this.teamId, numberOfMembersToDisplay: 4 };
+                this.meetingMemberRequest = { teamId: this.teamId, numberOfMembersToDisplay: this.numberOfMembersToDisplay };
 
                 this.loadMeetings(this.meetingMemberRequest);
             });
     }
 
     private loadMeetings(meetingMemberRequest: IMeetingMembersRequest) {
-        // eslint-disable-next-line no-debugger
-        debugger;
         this.meetingService
             .getThreeMeetings(meetingMemberRequest)
             .pipe(this.untilThis)
@@ -59,27 +69,31 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             );
     }
 
-    detectMeetingMembersNumber() {
+    detectMeetingMembersNumber(widthOfContainer: number) {
         // eslint-disable-next-line no-debugger
         debugger;
-        console.log(this.listScrollBlock[0]);
-        const first = this.listScrollBlock[0];
-        const width = first.offsetWidth;
-        const height = first.offsetHeight;
 
-        console.log(width, height);
-        const bookerWidth = this.booker[0].offsetWidth;
-        const bookerHeight = this.booker[0].offsetHeight;
+        console.log(widthOfContainer);
 
-        console.log(bookerWidth, bookerHeight);
-        this.numberOfMembersToDisplay = width / bookerWidth;
+        const widthOfInfoRow = widthOfContainer - 200;
+
+        console.log(widthOfInfoRow);
+
+        const widthOfItemInfo = 291;
+
+        const widthOfListOfMembers = widthOfInfoRow - widthOfItemInfo;
+
+        console.log(widthOfListOfMembers);
+        const numberOfMembersToDisplay = widthOfListOfMembers / 236;
+
+        this.numberOfMembersToDisplay = Math.round(numberOfMembersToDisplay);
+        console.log(Math.round(numberOfMembersToDisplay));
     }
 
     // goToPage(pageName: string) {
     //     this.router.navigate([`${pageName}`]);
     // }
     goToPage(pageName: string) {
-        this.detectMeetingMembersNumber();
         console.log(pageName);
     }
 }
