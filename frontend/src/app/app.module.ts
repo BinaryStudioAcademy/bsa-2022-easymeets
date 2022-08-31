@@ -7,6 +7,7 @@ import { CoreModule } from '@core/core.module';
 import { environment } from '@env/environment';
 import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
+import { MomentTimezonePickerModule } from 'moment-timezone-picker';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { AppComponent } from './app.component';
@@ -24,6 +25,7 @@ import { AppRoutingModule } from './app-routing.module';
         MaterialModule,
         NgxMaskModule.forRoot(),
         BrowserAnimationsModule,
+        MomentTimezonePickerModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

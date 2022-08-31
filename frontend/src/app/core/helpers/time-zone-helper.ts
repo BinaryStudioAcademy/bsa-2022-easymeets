@@ -1,30 +1,10 @@
 import { ITimeZone } from '@core/models/ITimeZone';
 
-export const getPossibleTimeZones = (): ITimeZone[] => [
-    { value: -660, displayValue: 'GMT-11' },
-    { value: -600, displayValue: 'GMT-10' },
-    { value: -540, displayValue: 'GMT-9' },
-    { value: -480, displayValue: 'GMT-8' },
-    { value: -420, displayValue: 'GMT-7' },
-    { value: -360, displayValue: 'GMT-6' },
-    { value: -300, displayValue: 'GMT-5' },
-    { value: -240, displayValue: 'GMT-4' },
-    { value: -180, displayValue: 'GMT-3' },
-    { value: -120, displayValue: 'GMT-2' },
-    { value: -60, displayValue: 'GMT-1' },
-    { value: 0, displayValue: 'GMT' },
-    { value: 60, displayValue: 'GMT+1' },
-    { value: 120, displayValue: 'GMT+2' },
-    { value: 180, displayValue: 'GMT+3' },
-    { value: 240, displayValue: 'GMT+4' },
-    { value: 300, displayValue: 'GMT+5' },
-    { value: 360, displayValue: 'GMT+6' },
-    { value: 420, displayValue: 'GMT+7' },
-    { value: 480, displayValue: 'GMT+8' },
-    { value: 540, displayValue: 'GMT+9' },
-    { value: 600, displayValue: 'GMT+10' },
-    { value: 660, displayValue: 'GMT+11' },
-    { value: 720, displayValue: 'GMT+12' },
-    { value: 780, displayValue: 'GMT+13' },
-    { value: 840, displayValue: 'GMT+14' },
-];
+export const TimeZoneFullNameMapper = (fullTimeZoneName: string): ITimeZone => {
+    const zone: ITimeZone = {
+        nameValue: fullTimeZoneName.substring(0, fullTimeZoneName.length - 9),
+        timeValue: fullTimeZoneName.substring(fullTimeZoneName.length - 7, fullTimeZoneName.length - 1),
+    };
+
+    return zone;
+};

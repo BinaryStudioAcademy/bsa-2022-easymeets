@@ -12,5 +12,6 @@ export interface IUpdateUser {
     country?: Country;
     phoneCode?: string;
     phone?: string;
-    timeZone: number;
+    timeZoneName: string;
+    timeZoneValue: string;
 }

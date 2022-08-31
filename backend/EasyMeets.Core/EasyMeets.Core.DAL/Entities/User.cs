@@ -16,7 +16,8 @@ public class User : Entity<long>, IValidatableObject
     public TimeFormat TimeFormat { get; set; }
     public DateFormat DateFormat { get; set; }
     public Country? Country { get; set; }
-    public int TimeZone { get; set; }
+    public int TimeZoneValue { get; set; }
+    public string TimeZoneName { get; set; } = string.Empty;
     public bool IsBanned { get; set; }
 
     public ICollection<TeamMember> TeamMembers { get; set; } = new List<TeamMember>();

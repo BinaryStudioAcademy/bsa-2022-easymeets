@@ -1,26 +1,34 @@
-import { Component, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
 import { getScheduleItems } from '@core/helpers/schedule-list-helper';
-import { getPossibleTimeZones } from '@core/helpers/time-zone-helper';
+import { TimeZoneFullNameMapper } from '@core/helpers/time-zone-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
-import { ITimeZone } from '@core/models/ITimeZone';
 import { ISchedule } from '@core/models/schedule/ISchedule';
+import { TZone } from 'moment-timezone-picker';
 
 @Component({
     selector: 'app-schedule',
     templateUrl: './schedule.component.html',
     styleUrls: ['./schedule.component.sass'],
 })
-export class ScheduleComponent {
+export class ScheduleComponent implements OnInit {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
         this.schedule = this.slot?.schedule ?? {
-            timeZone: 0,
+            timeZoneValue: '',
+            timeZoneName: '',
             withTeamMembers: false,
             scheduleItems: getScheduleItems(),
         };
-        this.selectedTimeZone = this.getDisplayTimeZone(this.schedule.timeZone);
+        if (this.slot !== undefined) {
+            this.scheduleForm.patchValue({
+                timeZone: this.timeZoneMapping(this.slot?.schedule.timeZoneName ?? this.defaultTimeZone),
+            });
+        }
     }
+
+    public timeZoneMapping = TimeZoneFullNameMapper;
 
     changeEvent: EventEmitter<any> = new EventEmitter();
 
@@ -30,19 +38,23 @@ export class ScheduleComponent {
 
     displayDays: string[] = getDisplayDays();
 
-    readonly timeZones: ITimeZone[] = getPossibleTimeZones();
+    public scheduleForm: FormGroup;
 
-    selectedTimeZone: string;
+    private defaultTimeZone = 'Europe/Kiev (+03:00)';
 
-    changeTimeZone() {
-        this.schedule.timeZone = this.getSelectedTimeZoneValue();
+    public ngOnInit(): void {
+        this.scheduleForm = new FormGroup({
+            timeZone: new FormControl(),
+        });
+        this.scheduleForm.patchValue({
+            timeZone: this.timeZoneMapping(this.slot?.schedule.timeZoneName ?? this.defaultTimeZone),
+        });
     }
 
-    getSelectedTimeZoneValue() {
-        return this.timeZones.find((x) => x.displayValue === this.selectedTimeZone)!.value;
-    }
-
-    getDisplayTimeZone(value: number) {
-        return this.timeZones.find((x) => x.value === value)!.displayValue;
+    public changeZone(event: TZone) {
+        if (event.nameValue !== null && event.timeValue !== null) {
+            this.schedule.timeZoneName = this.scheduleForm.value.timeZone.name;
+            this.schedule.timeZoneValue = this.scheduleForm.value.timeZone.timeValue;
+        }
     }
 }

@@ -3,6 +3,7 @@ export interface ITeam {
     image?: string;
     name: string;
     pageLink: string;
-    timeZone: string;
+    timeZoneValue: number;
+    timeZoneName: string;
     description: string;
 }

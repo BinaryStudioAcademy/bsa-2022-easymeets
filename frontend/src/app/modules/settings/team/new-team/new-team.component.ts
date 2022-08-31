@@ -29,7 +29,8 @@ export class NewTeamComponent extends BaseComponent {
             image: this.teamPreferencesComponent.imageUrl,
             name: form.value.name,
             pageLink: form.value.pageLink,
-            timeZone: form.value.timeZone,
+            timeZoneName: form.value.timeZone.name,
+            timeZoneValue: form.value.timeZone.timeValue,
             description: form.value.description,
         };
 

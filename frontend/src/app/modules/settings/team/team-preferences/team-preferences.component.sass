@@ -1,4 +1,5 @@
 @import "src/styles/color-variables"
+@import "~node_modules/moment-timezone-picker/assets/moment-timezone-picker.theme"
 
 .wrapper
     display: flex
@@ -98,7 +99,6 @@ input, textarea
         border: 2px solid $cinnabar
         outline: $cinnabar
 
-
 small
     color: $cinnabar
 
@@ -124,3 +124,47 @@ input, .mat-select, textarea
 .mat-option
     min-width: 100%
     max-width: 100%
+
+:host ::ng-deep .ng-select .ng-select-container
+    height: 20px
+    color: $dark-gray
+    align-items: center
+    background: $white
+    border: 2px solid $light-gray
+    border-radius: 4px
+    width: 100%
+
+:host ::ng-deep .ng-dropdown-panel
+    background: #fff
+    left: 0
+    border: 2px solid $light-gray
+    border-radius: 4px
+
+:host ::ng-deep .ng-select .ng-select-container:after
+    border-bottom: 0px
+    content: ''
+    width: 100%
+    bottom: 0
+    position: absolute
+    transition: border-color 0.3s cubic-bezier(0.55, 0, 0.55, 0.2)
+
+:host ::ng-deep .ng-select .ng-select-container .ng-value-container .ng-input
+    bottom: .4375em
+    padding-left: 5px
+
+:host ::ng-deep .ng-select .ng-select-container
+    align-items: baseline
+    min-height: 35px
+
+:host ::ng-deep .ng-select .ng-select-container .ng-value-container
+    align-items: baseline
+    padding: .4375em 0
+    border-top: 0.5px solid transparent
+    padding-left: 5px
+
+:host ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-child
+    padding-left: 15px
+
+:host ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected
+    background: rgba(0, 0, 0, 0.12)
+    color: $black

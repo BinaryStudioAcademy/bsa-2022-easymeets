@@ -6,7 +6,8 @@ public class Schedule : Entity<long>
     /// <summary>
     /// Represents difference with GMT in minutes
     /// </summary>
-    public int TimeZone { get; set; }
+    public int TimeZoneValue { get; set; }
+    public string TimeZoneName { get; set; } = string.Empty;
     public bool WithTeamMembers { get; set; }
 
     public AvailabilitySlot AvailabilitySlot { get; set; } = null!;

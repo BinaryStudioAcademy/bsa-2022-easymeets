@@ -9,10 +9,6 @@ namespace EasyMeets.Core.BLL.MappingProfiles
     {
         public MeetingProfile()
         {
-            CreateMap<User, UserMeetingDTO>()
-                .ForMember(d => d.TimeZone, s => s.MapFrom(s => s.TimeZone.ToString()));
-            CreateMap<ExternalAttendee, UserMeetingDTO>()
-                .ForMember(d => d.TimeZone, s => s.MapFrom(s => s.TimeZone.ToString()));
             CreateMap<Meeting, MeetingThreeMembersDTO>()
                 .ForMember(dest => dest.MeetingTime, src => src.MapFrom(meeting =>
                     $"{meeting.StartTime.Hour}:{meeting.StartTime.Minute} - " +
@@ -55,14 +51,26 @@ namespace EasyMeets.Core.BLL.MappingProfiles
         private IEnumerable<UserMeetingDTO> GetAllParticipants(Meeting meeting)
         {
             var slotMembers = meeting.MeetingMembers
-                .Select(x => new UserMeetingDTO 
-                    { Name = x.TeamMember.User.Name, Email = x.TeamMember.User.Email, TimeZone = x.TeamMember.User.TimeZone.ToString() }).ToList();
+                .Select(x => new UserMeetingDTO
+                {
+                    Name = x.TeamMember.User.Name,
+                    Email = x.TeamMember.User.Email,
+                    TimeZoneName = x.TeamMember.User.TimeZoneName,
+                    TimeZoneValue = x.TeamMember.User.TimeZoneValue,
+                })
+                .ToList();
 
             if (meeting.AvailabilitySlot is not null)
             {
                 var external = meeting.AvailabilitySlot.ExternalAttendees
                     .Select(x => new UserMeetingDTO
-                        { Name = x.Name, Email = x.Email, TimeZone = x.TimeZone.ToString() }).ToList();
+                    {
+                        Name = x.Name,
+                        Email = x.Email,
+                        TimeZoneName = x.TimeZoneName,
+                        TimeZoneValue = x.TimeZoneValue,
+                    })
+                    .ToList();
 
                 return slotMembers.Union(external).ToList();
             }

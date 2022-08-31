@@ -2,6 +2,7 @@ export interface INewTeam {
     image?: string;
     name: string;
     pageLink: string;
-    timeZone: string;
+    timeZoneValue: string;
+    timeZoneName: string;
     description: string;
 }

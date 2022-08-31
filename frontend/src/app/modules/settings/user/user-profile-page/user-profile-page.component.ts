@@ -6,6 +6,7 @@ import { CountryCode } from '@core/helpers/countryCode';
 import { DateFormatLabelMapping } from '@core/helpers/date-format-label-mapping';
 import { LanguageLabelMapping } from '@core/helpers/language-label-mapping';
 import { TimeFormatLabelMapping } from '@core/helpers/time-format-label-mapping';
+import { TimeZoneFullNameMapper } from '@core/helpers/time-zone-helper';
 import { IImagePath } from '@core/models/IImagePath';
 import { IUpdateUser } from '@core/models/IUpdateUser';
 import { IUser } from '@core/models/IUser';
@@ -16,7 +17,6 @@ import { Country } from '@shared/enums/country';
 import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
-import { TimeZone } from '@shared/enums/timeZone';
 
 @Component({
     selector: 'app-user-profile-page',
@@ -52,8 +52,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public languageLabelMapping = LanguageLabelMapping;
 
-    public timeZoneValues = Object.keys(TimeZone);
-
     public countryValues = [
         Country.UnitedStates,
         Country.Ukraine,
@@ -66,6 +64,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     public countryLabelMapping = CountryLabelMapping;
 
     public countryCodeValues = CountryCode;
+
+    public timeZoneMapping = TimeZoneFullNameMapper;
 
     public countryCode: string;
 
@@ -106,7 +106,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                     dateFormat: user.dateFormat,
                     timeFormat: user.timeFormat,
                     language: user.language,
-                    timeZone: user.timeZone,
+                    timeZone: this.timeZoneMapping(user.timeZoneName),
                     image: user.image,
                 });
                 this.imageUrl = user.image;
@@ -128,7 +128,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             dateFormat: form.value.dateFormat,
             language: form.value.language,
             timeFormat: form.value.timeFormat,
-            timeZone: form.value.timeZone,
+            timeZoneName: form.value.timeZone.name,
+            timeZoneValue: form.value.timeZone.timeValue,
         };
 
         this.userService

@@ -38,7 +38,8 @@ export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
         ],
         questions: getLocalMandatoryQuestions(),
         schedule: {
-            timeZone: 1,
+            timeZoneValue: '',
+            timeZoneName: 'Europe/Kiev (+03:00)',
             scheduleItems: getScheduleItems(),
             withTeamMembers: true,
         },

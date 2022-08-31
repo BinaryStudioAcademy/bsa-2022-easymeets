@@ -3,10 +3,16 @@
         <div class="item">
             <div class="logo-block">
                 <div class="logo">
-                    <img *ngIf="imageUrl" src="{{imageUrl}}">
+                    <img *ngIf="imageUrl" src="{{ imageUrl }}" />
                 </div>
-                <input enctype="multipart/form-data" method="put" hidden #file accept="image/png,.gif,.jpg" type="file"
-                       (change)="loadImage($event)"/>
+                <input
+                    enctype="multipart/form-data"
+                    method="put"
+                    hidden
+                    #file
+                    accept="image/png,.gif,.jpg"
+                    type="file"
+                    (change)="loadImage($event)" />
                 <button type="button" class="white-button" mat-flat-button (click)="file.click()">Upload Logo</button>
             </div>
         </div>
@@ -15,7 +21,7 @@
                 <div>Team Name</div>
             </label>
             <div>
-                <input type="text" formControlName="name" (input)="generateNewPageLink(formGroup)">
+                <input type="text" formControlName="name" (input)="generateNewPageLink(formGroup)" />
             </div>
             <div *ngIf="nameControl.invalid && nameControl.touched" class="validation">
                 <small *ngIf="nameControl.errors?.['required']">This field is required.</small>
@@ -29,7 +35,7 @@
                 <div>Team Page Link</div>
             </label>
             <div>
-                <input type="text" formControlName="pageLink">
+                <input type="text" formControlName="pageLink" />
             </div>
             <div *ngIf="pageLinkControl.invalid && nameControl.touched" class="validation">
                 <small *ngIf="pageLinkControl.errors?.['required']">This field is required.</small>
@@ -38,11 +44,8 @@
         </div>
         <div class="item">
             <label>Time Zone</label>
-            <mat-select formControlName="timeZone">
-                <mat-option *ngFor="let name of timeZoneValues" [value]="timeZoneValues.indexOf(name)">
-                    {{name}}
-                </mat-option>
-            </mat-select>
+            <ng-moment-timezone-picker [formControlName]="'timeZone'" customPlaceholderText="">
+            </ng-moment-timezone-picker>
         </div>
         <div class="item">
             <label>
@@ -60,11 +63,16 @@
         </div>
         <div class="item">
             <div class="buttons-block">
-                <button mat-flat-button class="white-button" type="button" (click)="deleteClick.emit(formGroup)" *ngIf="showDeleteButton">
+                <button
+                    mat-flat-button
+                    class="white-button"
+                    type="button"
+                    (click)="deleteClick.emit(formGroup)"
+                    *ngIf="showDeleteButton">
                     <mat-icon class="icon">delete_outline</mat-icon>
                     Delete Team
                 </button>
-                <button mat-flat-button type="submit">{{submitButtonText}}</button>
+                <button mat-flat-button type="submit">{{ submitButtonText }}</button>
             </div>
         </div>
     </form>

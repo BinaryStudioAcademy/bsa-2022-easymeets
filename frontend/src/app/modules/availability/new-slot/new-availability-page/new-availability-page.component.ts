@@ -20,7 +20,7 @@ export class NewAvailabilityPageComponent extends BaseComponent {
         private teamService: TeamService,
     ) {
         super();
-        teamService.currentTeamEmitted$.subscribe(teamId => {
+        teamService.currentTeamEmitted$.subscribe((teamId) => {
             this.currentTeamId = teamId;
         });
     }
@@ -64,7 +64,7 @@ export class NewAvailabilityPageComponent extends BaseComponent {
             questions: this.newAvailabilityComponent.questionsComponent.questions,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
-            teamId: this.currentTeamId,
+            teamId: this.currentTeamId ?? 3,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
         };
 
