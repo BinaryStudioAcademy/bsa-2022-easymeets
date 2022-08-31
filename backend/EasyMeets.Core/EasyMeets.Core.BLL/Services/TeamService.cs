@@ -136,7 +136,8 @@ public class TeamService : BaseService, ITeamService
             .Include(x => x.TeamMembers)
                 .ThenInclude(x => x.Team)
                 .ThenInclude(x => x.TeamMembers)
-            .SelectMany(x => x.TeamMembers.SelectMany(y => y.Team.TeamMembers.Select(a => new NewMeetingMemberDto { Id = a.UserId, Name = a.User.Name })))
+            .SelectMany(x => x.TeamMembers
+                .SelectMany(y => y.Team.TeamMembers.Select(a => new NewMeetingMemberDto { Id = a.UserId, Name = a.User.Name })))
             .ToListAsync();
 
         return teamMembers;
