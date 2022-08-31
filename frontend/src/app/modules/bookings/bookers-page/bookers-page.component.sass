@@ -1,4 +1,5 @@
 @import "src/styles/color-variables"
+@import "src/styles/screen-variables"
 
 .container
     background-color: $athens-gray
@@ -10,5 +11,7 @@
         margin-bottom: 20px
     .bookers-container
         display: grid
-        grid-template-columns: repeat(auto-fit, minmax(22em, 1fr))
+        grid-template-columns: repeat(auto-fill, minmax(22em, 1fr))
+        @media screen and (max-width: $tablet-min-width)
+            grid-template-columns: repeat(1, 1fr)
         grid-gap: 20px
