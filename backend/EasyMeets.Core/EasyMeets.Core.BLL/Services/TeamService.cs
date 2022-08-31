@@ -7,6 +7,8 @@ using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+
 namespace EasyMeets.Core.BLL.Services;
 
 public class TeamService : BaseService, ITeamService
@@ -56,9 +58,9 @@ public class TeamService : BaseService, ITeamService
         {
             var teamEntity = await GetTeamByIdAsync(teamDto.Id);
             teamEntity = _mapper.Map(teamDto, teamEntity);
-            
+
             _context.Teams.Update(teamEntity);
-            
+
             await _context.SaveChangesAsync();
         }
         else
@@ -87,15 +89,15 @@ public class TeamService : BaseService, ITeamService
 
         if (teamId is null)
         {
-            return new ImagePathDto(){Path = imagePath};
+            return new ImagePathDto() { Path = imagePath };
         }
-        
+
         var teamEntity = await GetTeamByIdAsync(teamId.Value);
         teamEntity.LogoPath = imagePath;
         _context.Teams.Update(teamEntity);
         await _context.SaveChangesAsync();
 
-        return new ImagePathDto(){Path = imagePath};
+        return new ImagePathDto() { Path = imagePath };
     }
 
     private async Task<bool> UserIsAdmin(long teamId)
@@ -124,19 +126,22 @@ public class TeamService : BaseService, ITeamService
             .ToListAsync();
 
         return _mapper.Map<List<TeamDto>>(teams);
-    } 
+    }
     public async Task<ICollection<NewMeetingMemberDto>> GetTeamMembersOfCurrentUserAsync()
     {
         var currentUser = await _userService.GetCurrentUserAsync();
+
         var teamMembers = await _context.Users
-            .Include(x => x.TeamMembers)
             .Where(x => x.Id == currentUser.Id)
-            .Select(x => _mapper.Map<NewMeetingMemberDto>(x))
+            .Include(x => x.TeamMembers)
+                .ThenInclude(x => x.Team)
+                .ThenInclude(x => x.TeamMembers)
+            .SelectMany(x => x.TeamMembers.SelectMany(y => y.Team.TeamMembers.Select(a => new NewMeetingMemberDto { Id = a.UserId, Name = a.User.Name })))
             .ToListAsync();
 
         return teamMembers;
     }
-    
+
     public async Task<List<TeamDto>> GetCurrentUserAdminTeams()
     {
         var currentUser = await _userService.GetCurrentUserAsync();
