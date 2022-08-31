@@ -6,8 +6,8 @@ import { IMeetingMembersRequest } from '@core/models/IMeetingMemberRequest';
 import { MeetingBookingsService } from '@core/services/meeting-bookings.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { paddingLeftRigthOnBookingPage, widthOfItemInfoOnBookingPage, widthOfMemberItemContainerOnBookingPage }
-    from '@shared/constants/booking-page-element-sizes';
+import { paddingLeftRigthOnBookingPage, widthOfButtonRedirectionToBookersPage,
+    widthOfItemInfoOnBookingPage, widthOfMemberItemContainerOnBookingPage } from '@shared/constants/booking-page-element-sizes';
 
 @Component({
     selector: 'app-bookings-page',
@@ -19,7 +19,11 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
 
     public numberOfMembersToDisplay: number;
 
+    public displayButton: boolean = false;
+
     public meetings: IMeetingBooking[];
+
+    public cachedMeetings: IMeetingBooking[];
 
     constructor(
         private el: ElementRef,
@@ -60,10 +64,31 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             .pipe(this.untilThis)
             .subscribe(
                 (resp: IMeetingBooking[]) => {
-                    this.meetings = resp;
+                    // eslint-disable-next-line no-debugger
+                    debugger;
+                    this.cachedMeetings = resp;
+                    this.sliceListAccordingToCntainerSize(resp);
                 },
                 error => this.notifications.showErrorMessage(error),
             );
+    }
+
+    sliceListAccordingToCntainerSize(responseMeeting: IMeetingBooking[]) {
+        // eslint-disable-next-line no-debugger
+        debugger;
+
+        if (responseMeeting.length > 3) {
+            this.displayButton = true;
+            const widthOfListOfMembers = this.getPageSize();
+
+            const numberOfMembersToDisplay = Math.floor(widthOfListOfMembers / widthOfMemberItemContainerOnBookingPage);
+
+            this.meetings = responseMeeting.slice(0, numberOfMembersToDisplay);
+            console.log(this.meetings);
+        } else {
+            this.displayButton = false;
+            //this.meetings = responseMeeting;
+        }
     }
 
     detectMeetingMembersNumber() {
@@ -71,8 +96,11 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
         debugger;
 
         const widthOfListOfMembers = this.getPageSize();
+        const numberOfMembersToDisplay = widthOfListOfMembers / widthOfMemberItemContainerOnBookingPage;
 
-        this.numberOfMembersToDisplay = Math.round(widthOfListOfMembers / widthOfMemberItemContainerOnBookingPage);
+        console.log(numberOfMembersToDisplay);
+
+        this.numberOfMembersToDisplay = Math.floor(widthOfListOfMembers / widthOfMemberItemContainerOnBookingPage);
         console.log(this.numberOfMembersToDisplay);
     }
 
@@ -83,6 +111,13 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
         const bookingContainerWidth = bookingContainer.offsetWidth;
         const widthOfBokingSlot = bookingContainerWidth - paddingLeftRigthOnBookingPage * 2;
 
+        if (this.displayButton) {
+            const widthOfListOfMembers = widthOfBokingSlot - (widthOfItemInfoOnBookingPage + widthOfButtonRedirectionToBookersPage);
+
+            console.log(widthOfListOfMembers);
+
+            return widthOfListOfMembers;
+        }
         const widthOfListOfMembers = widthOfBokingSlot - widthOfItemInfoOnBookingPage;
 
         console.log(widthOfListOfMembers);
@@ -90,10 +125,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
         return widthOfListOfMembers;
     }
 
-    // goToPage(pageName: string) {
-    //     this.router.navigate([`${pageName}`]);
-    // }
     goToPage(pageName: string) {
-        console.log(pageName);
+        this.router.navigate([`${pageName}`]);
     }
 }
