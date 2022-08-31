@@ -23,11 +23,9 @@ namespace EasyMeets.Core.WebAPI.Extentions
         {
             services
                 .AddControllers()
-                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            services
-                .AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
                 });
             services.AddTransient<ISampleService, SampleService>();
