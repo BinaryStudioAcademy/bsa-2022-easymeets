@@ -1,31 +1,46 @@
 @import '../../../../../styles/color-variables'
+@import '../../../../../styles/screen-variables'
 
 .container
     box-sizing: border-box
     padding: 15px 0 15px 15px
     display: flex
     width: 100%
-    .schedule-container
-        width: 55%
-        border-right: 1px solid $regent-gray
-        padding-right: 25px
-        .schedule-select-container
-            display: flex
-            justify-content: space-between
-            align-items: center
-            padding-bottom: 10px
-            p
-                margin: 0
-                font-weight: bold
-    .override-container
-        width: 45%
-        display: grid
-        grid-template-columns: 100%
-        grid-template-rows: 100%
-        align-items: center
-        justify-items: center
-        button
-            border: 1px solid $regent-gray
+    flex-direction: row
+    @media (max-width: $desktop-min-width)
+        gap: 50px
+        flex-direction: column
+
+.schedule-container
+    width: 65%
+    border-right: 2px solid $loblolly
+    padding-right: 25px
+    @media (max-width: $desktop-min-width)
+        width: 90%
+        border-right: none
+        border-bottom: 2px solid $loblolly
+
+.schedule-select-container
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding-bottom: 10px
+    p
+        margin: 0
+        font-weight: bold
+
+
+
+.override-container
+    display: flex
+    width: 35%
+    align-items: center
+    justify-content: center
+    button
+        border: 1px solid $regent-gray
+
+    @media (max-width: $desktop-min-width)
+        width: 100%
 
 .input
     border: 1px solid $regent-gray
