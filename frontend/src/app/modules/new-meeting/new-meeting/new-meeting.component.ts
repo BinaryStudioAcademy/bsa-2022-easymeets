@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
+import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
@@ -22,40 +23,42 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         super();
     }
 
-    public teamMembers: INewMeetingMember[];
+    teamMembers: INewMeetingMember[];
 
-    public addedMembers: INewMeetingMember[] = [];
+    addedMembers: INewMeetingMember[] = [];
 
-    public filteredOptions: Observable<INewMeetingMember[]>;
+    filteredOptions: Observable<INewMeetingMember[]>;
 
-    public durations: IDuration[] = getDisplayDuration();
+    durations: IDuration[] = getDisplayDuration();
 
-    public locations = Object.keys(LocationType);
+    locations = Object.keys(LocationType);
 
-    public unitOfTime = Object.keys(UnitOfTime);
+    unitOfTime = Object.keys(UnitOfTime);
 
-    public duration: number;
+    duration: number;
 
-    public durationValue: number;
+    durationValue: number;
 
-    public customTimeShown: boolean = false;
+    customTimeShown: boolean = false;
 
-    public mainContentCustomTimeShown: boolean = false;
+    mainContentCustomTimeShown: boolean = false;
 
-    public meetingForm: FormGroup;
+    locationTypeMapping = LocationTypeMapping;
 
-    public memberFilterCtrl: FormControl = new FormControl('');
+    meetingForm: FormGroup;
 
-    public meetingNameControl: FormControl = new FormControl('', [
+    memberFilterCtrl: FormControl = new FormControl('');
+
+    meetingNameControl: FormControl = new FormControl('', [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
         Validators.pattern(newMeetingNameRegex),
     ]);
 
-    public customTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
+    customTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
 
-    public mainContainerCustomTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
+    mainContainerCustomTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
 
     ngOnInit(): void {
         this.meetingForm = new FormGroup({

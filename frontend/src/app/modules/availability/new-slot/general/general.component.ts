@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ActivityType } from '@core/enums/activity-type.enum';
 import { Color } from '@core/enums/color.enum';
 import { SlotType } from '@core/enums/slot-type.enum';
+import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveAdvancedSettings } from '@core/models/save-availability-slot/ISaveAdvancedSettings';
 import { ISaveGeneralSettings } from '@core/models/save-availability-slot/ISaveGeneralSettings';
@@ -85,6 +86,8 @@ export class GeneralComponent implements OnInit {
     public naturalNumberInputPattern = naturalNumberRegex;
 
     @ViewChild(NgForm) public generalForm: NgForm;
+
+    locationTypeMapping = LocationTypeMapping;
 
     ngOnInit(): void {
         this.settings = {

@@ -1,10 +1,11 @@
 import { Country } from '@shared/enums/country';
 
-export const CountryLabelMapping: Record<Country, string> = {
-    [Country.UnitedStates]: 'United States',
-    [Country.Ukraine]: 'Ukraine',
-    [Country.Poland]: 'Poland',
-    [Country.Sweden]: 'Sweden',
-    [Country.Italy]: 'Italy',
-    [Country.Uganda]: 'Uganda',
-};
+export function CountryLabelMapping(country: Country | string): string {
+    switch (country) {
+        case Country.UnitedStates:
+        case 'UnitedStates':
+            return 'United States';
+        default:
+            return country;
+    }
+}

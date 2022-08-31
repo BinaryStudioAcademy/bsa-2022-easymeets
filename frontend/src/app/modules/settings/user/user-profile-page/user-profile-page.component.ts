@@ -54,14 +54,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public timeZoneValues = Object.keys(TimeZone);
 
-    public countryValues = [
-        Country.UnitedStates,
-        Country.Ukraine,
-        Country.Poland,
-        Country.Sweden,
-        Country.Italy,
-        Country.Uganda,
-    ];
+    public countryValues = Object.keys(Country);
 
     public countryLabelMapping = CountryLabelMapping;
 
