@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControlStatus } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BaseComponent } from '@core/base/base.component';
 import { getAppDomain } from '@core/helpers/app-domain-helper';
 import { getNewAvailabilityMenu } from '@core/helpers/new-availability-menu-helper';
 import { SideMenuGroupTabs } from '@core/interfaces/sideMenu/tabs/sideMenuGroupTabs';
@@ -17,7 +18,7 @@ import { QuestionsComponent } from '../questions/questions.component';
     templateUrl: './new-availability.component.html',
     styleUrls: ['./new-availability.component.sass'],
 })
-export class NewAvailabilityComponent implements OnInit, AfterViewInit {
+export class NewAvailabilityComponent extends BaseComponent implements OnInit, AfterViewInit {
     @Input() showDeleteBlock: boolean = true;
 
     @Input() set slotValue(value: IAvailabilitySlot | undefined) {
@@ -57,8 +58,9 @@ export class NewAvailabilityComponent implements OnInit, AfterViewInit {
 
     hasAnyErrors: boolean = false;
 
-    // eslint-disable-next-line no-empty-function
-    constructor(private router: Router) {}
+    constructor(private router: Router) {
+        super();
+    }
 
     ngAfterViewInit(): void {
         this.generalComponent.generalForm.statusChanges?.subscribe((status: FormControlStatus) => {

@@ -19,11 +19,17 @@ export class ScheduleComponent extends BaseComponent {
         this.schedule = this.slot?.schedule ?? getDefaultSchedule(false);
     }
 
+    @Input() public slotLink: string;
+
+    changeEvent: EventEmitter<any> = new EventEmitter();
+
+    slot?: IAvailabilitySlot;
+
+    schedule: ISchedule;
+
     constructor(private notificationsService: NotificationService, private clipboard: Clipboard) {
         super();
     }
-
-    @Input() public slotLink: string;
 
     public externalDefinitionToggle($event: MatSlideToggleChange) {
         if (!this.schedule.definedExternally && !this.slotLink) {
@@ -32,20 +38,13 @@ export class ScheduleComponent extends BaseComponent {
 
             return;
         }
-        this.schedule.definedExternally = !this.schedule.definedExternally;
-        this.schedule = getDefaultSchedule(this.schedule.definedExternally);
+        this.schedule = getDefaultSchedule(!this.schedule.definedExternally);
         $event.source.checked = this.schedule.definedExternally;
     }
 
     public getDefinitionLink() {
         return `${getAppDomain()}slotdefining/${this.slotLink}`;
     }
-
-    changeEvent: EventEmitter<any> = new EventEmitter();
-
-    slot?: IAvailabilitySlot;
-
-    schedule: ISchedule;
 
     saveLink() {
         this.clipboard.copy(this.getDefinitionLink());

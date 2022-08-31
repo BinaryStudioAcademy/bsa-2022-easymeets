@@ -280,18 +280,11 @@ namespace EasyMeets.Core.BLL.Services
 
         private async Task<AvailabilitySlot?> GetByLinkInternal(string link)
         {
-            try
-            {
-                return await _context.AvailabilitySlots
-                    .Include(slot => slot.SlotMembers)
-                        .ThenInclude(slot => slot.Schedule)
-                            .ThenInclude(s => s.ScheduleItems)
-                    .SingleAsync(s => s.Link == link);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            return await _context.AvailabilitySlots
+                .Include(slot => slot.SlotMembers)
+                    .ThenInclude(slot => slot.Schedule)
+                        .ThenInclude(s => s.ScheduleItems)
+                .FirstOrDefaultAsync(s => s.Link == link);
         }
 
         private async Task SaveEmailTemplateConfig(EmailTemplatesSettingsDto settingsDto, AvailabilitySlot slot)

@@ -38,20 +38,24 @@ export class ScheduleExternalComponent extends BaseComponent {
         super();
         activatedRoute.params.subscribe(params => {
             this.link = params['link'];
-            slotService.getByLink(this.link)
-                .pipe(this.untilThis)
-                .subscribe(slot => {
-                    if (!slot) {
-                        this.notificationsService.showErrorMessage('Link is invalid or not unique');
-                        this.router.navigate(['/availability']);
-
-                        return;
-                    }
-                    this.slot = slot;
-                    this.schedule = slot.schedule;
-                    this.schedule.scheduleItems = getScheduleItems();
-                });
+            this.getSlotFromLink();
         });
+    }
+
+    private getSlotFromLink() {
+        this.slotService.getByLink(this.link)
+            .pipe(this.untilThis)
+            .subscribe(slot => {
+                if (!slot) {
+                    this.notificationsService.showErrorMessage('Link is invalid or not unique');
+                    this.router.navigate(['/availability']);
+
+                    return;
+                }
+                this.slot = slot;
+                this.schedule = slot.schedule;
+                this.schedule.scheduleItems = getScheduleItems();
+            });
     }
 
     public nextClicked() {
@@ -59,7 +63,7 @@ export class ScheduleExternalComponent extends BaseComponent {
         this.definingEmail = true;
     }
 
-    doneClicked() {
+    public doneClicked() {
         this.slotService.updateScheduleExternally(this.link, this.schedule)
             .pipe(this.untilThis)
             .subscribe(() => {

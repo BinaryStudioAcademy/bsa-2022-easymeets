@@ -23,8 +23,7 @@
             <mat-tab label="Week View" *ngIf="!disabled">
                 <app-schedule-week
                     [items]="schedule.scheduleItems"
-                    [itemChange]="changeEvent"
-                >
+                    [itemChange]="changeEvent">
                 </app-schedule-week>
             </mat-tab>
             <mat-tab label="Month View" *ngIf="!disabled">
