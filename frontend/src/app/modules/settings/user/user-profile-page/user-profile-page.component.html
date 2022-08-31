@@ -66,7 +66,7 @@
             </label>
             <mat-select formControlName="country" (selectionChange)="changeCountryCode(userForm)">
                 <mat-option *ngFor="let country of countryValues" [value]="country">
-                    {{ countryLabelMapping[country] }}
+                    {{ countryLabelMapping(country) }}
                 </mat-option>
             </mat-select>
         </div>

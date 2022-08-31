@@ -2,12 +2,12 @@ import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { activationSlotMessage, deletionMessage, inactivationSlotMessage } from '@shared/constants/shared-messages';
-import { LocationType } from '@shared/enums/locationType';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -16,17 +16,17 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./slot.component.sass'],
 })
 export class SlotComponent extends BaseComponent implements OnDestroy {
-    @Input() public slot: IAvailabilitySlot;
+    @Input() slot: IAvailabilitySlot;
 
-    @Input() public hasOwner: boolean;
+    @Input() hasOwner: boolean;
 
     @Output() isDeleted = new EventEmitter<boolean>();
+
+    @Output() isChangedActivity = new EventEmitter<boolean>();
 
     private deleteEventEmitter = new EventEmitter<void>();
 
     private deleteEventSubscription: Subscription;
-
-    @Output() isChangedActivity = new EventEmitter<boolean>();
 
     private changeActivityEventEmitter = new EventEmitter<void>();
 
@@ -36,9 +36,7 @@ export class SlotComponent extends BaseComponent implements OnDestroy {
 
     private cancelActivitySubscription: Subscription;
 
-    public isChecked: boolean = true;
-
-    LocationType = LocationType;
+    locationTypeMapping = LocationTypeMapping;
 
     constructor(
         private http: AvailabilitySlotService,

@@ -1,9 +1,7 @@
 <div class="container">
-    <div>
-        <button mat-icon-button (click)="goToPage('bookings')">
-            <mat-icon>arrow_back</mat-icon>
-        </button>
-    </div>
+    <button class="back-btn" mat-icon-button (click)="goToPage('bookings')">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
     <div class="bookers-container">
         <app-booker *ngFor="let booker of members; index as i" [booker]="members[i]"></app-booker>
     </div>
