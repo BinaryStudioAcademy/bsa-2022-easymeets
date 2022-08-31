@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getMembersForBookedWindow } from '@core/helpers/booked-window-members-helper';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
+import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
@@ -39,7 +40,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     durations: IDuration[] = getDisplayDuration();
 
-    locations = Object.keys(LocationType);
+    locations = Object.values(LocationType);
 
     unitOfTime = Object.keys(UnitOfTime);
 
@@ -73,6 +74,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     private redirectEventSubscription: Subscription;
 
     createdMeeting: INewMeeting;
+
+    locationTypeMapping = LocationTypeMapping;
 
     ngOnInit(): void {
         this.meetingForm = new FormGroup({

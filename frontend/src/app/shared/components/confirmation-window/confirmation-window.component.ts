@@ -2,6 +2,7 @@ import { Component, EventEmitter, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
+import { LocationType } from '@shared/enums/locationType';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
 import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
 
@@ -29,7 +30,7 @@ export class ConfirmationWindowComponent {
 
     participants?: INewMeetingMember[] = [];
 
-    location?: string;
+    location?: LocationType;
 
     link?: string;
 
