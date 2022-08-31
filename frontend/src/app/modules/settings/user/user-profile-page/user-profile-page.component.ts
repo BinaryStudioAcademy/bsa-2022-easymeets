@@ -130,7 +130,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             .subscribe({
                 next: () =>
                     this.notificationService.showSuccessMessage('Personal information was updated successfully.'),
-                error: () => this.notificationService.showErrorMessage('There was an error while updating.'),
             });
     }
 
@@ -157,9 +156,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             .subscribe({
                 next: (resp: IImagePath) => {
                     this.imageUrl = resp.path;
-                },
-                error: () => {
-                    this.notificationService.showErrorMessage('Something went wrong. Picture was not uploaded.');
                 },
             });
     }

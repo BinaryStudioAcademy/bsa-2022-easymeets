@@ -6,6 +6,7 @@ import { ILocalUser, IUser } from '@core/models/IUser';
 import { BehaviorSubject, first, Observable, tap } from 'rxjs';
 
 import { HttpInternalService } from './http-internal.service';
+import { NotificationService } from './notification.service';
 
 @Injectable({
     providedIn: 'root',
@@ -18,7 +19,7 @@ export class UserService {
     public userChangedEvent$ = this.onUserChanged.asObservable();
 
     // eslint-disable-next-line no-empty-function
-    constructor(private httpService: HttpInternalService) {}
+    constructor(private httpService: HttpInternalService, private notificationService: NotificationService) {}
 
     /* Api calls */
     public getCurrentUser(): Observable<IUser> {
@@ -28,15 +29,21 @@ export class UserService {
     }
 
     public createUser(newUser: INewUser): Observable<IUser> {
-        return this.httpService
-            .postRequest<IUser>(`${this.routePrefix}`, newUser)
-            .pipe(tap((user) => this.updateUser(user)));
+        return this.httpService.postRequest<IUser>(`${this.routePrefix}`, newUser).pipe(
+            tap({
+                next: (user) => this.updateUser(user),
+                error: () => this.notificationService.showErrorMessage('Something went wrong. Failed to create user.'),
+            }),
+        );
     }
 
     public editUser(put: IUpdateUser): Observable<IUser> {
-        return this.httpService
-            .putRequest<IUser>(`${this.routePrefix}`, put)
-            .pipe(tap((user) => this.updateUser(user)));
+        return this.httpService.putRequest<IUser>(`${this.routePrefix}`, put).pipe(
+            tap({
+                next: (user) => this.updateUser(user),
+                error: () => this.notificationService.showErrorMessage('Something went wrong. Failed to update user.'),
+            }),
+        );
     }
 
     public checkExistingEmail(email: string): Observable<boolean> {
@@ -54,6 +61,7 @@ export class UserService {
                         }
                     });
                 },
+                error: () => this.notificationService.showErrorMessage('Something went wrong. Failed to upload image.'),
             }),
         );
     }
