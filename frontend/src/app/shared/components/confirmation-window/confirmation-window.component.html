@@ -60,7 +60,7 @@
     <div *ngIf="location && link" class="created-meeting-options">
         <div class="option">
             <div class="option-name">Location</div>
-            <div class="option-value">{{ location }}</div>
+            <div class="option-value">{{ locationTypeMapping(location) }}</div>
         </div>
         <div class="option">
             <div class="option-name">Link</div>
