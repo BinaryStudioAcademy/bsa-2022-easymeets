@@ -2,10 +2,10 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChil
 import { FormControlStatus } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { getAppDomain } from '@core/helpers/app-domain-helper';
 import { getNewAvailabilityMenu } from '@core/helpers/new-availability-menu-helper';
 import { SideMenuGroupTabs } from '@core/interfaces/sideMenu/tabs/sideMenuGroupTabs';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
+import { environment } from '@env/environment';
 import { EventDetailComponent } from '@modules/availability/new-slot/event-detail/event-detail.component';
 import { GeneralComponent } from '@modules/availability/new-slot/general/general.component';
 import { ScheduleComponent } from '@modules/availability/new-slot/schedule/schedule.component';
@@ -54,7 +54,7 @@ export class NewAvailabilityComponent extends BaseComponent implements OnInit, A
 
     link: string;
 
-    public appDomain = getAppDomain();
+    public appDomain = environment.appUrl;
 
     hasAnyErrors: boolean = false;
 

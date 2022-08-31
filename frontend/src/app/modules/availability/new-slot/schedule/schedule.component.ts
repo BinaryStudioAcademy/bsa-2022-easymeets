@@ -2,11 +2,11 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, EventEmitter, Input } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { BaseComponent } from '@core/base/base.component';
-import { getAppDomain } from '@core/helpers/app-domain-helper';
 import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 import { NotificationService } from '@core/services/notification.service';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-schedule',
@@ -43,7 +43,7 @@ export class ScheduleComponent extends BaseComponent {
     }
 
     public getDefinitionLink() {
-        return `${getAppDomain()}slotdefining/${this.slotLink}`;
+        return `${environment.appUrl}slotdefining/${this.slotLink}`;
     }
 
     saveLink() {

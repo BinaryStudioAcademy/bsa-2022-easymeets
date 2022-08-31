@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { getAppDomain } from '@core/helpers/app-domain-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveEventDetails } from '@core/models/save-availability-slot/ISaveEventDetails';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-event-detail',
@@ -25,7 +25,7 @@ export class EventDetailComponent implements OnInit {
 
     @Output() linkChange = new EventEmitter<string>();
 
-    public appDomain = getAppDomain();
+    public appDomain = environment.appUrl;
 
     public slot?: IAvailabilitySlot;
 

@@ -27,11 +27,11 @@ export class ScheduleDefinitionComponent implements OnInit {
     }
 
     getSelectedTimeZoneValue() {
-        return this.timeZones.find((x) => x.displayValue === this.selectedTimeZone)!.value;
+        return this.timeZones.find((x) => x.displayValue === this.selectedTimeZone)?.value ?? 0;
     }
 
     getDisplayTimeZone(value: number) {
-        return this.timeZones.find((x) => x.value === value)!.displayValue;
+        return this.timeZones.find((x) => x.value === value)?.displayValue ?? '';
     }
 
     ngOnInit(): void {
