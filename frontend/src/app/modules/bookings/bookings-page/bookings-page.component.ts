@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { IMeetingBooking } from '@core/models/IMeetingBooking';
@@ -6,6 +6,8 @@ import { IMeetingMembersRequest } from '@core/models/IMeetingMemberRequest';
 import { MeetingBookingsService } from '@core/services/meeting-bookings.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
+import { paddingLeftRigthOnBookingPage, widthOfItemInfoOnBookingPage, widthOfMemberItemContainerOnBookingPage }
+    from '@shared/constants/booking-page-element-sizes';
 
 @Component({
     selector: 'app-bookings-page',
@@ -13,19 +15,14 @@ import { TeamService } from '@core/services/team.service';
     styleUrls: ['./bookings-page.component.sass'],
 })
 export class BookingsPageComponent extends BaseComponent implements OnInit {
-    public listScrollBlock = document.getElementsByClassName('listScrollBlock') as HTMLCollectionOf<HTMLElement>;
-
-    public booker = document.getElementsByClassName('boker') as HTMLCollectionOf<HTMLElement>;
-
-    public container = document.getElementsByClassName('bookings-container') as HTMLCollectionOf<HTMLElement>;
-
-    public meetingMemberRequest: IMeetingMembersRequest;
-
     public teamId?: number;
 
     public numberOfMembersToDisplay: number;
 
+    public meetings: IMeetingBooking[];
+
     constructor(
+        private el: ElementRef,
         private meetingService: MeetingBookingsService,
         private router: Router,
         private notifications: NotificationService,
@@ -37,23 +34,23 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
 
     @HostListener('window:resize', ['$event'])
     onResize() {
-        console.log(this.container[0].offsetWidth);
+        //console.log(this.container.offsetWidth);
     }
-
-    public meetings: IMeetingBooking[];
 
     public ngOnInit(): void {
         // eslint-disable-next-line no-debugger
         debugger;
-        const width = this.container[0].offsetWidth;
 
-        this.detectMeetingMembersNumber(width);
+        this.detectMeetingMembersNumber();
         this.teamService.currentTeamEmitted$
             .subscribe(teamId => {
                 this.teamId = teamId;
-                this.meetingMemberRequest = { teamId: this.teamId, numberOfMembersToDisplay: this.numberOfMembersToDisplay };
+                const meetingMemberRequest: IMeetingMembersRequest = {
+                    teamId: this.teamId,
+                    numberOfMembersToDisplay: this.numberOfMembersToDisplay,
+                };
 
-                this.loadMeetings(this.meetingMemberRequest);
+                this.loadMeetings(meetingMemberRequest);
             });
     }
 
@@ -69,25 +66,28 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             );
     }
 
-    detectMeetingMembersNumber(widthOfContainer: number) {
+    detectMeetingMembersNumber() {
         // eslint-disable-next-line no-debugger
         debugger;
 
-        console.log(widthOfContainer);
+        const widthOfListOfMembers = this.getPageSize();
 
-        const widthOfInfoRow = widthOfContainer - 200;
+        this.numberOfMembersToDisplay = Math.round(widthOfListOfMembers / widthOfMemberItemContainerOnBookingPage);
+        console.log(this.numberOfMembersToDisplay);
+    }
 
-        console.log(widthOfInfoRow);
+    getPageSize(): number {
+        const bookingContainer = (<HTMLElement> this.el.nativeElement)
+            .querySelector('.bookings-container') as HTMLElement;
 
-        const widthOfItemInfo = 291;
+        const bookingContainerWidth = bookingContainer.offsetWidth;
+        const widthOfBokingSlot = bookingContainerWidth - paddingLeftRigthOnBookingPage * 2;
 
-        const widthOfListOfMembers = widthOfInfoRow - widthOfItemInfo;
+        const widthOfListOfMembers = widthOfBokingSlot - widthOfItemInfoOnBookingPage;
 
         console.log(widthOfListOfMembers);
-        const numberOfMembersToDisplay = widthOfListOfMembers / 236;
 
-        this.numberOfMembersToDisplay = Math.round(numberOfMembersToDisplay);
-        console.log(Math.round(numberOfMembersToDisplay));
+        return widthOfListOfMembers;
     }
 
     // goToPage(pageName: string) {
