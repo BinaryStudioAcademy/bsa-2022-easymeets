@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getMembersForBookedWindow } from '@core/helpers/booked-window-members-helper';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
+import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
@@ -55,8 +56,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     public memberFilterCtrl: FormControl = new FormControl('');
 
-    private bookedIconPath: string = 'assets/booked-icon.png';
-
     public meetingNameControl: FormControl = new FormControl('', [
         Validators.required,
         Validators.minLength(2),
@@ -67,12 +66,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     public customTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
 
     public mainContainerCustomTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
-
-    private redirectEventEmitter = new EventEmitter<void>();
-
-    private redirectEventSubscription: Subscription;
-
-    private createdMeeting: INewMeeting;
 
     ngOnInit(): void {
         this.meetingForm = new FormGroup({
