@@ -52,9 +52,13 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     public mainContentCustomTimeShown: boolean = false;
 
-    public meetingForm: FormGroup;
+    locationTypeMapping = LocationTypeMapping;
 
-    public memberFilterCtrl: FormControl = new FormControl('');
+    meetingForm: FormGroup;
+
+    memberFilterCtrl: FormControl = new FormControl('');
+
+    private bookedIconPath: string = 'assets/booked-icon.png';
 
     public meetingNameControl: FormControl = new FormControl('', [
         Validators.required,
