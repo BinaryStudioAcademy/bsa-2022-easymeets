@@ -10,23 +10,23 @@ public class AdvancedSlotSettingsConfig : IEntityTypeConfiguration<AdvancedSlotS
     {
         builder.Property(s => s.ActivityType)
             .IsRequired();
-        
+
         builder.Property(s => s.Days)
             .IsRequired();
-        
+
         builder.Property(s => s.StartDate)
             .IsRequired();
 
         builder.Property(s => s.MaxNumberOfBookings)
             .IsRequired();
-        
+
         builder.Property(s => s.PaddingMeeting)
             .IsRequired();
-        
+
         builder.Property(s => s.MinBookingMeetingDifference)
             .IsRequired();
-        
-        builder.Property(s => s.Color)
+
+        builder.Property(s => s.Frequency)
             .IsRequired();
     }
 }

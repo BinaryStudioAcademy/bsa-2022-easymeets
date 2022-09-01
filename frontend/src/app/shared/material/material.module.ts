@@ -19,6 +19,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import {MatCheckbox, MatCheckboxModule} from "@angular/material/checkbox";
 
 export { MatSelectModule } from '@angular/material/select';
 
@@ -47,6 +48,7 @@ export { MatSelectModule } from '@angular/material/select';
         MatNativeDateModule,
         DragDropModule,
         MatAutocompleteModule,
+        MatCheckboxModule,
     ],
     exports: [
         FormsModule,
@@ -71,6 +73,7 @@ export { MatSelectModule } from '@angular/material/select';
         MatNativeDateModule,
         MatAutocompleteModule,
         DragDropModule,
+        MatCheckboxModule,
     ],
 })
 export class MaterialModule {}

@@ -11,6 +11,7 @@
 @import './components/angular-material/mat-form-field'
 @import './components/angular-material/mat-button'
 @import './components/angular-material/mat-label'
+@import './components/angular-material/mat-select'
 
 .mat-menu-panel
     border: 2px solid $loblolly
@@ -78,12 +79,12 @@ snack-bar-container
 .mat-form-field-wrapper
     padding-bottom: 5px
 
-.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle
-    border-color: $royal-blue
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle
+    border-color: $midnight
 
-.mat-radio-button.mat-accent .mat-radio-inner-circle
-    color: $royal-blue
-    background-color: $royal-blue
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle
+    color: $midnight
+    background-color: $midnight
 
 .mat-slide-toggle-thumb
     width: 12px !important
