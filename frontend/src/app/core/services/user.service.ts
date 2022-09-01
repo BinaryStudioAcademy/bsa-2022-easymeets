@@ -23,9 +23,13 @@ export class UserService {
 
     /* Api calls */
     public getCurrentUser(): Observable<IUser> {
-        return this.httpService
-            .getRequest<IUser>(`${this.routePrefix}/current`)
-            .pipe(tap((user) => this.updateUser(user)));
+        return this.httpService.getRequest<IUser>(`${this.routePrefix}/current`).pipe(
+            tap({
+                next: (user) => this.updateUser(user),
+                error: () =>
+                    this.notificationService.showErrorMessage('Something went wrong. Failed to fetch current user.'),
+            }),
+        );
     }
 
     public createUser(newUser: INewUser): Observable<IUser> {
@@ -47,7 +51,12 @@ export class UserService {
     }
 
     public checkExistingEmail(email: string): Observable<boolean> {
-        return this.httpService.getRequest<boolean>(`${this.routePrefix}/check-email?email=${email}`);
+        return this.httpService.getRequest<boolean>(`${this.routePrefix}/check-email?email=${email}`).pipe(
+            tap({
+                error: () =>
+                    this.notificationService.showErrorMessage('Something went wrong. Failed to verify email exists.'),
+            }),
+        );
     }
 
     public uploadImage(data: FormData): Observable<IImagePath> {
@@ -67,15 +76,33 @@ export class UserService {
     }
 
     public createZoomCredentials(authCode: string, redirectUri: string): Observable<unknown> {
-        return this.httpService.postRequest(`${this.routePrefix}/zoom/add`, {
-            code: authCode,
-            grantType: 'authorization_code',
-            redirectUri,
-        });
+        return this.httpService
+            .postRequest(`${this.routePrefix}/zoom/add`, {
+                code: authCode,
+                grantType: 'authorization_code',
+                redirectUri,
+            })
+            .pipe(
+                tap({
+                    error: () =>
+                        this.notificationService.showErrorMessage(
+                            'Something went wrong. Failed to create zoom credentials.',
+                        ),
+                }),
+            );
     }
 
     public getZoomClientId(): Observable<string> {
-        return this.httpService.getStringRequest(`${this.routePrefix}/zoom/client`);
+        return this.httpService
+            .getStringRequest(`${this.routePrefix}/zoom/client`)
+            .pipe(
+                tap({
+                    error: () =>
+                        this.notificationService.showErrorMessage(
+                            'Something went wrong. Failed to fetch zoom client id.',
+                        ),
+                }),
+            );
     }
 
     /* Local storage */
