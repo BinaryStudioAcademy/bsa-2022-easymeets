@@ -32,7 +32,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
                     name: 'My Default Team',
                     pageLink: '',
                     timeZoneValue: 0,
-                    timeZoneName: 'Europe/Kiev (+03:00)',
+                    timeZoneName: '',
                     description: '',
                 },
                 duration: 30,

@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input } from '@angular/core';
+import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
 import { TimeZoneFullNameMapper } from '@core/helpers/time-zone-helper';
+import { ITimeZone } from '@core/models/ITimeZone';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 import { TZone } from 'moment-timezone-picker';
 
@@ -9,10 +11,15 @@ import { TZone } from 'moment-timezone-picker';
     templateUrl: './schedule-definition.component.html',
     styleUrls: ['./schedule-definition.component.sass'],
 })
-export class ScheduleDefinitionComponent implements OnInit {
+export class ScheduleDefinitionComponent {
     @Input() changeEvent: EventEmitter<any> = new EventEmitter();
 
-    @Input() schedule: ISchedule;
+    @Input() set schedule(value: ISchedule | undefined) {
+        this.scheduleValue = value ?? getDefaultSchedule(false);
+        this.selectedTimeZone = this.timeZoneMapping(this.scheduleValue.timeZoneName);
+    }
+
+    public scheduleValue: ISchedule;
 
     @Input() disabled: boolean = false;
 
@@ -20,24 +27,16 @@ export class ScheduleDefinitionComponent implements OnInit {
 
     public timeZoneMapping = TimeZoneFullNameMapper;
 
-    selectedTimeZone: TZone;
-
-    ngOnInit(): void {
-        const scheduleTimeZone = this.timeZoneMapping(this.schedule.timeZoneName);
-
-        this.selectedTimeZone = {
-            timeValue: scheduleTimeZone.timeValue,
-            nameValue: scheduleTimeZone.nameValue,
-            abbr: '',
-            name: '',
-            group: '',
-        };
-    }
+    selectedTimeZone: ITimeZone;
 
     public changeZone(event: TZone) {
         if (event.nameValue && event.timeValue) {
-            this.schedule.timeZoneName = this.selectedTimeZone.name;
-            this.schedule.timeZoneValue = this.selectedTimeZone.timeValue;
+            this.scheduleValue.timeZoneName = event.name;
+            this.scheduleValue.timeZoneValue = event.timeValue;
         }
+    }
+
+    public checkZone(): boolean {
+        return this.selectedTimeZone.nameValue === '';
     }
 }

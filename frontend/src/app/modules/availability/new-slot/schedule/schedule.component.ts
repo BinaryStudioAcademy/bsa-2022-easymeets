@@ -33,7 +33,9 @@ export class ScheduleComponent extends BaseComponent {
 
     public externalDefinitionToggle($event: MatSlideToggleChange) {
         if (!this.schedule.definedExternally && !this.slotLink) {
-            this.notificationsService.showInfoMessage('Slot link must be defined and unique to allow external schedule definition');
+            this.notificationsService.showInfoMessage(
+                'Slot link must be defined and unique to allow external schedule definition',
+            );
             $event.source.checked = false;
 
             return;
