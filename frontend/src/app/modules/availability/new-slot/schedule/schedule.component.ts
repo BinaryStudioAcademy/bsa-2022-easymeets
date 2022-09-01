@@ -1,26 +1,25 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, EventEmitter, Input } from '@angular/core';
-import { getDisplayDays } from '@core/helpers/display-days-helper';
-import { getScheduleItems } from '@core/helpers/schedule-list-helper';
-import { getPossibleTimeZones } from '@core/helpers/time-zone-helper';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { BaseComponent } from '@core/base/base.component';
+import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
-import { ITimeZone } from '@core/models/ITimeZone';
 import { ISchedule } from '@core/models/schedule/ISchedule';
+import { NotificationService } from '@core/services/notification.service';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-schedule',
     templateUrl: './schedule.component.html',
     styleUrls: ['./schedule.component.sass'],
 })
-export class ScheduleComponent {
+export class ScheduleComponent extends BaseComponent {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
-        this.schedule = this.slot?.schedule ?? {
-            timeZone: 0,
-            withTeamMembers: false,
-            scheduleItems: getScheduleItems(),
-        };
-        this.selectedTimeZone = this.getDisplayTimeZone(this.schedule.timeZone);
+        this.schedule = this.slot?.schedule ?? getDefaultSchedule(false);
     }
+
+    @Input() public slotLink: string;
 
     changeEvent: EventEmitter<any> = new EventEmitter();
 
@@ -28,21 +27,27 @@ export class ScheduleComponent {
 
     schedule: ISchedule;
 
-    displayDays: string[] = getDisplayDays();
-
-    readonly timeZones: ITimeZone[] = getPossibleTimeZones();
-
-    selectedTimeZone: string;
-
-    changeTimeZone() {
-        this.schedule.timeZone = this.getSelectedTimeZoneValue();
+    constructor(private notificationsService: NotificationService, private clipboard: Clipboard) {
+        super();
     }
 
-    getSelectedTimeZoneValue() {
-        return this.timeZones.find((x) => x.displayValue === this.selectedTimeZone)!.value;
+    public externalDefinitionToggle($event: MatSlideToggleChange) {
+        if (!this.schedule.definedExternally && !this.slotLink) {
+            this.notificationsService.showInfoMessage('Slot link must be defined and unique to allow external schedule definition');
+            $event.source.checked = false;
+
+            return;
+        }
+        this.schedule = getDefaultSchedule(!this.schedule.definedExternally);
+        $event.source.checked = this.schedule.definedExternally;
     }
 
-    getDisplayTimeZone(value: number) {
-        return this.timeZones.find((x) => x.value === value)!.displayValue;
+    public getDefinitionLink() {
+        return `${environment.appUrl}/slotdefining/${this.slotLink}`;
+    }
+
+    saveLink() {
+        this.clipboard.copy(this.getDefinitionLink());
+        this.notificationsService.showSuccessMessage('Link copied to clipboard');
     }
 }

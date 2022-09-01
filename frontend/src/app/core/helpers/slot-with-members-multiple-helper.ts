@@ -41,6 +41,7 @@ export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
             timeZone: 1,
             scheduleItems: getScheduleItems(),
             withTeamMembers: true,
+            definedExternally: false,
         },
         welcomeMessage: 'welcomeMessage',
         frequency: 5,
