@@ -56,7 +56,11 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
                 .pipe(this.untilThis)
                 .subscribe({
                     next: (team) => {
+                        this.teamPreferencesComponent.formGroup.reset();
+
                         this.team = team;
+                        this.teamPreferencesComponent.team = team;
+
                         this.teamPreferencesComponent.formGroup.patchValue({
                             name: team.name,
                             image: team.image,

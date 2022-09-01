@@ -17,12 +17,15 @@ namespace EasyMeets.Core.BLL.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IZoomService _zoomService;
         private readonly IUploadFileService _uploadFileService;
+        private readonly ITeamSharedService _teamSharedService;
+        
         public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor,
-            IUploadFileService uploadFileService, IZoomService zoomService) : base(context, mapper)
+            IUploadFileService uploadFileService, IZoomService zoomService, ITeamSharedService teamSharedService) : base(context, mapper)
         {
             _httpContextAccessor = httpContextAccessor;
             _zoomService = zoomService;
             _uploadFileService = uploadFileService;
+            _teamSharedService = teamSharedService;
         }
 
         public async Task<UserDto> GetCurrentUserAsync()
@@ -61,9 +64,23 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<UserDto> CreateUserPreferences(NewUserDto userDto)
         {
+            if (userDto is null)
+            {
+                throw new ArgumentNullException(nameof(userDto), "New user cannot be null");
+            }
+
+            var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(userDto.Email));
+            if (userEntity is not null)
+            {
+                return _mapper.Map<UserDto>(userEntity);
+            }
+
             var newUser = _mapper.Map<NewUserDto, User>(userDto);
-            _context.Users.Add(newUser);
+            var user = _context.Users.Add(newUser).Entity;
             await _context.SaveChangesAsync();
+
+            await _teamSharedService.CreateDefaultUsersTeamAsync(user);
+
             return _mapper.Map<User, UserDto>(newUser);
         }
 

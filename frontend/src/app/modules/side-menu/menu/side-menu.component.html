@@ -2,8 +2,8 @@
     <ng-container *ngFor="let group of groups">
         <div class="group-header" *ngIf="group.header" mat-subheader>
             {{ group.header }}
-            <button class="group-button" mat-button routerLink="{{group.buttonRouterLink}}" *ngIf="group.showButton">
-                <span>{{group.buttonText}}</span>
+            <button class="group-button" mat-button routerLink="{{ group.buttonRouterLink }}" *ngIf="group.showButton">
+                <span>{{ group.buttonText }}</span>
             </button>
         </div>
         <a
@@ -12,7 +12,7 @@
             [routerLink]="item.routerLink"
             routerLinkActive="side-list-item-active"
             class="list-item">
-            {{ item.text }}
+            <span>{{ item.text }}</span>
         </a>
     </ng-container>
 </mat-nav-list>

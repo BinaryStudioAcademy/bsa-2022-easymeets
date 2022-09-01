@@ -1,5 +1,5 @@
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
-import { LocationType } from '@core/models/locationType';
+import { LocationType } from '@shared/enums/locationType';
 
 import { getLocalMandatoryQuestions } from './questions-mandatory-helper';
 import { getScheduleItems } from './schedule-list-helper';

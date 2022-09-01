@@ -11,9 +11,8 @@ namespace EasyMeets.Core.BLL.Services;
 
 public class TeamService : BaseService, ITeamService
 {
-
     private readonly IUserService _userService;
-    private IUploadFileService _uploadFileService;
+    private readonly IUploadFileService _uploadFileService;
     public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IUploadFileService uploadFileService) : base(context, mapper)
     {
         _userService = userService;
@@ -24,23 +23,6 @@ public class TeamService : BaseService, ITeamService
     {
         var teamEntity = await GetTeamByIdAsync(teamId);
         return _mapper.Map<TeamDto>(teamEntity);
-    }
-
-    public async Task<string> GenerateNewPageLinkAsync(long teamId, string teamName)
-    {
-        if (!await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == teamName))
-        {
-            return teamName;
-        }
-
-        int index = 1;
-
-        while (await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == $"{teamName}{index}"))
-        {
-            index++;
-        }
-
-        return $"{teamName}{index}";
     }
 
     public async Task<bool> ValidatePageLinkAsync(long? teamId, string pageLink)
@@ -142,6 +124,17 @@ public class TeamService : BaseService, ITeamService
             .ToListAsync();
 
         return _mapper.Map<List<TeamDto>>(teams);
+    } 
+    public async Task<ICollection<NewMeetingMemberDto>> GetTeamMembersOfCurrentUserAsync()
+    {
+        var currentUser = await _userService.GetCurrentUserAsync();
+        var teamMembers = await _context.Users
+            .Include(x => x.TeamMembers)
+            .Where(x => x.Id == currentUser.Id)
+            .Select(x => _mapper.Map<NewMeetingMemberDto>(x))
+            .ToListAsync();
+
+        return teamMembers;
     }
     
     public async Task<List<TeamDto>> GetCurrentUserAdminTeams()

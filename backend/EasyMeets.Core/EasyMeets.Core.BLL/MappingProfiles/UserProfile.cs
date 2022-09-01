@@ -1,6 +1,7 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EasyMeets.Core.BLL.Helpers;
 using EasyMeets.Core.Common.DTO.Availability;
+using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.User;
 using EasyMeets.Core.DAL.Entities;
 
@@ -26,7 +27,10 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(dest => dest.PhoneNumber, src => src.MapFrom(s => s.Phone));
 
             CreateMap<SlotMember, AvailabilitySlotMemberDto>()
-               .ForMember(dest => dest.MemberImage, src => src.MapFrom(s => s.User.ImagePath));
+                .ForMember(dest => dest.MemberImage, src => src.MapFrom(s => s.User.ImagePath));
+
+            CreateMap<User, NewMeetingMemberDto>()
+                .ForMember(dest => dest.Name, src => src.MapFrom(s => s.Name));
 
             CreateMap<UpdateUserDto, User>()
                 .ForMember(dest => dest.Name, src => src.MapFrom(s => s.UserName))
@@ -34,4 +38,4 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(dest => dest.TimeZoneValue, src => src.MapFrom(s => TimeZoneHelper.MapTimeZoneStringValue(s.TimeZoneValue)));
         }
     }
-}
+} 

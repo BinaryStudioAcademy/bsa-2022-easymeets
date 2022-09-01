@@ -22,8 +22,8 @@
             <label>
                 <div>Name</div>
             </label>
-            <div>
-                <input type="text" formControlName="userName" />
+            <div class="user-name">
+                <input type="text" formControlName="userName"/>
             </div>
             <div *ngIf="userNameControl.invalid && userNameControl.touched" class="validation">
                 <small *ngIf="userNameControl.errors?.['required']">This field is required.</small>
@@ -72,7 +72,7 @@
             </label>
             <mat-select formControlName="country" (selectionChange)="changeCountryCode(userForm)">
                 <mat-option *ngFor="let country of countryValues" [value]="country">
-                    {{ countryLabelMapping[country] }}
+                    {{ countryLabelMapping(country) }}
                 </mat-option>
             </mat-select>
         </div>

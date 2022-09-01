@@ -11,15 +11,16 @@ namespace EasyMeets.Core.BLL.MappingProfiles
         {
             CreateMap<Meeting, MeetingThreeMembersDTO>()
                 .ForMember(dest => dest.MeetingTime, src => src.MapFrom(meeting =>
-                    $"{meeting.StartTime.Hour}:{meeting.StartTime.Minute} - " +
-                    $"{meeting.StartTime.AddMinutes(meeting.Duration).Hour}:{meeting.StartTime.AddMinutes(meeting.Duration).Minute}"))
-                    .ForMember(dest => dest.MeetingTitle, src => src.MapFrom(s => s.Name))
-                    .ForMember(dest => dest.MeetingDuration, src => src.MapFrom(s => $"{s.Duration} min"))
-                    .ForMember(dest => dest.MembersTitle, src => src.MapFrom(s => CreateMemberTitle(s)))
-                    .ForMember(dest => dest.MeetingLink, src => src.MapFrom(s => s.MeetingLink))
-                    .ForMember(dest => dest.MeetingMembers, src => src.MapFrom(s => GetThreeMembersForMeeting(s)))
-                    .ForMember(dest => dest.MeetingCount, src => src.MapFrom(s => GetAllParticipants(s).Count()))
-                    .ForMember(dest => dest.Location, src => src.MapFrom(s => s.LocationType.ToString()));
+                    $"{meeting.StartTime.Hour}:{meeting.StartTime.Minute:00} - " +
+                    $"{meeting.StartTime.AddMinutes(meeting.Duration).Hour}:{meeting.StartTime.AddMinutes(meeting.Duration).Minute:00}"))
+                .ForMember(dest => dest.MeetingTitle, src => src.MapFrom(s => s.Name))
+                .ForMember(dest => dest.MeetingDuration, src => src.MapFrom(s => $"{s.Duration} min"))
+                .ForMember(dest => dest.MembersTitle, src => src.MapFrom(s => CreateMemberTitle(s)))
+                .ForMember(dest => dest.MeetingLink, src => src.MapFrom(s => s.MeetingLink))
+                .ForMember(dest => dest.MeetingMembers, src => src.MapFrom(s => GetThreeMembersForMeeting(s)))
+                .ForMember(dest => dest.MeetingCount, src => src.MapFrom(s => GetAllParticipants(s).Count()))
+                .ForMember(dest => dest.Location, src => src.MapFrom(s => s.LocationType.ToString()));
+            CreateMap<SaveMeetingDto, Meeting>();
 
             CreateMap<Meeting, NewZoomMeetingDto>()
                 .ForMember(m => m.Agenda, o

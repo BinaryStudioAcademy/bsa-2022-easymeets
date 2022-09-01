@@ -52,14 +52,9 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public languageLabelMapping = LanguageLabelMapping;
 
-    public countryValues = [
-        Country.UnitedStates,
-        Country.Ukraine,
-        Country.Poland,
-        Country.Sweden,
-        Country.Italy,
-        Country.Uganda,
-    ];
+    public timeZoneValues = Object.keys(TimeZone);
+
+    public countryValues = Object.values(Country);
 
     public countryLabelMapping = CountryLabelMapping;
 
