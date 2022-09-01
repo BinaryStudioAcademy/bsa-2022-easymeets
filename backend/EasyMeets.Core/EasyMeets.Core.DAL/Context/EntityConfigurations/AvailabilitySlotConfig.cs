@@ -42,9 +42,6 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
         builder.Property(s => s.BookingsPerDay)
             .IsRequired();
 
-        builder.Property(s => s.AllowToAddGuests)
-            .IsRequired();
-
         builder.Property(s => s.TimeZoneVisibility)
             .IsRequired();
         
