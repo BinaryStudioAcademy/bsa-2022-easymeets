@@ -32,9 +32,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<unknown>, next: HttpHandler) {
         return next.handle(req).pipe(catchError(response => {
             if (response.status === 401) {
-                if (response.headers.has('Token-Expired')) {
-                    return from(this.handleExpired(req, next));
-                }
+                return from(this.handleExpired(req, next));
             }
 
             return this.handleError(response);
