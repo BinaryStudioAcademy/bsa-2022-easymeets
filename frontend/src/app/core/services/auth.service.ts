@@ -83,7 +83,12 @@ export class AuthService {
         return JSON.parse(localStorage.getItem('email-verified')!) as boolean;
     }
 
-    public refreshToken() {
+    public async refreshToken() {
+        //timeout allows firebase to initialize, app initializes between 200 and 400 ms and calls made in that time throw an error
+        await new Promise(f => {
+            setTimeout(f, 400);
+        });
+
         return firebase
             .auth()
             .currentUser?.getIdToken()
