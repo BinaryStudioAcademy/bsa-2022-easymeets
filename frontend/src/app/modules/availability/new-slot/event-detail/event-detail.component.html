@@ -1,5 +1,5 @@
 <div class="container">
-    <div id="container-item1">
+    <div class="link-container">
         <p class="input-description">Link</p>
         <div class="inputBlock">
             <div class="inputStartBlock">
@@ -9,40 +9,30 @@
         </div>
     </div>
 
-    <div id="container-item2">
+    <div class="welcome-message-container">
         <p class="input-description">Welcome Message</p>
         <textarea id="welcomeMessage" class="input-message" [(ngModel)]="settings.welcomeMessage"></textarea>
     </div>
 
-    <div id="container-item3">
+    <div class="language-container">
         <p class="input-description">Language</p>
-        <select name="select" class="selectBlock" [(ngModel)]="settings.language">
-            <option selected *ngFor="let languageSelect of languages" [value]="languageSelect">
+        <mat-select name="select" class="selectBlock" [(ngModel)]="settings.language">
+            <mat-option *ngFor="let languageSelect of languages" [value]="languageSelect">
                 {{ languageSelect }}
-            </option>
-        </select>
+            </mat-option>
+        </mat-select>
     </div>
 
-    <div id="container-item4">
+    <div class="bookings-container">
         <p class="input-description">Allowed bookings per Day</p>
-        <select name="select" class="selectBlock" [(ngModel)]="settings.bookingsPerDay">
-            <option selected *ngFor="let allowBookingSelect of allowedBooking" [value]="allowBookingSelect">
+        <mat-select name="select" class="selectBlock" [(ngModel)]="settings.bookingsPerDay">
+            <mat-option *ngFor="let allowBookingSelect of allowedBooking" [value]="allowBookingSelect">
                 {{ allowBookingSelect }}
-            </option>
-        </select>
+            </mat-option>
+        </mat-select>
     </div>
 
-    <div id="container-item5">
-        <div class="input-checkbox">
-            <input
-                type="checkbox"
-                style="transform: scale(1.25)"
-                [(ngModel)]="settings.allowToAddGuests"/>
-            <span class="input-description checkbox-text"><p>Allow Booker to add additional guests</p></span>
-        </div>
-    </div>
-
-    <div id="container-item6">
+    <div class="time-zones-container">
         <div class="input-button-matgroup">
             <mat-radio-group
                 aria-labelledby="example-radio-group-label"
@@ -59,7 +49,7 @@
         </div>
     </div>
 
-    <div id="container-item7">
+    <div class="password-container">
         <div class="input-password">
             <mat-slide-toggle class="form-switch" [(ngModel)]="this.settings.passwordProtectionIsUsed"></mat-slide-toggle>
             <p class="input-field">Password protection</p>
