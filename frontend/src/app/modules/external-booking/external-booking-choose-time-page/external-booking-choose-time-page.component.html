@@ -34,11 +34,7 @@
         </div>
         <ng-container *ngFor="let in of slotsCount; let i = index">
             <ng-container *ngFor="let day of daysWithTimeRange; let j = index">
-                <ng-container
-                    *ngIf="
-                        isDateInRange(theEarliestStartOfTimeRanges, day.startTime, day.finishTime, i);
-                        else defaultTimeSlot
-                    ">
+                <ng-container *ngIf="isDateInRange(theEarliestStartOfTimeRanges, day.startTime, day.finishTime, i)">
                     <span
                         #dateFrom
                         class="enabled"

@@ -64,7 +64,7 @@ export class NewAvailabilityPageComponent extends BaseComponent {
             questions: this.newAvailabilityComponent.questionsComponent.questions,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
-            teamId: this.currentTeamId ?? 3,
+            teamId: this.currentTeamId ?? 0,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
         };
 
