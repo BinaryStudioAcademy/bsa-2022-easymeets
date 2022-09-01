@@ -52,8 +52,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public languageLabelMapping = LanguageLabelMapping;
 
-    public timeZoneValues = Object.keys(TimeZone);
-
     public countryValues = Object.values(Country);
 
     public countryLabelMapping = CountryLabelMapping;
