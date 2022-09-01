@@ -32,9 +32,9 @@
             </div>
         </div>
         <div class="meeting-details">
-            <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ LocationType[slot.locationType] }}</p>
+            <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ locationTypeMapping(slot.locationType) }}</p>
             <p *ngIf="!hasOwner">
-                {{ slot.size }} min, 1 of {{ slot.members.length }} members, {{ LocationType[slot.locationType] }}
+                {{ slot.size }} min, 1 of {{ slot.members.length }} members, {{ locationTypeMapping(slot.locationType) }}
             </p>
             <div class="avatar-list">
                 <div *ngFor="let member of slot.members">
@@ -49,8 +49,7 @@
                 <a href="#">{{ slot.link }}</a>
             </div>
             <div class="toggle">
-                <mat-slide-toggle [checked]="slot.isEnabled" (change)="changeSlotActivityClick($event)">
-                </mat-slide-toggle>
+                <mat-slide-toggle [checked]="isChecked" (change)="changeSlotActivityClick($event)"> </mat-slide-toggle>
             </div>
         </div>
     </div>
@@ -88,9 +87,9 @@
             </div>
         </div>
         <div class="meeting-details">
-            <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ LocationType[slot.locationType] }}</p>
+            <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ locationTypeMapping(slot.locationType) }}</p>
             <p *ngIf="!hasOwner">
-                {{ slot.size }} min, 1 of {{ slot.members.length }} members, {{ LocationType[slot.locationType] }}
+                {{ slot.size }} min, 1 of {{ slot.members.length }} members, {{ locationTypeMapping(slot.locationType) }}
             </p>
             <div class="avatar-list">
                 <div *ngFor="let member of slot.members">
@@ -105,8 +104,7 @@
                 <a href="#">{{ slot.link }}</a>
             </div>
             <div class="toggle">
-                <mat-slide-toggle [checked]="slot.isEnabled" (change)="changeSlotActivityClick($event)">
-                </mat-slide-toggle>
+                <mat-slide-toggle [checked]="isChecked" (change)="changeSlotActivityClick($event)"> </mat-slide-toggle>
             </div>
         </div>
     </div>
