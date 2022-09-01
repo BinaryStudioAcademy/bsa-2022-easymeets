@@ -16,7 +16,7 @@
         </nav>
 
         <button class="menu-team-btn" mat-button [matMenuTriggerFor]="menuTeam" *ngIf="teams.length; else newTeam">
-            <label class="current-team">{{ currentTeam?.name ?? '' }}</label>
+            <label>{{ currentTeam?.name ?? '' }}</label>
             <img src="assets/icons/angle-down.svg" alt="angle-down" />
         </button>
         <ng-template #newTeam>
@@ -25,15 +25,17 @@
                 <span> New Team</span>
             </button>
         </ng-template>
-        <mat-menu #menuTeam="matMenu">
-            <button mat-menu-item routerLink="#" *ngFor="let team of teams" (click)="changeTeam(team.id)">
-                <i class="fa-solid fa-people-group"></i>
-                <span class="team-name">{{ team.name }}</span>
-            </button>
-            <button class="mat-menu-btn" mat-menu-item routerLink="/settings/teams/new">
-                <i class="fa-solid fa-plus"></i>
-                <span>New Team</span>
-            </button>
+        <mat-menu #menuTeam="matMenu" xPosition="before">
+            <div class="menu-team-content">
+                <button mat-menu-item routerLink="#" *ngFor="let team of teams" (click)="changeTeam(team.id)">
+                    <i class="fa-solid fa-people-group"></i>
+                    <span class="team-name">{{ team.name }}</span>
+                </button>
+                <button class="mat-menu-btn" mat-menu-item routerLink="/settings/teams/new">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>New Team</span>
+                </button>
+            </div>
         </mat-menu>
         <button class="avatar-btn" mat-icon-button [matMenuTriggerFor]="menuAvatar" disableRipple="true">
             <div class="avatar">
