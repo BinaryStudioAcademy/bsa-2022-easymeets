@@ -1,0 +1,22 @@
+<div class="exclusion-wrapper">
+    <p>
+        Select Exclusion Dates:
+    </p>
+    <mat-calendar
+        class="demo-inline-calendar-card"
+        [(selected)]="selected"
+        [minDate]="todayDate"
+        [dateClass]="dateClass"
+    ></mat-calendar>
+    <hr>
+    <p>Selected date: {{selected}}</p>
+    <hr>
+    <div class="buttons-wrapper">
+        <button class="cancel">
+            Cancel
+        </button>
+        <button class="apply">
+            Apply
+        </button>
+    </div>
+</div>
