@@ -1,4 +1,5 @@
-<div class="wrapper">
+<!--
+    <div class="wrapper">
     <ng-container *ngIf="titleImagePath; else windowTitleWithoutImage">
         <div class="title-container with-image-container">
             <div class="mat-title-img">
@@ -70,6 +71,41 @@
             </div>
         </div>
     </div>
+    <hr />
+    <ng-container *ngComponentOutlet="componentTypeExpression"></ng-container>
+    <div mat-dialog-actions class="mat-dialog-buttons">
+        <button
+            *ngFor="let buttonOptions of buttonsOptions"
+            [ngClass]="buttonOptions.class"
+            mat-flat-button
+            (click)="onClick(buttonOptions.onClickEvent)">
+            {{ buttonOptions.label }}
+        </button>
+    </div>
+</div>
+-->
+<div class="wrapper">
+    <ng-container *ngIf="titleImagePath; else windowTitleWithoutImage">
+        <div class="title-container with-image-container">
+            <div class="mat-title-img">
+                <img src="{{ titleImagePath }}" />
+            </div>
+            <div class="mat-title-text">
+                <h1 mat-dialog-title>{{ title }}</h1>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #windowTitleWithoutImage>
+        <div class="title-container">
+            <div class="mat-title-text">
+                <h1 mat-dialog-title>{{ title }}</h1>
+            </div>
+        </div>
+    </ng-template>
+    <div *ngIf="message" mat-dialog-content class="message">
+        {{ message }}
+    </div>
+    <ng-container *ngComponentOutlet="component"></ng-container>
     <hr />
     <div mat-dialog-actions class="mat-dialog-buttons">
         <button

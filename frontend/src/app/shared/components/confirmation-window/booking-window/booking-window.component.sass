@@ -1,0 +1,135 @@
+@import url('https://rsms.me/inter/inter.css')
+@import '../../../../styles/color-variables'
+
+.wrapper
+    .title-container
+        display: flex
+        flex-direction: row
+        .mat-title-img
+            margin-top: -10px
+            img
+                width: 56px
+                height: 56px
+        .mat-title-text
+            .mat-dialog-title
+                font-family: 'Inter'
+                font-style: normal
+                font-weight: 900
+                font-size: 22px
+                line-height: 146%
+    .with-image-container
+        margin-right: auto
+        .mat-title-text
+            .mat-dialog-title
+                padding-left: 30px
+
+    .message
+        font-family: 'Inter'
+        font-style: normal
+        font-weight: 400
+        font-size: 16px
+        padding-bottom: 20px
+        text-align: center
+    .mat-dialog-buttons
+        padding-top: 20px
+    .created-meeting-options
+        width: 100%
+        display: flex
+        flex-direction: row
+        align-items: left
+        justify-content: left
+        margin-bottom: 30px
+        margin-top: 30px
+        .option
+            padding-right: 35px
+        .option:last-child
+            padding-right: 0
+
+    .created-meeting-participants
+        width: 100%
+        display: flex
+        flex-direction: column
+        align-items: left
+        justify-content: left
+        .participants-label
+            margin-bottom: 5px
+        .participants-avatars .avatar img
+            width: 32px
+            height: 32px
+            border: 2px solid $white
+            border-radius: 200px
+            position: relative
+            margin-left: -12px
+            display: none
+        .participants-avatars .avatar:nth-child(-n+10) img
+            display: inline-flex
+        .participants-avatars .avatar:first-child img
+            margin-left: -2px
+
+.mat-flat-button
+    height: 40px
+    width: 420px
+    margin: 5px
+    background: $midnight
+    border-radius: 24px
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
+    font-size: 14px
+    line-height: 146%
+    color: $white
+
+.option-name
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
+    font-size: 12px
+    line-height: 136%
+    color: $raven
+.option-value
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 700
+    font-size: 14px
+    line-height: 20px
+    color: $midnight
+    padding-top: 5px
+
+hr
+    width: 420px
+    border: 1px solid $header-border-color
+    background-color: $header-border-color
+
+.option-value-link
+    display: flex
+    .link-value
+        font-weight: 400
+        font-size: 16px
+        text-decoration-line: underline
+        text-transform: lowercase
+        color: $raven
+    img
+        padding-top: 5px
+        padding-right: 10px
+        width: 24px
+        height: 24px
+        filter: invert(46%) sepia(10%) saturate(374%) hue-rotate(185deg) brightness(92%) contrast(86%)
+
+.avatar .left-participants
+    background: $ghost-white
+    border: 2px solid $white
+    border-radius: 200px
+    width: 32px
+    height: 32px
+    display: inline-flex
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 500
+    font-size: 14px
+    line-height: 32px
+    color: $bright-grey
+    position: absolute
+    margin-left: -12px
+    h4
+        margin-top: 4px
+        margin-left: 7px

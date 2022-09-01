@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
-import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
-import { LocationType } from '@shared/enums/locationType';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
 import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
 
@@ -16,27 +14,13 @@ export class ConfirmationWindowComponent {
 
     message?: string;
 
-    buttonsOptions: IConfirmButtonOptions[];
-
     titleImagePath?: string;
 
-    date?: string;
-
-    time?: Date;
-
-    duration?: number;
-
-    meetingName?: string;
-
-    participants?: INewMeetingMember[] = [];
-
-    location?: LocationType;
-
-    link?: string;
-
-    maxVisibleMembers: number = 10;
+    buttonsOptions: IConfirmButtonOptions[];
 
     locationTypeMapping = LocationTypeMapping;
+
+    component?: any;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData,
@@ -46,13 +30,7 @@ export class ConfirmationWindowComponent {
         this.message = data.message;
         this.buttonsOptions = data.buttonsOptions;
         this.titleImagePath = data.titleImagePath;
-        this.date = data.date;
-        this.time = data.time;
-        this.duration = data.duration;
-        this.meetingName = data.meetingName;
-        this.participants = data.participants;
-        this.location = data.location;
-        this.link = data.link;
+        this.component = data.component;
     }
 
     onClick(event: EventEmitter<void>) {
