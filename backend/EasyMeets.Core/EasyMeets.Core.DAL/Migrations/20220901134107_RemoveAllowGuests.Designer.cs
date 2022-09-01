@@ -4,6 +4,7 @@ using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyMeets.Core.DAL.Migrations
 {
     [DbContext(typeof(EasyMeetsCoreContext))]
-    partial class EasyMeetsCoreContextModelSnapshot : ModelSnapshot
+    [Migration("20220901134107_RemoveAllowGuests")]
+    partial class RemoveAllowGuests
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,7 +92,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 6,
                             MinBookingMeetingDifference = 1,
                             PaddingMeeting = 13,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -103,7 +105,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 8,
                             MinBookingMeetingDifference = 4,
                             PaddingMeeting = 14,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -116,7 +118,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 5,
                             MinBookingMeetingDifference = 4,
                             PaddingMeeting = 3,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -129,7 +131,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 1,
                             MinBookingMeetingDifference = 4,
                             PaddingMeeting = 1,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -142,7 +144,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 10,
                             MinBookingMeetingDifference = 5,
                             PaddingMeeting = 2,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -155,7 +157,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 5,
                             MinBookingMeetingDifference = 1,
                             PaddingMeeting = 10,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -168,7 +170,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 4,
                             MinBookingMeetingDifference = 4,
                             PaddingMeeting = 2,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -181,7 +183,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 5,
                             MinBookingMeetingDifference = 1,
                             PaddingMeeting = 6,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
@@ -194,7 +196,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             MaxNumberOfBookings = 5,
                             MinBookingMeetingDifference = 2,
                             PaddingMeeting = 3,
-                            StartDate = new DateTimeOffset(new DateTime(2022, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
+                            StartDate = new DateTimeOffset(new DateTime(2022, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         });
                 });
 
@@ -300,7 +302,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 3L,
                             TimeZoneVisibility = true,
                             Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Corrupti adipisci reprehenderit unde consequatur explicabo aliquid deserunt aut."
                         },
                         new
@@ -322,7 +324,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 7L,
                             TimeZoneVisibility = true,
                             Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Consequatur optio iste."
                         },
                         new
@@ -344,7 +346,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 5L,
                             TimeZoneVisibility = true,
                             Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Aliquid beatae cumque.\nVoluptatem quia qui qui velit quibusdam placeat."
                         },
                         new
@@ -366,7 +368,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 10L,
                             TimeZoneVisibility = true,
                             Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Ut est nesciunt non numquam accusantium."
                         },
                         new
@@ -388,7 +390,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 10L,
                             TimeZoneVisibility = true,
                             Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "voluptate"
                         },
                         new
@@ -410,7 +412,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 10L,
                             TimeZoneVisibility = true,
                             Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Eius labore esse neque labore dolor quia saepe.\nInventore aut fuga.\nDebitis quo velit voluptatem rerum.\nVitae voluptatem quia iste itaque officia.\nExercitationem dolor repudiandae nihil alias asperiores nam quis voluptate sit.\nNon accusamus qui ut modi ea et."
                         },
                         new
@@ -432,7 +434,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 3L,
                             TimeZoneVisibility = true,
                             Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "nobis"
                         },
                         new
@@ -454,7 +456,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 9L,
                             TimeZoneVisibility = true,
                             Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "Et odit sit mollitia nulla aspernatur voluptas."
                         },
                         new
@@ -476,7 +478,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 9L,
                             TimeZoneVisibility = true,
                             Type = 1,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "enim"
                         },
                         new
@@ -498,7 +500,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             TeamId = 6L,
                             TimeZoneVisibility = true,
                             Type = 0,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             WelcomeMessage = "sunt"
                         });
                 });
@@ -573,7 +575,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Harum soluta vitae atque dolores tempore debitis explicabo.\nBeatae consequatur optio iste qui.\nRepudiandae odit quo aut quisquam et quam.\nQuia id veritatis ab aliquid beatae cumque quas.\nQuia qui qui.\nQuibusdam placeat magni et.",
                             Uid = "Voluptatem rerum esse vitae. Quia iste itaque offi",
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 2L
                         },
                         new
@@ -588,7 +590,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Voluptas et architecto.\nAccusantium aliquam quis quia reiciendis qui est aut.\nEnim est aspernatur.\nDolorum recusandae voluptas dolore inventore mollitia ab voluptatibus.\nSunt ut neque.\nNeque fuga recusandae modi voluptas omnis in.",
                             Uid = "Magni perferendis quia asperiores fugiat omnis ali",
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 3L
                         },
                         new
@@ -603,7 +605,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Accusantium eum cupiditate qui dolores sunt. Ut nihil et tenetur earum. Cum voluptatem non ipsa aut esse et. Molestiae qui quis architecto aut et quo rerum. Vel voluptatum excepturi veritatis expedita id. Et unde dolores.",
                             Uid = "vitae",
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 10L
                         },
                         new
@@ -618,7 +620,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Provident consectetur veniam quia.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                             Uid = "Molestiae omnis exercitationem soluta et labore co",
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 3L
                         },
                         new
@@ -633,7 +635,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Id id voluptatem vero voluptas natus nesciunt.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                             Uid = "Quia sed ipsum officiis qui qui molestias sint. Ea",
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 6L
                         },
                         new
@@ -648,7 +650,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Commodi iure voluptatum et quia molestiae quis ut natus voluptatem. Pariatur facere et nihil id. Saepe sit et. Tempore a nulla et eveniet enim exercitationem. Id nihil consequatur molestiae et delectus autem recusandae et. Sint quisquam veritatis sequi te",
                             Uid = "enim",
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 8L
                         },
                         new
@@ -663,7 +665,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Et qui non eum aut aliquid sed.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                             Uid = "Vel aspernatur deleniti voluptate nobis possimus v",
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 8L
                         },
                         new
@@ -678,7 +680,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Impedit est et sequi accusantium est nam aut.\nSit nulla sed dolor iste.AAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                             Uid = "Beatae magnam velit architecto. Est quos officiis",
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 10L
                         },
                         new
@@ -693,7 +695,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Quos officia quaerat omnis.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                             Uid = "Quo voluptatem eveniet sunt tempora et ut dolor.\nA",
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 8L
                         },
                         new
@@ -708,7 +710,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             RefreshToken = "Nulla voluptas est.\nRepudiandae ea a debitis et autem.\nQuia id quod perferendis sunt consectetur expedita autem at sit.\nHic dolores nihil.\nProvident sit dignissimos ipsa nesciunt non.",
                             Uid = "hic",
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 4L
                         });
                 });
@@ -1016,11 +1018,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("TimeZoneName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TimeZoneValue")
+                    b.Property<int>("TimeZone")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1041,8 +1039,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             MeetingId = 0L,
                             Name = "Donald Hills",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -1053,8 +1050,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             MeetingId = 0L,
                             Name = "Leonard Effertz",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -1065,8 +1061,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             MeetingId = 0L,
                             Name = "Dewey Schuppe",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -1077,8 +1072,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             MeetingId = 0L,
                             Name = "Elijah Blanda",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -1089,8 +1083,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             MeetingId = 0L,
                             Name = "Joel Goldner",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -1101,8 +1094,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             MeetingId = 0L,
                             Name = "Jaime Veum",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -1113,8 +1105,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             MeetingId = 0L,
                             Name = "Patti Feil",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -1125,8 +1116,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             MeetingId = 0L,
                             Name = "Jesus Gorczany",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -1137,8 +1127,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             MeetingId = 0L,
                             Name = "Jacob Ondricka",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -1149,8 +1138,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             MeetingId = 0L,
                             Name = "Erma MacGyver",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         });
                 });
 
@@ -1334,7 +1322,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "ut",
                             StartTime = new DateTimeOffset(new DateTime(2023, 2, 26, 6, 28, 57, 766, DateTimeKind.Unspecified).AddTicks(7133), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 2L,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1349,7 +1337,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "explicabo",
                             StartTime = new DateTimeOffset(new DateTime(2023, 7, 20, 16, 13, 46, 300, DateTimeKind.Unspecified).AddTicks(1426), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 4L,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1364,7 +1352,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "atque",
                             StartTime = new DateTimeOffset(new DateTime(2022, 12, 30, 10, 10, 30, 696, DateTimeKind.Unspecified).AddTicks(3333), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 2L,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1379,7 +1367,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "qui",
                             StartTime = new DateTimeOffset(new DateTime(2022, 10, 8, 14, 42, 32, 221, DateTimeKind.Unspecified).AddTicks(4179), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 7L,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1394,7 +1382,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "quia",
                             StartTime = new DateTimeOffset(new DateTime(2022, 9, 30, 10, 24, 35, 772, DateTimeKind.Unspecified).AddTicks(7134), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 8L,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1409,7 +1397,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "qui",
                             StartTime = new DateTimeOffset(new DateTime(2022, 10, 19, 7, 24, 6, 999, DateTimeKind.Unspecified).AddTicks(1033), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 4L,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1424,7 +1412,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "voluptate",
                             StartTime = new DateTimeOffset(new DateTime(2023, 2, 27, 13, 8, 3, 49, DateTimeKind.Unspecified).AddTicks(475), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 2L,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1439,7 +1427,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "nesciunt",
                             StartTime = new DateTimeOffset(new DateTime(2023, 6, 1, 3, 12, 36, 210, DateTimeKind.Unspecified).AddTicks(7204), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 3L,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1454,7 +1442,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "fuga",
                             StartTime = new DateTimeOffset(new DateTime(2022, 9, 1, 20, 11, 39, 930, DateTimeKind.Unspecified).AddTicks(4472), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 6L,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -1469,7 +1457,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "libero",
                             StartTime = new DateTimeOffset(new DateTime(2023, 8, 29, 1, 2, 19, 674, DateTimeKind.Unspecified).AddTicks(8542), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 6L,
-                            UpdatedAt = new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Local)
                         });
                 });
 
@@ -1869,11 +1857,7 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("TimeZoneName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TimeZoneValue")
+                    b.Property<int>("TimeZone")
                         .HasColumnType("int");
 
                     b.Property<bool>("WithTeamMembers")
@@ -1889,8 +1873,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 1L,
                             DefinedExternally = false,
                             IsDeleted = false,
-                            TimeZoneName = "",
-                            TimeZoneValue = -300,
+                            TimeZone = -300,
                             WithTeamMembers = true
                         },
                         new
@@ -1898,8 +1881,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 2L,
                             DefinedExternally = false,
                             IsDeleted = false,
-                            TimeZoneName = "",
-                            TimeZoneValue = -660,
+                            TimeZone = -660,
                             WithTeamMembers = true
                         },
                         new
@@ -1907,8 +1889,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 3L,
                             DefinedExternally = false,
                             IsDeleted = false,
-                            TimeZoneName = "",
-                            TimeZoneValue = 480,
+                            TimeZone = 480,
                             WithTeamMembers = true
                         },
                         new
@@ -1916,8 +1897,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 4L,
                             DefinedExternally = false,
                             IsDeleted = false,
-                            TimeZoneName = "",
-                            TimeZoneValue = -420,
+                            TimeZone = -420,
                             WithTeamMembers = true
                         },
                         new
@@ -1925,8 +1905,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 5L,
                             DefinedExternally = false,
                             IsDeleted = false,
-                            TimeZoneName = "",
-                            TimeZoneValue = 60,
+                            TimeZone = 60,
                             WithTeamMembers = false
                         },
                         new
@@ -1934,8 +1913,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 6L,
                             DefinedExternally = false,
                             IsDeleted = false,
-                            TimeZoneName = "",
-                            TimeZoneValue = -540,
+                            TimeZone = -540,
                             WithTeamMembers = true
                         },
                         new
@@ -1943,8 +1921,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 7L,
                             DefinedExternally = false,
                             IsDeleted = false,
-                            TimeZoneName = "",
-                            TimeZoneValue = 120,
+                            TimeZone = 120,
                             WithTeamMembers = true
                         },
                         new
@@ -1952,8 +1929,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 8L,
                             DefinedExternally = false,
                             IsDeleted = false,
-                            TimeZoneName = "",
-                            TimeZoneValue = 300,
+                            TimeZone = 300,
                             WithTeamMembers = false
                         },
                         new
@@ -1961,8 +1937,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 9L,
                             DefinedExternally = false,
                             IsDeleted = false,
-                            TimeZoneName = "",
-                            TimeZoneValue = 300,
+                            TimeZone = 300,
                             WithTeamMembers = false
                         },
                         new
@@ -1970,8 +1945,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 10L,
                             DefinedExternally = false,
                             IsDeleted = false,
-                            TimeZoneName = "",
-                            TimeZoneValue = 240,
+                            TimeZone = 240,
                             WithTeamMembers = true
                         });
                 });
@@ -2868,11 +2842,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<string>("TimeZoneName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TimeZoneValue")
+                    b.Property<int>("TimeZone")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -2888,8 +2858,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LogoPath = "",
                             Name = "Breitenberg Inc",
                             PageLink = "http://richard.info",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -2899,8 +2868,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LogoPath = "",
                             Name = "Schowalter - Boyer",
                             PageLink = "http://lamont.com",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -2910,8 +2878,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LogoPath = "",
                             Name = "Gorczany LLC",
                             PageLink = "http://christopher.net",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -2921,8 +2888,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LogoPath = "",
                             Name = "Frami, Zboncak and Baumbach",
                             PageLink = "http://loren.org",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -2932,8 +2898,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LogoPath = "",
                             Name = "Casper LLC",
                             PageLink = "https://laisha.org",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -2943,8 +2908,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LogoPath = "",
                             Name = "Stroman Group",
                             PageLink = "http://damien.info",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -2954,8 +2918,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LogoPath = "",
                             Name = "Mosciski - Weber",
                             PageLink = "https://dejah.com",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -2965,8 +2928,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LogoPath = "",
                             Name = "Smitham Inc",
                             PageLink = "https://junior.info",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -2976,8 +2938,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LogoPath = "",
                             Name = "Willms - Hettinger",
                             PageLink = "https://callie.org",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -2987,8 +2948,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LogoPath = "",
                             Name = "Hyatt - Hamill",
                             PageLink = "http://braeden.info",
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         });
                 });
 
@@ -3163,11 +3123,7 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<int>("TimeFormat")
                         .HasColumnType("int");
 
-                    b.Property<string>("TimeZoneName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TimeZoneValue")
+                    b.Property<int>("TimeZone")
                         .HasColumnType("int");
 
                     b.Property<string>("Uid")
@@ -3198,8 +3154,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "Albert Barrows",
                             PhoneNumber = "287.766.04",
                             TimeFormat = 0,
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -3214,8 +3169,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "Tyrone Gleason",
                             PhoneNumber = "1-259-731-",
                             TimeFormat = 1,
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -3230,8 +3184,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "Flora Abernathy",
                             PhoneNumber = "489-790-47",
                             TimeFormat = 1,
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -3246,8 +3199,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "Sonja Spinka",
                             PhoneNumber = "392-637-49",
                             TimeFormat = 1,
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -3262,8 +3214,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "Brittany Mueller",
                             PhoneNumber = "(319) 287-",
                             TimeFormat = 0,
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -3278,8 +3229,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "Chelsea Mertz",
                             PhoneNumber = "(258) 515-",
                             TimeFormat = 0,
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -3294,8 +3244,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "Clinton Hayes",
                             PhoneNumber = "(504) 681-",
                             TimeFormat = 0,
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -3310,8 +3259,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "Randall Wintheiser",
                             PhoneNumber = "897-873-88",
                             TimeFormat = 0,
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -3326,8 +3274,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "Orlando Wiza",
                             PhoneNumber = "(884) 579-",
                             TimeFormat = 1,
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         },
                         new
                         {
@@ -3342,8 +3289,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             Name = "Leona Cronin",
                             PhoneNumber = "947.872.74",
                             TimeFormat = 1,
-                            TimeZoneName = "",
-                            TimeZoneValue = 0
+                            TimeZone = 0
                         });
                 });
 
