@@ -40,7 +40,7 @@
                 <div *ngFor="let member of slot.members">
                     <img [src]="member.memberImage" class="avatar" />
                 </div>
-                <img src="assets/header/avatar-icon.png" class="avatar" />
+                <img *ngIf="!slot.members.length" src="assets/header/avatar-icon.png" class="avatar" />
             </div>
         </div>
         <div class="options">
@@ -49,8 +49,7 @@
                 <a href="#">{{ slot.link }}</a>
             </div>
             <div class="toggle">
-                <mat-slide-toggle [checked]="slot.isEnabled" (change)="changeSlotActivityClick($event)">
-                </mat-slide-toggle>
+                <mat-slide-toggle [checked]="isChecked" (change)="changeSlotActivityClick($event)"> </mat-slide-toggle>
             </div>
         </div>
     </div>
@@ -105,8 +104,7 @@
                 <a href="#">{{ slot.link }}</a>
             </div>
             <div class="toggle">
-                <mat-slide-toggle [checked]="slot.isEnabled" (change)="changeSlotActivityClick($event)">
-                </mat-slide-toggle>
+                <mat-slide-toggle [checked]="isChecked" (change)="changeSlotActivityClick($event)"> </mat-slide-toggle>
             </div>
         </div>
     </div>
