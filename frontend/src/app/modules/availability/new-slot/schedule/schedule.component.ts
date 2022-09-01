@@ -21,7 +21,7 @@ export class ScheduleComponent implements OnInit {
             withTeamMembers: false,
             scheduleItems: getScheduleItems(),
         };
-        if (this.slot !== undefined) {
+        if (this.slot) {
             this.scheduleForm.patchValue({
                 timeZone: this.timeZoneMapping(this.slot?.schedule.timeZoneName ?? this.defaultTimeZone),
             });
@@ -52,7 +52,7 @@ export class ScheduleComponent implements OnInit {
     }
 
     public changeZone(event: TZone) {
-        if (event.nameValue !== null && event.timeValue !== null) {
+        if (event.nameValue && event.timeValue) {
             this.schedule.timeZoneName = this.scheduleForm.value.timeZone.name;
             this.schedule.timeZoneValue = this.scheduleForm.value.timeZone.timeValue;
         }
