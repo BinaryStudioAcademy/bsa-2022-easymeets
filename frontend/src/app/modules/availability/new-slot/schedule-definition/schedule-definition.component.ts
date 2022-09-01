@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
-import { getPossibleTimeZones } from '@core/helpers/time-zone-helper';
-import { ITimeZone } from '@core/models/ITimeZone';
 import { ISchedule } from '@core/models/schedule/ISchedule';
+import { TZone } from 'moment-timezone-picker';
 
 @Component({
     selector: 'app-schedule-definition',
@@ -18,23 +17,22 @@ export class ScheduleDefinitionComponent implements OnInit {
 
     displayDays: string[] = getDisplayDays();
 
-    readonly timeZones: ITimeZone[] = getPossibleTimeZones();
-
-    selectedTimeZone: string;
-
-    changeTimeZone() {
-        this.schedule.timeZone = this.getSelectedTimeZoneValue();
-    }
-
-    getSelectedTimeZoneValue() {
-        return this.timeZones.find((x) => x.displayValue === this.selectedTimeZone)?.value ?? 0;
-    }
-
-    getDisplayTimeZone(value: number) {
-        return this.timeZones.find((x) => x.value === value)?.displayValue ?? '';
-    }
+    selectedTimeZone: TZone;
 
     ngOnInit(): void {
-        this.selectedTimeZone = this.getDisplayTimeZone(this.schedule.timeZone);
+        this.selectedTimeZone = {
+            timeValue: this.schedule.timeZoneValue,
+            nameValue: this.schedule.timeZoneName,
+            abbr: '',
+            name: '',
+            group: '',
+        };
+    }
+
+    public changeZone(event: TZone) {
+        if (event.nameValue && event.timeValue) {
+            this.schedule.timeZoneName = this.selectedTimeZone.name;
+            this.schedule.timeZoneValue = this.selectedTimeZone.timeValue;
+        }
     }
 }
