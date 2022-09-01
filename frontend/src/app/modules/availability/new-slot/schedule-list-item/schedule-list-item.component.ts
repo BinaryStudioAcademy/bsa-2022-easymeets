@@ -16,6 +16,8 @@ export class ScheduleListItemComponent extends BaseComponent implements OnInit {
 
     @Input() itemChange: EventEmitter<void> = new EventEmitter();
 
+    @Input() disabled: boolean = false;
+
     startValue: string;
 
     endValue: string;

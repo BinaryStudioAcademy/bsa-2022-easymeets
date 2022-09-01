@@ -19,7 +19,7 @@ app-side-menu-tabs
     display: flex
     flex-direction: column
     justify-items: center
-    padding: 0 100px 90px 100px
+    padding: 0 100px 0 100px
     @media screen and (max-width: $desktop-min-width)
         padding: 0 50px 90px 50px
     @media screen and (max-width: $tablet-min-width)
@@ -75,7 +75,7 @@ app-side-menu-tabs
             width: 100%
             border-bottom: 2px solid $loblolly
     .menu-item-container
-        height: 100%
+        min-height: 100%
         width: 75%
         display: flex
         justify-content: center
@@ -117,3 +117,6 @@ app-side-menu-tabs
 .active-container
     display: flex
     align-items: center
+
+::ng-deep .menu-item-container .mat-tab-body-wrapper
+    flex-grow: 1
