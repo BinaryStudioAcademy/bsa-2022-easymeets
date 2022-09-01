@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { getMembersForBookedWindow } from '@core/helpers/booked-window-members-helper';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
 import { LocationType } from '@shared/enums/locationType';
@@ -25,19 +26,19 @@ export class BookingWindowComponent {
 
     locationTypeMapping = LocationTypeMapping;
 
-    date?: string = '';
+    @Input() date: string = '22 Aug 2022';
 
-    time?: Date = new Date();
+    time: Date = new Date();
 
-    duration?: number = 30;
+    duration: number = 30;
 
-    meetingName?: string = '';
+    meetingName: string = '30 Min Meeting';
 
-    participants?: INewMeetingMember[] = [];
+    participants: INewMeetingMember[] = getMembersForBookedWindow();
 
-    location?: LocationType = LocationType.GoogleMeet;
+    location: LocationType = LocationType.GoogleMeet;
 
-    link?: string = '';
+    link: string = '.../asdasdas/sds/30 Min Meeting';
 
     /*constructor(@Inject(MAT_DIALOG_DATA) public data: IBookingWindowInfo) {
         this.bookedInfo.date = data.date;
