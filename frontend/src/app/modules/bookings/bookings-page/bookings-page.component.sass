@@ -1,11 +1,15 @@
 @import '../../../../styles/color-variables'
 
 .container
+    min-height: 100%
+    background-color: rgba($pale-sky, .17)
+
+.bookings-container
+    height: 100%
     padding: 144px 130px
     display: flex
     flex-direction: column
     gap: 24px
-    background-color: rgba($pale-sky, .17)
 
 p, span
     margin: 0
@@ -53,9 +57,9 @@ p, span
     font-weight: 600
 
     &:hover
-      border: 2px solid $pale-sky
-      color: $pale-sky
-      background: $white-color
+        border: 2px solid $pale-sky
+        color: $pale-sky
+        background: $white-color
 
 .buttonRow
     display: flex
@@ -138,20 +142,20 @@ p, span
     resize: none
 
 @media only screen and (max-width: 1200px)
-  .container
-    padding: 100px
+    .bookings-container
+        padding: 130px
 
 @media only screen and (max-width: 800px)
-  .container
-    padding: 50px
+    .bookings-container
+        padding: 130px
 
 @media only screen and (max-width: 600px)
-  .infoRow
-    flex-direction: column
+    .infoRow
+        flex-direction: column
 
-  .item
-    border: none
+    .item
+        border: none
 
-  .moreBlock
-    max-width: 100%
-    width: 100%
+    .moreBlock
+        max-width: 100%
+        width: 100%
