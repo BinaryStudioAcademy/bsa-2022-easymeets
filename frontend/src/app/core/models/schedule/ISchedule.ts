@@ -4,4 +4,6 @@ export interface ISchedule {
     timeZone: number;
     scheduleItems: IScheduleItem[];
     withTeamMembers: boolean;
+    definedExternally: boolean;
+    definedBy?: string;
 }
