@@ -24,7 +24,10 @@
     </div>
 
     <div class="bookings-container">
-        <p class="input-description">Allowed bookings per Day</p>
+        <div class="input-description-tooltip-container">
+            <p class="input-description">Allowed bookings per Day</p>
+            <mat-icon matTooltip="Specify the number of bookings that can be made per day">help_outline</mat-icon>
+        </div>
         <mat-select name="select" class="selectBlock" [(ngModel)]="settings.bookingsPerDay">
             <mat-option *ngFor="let allowBookingSelect of allowedBooking" [value]="allowBookingSelect">
                 {{ allowBookingSelect }}
@@ -48,12 +51,34 @@
             </mat-radio-group>
         </div>
     </div>
-
+    <mat-divider></mat-divider>
     <div class="password-container">
         <div class="input-password">
             <mat-slide-toggle class="form-switch" [(ngModel)]="this.settings.passwordProtectionIsUsed"></mat-slide-toggle>
             <p class="input-field">Password protection</p>
         </div>
-        <input class="selectBlock" [(ngModel)]="settings.passwordProtection" />
+        <div class="input-description-tooltip-container">
+            <p class="input-description">Password to Booking Page </p>
+            <mat-icon matTooltip="This password will be required to book this slot">help_outline</mat-icon>
+        </div>
+        <div class="password-input-container">
+            <input
+                matInput
+                [disabled]="!settings.passwordProtectionIsUsed"
+                [(ngModel)]="settings.passwordProtection"
+                [type]="hidePassword ? 'password' : 'text'"
+            />
+            <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hidePassword"
+                [disabled]="!settings.passwordProtectionIsUsed">
+                <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+        </div>
+
     </div>
 </div>

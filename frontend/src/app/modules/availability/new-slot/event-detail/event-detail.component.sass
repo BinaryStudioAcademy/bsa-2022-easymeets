@@ -2,18 +2,17 @@
 @import "src/styles/screen-variables"
 
 .input-description
-    font-weight: 575
+    font-weight: 700
     font-size: 14px
     line-height: 20px
-    color: $pale-sky
-    margin-top: 20px
+    color: $raven
     margin-bottom: 2px
 
 .container
     display: grid
     flex-flow: column
+    padding: 20px
     height: 90%
-    margin-left: 60px
     grid-template-columns: 50% 50%
     resize: none
     overflow: auto
@@ -42,6 +41,10 @@
             grid-row-start: 4
             grid-row-end: 4
 
+    mat-divider
+        grid-column-start: 1
+        grid-column-end: span 2
+
 
 .input-item
     padding-left: 5px
@@ -63,19 +66,18 @@
 .input-message
     background: $white-color
     border: 2px solid $loblolly
-    border-radius: 4px
+    border-radius: 8px
+    width: 90%
     display: flex
     resize: none
     align-items: flex-start
     justify-content: flex-start
-    width: 337px
-    padding-left: 5px
     padding-top: 5px
 
 .inputItem
     flex: 1
+    border-radius: 0 8px 8px 0
     height: 38.4px
-    padding-left: 5px
 
 .selectInput
     border: 2px solid $regent-gray
@@ -84,12 +86,19 @@
     width: 327px
 
 .selectBlock
-    width: 337px
     height: 36px
     background: $white-color
     border: 2px solid $loblolly
-    border-radius: 4px
+    border-radius: 8px
     padding-left: 5px
+
+.inputStartBlock
+    height: 38.4px
+    padding: 0
+    background-color: $white
+    border: 2px solid $loblolly
+    border-radius: 8px 0 0 8px
+    border-right: 0
 
 .productName
     margin-top: 14px
@@ -140,6 +149,30 @@ p
     color: $black
     background-color: $black
 
-.bookings-container,
-.language-container
+::ng-deep .container
+    .mat-select
+        box-sizing: border-box
+        align-items: center
+        display: flex
+        width: min(280px, 90%)
+
+    .mat-select-value
+        color: $dark-gray
+        font-size: 15px
+
+.password-input-container
+    box-sizing: border-box
     width: min(280px, 90%)
+    display: grid
+    grid-template-columns: calc(100% - 40px) 40px
+    border: 2px solid $loblolly
+    border-radius: 8px
+
+.input-description-tooltip-container
+    display: grid
+    grid-template-columns: calc(100% - 24px) 24px
+    width: min(280px, 90%)
+    .mat-icon
+        font-size: 14px
+        align-self: end
+        opacity: 0.5

@@ -46,6 +46,8 @@ export class EventDetailComponent implements OnInit {
 
     public allowedBooking: number[] = [1, 2, 3];
 
+    public hidePassword: boolean = false;
+
     ngOnInit(): void {
         this.settings = {
             timeZoneVisibility: false,
