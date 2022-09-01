@@ -17,7 +17,6 @@ export class EventDetailComponent implements OnInit {
             welcomeMessage: this.slot?.welcomeMessage ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             language: this.slot?.language ?? 'English',
             bookingsPerDay: this.slot?.bookingsPerDay ?? this.allowedBooking[1],
-            allowToAddGuests: this.slot?.allowToAddGuests ?? false,
             passwordProtectionIsUsed: this.slot?.passwordProtectionIsUsed ?? false,
             passwordProtection: this.slot?.passwordProtection ?? '',
         };
@@ -55,7 +54,6 @@ export class EventDetailComponent implements OnInit {
             welcomeMessage: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             language: 'English',
             bookingsPerDay: this.allowedBooking[1],
-            allowToAddGuests: false,
             passwordProtectionIsUsed: false,
             passwordProtection: '',
         };

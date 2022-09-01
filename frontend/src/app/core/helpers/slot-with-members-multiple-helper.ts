@@ -47,7 +47,6 @@ export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
         frequency: 5,
         language: 'language',
         bookingsPerDay: 5,
-        allowToAddGuests: true,
         passwordProtectionIsUsed: true,
         timeZoneVisibility: true,
     },
