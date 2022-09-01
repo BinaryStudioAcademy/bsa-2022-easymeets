@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject } from '@angular/core';
+import { Component, EventEmitter, Inject, Type } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
@@ -20,7 +20,11 @@ export class ConfirmationWindowComponent {
 
     locationTypeMapping = LocationTypeMapping;
 
-    component?: any;
+    component?: Type<any>;
+
+    inputs = {
+        meetingName: 'world',
+    };
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData,

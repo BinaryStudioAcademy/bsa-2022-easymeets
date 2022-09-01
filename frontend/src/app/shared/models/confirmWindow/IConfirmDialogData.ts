@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
 
 export interface IConfirmDialogData {
@@ -5,5 +6,5 @@ export interface IConfirmDialogData {
     message?: string;
     buttonsOptions: IConfirmButtonOptions[];
     titleImagePath?: string;
-    component?: any;
+    component?: Type<any>;
 }

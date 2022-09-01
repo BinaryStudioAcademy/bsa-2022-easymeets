@@ -26,27 +26,17 @@ export class BookingWindowComponent {
 
     locationTypeMapping = LocationTypeMapping;
 
-    @Input() date: string = '22 Aug 2022';
+    @Input() date: string;
 
-    time: Date = new Date();
+    @Input() time: Date = new Date();
 
-    duration: number = 30;
+    @Input() duration: number = 30;
 
-    meetingName: string = '30 Min Meeting';
+    @Input() meetingName: string = '30 Min Meeting';
 
-    participants: INewMeetingMember[] = getMembersForBookedWindow();
+    @Input() participants: INewMeetingMember[] = getMembersForBookedWindow();
 
-    location: LocationType = LocationType.GoogleMeet;
+    @Input() location: LocationType = LocationType.GoogleMeet;
 
-    link: string = '.../asdasdas/sds/30 Min Meeting';
-
-    /*constructor(@Inject(MAT_DIALOG_DATA) public data: IBookingWindowInfo) {
-        this.bookedInfo.date = data.date;
-        this.bookedInfo.time = data.time;
-        this.bookedInfo.duration = data.duration;
-        this.bookedInfo.meetingName = data.meetingName;
-        this.bookedInfo.participants = data.participants;
-        this.bookedInfo.location = data.location;
-        this.bookedInfo.link = data.link;
-    }*/
+    @Input() link: string = '.../asdasdas/sds/30 Min Meeting';
 }

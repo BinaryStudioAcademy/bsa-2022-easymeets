@@ -105,7 +105,10 @@
     <div *ngIf="message" mat-dialog-content class="message">
         {{ message }}
     </div>
-    <ng-container *ngComponentOutlet="component"></ng-container>
+    <ng-container *ngIf="component">
+        <!--<ng-template [ngComponentOutlet]="component"></ng-template>-->
+        <app-booking-window date="22 Aug 2022"> </app-booking-window>
+    </ng-container>
     <hr />
     <div mat-dialog-actions class="mat-dialog-buttons">
         <button
