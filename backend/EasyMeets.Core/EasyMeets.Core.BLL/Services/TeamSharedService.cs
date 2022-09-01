@@ -23,7 +23,8 @@ public class TeamSharedService : BaseService, ITeamSharedService
             Image = "",
             Name = teamName,
             PageLink = await GenerateNewPageLinkAsync(0, teamName),
-            TimeZone = user.TimeZone
+            TimeZoneName = user.TimeZoneName,
+            TimeZoneValue = user.TimeZoneValue
         };
         
         var team = _mapper.Map<Team>(teamDto);
