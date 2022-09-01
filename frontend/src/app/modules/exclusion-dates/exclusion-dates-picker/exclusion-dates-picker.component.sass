@@ -65,6 +65,9 @@ hr
 .current-day
     border: none !important
 
+.current-day
+    position: relative
+
 .current-day> :first-child::before
     position: absolute
     width: 16px !important
@@ -80,3 +83,9 @@ hr
     background: #1D2433 !important
     border-radius: 8px !important
     color: #FFFFFF !important
+
+.mat-calendar-body-label:not(:last-of-type)
+    visibility: hidden
+
+.mat-calendar-body-label:last-of-type
+    display: none

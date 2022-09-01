@@ -4,12 +4,15 @@ import { ExclusionDatesPickerComponent } from './exclusion-dates-picker/exclusio
 import { MatButtonModule } from "@angular/material/button";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatCardModule } from "@angular/material/card";
+import { HeaderDatePickerComponent } from './header-date-picker/header-date-picker.component';
+import { MatIconModule } from "@angular/material/icon";
 
 
 
 @NgModule({
     declarations: [
-        ExclusionDatesPickerComponent
+        ExclusionDatesPickerComponent,
+        HeaderDatePickerComponent
     ],
     exports: [
         ExclusionDatesPickerComponent
@@ -18,7 +21,8 @@ import { MatCardModule } from "@angular/material/card";
         CommonModule,
         MatButtonModule,
         MatDatepickerModule,
-        MatCardModule
+        MatCardModule,
+        MatIconModule
     ]
 })
 export class ExclusionDatesModule { }

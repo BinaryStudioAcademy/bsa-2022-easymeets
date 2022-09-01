@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatCalendarCellClassFunction } from "@angular/material/datepicker";
+import { HeaderDatePickerComponent } from "@modules/exclusion-dates/header-date-picker/header-date-picker.component";
 
 @Component({
   selector: 'app-exclusion-dates-picker',
@@ -8,9 +9,12 @@ import { MatCalendarCellClassFunction } from "@angular/material/datepicker";
     encapsulation: ViewEncapsulation.None,
 })
 export class ExclusionDatesPickerComponent implements OnInit {
-
     todayDate:Date = new Date();
+
     selected: Date | null;
+
+    customHeader = HeaderDatePickerComponent;
+
     dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
         console.log(this.selected)
         if (view === 'month') {
