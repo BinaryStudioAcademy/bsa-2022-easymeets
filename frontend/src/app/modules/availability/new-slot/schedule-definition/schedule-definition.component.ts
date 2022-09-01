@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
+import { TimeZoneFullNameMapper } from '@core/helpers/time-zone-helper';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 import { TZone } from 'moment-timezone-picker';
 
@@ -17,12 +18,16 @@ export class ScheduleDefinitionComponent implements OnInit {
 
     displayDays: string[] = getDisplayDays();
 
+    public timeZoneMapping = TimeZoneFullNameMapper;
+
     selectedTimeZone: TZone;
 
     ngOnInit(): void {
+        const scheduleTimeZone = this.timeZoneMapping(this.schedule.timeZoneName);
+
         this.selectedTimeZone = {
-            timeValue: this.schedule.timeZoneValue,
-            nameValue: this.schedule.timeZoneName,
+            timeValue: scheduleTimeZone.timeValue,
+            nameValue: scheduleTimeZone.nameValue,
             abbr: '',
             name: '',
             group: '',
