@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { ExternalScheduleState } from '@core/enums/external-schedule-state.enum';
 import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
 import { getScheduleItems } from '@core/helpers/schedule-list-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
@@ -15,11 +16,7 @@ import { emailRegex } from '@shared/constants/model-validation';
     styleUrls: ['./schedule-external.component.sass'],
 })
 export class ScheduleExternalComponent extends BaseComponent {
-    public definingSchedule: boolean = true;
-
-    public definingEmail: boolean = false;
-
-    public done: boolean = false;
+    public state: ExternalScheduleState = ExternalScheduleState.ScheduleDefining;
 
     public link: string;
 
@@ -53,22 +50,22 @@ export class ScheduleExternalComponent extends BaseComponent {
                     return;
                 }
                 this.slot = slot;
-                this.schedule = slot.schedule;
-                this.schedule.scheduleItems = getScheduleItems();
+                this.schedule = {
+                    ...slot.schedule,
+                    scheduleItems: getScheduleItems(),
+                };
             });
     }
 
     public nextClicked() {
-        this.definingSchedule = false;
-        this.definingEmail = true;
+        this.state = ExternalScheduleState.EmailDefining;
     }
 
     public doneClicked() {
         this.slotService.updateScheduleExternally(this.link, this.schedule)
             .pipe(this.untilThis)
             .subscribe(() => {
-                this.definingEmail = false;
-                this.done = true;
+                this.state = ExternalScheduleState.Done;
             }, () => {
                 this.notificationsService.showErrorMessage('Something went wrong, try defining schedule again');
                 this.returnToSchedule();
@@ -76,7 +73,6 @@ export class ScheduleExternalComponent extends BaseComponent {
     }
 
     public returnToSchedule() {
-        this.definingEmail = false;
-        this.definingSchedule = true;
+        this.state = ExternalScheduleState.ScheduleDefining;
     }
 }
