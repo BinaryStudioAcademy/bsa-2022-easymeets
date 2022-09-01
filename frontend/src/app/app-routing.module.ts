@@ -11,6 +11,10 @@ const routes: Routes = [
         loadChildren: () => import('./modules/availability/availability.module').then((m) => m.AvailabilityModule),
     },
     {
+        path: 'slotdefining/:link',
+        redirectTo: 'availability/slotdefining/:link',
+    },
+    {
         path: 'bookings',
         loadChildren: () => import('./modules/bookings/bookings.module').then((m) => m.BookingsModule),
     },
