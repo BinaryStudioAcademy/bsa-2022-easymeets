@@ -1,4 +1,4 @@
 export enum DateFormat {
-    MonthDayYear,
-    DayMonthYear
+    MonthDayYear = 'MonthDayYear',
+    DayMonthYear = 'DayMonthYear'
 }

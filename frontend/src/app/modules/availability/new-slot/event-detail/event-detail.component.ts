@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveEventDetails } from '@core/models/save-availability-slot/ISaveEventDetails';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-event-detail',
@@ -21,6 +22,10 @@ export class EventDetailComponent implements OnInit {
             passwordProtection: this.slot?.passwordProtection ?? '',
         };
     }
+
+    @Output() linkChange = new EventEmitter<string>();
+
+    public appDomain = environment.appUrl;
 
     public slot?: IAvailabilitySlot;
 
@@ -52,5 +57,9 @@ export class EventDetailComponent implements OnInit {
             passwordProtectionIsUsed: false,
             passwordProtection: '',
         };
+    }
+
+    onLinkChange() {
+        this.linkChange.emit(this.settings.link);
     }
 }
