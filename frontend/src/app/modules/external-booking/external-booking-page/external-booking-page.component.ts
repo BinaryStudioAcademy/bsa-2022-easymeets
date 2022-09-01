@@ -78,6 +78,6 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
     }
 
     isTeamBooking(): boolean {
-        return this.router.url.includes('/team/') || this.menu.team != null;
+        return this.router.url.includes('/team/') || !!this.menu.team;
     }
 }
