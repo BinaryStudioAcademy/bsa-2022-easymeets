@@ -1,5 +1,5 @@
 export enum ExternalScheduleState {
-    ScheduleDefining,
-    EmailDefining,
-    Done
+    ScheduleDefining = 'SlotDefining',
+    EmailDefining = 'EmailDefining',
+    Done = 'Done'
 }

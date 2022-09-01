@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    appUrl: 'https://bsa-easymeets.westeurope.cloudapp.azure.com/',
+    appUrl: 'https://bsa-easymeets.westeurope.cloudapp.azure.com',
     coreUrl: '/api',
     notifierUrl: '/notifier',
     firebase: {

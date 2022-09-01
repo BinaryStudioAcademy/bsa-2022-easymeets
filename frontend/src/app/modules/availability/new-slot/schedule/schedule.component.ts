@@ -43,7 +43,7 @@ export class ScheduleComponent extends BaseComponent {
     }
 
     public getDefinitionLink() {
-        return `${environment.appUrl}slotdefining/${this.slotLink}`;
+        return `${environment.appUrl}/slotdefining/${this.slotLink}`;
     }
 
     saveLink() {

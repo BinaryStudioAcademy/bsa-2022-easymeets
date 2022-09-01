@@ -1,7 +1,7 @@
 <div class="container">
     <img class="logo" src="assets/header/header-logo.svg" alt="header-logo"/>
     <div class="main-content">
-            <div class="schedule-definition" *ngIf="state === 0">
+            <div class="schedule-definition" *ngIf="state === 'SlotDefining'">
                 <div class="info-header">
                     <p class="info-label">Please, define Availability Schedule for {{slot?.name ?? ''}}</p>
                     <button mat-flat-button color="primary" class="next-page-button" (click)="nextClicked()">Next step
@@ -9,7 +9,7 @@
                 </div>
                 <app-schedule-definition [schedule]="schedule" [slot]="slot"></app-schedule-definition>
             </div>
-            <div class="email-definition" *ngIf="state === 1">
+            <div class="email-definition" *ngIf="state === 'EmailDefining'">
                 <div class="info-header">
                     <button mat-icon-button (click)="returnToSchedule()">
                         <mat-icon>arrow_back</mat-icon>
@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>
-            <div class="done-window" *ngIf="state === 2">
+            <div class="done-window" *ngIf="state === 'Done'">
                 <div class="wrapper">
                     <div class="done-content">
                         <p class="description">Thanks for defining schedule!</p>
