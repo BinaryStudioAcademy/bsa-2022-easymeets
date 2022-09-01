@@ -5,5 +5,7 @@ public class ScheduleDto
     public string TimeZoneValue { get; set; } = string.Empty;
     public string TimeZoneName { get; set; } = string.Empty;
     public bool WithTeamMembers { get; set; }
+    public bool DefinedExternally { get; set; }
+    public string? DefinedBy { get; set; }
     public List<ScheduleItemDto> ScheduleItems { get; set; } = new();
 }

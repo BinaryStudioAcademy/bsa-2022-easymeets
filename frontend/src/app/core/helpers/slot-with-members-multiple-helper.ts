@@ -42,6 +42,7 @@ export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
             timeZoneName: 'Europe/Kiev (+03:00)',
             scheduleItems: getScheduleItems(),
             withTeamMembers: true,
+            definedExternally: false,
         },
         welcomeMessage: 'welcomeMessage',
         frequency: 5,

@@ -66,24 +66,30 @@ h1
     @media screen and (max-width: $desktop-min-width)
         height: 60%
     .upper-bar-icon
-        margin-left: 20px
-        margin-right: 40px
+        margin-left: 2%
+        margin-right: 5%
         color: $pale-sky
         line-height: 45px
         cursor: pointer
         @media screen and (max-width: $desktop-min-width)
             margin-left: 0
     .nav-text
+        margin-left: auto
+        width: 55%
         h1
             line-height: 45px
+        @media screen and (max-width: $desktop-min-width)
+            width: 100%
     .nav-buttons
         margin-left: auto
+        min-width: 260px
         .cancel-btn-active
             background-color: $white
             color: $pale-sky
             border: 2px solid $loblolly
             border-radius: 4px
             margin-bottom: 4px
+            margin-right: 4px
         .cancel-btn-active:hover
             background-color: $athens-gray
             border-color: $pale-sky
@@ -94,9 +100,12 @@ h1
             border-radius: 4px
             cursor: default
             margin-bottom: 4px
+            margin-left: 0
+            margin-right: 4px
         .next-btn
             border: 2px solid $royal-blue
             border-radius: 4px
+            margin-left: 0
         .next-btn:hover
             background-color: $dark-blue
             border-color: $dark-blue

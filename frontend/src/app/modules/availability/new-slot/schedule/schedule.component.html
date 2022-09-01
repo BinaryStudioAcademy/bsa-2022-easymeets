@@ -1,37 +1,18 @@
 <div class="container">
-    <div class="schedule-container">
-        <div class="schedule-select-container">
-            <p>Schedule</p>
-            <div class="input">
-                <div [formGroup]="scheduleForm">
-                    <ng-moment-timezone-picker
-                        [formControlName]="'timeZone'"
-                        customPlaceholderText=""
-                        (ngModelChange)="changeZone($event)">
-                    </ng-moment-timezone-picker>
-                </div>
-            </div>
-        </div>
-        <mat-tab-group
-            [disablePagination]="true"
-            [disableRipple]="true"
-            (selectedTabChange)="changeEvent.emit()"
-            animationDuration="0ms">
-            <mat-tab label="List View">
-                <app-schedule-list-item
-                    *ngFor="let item of schedule.scheduleItems; index as i"
-                    [item]="schedule.scheduleItems[i]"
-                    [itemChange]="changeEvent"
-                    [displayDay]="displayDays[i]">
-                </app-schedule-list-item>
-            </mat-tab>
-            <mat-tab label="Week View">
-                <app-schedule-week [items]="schedule.scheduleItems" [itemChange]="changeEvent"> </app-schedule-week>
-            </mat-tab>
-            <mat-tab label="Month View"> Month View </mat-tab>
-        </mat-tab-group>
+    <div class="external-definition-toggle-container">
+        <mat-slide-toggle [checked]="schedule.definedExternally" (change)="externalDefinitionToggle($event)"></mat-slide-toggle>
+        <p>Another person defines Availability Slots</p>
     </div>
-    <div class="override-container">
-        <button mat-flat-button>+ Add Date overrides</button>
+    <app-schedule-definition *ngIf="!schedule.definedExternally" [schedule]="schedule" [changeEvent]="changeEvent"></app-schedule-definition>
+    <div *ngIf="schedule.definedExternally" class="external-definition-container">
+        <p class="description">Link for defining Shedule and  Availability Slots</p>
+        <div class="link-container">
+            <img src="assets/copy_icon.png" class="copy-button" (click)="saveLink()">
+            <p class="definition-link">{{getDefinitionLink()}}</p>
+        </div>
+        <div class="placeholder" *ngIf="!schedule.definedBy">
+            <p>Schedule and Availability Slots will appear here after defining</p>
+        </div>
+        <app-schedule-definition *ngIf="schedule.definedBy" [schedule]="schedule" [changeEvent]="changeEvent" [disabled]="true"></app-schedule-definition>
     </div>
 </div>
