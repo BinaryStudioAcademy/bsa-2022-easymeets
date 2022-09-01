@@ -1,5 +1,6 @@
 @import '../../../../../styles/color-variables'
 @import '../../../../../styles/screen-variables'
+@import url('https://rsms.me/inter/inter.css')
 
 *
     box-sizing: border-box
@@ -10,7 +11,7 @@
 
 app-side-menu-tabs
     width: 100%
-    margin: 0 10px
+    height: 100%
     @media screen and (max-width: $tablet-min-width)
         margin: 0
 
@@ -36,17 +37,29 @@ app-side-menu-tabs
         gap: 5px
     p
         margin: 0 25px 0 0
-    .slot-link
-        color: $royal-blue
-        text-decoration: underline
-    .new-availability-header-label
-        font-size: 20px
-        font-weight: bold
-        color: $dark-gray
-        @media screen and (max-width: $tablet-min-width)
-            font-size: 16px
+        font-family: 'Inter'
+        font-style: normal
+        font-weight: 400
+        font-size: 12px
+        line-height: 136%
+        color: $raven
+    .slot-info
+        display: flex
+        flex-direction: column
+        .slot-info-name-toggle
+            display: flex
+            flex-direction: row
+        .slot-link
+            color: $royal-blue
+            text-decoration: underline
+        .new-availability-header-label
+            font-size: 20px
+            font-weight: bold
+            color: $dark-gray
+            @media screen and (max-width: $tablet-min-width)
+                font-size: 16px
     mat-slide-toggle
-            margin-right: 10px
+                margin-right: 10px
     .slot-button-container
         margin-left: auto
         display: flex
@@ -72,7 +85,9 @@ app-side-menu-tabs
     @media screen and (max-width: $tablet-min-width)
         flex-direction: column
     .sidebar
-        width: 25%
+        width: 15%
+        min-width: 200px
+        border-right: 1px solid $header-border-color
         @media screen and (max-width: $desktop-min-width)
             width: 50%
         @media screen and (max-width: $tablet-min-width)
@@ -121,3 +136,20 @@ app-side-menu-tabs
 .active-container
     display: flex
     align-items: center
+
+button
+    border-radius: 24px
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
+    font-size: 14px
+    align-items: center
+
+::ng-deep .cancel-button.mat-flat-button
+    background: $white
+    border: 1px solid $nepal
+    color: $midnight
+
+::ng-deep .save-activate-button.mat-flat-button
+    color: $white
+    background: $midnight

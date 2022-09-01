@@ -1,4 +1,5 @@
 @import 'src/styles/color-variables.sass'
+@import 'src/styles/screen-variables.sass'
 
 .group-header
     color: $loblolly
@@ -7,16 +8,28 @@
     height: 1em
     margin: 12px 0
     padding: 10px 0
-    border-radius: 4px
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
     font-size: 14px
+    line-height: 20px
+    color: $raven
 
 .mat-nav-list a.side-list-item-active
-    color: $royal-blue
-    background-color: $light-blue
+    color: $midnight
     font-weight: 700
+    border-left: 2px solid $midnight
+    border-top: 1px solid $header-border-color
+    border-bottom: 1px solid $header-border-color
 
 a.list-item
     color: $dark-gray
 
 .side-list
-    margin: 0 1em
+    height: 100%
+    @media screen and (max-width: $tablet-min-width)
+        border-right: none
+
+/*@media screen and (max-width: $tablet-min-width)
+ .mat-nav-list a:first-child
+ border-top-right-radius: 7px*/
