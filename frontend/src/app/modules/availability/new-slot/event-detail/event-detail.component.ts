@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveEventDetails } from '@core/models/save-availability-slot/ISaveEventDetails';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-event-detail',
@@ -16,11 +17,14 @@ export class EventDetailComponent implements OnInit {
             welcomeMessage: this.slot?.welcomeMessage ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             language: this.slot?.language ?? 'English',
             bookingsPerDay: this.slot?.bookingsPerDay ?? this.allowedBooking[1],
-            allowToAddGuests: this.slot?.allowToAddGuests ?? false,
             passwordProtectionIsUsed: this.slot?.passwordProtectionIsUsed ?? false,
             passwordProtection: this.slot?.passwordProtection ?? '',
         };
     }
+
+    @Output() linkChange = new EventEmitter<string>();
+
+    public appDomain = environment.appUrl;
 
     public slot?: IAvailabilitySlot;
 
@@ -41,6 +45,8 @@ export class EventDetailComponent implements OnInit {
 
     public allowedBooking: number[] = [1, 2, 3];
 
+    public hidePassword: boolean = false;
+
     ngOnInit(): void {
         this.settings = {
             timeZoneVisibility: false,
@@ -48,9 +54,12 @@ export class EventDetailComponent implements OnInit {
             welcomeMessage: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             language: 'English',
             bookingsPerDay: this.allowedBooking[1],
-            allowToAddGuests: false,
             passwordProtectionIsUsed: false,
             passwordProtection: '',
         };
+    }
+
+    onLinkChange() {
+        this.linkChange.emit(this.settings.link);
     }
 }

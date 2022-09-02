@@ -19,6 +19,7 @@ using Newtonsoft.Json.Serialization;
 using RabbitMQ.Client;
 using EasyMeets.RabbitMQ.Settings;
 using EasyMeets.RabbitMQ.Service;
+using Newtonsoft.Json.Converters;
 
 namespace EasyMeets.Core.WebAPI.Extentions
 {
@@ -28,12 +29,15 @@ namespace EasyMeets.Core.WebAPI.Extentions
         {
             services
                 .AddControllers()
-                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                });
             services.AddTransient<ISampleService, SampleService>();
             services.AddTransient<IAvailabilityService, AvailabilityService>();
             services.AddTransient<IUploadFileService, UploadFileService>();
-            services.AddTransient<IUserService, UserService>(); 
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICalendarsService, CalendarsService>();
             services.AddTransient<IMeetingService, MeetingService>();
             services.AddTransient<ITeamService, TeamService>();
@@ -41,7 +45,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddTransient<IGoogleOAuthService, GoogleOAuthService>();
             services.AddTransient<IZoomService, ZoomService>();
             services.AddHttpClient<IZoomService, ZoomService>();
-
+            services.AddRabbitMQ(configuration);
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
@@ -71,7 +75,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 var rabbitConnection = new Uri(configuration.GetSection("RabbitMQConfiguration:Uri").Value);
 
                 var connectionFactory = new ConnectionFactory
-                { Uri = rabbitConnection };
+                    { Uri = rabbitConnection };
 
                 return connectionFactory.CreateConnection();
             });
@@ -92,14 +96,12 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 .GetSection("RabbitMQConfiguration:Queues:InformConsumer")
                 .Bind(consumerSettings);
 
-            var listener = new ConsumerService(consumerSettings);
-            listener.ListenQueue();
-
             services.AddScoped<IInformQueueService>(provider =>
                 new InformQueueService(
                     new ProducerService(
                         provider.GetRequiredService<IConnection>(),
-                        producerSettings)));
+                        producerSettings),
+                    new ConsumerService(provider.GetRequiredService<IConnection>(), consumerSettings)));
         }
 
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)

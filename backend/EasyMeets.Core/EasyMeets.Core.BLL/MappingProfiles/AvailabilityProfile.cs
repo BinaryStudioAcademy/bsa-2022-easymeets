@@ -12,7 +12,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
         { 
             CreateMap<AvailabilitySlot, AvailabilitySlotDto>()
                 .ForMember(dest => dest.Members, opt => opt.MapFrom(src => src.SlotMembers.Select(x => x.User)))
-                .ForMember(dest => dest.EmailTemplateSettings, opt => opt.MapFrom(src => src.EmailTemplates));
+                .ForMember(dest => dest.EmailTemplateSettings, opt => opt.MapFrom(src => src.EmailTemplates))
+                .ForMember(dest => dest.Schedule, opt => opt.MapFrom(s => s.SlotMembers.First().Schedule));
             CreateMap<AvailabilitySlotDto, AvailabilitySlot>();
             CreateMap<SaveAvailabilitySlotDto, AvailabilitySlot>()
                 .ForMember(s => s.TeamId, opt => opt.MapFrom((src, dest) => src.TeamId ?? dest.TeamId))
@@ -27,7 +28,6 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(s => s.IsVisible, opt => opt.MapFrom(src => src.GeneralDetails!.IsVisible))
                 .ForMember(s => s.Language, opt => opt.MapFrom(src => src.EventDetails!.Language))
                 .ForMember(s => s.BookingsPerDay, opt => opt.MapFrom(src => src.EventDetails!.BookingsPerDay))
-                .ForMember(s => s.AllowToAddGuests, opt => opt.MapFrom(src => src.EventDetails!.AllowToAddGuests))
                 .ForMember(s => s.PasswordProtectionIsUsed,
                     opt => opt.MapFrom(src => src.EventDetails!.PasswordProtectionIsUsed))
                 .ForMember(s => s.PasswordProtection, opt => opt.MapFrom(src => src.EventDetails!.PasswordProtection))

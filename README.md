@@ -168,6 +168,7 @@ erDiagram
   Questions }o--|| AvailabilitySlot : AvailabilitySlotId
   Questions {
     bigint Id
+    bigint Order
     bigint AvailabilitySlotId
     nvarchar QuestionText
     boolean IsMandatory
