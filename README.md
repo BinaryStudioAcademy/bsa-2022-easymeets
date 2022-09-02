@@ -185,7 +185,7 @@ erDiagram
     int MaxNumberOfBookings
     int PaddingMeeting
     int MinBookingMeetingDifference
-	int Frequency
+    int Frequency
     bool IsDeleted
   }
 
