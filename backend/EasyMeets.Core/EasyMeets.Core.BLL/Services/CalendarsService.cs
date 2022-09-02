@@ -51,6 +51,28 @@ namespace EasyMeets.Core.BLL.Services
             return true;
         }
 
+        public async Task<string> SubscribeOnCalendarChanges(TokenResultDto tokenResultDto)
+        {
+            var queryParams = new Dictionary<string, string>
+            {
+                { "calendarId", "primary" }
+            };
+
+            var body = new
+            {
+                id = "qazwsxsad",
+                type = "web_hook",
+                address = "https://webhook.site/179c5683-f398-4efc-8ce6-24e7ddd953b5"
+            };
+
+            var response = await HttpClientHelper.SendPostTokenRequest<SubscribeEventDTO>($"{_configuration["GoogleCalendar:SubscribeOnEventsCalendar"]}", queryParams, body,
+                tokenResultDto.AccessToken);
+
+            var checkResult = response.Id;
+
+            return checkResult;
+        }
+
         public async Task<bool> UpdateGoogleCalendar(List<UserCalendarDto> calendarDtoList)
         {
             foreach (var calendarDto in calendarDtoList)
