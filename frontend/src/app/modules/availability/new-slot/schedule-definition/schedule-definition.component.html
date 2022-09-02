@@ -32,6 +32,7 @@
         </mat-tab-group>
     </div>
     <div class="override-container">
-        <button mat-flat-button [disabled]="disabled">+ Add Date overrides</button>
+        <button mat-flat-button [disabled]="disabled" (click)="exclusionDatesService.show()">+ Add Date overrides</button>
     </div>
 </div>
+<app-exclusion-dates-picker (datesEmitter)="exclusionDatesFilled($event)"></app-exclusion-dates-picker>

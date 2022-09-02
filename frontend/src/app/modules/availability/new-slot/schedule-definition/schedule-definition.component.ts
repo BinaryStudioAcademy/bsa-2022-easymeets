@@ -3,6 +3,8 @@ import { getDisplayDays } from '@core/helpers/display-days-helper';
 import { getPossibleTimeZones } from '@core/helpers/time-zone-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
 import { ISchedule } from '@core/models/schedule/ISchedule';
+import { ExclusionDatesService } from '@core/services/exclusion-dates-service';
+import { ExclusionDates } from "@modules/exclusion-dates/exclusion-dates-picker/exclusion-dates-picker.component";
 
 @Component({
     selector: 'app-schedule-definition',
@@ -22,6 +24,8 @@ export class ScheduleDefinitionComponent implements OnInit {
 
     selectedTimeZone: string;
 
+    constructor(public exclusionDatesService: ExclusionDatesService) { }
+
     changeTimeZone() {
         this.schedule.timeZone = this.getSelectedTimeZoneValue();
     }
@@ -36,5 +40,9 @@ export class ScheduleDefinitionComponent implements OnInit {
 
     ngOnInit(): void {
         this.selectedTimeZone = this.getDisplayTimeZone(this.schedule.timeZone);
+    }
+
+    exclusionDatesFilled(event: ExclusionDates) {
+        console.log(event);
     }
 }

@@ -1,17 +1,34 @@
+@import url('https://rsms.me/inter/inter.css')
+@import '../../../../styles/color-variables'
+
+*
+    font-family
+        font-family: 'Inter', serif !important
+
+.overlay
+    z-index: 999
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    background: rgba(0, 0, 0, 0.2)
+    overflow-y: scroll
+
 .exclusion-wrapper
+    box-sizing: border-box
     position: absolute
-    margin-top: 300px
+    top: 20%
     left: 50%
-    right: 50%
-    transform: translate(-50%, -50%)
+    transform: translate(-50%, 0)
     display: flex
     flex-direction: column
-    align-items: flex-start
+    justify-content: flex-start
+    align-items: center
     padding: 32px
     gap: 32px
     width: 460px
-    height: 752px
-    background: #FFFFFF
+    background: $white-color
     border: 1px solid #F1F3F9
     box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03)
     border-radius: 32px
@@ -19,18 +36,14 @@
     order: 4
     flex-grow: 0
     z-index: 15
-    p
-        font-family: 'Inter'
+    .title
         font-style: normal
         font-weight: 900
         font-size: 22px
         line-height: 146%
-        color: #1D2433
-        flex: none
-        order: 0
-        flex-grow: 0
+        color: $midnight
 
-button
+.cancel, .apply
     box-sizing: border-box
     padding: 8px 24px
     gap: 8px
@@ -41,21 +54,39 @@ button
     cursor: pointer
 
 .cancel
-    background: #FFFFFF
+    background: $white-color
 .apply
-    background: #1D2433
-    color: #FFFFFF
+    background: $midnight
+    color: $white-color
 
 hr
     border: 1px solid #E1E6EF
     width: 100%
 
 .demo-inline-calendar-card
-    width: 450px
+    width: 100%
+
+.cell
+    display: flex
+    align-items: center
+    justify-content: center
 
 .cell> :first-child
     width: 36px !important
     height: 36px !important
+    font-style: normal
+    font-weight: 700
+    font-size: 14px
+    line-height: 146%
+    color: $raven
+    position: static
+    display: flex
+    align-items: center
+    justify-content: center
+    text-align: center
+    vertical-align: center
+    top: auto
+    left: auto
 
 .test-class> :first-child, .current-day> :first-child
     background: #E1E6EF !important
@@ -80,12 +111,57 @@ hr
     z-index: 30
 
 .mat-calendar-body-active> :first-child
-    background: #1D2433 !important
+    background: $midnight !important
     border-radius: 8px !important
-    color: #FFFFFF !important
+    color: $white-color !important
 
 .mat-calendar-body-label:not(:last-of-type)
     visibility: hidden
 
 .mat-calendar-body-label:last-of-type
     display: none
+
+.time-input
+    border: 2px solid #D1D8DB
+    border-radius: 8px
+    width: 75px
+    height: 36px
+    font-style: normal
+    font-weight: 400
+    font-size: 14px
+    line-height: 146%
+    padding-left: 8px
+    margin-left: 12px
+    margin-right: 12px
+
+input[type="time"]::-webkit-calendar-picker-indicator
+    background: none
+
+.input-container
+    position: relative
+    width: 100%
+
+.add-time
+    position: absolute
+    right: 10%
+    top: 3%
+    color: $raven
+    font-style: normal
+    cursor: pointer
+
+.buttons-wrapper
+    display: flex
+    flex-direction: row
+    width: 100%
+    justify-content: space-between
+
+.xmark
+    color: $raven
+    cursor: pointer
+    margin-left: 25px
+
+.time-item
+    display: flex
+    align-items: center
+    margin-top: 20px
+    margin-bottom: 20px

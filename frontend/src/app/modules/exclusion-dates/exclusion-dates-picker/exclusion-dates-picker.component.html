@@ -1,23 +1,33 @@
-<div class="exclusion-wrapper">
-    <p>
-        Select Exclusion Dates:
-    </p>
-    <mat-calendar
-        class="demo-inline-calendar-card"
-        [(selected)]="selected"
-        [minDate]="todayDate"
-        [dateClass]="dateClass"
-        [headerComponent]="customHeader"
-    ></mat-calendar>
-    <hr>
-    <p>Selected date: {{selected}}</p>
-    <hr>
-    <div class="buttons-wrapper">
-        <button class="cancel">
-            Cancel
-        </button>
-        <button class="apply">
-            Apply
-        </button>
+<div class="overlay" *ngIf="exclusionDatesService.isVisible$ | async">
+    <div class="exclusion-wrapper">
+        <p class="title">
+            Select Exclusion Dates:
+        </p>
+        <mat-calendar
+            class="demo-inline-calendar-card"
+            [(selected)]="selected"
+            [minDate]="todayDate"
+            [dateClass]="dateClass"
+            [headerComponent]="customHeader"
+        ></mat-calendar>
+        <hr>
+        <form class="input-container" [formGroup]="formGroup" *ngIf="this.selected">
+            <i class="fa-solid fa-plus add-time fa-xl" (click)="addTimeItem()"></i>
+            <div class="time-item" *ngFor="let timeItem of getIndexSequence()">
+                <input class="time-input" type="time" [formControlName]="timeItem.toString() + '0'">
+                -
+                <input class="time-input" type="time" [formControlName]="timeItem.toString() + '1'">
+                <i class="fa-regular fa-circle-xmark xmark fa-xl" (click)="removeTimeItem()"></i>
+            </div>
+            <hr>
+        </form>
+        <div class="buttons-wrapper">
+            <button class="cancel" (click)="exclusionDatesService.hide()">
+                Cancel
+            </button>
+            <button class="apply" (click)="clickApply()">
+                Apply
+            </button>
+        </div>
     </div>
 </div>
