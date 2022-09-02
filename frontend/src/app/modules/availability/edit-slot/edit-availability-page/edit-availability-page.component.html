@@ -1,7 +1,7 @@
 <app-new-availability
     (cancelClick)="goToPage('/availability')"
-    [title]="'Edit Availability Slots'"
-    [slotValue]="slot"
+    [title]="this.slot ? this.slot.name : ''"
+    [slot]="slot"
     (saveChangesClick)="sendChanges()"
     (deleteClick)="deleteButtonClick()">
 </app-new-availability>
