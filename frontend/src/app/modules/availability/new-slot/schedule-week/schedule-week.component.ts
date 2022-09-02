@@ -41,8 +41,8 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
         const item = this.items.find(i => i.weekDay === changedEvent.event.id);
 
         if (item) {
-            item.start = `${this.reformat(changedEvent.event.start.getHours())}:${this.reformat(changedEvent.event.start.getMinutes())}:00`;
-            item.end = `${this.reformat(changedEvent.event.end!.getHours())}:${this.reformat(changedEvent.event.end!.getMinutes())}:00`;
+            item.start = this.timeToString(changedEvent.event.start);
+            item.end = this.timeToString(changedEvent.event.end!);
             this.itemChange.emit();
             this.refresh.next();
         }
@@ -113,9 +113,13 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
         return 0;
     }
 
-    private dateTimeFloor(now: Date) {
+    private dateTimeFloor(now: Date): Date {
         const stepFloor = 300000;
 
         return new Date(Math.floor(new Date(now).getTime() / stepFloor) * stepFloor);
+    }
+
+    private timeToString(date: Date): string {
+        return `${this.reformat(date.getHours())}:${this.reformat(date.getMinutes())}:00`;
     }
 }
