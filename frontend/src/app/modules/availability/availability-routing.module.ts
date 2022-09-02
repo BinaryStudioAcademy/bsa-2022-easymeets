@@ -26,7 +26,6 @@ const routes: Routes = [
     {
         path: 'slotdefining/:link',
         component: ScheduleExternalComponent,
-        canActivate: [AuthGuard],
     },
 ];
 

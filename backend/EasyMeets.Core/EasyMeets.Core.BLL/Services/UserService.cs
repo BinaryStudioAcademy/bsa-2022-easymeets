@@ -8,7 +8,9 @@ using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 using EasyMeets.Core.Common.DTO.UploadImage;
+using FirebaseAdmin.Auth;
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -18,20 +20,24 @@ namespace EasyMeets.Core.BLL.Services
         private readonly IZoomService _zoomService;
         private readonly IUploadFileService _uploadFileService;
         private readonly ITeamSharedService _teamSharedService;
+        private readonly FirebaseAuth _firebaseAuth;
         
         public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor,
-            IUploadFileService uploadFileService, IZoomService zoomService, ITeamSharedService teamSharedService) : base(context, mapper)
+            IUploadFileService uploadFileService, IZoomService zoomService, ITeamSharedService teamSharedService, FirebaseAuth firebaseAuth) : base(context, mapper)
         {
             _httpContextAccessor = httpContextAccessor;
             _zoomService = zoomService;
             _uploadFileService = uploadFileService;
             _teamSharedService = teamSharedService;
+            _firebaseAuth = firebaseAuth;
         }
-
+        
         public async Task<UserDto> GetCurrentUserAsync()
         {
             var currentUser = await GetCurrentUserInternalAsync();
 
+            await AddUserClaims(currentUser.Uid, currentUser.Id);
+            
             var currentUserDto = _mapper.Map<UserDto>(currentUser);
             return currentUserDto;
         }
@@ -80,8 +86,32 @@ namespace EasyMeets.Core.BLL.Services
             await _context.SaveChangesAsync();
 
             await _teamSharedService.CreateDefaultUsersTeamAsync(user);
+            
+            await AddUserClaims(user.Uid, user.Id);
 
-            return _mapper.Map<User, UserDto>(newUser);
+            return _mapper.Map<User, UserDto>(user);
+        }
+        
+        private async Task AddUserClaims(string? uid, long? id)
+        {
+            if (uid is null || id is null)
+            {
+                return;
+            }
+
+            var userRecord = await _firebaseAuth.GetUserAsync(uid);
+
+            if (userRecord.CustomClaims.ContainsKey("id"))
+            {
+                return;
+            }
+            
+            var userClaims = new Dictionary<string, object>
+            {
+                { "id", id }
+            };
+
+            await _firebaseAuth.SetCustomUserClaimsAsync(uid, userClaims);
         }
 
         public async Task<bool> ComparePassedIdAndCurrentUserIdAsync(long id)
