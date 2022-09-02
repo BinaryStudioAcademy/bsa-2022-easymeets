@@ -17,7 +17,13 @@
         <ng-template #noSelectedMembers>
             <button mat-flat-button class="cancel-btn-inactive nav-button">Cancel Selection</button>
         </ng-template>
-        <button mat-flat-button color="primary" class="next-btn nav-button" (click)="addMembers(selectedTeamMembers)">
+        <button
+            mat-flat-button
+            color="primary"
+            class="next-btn nav-button"
+            (click)="addMembers(selectedTeamMembers)"
+            [routerLink]="['/external-booking/choose-time']"
+            [queryParams]="{ duration: 30 }">
             Next Step
         </button>
     </div>
