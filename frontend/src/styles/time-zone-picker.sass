@@ -52,10 +52,6 @@
     margin: 0 4px
     color: $dark-gray
 
-:host ::ng-deep .ng-dropdown-panel
-    background: $white
-    left: 0
-
 :host ::ng-deep .ng-dropdown-panel.ng-select-bottom
     top: calc(100% - 1.25em)
     box-shadow: 0 5px 5px -3px $black-2-intense, 0 8px 10px 1px $black-3-intense, 0 3px 14px 2px $black-4-intense
@@ -63,24 +59,6 @@
 :host ::ng-deep .ng-dropdown-panel.ng-select-top
     bottom: calc(100% - .84375em)
     box-shadow: 0 -5px 5px -3px $black-2-intense, 0 -8px 10px 1px $black-3-intense, 0 -3px 14px 2px $black-4-intense
-
-:host ::ng-deep .ng-dropdown-panel.multiple .ng-option.selected
-    background: $white
-
-:host ::ng-deep .ng-dropdown-panel.multiple .ng-option.marked
-    background: $black
-
-:host ::ng-deep .ng-dropdown-panel .ng-dropdown-header
-    border-bottom: 1px solid $black
-    padding: 0 16px
-    line-height: 3em
-    min-height: 3em
-
-:host ::ng-deep .ng-dropdown-panel .ng-dropdown-footer
-    border-top: 1px solid $black
-    padding: 0 16px
-    line-height: 3em
-    min-height: 3em
 
 :host ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup
     user-select: none
@@ -90,16 +68,6 @@
     padding: 0 16px
     color: $black
     font-weight: 500
-
-:host ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-marked
-    background: $black
-
-:host ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-disabled
-    cursor: default
-
-:host ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected
-    background: $black
-    color: $light-blue
 
 :host ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option
     line-height: 3em
@@ -113,26 +81,6 @@
     color: $black
     text-align: left
 
-:host ::ng-deep [dir="rtl"] .ng-dropdown-panel .ng-dropdown-panel-items .ng-option
-    text-align: right
-
 :host ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked
     background: $black-1-intense
     color: $black-5-intense
-
-:host ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-disabled
-    color: $black
-
-:host ::ng-deep [dir="rtl"] .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-child
-    padding-right: 32px
-    padding-left: 0
-
-:host ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option .ng-tag-label
-    padding-right: 5px
-    font-size: 80%
-    font-weight: 400
-    color: $black
-
-:host ::ng-deep [dir="rtl"] .ng-dropdown-panel .ng-dropdown-panel-items .ng-option .ng-tag-label
-    padding-left: 5px
-    padding-right: 0
