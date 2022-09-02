@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { IAvailabilitySlotMember } from '@core/models/IAvailabilitySlotMember';
 import { IExternalBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
 import { SpinnerService } from '@core/services/spinner.service';
@@ -13,9 +14,9 @@ import { LocationType } from '@shared/enums/locationType';
     styleUrls: ['./external-booking-page.component.sass'],
 })
 export class ExternalBookingPageComponent extends BaseComponent implements OnInit {
-    public menu: IExternalBookingSideMenu = {} as IExternalBookingSideMenu;
+    menu: IExternalBookingSideMenu = {} as IExternalBookingSideMenu;
 
-    public LocationType = LocationType;
+    locationTypeMapping = LocationTypeMapping;
 
     constructor(public spinnerService: SpinnerService, private userService: UserService, public router: Router) {
         super();
@@ -77,6 +78,6 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
     }
 
     isTeamBooking(): boolean {
-        return this.router.url.includes('/team/');
+        return this.router.url.includes('/team/') || !!this.menu.team;
     }
 }

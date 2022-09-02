@@ -1,48 +1,41 @@
 <div class="container">
-    <div id="container-item1">
+    <div class="link-container">
         <p class="input-description">Link</p>
         <div class="inputBlock">
             <div class="inputStartBlock">
-                <p class="productName">productname.com/</p>
+                <p class="productName">{{appDomain}}/</p>
             </div>
-            <input class="inputItem" [(ngModel)]="settings.link" />
+            <input class="inputItem" [(ngModel)]="settings.link" (change)="onLinkChange()"/>
         </div>
     </div>
 
-    <div id="container-item2">
+    <div class="welcome-message-container">
         <p class="input-description">Welcome Message</p>
         <textarea id="welcomeMessage" class="input-message" [(ngModel)]="settings.welcomeMessage"></textarea>
     </div>
 
-    <div id="container-item3">
+    <div class="language-container">
         <p class="input-description">Language</p>
-        <select name="select" class="selectBlock" [(ngModel)]="settings.language">
-            <option selected *ngFor="let languageSelect of languages" [value]="languageSelect">
+        <mat-select name="select" class="selectBlock" [(ngModel)]="settings.language">
+            <mat-option *ngFor="let languageSelect of languages" [value]="languageSelect">
                 {{ languageSelect }}
-            </option>
-        </select>
+            </mat-option>
+        </mat-select>
     </div>
 
-    <div id="container-item4">
-        <p class="input-description">Allowed bookings per Day</p>
-        <select name="select" class="selectBlock" [(ngModel)]="settings.bookingsPerDay">
-            <option selected *ngFor="let allowBookingSelect of allowedBooking" [value]="allowBookingSelect">
-                {{ allowBookingSelect }}
-            </option>
-        </select>
-    </div>
-
-    <div id="container-item5">
-        <div class="input-checkbox">
-            <input
-                type="checkbox"
-                style="transform: scale(1.25)"
-                [(ngModel)]="settings.allowToAddGuests"/>
-            <span class="input-description checkbox-text"><p>Allow Booker to add additional guests</p></span>
+    <div class="bookings-container">
+        <div class="input-description-tooltip-container">
+            <p class="input-description">Allowed bookings per Day</p>
+            <mat-icon matTooltip="Specify the number of bookings that can be made per day">help_outline</mat-icon>
         </div>
+        <mat-select name="select" class="selectBlock" [(ngModel)]="settings.bookingsPerDay">
+            <mat-option *ngFor="let allowBookingSelect of allowedBooking" [value]="allowBookingSelect">
+                {{ allowBookingSelect }}
+            </mat-option>
+        </mat-select>
     </div>
 
-    <div id="container-item6">
+    <div class="time-zones-container">
         <div class="input-button-matgroup">
             <mat-radio-group
                 aria-labelledby="example-radio-group-label"
@@ -58,12 +51,34 @@
             </mat-radio-group>
         </div>
     </div>
-
-    <div id="container-item7">
+    <mat-divider></mat-divider>
+    <div class="password-container">
         <div class="input-password">
             <mat-slide-toggle class="form-switch" [(ngModel)]="this.settings.passwordProtectionIsUsed"></mat-slide-toggle>
             <p class="input-field">Password protection</p>
         </div>
-        <input class="selectBlock" [(ngModel)]="settings.passwordProtection" />
+        <div class="input-description-tooltip-container">
+            <p class="input-description">Password to Booking Page </p>
+            <mat-icon matTooltip="This password will be required to book this slot">help_outline</mat-icon>
+        </div>
+        <div class="password-input-container">
+            <input
+                matInput
+                [disabled]="!settings.passwordProtectionIsUsed"
+                [(ngModel)]="settings.passwordProtection"
+                [type]="hidePassword ? 'password' : 'text'"
+            />
+            <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hidePassword"
+                [disabled]="!settings.passwordProtectionIsUsed">
+                <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+        </div>
+
     </div>
 </div>

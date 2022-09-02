@@ -54,14 +54,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public timeZoneValues = Object.keys(TimeZone);
 
-    public countryValues = [
-        Country.UnitedStates,
-        Country.Ukraine,
-        Country.Poland,
-        Country.Sweden,
-        Country.Italy,
-        Country.Uganda,
-    ];
+    public countryValues = Object.values(Country);
 
     public countryLabelMapping = CountryLabelMapping;
 
@@ -134,15 +127,10 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         this.userService
             .editUser(editedUser)
             .pipe(this.untilThis)
-            .subscribe(
-                (user) => {
-                    this.userService.updateUser(user);
-                    this.notificationService.showSuccessMessage('Personal information was updated successfully.');
-                },
-                () => {
-                    this.notificationService.showErrorMessage('There was an error while updating.');
-                },
-            );
+            .subscribe({
+                next: () =>
+                    this.notificationService.showSuccessMessage('Personal information was updated successfully.'),
+            });
     }
 
     public changeCountryCode(form: FormGroup) {
@@ -165,14 +153,11 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         this.userService
             .uploadImage(formData)
             .pipe(this.untilThis)
-            .subscribe(
-                (resp: IImagePath) => {
+            .subscribe({
+                next: (resp: IImagePath) => {
                     this.imageUrl = resp.path;
                 },
-                () => {
-                    this.notificationService.showErrorMessage('Something went wrong. Picture was not uploaded.');
-                },
-            );
+            });
     }
 
     public confirmCancelDialog(): void {

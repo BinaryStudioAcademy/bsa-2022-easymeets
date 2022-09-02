@@ -1,39 +1,52 @@
-@import '../../../../../styles/color-variables'
+@import "src/styles/color-variables"
 
 .container
     box-sizing: border-box
-    padding: 15px 0 15px 15px
-    display: flex
-    width: 100%
-    .schedule-container
-        width: 55%
-        border-right: 1px solid $regent-gray
-        padding-right: 25px
-        .schedule-select-container
-            display: flex
-            justify-content: space-between
-            align-items: center
-            padding-bottom: 10px
-            p
-                margin: 0
-                font-weight: bold
-    .override-container
-        width: 45%
-        display: grid
-        grid-template-columns: 100%
-        grid-template-rows: 100%
-        align-items: center
-        justify-items: center
-        button
-            border: 1px solid $regent-gray
-
-.input
-    border: 1px solid $regent-gray
-    border-radius: 4px
-    height: 30px
-    width: 200px
-
-select
-    width: 100%
+    padding: 15px
     height: 100%
-    border: 0
+    p
+        margin: 0
+
+.external-definition-toggle-container
+    display: flex
+    flex-direction: row
+    gap: 20px
+    align-items: center
+    padding: 15px 0
+
+.external-definition-container
+    display: flex
+    flex-direction: column
+    gap: 15px
+    height: calc(100% - 54px)
+    .description
+        font-weight: bold
+
+.link-container
+    display: flex
+    flex-direction: row
+    justify-items: flex-start
+    align-content: center
+    gap: 20px
+    .copy-button
+        max-height: 24px
+        max-width: 24px
+        height: auto
+        width: auto
+        cursor: pointer
+        filter: invert(94%) sepia(3%) saturate(1127%) hue-rotate(185deg) brightness(88%) contrast(86%)
+    .definition-link
+        text-decoration: underline
+        color: $raven
+
+.placeholder
+    display: grid
+    grid-template-columns: 100%
+    grid-template-rows: 100%
+    justify-items: center
+    align-items: center
+    background-color: $light-gray
+    flex-grow: 1
+    p
+        color: $raven
+        font-weight: bold
