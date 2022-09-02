@@ -83,8 +83,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
         this.teamService.currentTeamEmitted$
             .subscribe(teamId => {
-                // eslint-disable-next-line no-debugger
-                debugger;
                 this.getTeamMembersOfCurrentUser(teamId);
             });
     }
@@ -117,14 +115,10 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     }
 
     getTeamMembersOfCurrentUser(teamId?: number) {
-        // eslint-disable-next-line no-debugger
-        debugger;
         this.newMeetingService
             .getTeamMembersOfCurrentUser(teamId)
             .pipe(this.untilThis)
             .subscribe((resp) => {
-                // eslint-disable-next-line no-debugger
-                debugger;
                 this.teamMembers = resp;
                 this.getFilteredOptions();
             });
