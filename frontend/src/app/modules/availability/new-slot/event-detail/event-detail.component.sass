@@ -1,44 +1,50 @@
 @import '../../../../../styles/color-variables'
+@import "src/styles/screen-variables"
 
 .input-description
-    font-weight: 575
+    font-weight: 700
     font-size: 14px
     line-height: 20px
-    color: $pale-sky
-    margin-top: 20px
+    color: $raven
     margin-bottom: 2px
 
 .container
     display: grid
     flex-flow: column
+    padding: 20px
     height: 90%
-    margin-left: 60px
-    grid-template-rows: 1fr 2fr 1fr 1fr 0.5fr 1fr 1fr
-    grid-template-areas: "item1" "item2" "item3" "item4" "item5" "item6" "item7"
+    grid-template-columns: 50% 50%
     resize: none
     overflow: auto
+    @media (max-width: $desktop-min-width)
+        grid-template-columns: 100%
 
-#container-item1
-    grid-area: item1
+    .link-container,
+    .time-zones-container,
+    .password-container
+        width: 100%
+        grid-column-start: 1
+        grid-column-end: span 2
 
-#container-item2
-    grid-area: item2
+    .language-container,
+    .bookings-container
+        width: 100%
+        grid-column: 1
 
-#container-item3
-    grid-area: item3
+    .welcome-message-container
+        width: 100%
+        grid-column: 2
+        grid-row-start: 2
+        grid-row-end: span 2
+        @media (max-width: $desktop-min-width)
+            grid-column: 1
+            grid-row-start: 4
+            grid-row-end: 4
 
-#container-item4
-    grid-area: item4
+    mat-divider
+        grid-column-start: 1
+        grid-column-end: span 2
 
-#container-item5
-    grid-area: item5
-    margin-left: 2px
-
-#container-item6
-    grid-area: item6
-
-#container-item7
-    grid-area: item7
 
 .input-item
     padding-left: 5px
@@ -59,21 +65,19 @@
 
 .input-message
     background: $white-color
-    padding-top: 0
     border: 2px solid $loblolly
-    border-radius: 4px
+    border-radius: 8px
+    width: 90%
     display: flex
     resize: none
     align-items: flex-start
     justify-content: flex-start
-    width: 337px
-    padding-left: 5px
     padding-top: 5px
 
 .inputItem
-    width: 200px
+    flex: 1
+    border-radius: 0 8px 8px 0
     height: 38.4px
-    padding-left: 5px
 
 .selectInput
     border: 2px solid $regent-gray
@@ -82,12 +86,19 @@
     width: 327px
 
 .selectBlock
-    width: 337px
     height: 36px
     background: $white-color
     border: 2px solid $loblolly
-    border-radius: 4px
+    border-radius: 8px
     padding-left: 5px
+
+.inputStartBlock
+    height: 38.4px
+    padding: 0
+    background-color: $white
+    border: 2px solid $loblolly
+    border-radius: 8px 0 0 8px
+    border-right: 0
 
 .productName
     margin-top: 14px
@@ -132,8 +143,36 @@ p
     margin-top: 10px
 
 ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle
-    border-color: $royal-blue
+    border-color: $black
 
 ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle
-    color: $royal-blue
-    background-color: $royal-blue
+    color: $black
+    background-color: $black
+
+::ng-deep .container
+    .mat-select
+        box-sizing: border-box
+        align-items: center
+        display: flex
+        width: min(280px, 90%)
+
+    .mat-select-value
+        color: $dark-gray
+        font-size: 15px
+
+.password-input-container
+    box-sizing: border-box
+    width: min(280px, 90%)
+    display: grid
+    grid-template-columns: calc(100% - 40px) 40px
+    border: 2px solid $loblolly
+    border-radius: 8px
+
+.input-description-tooltip-container
+    display: grid
+    grid-template-columns: calc(100% - 24px) 24px
+    width: min(280px, 90%)
+    .mat-icon
+        font-size: 14px
+        align-self: end
+        opacity: 0.5
