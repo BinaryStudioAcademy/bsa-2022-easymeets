@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { TeamStateChangeActionEnum } from '@core/enums/team-state-change-action.enum';
 import { ITeam } from '@core/models/ITeam';
-import { ILocalUser } from '@core/models/IUser';
+import { IUser } from '@core/models/IUser';
 import { AuthService } from '@core/services/auth.service';
 import { TeamService } from '@core/services/team.service';
 import { UserService } from '@core/services/user.service';
@@ -16,7 +16,7 @@ import { UserService } from '@core/services/user.service';
 export class HeaderItemComponent extends BaseComponent implements OnInit {
     public teams: ITeam[] = [];
 
-    public currentUser: ILocalUser;
+    public currentUser: IUser;
 
     public currentTeam?: ITeam;
 
@@ -30,7 +30,14 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.currentUser = this.userService.getUserFromStorage();
+        this.userService.userChangedEvent$.pipe(this.untilThis).subscribe({
+            next: (user) => {
+                if (user) {
+                    this.currentUser = user;
+                }
+            },
+        });
+
         this.teamService.currentTeamEmitted$
             .pipe(this.untilThis)
             .subscribe(currentTeamId => {

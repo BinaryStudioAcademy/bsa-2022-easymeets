@@ -69,9 +69,6 @@ export class SignInFormComponent extends BaseComponent {
                         this.notifications.showSuccessMessage('You are successfully registered');
                         this.router.navigateByUrl('availability');
                     },
-                    (error) => {
-                        this.notifications.showErrorMessage(error);
-                    },
                 );
         } else {
             this.setCredentialsIncorrect();
