@@ -9,4 +9,18 @@ public static class HttpUserExtensions {
             .FirstOrDefault(claim => claim.Type == "user_id")?
             .Value;
     }
+
+    public static long GetId(this ClaimsPrincipal user)
+    {
+        var stringId = user.Claims
+            .FirstOrDefault(claim => claim.Type == "id")?
+            .Value;
+
+        if (stringId is null)
+        {
+            throw new KeyNotFoundException("Id not found in user's claims");
+        }
+        
+        return long.Parse(stringId);
+    }
 }
