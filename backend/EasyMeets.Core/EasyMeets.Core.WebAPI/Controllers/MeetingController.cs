@@ -13,11 +13,11 @@ namespace EasyMeets.Core.WebAPI.Controllers
     public class MeetingController : ControllerBase
     {
         private readonly IMeetingService _meetingService;
-        private readonly ITeamService _teamService; 
+        private readonly ITeamService _teamService;
         public MeetingController(IMeetingService meetingService, ITeamService teamService)
         {
             _meetingService = meetingService;
-            _teamService = teamService; 
+            _teamService = teamService;
         }
 
         [HttpGet("GetThreeMeetingMembers/{teamId?}")]
@@ -32,16 +32,16 @@ namespace EasyMeets.Core.WebAPI.Controllers
         [HttpGet]
         [Route("getTeamMembersOfCurrentUser/{teamId?}")]
         public async Task<ActionResult<ICollection<NewMeetingMemberDto>>> GetTeamMembersOfCurrentUser(long? teamId)
-        { 
+        {
             var teamMembers = await _teamService.GetTeamMembersOfCurrentUserAsync(11);
             return Ok(teamMembers);
         }
 
-        [HttpPost] 
+        [HttpPost]
         public async Task<ActionResult> SaveNewMeeting([FromBody] SaveMeetingDto newMeetingDto)
         {
             await _meetingService.CreateMeeting(newMeetingDto);
             return Ok();
-        } 
+        }
     }
 }

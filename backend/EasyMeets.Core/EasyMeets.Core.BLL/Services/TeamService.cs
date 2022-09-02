@@ -131,9 +131,9 @@ public class TeamService : BaseService, ITeamService
     {
         var teamMembers = await _context.TeamMembers
             .Where(x => x.TeamId == teamId)
-            .Include(x=>x.User)
+            .Include(x => x.User)
             .Select(a => _mapper.Map<NewMeetingMemberDto>(a))
-            .ToListAsync(); 
+            .ToListAsync();
 
         return teamMembers;
     }
