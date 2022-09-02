@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { getExternalBookingTimeSlotsItems } from '@core/helpers/external-booking-time-slots-helper';
+import { changeScheduleItemsDate } from '@core/helpers/schedule-items-helper';
+import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ICalendarWeek } from '@core/models/ICalendarWeek';
-import { IDayTimeSlot } from '@core/models/IDayTimeSlot';
-import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
+import { IScheduleItemReceive } from '@core/models/schedule/IScheduleItemsReceive';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
+import { LocationType } from '@shared/enums/locationType';
 import { TimeZone } from '@shared/enums/timeZone';
 
 @Component({
@@ -15,17 +16,24 @@ import { TimeZone } from '@shared/enums/timeZone';
     styleUrls: ['./external-booking-choose-time-page.component.sass'],
 })
 export class ExternalBookingTimeComponent extends BaseComponent implements OnInit {
-    @Input() selectedUserId: number;
+    slotId: bigint;
 
-    public selectedUserAvailabilitySlots: IUserPersonalAndTeamSlots;
+    slot: IAvailabilitySlot;
 
-    public daysWithTimeRange: IDayTimeSlot[] = getExternalBookingTimeSlotsItems();
+    @Output() selectedDurationAndLocationEvent = new EventEmitter<{
+        duration: number;
+        location: LocationType;
+    }>();
+
+    // public daysWithTimeRange: IDayTimeSlot[] = getExternalBookingTimeSlotsItems();
 
     @Input() selectedMeetingDuration: number;
 
     @Output() selectedTimeAndDateEvent = new EventEmitter<{ date: Date; timeFinish: Date }>();
 
     public slotsCount: Array<object>;
+
+    public scheduleItems: IScheduleItemReceive[];
 
     public theLatestFinishOfTimeRanges: Date;
 
@@ -45,32 +53,42 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         private route: ActivatedRoute,
     ) {
         super();
-        this.availabilitySlotService
-            .getUserPersonalAndTeamSlots(this.selectedUserId)
-            .pipe(this.untilThis)
-            .subscribe((slots) => {
-                this.selectedUserAvailabilitySlots = slots;
-            });
     }
 
     ngOnInit(): void {
         this.calendarWeek = this.getCurrentWeek();
         this.route.queryParams.subscribe((params) => {
-            this.selectedMeetingDuration = params['duration'];
+            this.slotId = params['id'];
         });
-        this.slotsCount = this.slotsCounter();
+
+        this.availabilitySlotService
+            .getSlotById(this.slotId)
+            .pipe(this.untilThis)
+            .subscribe((resp) => {
+                this.slot = resp;
+                this.addDurationAndLocation(this.slot.size, this.slot.locationType);
+                this.selectedMeetingDuration = this.slot.size;
+            });
+
+        this.availabilitySlotService
+            .getSlotScheduleItems(this.slotId)
+            .pipe(this.untilThis)
+            .subscribe((resp) => {
+                this.scheduleItems = changeScheduleItemsDate(resp);
+                this.slotsCount = this.slotsCounter();
+            });
     }
 
     private slotsCounter(): Array<object> {
-        this.theLatestFinishOfTimeRanges = this.daysWithTimeRange[0].finishTime;
-        this.theEarliestStartOfTimeRanges = this.daysWithTimeRange[0].startTime;
+        this.theLatestFinishOfTimeRanges = this.scheduleItems[0]?.end;
+        this.theEarliestStartOfTimeRanges = this.scheduleItems[0]?.start;
 
-        this.daysWithTimeRange.forEach((day) => {
-            if (day.finishTime > this.theLatestFinishOfTimeRanges) {
-                this.theLatestFinishOfTimeRanges = day.finishTime;
+        this.scheduleItems.forEach((day) => {
+            if (day.end > this.theLatestFinishOfTimeRanges) {
+                this.theLatestFinishOfTimeRanges = day.end;
             }
-            if (day.startTime < this.theEarliestStartOfTimeRanges) {
-                this.theEarliestStartOfTimeRanges = day.startTime;
+            if (day.start < this.theEarliestStartOfTimeRanges) {
+                this.theEarliestStartOfTimeRanges = day.start;
             }
         });
 
@@ -82,7 +100,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     private getCurrentWeek(): ICalendarWeek {
         const current = new Date();
-        const first = current.getDate() - current.getDay() + 1;
+        const first = current.getDate() - current.getDay();
         const last = first + 6;
 
         const firstDay: Date = new Date(current.setDate(first));
@@ -141,5 +159,9 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
                 date.getFullYear() === this.nowDate.getFullYear()) ||
             (date.getMonth() > this.nowDate.getMonth() && date.getFullYear() >= this.nowDate.getFullYear())
         );
+    }
+
+    addDurationAndLocation(duration: number, location: LocationType) {
+        this.selectedDurationAndLocationEvent.emit({ duration, location });
     }
 }

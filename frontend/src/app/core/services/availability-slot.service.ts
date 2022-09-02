@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
+// import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
+import { IScheduleItemReceive } from '@core/models/schedule/IScheduleItemsReceive';
 
 import { HttpInternalService } from './http-internal.service';
 
@@ -15,7 +17,9 @@ export class AvailabilitySlotService {
     constructor(private httpService: HttpInternalService) {}
 
     public getUserPersonalAndTeamSlots(currentUserId: number, currentTeamId?: number) {
-        return this.httpService.getRequest<IUserPersonalAndTeamSlots>(`${this.routePrefix}/${currentUserId}/${currentTeamId ?? ''}`);
+        return this.httpService.getRequest<IUserPersonalAndTeamSlots>(
+            `${this.routePrefix}/${currentUserId}/${currentTeamId ?? ''}`,
+        );
     }
 
     public deleteSlot(slotId: bigint | undefined) {
@@ -32,6 +36,10 @@ export class AvailabilitySlotService {
 
     public getSlotById(slotId: bigint | undefined) {
         return this.httpService.getRequest<IAvailabilitySlot>(`/availability/slot/${slotId}`);
+    }
+
+    public getSlotScheduleItems(slotId: bigint) {
+        return this.httpService.getRequest<IScheduleItemReceive[]>(`/availability/slot-schedule/${slotId}`);
     }
 
     public createSlot(newAvailability: ISaveAvailability) {

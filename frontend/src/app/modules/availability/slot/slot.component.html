@@ -32,9 +32,12 @@
             </div>
         </div>
         <div class="meeting-details">
-            <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ locationTypeMapping(slot.locationType) }}</p>
+            <p *ngIf="hasOwner">
+                {{ slot.size }} min, {{ slot.authorName }}, {{ locationTypeMapping(slot.locationType) }}
+            </p>
             <p *ngIf="!hasOwner">
-                {{ slot.size }} min, 1 of {{ slot.members.length }} members, {{ locationTypeMapping(slot.locationType) }}
+                {{ slot.size }} min, 1 of {{ slot.members.length }} members,
+                {{ locationTypeMapping(slot.locationType) }}
             </p>
             <div class="avatar-list">
                 <div *ngFor="let member of slot.members">
@@ -46,7 +49,9 @@
         <div class="options">
             <div class="link">
                 <img src="assets/copy_icon.png" class="icon" />
-                <a href="#">{{ slot.link }}</a>
+                <a [routerLink]="['/external-booking/choose-time/' + slot.link]" [queryParams]="{ id: slot.id }">
+                    {{ slot.link }}
+                </a>
             </div>
             <div class="toggle">
                 <mat-slide-toggle [checked]="isChecked" (change)="changeSlotActivityClick($event)"> </mat-slide-toggle>
@@ -87,9 +92,12 @@
             </div>
         </div>
         <div class="meeting-details">
-            <p *ngIf="hasOwner">{{ slot.size }} min, {{ slot.authorName }}, {{ locationTypeMapping(slot.locationType) }}</p>
+            <p *ngIf="hasOwner">
+                {{ slot.size }} min, {{ slot.authorName }}, {{ locationTypeMapping(slot.locationType) }}
+            </p>
             <p *ngIf="!hasOwner">
-                {{ slot.size }} min, 1 of {{ slot.members.length }} members, {{ locationTypeMapping(slot.locationType) }}
+                {{ slot.size }} min, 1 of {{ slot.members.length }} members,
+                {{ locationTypeMapping(slot.locationType) }}
             </p>
             <div class="avatar-list">
                 <div *ngFor="let member of slot.members">

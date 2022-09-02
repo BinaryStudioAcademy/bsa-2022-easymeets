@@ -76,11 +76,11 @@
         <div class="choice">
             <app-external-booking-choose-meeting-page
                 *ngIf="this.router.url === '/external-booking/choose-meeting'"
-                [selectedUserId]="this.menu.user.id"
-                (selectedDurationAndLocationEvent)="addDurationAndLocationInMenu($event)">
+                [selectedUserId]="this.menu.user.id">
             </app-external-booking-choose-meeting-page>
             <app-external-booking-choose-time-page
                 *ngIf="isBookingChooseTimeRoute()"
+                (selectedDurationAndLocationEvent)="addDurationAndLocationInMenu($event)"
                 (selectedTimeAndDateEvent)="addTimeAndDateInMenu($event)">
             </app-external-booking-choose-time-page>
             <app-external-booking-confirm-page *ngIf="isConfirmBookingRoute()"> </app-external-booking-confirm-page>

@@ -2,6 +2,7 @@ using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
+using EasyMeets.Core.Common.DTO.Availability.Schedule;
 using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.DAL.Entities;
@@ -53,6 +54,7 @@ namespace EasyMeets.Core.BLL.Services
                         AuthorName = y.Author.Name,
                         TeamName = y.Team.Name,
                         LocationType = y.LocationType,
+                        Link = y.Link,
                         EmailTemplateSettings = _mapper.Map<List<EmailTemplatesSettingsDto>>(y.EmailTemplates),
                         Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.SlotMembers),
                     }
@@ -243,6 +245,21 @@ namespace EasyMeets.Core.BLL.Services
             _context.Remove(slot);
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<ScheduleItemDto>> GetSlotScheduleItems(long slotId)
+        {
+            var slot = await _context.AvailabilitySlots
+                .Include(s => s.Schedule)
+                .ThenInclude(sc => sc.ScheduleItems)
+                .FirstOrDefaultAsync(el => el.Id == slotId);
+
+            if (slot is null)
+            {
+                throw new KeyNotFoundException("Availability slot doesn't exist");
+            }
+
+            return _mapper.Map<List<ScheduleItemDto>>(slot.Schedule.ScheduleItems);
         }
 
         private async Task SaveEmailTemplateConfig(EmailTemplatesSettingsDto settingsDto, AvailabilitySlot slot)

@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="timezone">
-        <mat-form-field appearance="fill" class="timezone-mat-form-field">
+        <mat-form-field floatLabel="never" class="timezone-mat-form-field">
             <mat-label>Select Time Zone</mat-label>
             <mat-select [(ngModel)]="pickedTimeZone">
                 <mat-option *ngFor="let zone of timeZone | keyvalue" [value]="zone.value">
@@ -27,23 +27,21 @@
 </div>
 <div class="grid-container">
     <div class="grid">
-        <div class="column-label" *ngFor="let day of daysWithTimeRange; let i = index">
+        <div class="column-label" *ngFor="let day of scheduleItems; let i = index">
             <div class="today-label">
                 <h3 *ngIf="isTodayDate(this.calendarWeek.firstDay, i)">Today</h3>
             </div>
             <div class="day-name-label">
-                <h3>{{ day.dayOfWeek }}</h3>
+                <h3>{{ day.weekDay }}</h3>
             </div>
             <div class="day-number-label">
                 <h3>{{ this.calendarWeek.firstDay.getTime() + i * 24 * 60 * 60 * 1000 | date: 'dd' }}</h3>
             </div>
         </div>
         <ng-container *ngFor="let in of slotsCount; let i = index">
-            <ng-container *ngFor="let day of daysWithTimeRange; let j = index">
+            <ng-container *ngFor="let day of scheduleItems; let j = index">
                 <ng-container
-                    *ngIf="
-                        isDateInRange(theEarliestStartOfTimeRanges, day.startTime, day.finishTime, i);
-                        else defaultTimeSlot">
+                    *ngIf="isDateInRange(theEarliestStartOfTimeRanges, day.start, day.end, i); else defaultTimeSlot">
                     <span
                         #dateFrom
                         class="enabled"
