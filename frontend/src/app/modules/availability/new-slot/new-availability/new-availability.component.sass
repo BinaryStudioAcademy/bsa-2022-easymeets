@@ -1,16 +1,16 @@
-@import '../../../../../styles/color-variables'
-@import '../../../../../styles/screen-variables'
+@import 'src/styles/color-variables'
+@import 'src/styles/screen-variables'
 
 *
     box-sizing: border-box
 
 .wrapper
     min-height: 100%
-    background-color: $athens-gray
+    background-color: $white
 
 app-side-menu-tabs
     width: 100%
-    margin: 0 10px
+    height: 100%
     @media screen and (max-width: $tablet-min-width)
         margin: 0
 
@@ -19,7 +19,7 @@ app-side-menu-tabs
     display: flex
     flex-direction: column
     justify-items: center
-    padding: 0 100px 90px 100px
+    padding: 0 100px 0 100px
     @media screen and (max-width: $desktop-min-width)
         padding: 0 50px 90px 50px
     @media screen and (max-width: $tablet-min-width)
@@ -31,21 +31,35 @@ app-side-menu-tabs
     justify-content: flex-start
     align-items: center
     padding: 20px 0
+    width: 93%
+    align-self: center
     @media screen and (max-width: 700px)
         flex-direction: column
         gap: 5px
     p
         margin: 0 25px 0 0
-    .slot-link
-        color: $royal-blue
-        text-decoration: underline
-    .new-availability-header-label
-        font-size: 20px
-        font-weight: bold
-        color: $dark-gray
-        @media screen and (max-width: $tablet-min-width)
-            font-size: 16px
-    mat-slide-toggle
+        font-family: 'Inter'
+        font-style: normal
+        font-weight: 400
+        font-size: 12px
+        line-height: 136%
+        color: $raven
+    .slot-info
+        display: flex
+        flex-direction: column
+        .slot-info-name-toggle
+            display: flex
+            flex-direction: row
+        .slot-link
+            color: $royal-blue
+            text-decoration: underline
+        .new-availability-header-label
+            font-size: 20px
+            font-weight: bold
+            color: $dark-gray
+            @media screen and (max-width: $tablet-min-width)
+                font-size: 16px
+        .mat-slide-toggle
             margin-right: 10px
     .slot-button-container
         margin-left: auto
@@ -65,17 +79,27 @@ app-side-menu-tabs
     background-color: white
     display: flex
     flex-direction: row
+    background: $white
+    border: 1px solid $solitude
+    box-shadow: 0px 0px 8px -2px rgba(16, 24, 40, 0.16), 0px 2px 4px -2px rgba(16, 24, 40, 0.06)
+    border-radius: 32px
+    align-self: center
+    width: 93%
     @media screen and (max-width: $tablet-min-width)
         flex-direction: column
+        width: 100%
     .sidebar
-        width: 25%
+        width: 15%
+        min-width: 200px
+        border-right: 1px solid $header-border-color
         @media screen and (max-width: $desktop-min-width)
             width: 50%
         @media screen and (max-width: $tablet-min-width)
             width: 100%
-            border-bottom: 2px solid $loblolly
+            border-bottom: 2px solid $header-border-color
+            border-right: none
     .menu-item-container
-        height: 100%
+        min-height: 100%
         width: 75%
         display: flex
         justify-content: center
@@ -97,7 +121,7 @@ app-side-menu-tabs
             margin: auto 0 10px 0
         .delete-slots-container
             display: grid
-            grid-template-columns: 10% 90%
+            grid-template-columns: 20% 80%
             justify-self: center
             cursor: pointer
             padding: 5px
@@ -110,6 +134,17 @@ app-side-menu-tabs
                 height: 24px
                 line-height: 24px
                 margin: 0 0 0 10px
+            mat-icon
+                color: $raven
+            .delete-slots-label
+                font-family: 'Inter'
+                font-style: normal
+                font-weight: 400
+                font-size: 14px
+                line-height: 146%
+                display: flex
+                align-items: center
+                color: $raven
 
 .mat-tab-group
     width: 100%
@@ -117,3 +152,23 @@ app-side-menu-tabs
 .active-container
     display: flex
     align-items: center
+
+button
+    border-radius: 24px
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
+    font-size: 14px
+    align-items: center
+
+::ng-deep .cancel-button.mat-flat-button
+    background: $white
+    border: 1px solid $nepal
+    color: $midnight
+
+::ng-deep .save-activate-button.mat-flat-button
+    color: $white
+    background: $midnight
+
+::ng-deep .menu-item-container .mat-tab-body-wrapper
+    flex-grow: 1

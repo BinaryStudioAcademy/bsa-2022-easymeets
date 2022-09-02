@@ -26,7 +26,6 @@ namespace EasyMeets.Core.Common.DTO.Availability
         public bool IsVisible { get; set; }
         public string Language { get; set; } = string.Empty;
         public int BookingsPerDay { get; set; }
-        public bool AllowToAddGuests { get; set; }
         public bool PasswordProtectionIsUsed { get; set; }
         public string? PasswordProtection { get; set; }
         public bool TimeZoneVisibility { get; set; }

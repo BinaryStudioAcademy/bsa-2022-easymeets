@@ -1,5 +1,6 @@
 ﻿using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
+using EasyMeets.Core.Common.DTO.Availability.Schedule;
 
 namespace EasyMeets.Core.BLL.Interfaces
 {
@@ -11,5 +12,7 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task<AvailabilitySlotDto> UpdateAvailabilitySlot(long id, SaveAvailabilitySlotDto updateAvailabilityDto);
         Task<bool> UpdateAvailabilitySlotEnablingAsync(long id);
         Task DeleteAvailabilitySlot(long slotId);
+        Task<AvailabilitySlotDto?> GetByLink(string link);
+        Task UpdateScheduleExternally(string link, ScheduleDto scheduleDto);
     }
 }

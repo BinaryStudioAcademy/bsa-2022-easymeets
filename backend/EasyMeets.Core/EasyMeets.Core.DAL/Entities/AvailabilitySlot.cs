@@ -25,8 +25,6 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
     public bool IsVisible { get; set; }
     public string Language { get; set; } = string.Empty;
     public int BookingsPerDay { get; set; }
-    public bool AllowToAddGuests { get; set; }
-    
     public bool PasswordProtectionIsUsed { get; set; }
     public string? PasswordProtection { get; set; }
     public bool TimeZoneVisibility { get; set; }
@@ -35,7 +33,6 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
     public Team Team { get; set; } = null!;
     public Meeting? Meeting { get; set; }
     public AdvancedSlotSettings? AdvancedSlotSettings { get; set; } = null!;
-    public Schedule Schedule { get; set; } = null!;
     public ICollection<ExternalAttendee> ExternalAttendees { get; set; }
     public ICollection<Question> Questions { get; set; }
     public ICollection<EmailTemplate> EmailTemplates { get; set; }
