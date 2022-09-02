@@ -24,12 +24,8 @@
                         class="select-input" />
                     <div *ngIf="meetingNameControl.invalid && meetingNameControl.touched">
                         <small *ngIf="meetingNameControl.errors?.['required']">This field is required.</small>
-                        <small *ngIf="meetingNameControl.errors?.['minlength']">
-                            Length must be more than 2 characters.
-                        </small>
-                        <small *ngIf="meetingNameControl.errors?.['maxlength']">
-                            Length must be less than 50 characters.
-                        </small>
+                        <small *ngIf="meetingNameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
+                        <small *ngIf="meetingNameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
                         <small *ngIf="meetingNameControl.errors?.['pattern']">Invalid characters.</small>
                     </div>
                 </div>
@@ -87,7 +83,7 @@
                 <div class="item">
                     <div class="search-list">
                         <p class="add-team-member-label">Add Team Member</p>
-                        <mat-form-field class="select-input">
+                        <mat-form-field floatLabel="never" class="select-input">
                             <mat-label>Type...</mat-label>
                             <input
                                 type="text"
@@ -125,7 +121,7 @@
             <div class="date-duration-container">
                 <div class="date-container item">
                     <p class="duration-label">Date</p>
-                    <mat-form-field appearance="legacy" class="calendar-select-input">
+                    <mat-form-field appearance="legacy" floatLabel="never" class="calendar-select-input">
                         <mat-label>Choose a date</mat-label>
                         <input formControlName="date" class="calendar-input" matInput [matDatepicker]="picker" />
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

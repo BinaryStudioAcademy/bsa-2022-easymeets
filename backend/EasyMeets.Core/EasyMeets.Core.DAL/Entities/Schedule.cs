@@ -1,15 +1,25 @@
-﻿namespace EasyMeets.Core.DAL.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using EasyMeets.Core.Common.Validation;
 
-public class Schedule : Entity<long>
+namespace EasyMeets.Core.DAL.Entities;
+
+public class Schedule : Entity<long>, IValidatableObject
 {
-    public long AvailabilitySlotId { get; set; }
     /// <summary>
     /// Represents difference with GMT in minutes
     /// </summary>
     public int TimeZone { get; set; }
     public bool WithTeamMembers { get; set; }
+    public bool DefinedExternally { get; set; }
+    public string? DefinedBy { get; set; }
 
-    public AvailabilitySlot AvailabilitySlot { get; set; } = null!;
     public ICollection<SlotMember> Members { get; set; } = new List<SlotMember>();
     public ICollection<ScheduleItem> ScheduleItems { get; set; } = new List<ScheduleItem>();
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (DefinedBy is not null && !DefinedBy.IsValidEmail())
+        {
+            yield return new ValidationResult("Schedule definer's email isn't valid");
+        }
+    }
 }
