@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
@@ -12,6 +13,10 @@ import { Subject } from 'rxjs';
     styleUrls: ['./schedule-week.component.sass'],
 })
 export class ScheduleWeekComponent extends BaseComponent implements OnInit {
+    constructor(private datePipe: DatePipe) {
+        super();
+    }
+
     @Input() items: IScheduleItem[];
 
     @Input() itemChange: EventEmitter<void> = new EventEmitter();
@@ -95,14 +100,6 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
         return d;
     }
 
-    private reformat(num: number): string {
-        if (num < 10) {
-            return `0${num}`;
-        }
-
-        return num.toString();
-    }
-
     private recalculateDayIndexForCalendar(weekDayIndex: number): number {
         let index = weekDayIndex;
 
@@ -120,6 +117,6 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
     }
 
     private timeToString(date: Date): string {
-        return `${this.reformat(date.getHours())}:${this.reformat(date.getMinutes())}:00`;
+        return this.datePipe.transform(date, 'HH:mm:ss') ?? '';
     }
 }
