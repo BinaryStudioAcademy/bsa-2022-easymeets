@@ -1,15 +1,21 @@
 import { Component, EventEmitter, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
+import { LocationType } from '@shared/enums/locationType';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
 import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
 
+import { ConfirmationWindowComponent } from '../confirmation-window/confirmation-window.component';
+
 @Component({
-    selector: 'app-confirmation-window',
-    templateUrl: './confirmation-window.component.html',
-    styleUrls: ['./confirmation-window.component.sass'],
+    selector: 'app-booking-window',
+    templateUrl: './booking-window.component.html',
+    styleUrls: ['./booking-window.component.sass'],
 })
-export class ConfirmationWindowComponent {
+export class BookingWindowComponent {
+    maxVisibleMembers: number = 10;
+
     title: string;
 
     message?: string;
@@ -17,6 +23,20 @@ export class ConfirmationWindowComponent {
     titleImagePath?: string;
 
     buttonsOptions: IConfirmButtonOptions[];
+
+    date?: string;
+
+    time?: Date;
+
+    duration?: number;
+
+    meetingName?: string;
+
+    participants?: INewMeetingMember[];
+
+    location?: LocationType;
+
+    link?: string;
 
     locationTypeMapping = LocationTypeMapping;
 
@@ -27,7 +47,6 @@ export class ConfirmationWindowComponent {
         this.title = data.title;
         this.message = data.message;
         this.buttonsOptions = data.buttonsOptions;
-        this.titleImagePath = data.titleImagePath;
     }
 
     onClick(event: EventEmitter<void>) {

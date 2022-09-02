@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { getMembersForBookedWindow } from '@core/helpers/booked-window-members-helper';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { IDuration } from '@core/models/IDuration';
@@ -10,7 +11,6 @@ import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { NotificationService } from '@core/services/notification.service';
-import { BookingWindowComponent } from '@shared/components/confirmation-window/booking-window/booking-window.component';
 import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
@@ -229,14 +229,12 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             ],
             title: 'Meeting Created !',
             titleImagePath: this.bookedIconPath,
-            component: BookingWindowComponent,
-            /*date: '22 Aug 2022',
-            time: this.createdMeeting.startTime,
+            dateTime: this.createdMeeting.startTime,
             duration: this.duration,
             meetingName: this.createdMeeting.name,
             participants: getMembersForBookedWindow(),
             location: this.createdMeeting.location,
-            link: this.createdMeeting.meetingLink,*/
+            link: this.createdMeeting.meetingLink,
         });
     }
 

@@ -1,114 +1,12 @@
-<!--
-    <div class="wrapper">
-    <ng-container *ngIf="titleImagePath; else windowTitleWithoutImage">
-        <div class="title-container with-image-container">
-            <div class="mat-title-img">
-                <img src="{{ titleImagePath }}" />
-            </div>
-            <div class="mat-title-text">
-                <h1 mat-dialog-title>{{ title }}</h1>
-            </div>
-        </div>
-    </ng-container>
-    <ng-template #windowTitleWithoutImage>
-        <div class="title-container">
-            <div class="mat-title-text">
-                <h1 mat-dialog-title>{{ title }}</h1>
-            </div>
-        </div>
-    </ng-template>
-    <div *ngIf="message" mat-dialog-content class="message">
-        {{ message }}
-    </div>
-    <div *ngIf="date || time || duration || meetingName" class="created-meeting-options">
-        <div class="option">
-            <div class="option-name">Date</div>
-            <div class="option-value">{{ date }}</div>
-        </div>
-        <div class="option">
-            <div class="option-name">Time</div>
-            <div class="option-value">{{ time | date: 'HH:mm' }}</div>
-        </div>
-        <div class="option">
-            <div class="option-name">Duration</div>
-            <div class="option-value">{{ duration }} min</div>
-        </div>
-        <div class="option">
-            <div class="option-name">Meeting Name</div>
-            <div class="option-value">{{ meetingName }}</div>
-        </div>
-    </div>
-    <div *ngIf="participants" class="created-meeting-participants">
-        <div class="participants-label">
-            <div class="option-name">Participants: {{ participants.length }}</div>
-        </div>
-        <div class="participants-avatars">
-            <ng-container *ngFor="let participant of participants">
-                <ng-container *ngIf="participant.image; else noImageParticipant">
-                    <span class="avatar"><img src="{{ participant.image }}" alt="member" /></span>
-                </ng-container>
-                <ng-template #noImageParticipant>
-                    <span class="avatar"><img src="assets/header/avatar-icon.png" alt="member" /></span>
-                </ng-template>
-            </ng-container>
-            <span class="avatar" *ngIf="participants.length > 10">
-                <div class="left-participants">
-                    <h4>+{{ participants.length - maxVisibleMembers }}</h4>
-                </div>
-            </span>
-        </div>
-    </div>
-    <div *ngIf="location && link" class="created-meeting-options">
-        <div class="option">
-            <div class="option-name">Location</div>
-            <div class="option-value">{{ locationTypeMapping(location) }}</div>
-        </div>
-        <div class="option">
-            <div class="option-name">Link</div>
-            <div class="option-value-link">
-                <img src="assets/copy_icon.png" />
-                <div class="option-value link-value">{{ link }}</div>
-            </div>
-        </div>
-    </div>
-    <hr />
-    <ng-container *ngComponentOutlet="componentTypeExpression"></ng-container>
-    <div mat-dialog-actions class="mat-dialog-buttons">
-        <button
-            *ngFor="let buttonOptions of buttonsOptions"
-            [ngClass]="buttonOptions.class"
-            mat-flat-button
-            (click)="onClick(buttonOptions.onClickEvent)">
-            {{ buttonOptions.label }}
-        </button>
-    </div>
-</div>
--->
 <div class="wrapper">
-    <ng-container *ngIf="titleImagePath; else windowTitleWithoutImage">
-        <div class="title-container with-image-container">
-            <div class="mat-title-img">
-                <img src="{{ titleImagePath }}" />
-            </div>
-            <div class="mat-title-text">
-                <h1 mat-dialog-title>{{ title }}</h1>
-            </div>
+    <div class="title-container">
+        <div class="mat-title-text">
+            <h1 mat-dialog-title>{{ title }}</h1>
         </div>
-    </ng-container>
-    <ng-template #windowTitleWithoutImage>
-        <div class="title-container">
-            <div class="mat-title-text">
-                <h1 mat-dialog-title>{{ title }}</h1>
-            </div>
-        </div>
-    </ng-template>
+    </div>
     <div *ngIf="message" mat-dialog-content class="message">
         {{ message }}
     </div>
-    <ng-container *ngIf="component">
-        <!--<ng-template [ngComponentOutlet]="component"></ng-template>-->
-        <app-booking-window date="22 Aug 2022"> </app-booking-window>
-    </ng-container>
     <hr />
     <div mat-dialog-actions class="mat-dialog-buttons">
         <button
