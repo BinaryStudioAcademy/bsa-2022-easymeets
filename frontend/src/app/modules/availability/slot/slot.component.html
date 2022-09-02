@@ -43,7 +43,7 @@
                 <div *ngFor="let member of slot.members">
                     <img [src]="member.memberImage" class="avatar" />
                 </div>
-                <img src="assets/header/avatar-icon.png" class="avatar" />
+                <img *ngIf="!slot.members.length" src="assets/header/avatar-icon.png" class="avatar" />
             </div>
         </div>
         <div class="options">

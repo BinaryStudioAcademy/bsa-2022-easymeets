@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
-// import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
+import { ISchedule } from '@core/models/schedule/ISchedule';
 import { IScheduleItemReceive } from '@core/models/schedule/IScheduleItemsReceive';
 
 import { HttpInternalService } from './http-internal.service';
@@ -44,5 +44,13 @@ export class AvailabilitySlotService {
 
     public createSlot(newAvailability: ISaveAvailability) {
         return this.httpService.postRequest('/availability', newAvailability);
+    }
+
+    public getByLink(link: string) {
+        return this.httpService.getRequest<IAvailabilitySlot | null>(`${this.routePrefix}/byLink/${link}`);
+    }
+
+    public updateScheduleExternally(link: string, schedule: ISchedule) {
+        return this.httpService.putRequest(`${this.routePrefix}/${link}/externalSchedule`, schedule);
     }
 }
