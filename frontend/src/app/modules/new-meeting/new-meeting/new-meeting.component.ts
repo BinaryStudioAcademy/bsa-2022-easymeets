@@ -8,6 +8,7 @@ import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { NotificationService } from '@core/services/notification.service';
+import { TeamService } from '@core/services/team.service';
 import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
@@ -19,7 +20,11 @@ import { map, Observable, startWith } from 'rxjs';
     styleUrls: ['./new-meeting.component.sass'],
 })
 export class NewMeetingComponent extends BaseComponent implements OnInit {
-    constructor(private newMeetingService: NewMeetingService, public notificationService: NotificationService) {
+    constructor(
+        private newMeetingService: NewMeetingService,
+        public notificationService: NotificationService,
+        private teamService: TeamService,
+    ) {
         super();
     }
 
@@ -75,7 +80,13 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         });
         this.patchFormValues();
         this.setValidation();
-        this.getTeamMembersOfCurrentUser();
+
+        this.teamService.currentTeamEmitted$
+            .subscribe(teamId => {
+                // eslint-disable-next-line no-debugger
+                debugger;
+                this.getTeamMembersOfCurrentUser(teamId);
+            });
     }
 
     create(form: FormGroup) {
@@ -105,11 +116,15 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         }
     }
 
-    getTeamMembersOfCurrentUser() {
+    getTeamMembersOfCurrentUser(teamId?: number) {
+        // eslint-disable-next-line no-debugger
+        debugger;
         this.newMeetingService
-            .getTeamMembersOfCurrentUser()
+            .getTeamMembersOfCurrentUser(teamId)
             .pipe(this.untilThis)
             .subscribe((resp) => {
+                // eslint-disable-next-line no-debugger
+                debugger;
                 this.teamMembers = resp;
                 this.getFilteredOptions();
             });
