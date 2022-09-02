@@ -6,8 +6,6 @@ import { LocationType } from '@shared/enums/locationType';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
 import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
 
-import { ConfirmationWindowComponent } from '../confirmation-window/confirmation-window.component';
-
 @Component({
     selector: 'app-booking-window',
     templateUrl: './booking-window.component.html',
@@ -24,9 +22,7 @@ export class BookingWindowComponent {
 
     buttonsOptions: IConfirmButtonOptions[];
 
-    date?: string;
-
-    time?: Date;
+    dateTime?: Date;
 
     duration?: number;
 
@@ -42,11 +38,18 @@ export class BookingWindowComponent {
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData,
-        private dialogRef: MatDialogRef<ConfirmationWindowComponent>,
+        private dialogRef: MatDialogRef<BookingWindowComponent>,
     ) {
         this.title = data.title;
         this.message = data.message;
+        this.titleImagePath = data.titleImagePath;
         this.buttonsOptions = data.buttonsOptions;
+        this.dateTime = data.dateTime;
+        this.duration = data.duration;
+        this.meetingName = data.meetingName;
+        this.participants = data.participants;
+        this.location = data.location;
+        this.link = data.link;
     }
 
     onClick(event: EventEmitter<void>) {

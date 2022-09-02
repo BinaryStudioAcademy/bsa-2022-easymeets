@@ -14,8 +14,6 @@ export class ConfirmationWindowComponent {
 
     message?: string;
 
-    titleImagePath?: string;
-
     buttonsOptions: IConfirmButtonOptions[];
 
     locationTypeMapping = LocationTypeMapping;
@@ -27,7 +25,6 @@ export class ConfirmationWindowComponent {
         this.title = data.title;
         this.message = data.message;
         this.buttonsOptions = data.buttonsOptions;
-        this.titleImagePath = data.titleImagePath;
     }
 
     onClick(event: EventEmitter<void>) {

@@ -10,15 +10,15 @@
     <div *ngIf="message" mat-dialog-content class="message">
         {{ message }}
     </div>
-    <div *ngIf="date && time && duration && meetingName" class="booked-container">
+    <div *ngIf="dateTime && duration && meetingName" class="booked-container">
         <div class="created-meeting-options">
             <div class="option">
                 <div class="option-name">Date</div>
-                <div class="option-value">{{ date }}</div>
+                <div class="option-value">{{ dateTime | date: 'dd MMM y' }}</div>
             </div>
             <div class="option">
                 <div class="option-name">Time</div>
-                <div class="option-value">{{ time | date: 'HH:mm' }}</div>
+                <div class="option-value">{{ dateTime | date: 'HH:mm' }}</div>
             </div>
             <div class="option">
                 <div class="option-name">Duration</div>

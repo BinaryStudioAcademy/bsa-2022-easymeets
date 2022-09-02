@@ -1,4 +1,3 @@
-@import url('https://rsms.me/inter/inter.css')
 @import 'src/styles/color-variables'
 
 .wrapper
@@ -7,6 +6,40 @@
     flex-direction: column
     align-items: center
     padding: 20px 0
+    .booked-container
+        width: 420px
+        .created-meeting-options
+            width: 100%
+            display: flex
+            flex-direction: row
+            align-items: left
+            justify-content: left
+            margin-bottom: 30px
+            margin-top: 30px
+            .option
+                padding-right: 35px
+            .option:last-child
+                padding-right: 0
+        .created-meeting-participants
+            width: 100%
+            display: flex
+            flex-direction: column
+            align-items: left
+            justify-content: left
+            .participants-label
+                margin-bottom: 5px
+            .participants-avatars .avatar img
+                width: 32px
+                height: 32px
+                border: 2px solid $white
+                border-radius: 200px
+                position: relative
+                margin-left: -12px
+                display: none
+            .participants-avatars .avatar:nth-child(-n+10) img
+                display: inline-flex
+            .participants-avatars .avatar:first-child img
+                margin-left: -2px
     .title-container
         display: flex
         flex-direction: row
@@ -54,41 +87,6 @@ hr
     width: 420px
     border: 1px solid $header-border-color
     background-color: $header-border-color
-
-.booked-container
-    .created-meeting-options
-        width: 100%
-        display: flex
-        flex-direction: row
-        align-items: left
-        justify-content: left
-        margin-bottom: 30px
-        margin-top: 30px
-        .option
-            padding-right: 35px
-        .option:last-child
-            padding-right: 0
-
-    .created-meeting-participants
-        width: 100%
-        display: flex
-        flex-direction: column
-        align-items: left
-        justify-content: left
-        .participants-label
-            margin-bottom: 5px
-        .participants-avatars .avatar img
-            width: 32px
-            height: 32px
-            border: 2px solid $white
-            border-radius: 200px
-            position: relative
-            margin-left: -12px
-            display: none
-        .participants-avatars .avatar:nth-child(-n+10) img
-            display: inline-flex
-        .participants-avatars .avatar:first-child img
-            margin-left: -2px
 
 .option-name
     font-family: 'Inter'
