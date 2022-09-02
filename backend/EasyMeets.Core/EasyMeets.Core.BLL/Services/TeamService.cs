@@ -127,17 +127,11 @@ public class TeamService : BaseService, ITeamService
 
         return _mapper.Map<List<TeamDto>>(teams);
     }
-    public async Task<ICollection<NewMeetingMemberDto>> GetTeamMembersOfCurrentUserAsync()
+    public async Task<ICollection<NewMeetingMemberDto>> GetTeamMembersOfCurrentUserAsync(long? teamId)
     {
-        var currentUser = await _userService.GetCurrentUserAsync();
-
-        var teamMembers = await _context.Users
-            .Where(x => x.Id == currentUser.Id)
-            .Include(x => x.TeamMembers)
-                .ThenInclude(x => x.Team)
-                .ThenInclude(x => x.TeamMembers)
-            .SelectMany(x => x.TeamMembers
-                .SelectMany(y => y.Team.TeamMembers.Select(a => new NewMeetingMemberDto { Id = a.UserId, Name = a.User.Name })))
+        var teamMembers = await _context.TeamMembers
+            .Where(x => x.TeamId == teamId)
+            .Select(a => new NewMeetingMemberDto { Id = a.UserId, Name = a.User.Name })
             .ToListAsync();
 
         return teamMembers;
