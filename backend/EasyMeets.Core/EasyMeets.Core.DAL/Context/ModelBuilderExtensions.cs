@@ -171,7 +171,6 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Color, f => (Color)f.Random.Int(1, 8))
                 .RuleFor(u => u.Language, f => "Ukrainian")
                 .RuleFor(u => u.BookingsPerDay, f => f.Random.Int(1, 5))
-                .RuleFor(u => u.AllowToAddGuests, f => true)
                 .RuleFor(u => u.TimeZoneVisibility, f => true)
                 .RuleFor(u => u.IsEnabled, f => true)
                 .RuleFor(u => u.IsVisible, f => true)

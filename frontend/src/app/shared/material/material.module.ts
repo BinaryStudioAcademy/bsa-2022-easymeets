@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule } from '@angular/material/divider';
@@ -19,7 +20,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
-import {MatCheckbox, MatCheckboxModule} from "@angular/material/checkbox";
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export { MatSelectModule } from '@angular/material/select';
 
@@ -49,6 +50,7 @@ export { MatSelectModule } from '@angular/material/select';
         DragDropModule,
         MatAutocompleteModule,
         MatCheckboxModule,
+        MatTooltipModule,
     ],
     exports: [
         FormsModule,
@@ -74,6 +76,7 @@ export { MatSelectModule } from '@angular/material/select';
         MatAutocompleteModule,
         DragDropModule,
         MatCheckboxModule,
+        MatTooltipModule,
     ],
 })
 export class MaterialModule {}

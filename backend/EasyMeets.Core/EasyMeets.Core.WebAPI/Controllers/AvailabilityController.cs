@@ -1,6 +1,7 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
+using EasyMeets.Core.Common.DTO.Availability.Schedule;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,6 +56,19 @@ namespace EasyMeets.Core.WebAPI.Controllers
         {
             await _availabilityService.DeleteAvailabilitySlot(slotId);
             return NoContent();
+        }
+
+        [HttpGet("byLink/{link}")]
+        public async Task<ActionResult<AvailabilitySlotDto?>> GetByLink(string link)
+        {
+            return Ok(await _availabilityService.GetByLink(link));
+        }
+
+        [HttpPut("{link}/externalSchedule")]
+        public async Task<IActionResult> UpdateScheduleExternally(string link, [FromBody] ScheduleDto scheduleDto)
+        {
+            await _availabilityService.UpdateScheduleExternally(link, scheduleDto);
+            return Ok();
         }
     }
 }

@@ -42,9 +42,6 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
         builder.Property(s => s.BookingsPerDay)
             .IsRequired();
 
-        builder.Property(s => s.AllowToAddGuests)
-            .IsRequired();
-
         builder.Property(s => s.TimeZoneVisibility)
             .IsRequired();
 
@@ -64,11 +61,6 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
         builder.HasOne(s => s.AdvancedSlotSettings)
             .WithOne(ad => ad.AvailabilitySlot)
             .HasForeignKey<AdvancedSlotSettings>(s => s.AvailabilitySlotId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasOne(s => s.Schedule)
-            .WithOne(s => s.AvailabilitySlot)
-            .HasForeignKey<Schedule>(s => s.AvailabilitySlotId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(s => s.Meeting)

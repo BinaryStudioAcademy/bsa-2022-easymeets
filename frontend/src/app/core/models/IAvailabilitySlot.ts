@@ -25,7 +25,6 @@ export interface IAvailabilitySlot {
     color: Color;
     language: string;
     bookingsPerDay: number;
-    allowToAddGuests: boolean;
     passwordProtectionIsUsed: boolean;
     passwordProtection?: string;
     timeZoneVisibility: boolean;
