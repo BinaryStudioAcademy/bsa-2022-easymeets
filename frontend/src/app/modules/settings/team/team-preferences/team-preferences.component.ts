@@ -33,6 +33,8 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
 
     public imageUrl?: string;
 
+    public isTimeZoneExist: boolean = true;
+
     public clickEvent = new EventEmitter<void>();
 
     public formGroup: FormGroup;
@@ -44,20 +46,14 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         Validators.pattern(/^[іІїЇaєЄa-zA-Z\dа-яА-Я-]+(\s|)[іІїЇєЄa-zA-Z\dа-яА-Я-]*$/),
     ]);
 
-    public pageLinkControl: FormControl = new FormControl(
-        '',
-        [Validators.required],
-        [this.teamLinkValidator()],
-    );
+    public pageLinkControl: FormControl = new FormControl('', [Validators.required], [this.teamLinkValidator()]);
 
-    public descriptionControl: FormControl = new FormControl(
-        '',
-        [
-            Validators.required,
-            Validators.minLength(2),
-            Validators.maxLength(80),
-            Validators.pattern(/^[.,іІїЇaєЄa-zA-Z\dа-яА-Я-\s]*$/)],
-    );
+    public descriptionControl: FormControl = new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(80),
+        Validators.pattern(/^[.,іІїЇaєЄa-zA-Z\dа-яА-Я-\s]*$/),
+    ]);
 
     constructor(
         private teamService: TeamService,

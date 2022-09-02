@@ -14,8 +14,8 @@ public class ScheduleProfile : Profile
         CreateMap<ScheduleItemDto, ScheduleItem>();
         
         CreateMap<Schedule, ScheduleDto>()
-            .ForMember(dest => dest.TimeZone.TimeValue, src => src.MapFrom(s => s.TimeZoneValue))
-            .ForMember(dest => dest.TimeZone.NameValue, src => src.MapFrom(s => s.TimeZoneName));
+            .ForPath(dest => dest.TimeZone.TimeValue, src => src.MapFrom(s => s.TimeZoneValue))
+            .ForPath(dest => dest.TimeZone.NameValue, src => src.MapFrom(s => s.TimeZoneName));
         CreateMap<ScheduleItem, ScheduleItemDto>();
     }
 }

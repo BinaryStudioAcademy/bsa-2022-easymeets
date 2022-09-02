@@ -23,7 +23,7 @@
                 <div>Name</div>
             </label>
             <div class="user-name">
-                <input type="text" formControlName="userName"/>
+                <input type="text" formControlName="userName" />
             </div>
             <div *ngIf="userNameControl.invalid && userNameControl.touched" class="validation">
                 <small *ngIf="userNameControl.errors?.['required']">This field is required.</small>
@@ -90,7 +90,10 @@
         </div>
         <div class="item">
             <label>Time Zone</label>
-            <ng-moment-timezone-picker [formControlName]="'timeZone'" customPlaceholderText="">
+            <ng-moment-timezone-picker
+                [formControlName]="'timeZone'"
+                customPlaceholderText=""
+                [getUserZone]="isTimeZoneExist">
             </ng-moment-timezone-picker>
         </div>
         <div class="item">

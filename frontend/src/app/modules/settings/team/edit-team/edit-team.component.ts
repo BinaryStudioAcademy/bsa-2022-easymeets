@@ -2,7 +2,6 @@ import { Component, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { TeamStateChangeActionEnum } from '@core/enums/team-state-change-action.enum';
-import { TimeZoneFullNameMapper } from '@core/helpers/time-zone-helper';
 import { ITeam } from '@core/models/ITeam';
 import { IUpdateTeam } from '@core/models/IUpdateTeam';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
@@ -24,8 +23,6 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
     public team: ITeam;
 
     private deleteEventEmitter = new EventEmitter<void>();
-
-    public timeZoneMapping = TimeZoneFullNameMapper;
 
     private deleteEventSubscription: Subscription;
 
@@ -69,6 +66,7 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
                             description: team.description,
                         });
                         this.teamPreferencesComponent.imageUrl = team.image;
+                        this.teamPreferencesComponent.isTimeZoneExist = !team.timeZone;
                         this.spinnerService.hide();
                     },
                     error: (error) => {

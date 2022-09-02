@@ -19,8 +19,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
 
             CreateMap<Team, TeamDto>()
                 .ForMember(dest => dest.Image, src => src.MapFrom(s => s.LogoPath))
-                .ForMember(dest => dest.TimeZone.NameValue, src => src.MapFrom(s => s.TimeZoneName))
-                .ForMember(dest => dest.TimeZone.TimeValue, src => src.MapFrom(s => s.TimeZoneValue));
+                .ForPath(dest => dest.TimeZone.NameValue, src => src.MapFrom(s => s.TimeZoneName))
+                .ForPath(dest => dest.TimeZone.TimeValue, src => src.MapFrom(s => s.TimeZoneValue));
 
             CreateMap<NewTeamDto, Team>()
                 .ForMember(dest => dest.LogoPath, src => src.MapFrom(s => s.Image))

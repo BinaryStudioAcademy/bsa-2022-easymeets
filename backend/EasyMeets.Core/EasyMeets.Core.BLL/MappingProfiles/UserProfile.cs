@@ -14,8 +14,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(dest => dest.Image, src => src.MapFrom(s => s.ImagePath))
                 .ForMember(dest => dest.UserName, src => src.MapFrom(s => s.Name))
                 .ForMember(dest => dest.Phone, src => src.MapFrom(s => s.PhoneNumber))
-                .ForMember(dest => dest.TimeZone.TimeValue, src => src.MapFrom(s => s.TimeZoneValue))
-                .ForMember(dest => dest.TimeZone.NameValue, src => src.MapFrom(s => s.TimeZoneName));
+                .ForPath(dest => dest.TimeZone.TimeValue, src => src.MapFrom(s => s.TimeZoneValue))
+                .ForPath(dest => dest.TimeZone.NameValue, src => src.MapFrom(s => s.TimeZoneName));
 
             CreateMap<UserDto, User>()
                 .ForMember(dest => dest.ImagePath, src => src.MapFrom(s => s.Image))

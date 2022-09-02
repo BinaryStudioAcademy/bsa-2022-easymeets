@@ -6,7 +6,6 @@ import { CountryCode } from '@core/helpers/countryCode';
 import { DateFormatLabelMapping } from '@core/helpers/date-format-label-mapping';
 import { LanguageLabelMapping } from '@core/helpers/language-label-mapping';
 import { TimeFormatLabelMapping } from '@core/helpers/time-format-label-mapping';
-import { TimeZoneFullNameMapper } from '@core/helpers/time-zone-helper';
 import { IImagePath } from '@core/models/IImagePath';
 import { IUpdateUser } from '@core/models/IUpdateUser';
 import { IUser } from '@core/models/IUser';
@@ -58,9 +57,9 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public countryCodeValues = CountryCode;
 
-    public timeZoneMapping = TimeZoneFullNameMapper;
-
     public countryCode: string;
+
+    public isTimeZoneExist: boolean = true;
 
     public userNameControl: FormControl = new FormControl('', [
         Validators.required,
@@ -99,10 +98,11 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                     dateFormat: user.dateFormat,
                     timeFormat: user.timeFormat,
                     language: user.language,
-                    timeZone: this.timeZoneMapping(user.timeZoneName),
+                    timeZone: user.timeZone,
                     image: user.image,
                 });
                 this.imageUrl = user.image;
+                this.isTimeZoneExist = !this.user?.timeZone;
                 if (user.phoneCode) {
                     this.countryCode = user.phoneCode;
                 } else {
