@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import * as auth from 'firebase/auth';
 import firebase from 'firebase/compat/app';
-import { map, Observable } from 'rxjs';
+import { concatMap, first, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { NotificationService } from './notification.service';
 import { UserService } from './user.service';
@@ -83,16 +84,12 @@ export class AuthService {
         return JSON.parse(localStorage.getItem('email-verified')!) as boolean;
     }
 
-    public async refreshToken() {
-        //timeout allows firebase to initialize, app initializes between 200 and 400 ms and calls made in that time throw an error
-        await new Promise(f => {
-            setTimeout(f, 400);
-        });
-
-        return firebase
-            .auth()
-            .currentUser?.getIdToken()
-            .then((t) => localStorage.setItem('access-token', t));
+    public refreshToken() {
+        return this.afAuth.authState
+            .pipe(
+                first(u => u !== null),
+                concatMap(u => this.setUserAccessToken(u!)),
+            );
     }
 
     public getAccessToken() {
@@ -113,5 +110,11 @@ export class AuthService {
 
     public checkEmail(email: string): Observable<boolean> {
         return this.userService.checkExistingEmail(email).pipe(map((res) => res));
+    }
+
+    private async setUserAccessToken(user: User) {
+        const token = await user.getIdToken();
+
+        localStorage.setItem('access-token', token);
     }
 }
