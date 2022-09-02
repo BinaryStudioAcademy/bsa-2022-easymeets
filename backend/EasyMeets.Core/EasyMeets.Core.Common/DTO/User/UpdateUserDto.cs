@@ -12,6 +12,5 @@ public class UpdateUserDto : EntityDto<long>
     public Country? Country { get; set; }
     public string? PhoneCode { get; set; }
     public string? Phone { get; set; }
-    public string TimeZoneName { get; set; } = string.Empty;
-    public string TimeZoneValue { get; set; } = string.Empty;
+    public TimeZoneDto TimeZone { get; set; } = null!;
 }

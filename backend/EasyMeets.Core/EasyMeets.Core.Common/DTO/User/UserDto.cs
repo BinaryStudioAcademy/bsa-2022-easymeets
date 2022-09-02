@@ -15,7 +15,6 @@ namespace EasyMeets.Core.Common.DTO.User
         public Country? Country { get; set; }
         public string? PhoneCode { get; set; }
         public string? Phone { get; set; }
-        public int TimeZoneValue { get; set; }
-        public string TimeZoneName { get; set; } = string.Empty;
+        public TimeZoneDto TimeZone { get; set; } = null!;
     }
 }

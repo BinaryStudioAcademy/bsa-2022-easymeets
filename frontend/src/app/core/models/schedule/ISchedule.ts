@@ -1,8 +1,9 @@
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 
+import { ITimeZone } from '../ITimeZone';
+
 export interface ISchedule {
-    timeZoneValue: string;
-    timeZoneName: string;
+    timeZone: ITimeZone;
     scheduleItems: IScheduleItem[];
     withTeamMembers: boolean;
     definedExternally: boolean;

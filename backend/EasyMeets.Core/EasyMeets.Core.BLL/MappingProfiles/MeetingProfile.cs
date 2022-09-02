@@ -56,8 +56,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 {
                     Name = x.TeamMember.User.Name,
                     Email = x.TeamMember.User.Email,
-                    TimeZoneName = x.TeamMember.User.TimeZoneName,
-                    TimeZoneValue = x.TeamMember.User.TimeZoneValue,
+                    TimeZone = { NameValue = x.TeamMember.User.TimeZoneName, TimeValue = x.TeamMember.User.TimeZoneValue }
                 })
                 .ToList();
 
@@ -68,8 +67,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                     {
                         Name = x.Name,
                         Email = x.Email,
-                        TimeZoneName = x.TimeZoneName,
-                        TimeZoneValue = x.TimeZoneValue,
+                        TimeZone = { NameValue = x.TimeZoneName, TimeValue = x.TimeZoneValue }
                     })
                     .ToList();
 

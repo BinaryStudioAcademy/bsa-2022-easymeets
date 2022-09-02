@@ -4,10 +4,9 @@
             <p>Schedule</p>
             <div class="input">
                 <ng-moment-timezone-picker
-                    [(ngModel)]="selectedTimeZone"
+                    [(ngModel)]="scheduleValue.timeZone"
                     customPlaceholderText=""
-                    [getUserZone]="checkZone()"
-                    (ngModelChange)="changeZone($event)">
+                    [getUserZone]="checkZone()">
                 </ng-moment-timezone-picker>
             </div>
         </div>

@@ -65,7 +65,7 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
                             name: team.name,
                             image: team.image,
                             pageLink: team.pageLink,
-                            timeZone: this.timeZoneMapping(team.timeZoneName),
+                            timeZone: team.timeZone,
                             description: team.description,
                         });
                         this.teamPreferencesComponent.imageUrl = team.image;
@@ -120,8 +120,7 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
             image: this.teamPreferencesComponent.imageUrl,
             name: form.value.name,
             pageLink: form.value.pageLink,
-            timeZoneName: form.value.timeZone.name,
-            timeZoneValue: form.value.timeZone.timeValue,
+            timeZone: form.value.timeZone,
             description: form.value.description,
         };
 

@@ -14,7 +14,7 @@ public class ExternalAttendee : Entity<long>, IValidatableObject
     public DateTimeOffset EventTime { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    public int TimeZoneValue { get; set; }
+    public string TimeZoneValue { get; set; } = string.Empty;
     public string TimeZoneName { get; set; } = string.Empty;
 
     public AvailabilitySlot AvailabilitySlot { get; set; } = null!;

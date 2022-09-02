@@ -61,7 +61,7 @@ export class SignInFormComponent extends BaseComponent {
                     timeFormat: this.getTimeFormat(),
                     dateFormat: DateFormat.MonthDayYear,
                     phone: resp.user?.phoneNumber ?? undefined,
-                    timeZone: new Date().getTimezoneOffset(),
+                    timeZone: { nameValue: '', timeValue: '' },
                 })
                 .pipe(this.untilThis)
                 .subscribe(

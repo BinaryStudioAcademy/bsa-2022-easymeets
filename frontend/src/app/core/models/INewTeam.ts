@@ -1,8 +1,9 @@
+import { ITimeZone } from './ITimeZone';
+
 export interface INewTeam {
     image?: string;
     name: string;
     pageLink: string;
-    timeZoneValue: string;
-    timeZoneName: string;
+    timeZone: ITimeZone;
     description: string;
 }

@@ -121,8 +121,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             dateFormat: form.value.dateFormat,
             language: form.value.language,
             timeFormat: form.value.timeFormat,
-            timeZoneName: form.value.timeZone.name,
-            timeZoneValue: form.value.timeZone.timeValue,
+            timeZone: form.value.timeZone,
         };
 
         this.userService
