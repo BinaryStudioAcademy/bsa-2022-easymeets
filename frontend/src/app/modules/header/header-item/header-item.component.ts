@@ -23,9 +23,15 @@ export class HeaderItemComponent extends BaseComponent implements OnInit, OnDest
 
     public currentTeam?: ITeam;
 
-    private navigateEventEmitter = new EventEmitter<void>();
+    private navigateToEventEmitter = new EventEmitter<void>();
 
-    private navigateEventSubscription: Subscription;
+    private navigateToEventSubscription: Subscription;
+
+    private navigateBackEventEmitter = new EventEmitter<void>();
+
+    private navigateBackEventSubscription: Subscription;
+
+    private currentUrl: string;
 
     constructor(
         private authService: AuthService,
@@ -35,7 +41,8 @@ export class HeaderItemComponent extends BaseComponent implements OnInit, OnDest
         private confirmWindowService: ConfirmationWindowService,
     ) {
         super();
-        this.navigateEventSubscription = this.navigateEventEmitter.subscribe(() => this.navigateToTab());
+        this.navigateToEventSubscription = this.navigateToEventEmitter.subscribe(() => this.navigateToTab());
+        this.navigateBackEventSubscription = this.navigateBackEventEmitter.subscribe(() => this.navigateBack());
     }
 
     ngOnInit(): void {
@@ -102,12 +109,12 @@ export class HeaderItemComponent extends BaseComponent implements OnInit, OnDest
                     {
                         class: 'confirm-accept-button',
                         label: 'Yes',
-                        onClickEvent: this.navigateEventEmitter,
+                        onClickEvent: this.navigateToEventEmitter,
                     },
                     {
                         class: 'confirm-cancel-button',
                         label: 'Cancel',
-                        onClickEvent: this.navigateEventEmitter,
+                        onClickEvent: this.navigateBackEventEmitter,
                     },
                 ],
                 title: 'Confirm Leave Page',
@@ -120,7 +127,12 @@ export class HeaderItemComponent extends BaseComponent implements OnInit, OnDest
         this.router.navigate([`${this.activeTab}`]);
     }
 
+    private navigateBack() {
+        this.router.navigate([`${this.currentUrl}`]);
+    }
+
     override ngOnDestroy(): void {
-        this.navigateEventEmitter.unsubscribe();
+        this.navigateToEventEmitter.unsubscribe();
+        this.navigateBackEventEmitter.unsubscribe();
     }
 }
