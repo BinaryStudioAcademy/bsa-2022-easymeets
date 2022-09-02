@@ -28,7 +28,6 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(s => s.IsVisible, opt => opt.MapFrom(src => src.GeneralDetails!.IsVisible))
                 .ForMember(s => s.Language, opt => opt.MapFrom(src => src.EventDetails!.Language))
                 .ForMember(s => s.BookingsPerDay, opt => opt.MapFrom(src => src.EventDetails!.BookingsPerDay))
-                .ForMember(s => s.AllowToAddGuests, opt => opt.MapFrom(src => src.EventDetails!.AllowToAddGuests))
                 .ForMember(s => s.PasswordProtectionIsUsed,
                     opt => opt.MapFrom(src => src.EventDetails!.PasswordProtectionIsUsed))
                 .ForMember(s => s.PasswordProtection, opt => opt.MapFrom(src => src.EventDetails!.PasswordProtection))
