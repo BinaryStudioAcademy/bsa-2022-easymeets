@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
     {
-        path: '',
+        path: 'landing-page',
         loadChildren: () => import('./modules/landing/landing.module').then((m) => m.LandingModule),
     },
     {
@@ -35,7 +35,7 @@ const routes: Routes = [
         path: 'new-meeting',
         loadChildren: () => import('./modules/new-meeting/new-meeting.module').then((m) => m.NewMeetingModule),
     },
-    { path: '**', redirectTo: '', pathMatch: 'full' },
+    { path: '**', redirectTo: 'availability', pathMatch: 'full' },
 ];
 
 @NgModule({
