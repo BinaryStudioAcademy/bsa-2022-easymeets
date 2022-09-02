@@ -40,6 +40,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     unitOfTime = Object.keys(UnitOfTime);
 
+    filterValue = '';
+
     duration: number;
 
     durationValue: number;
@@ -199,13 +201,9 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
             startWith(''),
             map(value => {
-                if (typeof value === 'string') {
-                    const filterValue = value.toLowerCase() || '';
+                this.filterValue = (typeof value === 'string') ? value.toLowerCase() : value.name;
 
-                    return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(filterValue));
-                }
-
-                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(value.name));
+                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(this.filterValue));
             }),
         );
     }
