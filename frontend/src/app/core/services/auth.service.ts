@@ -87,7 +87,7 @@ export class AuthService {
     public refreshToken() {
         return this.afAuth.authState
             .pipe(
-                first(u => u !== null),
+                first(u => !!u),
                 concatMap(u => this.setUserAccessToken(u!)),
             );
     }
