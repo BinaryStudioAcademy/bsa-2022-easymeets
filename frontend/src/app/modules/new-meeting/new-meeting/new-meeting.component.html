@@ -106,7 +106,10 @@
                     <div class="member-info-container" *ngFor="let member of addedMembers">
                         <div class="member-info">
                             <p>{{ member.name }}</p>
-                            <i class="fa-solid fa-xmark fa-lg cancel-icon" (click)="removeMemberToList(meetingForm)"></i>
+                            <i class="fa-solid fa-xmark fa-lg cancel-icon"
+                            #memberId
+                            (click)="removeMemberToList()"
+                            id="{{member.id}}"></i>
                         </div>
                         <mat-divider></mat-divider>
                     </div>

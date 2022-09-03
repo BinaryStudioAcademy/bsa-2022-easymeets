@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
@@ -20,6 +20,8 @@ import { map, Observable, startWith } from 'rxjs';
     styleUrls: ['./new-meeting.component.sass'],
 })
 export class NewMeetingComponent extends BaseComponent implements OnInit {
+    @ViewChild('memberId') elementRef: ElementRef<HTMLInputElement>;
+
     constructor(
         private newMeetingService: NewMeetingService,
         public notificationService: NotificationService,
@@ -187,8 +189,12 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         this.memberFilterCtrl.setValue('');
     }
 
-    removeMemberToList(form: FormGroup) {
-        this.addedMembers = this.addedMembers.filter((member) => member.id !== form.value.teamMember.id);
+    removeMemberToList() {
+        // eslint-disable-next-line no-debugger
+        debugger;
+        const memberId = parseInt(this.elementRef.nativeElement.id, 10);
+
+        this.addedMembers = this.addedMembers.filter((member) => member.id !== memberId);
     }
 
     reset() {
