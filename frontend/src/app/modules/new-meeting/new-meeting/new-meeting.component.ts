@@ -190,8 +190,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     }
 
     removeMemberToList() {
-        // eslint-disable-next-line no-debugger
-        debugger;
         const memberId = parseInt(this.elementRef.nativeElement.id, 10);
 
         this.addedMembers = this.addedMembers.filter((member) => member.id !== memberId);
