@@ -80,12 +80,14 @@ namespace EasyMeets.Core.BLL.Services
                 .Select(x => x.Team.Id)
                 .FirstOrDefaultAsync();
 
+            var meetingMembers = await GetMeetingMembers(meetingDto.MeetingMembers, teamId);
+
             var meeting = _mapper.Map<Meeting>(meetingDto, opts =>
                 opts.AfterMap((_, dest) =>
                 {
                     dest.CreatedBy = currentUser.Id;
                     dest.TeamId = teamId;
-                    dest.MeetingMembers = GetMeetingMembers(meetingDto.MeetingMembers, teamId);
+                    dest.MeetingMembers = meetingMembers;
                 })
             );
 
@@ -94,14 +96,15 @@ namespace EasyMeets.Core.BLL.Services
             await _context.SaveChangesAsync();
         }
 
-        private List<MeetingMember> GetMeetingMembers(List<NewMeetingMemberDto> meetingMembers, long teamId)
+        private async Task<ICollection<MeetingMember>> GetMeetingMembers(List<NewMeetingMemberDto> meetingMembers, long teamId)
         {
-            return meetingMembers
-                   .SelectMany(x =>
-                       _context.TeamMembers.Where(i => i.UserId == x.Id && i.TeamId == teamId)
-                       .Select(y => new MeetingMember { TeamMemberId = y.Id }))
-                       .ToList()
-                   .ToList();
+            var meetingMembersIds = meetingMembers.Select(x => x.Id).ToList();
+            var teamMembers = await _context.TeamMembers
+                .Where(x => meetingMembersIds.Contains(x.UserId) && x.TeamId == teamId)
+                .Select(x => new MeetingMember { TeamMemberId = x.Id })
+                .ToListAsync(); 
+
+            return teamMembers;
         }
     }
 }
