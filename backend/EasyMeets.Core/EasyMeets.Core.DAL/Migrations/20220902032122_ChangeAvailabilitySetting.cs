@@ -9,15 +9,24 @@ namespace EasyMeets.Core.DAL.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "Frequency",
-                table: "AvailabilitySlots",
-                newName: "Color");
-
-            migrationBuilder.RenameColumn(
+            migrationBuilder.AddColumn<int>(
                 name: "Color",
-                table: "AdvancedSlotSettings",
-                newName: "Frequency");
+                table: "AvailabilitySlots");
+
+            migrationBuilder.AddColumn<int>(
+                name: "Frequency",
+                table: "AdvancedSlotSettings");
+
+            migrationBuilder.Sql("UPDATE AvailabilitySlots SET AvailabilitySlots.Color = AdvancedSlotSettings.Color");
+            migrationBuilder.Sql("UPDATE AdvancedSlotSettings SET AdvancedSlotSettings.Frequency = AvailabilitySlots.Frequency");
+
+            migrationBuilder.DropColumn(
+                name: "Frequency",
+                table: "AvailabilitySlots");
+
+            migrationBuilder.DropColumn(
+                name: "Color",
+                table: "AdvancedSlotSettings");
 
             migrationBuilder.UpdateData(
                 table: "AdvancedSlotSettings",
@@ -442,15 +451,24 @@ namespace EasyMeets.Core.DAL.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "Color",
-                table: "AvailabilitySlots",
-                newName: "Frequency");
-
-            migrationBuilder.RenameColumn(
+            migrationBuilder.AddColumn<int>(
                 name: "Frequency",
-                table: "AdvancedSlotSettings",
-                newName: "Color");
+                table: "AvailabilitySlots");
+
+            migrationBuilder.AddColumn<int>(
+                name: "Color",
+                table: "AdvancedSlotSettings");
+
+            migrationBuilder.Sql("UPDATE AvailabilitySlots SET AvailabilitySlots.Frequency = AdvancedSlotSettings.Frequency");
+            migrationBuilder.Sql("UPDATE AdvancedSlotSettings SET AdvancedSlotSettings.Color = AvailabilitySlots.Color");
+
+            migrationBuilder.DropColumn(
+                name: "Color",
+                table: "AvailabilitySlots");
+
+            migrationBuilder.DropColumn(
+                name: "Frequency",
+                table: "AdvancedSlotSettings");
 
             migrationBuilder.UpdateData(
                 table: "AdvancedSlotSettings",
