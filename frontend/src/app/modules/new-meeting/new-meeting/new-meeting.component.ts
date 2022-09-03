@@ -96,7 +96,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         if (this.meetingForm.valid) {
             const newMeeting: INewMeeting = {
                 name: form.value.meetingName,
-                location: form.value.location,
+                locationType: form.value.location,
                 duration: this.durationValue,
                 startTime: form.value.date,
                 meetingLink: form.value.meetingName,
