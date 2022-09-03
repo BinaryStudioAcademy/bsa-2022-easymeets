@@ -46,8 +46,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     duration: number;
 
-    durationValue: number;
-
     customTimeShown: boolean = false;
 
     mainContentCustomTimeShown: boolean = false;
@@ -93,13 +91,13 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
 
     create(form: FormGroup) {
         if (!this.customTimeShown) {
-            this.durationValue = form.value.duration.time;
+            this.duration = form.value.duration.time;
         }
         if (this.meetingForm.valid) {
             const newMeeting: INewMeeting = {
                 name: form.value.meetingName,
                 locationType: form.value.location,
-                duration: this.durationValue,
+                duration: this.duration,
                 startTime: form.value.date,
                 meetingLink: form.value.meetingName,
                 meetingMembers: this.addedMembers,
@@ -170,7 +168,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     }
 
     durationChanged(timeValue: string, unitOfTime: string) {
-        if (unitOfTime === 'hour') {
+        if (unitOfTime === 'Hour') {
             this.convertDuration(timeValue);
         } else {
             this.duration = parseInt(timeValue, 10);
