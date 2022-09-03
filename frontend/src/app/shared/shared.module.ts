@@ -11,11 +11,27 @@ import { NgxMaskModule } from 'ngx-mask';
 import { ConfirmationWindowComponent } from './components/confirmation-window/confirmation-window.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { UnsavedChangesComponent } from './components/unsaved-changes/unsaved-changes.component';
 import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive';
 
 @NgModule({
-    imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, RouterModule, MatDialogModule, MatButtonModule, NgxMaskModule],
-    declarations: [LoadingSpinnerComponent, NotFoundComponent, ConfirmationWindowComponent, HeaderLessTabsDirective],
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        MatDialogModule,
+        MatButtonModule,
+        NgxMaskModule,
+    ],
+    declarations: [
+        LoadingSpinnerComponent,
+        NotFoundComponent,
+        ConfirmationWindowComponent,
+        UnsavedChangesComponent,
+        HeaderLessTabsDirective,
+    ],
     exports: [
         CommonModule,
         RouterModule,
@@ -25,6 +41,7 @@ import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive
         LoadingSpinnerComponent,
         NotFoundComponent,
         ConfirmationWindowComponent,
+        UnsavedChangesComponent,
         NgxMaskModule,
         HeaderLessTabsDirective,
     ],

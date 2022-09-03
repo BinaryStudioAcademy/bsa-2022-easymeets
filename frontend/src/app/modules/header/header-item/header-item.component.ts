@@ -1,48 +1,32 @@
-import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { TeamStateChangeActionEnum } from '@core/enums/team-state-change-action.enum';
 import { ITeam } from '@core/models/ITeam';
 import { ILocalUser } from '@core/models/IUser';
 import { AuthService } from '@core/services/auth.service';
-import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { TeamService } from '@core/services/team.service';
 import { UserService } from '@core/services/user.service';
-import { leavePageMessage } from '@shared/constants/shared-messages';
-import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-header-item',
     templateUrl: './header-item.component.html',
     styleUrls: ['./header-item.component.sass'],
 })
-export class HeaderItemComponent extends BaseComponent implements OnInit, OnDestroy {
+export class HeaderItemComponent extends BaseComponent implements OnInit {
     public teams: ITeam[] = [];
 
     public currentUser: ILocalUser;
 
     public currentTeam?: ITeam;
 
-    private navigateToEventEmitter = new EventEmitter<void>();
-
-    private navigateToEventSubscription: Subscription;
-
-    private navigateBackEventEmitter = new EventEmitter<void>();
-
-    private navigateBackEventSubscription: Subscription;
-
-    private currentUrl: string;
-
     constructor(
         private authService: AuthService,
         private router: Router,
         private teamService: TeamService,
         private userService: UserService,
-        private confirmWindowService: ConfirmationWindowService,
     ) {
         super();
-        this.navigateToEventSubscription = this.navigateToEventEmitter.subscribe(() => this.navigateToTab());
-        this.navigateBackEventSubscription = this.navigateBackEventEmitter.subscribe(() => this.navigateBack());
     }
 
     ngOnInit(): void {
@@ -98,41 +82,5 @@ export class HeaderItemComponent extends BaseComponent implements OnInit, OnDest
         this.router.navigateByUrl(
             this.currentTeam ? `/settings/teams/edit/${this.currentTeam?.id}` : '/settings/teams/new',
         );
-    }
-
-    public changeTab(path: string) {
-        this.activeTab = path;
-        this.currentUrl = this.router.url;
-        if (this.router.url.startsWith('/availability/edit/')) {
-            this.confirmWindowService.openConfirmDialog({
-                buttonsOptions: [
-                    {
-                        class: 'confirm-accept-button',
-                        label: 'Yes',
-                        onClickEvent: this.navigateToEventEmitter,
-                    },
-                    {
-                        class: 'confirm-cancel-button',
-                        label: 'Cancel',
-                        onClickEvent: this.navigateBackEventEmitter,
-                    },
-                ],
-                title: 'Confirm Leave Page',
-                message: leavePageMessage,
-            });
-        }
-    }
-
-    private navigateToTab() {
-        this.router.navigate([`${this.activeTab}`]);
-    }
-
-    private navigateBack() {
-        this.router.navigate([`${this.currentUrl}`]);
-    }
-
-    override ngOnDestroy(): void {
-        this.navigateToEventEmitter.unsubscribe();
-        this.navigateBackEventEmitter.unsubscribe();
     }
 }
