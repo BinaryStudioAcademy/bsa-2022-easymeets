@@ -37,7 +37,8 @@ public class GoogleOAuthService : IGoogleOAuthService
             {"scope", scope},
             {"code_challenge", codeChallenge},
             {"code_challenge_method", "S256"},
-            {"access_type", "offline"}
+            {"access_type", "offline"},
+            {"prompt", "consent"}
         };
 
         var url = QueryHelpers.AddQueryString(_configuration["GoogleCalendar:OAuthServer"], queryParams);

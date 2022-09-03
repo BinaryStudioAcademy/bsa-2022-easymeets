@@ -47,30 +47,42 @@ namespace EasyMeets.Core.BLL.Services
 
             _context.Calendars.Add(calendar);
             await _context.SaveChangesAsync();
-            
+            await SubscribeOnCalendarChanges(tokenResultDto, connectedEmail);
+
             return true;
         }
 
-        public async Task<string> SubscribeOnCalendarChanges(TokenResultDto tokenResultDto)
+        public async Task SubscribeOnCalendarChanges(TokenResultDto tokenResultDto, string connectedEmail)
         {
             var queryParams = new Dictionary<string, string>
             {
                 { "calendarId", "primary" }
             };
 
+            var emailName = connectedEmail.Split('@')[0];
+
             var body = new
             {
-                id = "qazwsxsad",
+                id = emailName,
                 type = "web_hook",
                 address = "https://webhook.site/179c5683-f398-4efc-8ce6-24e7ddd953b5"
             };
 
-            var response = await HttpClientHelper.SendPostTokenRequest<SubscribeEventDTO>($"{_configuration["GoogleCalendar:SubscribeOnEventsCalendar"]}", queryParams, body,
+            await HttpClientHelper.SendPostTokenRequest<SubscribeEventDTO>($"{_configuration["GoogleCalendar:SubscribeOnEventsCalendar"]}", queryParams, body,
+                tokenResultDto.AccessToken);
+        }
+
+        public async Task<List<EventItemDTO>> GetEventsFromGoogleCalendar(TokenResultDto tokenResultDto, string email)
+        {
+            var queryParams = new Dictionary<string, string>
+            {
+                { "calendarId", email }
+            };
+
+            var response = await HttpClientHelper.SendGetRequest<CalendarEventsDTO>($"{_configuration["GoogleCalendar:GetEventsFromGoogleCalendar"]}", queryParams,
                 tokenResultDto.AccessToken);
 
-            var checkResult = response.Id;
-
-            return checkResult;
+            return response.Items!;
         }
 
         public async Task<bool> UpdateGoogleCalendar(List<UserCalendarDto> calendarDtoList)
@@ -86,18 +98,18 @@ namespace EasyMeets.Core.BLL.Services
 
                 calendar!.CheckForConflicts = calendarDto.CheckForConflicts;
                 calendar.AddEventsFromTeamId = calendarDto.ImportEventsFromTeam?.Id;
-            
+
                 _context.Calendars.Update(calendar);
                 await _context.SaveChangesAsync();
             }
-            
+
             return true;
         }
 
         public async Task<List<UserCalendarDto>> GetCurrentUserCalendars()
         {
             var currentUser = await _userService.GetCurrentUserAsync();
-            
+
             var calendarsList = await _context.Calendars
                 .Where(c => c.UserId == currentUser.Id)
                 .Include(c => c.User)
