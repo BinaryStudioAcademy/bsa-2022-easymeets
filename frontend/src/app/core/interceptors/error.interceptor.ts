@@ -2,7 +2,7 @@
 import { HttpErrorResponse, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
-import { from, lastValueFrom, throwError } from 'rxjs';
+import { switchMap, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -16,8 +16,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         return throwError(() => new Error(error.message ?? 'Something went wrong'));
     }
 
-    private async handleExpired(req: HttpRequest<unknown>, next: HttpHandler) {
-        await this.authService.refreshToken();
+    private handleExpired(req: HttpRequest<unknown>, next: HttpHandler) {
         const newToken = this.authService.getAccessToken();
 
         req = req.clone({
@@ -26,15 +25,14 @@ export class ErrorInterceptor implements HttpInterceptor {
             },
         });
 
-        return lastValueFrom(next.handle(req));
+        return next.handle(req);
     }
 
     intercept(req: HttpRequest<unknown>, next: HttpHandler) {
         return next.handle(req).pipe(catchError(response => {
             if (response.status === 401) {
-                if (response.headers.has('Token-Expired')) {
-                    return from(this.handleExpired(req, next));
-                }
+                return this.authService.refreshToken()
+                    .pipe(switchMap(() => this.handleExpired(req, next)));
             }
 
             return this.handleError(response);
