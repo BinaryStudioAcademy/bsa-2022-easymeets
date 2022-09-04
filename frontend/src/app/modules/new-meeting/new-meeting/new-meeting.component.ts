@@ -168,7 +168,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
     }
 
     durationChanged(timeValue: string, unitOfTime: string) {
-        if (unitOfTime === 'Hour') {
+        if (unitOfTime === UnitOfTime.Hour) {
             this.convertDuration(timeValue);
         } else {
             this.duration = parseInt(timeValue, 10);
