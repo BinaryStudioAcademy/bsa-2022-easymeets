@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { transformTextLanguageToEnum } from '@core/helpers/language-helper';
+import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { AuthService } from '@core/services/auth.service';
 import { NotificationService } from '@core/services/notification.service';
 import { UserService } from '@core/services/user.service';
@@ -72,15 +73,13 @@ export class SignUpFormComponent extends BaseComponent {
                     timeFormat: this.getTimeFormat(),
                     dateFormat: DateFormat.MonthDayYear,
                     phone: resp.user?.phoneNumber ?? undefined,
-                    timeZone: { nameValue: '', timeValue: '' },
+                    timeZone: getDefaultTimeZone(),
                 })
                 .pipe(this.untilThis)
-                .subscribe(
-                    () => {
-                        this.notifications.showSuccessMessage('You are successfully registered');
-                        this.router.navigateByUrl('availability');
-                    },
-                );
+                .subscribe(() => {
+                    this.notifications.showSuccessMessage('You are successfully registered');
+                    this.router.navigateByUrl('availability');
+                });
         } else {
             this.setCredentialsIncorrect();
         }
