@@ -11,7 +11,6 @@ import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { NotificationService } from '@core/services/notification.service';
-import { BookingWindowComponent } from '@shared/components/booking-window/booking-window.component';
 import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
@@ -220,26 +219,23 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     }
 
     showConfirmWindow() {
-        this.confirmationWindowService.openConfirmDialog(
-            {
-                buttonsOptions: [
-                    {
-                        class: 'confirm-accept-button',
-                        label: 'Done',
-                        onClickEvent: this.redirectEventEmitter,
-                    },
-                ],
-                title: 'Meeting Created !',
-                titleImagePath: this.bookedIconPath,
-                dateTime: this.createdMeeting.startTime,
-                duration: this.duration,
-                meetingName: this.createdMeeting.name,
-                participants: getMembersForBookedWindow(),
-                location: this.createdMeeting.location,
-                link: this.createdMeeting.meetingLink,
-            },
-            BookingWindowComponent,
-        );
+        this.confirmationWindowService.openBookingDialog({
+            buttonsOptions: [
+                {
+                    class: 'confirm-accept-button',
+                    label: 'Done',
+                    onClickEvent: this.redirectEventEmitter,
+                },
+            ],
+            title: 'Meeting Created !',
+            titleImagePath: this.bookedIconPath,
+            dateTime: this.createdMeeting.startTime,
+            duration: this.duration,
+            meetingName: this.createdMeeting.name,
+            participants: getMembersForBookedWindow(),
+            location: this.createdMeeting.location,
+            link: this.createdMeeting.meetingLink,
+        });
     }
 
     goToBookingsPage() {
