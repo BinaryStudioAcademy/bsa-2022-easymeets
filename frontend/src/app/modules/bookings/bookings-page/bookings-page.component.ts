@@ -25,10 +25,9 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
     public meetings: IMeetingBooking[];
 
     public ngOnInit(): void {
-        this.teamService.currentTeamEmitted$
-            .subscribe(teamId => {
-                this.loadMeetings(teamId);
-            });
+        this.teamService.currentTeamEmitted$.subscribe((teamId) => {
+            this.loadMeetings(teamId);
+        });
     }
 
     private loadMeetings(teamId?: number) {
@@ -39,7 +38,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
                 (resp: IMeetingBooking[]) => {
                     this.meetings = resp;
                 },
-                error => this.notifications.showErrorMessage(error),
+                (error) => this.notifications.showErrorMessage(error),
             );
     }
 

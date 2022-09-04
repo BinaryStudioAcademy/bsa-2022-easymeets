@@ -25,7 +25,7 @@
         </mat-form-field>
     </div>
 </div>
-<div class="grid-container">
+<div class="grid-container" *ngIf="this.orderedTimes">
     <div class="grid">
         <div class="column-label" *ngFor="let day of scheduleItems; let i = index">
             <div class="today-label">
@@ -41,7 +41,7 @@
         <ng-container *ngFor="let in of slotsCount; let i = index">
             <ng-container *ngFor="let day of scheduleItems; let j = index">
                 <ng-container
-                    *ngIf="isDateInRange(theEarliestStartOfTimeRanges, day.start, day.end, i); else defaultTimeSlot">
+                    *ngIf="isDateInRange(theEarliestStartOfTimeRanges, day.start, day.end, j, i); else defaultTimeSlot">
                     <span
                         #dateFrom
                         class="enabled"

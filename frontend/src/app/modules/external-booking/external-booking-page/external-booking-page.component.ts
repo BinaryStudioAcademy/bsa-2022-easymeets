@@ -4,6 +4,8 @@ import { BaseComponent } from '@core/base/base.component';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { IAvailabilitySlotMember } from '@core/models/IAvailabilitySlotMember';
 import { IExternalBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
+import { IExternalAnswers } from '@core/models/IExternalAnswers';
+import { NewMeetingService } from '@core/services/new-meeting.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { UserService } from '@core/services/user.service';
 import { LocationType } from '@shared/enums/locationType';
@@ -18,7 +20,12 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
 
     locationTypeMapping = LocationTypeMapping;
 
-    constructor(public spinnerService: SpinnerService, private userService: UserService, public router: Router) {
+    constructor(
+        public spinnerService: SpinnerService,
+        private meetingService: NewMeetingService,
+        private userService: UserService,
+        public router: Router,
+    ) {
         super();
     }
 
@@ -46,11 +53,12 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         });
     }
 
-    public addDurationAndLocationInMenu(data: { duration: number; location: LocationType }): void {
+    public addDurationAndLocationInMenu(data: { slotId: bigint; duration: number; location: LocationType }): void {
         this.menu = {
             ...this.menu,
             duration: data.duration,
             location: data.location,
+            slotId: data.slotId,
         };
     }
 
@@ -68,6 +76,12 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             teamSlotMembers: selectedMembers,
         };
     }
+
+    public confirmBookingByExternalAttendee(answers: IExternalAnswers) {
+        console.log(answers);
+    }
+
+    private createNewMeeting() {}
 
     isBookingChooseTimeRoute(): boolean {
         return this.router.url.includes('/external-booking/choose-time');

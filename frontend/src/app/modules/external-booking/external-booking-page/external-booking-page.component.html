@@ -83,7 +83,10 @@
                 (selectedDurationAndLocationEvent)="addDurationAndLocationInMenu($event)"
                 (selectedTimeAndDateEvent)="addTimeAndDateInMenu($event)">
             </app-external-booking-choose-time-page>
-            <app-external-booking-confirm-page *ngIf="isConfirmBookingRoute()"> </app-external-booking-confirm-page>
+            <app-external-booking-confirm-page
+                *ngIf="isConfirmBookingRoute()"
+                (confirmBooking)="confirmBookingByExternalAttendee($event)">
+            </app-external-booking-confirm-page>
             <app-external-booking-choose-members-page
                 *ngIf="this.router.url === '/external-booking/team/choose-team-members'"
                 (selectedMembersEvent)="addMembersInMenu($event)">

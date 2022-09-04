@@ -70,6 +70,7 @@ namespace EasyMeets.Core.BLL.Services
                 }
             }
         }
+        
         public async Task CreateMeeting(SaveMeetingDto meetingDto)
         {
             var currentUser = await _userService.GetCurrentUserAsync();
@@ -90,6 +91,15 @@ namespace EasyMeets.Core.BLL.Services
             await _context.Meetings.AddAsync(meeting);
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<OrderedMeetingTimesDto>> GetOrderedMeetingTimesAsync(long slotId)
+        {
+            var result = await _context.Meetings.Where(el => el.AvailabilitySlotId == slotId)
+                .Select(el => new OrderedMeetingTimesDto {StartTime = el.StartTime})
+                .ToListAsync();
+
+            return result;
         }
     }
 }
