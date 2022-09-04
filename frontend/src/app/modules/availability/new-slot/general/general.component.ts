@@ -20,8 +20,8 @@ export class GeneralComponent implements OnInit {
         this.slot = value;
         this.settings = {
             size: this.slot?.size ?? this.slotSizes[0],
-            frequency: this?.slot?.frequency ?? this.slotsFrequencies[0],
-            isVisible: this.slot ? !this.slot.isVisible : false,
+            isVisible: this.slot?.isVisible ?? false,
+            color: this.slot?.color ?? Color.Azure,
             name: this.slot?.name ?? '',
             locationType: this.slot?.locationType ?? LocationType.Zoom,
             isEnabled: this.slot?.isEnabled ?? true,
@@ -29,20 +29,20 @@ export class GeneralComponent implements OnInit {
         };
         this.advancedSettings = {
             maxNumberOfBookings: this.slot?.advancedSlotSettings?.maxNumberOfBookings ?? 1,
+            frequency: this.slot?.advancedSlotSettings?.frequency ?? this.slotsFrequencies[0],
             days: this.slot?.advancedSlotSettings?.days ?? 1,
             paddingMeeting: this.slot?.advancedSlotSettings?.paddingMeeting ?? this.meetingPaddings[0],
             activityType: this.slot?.advancedSlotSettings?.activityType ?? this.slotActivityOptionsEnums[0],
             minBookingMeetingDifference:
                 this.slot?.advancedSlotSettings?.minBookingMeetingDifference ?? this.minBookingMeetingDifferences[0],
-            color: this.slot?.advancedSlotSettings?.color ?? Color.Azure,
         };
 
         if (!this.slotSizes.some((f) => f === this.settings.size)) {
             this.slotSizes.push(this.settings.size);
         }
 
-        if (!this.slotsFrequencies.some((f) => f === this.settings.frequency)) {
-            this.slotsFrequencies.push(this.settings.frequency);
+        if (!this.slotsFrequencies.some((f) => f === this.advancedSettings?.frequency)) {
+            this.slotsFrequencies.push(this.advancedSettings?.frequency);
         }
 
         if (!this.minBookingMeetingDifferences.some((f) => f === this.advancedSettings?.minBookingMeetingDifference)) {
@@ -71,6 +71,8 @@ export class GeneralComponent implements OnInit {
 
     public slotActivityOptions: string[] = ['Days', 'Range', 'Indefinitely'];
 
+    public ActivityType = ActivityType;
+
     public slotActivityOptionsEnums: ActivityType[] = [
         ActivityType.Days,
         ActivityType.Range,
@@ -92,8 +94,8 @@ export class GeneralComponent implements OnInit {
     ngOnInit(): void {
         this.settings = {
             size: this.slotSizes[0],
-            frequency: this.slotsFrequencies[0],
             isVisible: false,
+            color: Color.Azure,
             name: '',
             locationType: LocationType.Zoom,
             isEnabled: true,
@@ -105,7 +107,7 @@ export class GeneralComponent implements OnInit {
             paddingMeeting: this.meetingPaddings[0],
             activityType: this.slotActivityOptionsEnums[0],
             minBookingMeetingDifference: this.minBookingMeetingDifferences[0],
-            color: Color.Azure,
+            frequency: this.slotsFrequencies[0],
         };
     }
 
@@ -145,6 +147,6 @@ export class GeneralComponent implements OnInit {
     ];
 
     colorInputChanged(color: Color) {
-        this.advancedSettings!.color = color;
+        this.settings.color = color;
     }
 }
