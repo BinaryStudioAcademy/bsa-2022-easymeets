@@ -54,6 +54,7 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.Entity<CalendarVisibleForTeam>().HasData(GenerateCalendarVisibleForTeams());
             modelBuilder.Entity<Schedule>().HasData(GenerateSchedules());
             modelBuilder.Entity<ScheduleItem>().HasData(GenerateScheduleItems());
+            modelBuilder.Entity<SyncGoogleCalendar>().HasNoKey();
         }
 
         private static IList<User> GenerateUsers(int count = 10)

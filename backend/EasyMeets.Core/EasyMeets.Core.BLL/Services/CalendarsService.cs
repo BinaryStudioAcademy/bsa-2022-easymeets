@@ -52,7 +52,17 @@ namespace EasyMeets.Core.BLL.Services
 
             _context.Calendars.Add(calendar);
             await _context.SaveChangesAsync();
+
+            var synced = await _context.SyncGoogleCalendar.Where(x => x.Email == connectedEmail).FirstOrDefaultAsync();
+
+            if (synced is not null)
+            {
+                return true;
+            }
+
             await SubscribeOnCalendarChanges(tokenResultDto, connectedEmail);
+            await _context.SyncGoogleCalendar.AddAsync(new SyncGoogleCalendar { Email = connectedEmail });
+            await _context.SaveChangesAsync();
 
             return true;
         }
@@ -70,7 +80,7 @@ namespace EasyMeets.Core.BLL.Services
             {
                 id = emailName,
                 type = "web_hook",
-                address = "https://webhook.site/179c5683-f398-4efc-8ce6-24e7ddd953b5"
+                address = _configuration["GoogleCalendar:WebHookCalendarUrl"]
             };
 
             await HttpClientHelper.SendPostTokenRequest<SubscribeEventDTO>($"{_configuration["GoogleCalendar:SubscribeOnEventsCalendar"]}", queryParams, body,
