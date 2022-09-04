@@ -1,5 +1,5 @@
 export enum ActivityType {
-    Days,
-    Range,
-    Indefinitely
+    Days = 'Days',
+    Range = 'Range',
+    Indefinitely = 'Indefinitely',
 }
