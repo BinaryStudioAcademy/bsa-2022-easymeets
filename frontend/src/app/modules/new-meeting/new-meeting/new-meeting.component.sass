@@ -47,20 +47,6 @@
             @media screen and ( max-width: $desktop-min-width  )
                 width: 100%
 
-    .date-duration-container
-        height: 20%
-        display: flex
-        justify-content: space-between
-        align-items: flex-start
-        @media (max-width: $tablet-min-width)
-            width: 100%
-            justify-content: space-between
-            flex-direction: column
-        .duration-container, .date-container
-            width: 30%
-            @media (max-width: $tablet-min-width)
-                width: 100%
-
     .sidebar
         position: relative
         display: flex
@@ -110,24 +96,6 @@
         &.ng-invalid.ng-touched
             border: 2px solid $cinnabar
             outline: $cinnabar
-
-    .calendar-select-input
-        margin: 0
-        height: 33px
-        font-size: 15px
-        color: $dark-gray
-        border: 2px solid $loblolly
-        border-radius: 4px
-        padding-left: 5px
-        margin: 0
-        @media (max-width: $tablet-min-width)
-            width: calc(100% - 5em)
-
-    .calendar-select-input
-        &.ng-invalid.ng-touched
-            border: 2px solid $cinnabar
-            outline: $cinnabar
-            height: 33px
 
     ::ng-deep .item
         .mat-select
