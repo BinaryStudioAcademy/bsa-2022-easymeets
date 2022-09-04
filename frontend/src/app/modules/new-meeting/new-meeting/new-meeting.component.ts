@@ -119,7 +119,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 .saveNewMeeting(newMeeting)
                 .pipe(this.untilThis)
                 .subscribe(() => {
-                    this.notificationService.showSuccessMessage('New meeting was created successfully.');
                     this.reset();
                 });
         } else {
@@ -180,7 +179,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.durationChanged(customTime, unitOfTime);
     }
 
-    durationChanged(timeValue: string, unitOfTime: string) {
+    durationChanged(timeValue: string, unitOfTime: UnitOfTime) {
         if (unitOfTime === UnitOfTime.Hour) {
             this.convertDuration(timeValue);
         } else {
