@@ -13,5 +13,5 @@ public interface ITeamService
     Task UpdateTeamAsync(UpdateTeamDto team);
     Task DeleteTeamAsync(long teamId);
     Task<ImagePathDto> UploadLogoAsync(IFormFile file, long? teamId);
-    Task<ICollection<NewMeetingMemberDto>> GetTeamMembersOfCurrentUserAsync();
+    Task<ICollection<NewMeetingMemberDto>> GetTeamMembersOfCurrentUserAsync(long? teamId);
 }
