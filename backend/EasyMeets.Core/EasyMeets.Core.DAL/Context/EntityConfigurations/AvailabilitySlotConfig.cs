@@ -10,31 +10,31 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
     {
         builder.Property(s => s.TeamId)
             .IsRequired();
-        
+
         builder.Property(s => s.LocationType)
             .IsRequired();
-        
+
         builder.Property(s => s.Name)
             .IsRequired()
             .HasMaxLength(50);
-        
+
         builder.Property(s => s.WelcomeMessage)
             .IsRequired()
             .HasMaxLength(300);
-        
+
         builder.Property(s => s.Link)
             .IsRequired()
             .HasMaxLength(300);
 
         builder.Property(s => s.Type)
             .IsRequired();
-        
+
         builder.Property(s => s.Size)
             .IsRequired();
-        
-        builder.Property(s => s.Frequency)
+
+        builder.Property(s => s.Color)
             .IsRequired();
-        
+
         builder.Property(s => s.Language)
             .IsRequired()
             .HasMaxLength(20);
@@ -44,7 +44,7 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
 
         builder.Property(s => s.TimeZoneVisibility)
             .IsRequired();
-        
+
         builder.Property(s => s.PasswordProtection)
             .HasMaxLength(20);
 
@@ -52,12 +52,12 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
             .WithMany(u => u.CreatedSlots)
             .HasForeignKey(s => s.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         builder.HasOne(s => s.Team)
             .WithMany(t => t.AvailabilitySlots)
             .HasForeignKey(s => s.TeamId)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         builder.HasOne(s => s.AdvancedSlotSettings)
             .WithOne(ad => ad.AvailabilitySlot)
             .HasForeignKey<AdvancedSlotSettings>(s => s.AvailabilitySlotId)

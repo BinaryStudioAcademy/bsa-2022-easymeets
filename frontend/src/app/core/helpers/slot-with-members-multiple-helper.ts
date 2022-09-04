@@ -1,3 +1,4 @@
+import { Color } from '@core/enums/color.enum';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { LocationType } from '@shared/enums/locationType';
 
@@ -13,6 +14,7 @@ export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
         link: '',
         isEnabled: true,
         isVisible: true,
+        color: Color.Azure,
         locationType: LocationType.GoogleMeet,
         members: [
             {
@@ -44,7 +46,6 @@ export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
             definedExternally: false,
         },
         welcomeMessage: 'welcomeMessage',
-        frequency: 5,
         language: 'language',
         bookingsPerDay: 5,
         passwordProtectionIsUsed: true,
