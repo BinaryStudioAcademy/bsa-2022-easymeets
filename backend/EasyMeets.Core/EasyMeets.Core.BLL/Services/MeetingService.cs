@@ -2,6 +2,7 @@
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.Common.DTO.Team;
+using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -11,9 +12,11 @@ namespace EasyMeets.Core.BLL.Services
     public class MeetingService : BaseService, IMeetingService
     {
         private readonly IUserService _userService;
-        public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService) : base(context, mapper)
+        private readonly IZoomService _zoomService;
+        public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IZoomService zoomService) : base(context, mapper)
         {
             _userService = userService;
+            _zoomService = zoomService;
         }
 
         public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync(long? teamId)
@@ -94,6 +97,11 @@ namespace EasyMeets.Core.BLL.Services
             await _context.Meetings.AddAsync(meeting);
 
             await _context.SaveChangesAsync();
+
+            if (meeting.LocationType == LocationType.Zoom)
+            {
+                await _zoomService.CreateZoomMeeting(meeting.Id);
+            }
         }
 
         private async Task<ICollection<MeetingMember>> GetMeetingMembers(List<NewMeetingMemberDto> meetingMembers, long teamId)
