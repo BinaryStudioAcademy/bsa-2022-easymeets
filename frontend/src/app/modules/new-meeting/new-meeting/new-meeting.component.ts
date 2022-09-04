@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getMembersForBookedWindow } from '@core/helpers/booked-window-members-helper';
-import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
+import { getDisplayDuration } from '@core/helpers/display-duration-helper';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
@@ -32,6 +32,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.redirectEventSubscription = this.redirectEventEmitter.subscribe(() => this.goToBookingsPage());
     }
 
+    date: Date = new Date();
+
     teamMembers: INewMeetingMember[];
 
     addedMembers: INewMeetingMember[] = [];
@@ -44,13 +46,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     unitOfTime = Object.keys(UnitOfTime);
 
-    duration: number;
+    duration: IDuration;
 
     durationValue: number;
 
     customTimeShown: boolean = false;
-
-    mainContentCustomTimeShown: boolean = false;
 
     meetingForm: FormGroup;
 
@@ -84,26 +84,21 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             unitOfTime: new FormControl(),
             location: new FormControl(),
             duration: new FormControl(),
-            mainContainerDuration: new FormControl(),
-            mainContainerCustomTime: this.mainContainerCustomTimeControl,
-            mainContainerUnitOfTime: new FormControl(),
-            date: new FormControl('', [Validators.required]),
+            date: new FormControl('', [Validators.required, this.validateDateIsInFuture]),
             teamMember: new FormControl(),
         });
         this.patchFormValues();
         this.setValidation();
         this.getTeamMembersOfCurrentUser();
+        [this.duration] = this.durations;
     }
 
     create(form: FormGroup) {
-        if (!this.customTimeShown) {
-            this.durationValue = form.value.duration.time;
-        }
         if (this.meetingForm.valid) {
             const newMeeting: INewMeeting = {
                 name: form.value.meetingName,
                 location: form.value.location,
-                duration: this.durationValue,
+                duration: this.duration.minutes!,
                 startTime: form.value.date,
                 meetingLink: form.value.meetingName,
                 meetingMembers: this.addedMembers,
@@ -120,7 +115,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                     this.reset();
                 });
         } else {
-            this.notificationService.showErrorMessage('All fiels need to be set');
+            this.notificationService.showErrorMessage('All fields need to be set');
         }
 
         this.showConfirmWindow();
@@ -158,35 +153,32 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         });
     }
 
-    showUnshowCustomDuration(form: FormGroup) {
-        const durationValue = form.value.duration;
+    onDurationChange(form: FormGroup) {
+        this.duration = form.value.duration;
 
-        this.customTimeShown = durationValue.time === 'Custom';
-        this.mainContentCustomTimeShown = form.value.mainContainerDuration.time === 'Custom';
+        this.customTimeShown = this.duration.time === 'Custom';
 
         if (this.customTimeShown) {
             this.setValidation();
         } else {
-            this.durationChanged(durationValue.time, durationValue.unitOfTime);
+            this.meetingForm.controls['customTime'].setValue('');
         }
     }
 
     customDurationChanged(form: FormGroup) {
-        const { customTime, unitOfTime } = form.value;
+        const { customTime } = form.value;
 
-        this.durationChanged(customTime, unitOfTime);
+        const unitOfTime: UnitOfTime = form.controls['unitOfTime'].value;
+
+        const customMinutes = unitOfTime === UnitOfTime.Hour ? parseInt(customTime, 10) * 60 : parseInt(customTime, 10);
+
+        this.duration = { time: customTime, unitOfTime: UnitOfTime[unitOfTime], minutes: customMinutes };
     }
 
-    durationChanged(timeValue: string, unitOfTime: string) {
-        if (unitOfTime === 'hour') {
-            this.convertDuration(timeValue);
-        } else {
-            this.duration = parseInt(timeValue, 10);
-        }
-    }
-
-    convertDuration(timeValue: string) {
-        this.duration = parseInt(timeValue, 10) * 60;
+    onMeetingStartChange(startDate: Date) {
+        this.meetingForm.patchValue({
+            date: startDate,
+        });
     }
 
     addMemberToList(value: INewMeetingMember) {
@@ -205,6 +197,10 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.meetingForm.reset();
         this.patchFormValues();
         this.addedMembers = [];
+    }
+
+    onWeekChange(newDate: Date) {
+        this.date = newDate;
     }
 
     private getFilteredOptions() {
@@ -230,7 +226,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             title: 'Meeting Created !',
             titleImagePath: this.bookedIconPath,
             dateTime: this.createdMeeting.startTime,
-            duration: this.duration,
+            duration: this.duration.minutes,
             meetingName: this.createdMeeting.name,
             participants: getMembersForBookedWindow(),
             location: this.createdMeeting.location,
@@ -246,5 +242,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         super.ngOnDestroy();
 
         this.redirectEventSubscription.unsubscribe();
+    }
+
+    private validateDateIsInFuture(control: AbstractControl): ValidationErrors | null {
+        const isDateInPast = new Date(control.value).getTime() < Date.now();
+
+        return isDateInPast ? { invalid: true } : null;
     }
 }
