@@ -53,9 +53,9 @@ namespace EasyMeets.Core.BLL.Services
             _context.Calendars.Add(calendar);
             await _context.SaveChangesAsync();
 
-            var synced = await _context.SyncGoogleCalendar.FirstOrDefaultAsync(x => x.Email == connectedEmail);
+            var synced = await _context.SyncGoogleCalendar.AnyAsync(x => x.Email == connectedEmail);
 
-            if (synced is not null)
+            if (!synced)
             {
                 return true;
             }
@@ -94,9 +94,14 @@ namespace EasyMeets.Core.BLL.Services
                 { "calendarId", email }
             };
 
-            var refreshToken = _context.Calendars.FirstOrDefault(x => x.ConnectedCalendar == email)!.RefreshToken;
+            var refreshToken = _context.Calendars.FirstOrDefault(x => x.ConnectedCalendar == email);
 
-            var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken);
+            if (refreshToken is null)
+            {
+                throw new Exception("Connected email don't have refresh token.");
+            }
+
+            var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken.RefreshToken);
 
             var response = await HttpClientHelper.SendGetRequest<CalendarEventsDTO>($"{_configuration["GoogleCalendar:GetEventsFromGoogleCalendar"]}", queryParams,
                 tokenResultDto.AccessToken);
@@ -167,10 +172,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             _context.CalendarVisibleForTeams.RemoveRange(calendar!.VisibleForTeams);
 
-            foreach (var item in calendar.VisibleForTeams)
-            {
-                await _meetingService.DeleteGoogleCalendarMeetings(item.TeamId);
-            }
+            await RemoveCalendarMeetings(calendar.VisibleForTeams.ToList());
 
             calendar.VisibleForTeams = Array.Empty<CalendarVisibleForTeam>();
 
@@ -187,12 +189,7 @@ namespace EasyMeets.Core.BLL.Services
                 calendar.VisibleForTeams = newVisibleForList;
                 await _context.CalendarVisibleForTeams.AddRangeAsync(newVisibleForList);
 
-                var events = await GetEventsFromGoogleCalendar(calendar.ConnectedCalendar);
-
-                foreach (var item in calendar.VisibleForTeams)
-                {
-                    await _meetingService.AddGoogleCalendarMeetings(item.TeamId, events, calendar.UserId);
-                }
+                await AddMeetingsFromCalendar(calendar.ConnectedCalendar, calendar.VisibleForTeams.ToList(), calendar.UserId);
             }
         }
 
@@ -207,19 +204,28 @@ namespace EasyMeets.Core.BLL.Services
 
             var visibleCalendar = await _context.CalendarVisibleForTeams.Where(x => x.CalendarId == calendar.Id).ToListAsync();
 
+            await RemoveCalendarMeetings(visibleCalendar);
+            await AddMeetingsFromCalendar(email, calendar.VisibleForTeams.ToList(), calendar.UserId);
+
+            return true;
+        }
+
+        private async Task RemoveCalendarMeetings(List<CalendarVisibleForTeam> visibleCalendar)
+        {
             foreach (var item in visibleCalendar)
             {
                 await _meetingService.DeleteGoogleCalendarMeetings(item.TeamId);
             }
+        }
 
+        private async Task AddMeetingsFromCalendar(string email, List<CalendarVisibleForTeam> visibleCalendar, long userId)
+        {
             var events = await GetEventsFromGoogleCalendar(email);
 
-            foreach (var item in calendar.VisibleForTeams)
+            foreach (var item in visibleCalendar)
             {
-                await _meetingService.AddGoogleCalendarMeetings(item.TeamId, events, calendar.UserId);
+                await _meetingService.AddGoogleCalendarMeetings(item.TeamId, events, userId);
             }
-
-            return true;
         }
     }
 }
