@@ -7,10 +7,10 @@ namespace EasyMeets.Core.Common.DTO.Availability
 {
     public class AvailabilitySlotDto : EntityDto<long>
     {
-        public string Name { get; set; } = string.Empty; 
+        public string Name { get; set; } = string.Empty;
         public SlotType Type { get; set; }
         public int Size { get; set; }
-        public bool IsEnabled { get; set; } 
+        public bool IsEnabled { get; set; }
         public string AuthorName { get; set; } = string.Empty;
         public string TeamName { get; set; } = string.Empty;
         public LocationType LocationType { get; set; }
@@ -22,11 +22,10 @@ namespace EasyMeets.Core.Common.DTO.Availability
         public ScheduleDto Schedule { get; set; } = null!;
         public string WelcomeMessage { get; set; } = string.Empty;
         public string Link { get; set; } = string.Empty;
-        public int Frequency { get; set; }
+        public Color Color { get; set; }
         public bool IsVisible { get; set; }
         public string Language { get; set; } = string.Empty;
         public int BookingsPerDay { get; set; }
-        public bool AllowToAddGuests { get; set; }
         public bool PasswordProtectionIsUsed { get; set; }
         public string? PasswordProtection { get; set; }
         public bool TimeZoneVisibility { get; set; }

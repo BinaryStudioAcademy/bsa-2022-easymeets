@@ -154,7 +154,7 @@ erDiagram
     bigint TeamId
     boolean IsEnabled
     boolean IsVisible
-    int Frequency
+    int Color
     nvarchar Language
     int BookingsPerDay
     bool AllowToAddGuests
@@ -168,6 +168,7 @@ erDiagram
   Questions }o--|| AvailabilitySlot : AvailabilitySlotId
   Questions {
     bigint Id
+    bigint Order
     bigint AvailabilitySlotId
     nvarchar QuestionText
     boolean IsMandatory
@@ -184,7 +185,7 @@ erDiagram
     int MaxNumberOfBookings
     int PaddingMeeting
     int MinBookingMeetingDifference
-    int Color
+    int Frequency
     bool IsDeleted
   }
 

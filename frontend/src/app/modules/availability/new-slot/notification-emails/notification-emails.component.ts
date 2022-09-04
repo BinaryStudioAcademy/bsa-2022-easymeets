@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 import { Component, Input } from '@angular/core';
 import { TemplateType } from '@core/enums/template-type.enum';
+import { getNotificationTemplate } from '@core/helpers/notification-templates';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveConfirmationEmailDetails } from '@core/models/save-availability-slot/ISaveConfirmationEmailDetails';
 
@@ -17,22 +18,11 @@ export class NotificationEmailsComponent {
             this._defaultSettings;
     }
 
-    private confirmationSubject = 'Confirmation Email';
-
-    private cancellationSubject = 'Cancellation Email';
-
-    private remindersSubject = 'Reminders Email';
-
-    private followUpSubject = 'Follow-Up Email';
-
-    private body = `Hi {Invitee Full Name} \r\nYou {Event Name} with {My Name} 
-    at {Event Time} on {Event Date} is scheduled\r\n{Event Description}\r\n{Location}\r\n{Questions and Answers}`;
-
     private _defaultSettings: ISaveConfirmationEmailDetails = {
         allowToSend: false,
         type: TemplateType.Confirmation,
-        emailBody: this.body,
-        emailSubject: this.confirmationSubject,
+        emailBody: getNotificationTemplate(TemplateType.Confirmation)?.body,
+        emailSubject: getNotificationTemplate(TemplateType.Confirmation)?.label,
     };
 
     public slot?: IAvailabilitySlot;
@@ -42,10 +32,10 @@ export class NotificationEmailsComponent {
     public settings: ISaveConfirmationEmailDetails;
 
     public navLinks = [
-        { path: 'confirmation', label: this.confirmationSubject },
-        { path: 'cancellation', label: this.cancellationSubject },
-        { path: 'reminders', label: this.remindersSubject },
-        { path: 'follow-up', label: this.followUpSubject },
+        { path: 'confirmation', label: getNotificationTemplate(TemplateType.Confirmation)?.label },
+        { path: 'cancellation', label: getNotificationTemplate(TemplateType.Cancellation)?.label },
+        { path: 'reminders', label: getNotificationTemplate(TemplateType.Reminders)?.label },
+        { path: 'follow-up', label: getNotificationTemplate(TemplateType.FollowUp)?.label },
     ];
 
     public activeTab = this.navLinks[0].path;
@@ -74,6 +64,7 @@ export class NotificationEmailsComponent {
 
     private changeTemplateType(type: TemplateType) {
         this.settings.type = type;
-        this._defaultSettings.type = type;
+        this.settings.emailSubject = getNotificationTemplate(type)?.label;
+        this.settings.emailBody = getNotificationTemplate(type)?.body;
     }
 }

@@ -1,3 +1,4 @@
+import { Color } from '@core/enums/color.enum';
 import { IAdvancedSlotSettings } from '@core/models/IAdvancedSlotSettings';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 import { LocationType } from '@shared/enums/locationType';
@@ -21,10 +22,9 @@ export interface IAvailabilitySlot {
     questions: IQuestion[],
     schedule: ISchedule;
     welcomeMessage: string;
-    frequency: number;
+    color: Color;
     language: string;
     bookingsPerDay: number;
-    allowToAddGuests: boolean;
     passwordProtectionIsUsed: boolean;
     passwordProtection?: string;
     timeZoneVisibility: boolean;

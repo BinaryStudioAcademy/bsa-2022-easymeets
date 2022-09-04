@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
 import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
 
@@ -9,11 +10,13 @@ import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogD
     styleUrls: ['./confirmation-window.component.sass'],
 })
 export class ConfirmationWindowComponent {
-    public title: string;
+    title: string;
 
-    public message: string;
+    message?: string;
 
-    public buttonsOptions: IConfirmButtonOptions[];
+    buttonsOptions: IConfirmButtonOptions[];
+
+    locationTypeMapping = LocationTypeMapping;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData,

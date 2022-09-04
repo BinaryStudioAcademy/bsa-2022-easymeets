@@ -1,37 +1,21 @@
-@import '../../../../styles/color-variables'
+@import 'src/styles/color-variables'
 
-.item
+.bold
+    font-weight: 600
+
+.underlined
+    text-decoration-line: underline
+
+.booker-card
+    color: $pale-sky
     background: white
-    padding: 20px 29px
+    padding: 1.43em 2.07em
     display: flex
     flex-direction: column
     gap: 10px
     border-right: 1px solid rgba($pale-sky, .4)
+    span
+        word-break: break-word
 
-.itemScroll
-    height: 180px
-    border: none
-
-.timeTitle
-    font-style: normal
-    font-weight: 600
+.title
     font-size: 1.15em
-    line-height: 24px
-    color: $pale-sky
-
-.itemText
-    color: rgba($black, 0.5)
-    margin: 0
-    font-size: 1em
-    word-wrap: break-word
-    white-space: pre
-
-.listItemAnswers
-    font-weight: 600
-    font-size: 14px
-    line-height: 20px
-    display: flex
-    align-items: center
-    text-align: center
-    text-decoration-line: underline
-    color: $pale-sky
