@@ -53,7 +53,7 @@ namespace EasyMeets.Core.BLL.Services
             _context.Calendars.Add(calendar);
             await _context.SaveChangesAsync();
 
-            var synced = await _context.SyncGoogleCalendar.Where(x => x.Email == connectedEmail).FirstOrDefaultAsync();
+            var synced = await _context.SyncGoogleCalendar.FirstOrDefaultAsync(x => x.Email == connectedEmail);
 
             if (synced is not null)
             {
@@ -80,7 +80,7 @@ namespace EasyMeets.Core.BLL.Services
             {
                 id = emailName,
                 type = "web_hook",
-                address = Environment.GetEnvironmentVariable("WebHookCalendarUrl")
+                address = _configuration["GoogleCalendar:WebHookCalendarUrl"]
             };
 
             await HttpClientHelper.SendPostTokenRequest<SubscribeEventDTO>($"{_configuration["GoogleCalendar:SubscribeOnEventsCalendar"]}", queryParams, body,
@@ -94,7 +94,7 @@ namespace EasyMeets.Core.BLL.Services
                 { "calendarId", email }
             };
 
-            var refreshToken = _context.Calendars.Where(x => x.ConnectedCalendar == email).FirstOrDefault()!.RefreshToken;
+            var refreshToken = _context.Calendars.FirstOrDefault(x => x.ConnectedCalendar == email)!.RefreshToken;
 
             var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken);
 
@@ -198,7 +198,7 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<bool> SyncChangesFromGoogleCalendar(string email)
         {
-            var calendar = await _context.Calendars.Where(x => x.ConnectedCalendar == email).FirstOrDefaultAsync();
+            var calendar = await _context.Calendars.FirstOrDefaultAsync(x => x.ConnectedCalendar == email);
 
             if (calendar is null)
             {

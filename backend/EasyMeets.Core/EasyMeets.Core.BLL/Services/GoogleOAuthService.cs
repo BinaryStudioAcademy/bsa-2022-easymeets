@@ -31,7 +31,7 @@ public class GoogleOAuthService : IGoogleOAuthService
     {
         var queryParams = new Dictionary<string, string>
         {
-            {"client_id", Environment.GetEnvironmentVariable("google_calendar_client_id")!},
+            {"client_id", _configuration["GoogleCalendar:google_calendar_client_id"]},
             {"redirect_uri", redirectUrl},
             {"response_type", "code"},
             {"scope", scope},
@@ -50,7 +50,7 @@ public class GoogleOAuthService : IGoogleOAuthService
     {
         var authParams = new Dictionary<string, string>
         {
-            {"client_id", Environment.GetEnvironmentVariable("google_calendar_client_id")!},
+            {"client_id", _configuration["GoogleCalendar:google_calendar_client_id"]},
             {"client_secret", Environment.GetEnvironmentVariable("google_calendar_client_secret")!},
             {"code", code},
             {"code_verifier", codeVerifier},
@@ -68,7 +68,7 @@ public class GoogleOAuthService : IGoogleOAuthService
     {
         var authParams = new Dictionary<string, string>
         {
-            {"client_id", Environment.GetEnvironmentVariable("google_calendar_client_id")!},
+            {"client_id", _configuration["GoogleCalendar:google_calendar_client_id"]},
             {"client_secret", Environment.GetEnvironmentVariable("google_calendar_client_secret")!},
             {"grant_type", "refresh_token"},
             {"refresh_token", refreshToken}
