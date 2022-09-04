@@ -1,0 +1,76 @@
+<div class="wrapper">
+    <div class="title-container with-image-container">
+        <div class="mat-title-img">
+            <img src="{{ data.titleImagePath }}" />
+        </div>
+        <div class="mat-title-text">
+            <h1 mat-dialog-title>{{ data.title }}</h1>
+        </div>
+    </div>
+    <div *ngIf="data.message" mat-dialog-content class="message">
+        {{ data.message }}
+    </div>
+    <div *ngIf="data.dateTime && data.duration && data.meetingName" class="booked-container">
+        <div class="created-meeting-options">
+            <div class="option">
+                <div class="option-name">Date</div>
+                <div class="option-value">{{ data.dateTime | date: 'dd MMM y' }}</div>
+            </div>
+            <div class="option">
+                <div class="option-name">Time</div>
+                <div class="option-value">{{ data.dateTime | date: 'HH:mm' }}</div>
+            </div>
+            <div class="option">
+                <div class="option-name">Duration</div>
+                <div class="option-value">{{ data.duration }} min</div>
+            </div>
+            <div class="option">
+                <div class="option-name">Meeting Name</div>
+                <div class="option-value">{{ data.meetingName }}</div>
+            </div>
+        </div>
+        <div *ngIf="data.participants" class="created-meeting-participants">
+            <div class="participants-label">
+                <div class="option-name">Participants: {{ data.participants.length }}</div>
+            </div>
+            <div class="participants-avatars">
+                <ng-container *ngFor="let participant of data.participants">
+                    <ng-container *ngIf="participant.image; else noImageParticipant">
+                        <span class="avatar"><img src="{{ participant.image }}" alt="member" /></span>
+                    </ng-container>
+                    <ng-template #noImageParticipant>
+                        <span class="avatar"><img src="assets/header/avatar-icon.png" alt="member" /></span>
+                    </ng-template>
+                </ng-container>
+                <span class="avatar" *ngIf="data.participants.length > 10">
+                    <div class="left-participants">
+                        <h4>+{{ data.participants.length - maxVisibleMembers }}</h4>
+                    </div>
+                </span>
+            </div>
+        </div>
+        <div *ngIf="data.location && data.link" class="created-meeting-options">
+            <div class="option">
+                <div class="option-name">Location</div>
+                <div class="option-value">{{ locationTypeMapping(data.location) }}</div>
+            </div>
+            <div class="option">
+                <div class="option-name">Link</div>
+                <div class="option-value-link">
+                    <img src="assets/copy_icon.png" />
+                    <div class="option-value link-value">{{ data.link }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div mat-dialog-actions class="mat-dialog-buttons">
+        <button
+            *ngFor="let buttonOptions of data.buttonsOptions"
+            [ngClass]="buttonOptions.class"
+            mat-flat-button
+            (click)="onClick(buttonOptions.onClickEvent)">
+            {{ buttonOptions.label }}
+        </button>
+    </div>
+</div>
