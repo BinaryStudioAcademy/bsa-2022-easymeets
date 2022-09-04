@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { BookingWindowComponent } from '@shared/components/booking-window/booking-window.component';
 import { ConfirmationWindowComponent } from '@shared/components/confirmation-window/confirmation-window.component';
 import { UnsavedChangesComponent } from '@shared/components/unsaved-changes/unsaved-changes.component';
 import { confirmLeaveTitle, leavePageMessage } from '@shared/constants/shared-messages';
@@ -14,6 +15,14 @@ export class ConfirmationWindowService {
     openConfirmDialog(data: IConfirmDialogData) {
         return this.dialog
             .open(ConfirmationWindowComponent, {
+                data,
+            })
+            .afterClosed();
+    }
+
+    openBookingDialog(data: IConfirmDialogData) {
+        return this.dialog
+            .open(BookingWindowComponent, {
                 data,
             })
             .afterClosed();

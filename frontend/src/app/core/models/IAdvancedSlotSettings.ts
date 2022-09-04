@@ -1,5 +1,4 @@
 import { ActivityType } from '@core/enums/activity-type.enum';
-import { Color } from '@core/enums/color.enum';
 
 export interface IAdvancedSlotSettings {
     activityType: ActivityType;
@@ -8,5 +7,5 @@ export interface IAdvancedSlotSettings {
     maxNumberOfBookings: number;
     paddingMeeting: number;
     minBookingMeetingDifference: number;
-    color: Color;
+    frequency: number;
 }

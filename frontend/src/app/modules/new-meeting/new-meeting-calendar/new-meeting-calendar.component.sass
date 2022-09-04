@@ -1,0 +1,15 @@
+@import 'src/styles/color-variables.sass'
+@import 'src/styles/screen-variables.sass'
+
+.calendar-wrapper
+    height: 80%
+    overflow: auto
+    margin-bottom: 20px
+    @media screen and ( max-width: $desktop-min-width)
+        width: 95%
+    .calendar-event span
+        color: $midnight
+        position: absolute
+        left: 50%
+        top: 50%
+        transform: translate(-50%, -50%)
