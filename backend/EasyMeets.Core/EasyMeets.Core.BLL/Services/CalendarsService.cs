@@ -94,12 +94,7 @@ namespace EasyMeets.Core.BLL.Services
                 { "calendarId", email }
             };
 
-            var refreshToken = _context.Calendars.FirstOrDefault(x => x.ConnectedCalendar == email);
-
-            if (refreshToken is null)
-            {
-                throw new Exception("Connected email don't have refresh token.");
-            }
+            var refreshToken = _context.Calendars.FirstOrDefault(x => x.ConnectedCalendar == email) ?? throw new Exception("Connected email don't have refresh token.");
 
             var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken.RefreshToken);
 
