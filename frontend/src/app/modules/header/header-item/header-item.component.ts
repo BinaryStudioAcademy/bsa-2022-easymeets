@@ -39,15 +39,13 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
         });
 
         this.teamService.currentTeamEmitted$.pipe(this.untilThis).subscribe((currentTeamId) => {
-            this.teamService.getCurrentUserTeams().subscribe((teams) => {
-                this.teams = teams;
-
-                if (!currentTeamId && teams.length) {
-                    this.teamService.emitCurrentTeamChange(teams[0].id);
-                } else {
-                    this.currentTeam = this.teams.find((team) => team.id === currentTeamId);
-                }
-            });
+            this.teamService
+                .getCurrentUserTeams()
+                .pipe(this.untilThis)
+                .subscribe((teams) => {
+                    this.teams = teams;
+                    this.defineCurrentTeam(teams, currentTeamId);
+                });
         });
 
         this.teamService.teamStateChangeEmitted$.subscribe(
@@ -89,5 +87,13 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
         this.router.navigateByUrl(
             this.currentTeam ? `/settings/teams/edit/${this.currentTeam?.id}` : '/settings/teams/new',
         );
+    }
+
+    private defineCurrentTeam(teams: ITeam[], currentTeamId: number | undefined) {
+        if (!currentTeamId && teams.length) {
+            this.teamService.emitCurrentTeamChange(teams[0].id);
+        } else {
+            this.currentTeam = this.teams.find((team) => team.id === currentTeamId);
+        }
     }
 }

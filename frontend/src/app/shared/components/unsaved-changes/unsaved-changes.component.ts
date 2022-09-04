@@ -8,16 +8,13 @@ import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogD
     styleUrls: ['./unsaved-changes.component.sass'],
 })
 export class UnsavedChangesComponent {
-    title: string;
-
-    message: string;
+    dialogData: IConfirmDialogData;
 
     constructor(
         public dialogRef: MatDialogRef<UnsavedChangesComponent>,
         @Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData,
     ) {
-        this.title = data.title;
-        this.message = data.message;
+        this.dialogData = data;
     }
 
     onConfirm(): void {
