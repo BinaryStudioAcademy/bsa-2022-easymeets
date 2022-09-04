@@ -1,10 +1,10 @@
 export enum Color {
-    Black,
-    Red,
-    Orange,
-    Green,
-    Azure,
-    Blue,
-    Purple,
-    Cherry
+    Black = 'Black',
+    Red = 'Red',
+    Orange = 'Orange',
+    Green = 'Green',
+    Azure = 'Azure',
+    Blue = 'Blue',
+    Purple = 'Purple',
+    Cherry = 'Cherry',
 }

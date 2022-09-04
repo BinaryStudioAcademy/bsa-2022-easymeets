@@ -9,7 +9,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
     public sealed class AvailabilityProfile : Profile
     {
         public AvailabilityProfile()
-        { 
+        {
             CreateMap<AvailabilitySlot, AvailabilitySlotDto>()
                 .ForMember(dest => dest.Members, opt => opt.MapFrom(src => src.SlotMembers.Select(x => x.User)))
                 .ForMember(dest => dest.EmailTemplateSettings, opt => opt.MapFrom(src => src.EmailTemplates))
@@ -23,7 +23,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(s => s.Link, opt => opt.MapFrom(src => src.EventDetails!.Link))
                 .ForMember(s => s.Type, opt => opt.MapFrom(src => src.GeneralDetails!.Type))
                 .ForMember(s => s.Size, opt => opt.MapFrom(src => src.GeneralDetails!.Size))
-                .ForMember(s => s.Frequency, opt => opt.MapFrom(src => src.GeneralDetails!.Frequency))
+                .ForMember(s => s.Color, opt => opt.MapFrom(src => src.GeneralDetails!.Color))
                 .ForMember(s => s.IsEnabled, opt => opt.MapFrom(src => src.GeneralDetails!.IsEnabled))
                 .ForMember(s => s.IsVisible, opt => opt.MapFrom(src => src.GeneralDetails!.IsVisible))
                 .ForMember(s => s.Language, opt => opt.MapFrom(src => src.EventDetails!.Language))
@@ -33,7 +33,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(s => s.PasswordProtection, opt => opt.MapFrom(src => src.EventDetails!.PasswordProtection))
                 .ForMember(s => s.TimeZoneVisibility, opt => opt.MapFrom(src => src.EventDetails!.TimeZoneVisibility))
                 .ForMember(s => s.Questions, opt => opt.Ignore());
-                
+
             CreateMap<SaveAdvancedSlotSettingsDto, AdvancedSlotSettings>();
             CreateMap<AdvancedSlotSettings, AdvancedSlotSettingsDto>();
             CreateMap<AdvancedSlotSettingsDto, AdvancedSlotSettings>();
