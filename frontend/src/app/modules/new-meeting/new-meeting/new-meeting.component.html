@@ -63,7 +63,9 @@
                             </mat-select>
                         </div>
                         <div *ngIf="customTimeControl.invalid && customTimeControl.touched">
-                            <small *ngIf="customTimeShown && customTimeControl.errors?.['required']">This field is required.</small>
+                            <small *ngIf="customTimeShown && customTimeControl.errors?.['required']">
+                                This field is required.
+                            </small>
                             <small *ngIf="customTimeControl.errors?.['pattern']">Invalid numbers.</small>
                         </div>
                     </div>
@@ -73,7 +75,7 @@
                         <p class="location-label">Location</p>
                         <mat-select formControlName="location" class="select-input">
                             <mat-option *ngFor="let location of locations" [value]="location">
-                                {{locationTypeMapping(location)}}
+                                {{ location }}
                             </mat-option>
                         </mat-select>
                     </div>
