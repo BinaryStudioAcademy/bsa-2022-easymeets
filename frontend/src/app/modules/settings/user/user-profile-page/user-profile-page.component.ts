@@ -31,8 +31,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         super();
     }
 
-    public clickEvent = new EventEmitter<void>();
-
     public imageUrl?: string;
 
     public user: IUser;
@@ -166,7 +164,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                 {
                     class: 'confirm-accept-button',
                     label: 'Ok',
-                    onClickEvent: this.clickEvent,
+                    onClickEvent: new EventEmitter<void>(),
                 },
             ],
             title: 'Oops...',
