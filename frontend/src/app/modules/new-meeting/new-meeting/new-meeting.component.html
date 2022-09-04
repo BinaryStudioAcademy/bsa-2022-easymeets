@@ -105,13 +105,15 @@
             <div class="item">
                 <div class="team-members-container">
                     <p class="team-members-label">Team members {{ addedMembers.length }}:</p>
-                    <div class="member-info-container" *ngFor="let member of addedMembers">
-                        <div class="member-info">
-                            <p>{{ member.name }}</p>
-                            <i class="fa-solid fa-xmark fa-lg cancel-icon"
-                            (click)="removeMemberToList(member.id)"></i>
+                    <div class="member-info-container">
+                        <div *ngFor="let member of teamMembers">
+                            <div class="member-info">
+                                <p>{{ member.name }}</p>
+                                <i class="fa-solid fa-xmark fa-lg cancel-icon"
+                                (click)="removeMemberToList(member.id)"></i>
+                            </div>
+                            <mat-divider></mat-divider>
                         </div>
-                        <mat-divider></mat-divider>
                     </div>
                 </div>
             </div>
