@@ -16,22 +16,22 @@ import { TimeZone } from '@shared/enums/timeZone';
     styleUrls: ['./external-booking-choose-time-page.component.sass'],
 })
 export class ExternalBookingTimeComponent extends BaseComponent implements OnInit {
-    slotId: bigint;
+    link: string;
 
-    slot: IAvailabilitySlot;
+    slot: IAvailabilitySlot | null;
 
     @Output() selectedDurationAndLocationEvent = new EventEmitter<{
         duration: number;
         location: LocationType;
     }>();
 
-    // public daysWithTimeRange: IDayTimeSlot[] = getExternalBookingTimeSlotsItems();
-
     @Input() selectedMeetingDuration: number;
 
     @Output() selectedTimeAndDateEvent = new EventEmitter<{ date: Date; timeFinish: Date }>();
 
     public slotsCount: Array<object>;
+
+    public currentDay: Date;
 
     public scheduleItems: IScheduleItemReceive[];
 
@@ -58,23 +58,17 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     ngOnInit(): void {
         this.calendarWeek = this.getCurrentWeek();
         this.route.queryParams.subscribe((params) => {
-            this.slotId = params['id'];
+            this.link = params['link'];
         });
 
         this.availabilitySlotService
-            .getSlotById(this.slotId)
+            .getByLink(this.link)
             .pipe(this.untilThis)
             .subscribe((resp) => {
                 this.slot = resp;
-                this.addDurationAndLocation(this.slot.size, this.slot.locationType);
-                this.selectedMeetingDuration = this.slot.size;
-            });
-
-        this.availabilitySlotService
-            .getSlotScheduleItems(this.slotId)
-            .pipe(this.untilThis)
-            .subscribe((resp) => {
-                this.scheduleItems = changeScheduleItemsDate(resp);
+                this.addDurationAndLocation(this.slot!.size, this.slot!.locationType);
+                this.selectedMeetingDuration = this.slot!.size;
+                this.scheduleItems = changeScheduleItemsDate(resp!.schedule!.scheduleItems);
                 this.slotsCount = this.slotsCounter();
             });
     }
@@ -100,21 +94,34 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     private getCurrentWeek(): ICalendarWeek {
         const current = new Date();
+        let currentMonth = current.getMonth();
         const first = current.getDate() - current.getDay();
         const last = first + 6;
 
-        const firstDay: Date = new Date(current.setDate(first));
-        const lastDay: Date = new Date(current.setDate(last));
+        const firstDay: Date = new Date(new Date().setDate(first));
+        const lastDay: Date = new Date(new Date().setDate(last));
+
+        if (first < 0) {
+            lastDay.setMonth(currentMonth);
+            currentMonth--;
+            firstDay.setMonth(currentMonth);
+        }
 
         const week: ICalendarWeek = { firstDay, lastDay };
 
         return week;
     }
 
-    public AddTimeAndDate(index: number): void {
-        const dateNumber = this.theEarliestStartOfTimeRanges.getTime() + this.selectedMeetingDuration * index * 60000;
-        const date = new Date(dateNumber);
-        const timeFinish = new Date(date.getTime() + this.selectedMeetingDuration * 60000);
+    public AddTimeAndDate(timeIndex: number, dayIndex: number): void {
+        const selectedDay = this.calendarWeek.firstDay.getTime() + dayIndex * 24 * 60 * 60 * 1000;
+        const selectedTime =
+            this.theEarliestStartOfTimeRanges.getTime() + this.selectedMeetingDuration * timeIndex * 60000;
+        const date = new Date(selectedDay);
+        const time = new Date(selectedTime);
+
+        date.setHours(time.getHours());
+        date.setMinutes(time.getSeconds());
+        const timeFinish = new Date(time.getTime() + this.selectedMeetingDuration * 60000);
 
         this.selectedTimeAndDateEvent.emit({ date, timeFinish });
     }
@@ -138,10 +145,23 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     }
 
     public isTodayDate(date: Date, daysToAdd: number = 0): boolean {
+        const current = new Date();
+        let currentMonth = current.getMonth();
+        const first = current.getDate() - current.getDay();
+
+        const firstDay: Date = new Date(new Date().setDate(first));
+
+        if (first < 0) {
+            currentMonth--;
+            firstDay.setMonth(currentMonth);
+        }
+
+        const newDate = new Date(firstDay.setDate(date.getDate() + daysToAdd));
+
         return (
-            date.getDate() + daysToAdd === this.nowDate.getDate() &&
-            date.getMonth() === this.nowDate.getMonth() &&
-            date.getFullYear() === this.nowDate.getFullYear()
+            newDate.getDate() === this.nowDate.getDate() &&
+            newDate.getMonth() === this.nowDate.getMonth() &&
+            newDate.getFullYear() === this.nowDate.getFullYear()
         );
     }
 
@@ -153,11 +173,24 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     }
 
     public isLastDate(date: Date, daysToAdd: number = 0): boolean {
+        const firstWeekDay = this.calendarWeek.firstDay;
+        let currentMonth = firstWeekDay.getMonth();
+        const first = firstWeekDay.getDate() - firstWeekDay.getDay();
+
+        const firstDay: Date = new Date(firstWeekDay.setDate(first));
+
+        if (first < 0) {
+            currentMonth--;
+            firstDay.setMonth(currentMonth);
+        }
+
+        const newDate = new Date(firstDay.setDate(date.getDate() + daysToAdd));
+
         return (
-            (date.getDate() + daysToAdd >= this.nowDate.getDate() &&
-                date.getMonth() === this.nowDate.getMonth() &&
-                date.getFullYear() === this.nowDate.getFullYear()) ||
-            (date.getMonth() > this.nowDate.getMonth() && date.getFullYear() >= this.nowDate.getFullYear())
+            (newDate.getDate() >= this.nowDate.getDate() &&
+                newDate.getMonth() === this.nowDate.getMonth() &&
+                newDate.getFullYear() === this.nowDate.getFullYear()) ||
+            (newDate.getMonth() > this.nowDate.getMonth() && newDate.getFullYear() >= this.nowDate.getFullYear())
         );
     }
 

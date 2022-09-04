@@ -262,20 +262,6 @@ namespace EasyMeets.Core.BLL.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<ScheduleItemDto>> GetSlotScheduleItems(long slotId)
-        {
-            var slot = await _context.AvailabilitySlots
-                .Include(s => s.Schedule)
-                .ThenInclude(sc => sc.ScheduleItems)
-                .FirstOrDefaultAsync(el => el.Id == slotId);
-
-            if (slot is null)
-            {
-                throw new KeyNotFoundException("Availability slot doesn't exist");
-            }
-
-            return _mapper.Map<List<ScheduleItemDto>>(slot.Schedule.ScheduleItems);
-
         public async Task<AvailabilitySlotDto?> GetByLink(string link)
         {
             var slot = await GetByLinkInternal(link);

@@ -49,7 +49,7 @@
         <div class="options">
             <div class="link">
                 <img src="assets/copy_icon.png" class="icon" />
-                <a [routerLink]="['/external-booking/choose-time/' + slot.link]" [queryParams]="{ id: slot.id }">
+                <a [routerLink]="['/external-booking/choose-time/' + slot.link]" [queryParams]="{ link: slot.link }">
                     {{ slot.link }}
                 </a>
             </div>

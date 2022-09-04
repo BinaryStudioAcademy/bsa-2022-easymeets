@@ -18,6 +18,4 @@ export interface IExternalBookingSideMenu {
     timeFinish?: Date;
 
     date?: Date;
-
-    selectedSlotId?: bigint;
 }

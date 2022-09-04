@@ -58,12 +58,6 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return NoContent();
         }
 
-        [HttpGet("slot-schedule/{slotId}")]
-        public async Task<ActionResult<List<ScheduleItemDto>>> GetSlotScheduleItems(long slotId)
-        {
-            return Ok(await _availabilityService.GetSlotScheduleItems(slotId));
-        }
-
         [HttpGet("byLink/{link}")]
         public async Task<ActionResult<AvailabilitySlotDto?>> GetByLink(string link)
         {

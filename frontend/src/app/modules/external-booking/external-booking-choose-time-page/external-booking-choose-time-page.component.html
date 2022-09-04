@@ -47,7 +47,7 @@
                         class="enabled"
                         *ngIf="isLastDate(this.calendarWeek.firstDay, j); else defaultTimeSlotPreviousDate"
                         [routerLink]="['/external-booking/confirm-booking']"
-                        (click)="AddTimeAndDate(i)">
+                        (click)="AddTimeAndDate(i, j)">
                         {{
                             theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60000 | date: 'HH:mm'
                         }}
