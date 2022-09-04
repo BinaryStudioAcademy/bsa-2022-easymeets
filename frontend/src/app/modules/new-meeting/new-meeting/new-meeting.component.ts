@@ -187,9 +187,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         this.memberFilterCtrl.setValue('');
     }
 
-    removeMemberToList() {
-        const memberId = parseInt(this.elementRef.nativeElement.id, 10);
-
+    removeMemberToList(memberId: number) {
         this.addedMembers = this.addedMembers.filter((member) => member.id !== memberId);
     }
 

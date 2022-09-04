@@ -108,7 +108,7 @@
                             <p>{{ member.name }}</p>
                             <i class="fa-solid fa-xmark fa-lg cancel-icon"
                             #memberId
-                            (click)="removeMemberToList()"
+                            (click)="removeMemberToList(member.id)"
                             id="{{member.id}}"></i>
                         </div>
                         <mat-divider></mat-divider>
