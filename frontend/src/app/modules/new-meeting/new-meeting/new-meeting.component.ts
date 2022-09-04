@@ -97,8 +97,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     }
 
     create(form: FormGroup) {
-        // eslint-disable-next-line no-debugger
-        debugger;
         if (this.meetingForm.valid) {
             const newMeeting: INewMeeting = {
                 name: form.value.meetingName,
@@ -219,8 +217,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     }
 
     showConfirmWindow() {
-        // eslint-disable-next-line no-debugger
-        debugger;
         this.confirmationWindowService.openBookingDialog({
             buttonsOptions: [
                 {
