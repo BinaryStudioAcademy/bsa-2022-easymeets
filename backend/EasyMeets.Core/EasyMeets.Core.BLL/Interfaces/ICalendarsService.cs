@@ -10,5 +10,5 @@ public interface ICalendarsService
     Task<bool> DeleteCalendar(long id);
     Task<bool> CreateGoogleCalendarConnection(TokenResultDto tokenResultDto, UserDto currentUser);
     Task SubscribeOnCalendarChanges(TokenResultDto tokenResultDto, string connectedEmail);
-    Task<List<EventItemDTO>> GetEventsFromGoogleCalendar(TokenResultDto tokenResultDto, string email);
+    Task<List<EventItemDTO>> GetEventsFromGoogleCalendar(string email);
 }
