@@ -1,16 +1,15 @@
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { getMembersForBookedWindow } from '@core/helpers/booked-window-members-helper';
-import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
-import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { getDisplayDuration } from '@core/helpers/display-duration-helper';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { NotificationService } from '@core/services/notification.service';
+import { TeamService } from '@core/services/team.service';
 import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
@@ -21,16 +20,20 @@ import { map, Observable, startWith, Subscription } from 'rxjs';
     templateUrl: './new-meeting.component.html',
     styleUrls: ['./new-meeting.component.sass'],
 })
+
 export class NewMeetingComponent extends BaseComponent implements OnInit, OnDestroy {
     constructor(
         private newMeetingService: NewMeetingService,
         public notificationService: NotificationService,
         private confirmationWindowService: ConfirmationWindowService,
         private router: Router,
+        private teamService: TeamService,
     ) {
         super();
         this.redirectEventSubscription = this.redirectEventEmitter.subscribe(() => this.goToBookingsPage());
     }
+
+    date: Date = new Date();
 
     teamMembers: INewMeetingMember[];
 
@@ -44,13 +47,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     unitOfTime = Object.keys(UnitOfTime);
 
-    duration: number;
+    filterValue = '';
 
-    durationValue: number;
+    duration: IDuration;
 
     customTimeShown: boolean = false;
-
-    mainContentCustomTimeShown: boolean = false;
 
     meetingForm: FormGroup;
 
@@ -75,8 +76,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     createdMeeting: INewMeeting;
 
-    locationTypeMapping = LocationTypeMapping;
-
     ngOnInit(): void {
         this.meetingForm = new FormGroup({
             meetingName: this.meetingNameControl,
@@ -84,28 +83,27 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             unitOfTime: new FormControl(),
             location: new FormControl(),
             duration: new FormControl(),
-            mainContainerDuration: new FormControl(),
-            mainContainerCustomTime: this.mainContainerCustomTimeControl,
-            mainContainerUnitOfTime: new FormControl(),
-            date: new FormControl('', [Validators.required]),
+            date: new FormControl('', [Validators.required, this.validateDateIsInFuture]),
             teamMember: new FormControl(),
         });
         this.patchFormValues();
         this.setValidation();
-        this.getTeamMembersOfCurrentUser();
+
+        this.teamService.currentTeamEmitted$
+            .subscribe(teamId => {
+                this.getTeamMembersOfCurrentUser(teamId);
+            });
+        [this.duration] = this.durations;
     }
 
     create(form: FormGroup) {
-        if (!this.customTimeShown) {
-            this.durationValue = form.value.duration.time;
-        }
         if (this.meetingForm.valid) {
             // eslint-disable-next-line no-debugger
             debugger;
             const newMeeting: INewMeeting = {
                 name: form.value.meetingName,
-                location: form.value.location,
-                duration: this.durationValue,
+                locationType: form.value.location,
+                duration: this.duration.minutes!,
                 startTime: form.value.date,
                 meetingLink: form.value.meetingName,
                 meetingMembers: this.addedMembers,
@@ -118,19 +116,18 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 .saveNewMeeting(newMeeting)
                 .pipe(this.untilThis)
                 .subscribe(() => {
-                    this.notificationService.showSuccessMessage('New meeting was created successfully.');
                     this.reset();
                 });
         } else {
-            this.notificationService.showErrorMessage('All fiels need to be set');
+            this.notificationService.showErrorMessage('All fields need to be set');
         }
 
         this.showConfirmWindow();
     }
 
-    getTeamMembersOfCurrentUser() {
+    getTeamMembersOfCurrentUser(teamId?: number) {
         this.newMeetingService
-            .getTeamMembersOfCurrentUser()
+            .getTeamMembersOfCurrentUser(teamId)
             .pipe(this.untilThis)
             .subscribe((resp) => {
                 this.teamMembers = resp;
@@ -160,35 +157,32 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         });
     }
 
-    showUnshowCustomDuration(form: FormGroup) {
-        const durationValue = form.value.duration;
+    onDurationChange(form: FormGroup) {
+        this.duration = form.value.duration;
 
-        this.customTimeShown = durationValue.time === 'Custom';
-        this.mainContentCustomTimeShown = form.value.mainContainerDuration.time === 'Custom';
+        this.customTimeShown = this.duration.time === 'Custom';
 
         if (this.customTimeShown) {
             this.setValidation();
         } else {
-            this.durationChanged(durationValue.time, durationValue.unitOfTime);
+            this.meetingForm.controls['customTime'].setValue('');
         }
     }
 
     customDurationChanged(form: FormGroup) {
-        const { customTime, unitOfTime } = form.value;
+        const { customTime } = form.value;
 
-        this.durationChanged(customTime, unitOfTime);
+        const unitOfTime: UnitOfTime = form.controls['unitOfTime'].value;
+
+        const customMinutes = unitOfTime === UnitOfTime.Hour ? parseInt(customTime, 10) * 60 : parseInt(customTime, 10);
+
+        this.duration = { time: customTime, unitOfTime: UnitOfTime[unitOfTime], minutes: customMinutes };
     }
 
-    durationChanged(timeValue: string, unitOfTime: string) {
-        if (unitOfTime === 'hour') {
-            this.convertDuration(timeValue);
-        } else {
-            this.duration = parseInt(timeValue, 10);
-        }
-    }
-
-    convertDuration(timeValue: string) {
-        this.duration = parseInt(timeValue, 10) * 60;
+    onMeetingStartChange(startDate: Date) {
+        this.meetingForm.patchValue({
+            date: startDate,
+        });
     }
 
     addMemberToList(value: INewMeetingMember) {
@@ -199,8 +193,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.memberFilterCtrl.setValue('');
     }
 
-    removeMemberToList(form: FormGroup) {
-        this.addedMembers = this.addedMembers.filter((member) => member.id !== form.value.teamMember.id);
+    removeMemberToList(memberId: number) {
+        this.addedMembers = this.addedMembers.filter((member) => member.id !== memberId);
     }
 
     reset() {
@@ -209,13 +203,17 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.addedMembers = [];
     }
 
+    onWeekChange(newDate: Date) {
+        this.date = newDate;
+    }
+
     private getFilteredOptions() {
         this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
             startWith(''),
             map((value) => {
-                const filterValue = value.toLowerCase() || '';
+                this.filterValue = (typeof value === 'string') ? value.toLowerCase() : value.name;
 
-                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(filterValue));
+                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(this.filterValue));
             }),
         );
     }
@@ -232,10 +230,10 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             title: 'Meeting Created !',
             titleImagePath: this.bookedIconPath,
             dateTime: this.createdMeeting.startTime,
-            duration: this.duration,
+            duration: this.duration.minutes,
             meetingName: this.createdMeeting.name,
-            participants: getMembersForBookedWindow(),
-            location: this.createdMeeting.location,
+            participants: this.addedMembers,
+            location: this.createdMeeting.locationType,
             link: this.createdMeeting.meetingLink,
         });
     }
@@ -248,5 +246,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         super.ngOnDestroy();
 
         this.redirectEventSubscription.unsubscribe();
+    }
+
+    private validateDateIsInFuture(control: AbstractControl): ValidationErrors | null {
+        const isDateInPast = new Date(control.value).getTime() < Date.now();
+
+        return isDateInPast ? { invalid: true } : null;
     }
 }
