@@ -1,12 +1,45 @@
+@import '../../../../styles/color-variables'
+
 .wrapper
-    width: 400px
+    width: 420px
     display: flex
     flex-direction: column
     align-items: center
     padding: 20px 0
+    .title-container
+        display: flex
+        flex-direction: row
+        .mat-title-text
+            .mat-dialog-title
+                font-family: 'Inter'
+                font-style: normal
+                font-weight: 900
+                font-size: 22px
+                line-height: 146%
+    .message
+        font-family: 'Inter'
+        font-style: normal
+        font-weight: 400
+        font-size: 16px
+        padding-bottom: 20px
+        text-align: center
+    .mat-dialog-buttons
+        padding-top: 20px
 
 .mat-flat-button
     height: 40px
-    width: 250px
+    width: 420px
     margin: 5px
-    border-radius: 20px
+    background: $midnight
+    border-radius: 24px
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
+    font-size: 14px
+    line-height: 146%
+    color: $white
+
+hr
+    width: 420px
+    border: 1px solid $header-border-color
+    background-color: $header-border-color

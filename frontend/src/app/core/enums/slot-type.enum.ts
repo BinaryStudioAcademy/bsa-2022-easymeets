@@ -1,4 +1,4 @@
 export enum SlotType {
-    Personal,
-    Team
+    Personal = 'Personal',
+    Team = 'Team',
 }
