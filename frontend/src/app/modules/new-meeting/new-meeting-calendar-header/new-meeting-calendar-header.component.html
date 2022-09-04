@@ -1,0 +1,13 @@
+<div class="calendar-header">
+    <div class="date-arrows">
+        <button mat-icon-button type="button" (click)="previousWeek()">
+            <i class="fa-solid fa-angle-left fa-xl"></i>
+        </button>
+        <button mat-icon-button type="button" (click)="nextWeek()">
+            <i class="fa-solid fa-angle-right fa-xl"></i>
+        </button>
+    </div>
+    <div class="week-range">
+        {{ weekRange }}
+    </div>
+</div>

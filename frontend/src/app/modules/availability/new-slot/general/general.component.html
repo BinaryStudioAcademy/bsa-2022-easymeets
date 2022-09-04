@@ -1,20 +1,6 @@
 <form>
     <div class="main-settings">
-        <div class="inputs-grid">
-            <div class="input-container">
-                <p class="input-description">Slot size (Meeting Duration)</p>
-                <select [(ngModel)]="settings.size" name="slotSize">
-                    <option *ngFor="let slotSize of slotSizes" [value]="slotSize">{{ slotSize }} min</option>
-                </select>
-            </div>
-            <div class="input-container">
-                <p class="input-description">Frequency of Available Slots</p>
-                <select [(ngModel)]="settings.frequency" name="slotFrequency">
-                    <option *ngFor="let slotFrequency of slotsFrequencies" [value]="slotFrequency">
-                        {{ slotFrequency }} hours
-                    </option>
-                </select>
-            </div>
+        <div class="inputs-left-container">
             <div class="input-container">
                 <p class="input-description">Meeting Name</p>
                 <input
@@ -22,95 +8,40 @@
                     name="meetingName"
                     #name="ngModel"
                     type="text"
-                    matInput
                     required
                     maxlength="50"
-                    [pattern]="meetingNameInputPattern" />
+                    [pattern]="meetingNameInputPattern"/>
                 <div *ngIf="name.invalid && name.touched" class="error">
                     <div *ngIf="name.errors?.['required']">Field is required</div>
                     <div *ngIf="name.errors?.['pattern']">Input field accepts only text, numbers, symbols -'</div>
                 </div>
             </div>
             <div class="input-container">
-                <p class="input-description">Meeting Location</p>
-                <select [(ngModel)]="settings.locationType" name="meetingLocation">
-                    <option *ngFor="let meetingLocation of locations" [value]="meetingLocation">
+                <p class="input-description">Duration</p>
+                <mat-select [(ngModel)]="settings.size" name="slotSize">
+                    <mat-option *ngFor="let slotSize of slotSizes" [value]="slotSize">{{ slotSize }} min</mat-option>
+                </mat-select>
+            </div>
+            <div class="input-container">
+                <p class="input-description">Location</p>
+                <mat-select [(ngModel)]="settings.locationType" name="meetingLocation">
+                    <mat-option *ngFor="let meetingLocation of locations" [value]="meetingLocation">
                         {{ locationTypeMapping(meetingLocation) }}
-                    </option>
-                </select>
+                    </mat-option>
+                </mat-select>
             </div>
         </div>
-    </div>
-    <mat-divider></mat-divider>
-    <div class="show-advanced-container">
-        <mat-slide-toggle [checked]="addAdvanced" (change)="addAdvanced = !addAdvanced"></mat-slide-toggle>
-        <p class="advanced-settings-label">Advanced settings</p>
-    </div>
-    <div class="advanced-settings" [ngClass]="{ disabled: !addAdvanced }">
-        <div class="inputs-grid">
-            <div class="input-container">
-                <p class="input-description">Slot Activity Time</p>
-                <mat-radio-group
-                    [(ngModel)]="advancedSettings.activityType"
-                    name="activityType"
-                    [disabled]="!addAdvanced">
-                    <mat-radio-button
-                        *ngFor="let slotActivity of this.slotActivityOptionsEnums; index as i"
-                        [value]="slotActivity"
-                        >{{ this.slotActivityOptions[i] }}</mat-radio-button
-                    >
-                </mat-radio-group>
-                <input
-                    [(ngModel)]="advancedSettings.days"
-                    name="slotActivityTime"
-                    #days="ngModel"
-                    type="text"
-                    matInput
-                    [pattern]="naturalNumberInputPattern"
-                    maxlength="3" />
-                <div *ngIf="days.invalid && !days.pristine" class="error">
-                    <div *ngIf="days.errors?.['pattern']">Input field accepts only natural numbers</div>
-                </div>
+        <div class="inputs-right-container up">
+            <div class="checkbox-container">
+                <mat-checkbox
+                    color="primary"
+                    name="hideAvailabilitySlots"
+                    [(ngModel)]="settings.isVisible">
+                </mat-checkbox>
+                <span class="input-message">Hide this Availability Slots Card from Common Booking Page</span>
             </div>
             <div class="input-container">
-                <p class="input-description">Max. Number of Bookings per One Slot</p>
-                <input
-                    [(ngModel)]="advancedSettings.maxNumberOfBookings"
-                    name="maxNumberOfBookings"
-                    #maxNumberOfBookings="ngModel"
-                    type="text"
-                    matInput
-                    [disabled]="!addAdvanced"
-                    [pattern]="naturalNumberInputPattern"
-                    maxlength="3" />
-
-                <div *ngIf="maxNumberOfBookings.invalid && !maxNumberOfBookings.pristine" class="error">
-                    <div *ngIf="maxNumberOfBookings.errors?.['pattern']">Input field accepts only natural numbers</div>
-                </div>
-            </div>
-            <div class="input-container">
-                <p class="input-description">Paddings Before & After Meeting</p>
-                <select [(ngModel)]="advancedSettings.paddingMeeting" name="meetingPadding" [disabled]="!addAdvanced">
-                    <option *ngFor="let meetingPadding of meetingPaddings" [value]="meetingPadding">
-                        {{ meetingPadding }} min
-                    </option>
-                </select>
-            </div>
-            <div class="input-container">
-                <p class="input-description">Bookers can't schedule before Meeting start</p>
-                <select
-                    [(ngModel)]="advancedSettings.minBookingMeetingDifference"
-                    name="bookingMeetingDifference"
-                    [disabled]="!addAdvanced">
-                    <option
-                        *ngFor="let bookingMeetingDifference of minBookingMeetingDifferences"
-                        [value]="bookingMeetingDifference">
-                        {{ bookingMeetingDifference }} hours
-                    </option>
-                </select>
-            </div>
-            <div class="input-container">
-                <p class="input-description">Availability Slots Card Color</p>
+                <p class="input-description">Card Color on Dashboard</p>
                 <div class="colorsRow">
                     <div class="colorButton" *ngFor="let colorInput of colorInputs" id="{{ colorInput.id }}">
                         <input
@@ -118,18 +49,100 @@
                             name="color"
                             value="{{ colorInput.enumValue }}"
                             (change)="colorInputChanged(colorInput.enumValue)"
-                            [checked]="advancedSettings.color === colorInput.enumValue"
-                            [disabled]="!addAdvanced" />
+                            [checked]="settings.color === colorInput.enumValue"/>
                     </div>
                 </div>
             </div>
-            <div class="checkbox-container">
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="show-advanced-container">
+        <mat-slide-toggle [checked]="addAdvanced" (change)="addAdvanced = !addAdvanced"></mat-slide-toggle>
+        <p class="advanced-settings-label">Show Advanced Settings</p>
+    </div>
+    <div class="advanced-settings" [ngClass]="{ disabled: !addAdvanced }">
+        <div class="inputs-left-container">
+            <div class="input-container">
+                <p class="input-description">Availability Slots Activity Time
+                </p>
+                <mat-radio-group
+                    [(ngModel)]="advancedSettings.activityType"
+                    name="activityType"
+                    [disabled]="!addAdvanced">
+                    <mat-radio-button
+                        *ngFor="let slotActivity of this.slotActivityOptionsEnums; index as i"
+                        [value]="slotActivity">{{ this.slotActivityOptions[i] }}
+                    </mat-radio-button>
+                </mat-radio-group>
                 <input
-                    type="checkbox"
-                    name="hideAvailabilitySlots"
-                    [(ngModel)]="settings.isVisible"
-                    [disabled]="!addAdvanced" />
-                <span class="input-message">Hide this Availability Slots card from Common Booking Page</span>
+                    [(ngModel)]="advancedSettings.days"
+                    name="slotActivityTime"
+                    #days="ngModel"
+                    type="text"
+                    [pattern]="naturalNumberInputPattern"
+                    maxlength="3"
+                    [disabled]="!addAdvanced || advancedSettings.activityType === ActivityType.Indefinitely"/>
+                <div *ngIf="days.invalid && !days.pristine" class="error">
+                    <div *ngIf="days.errors?.['pattern']">Input field accepts only natural numbers</div>
+                </div>
+            </div>
+            <div class="input-container">
+                <div class="label-container">
+                    <p class="input-description">Frequency of Available Slots</p>
+                    <i class="fa-solid fa-circle-question input-description-icon"></i>
+                </div>
+                <mat-select [(ngModel)]="advancedSettings.frequency" name="slotFrequency" [disabled]="!addAdvanced">
+                    <mat-option *ngFor="let slotFrequency of slotsFrequencies" [value]="slotFrequency">
+                        {{ slotFrequency }} hours
+                    </mat-option>
+                </mat-select>
+            </div>
+            <div class="input-container">
+                <div class="label-container">
+                    <p class="input-description">Paddings Before & After Meeting</p>
+                    <i class="fa-solid fa-circle-question input-description-icon"></i>
+                </div>
+                <mat-select [(ngModel)]="advancedSettings.paddingMeeting" name="meetingPadding" [disabled]="!addAdvanced">
+                    <mat-option *ngFor="let meetingPadding of meetingPaddings" [value]="meetingPadding">
+                        {{ meetingPadding }} min
+                    </mat-option>
+                </mat-select>
+            </div>
+        </div>
+        <div class="inputs-right-container down">
+            <div class="input-container">
+                <div class="label-container">
+                    <p class="input-description">Max. Number of Bookings per One Slot</p>
+                    <i class="fa-solid fa-circle-question input-description-icon"></i>
+                </div>
+                <input
+                    [(ngModel)]="advancedSettings.maxNumberOfBookings"
+                    name="maxNumberOfBookings"
+                    #maxNumberOfBookings="ngModel"
+                    type="text"
+                    [disabled]="!addAdvanced"
+                    [pattern]="naturalNumberInputPattern"
+                    maxlength="3"/>
+
+                <div *ngIf="maxNumberOfBookings.invalid && !maxNumberOfBookings.pristine" class="error">
+                    <div *ngIf="maxNumberOfBookings.errors?.['pattern']">Input field accepts only natural numbers</div>
+                </div>
+            </div>
+            <div class="input-container">
+                <div class="label-container">
+                    <p class="input-description">Can't Book Before Meeting Start</p>
+                    <i class="fa-solid fa-circle-question input-description-icon"></i>
+                </div>
+                <mat-select
+                    [(ngModel)]="advancedSettings.minBookingMeetingDifference"
+                    name="bookingMeetingDifference"
+                    [disabled]="!addAdvanced">
+                    <mat-option
+                        *ngFor="let bookingMeetingDifference of minBookingMeetingDifferences"
+                        [value]="bookingMeetingDifference">
+                        {{ bookingMeetingDifference }} hours
+                    </mat-option>
+                </mat-select>
             </div>
         </div>
     </div>
