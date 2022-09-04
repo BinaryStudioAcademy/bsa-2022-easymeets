@@ -38,7 +38,7 @@ export class NewMeetingCalendarComponent {
     refresh: Subject<void> = new Subject<void>();
 
     hourSegmentClicked(date: Date) {
-        if (this.duration.minutes == null) {
+        if (!this.duration.minutes) {
             return;
         }
 

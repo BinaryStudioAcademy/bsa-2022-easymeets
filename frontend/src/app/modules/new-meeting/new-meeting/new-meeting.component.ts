@@ -148,13 +148,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit {
         const { customTime } = form.value;
 
         const unitOfTime: UnitOfTime = form.controls['unitOfTime'].value;
-        let customMinutes: number;
 
-        if (unitOfTime === UnitOfTime.Hour) {
-            customMinutes = parseInt(customTime, 10) * 60;
-        } else {
-            customMinutes = parseInt(customTime, 10);
-        }
+        const customMinutes = unitOfTime === UnitOfTime.Hour ? parseInt(customTime, 10) * 60 : parseInt(customTime, 10);
 
         this.duration = { time: customTime, unitOfTime: UnitOfTime[unitOfTime], minutes: customMinutes };
     }
