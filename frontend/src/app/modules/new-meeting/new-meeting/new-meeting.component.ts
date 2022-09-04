@@ -2,7 +2,6 @@ import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { getMembersForBookedWindow } from '@core/helpers/booked-window-members-helper';
 import { getDisplayDuration } from '@core/helpers/display-duration-hepler';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
@@ -236,7 +235,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             dateTime: this.createdMeeting.startTime,
             duration: this.duration,
             meetingName: this.createdMeeting.name,
-            participants: getMembersForBookedWindow(),
+            participants: this.addedMembers,
             location: this.createdMeeting.locationType,
             link: this.createdMeeting.meetingLink,
         });
