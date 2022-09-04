@@ -100,7 +100,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             var meetingMembersIds = meetingMembers.Select(x => x.Id).ToList();
             var teamMembers = await _context.TeamMembers
-                .Where(x => meetingMembersIds.Contains(x.UserId) && x.TeamId == teamId)
+                .Where(x => meetingMembersIds.Contains(x.UserId))
                 .Select(x => new MeetingMember { TeamMemberId = x.Id })
                 .ToListAsync();
 
