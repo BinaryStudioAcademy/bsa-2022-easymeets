@@ -154,7 +154,7 @@ erDiagram
     bigint TeamId
     boolean IsEnabled
     boolean IsVisible
-    int Frequency
+    int Color
     nvarchar Language
     int BookingsPerDay
     bool AllowToAddGuests
@@ -185,7 +185,7 @@ erDiagram
     int MaxNumberOfBookings
     int PaddingMeeting
     int MinBookingMeetingDifference
-    int Color
+    int Frequency
     bool IsDeleted
   }
 

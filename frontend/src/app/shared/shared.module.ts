@@ -8,14 +8,30 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
 
+import { BookingWindowComponent } from './components/booking-window/booking-window.component';
 import { ConfirmationWindowComponent } from './components/confirmation-window/confirmation-window.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive';
 
 @NgModule({
-    imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, RouterModule, MatDialogModule, MatButtonModule, NgxMaskModule],
-    declarations: [LoadingSpinnerComponent, NotFoundComponent, ConfirmationWindowComponent, HeaderLessTabsDirective],
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        MatDialogModule,
+        MatButtonModule,
+        NgxMaskModule,
+    ],
+    declarations: [
+        LoadingSpinnerComponent,
+        NotFoundComponent,
+        ConfirmationWindowComponent,
+        HeaderLessTabsDirective,
+        BookingWindowComponent,
+    ],
     exports: [
         CommonModule,
         RouterModule,

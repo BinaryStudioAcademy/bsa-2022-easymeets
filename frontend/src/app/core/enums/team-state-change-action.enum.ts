@@ -1,4 +1,4 @@
 export enum TeamStateChangeActionEnum {
-    Created,
-    Deleted
+    Created = 'Created',
+    Deleted = 'Deleted',
 }

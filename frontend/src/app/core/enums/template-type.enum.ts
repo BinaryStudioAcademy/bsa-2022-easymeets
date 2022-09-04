@@ -1,6 +1,6 @@
 export enum TemplateType {
-    Confirmation,
-    Cancellation,
-    Reminders,
-    FollowUp,
+    Confirmation = 'Confirmation',
+    Cancellation = 'Cancellation',
+    Reminders = 'Reminders',
+    FollowUp = 'FollowUp',
 }
