@@ -10,5 +10,5 @@ public class SaveAdvancedSlotSettingsDto
     public int MaxNumberOfBookings { get; set; }
     public int PaddingMeeting { get; set; }
     public int MinBookingMeetingDifference { get; set; }
-    public Color Color { get; set; }
+    public int Frequency { get; set; }
 }
