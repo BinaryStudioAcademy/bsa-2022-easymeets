@@ -22,6 +22,6 @@ export class ScheduleDefinitionComponent {
     displayDays: string[] = getDisplayDays();
 
     public checkZone(): boolean {
-        return this.scheduleValue.timeZone.nameValue === '';
+        return !this.scheduleValue.timeZone.nameValue;
     }
 }

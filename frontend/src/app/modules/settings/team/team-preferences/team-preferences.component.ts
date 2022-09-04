@@ -39,11 +39,15 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
 
     public formGroup: FormGroup;
 
+    private namePattern: RegExp = /^[іІїЇaєЄa-zA-Z\dа-яА-Я-]+(\s|)[іІїЇєЄa-zA-Z\dа-яА-Я-]*$/;
+
+    private descriptionPattern: RegExp = /^[.,іІїЇaєЄa-zA-Z\dа-яА-Я-\s]*$/;
+
     public nameControl: FormControl = new FormControl('', [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(/^[іІїЇaєЄa-zA-Z\dа-яА-Я-]+(\s|)[іІїЇєЄa-zA-Z\dа-яА-Я-]*$/),
+        Validators.pattern(this.namePattern),
     ]);
 
     public pageLinkControl: FormControl = new FormControl('', [Validators.required], [this.teamLinkValidator()]);
@@ -52,7 +56,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(80),
-        Validators.pattern(/^[.,іІїЇaєЄa-zA-Z\dа-яА-Я-\s]*$/),
+        Validators.pattern(this.descriptionPattern),
     ]);
 
     constructor(
