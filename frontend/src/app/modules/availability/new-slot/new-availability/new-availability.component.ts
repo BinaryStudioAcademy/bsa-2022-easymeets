@@ -26,7 +26,7 @@ export class NewAvailabilityComponent extends BaseComponent implements OnInit, A
         this.link = value?.link ?? '';
     }
 
-    public slot?: IAvailabilitySlot;
+    @Input() slot?: IAvailabilitySlot;
 
     @Input() title: string;
 
