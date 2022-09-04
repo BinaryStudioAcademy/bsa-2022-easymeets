@@ -7,18 +7,31 @@ namespace EasyMeets.Core.WebAPI.Controllers
     [Route("[controller]")]
     public class WebHookController : ControllerBase
     {
-        private readonly IWebHookService _webHookService;
-        public WebHookController(IWebHookService webHookService)
+        private readonly ICalendarsService _calendarsService;
+        private readonly IConfiguration _configuration;
+
+        public WebHookController(ICalendarsService calendarsService, IConfiguration configuration)
         {
-            _webHookService = webHookService;
+            _calendarsService = calendarsService;
+            _configuration = configuration;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(string email)
+        public async Task<IActionResult> CreateAsync(string email, string verifyCode)
         {
-            await _webHookService.GetNofiticationCalendarEvents(email);
+            if (verifyCode != _configuration["GoogleCalendar:WebHookGoogleAuthorizationCode"])
+            {
+                return Unauthorized();
+            }
 
-            return Ok();
+            var result = await _calendarsService.SyncChangesFromGoogleCalendar(email);
+
+            if(result)
+            {
+                return Ok();
+            }
+
+            return NotFound();
         }
     }
 }

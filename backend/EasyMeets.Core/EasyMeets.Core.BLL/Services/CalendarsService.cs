@@ -185,5 +185,31 @@ namespace EasyMeets.Core.BLL.Services
                 }
             }
         }
+
+        public async Task<bool> SyncChangesFromGoogleCalendar(string email)
+        {
+            var calendar = await _context.Calendars.Where(x => x.ConnectedCalendar == email).FirstOrDefaultAsync();
+
+            if (calendar is null)
+            {
+                return false;
+            }
+
+            var visibleCalendar = await _context.CalendarVisibleForTeams.Where(x => x.CalendarId == calendar.Id).ToListAsync();
+
+            foreach (var item in visibleCalendar)
+            {
+                await _meetingService.DeleteGoogleCalendarMeetings(item.TeamId);
+            }
+
+            var events = await GetEventsFromGoogleCalendar(email);
+
+            foreach (var item in calendar.VisibleForTeams)
+            {
+                await _meetingService.AddGoogleCalendarMeetings(item.TeamId, events, calendar.UserId);
+            }
+
+            return true;
+        }
     }
 }
