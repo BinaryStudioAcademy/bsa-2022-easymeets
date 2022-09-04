@@ -80,7 +80,7 @@ namespace EasyMeets.Core.BLL.Services
             {
                 id = emailName,
                 type = "web_hook",
-                address = _configuration["GoogleCalendar:WebHookCalendarUrl"]
+                address = Environment.GetEnvironmentVariable("WebHookCalendarUrl")
             };
 
             await HttpClientHelper.SendPostTokenRequest<SubscribeEventDTO>($"{_configuration["GoogleCalendar:SubscribeOnEventsCalendar"]}", queryParams, body,

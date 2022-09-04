@@ -19,7 +19,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync(string email, string verifyCode)
         {
-            if (verifyCode != _configuration["GoogleCalendar:WebHookGoogleAuthorizationCode"])
+            if (verifyCode != Environment.GetEnvironmentVariable("WebHookGoogleAuthorizationCode"))
             {
                 return Unauthorized();
             }
