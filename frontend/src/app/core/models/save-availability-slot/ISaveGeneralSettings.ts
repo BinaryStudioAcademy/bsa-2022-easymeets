@@ -1,3 +1,4 @@
+import { Color } from '@core/enums/color.enum';
 import { SlotType } from '@core/enums/slot-type.enum';
 import { LocationType } from '@shared/enums/locationType';
 
@@ -6,7 +7,7 @@ export interface ISaveGeneralSettings {
     name: string;
     type: SlotType;
     size: number;
-    frequency: number;
     isEnabled: boolean;
     isVisible: boolean;
+    color: Color;
 }

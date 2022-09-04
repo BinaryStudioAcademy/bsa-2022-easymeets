@@ -11,5 +11,6 @@ public class SaveAdvancedSlotSettingsDtoValidator : AbstractValidator<SaveAdvanc
         RuleFor(s => s.PaddingMeeting).Must(p => p is < 1 or > 999);
         RuleFor(s => s.MaxNumberOfBookings).Must(n => n > 0);
         RuleFor(s => s.MinBookingMeetingDifference).Must(d => d > 0);
+        RuleFor(g => g.Frequency).Must(f => f > 0);
     }
 }

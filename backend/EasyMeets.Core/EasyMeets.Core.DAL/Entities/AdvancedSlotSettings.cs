@@ -12,7 +12,7 @@ public class AdvancedSlotSettings : Entity<long>, IValidatableObject
     public int MaxNumberOfBookings { get; set; }
     public int PaddingMeeting { get; set; }
     public int MinBookingMeetingDifference { get; set; }
-    public Color Color { get; set; }
+    public int Frequency { get; set; }
 
     public AvailabilitySlot AvailabilitySlot { get; set; } = null!;
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -21,7 +21,7 @@ public class AdvancedSlotSettings : Entity<long>, IValidatableObject
         {
             yield return new ValidationResult("Slot activity time must be 1 to 3 digit natural number");
         }
-        
+
         if (MaxNumberOfBookings is < 1 or > 999)
         {
             yield return new ValidationResult("Max number of bookings must be 1 to 3 digit natural number");
@@ -30,6 +30,11 @@ public class AdvancedSlotSettings : Entity<long>, IValidatableObject
         if (PaddingMeeting < 1)
         {
             yield return new ValidationResult("Meeting padding must be a natural number");
+        }
+
+        if (Frequency < 1)
+        {
+            yield return new ValidationResult("Slot frequency must be a natural number");
         }
 
         if (MinBookingMeetingDifference < 1)
