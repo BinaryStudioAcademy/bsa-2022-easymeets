@@ -1,6 +1,5 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
-using EasyMeets.Core.Common.Constants;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
@@ -20,8 +19,6 @@ public class TeamSharedService : BaseService, ITeamSharedService
         var teamName = $"{user.Name.Trim()} Team";
         var teamDto = new TeamDto
         {
-            Description = DefaultValues.DefaultTeamDescription,
-            Image = DefaultValues.DefaultTeamImage,
             Name = teamName,
             PageLink = await GenerateNewPageLinkAsync(0, teamName),
             TimeZone = { NameValue = user.TimeZoneName, TimeValue = user.TimeZoneValue },
