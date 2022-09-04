@@ -1,7 +1,7 @@
 <app-header-item></app-header-item>
 <div class="container">
     <div class="bookings-container">
-        <div *ngFor="let item of meetings; index as i">
+        <div *ngFor="let item of meetings">
             <div class="infoRow">
                 <div class="item itemInfo">
                     <div class="itemTextInfo">
@@ -12,7 +12,7 @@
                     </div>
 
                     <div class="buttonRow">
-                        <button class="buttonZoom" (click)="followMeetingLink(i)">Open {{ item.location }} Link</button>
+                        <button class="buttonZoom" (click)="followMeetingLink(item.meetingLink)">Open {{ item.location }} Link</button>
                         <div class="threeDots">
                             <div class="oneDot"></div>
                             <div class="oneDot"></div>

@@ -43,7 +43,7 @@ public class ZoomService : BaseService, IZoomService
         var meeting = _context.Meetings
             .Include(m => m.Author)
                 .ThenInclude(u => u.Credentials)
-            .First(m => m.Id == meetingId);
+            .FirstOrDefault(m => m.Id == meetingId) ?? throw new KeyNotFoundException("Invalid meeting id");
         var credentials = meeting.Author.Credentials.FirstOrDefault(cr => cr.Type == CredentialsType.Zoom) 
                           ?? throw new KeyNotFoundException("No zoom credentials found for meeting Author");
 

@@ -47,7 +47,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
         this.router.navigate([`${pageName}`]);
     }
 
-    followMeetingLink(index: number) {
-        document.location.href = this.meetings[index].meetingLink;
+    followMeetingLink(link: string) {
+        window.open(link);
     }
 }

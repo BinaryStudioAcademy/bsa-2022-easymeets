@@ -98,10 +98,7 @@ namespace EasyMeets.Core.BLL.Services
 
             await _context.SaveChangesAsync();
 
-            if (meeting.LocationType == LocationType.Zoom)
-            {
-                await _zoomService.CreateZoomMeeting(meeting.Id);
-            }
+            await AddMeetingLink(meeting);
         }
 
         private async Task<ICollection<MeetingMember>> GetMeetingMembers(List<NewMeetingMemberDto> meetingMembers, long teamId)
@@ -113,6 +110,22 @@ namespace EasyMeets.Core.BLL.Services
                 .ToListAsync();
 
             return teamMembers;
+        }
+
+        private async Task AddMeetingLink(Meeting meeting)
+        {
+            switch (meeting.LocationType)
+            {
+                case LocationType.Zoom:
+                    await _zoomService.CreateZoomMeeting(meeting.Id);
+                    break;
+                case LocationType.GoogleMeet:
+                    break;
+                case LocationType.Office:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }
