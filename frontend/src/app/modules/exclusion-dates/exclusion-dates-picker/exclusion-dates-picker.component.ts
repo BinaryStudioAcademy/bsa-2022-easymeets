@@ -1,18 +1,10 @@
 import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
+import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
+import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 import { ExclusionDatesService } from '@core/services/exclusion-dates-service';
 import { HeaderDatePickerComponent } from '@modules/exclusion-dates/header-date-picker/header-date-picker.component';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-
-export interface DateItem {
-    start?: string;
-    end?: string
-}
-
-export interface ExclusionDates {
-    selectedDate: Date | null,
-    hours: DateItem[]
-}
 
 @Component({
     selector: 'app-exclusion-dates-picker',
@@ -25,16 +17,16 @@ export class ExclusionDatesPickerComponent implements OnInit {
 
     selected: Date | null;
 
-    currentTimeItemIndex = 0
+    currentTimeItemIndex = 0;
 
     customHeader = HeaderDatePickerComponent;
 
     formGroup: FormGroup;
 
-    @Output() datesEmitter: EventEmitter<ExclusionDates>;
+    @Output() datesEmitter: EventEmitter<IExclusionDate>;
 
     constructor(public exclusionDatesService: ExclusionDatesService) {
-        this.datesEmitter = new EventEmitter<ExclusionDates>();
+        this.datesEmitter = new EventEmitter<IExclusionDate>();
     }
 
     ngOnInit() {
@@ -64,29 +56,41 @@ export class ExclusionDatesPickerComponent implements OnInit {
     };
 
     addTimeItem() {
-        this.formGroup.addControl(this.currentTimeItemIndex.toString() + '0', new FormControl(''));
-        this.formGroup.addControl(this.currentTimeItemIndex.toString() + '1', new FormControl(''));
+        this.formGroup.addControl(`${this.currentTimeItemIndex.toString()}0`, new FormControl(''));
+        this.formGroup.addControl(`${this.currentTimeItemIndex.toString()}1`, new FormControl(''));
         this.currentTimeItemIndex++;
     }
 
     removeTimeItem() {
         this.currentTimeItemIndex--;
-        this.formGroup.removeControl(this.currentTimeItemIndex.toString() + '0');
-        this.formGroup.removeControl(this.currentTimeItemIndex.toString() + '1');
+        this.formGroup.removeControl(`${this.currentTimeItemIndex.toString()}0`);
+        this.formGroup.removeControl(`${this.currentTimeItemIndex.toString()}1`);
     }
 
     clickApply() {
         this.exclusionDatesService.hide();
-        this.datesEmitter.emit({
-            selectedDate: this.selected,
-            hours: this.getIndexSequence().map(number => {
-                return {
-                    start: this.formGroup.get(number.toString() + '0')?.value,
-                    end: this.formGroup.get(number.toString() + '1')?.value
-                }
-            })
-        });
+        if (this.selected) {
+            this.datesEmitter.emit({
+                selectedDate: this.selected,
+                dayTimeRanges: this.getValidDayTimeRanges(),
+            });
+        }
     }
 
     getIndexSequence = () => [...Array(this.currentTimeItemIndex).keys()];
+
+    getValidDayTimeRanges() {
+        const validDayTimeRanges: IDayTimeRange[] = [];
+
+        this.getIndexSequence().forEach(number => {
+            const start: string | null = this.formGroup.get(`${number.toString()}0`)?.value;
+            const end: string | null = this.formGroup.get(`${number.toString()}1`)?.value;
+
+            if (start && end) {
+                validDayTimeRanges.push({ start, end });
+            }
+        });
+
+        return validDayTimeRanges;
+    }
 }

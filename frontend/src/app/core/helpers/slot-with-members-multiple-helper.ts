@@ -40,6 +40,7 @@ export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
         schedule: {
             timeZone: 1,
             scheduleItems: getScheduleItems(),
+            exclusionDates: [],
             withTeamMembers: true,
             definedExternally: false,
         },

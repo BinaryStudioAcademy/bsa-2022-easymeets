@@ -148,6 +148,10 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(slot => slot.SlotMembers)
                     .ThenInclude(slot => slot.Schedule)
                         .ThenInclude(s => s.ScheduleItems)
+                .Include(slot => slot.SlotMembers)
+                    .ThenInclude(slot => slot.Schedule)
+                        .ThenInclude(s => s.ExclusionDates)
+                            .ThenInclude(d => d.DayTimeRanges)
                 .Include(slot => slot.EmailTemplates)
                 .FirstOrDefaultAsync(slot => slot.Id == id);
             if (availabilitySlot is null)
