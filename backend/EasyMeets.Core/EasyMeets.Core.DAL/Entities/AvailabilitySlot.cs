@@ -20,7 +20,7 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
     public string Link { get; set; } = string.Empty;
     public SlotType Type { get; set; }
     public int Size { get; set; }
-    public int Frequency { get; set; }
+    public Color Color { get; set; }
     public bool IsEnabled { get; set; }
     public bool IsVisible { get; set; }
     public string Language { get; set; } = string.Empty;
@@ -47,11 +47,6 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
         if (Size < 1)
         {
             yield return new ValidationResult("Slot size must be a natural number");
-        }
-
-        if (Frequency < 1)
-        {
-            yield return new ValidationResult("Slot frequency must be a natural number");
         }
 
         if (PasswordProtection is not null && (!PasswordProtection.IsValidPassword() || PasswordProtection.Length is < 3 or > 8))
