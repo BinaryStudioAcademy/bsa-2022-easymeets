@@ -35,9 +35,9 @@
                         <mat-select
                             class="select-input"
                             formControlName="duration"
-                            (selectionChange)="showUnshowCustomDuration(meetingForm)">
-                            <mat-option *ngFor="let duration of durations" [value]="duration">
-                                {{ duration.time }} {{ duration.unitOfTime }}
+                            (selectionChange)="onDurationChange(meetingForm)">
+                            <mat-option *ngFor="let _duration of durations" [value]="_duration">
+                                {{ _duration.time }} {{ _duration.unitOfTime }}
                             </mat-option>
                         </mat-select>
                     </div>
@@ -53,10 +53,7 @@
                                 placeholder="Custom time"
                                 formControlName="customTime"
                                 (change)="customDurationChanged(meetingForm)" />
-                            <mat-select
-                                formControlName="unitOfTime"
-                                class="select-input unit-of-time"
-                                (selectionChange)="customDurationChanged(meetingForm)">
+                            <mat-select formControlName="unitOfTime" class="select-input unit-of-time">
                                 <mat-option *ngFor="let unit of unitOfTime" [value]="unit">
                                     {{ unit }}
                                 </mat-option>
@@ -118,46 +115,14 @@
             </div>
         </div>
         <div class="menu-item-container">
-            <div class="date-duration-container">
-                <div class="date-container item">
-                    <p class="duration-label">Date</p>
-                    <mat-form-field appearance="legacy" floatLabel="never" class="calendar-select-input">
-                        <mat-label>Choose a date</mat-label>
-                        <input formControlName="date" class="calendar-input" matInput [matDatepicker]="picker" />
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                </div>
-                <div class="duration-container item">
-                    <p class="duration-label">Duration</p>
-                    <div>
-                        <mat-select
-                            formControlName="mainContainerDuration"
-                            class="select-input"
-                            (selectionChange)="showUnshowCustomDuration(meetingForm)">
-                            <mat-option *ngFor="let duration of durations" [value]="duration">
-                                {{ duration.time }} {{ duration.unitOfTime }}
-                            </mat-option>
-                        </mat-select>
-                        <div class="custom-container" *ngIf="mainContentCustomTimeShown">
-                            <p class="custom-label">Custom time</p>
-                            <div class="custom-time">
-                                <input
-                                    matInput
-                                    class="select-input time"
-                                    type="text"
-                                    placeholder="Custom time"
-                                    formControlName="mainContainerCustomTime" />
-                                <mat-select formControlName="mainContainerUnitOfTime" class="select-input unit-of-time">
-                                    <mat-option *ngFor="let unit of unitOfTime" [value]="unit">
-                                        {{ unit }}
-                                    </mat-option>
-                                </mat-select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <app-new-meeting-calendar-header [date]="date" (dateChange)="onWeekChange($event)">
+            </app-new-meeting-calendar-header>
+
+            <app-new-meeting-calendar
+                [viewDate]="date"
+                [duration]="duration"
+                (meetingStartTimeChange)="onMeetingStartChange($event)">
+            </app-new-meeting-calendar>
         </div>
     </div>
 </form>

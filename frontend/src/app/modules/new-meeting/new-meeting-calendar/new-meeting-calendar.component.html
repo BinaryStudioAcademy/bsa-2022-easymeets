@@ -1,0 +1,12 @@
+<div class="wrapper">
+    <mwl-calendar-week-view
+        [dayStartHour]="8"
+        [dayEndHour]="23"
+        [viewDate]="viewDate"
+        [events]="events"
+        [hourSegments]="4"
+        (hourSegmentClicked)="hourSegmentClicked($event.date)"
+        [refresh]="refresh"
+        precision="minutes">
+    </mwl-calendar-week-view>
+</div>
