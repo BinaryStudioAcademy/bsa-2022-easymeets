@@ -13,7 +13,9 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 export class TeamService {
     public routePrefix = '/team';
 
-    private emitTeamStateChangeSource = new Subject<{ teamId: number, action: TeamStateChangeActionEnum }>();
+    public selectedTeamStorageKey = 'selected-team-id';
+
+    private emitTeamStateChangeSource = new Subject<{ teamId: number; action: TeamStateChangeActionEnum }>();
 
     public teamStateChangeEmitted$ = this.emitTeamStateChangeSource.asObservable();
 
@@ -30,6 +32,20 @@ export class TeamService {
 
     public emitCurrentTeamChange(currentTeamId?: number) {
         this.currentTeamSource.next(currentTeamId);
+
+        if (currentTeamId) {
+            localStorage.setItem(this.selectedTeamStorageKey, JSON.stringify(currentTeamId));
+        }
+    }
+
+    public getSelectedTeamId(): number | undefined {
+        const selectedTeamId = localStorage.getItem(this.selectedTeamStorageKey);
+
+        if (!selectedTeamId) {
+            return undefined;
+        }
+
+        return JSON.parse(selectedTeamId) as number;
     }
 
     public getCurrentUserTeams(): Observable<ITeam[]> {
