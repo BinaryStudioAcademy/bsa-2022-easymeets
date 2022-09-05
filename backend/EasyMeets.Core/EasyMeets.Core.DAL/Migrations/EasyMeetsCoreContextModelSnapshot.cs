@@ -1040,8 +1040,6 @@ namespace EasyMeets.Core.DAL.Migrations
                         new
                         {
                             Id = 2L,
-                            AvailabilitySlotId = 3L,
-                            Email = "Marilyn.Effertz62@hotmail.com",
                             AvailabilitySlotId = 7L,
                             Email = "Leonard62@hotmail.com",
                             IsDeleted = false,
