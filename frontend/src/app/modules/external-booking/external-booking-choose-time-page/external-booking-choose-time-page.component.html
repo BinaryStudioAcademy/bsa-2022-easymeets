@@ -15,14 +15,8 @@
         </div>
     </div>
     <div class="timezone">
-        <mat-form-field appearance="fill" class="timezone-mat-form-field">
-            <mat-label>Select Time Zone</mat-label>
-            <mat-select [(ngModel)]="pickedTimeZone">
-                <mat-option *ngFor="let zone of timeZone | keyvalue" [value]="zone.value">
-                    {{ zone.value }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+        <ng-moment-timezone-picker [(ngModel)]="pickedTimeZone" customPlaceholderText="" [getUserZone]="true">
+        </ng-moment-timezone-picker>
     </div>
 </div>
 <div class="grid-container">
@@ -40,10 +34,7 @@
         </div>
         <ng-container *ngFor="let in of slotsCount; let i = index">
             <ng-container *ngFor="let day of daysWithTimeRange; let j = index">
-                <ng-container
-                    *ngIf="
-                        isDateInRange(theEarliestStartOfTimeRanges, day.startTime, day.finishTime, i);
-                        else defaultTimeSlot">
+                <ng-container *ngIf="isDateInRange(theEarliestStartOfTimeRanges, day.startTime, day.finishTime, i)">
                     <span
                         #dateFrom
                         class="enabled"
