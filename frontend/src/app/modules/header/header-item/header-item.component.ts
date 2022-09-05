@@ -91,7 +91,7 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
 
     private defineCurrentTeam(teams: ITeam[], currentTeamId: number | undefined) {
         if (!currentTeamId && teams.length) {
-            this.teamService.emitCurrentTeamChange(teams[0].id);
+            this.teamService.emitCurrentTeamChange(this.teamService.getSelectedTeamId() || teams[0].id);
         } else {
             this.currentTeam = this.teams.find((team) => team.id === currentTeamId);
         }

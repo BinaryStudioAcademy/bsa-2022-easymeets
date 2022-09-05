@@ -257,6 +257,8 @@ namespace EasyMeets.Core.BLL.Services
         public async Task DeleteAvailabilitySlot(long slotId)
         {
             var slot = await _context.AvailabilitySlots.FirstAsync(el => el.Id == slotId);
+            var members = _context.SlotMembers.Where(member => member.SlotId == slotId);
+            _context.RemoveRange(members);
             _context.Remove(slot);
 
             await _context.SaveChangesAsync();
