@@ -113,14 +113,16 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             this.newMeetingService
                 .saveNewMeeting(newMeeting)
                 .pipe(this.untilThis)
-                .subscribe(() => {
+                .subscribe((value) => {
+                    debugger
+                    this.createdMeeting.meetingLink = value;
                     this.reset();
+                    this.showConfirmWindow();
                 });
         } else {
             this.notificationService.showErrorMessage('All fields need to be set');
+            this.showConfirmWindow();
         }
-
-        this.showConfirmWindow();
     }
 
     getTeamMembersOfCurrentUser(teamId?: number) {

@@ -87,7 +87,7 @@ public class ZoomService : BaseService, IZoomService
 
     private static bool IsAlmostExpired(Credentials credentials)
     {
-        return DateTimeOffset.UtcNow - credentials.UpdatedAt < TimeSpan.FromSeconds(credentials.LifeCycle * 0.8);
+        return DateTimeOffset.UtcNow - credentials.UpdatedAt > TimeSpan.FromSeconds(credentials.LifeCycle * 0.8);
     }
 
     private async Task RefreshAccessToken(Credentials credentials)

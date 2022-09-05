@@ -18,6 +18,6 @@ export class NewMeetingService {
     }
 
     public saveNewMeeting(data: INewMeeting) {
-        return this.httpService.postRequest(`${this.routePrefix}`, data);
+        return this.httpService.postStringRequest(`${this.routePrefix}`, data);
     }
 }

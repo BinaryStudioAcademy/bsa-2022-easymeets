@@ -74,7 +74,7 @@ namespace EasyMeets.Core.BLL.Services
                 }
             }
         }
-        public async Task CreateMeeting(SaveMeetingDto meetingDto)
+        public async Task<string> CreateMeeting(SaveMeetingDto meetingDto)
         {
             var currentUser = await _userService.GetCurrentUserAsync();
 
@@ -99,6 +99,8 @@ namespace EasyMeets.Core.BLL.Services
             await _context.SaveChangesAsync();
 
             await AddMeetingLink(meeting);
+            
+            return meeting.MeetingLink;
         }
 
         private async Task<ICollection<MeetingMember>> GetMeetingMembers(List<NewMeetingMemberDto> meetingMembers, long teamId)
