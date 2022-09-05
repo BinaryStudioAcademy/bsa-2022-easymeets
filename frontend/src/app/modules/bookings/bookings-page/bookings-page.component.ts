@@ -25,7 +25,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
     public meetings: IMeetingBooking[];
 
     public ngOnInit(): void {
-        this.teamService.currentTeamEmitted$.subscribe((teamId) => {
+        this.teamService.currentTeamEmitted$.pipe(this.untilThis).subscribe((teamId) => {
             this.loadMeetings(teamId);
         });
     }

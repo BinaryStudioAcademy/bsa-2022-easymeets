@@ -67,7 +67,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     ngOnInit(): void {
         this.calendarWeek = this.getCurrentWeek();
-        this.route.queryParams.subscribe((params) => {
+        this.route.queryParams.pipe(this.untilThis).subscribe((params) => {
             this.link = params['link'];
         });
 

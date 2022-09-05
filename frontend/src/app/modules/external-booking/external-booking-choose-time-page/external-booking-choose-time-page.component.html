@@ -17,8 +17,8 @@
     <div class="timezone">
         <mat-form-field floatLabel="never" class="timezone-mat-form-field">
             <mat-label>Select Time Zone</mat-label>
-            <mat-select [(ngModel)]="pickedTimeZone">
-                <mat-option *ngFor="let zone of zonesValues" [value]="timeZone">
+            <mat-select [(ngModel)]="timeZone">
+                <mat-option *ngFor="let zone of zonesValues" [value]="zone">
                     {{ zone }}
                 </mat-option>
             </mat-select>

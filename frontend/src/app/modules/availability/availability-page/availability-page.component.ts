@@ -49,7 +49,7 @@ export class AvailabilityPageComponent extends BaseComponent {
                 if (resp) {
                     this.currentUser = resp;
                     this.getUserPersonalAndTeamSlots();
-                    this.teamService.currentTeamEmitted$.subscribe((teamId) => {
+                    this.teamService.currentTeamEmitted$.pipe(this.untilThis).subscribe((teamId) => {
                         this.getUserPersonalAndTeamSlots(teamId);
                     });
                 }

@@ -6,9 +6,7 @@
         let-item
         [ngForOf]="selectedUserAvailabilitySlots.userSlots">
         <mat-card class="card" [routerLink]="['/external-booking/choose-time/']" [queryParams]="{ link: item.link }">
-            <mat-card-title
-                ><p class="title">{{ item.name }}</p></mat-card-title
-            >
+            <mat-card-title><p class="title">{{ item.name }}</p></mat-card-title>
             <mat-card-subtitle> {{ item.size }} Min, {{ locationTypeMapping(item.locationType) }} </mat-card-subtitle>
         </mat-card>
     </ng-template>
