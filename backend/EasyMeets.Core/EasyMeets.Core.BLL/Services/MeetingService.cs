@@ -125,6 +125,7 @@ namespace EasyMeets.Core.BLL.Services
                          dest.TeamId = teamId;
                          dest.MeetingMembers = new List<MeetingMember> { new MeetingMember { TeamMemberId = userId } };
                          dest.Duration = (int)timeSpan.TotalMinutes;
+                         dest.IsFromGoogleCalendar = true;
                      })
                  );
 
