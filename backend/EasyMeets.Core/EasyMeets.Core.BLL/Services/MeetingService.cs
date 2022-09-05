@@ -74,7 +74,7 @@ namespace EasyMeets.Core.BLL.Services
                 }
             }
         }
-        public async Task<string> CreateMeeting(SaveMeetingDto meetingDto)
+        public async Task<SaveMeetingDto> CreateMeeting(SaveMeetingDto meetingDto)
         {
             var currentUser = await _userService.GetCurrentUserAsync();
 
@@ -100,7 +100,7 @@ namespace EasyMeets.Core.BLL.Services
 
             await AddMeetingLink(meeting);
             
-            return meeting.MeetingLink;
+            return _mapper.Map<SaveMeetingDto>(GetByIdInternal(meeting.Id));
         }
 
         private async Task<ICollection<MeetingMember>> GetMeetingMembers(List<NewMeetingMemberDto> meetingMembers, long teamId)
@@ -128,6 +128,13 @@ namespace EasyMeets.Core.BLL.Services
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private Meeting GetByIdInternal(long id)
+        {
+            return _context.Meetings
+                .Include(m => m.MeetingMembers)
+                .FirstOrDefault(m => m.Id == id) ?? throw new KeyNotFoundException("Invalid meeting id");
         }
     }
 }

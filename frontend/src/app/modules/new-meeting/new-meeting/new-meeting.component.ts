@@ -108,13 +108,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 createdAt: new Date(),
             };
 
-            this.createdMeeting = newMeeting;
-
             this.newMeetingService
                 .saveNewMeeting(newMeeting)
                 .pipe(this.untilThis)
                 .subscribe((value) => {
-                    this.createdMeeting.meetingLink = value;
+                    this.createdMeeting = value;
                     this.reset();
                     this.showConfirmWindow();
                 });
