@@ -1,5 +1,6 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.Common.DTO.Common;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
@@ -21,7 +22,7 @@ public class TeamSharedService : BaseService, ITeamSharedService
         {
             Name = teamName,
             PageLink = await GenerateNewPageLinkAsync(0, teamName),
-            TimeZone = new Common.DTO.Common.TimeZoneDto() { NameValue = user.TimeZoneName, TimeValue = user.TimeZoneValue },
+            TimeZone = new TimeZoneDto() { NameValue = user.TimeZoneName, TimeValue = user.TimeZoneValue },
         };
         
         var team = _mapper.Map<Team>(teamDto);
