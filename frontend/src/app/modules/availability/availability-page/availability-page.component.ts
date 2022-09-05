@@ -14,11 +14,11 @@ import { UserService } from '@core/services/user.service';
     styleUrls: ['./availability-page.component.sass'],
 })
 export class AvailabilityPageComponent extends BaseComponent {
-    public userPersonalAndTeamSlots: IUserPersonalAndTeamSlots;
+    userPersonalAndTeamSlots: IUserPersonalAndTeamSlots;
 
-    public currentUser: IUser;
+    currentUser: IUser;
 
-    public userSlots: IAvailabilitySlot[];
+    userSlots: IAvailabilitySlot[];
 
     constructor(
         private userService: UserService,
@@ -30,23 +30,21 @@ export class AvailabilityPageComponent extends BaseComponent {
         this.getCurrentUser();
     }
 
-    public getUserPersonalAndTeamSlots() {
+    getUserPersonalAndTeamSlots() {
         this.teamService.currentTeamEmitted$
             .pipe(this.untilThis)
             .subscribe(teamId => {
-                if (teamId) {
-                    this.availabilitySlotService
-                        .getUserPersonalAndTeamSlots(this.currentUser.id, teamId)
-                        .pipe(this.untilThis)
-                        .subscribe((resp) => {
-                            this.userPersonalAndTeamSlots = resp;
-                            this.spinnerService.hide();
-                        });
-                }
+                this.availabilitySlotService
+                    .getUserPersonalAndTeamSlots(this.currentUser.id, teamId)
+                    .pipe(this.untilThis)
+                    .subscribe((resp) => {
+                        this.userPersonalAndTeamSlots = resp;
+                        this.spinnerService.hide();
+                    });
             });
     }
 
-    public getCurrentUser() {
+    getCurrentUser() {
         this.spinnerService.show();
         this.userService
             .getCurrentUser()
