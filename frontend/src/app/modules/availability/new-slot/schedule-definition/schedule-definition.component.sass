@@ -11,7 +11,7 @@
         flex-direction: column
 
 .schedule-container
-    width: 65%
+    width: 80%
     border-right: 2px solid $loblolly
     padding-right: 25px
     @media (max-width: $desktop-min-width)
@@ -30,13 +30,55 @@
 
 .override-container
     display: flex
-    width: 35%
+    width: 20%
     align-items: center
-    justify-content: center
+    justify-content: flex-start
     flex-direction: column
+    padding: 0 32px
+    .override-heading-container
+        width: 100%
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: flex-start
+        span
+            font-family: 'Inter', serif
+            font-style: normal
+            font-weight: 700
+            font-size: 14px
+            line-height: 146%
+        mat-icon
+            color: #D1D8DB
+            font-size: 16px
+            vertical-align: middle
+            margin-left: 14px
+            display: flex
+            justify-content: center
+            align-items: center
+            &:hover
+                cursor: pointer
+                color: $black
+        hr
+            border-top: 1px solid #E1E6EF
+            width: 100%
     button
-        border: 1px solid $regent-gray
-
+        border: 1px solid #6C707A
+        border-radius: 24px
+        padding: 4px 16px
+        background: #FFFFFF
+        height: 32px
+        width: 100%
+        margin-top: 24px
+        display: flex
+        align-items: center
+        justify-content: center
+        margin-bottom: 13px
+        color: #6C707A
+        &:hover
+            box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1)
+            color: $black
+            i
+                color: #6C707A
     @media (max-width: $desktop-min-width)
         width: 100%
 

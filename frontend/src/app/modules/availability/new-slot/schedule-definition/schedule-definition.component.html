@@ -32,14 +32,23 @@
         </mat-tab-group>
     </div>
     <div class="override-container">
-        Exclusion Dates
+        <div class="override-heading-container">
+            <span>
+                Exclusion Dates
+            </span>
+            <mat-icon matTooltip="Specify exclusion dates for availability slot">
+                help_outline
+            </mat-icon>
+        </div>
         <button
             mat-flat-button
             [disabled]="disabled"
             (click)="exclusionDatesService.show()"
         >
-            + Add Exclusion Date(s)
+            <i class="fa-regular fa-plus"></i>
+             Add Exclusion Date(s)
         </button>
+        <hr>
         <div class="exclusion-dates-container">
             <div *ngFor="let exclusionDate of schedule.exclusionDates; index as i">
                 {{exclusionDate.selectedDate | date}}
