@@ -4,6 +4,7 @@ using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyMeets.Core.DAL.Migrations
 {
     [DbContext(typeof(EasyMeetsCoreContext))]
-    partial class EasyMeetsCoreContextModelSnapshot : ModelSnapshot
+    [Migration("20220904153618_AddSyncGoogleCalendarColumnAndTable")]
+    partial class AddSyncGoogleCalendarColumnAndTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -417,7 +419,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 7L,
                             BookingsPerDay = 2,
-                            Color = 7,
+                            Color = 8,
                             CreatedAt = new DateTime(2021, 6, 11, 1, 41, 54, 366, DateTimeKind.Unspecified).AddTicks(7577),
                             CreatedBy = 7L,
                             IsDeleted = false,
@@ -483,7 +485,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 10L,
                             BookingsPerDay = 2,
-                            Color = 7,
+                            Color = 8,
                             CreatedAt = new DateTime(2020, 11, 21, 16, 22, 26, 916, DateTimeKind.Unspecified).AddTicks(2247),
                             CreatedBy = 10L,
                             IsDeleted = false,
@@ -999,8 +1001,11 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTimeOffset>("EventTime")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1013,10 +1018,8 @@ namespace EasyMeets.Core.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("TimeZone")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("TimeZone")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -1032,102 +1035,219 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 1L,
                             AvailabilitySlotId = 3L,
                             Email = "Donald_Hills@yahoo.com",
+                            EventTime = new DateTimeOffset(new DateTime(2022, 12, 10, 13, 37, 16, 973, DateTimeKind.Unspecified).AddTicks(4406), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             MeetingId = 0L,
                             Name = "Donald Hills",
-                            TimeZone = "(GMT+03:00) Eastern European Time - Kyiv"
+                            TimeZone = 0
                         },
                         new
                         {
                             Id = 2L,
-                            AvailabilitySlotId = 3L,
-                            Email = "Marilyn.Effertz62@hotmail.com",
                             AvailabilitySlotId = 7L,
                             Email = "Leonard62@hotmail.com",
+                            EventTime = new DateTimeOffset(new DateTime(2023, 1, 3, 11, 46, 12, 8, DateTimeKind.Unspecified).AddTicks(5611), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             MeetingId = 0L,
-                            Name = "Marilyn Effertz",
-                            TimeZone = "(GMT+03:00) Eastern European Time - Kyiv"
+                            Name = "Leonard Effertz",
+                            TimeZone = 0
                         },
                         new
                         {
                             Id = 3L,
                             AvailabilitySlotId = 6L,
                             Email = "Dewey_Schuppe@yahoo.com",
+                            EventTime = new DateTimeOffset(new DateTime(2022, 9, 26, 14, 15, 22, 827, DateTimeKind.Unspecified).AddTicks(2342), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             MeetingId = 0L,
-                            Name = "Connie Stroman",
-                            TimeZone = "(GMT+03:00) Eastern European Time - Kyiv"
+                            Name = "Dewey Schuppe",
+                            TimeZone = 0
                         },
                         new
                         {
                             Id = 4L,
                             AvailabilitySlotId = 6L,
                             Email = "Elijah.Blanda@gmail.com",
+                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 19, 20, 10, 18, 777, DateTimeKind.Unspecified).AddTicks(8003), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             MeetingId = 0L,
-                            Name = "Jessica Wunsch",
-                            TimeZone = "(GMT+03:00) Eastern European Time - Kyiv"
+                            Name = "Elijah Blanda",
+                            TimeZone = 0
                         },
                         new
                         {
                             Id = 5L,
                             AvailabilitySlotId = 5L,
                             Email = "Joel_Goldner@hotmail.com",
+                            EventTime = new DateTimeOffset(new DateTime(2023, 3, 11, 13, 42, 33, 458, DateTimeKind.Unspecified).AddTicks(9892), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             MeetingId = 0L,
-                            Name = "Marta Waters",
-                            TimeZone = "(GMT+03:00) Eastern European Time - Kyiv"
+                            Name = "Joel Goldner",
+                            TimeZone = 0
                         },
                         new
                         {
                             Id = 6L,
                             AvailabilitySlotId = 4L,
                             Email = "Jaime.Veum2@hotmail.com",
+                            EventTime = new DateTimeOffset(new DateTime(2023, 1, 6, 6, 0, 6, 102, DateTimeKind.Unspecified).AddTicks(9277), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             MeetingId = 0L,
-                            Name = "Billie Parker",
-                            TimeZone = "(GMT+03:00) Eastern European Time - Kyiv"
+                            Name = "Jaime Veum",
+                            TimeZone = 0
                         },
                         new
                         {
                             Id = 7L,
                             AvailabilitySlotId = 9L,
                             Email = "Patti.Feil@yahoo.com",
+                            EventTime = new DateTimeOffset(new DateTime(2023, 7, 23, 11, 44, 19, 520, DateTimeKind.Unspecified).AddTicks(2089), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             MeetingId = 0L,
-                            Name = "Justin Renner",
-                            TimeZone = "(GMT+03:00) Eastern European Time - Kyiv"
+                            Name = "Patti Feil",
+                            TimeZone = 0
                         },
                         new
                         {
                             Id = 8L,
                             AvailabilitySlotId = 2L,
                             Email = "Jesus9@hotmail.com",
+                            EventTime = new DateTimeOffset(new DateTime(2023, 1, 23, 7, 38, 2, 647, DateTimeKind.Unspecified).AddTicks(5849), new TimeSpan(0, 2, 0, 0, 0)),
                             IsDeleted = false,
                             MeetingId = 0L,
-                            Name = "Irvin Schmitt",
-                            TimeZone = "(GMT+03:00) Eastern European Time - Kyiv"
+                            Name = "Jesus Gorczany",
+                            TimeZone = 0
                         },
                         new
                         {
                             Id = 9L,
                             AvailabilitySlotId = 1L,
                             Email = "Jacob.Ondricka6@yahoo.com",
+                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 14, 2, 21, 11, 307, DateTimeKind.Unspecified).AddTicks(9167), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             MeetingId = 0L,
-                            Name = "Stanley Boyle",
-                            TimeZone = "(GMT+03:00) Eastern European Time - Kyiv"
+                            Name = "Jacob Ondricka",
+                            TimeZone = 0
                         },
                         new
                         {
                             Id = 10L,
-                            AvailabilitySlotId = 3L,
-                            Email = "Kristie.Ondricka17@yahoo.com",
+                            AvailabilitySlotId = 1L,
+                            Email = "Erma.MacGyver86@hotmail.com",
+                            EventTime = new DateTimeOffset(new DateTime(2023, 4, 23, 12, 14, 47, 264, DateTimeKind.Unspecified).AddTicks(5757), new TimeSpan(0, 3, 0, 0, 0)),
                             IsDeleted = false,
                             MeetingId = 0L,
-                            Name = "Kristie Ondricka",
-                            TimeZone = "(GMT+03:00) Eastern European Time - Kyiv"
+                            Name = "Erma MacGyver",
+                            TimeZone = 0
+                        });
+                });
+
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ExternalAttendeeAvailability", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<DateTimeOffset>("EndEvent")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<long>("ExternalAttendeeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset>("StartEvent")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExternalAttendeeId");
+
+                    b.ToTable("ExternalAttendeeAvailabilities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 9, 6, 18, 36, 17, 191, DateTimeKind.Unspecified).AddTicks(9964), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 3L,
+                            IsDeleted = false,
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 9, 5, 18, 36, 17, 191, DateTimeKind.Unspecified).AddTicks(9840), new TimeSpan(0, 3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 9, 6, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(205), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 2L,
+                            IsDeleted = false,
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 9, 5, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(195), new TimeSpan(0, 3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 9, 6, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(232), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 1L,
+                            IsDeleted = false,
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 9, 5, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(224), new TimeSpan(0, 3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 9, 6, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(258), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 4L,
+                            IsDeleted = false,
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 9, 5, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(249), new TimeSpan(0, 3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 9, 6, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(283), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 9L,
+                            IsDeleted = false,
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 9, 5, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(275), new TimeSpan(0, 3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 9, 6, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(308), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 5L,
+                            IsDeleted = false,
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 9, 5, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(300), new TimeSpan(0, 3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 9, 6, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(333), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 2L,
+                            IsDeleted = false,
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 9, 5, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(325), new TimeSpan(0, 3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 9, 6, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(629), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 4L,
+                            IsDeleted = false,
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 9, 5, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(598), new TimeSpan(0, 3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 9, 6, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(706), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 6L,
+                            IsDeleted = false,
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 9, 5, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(699), new TimeSpan(0, 3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            EndEvent = new DateTimeOffset(new DateTime(2022, 9, 6, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(725), new TimeSpan(0, 3, 0, 0, 0)),
+                            ExternalAttendeeId = 9L,
+                            IsDeleted = false,
+                            StartEvent = new DateTimeOffset(new DateTime(2022, 9, 5, 18, 36, 17, 192, DateTimeKind.Unspecified).AddTicks(719), new TimeSpan(0, 3, 0, 0, 0))
                         });
                 });
 
@@ -3302,6 +3422,17 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Navigation("Meeting");
                 });
 
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ExternalAttendeeAvailability", b =>
+                {
+                    b.HasOne("EasyMeets.Core.DAL.Entities.ExternalAttendee", "ExternalAttendee")
+                        .WithMany("ExternalAttendeeAvailabilities")
+                        .HasForeignKey("ExternalAttendeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ExternalAttendee");
+                });
+
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Meeting", b =>
                 {
                     b.HasOne("EasyMeets.Core.DAL.Entities.AvailabilitySlot", "AvailabilitySlot")
@@ -3433,6 +3564,11 @@ namespace EasyMeets.Core.DAL.Migrations
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Calendar", b =>
                 {
                     b.Navigation("VisibleForTeams");
+                });
+
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.ExternalAttendee", b =>
+                {
+                    b.Navigation("ExternalAttendeeAvailabilities");
                 });
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Meeting", b =>

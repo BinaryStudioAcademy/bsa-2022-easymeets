@@ -19,7 +19,7 @@ export class NewMeetingService {
     }
 
     public saveNewMeeting(data: INewMeeting) {
-        return this.httpService.postRequest(`${this.routePrefix}`, data);
+        return this.httpService.postRequest<INewMeeting>(`${this.routePrefix}`, data);
     }
 
     public getOrderedMeetingTimes(slotId: bigint) {
