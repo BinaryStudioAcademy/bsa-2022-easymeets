@@ -172,12 +172,13 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
         result.setTime(result.getTime() + this.selectedMeetingDuration * timesToAdd * 60 * 1000);
 
-        for (let i = 0; i < this.orderedTimes.length; i++) {
-            const parsedDate = new Date(Date.parse(this.orderedTimes[i].startTime));
+        const Test = (parsedDate: Date) =>
+            parsedDate.getDate() === result.getDate() && parsedDate.getTime() === result.getTime();
 
-            if (parsedDate.getDate() === result.getDate() && parsedDate.getTime() === result.getTime()) {
-                return false;
-            }
+        const index = this.orderedTimes.findIndex((x) => Test(new Date(Date.parse(x.startTime))));
+
+        if (index !== -1) {
+            return false;
         }
 
         min.setDate(result.getDate());
