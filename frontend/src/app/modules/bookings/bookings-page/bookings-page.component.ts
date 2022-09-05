@@ -42,9 +42,6 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        // eslint-disable-next-line no-debugger
-        debugger;
-
         this.detectMeetingMembersNumber();
         this.teamService.currentTeamEmitted$
             .subscribe(teamId => {
@@ -64,9 +61,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             .pipe(this.untilThis)
             .subscribe(
                 (resp: IMeetingBooking[]) => {
-                    // eslint-disable-next-line no-debugger
-                    debugger;
-                    this.cachedMeetings = resp;
+                    this.meetings = resp;
                     this.sliceListAccordingToCntainerSize(resp);
                 },
                 error => this.notifications.showErrorMessage(error),
@@ -74,9 +69,6 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
     }
 
     sliceListAccordingToCntainerSize(responseMeeting: IMeetingBooking[]) {
-        // eslint-disable-next-line no-debugger
-        debugger;
-
         if (responseMeeting.length > 3) {
             this.displayButton = true;
             const widthOfListOfMembers = this.getPageSize();
@@ -92,9 +84,6 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
     }
 
     detectMeetingMembersNumber() {
-        // eslint-disable-next-line no-debugger
-        debugger;
-
         const widthOfListOfMembers = this.getPageSize();
         const numberOfMembersToDisplay = widthOfListOfMembers / widthOfMemberItemContainerOnBookingPage;
 

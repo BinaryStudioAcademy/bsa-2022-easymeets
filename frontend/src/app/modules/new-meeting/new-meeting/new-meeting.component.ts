@@ -98,8 +98,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     create(form: FormGroup) {
         if (this.meetingForm.valid) {
-            // eslint-disable-next-line no-debugger
-            debugger;
             const newMeeting: INewMeeting = {
                 name: form.value.meetingName,
                 locationType: form.value.location,
