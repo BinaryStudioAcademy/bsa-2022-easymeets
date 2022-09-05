@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
 import { getPossibleTimeZones } from '@core/helpers/time-zone-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
 import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 import { ISchedule } from '@core/models/schedule/ISchedule';
-import { ExclusionDatesService } from '@core/services/exclusion-dates-service';
+import {
+    ExclusionDatesPickerComponent,
+} from '@modules/exclusion-dates/exclusion-dates-picker/exclusion-dates-picker.component';
 
 @Component({
     selector: 'app-schedule-definition',
@@ -25,7 +28,7 @@ export class ScheduleDefinitionComponent implements OnInit {
     selectedTimeZone: string;
 
     // eslint-disable-next-line no-empty-function
-    constructor(public exclusionDatesService: ExclusionDatesService) {}
+    constructor(private dialog: MatDialog) {}
 
     changeTimeZone() {
         this.schedule.timeZone = this.getSelectedTimeZoneValue();
@@ -43,11 +46,20 @@ export class ScheduleDefinitionComponent implements OnInit {
         this.selectedTimeZone = this.getDisplayTimeZone(this.schedule.timeZone);
     }
 
-    exclusionDatesFilled(newExclusionDate: IExclusionDate) {
-        this.schedule.exclusionDates.push(newExclusionDate);
-    }
-
     deleteExclusionDate(index: number) {
         this.schedule.exclusionDates.splice(index, 1);
     }
+
+    showExclusionDatesWindow() {
+        this.dialog
+            .open<ExclusionDatesPickerComponent, any, IExclusionDate | undefined>(ExclusionDatesPickerComponent)
+            .afterClosed()
+            .subscribe(newExclusionDate => {
+                if (newExclusionDate) {
+                    this.schedule.exclusionDates.push(newExclusionDate);
+                }
+            });
+    }
+
+    formatTime = (time: string) => time.substring(0, 5);
 }

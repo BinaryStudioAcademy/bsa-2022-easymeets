@@ -1,15 +1,13 @@
-<div class="overlay" *ngIf="exclusionDatesService.isVisible$ | async">
+<div class="container">
     <div class="exclusion-wrapper">
         <p class="title">
             Select Exclusion Dates:
         </p>
-        <mat-calendar
-            class="demo-inline-calendar-card"
+        <app-custom-date-picker
+            class="calendar"
             [(selected)]="selected"
-            [minDate]="todayDate"
-            [dateClass]="dateClass"
-            [headerComponent]="customHeader"
-        ></mat-calendar>
+        >
+        </app-custom-date-picker>
         <hr>
         <form class="input-container" [formGroup]="formGroup" *ngIf="this.selected">
             <i class="fa-solid fa-plus add-time fa-xl" (click)="addTimeItem()"></i>
@@ -22,7 +20,7 @@
             <hr>
         </form>
         <div class="buttons-wrapper">
-            <button class="cancel" (click)="exclusionDatesService.hide()">
+            <button class="cancel" (click)="clickCancel()">
                 Cancel
             </button>
             <button class="apply" (click)="clickApply()">

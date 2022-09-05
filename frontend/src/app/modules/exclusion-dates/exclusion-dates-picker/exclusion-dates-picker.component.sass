@@ -5,17 +5,16 @@
     font-family
         font-family: 'Inter', serif !important
 
-.overlay
-    z-index: 999
+.container
     position: fixed
     top: 0
     left: 0
     right: 0
     bottom: 0
-    background: rgba(0, 0, 0, 0.2)
     overflow-y: scroll
 
 .exclusion-wrapper
+    z-index: 40
     box-sizing: border-box
     position: absolute
     top: 20%
@@ -35,13 +34,14 @@
     flex: none
     order: 4
     flex-grow: 0
-    z-index: 15
     .title
         font-style: normal
         font-weight: 900
         font-size: 22px
         line-height: 146%
         color: $midnight
+    .calendar
+        width: 100%
 
 .cancel, .apply
     box-sizing: border-box
@@ -63,64 +63,6 @@ hr
     border: 1px solid #E1E6EF
     width: 100%
 
-.demo-inline-calendar-card
-    width: 100%
-
-.cell
-    display: flex
-    align-items: center
-    justify-content: center
-
-.cell> :first-child
-    width: 36px !important
-    height: 36px !important
-    font-style: normal
-    font-weight: 700
-    font-size: 14px
-    line-height: 146%
-    color: $raven
-    position: static
-    display: flex
-    align-items: center
-    justify-content: center
-    text-align: center
-    vertical-align: center
-    top: auto
-    left: auto
-
-.test-class> :first-child, .current-day> :first-child
-    background: #E1E6EF !important
-    border-radius: 8px !important
-    border: none !important
-
-.current-day
-    border: none !important
-
-.current-day
-    position: relative
-
-.current-day> :first-child::before
-    position: absolute
-    width: 16px !important
-    height: 2px !important
-    left: 2px !important
-    top: 21px !important
-    background: #4A505C !important
-    border-radius: 1px
-    display: block
-    z-index: 30
-
-.mat-calendar-body-active> :first-child
-    background: $midnight !important
-    border-radius: 8px !important
-    color: $white-color !important
-
-.mat-calendar-body-label:not(:last-of-type)
-    visibility: hidden
-
-.mat-calendar-body-label:last-of-type
-    display: none
-
 .time-input
     border: 2px solid #D1D8DB
     border-radius: 8px
@@ -140,6 +82,10 @@ input[type="time"]::-webkit-calendar-picker-indicator
 .input-container
     position: relative
     width: 100%
+    min-height: 100px
+    hr
+        position: absolute
+        bottom: 0
 
 .add-time
     position: absolute

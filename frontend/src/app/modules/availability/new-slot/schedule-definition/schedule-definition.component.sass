@@ -58,9 +58,6 @@
             &:hover
                 cursor: pointer
                 color: $black
-        hr
-            border-top: 1px solid #E1E6EF
-            width: 100%
     button
         border: 1px solid #6C707A
         border-radius: 24px
@@ -96,3 +93,41 @@ select
 .exclusion-dates-container
     display: flex
     flex-direction: column
+    .exclusion-date-container
+        display: flex
+        position: relative
+        flex-direction: row
+        padding: 32px 0
+        .date-wrapper
+            font-family: 'Inter', serif
+            font-style: normal
+            font-weight: 400
+            font-size: 14px
+            line-height: 146%
+            color: #1D2433
+            margin-right: 10px
+            flex: 1
+        .times-wrapper
+            display: flex
+            flex-direction: column
+            justify-content: space-around
+            align-items: center
+            flex: 1
+            .time-wrapper
+                font-family: 'Inter', serif
+                font-style: normal
+                font-weight: 700
+                font-size: 14px
+                line-height: 146%
+                color: #1D2433
+        hr
+            position: absolute
+            bottom: 0
+        .xmark
+            color: $raven
+            cursor: pointer
+            margin-left: 25px
+
+hr
+    border-top: 1px solid #E1E6EF
+    width: 100%
