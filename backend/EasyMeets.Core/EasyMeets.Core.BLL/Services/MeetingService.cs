@@ -104,6 +104,7 @@ namespace EasyMeets.Core.BLL.Services
                 .ToListAsync();
 
             return result;
+        }
 
         private async Task<ICollection<MeetingMember>> GetMeetingMembers(List<NewMeetingMemberDto> meetingMembers, long teamId)
         {
