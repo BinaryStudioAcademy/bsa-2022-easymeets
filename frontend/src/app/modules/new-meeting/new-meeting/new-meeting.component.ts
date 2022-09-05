@@ -97,11 +97,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     create(form: FormGroup) {
         if (this.meetingForm.valid) {
             const newMeeting: INewMeeting = {
-                name: form.value.meetingName,
+                name: form.value.meetingName.trim(),
                 locationType: form.value.location,
                 duration: this.duration.minutes!,
                 startTime: form.value.date,
-                meetingLink: form.value.meetingName,
+                meetingLink: form.value.meetingName.trim(),
                 meetingMembers: this.addedMembers,
                 createdAt: new Date(),
             };

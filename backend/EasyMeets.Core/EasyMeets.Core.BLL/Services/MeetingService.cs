@@ -87,7 +87,7 @@ namespace EasyMeets.Core.BLL.Services
             await _context.SaveChangesAsync();
 
             await AddMeetingLink(meeting);
-            
+
             return _mapper.Map<SaveMeetingDto>(GetByIdInternal(meeting.Id));
         }
 
@@ -150,9 +150,11 @@ namespace EasyMeets.Core.BLL.Services
         }
 
         private Meeting GetByIdInternal(long id)
-        {
+        { 
             return _context.Meetings
                 .Include(m => m.MeetingMembers)
+                    .ThenInclude(mm => mm.TeamMember)
+                    .ThenInclude(tm => tm.User)
                 .FirstOrDefault(m => m.Id == id) ?? throw new KeyNotFoundException("Invalid meeting id");
         }
     }
