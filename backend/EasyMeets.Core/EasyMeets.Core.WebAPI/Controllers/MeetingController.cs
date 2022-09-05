@@ -1,5 +1,4 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
-using EasyMeets.Core.BLL.Services;
 using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.Common.DTO.Team;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +26,12 @@ namespace EasyMeets.Core.WebAPI.Controllers
         public async Task<ActionResult<List<UserMeetingDTO>>> GetAllMembers(int id)
         {
             return Ok(await _meetingService.GetAllMembers(id));
+        }
+
+        [HttpGet("ordered-times/{slotId}")]
+        public async Task<ActionResult<List<OrderedMeetingTimesDto>>> GetOrderedMeetingTimes(long slotId)
+        {
+            return Ok(await _meetingService.GetOrderedMeetingTimesAsync(slotId));
         }
 
         [HttpGet]

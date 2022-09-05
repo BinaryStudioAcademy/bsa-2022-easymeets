@@ -1,10 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
-import { LocationType } from '@shared/enums/locationType';
 
 @Component({
     selector: 'app-external-booking-choose-meeting-page',
@@ -12,9 +11,7 @@ import { LocationType } from '@shared/enums/locationType';
     styleUrls: ['./external-booking-choose-meeting-page.component.sass'],
 })
 export class ExternalBookingMeetingComponent extends BaseComponent implements OnInit {
-    @Input() selectedUserId: number;
-
-    @Output() selectedDurationAndLocationEvent = new EventEmitter<{ duration: number; location: LocationType }>();
+    @Input() selectedUserId: bigint;
 
     selectedUserAvailabilitySlots: IUserPersonalAndTeamSlots;
 
@@ -28,12 +25,9 @@ export class ExternalBookingMeetingComponent extends BaseComponent implements On
         this.availabilitySlotService
             .getUserPersonalAndTeamSlots(this.selectedUserId)
             .pipe(this.untilThis)
-            .subscribe((slots) => {
-                this.selectedUserAvailabilitySlots = slots;
+            .subscribe((resp) => {
+                this.selectedUserAvailabilitySlots = resp;
+                this.spinnerService.hide();
             });
-    }
-
-    addDurationAndLocation(duration: number, location: LocationType) {
-        this.selectedDurationAndLocationEvent.emit({ duration, location });
     }
 }

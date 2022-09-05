@@ -6,7 +6,7 @@ import { TimeFormat } from '@shared/enums/timeFormat';
 import { ITimeZone } from './ITimeZone';
 
 export interface IUpdateUser {
-    id: number;
+    id: bigint;
     userName: string;
     language: Language;
     timeFormat: TimeFormat;
