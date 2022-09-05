@@ -11,7 +11,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
         {
             CreateMap<User, UserMeetingDTO>()
                 .ForMember(d => d.TimeZone, s => s.MapFrom(s => s.TimeZone.ToString()));
-            CreateMap<ExternalAttendee, UserMeetingDTO>();
+            CreateMap<ExternalAttendee, UserMeetingDTO>()
+                .ForMember(d => d.TimeZone, s => s.MapFrom(s => s.TimeZone.ToString()));;
             CreateMap<Meeting, MeetingThreeMembersDTO>()
                 .ForMember(dest => dest.MeetingTime, src => src.MapFrom(meeting =>
                     $"{meeting.StartTime.Hour}:{meeting.StartTime.Minute:00} - " +
