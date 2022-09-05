@@ -3,10 +3,9 @@
         <i class="fa-solid fa-arrow-left" routerLink=""></i>
     </div>
     <div class="nav-text">
-        <h1>
-            Please, choose Team member(s) for meeting
-            <h3>{{ selectedTeamMembers.length }} selected</h3>
-        </h1>
+        <h1>Please, choose Team member(s) for meeting</h1>
+
+        <h3>{{ selectedTeamMembers.length }} selected</h3>
     </div>
     <div class="nav-buttons">
         <ng-container *ngIf="this.selectedTeamMembers.length; else noSelectedMembers">

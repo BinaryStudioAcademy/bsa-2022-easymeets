@@ -22,53 +22,41 @@
             </ng-template>
             <h4 class="welcome-message">Hello! Welcome to my booking page, please choose a time that works for you.</h4>
             <div class="sidebar-list">
-                <div class="sidebar-list-item">
-                    <ng-container *ngIf="menu.timeFinish">
-                        <h5>Time</h5>
-                        <h3>{{ menu.date | date: 'HH:mm' }} - {{ menu.timeFinish | date: 'HH:mm' }}</h3>
-                    </ng-container>
+                <div class="sidebar-list-item" *ngIf="menu.timeFinish">
+                    <h5>Time</h5>
+                    <h3>{{ menu.date | date: 'HH:mm' }} - {{ menu.timeFinish | date: 'HH:mm' }}</h3>
                 </div>
-                <div class="sidebar-list-item">
-                    <ng-container *ngIf="menu.date">
-                        <h5 *ngIf="menu.date">Date</h5>
-                        <h3>{{ menu.date | date }}</h3>
-                    </ng-container>
+                <div class="sidebar-list-item" *ngIf="menu.date">
+                    <h5>Date</h5>
+                    <h3>{{ menu.date | date }}</h3>
                 </div>
-                <div class="sidebar-list-item">
-                    <ng-container *ngIf="menu.duration">
-                        <h5>Duration</h5>
-                        <h3>{{ menu.duration }} min</h3>
-                    </ng-container>
+                <div class="sidebar-list-item" *ngIf="menu.duration">
+                    <h5>Duration</h5>
+                    <h3>{{ menu.duration }} min</h3>
                 </div>
-                <div class="sidebar-list-item">
-                    <ng-container *ngIf="menu.location">
-                        <h5>Location</h5>
-                        <h3>{{ locationTypeMapping(menu.location) }}</h3>
-                    </ng-container>
+                <div class="sidebar-list-item" *ngIf="menu.location">
+                    <h5>Location</h5>
+                    <h3>{{ locationTypeMapping(menu.location) }}</h3>
                 </div>
-                <div class="sidebar-list-item">
-                    <div class="sidebar-list-item">
-                        <ng-container *ngIf="menu.teamSlotMembers">
-                            <h5>Team Members: {{ menu.teamSlotMembers.length }}</h5>
-                            <div class="selected-member" *ngFor="let member of menu.teamSlotMembers">
-                                <ng-container *ngIf="member.memberImage; else defaultImageSelectedMember">
-                                    <div class="selected-member-img">
-                                        <img src="member.memberImage" />
-                                    </div>
-                                    <div class="selected-member-name">
-                                        <h4>{{ member.name }}</h4>
-                                    </div>
-                                </ng-container>
-                                <ng-template #defaultImageSelectedMember>
-                                    <div class="selected-member-img">
-                                        <img src="assets/header/avatar-icon.png" />
-                                    </div>
-                                    <div class="selected-member-name">
-                                        <h4>{{ member.name }}</h4>
-                                    </div>
-                                </ng-template>
+                <div class="sidebar-list-item" *ngIf="menu.teamSlotMembers">
+                    <h5>Team Members: {{ menu.teamSlotMembers.length }}</h5>
+                    <div class="selected-member" *ngFor="let member of menu.teamSlotMembers">
+                        <ng-container *ngIf="member.memberImage; else defaultImageSelectedMember">
+                            <div class="selected-member-img">
+                                <img src="member.memberImage" />
+                            </div>
+                            <div class="selected-member-name">
+                                <h4>{{ member.name }}</h4>
                             </div>
                         </ng-container>
+                        <ng-template #defaultImageSelectedMember>
+                            <div class="selected-member-img">
+                                <img src="assets/header/avatar-icon.png" />
+                            </div>
+                            <div class="selected-member-name">
+                                <h4>{{ member.name }}</h4>
+                            </div>
+                        </ng-template>
                     </div>
                 </div>
             </div>
