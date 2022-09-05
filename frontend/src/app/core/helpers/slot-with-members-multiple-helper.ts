@@ -4,6 +4,7 @@ import { LocationType } from '@shared/enums/locationType';
 
 import { getLocalMandatoryQuestions } from './questions-mandatory-helper';
 import { getScheduleItems } from './schedule-list-helper';
+import { getDefaultTimeZone } from './time-zone-helper';
 
 export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
     {
@@ -40,7 +41,7 @@ export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
         ],
         questions: getLocalMandatoryQuestions(),
         schedule: {
-            timeZone: 1,
+            timeZone: getDefaultTimeZone(),
             scheduleItems: getScheduleItems(),
             withTeamMembers: true,
             definedExternally: false,

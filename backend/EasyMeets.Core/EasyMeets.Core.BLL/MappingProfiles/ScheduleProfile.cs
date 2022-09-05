@@ -8,10 +8,14 @@ public class ScheduleProfile : Profile
 {
     public ScheduleProfile()
     {
-        CreateMap<ScheduleDto, Schedule>();
+        CreateMap<ScheduleDto, Schedule>()
+            .ForMember(dest => dest.TimeZoneValue, src => src.MapFrom(s => s.TimeZone.TimeValue))
+            .ForMember(dest => dest.TimeZoneName, src => src.MapFrom(s => s.TimeZone.NameValue));
         CreateMap<ScheduleItemDto, ScheduleItem>();
         
-        CreateMap<Schedule, ScheduleDto>();
+        CreateMap<Schedule, ScheduleDto>()
+            .ForPath(dest => dest.TimeZone.TimeValue, src => src.MapFrom(s => s.TimeZoneValue))
+            .ForPath(dest => dest.TimeZone.NameValue, src => src.MapFrom(s => s.TimeZoneName));
         CreateMap<ScheduleItem, ScheduleItemDto>();
     }
 }
