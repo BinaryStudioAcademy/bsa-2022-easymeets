@@ -54,6 +54,7 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.Entity<CalendarVisibleForTeam>().HasData(GenerateCalendarVisibleForTeams());
             modelBuilder.Entity<Schedule>().HasData(GenerateSchedules());
             modelBuilder.Entity<ScheduleItem>().HasData(GenerateScheduleItems());
+            modelBuilder.Entity<SyncGoogleCalendar>().HasNoKey();
         }
 
         private static IList<User> GenerateUsers(int count = 10)
@@ -127,6 +128,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
                 .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
                 .RuleFor(u => u.IsDeleted, f => false)
+                .RuleFor(u => u.IsFromGoogleCalendar, f => false)
                 .RuleFor(u => u.MeetingLink, f => f.Internet.Url().ClampLength(1, 30))
                 .Generate(count);
         }
