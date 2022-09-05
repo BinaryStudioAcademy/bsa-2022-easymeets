@@ -1,5 +1,5 @@
 import { LocationType } from '@shared/enums/locationType';
-import { TimeZone } from '@shared/enums/timeZone';
+import { TZone } from 'moment-timezone-picker';
 
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
 import { ITeam } from './ITeam';
@@ -24,5 +24,5 @@ export interface IExternalBookingSideMenu {
 
     teamId?: bigint;
 
-    timeZone?: TimeZone;
+    timeZone?: TZone;
 }

@@ -19,7 +19,11 @@ public class ExternalAttendeeConfig : IEntityTypeConfiguration<ExternalAttendee>
             .IsRequired()
             .HasMaxLength(50);
         
-        builder.Property(at => at.TimeZone)
+        builder.Property(at => at.TimeZoneName)
+            .IsRequired()
+            .HasMaxLength(50);
+            
+        builder.Property(at => at.TimeZoneValue)
             .IsRequired()
             .HasMaxLength(50);
 

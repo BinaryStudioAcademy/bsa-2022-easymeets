@@ -32,7 +32,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     @Input() selectedMeetingDuration: number;
 
-    @Output() selectedTimeAndDateEvent = new EventEmitter<{ date: Date; timeFinish: Date; timeZone: TimeZone }>();
+    @Output() selectedTimeAndDateEvent = new EventEmitter<{ date: Date; timeFinish: Date; timeZone: TZone }>();
 
     public slotsCount: Array<object>;
 
@@ -45,10 +45,6 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     public theLatestFinishOfTimeRanges: Date;
 
     public theEarliestStartOfTimeRanges: Date;
-
-    public timeZone: TimeZone;
-
-    public zonesValues = Object.values(TimeZone);
 
     public pickedTimeZone: TZone;
 
@@ -132,7 +128,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         return week;
     }
 
-    public AddTimeAndDate(timeIndex: number, dayIndex: number, timeZone: TimeZone): void {
+    public AddTimeAndDate(timeIndex: number, dayIndex: number, timeZone: TZone): void {
         const date = addDays(this.calendarWeek.firstDay, dayIndex);
         const time = addHours(this.theEarliestStartOfTimeRanges, (this.selectedMeetingDuration * timeIndex) / 60);
 

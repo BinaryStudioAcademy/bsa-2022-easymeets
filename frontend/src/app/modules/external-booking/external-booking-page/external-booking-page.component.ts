@@ -14,7 +14,7 @@ import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { UserService } from '@core/services/user.service';
 import { LocationType } from '@shared/enums/locationType';
-import { TimeZone } from '@shared/enums/timeZone';
+import { TZone } from 'moment-timezone-picker';
 
 @Component({
     selector: 'app-external-booking-page',
@@ -78,7 +78,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         };
     }
 
-    public addTimeAndDateInMenu(data: { date: Date; timeFinish: Date; timeZone: TimeZone }): void {
+    public addTimeAndDateInMenu(data: { date: Date; timeFinish: Date; timeZone: TZone }): void {
         this.menu = {
             ...this.menu,
             date: data.date,

@@ -1,8 +1,8 @@
-import { TimeZone } from '@shared/enums/timeZone';
+import { TZone } from 'moment-timezone-picker';
 
 export interface IExternalAttendee {
     availabilitySlotId?: bigint;
     name: string;
     email: string;
-    timeZone?: TimeZone;
+    timeZone?: TZone;
 }
