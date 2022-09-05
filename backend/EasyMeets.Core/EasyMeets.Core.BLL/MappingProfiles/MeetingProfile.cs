@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using EasyMeets.Core.Common.DTO.Calendar;
 using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.Common.DTO.Zoom;
+using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Entities;
 
 namespace EasyMeets.Core.BLL.MappingProfiles
@@ -33,6 +35,16 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                     dest.Settings.ContactName = src.Author.Name;
                     dest.Settings.ContactEmail = src.Author.Email;
                 });
+
+            CreateMap<EventItemDTO, Meeting>()
+                .ForMember(dest => dest.Name, src => src.MapFrom(eventItem => eventItem.Summary))
+                .ForMember(dest => dest.StartTime, src => src.MapFrom(eventItem => new DateTimeOffset(eventItem.Start!.DateTime)))
+                .ForMember(dest => dest.IsDeleted, src => src.MapFrom(eventItem => false))
+                .ForMember(dest => dest.CreatedAt, src => src.MapFrom(eventItem => eventItem.Created))
+                .ForMember(dest => dest.UpdatedAt, src => src.MapFrom(eventItem => eventItem.Updated))
+                .ForMember(dest => dest.LocationType, src => src.MapFrom(eventItem => LocationType.Zoom))
+                .ForMember(dest => dest.MeetingLink, src => src.MapFrom(eventItem => eventItem.Location))
+                .ForMember(dest => dest.IsFromGoogleCalendar, src => src.MapFrom(eventItem => true));
         }
 
         private string CreateMemberTitle(Meeting meeting)
