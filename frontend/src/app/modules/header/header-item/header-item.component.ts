@@ -67,8 +67,8 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
     }
 
     public navLinks = [
-        { path: '../availability', label: 'Availability' },
-        { path: '../bookings', label: 'Bookings' },
+        { path: '/availability', label: 'Availability' },
+        { path: '/bookings', label: 'Bookings' },
     ];
 
     public activeTab = this.navLinks[0].label;
