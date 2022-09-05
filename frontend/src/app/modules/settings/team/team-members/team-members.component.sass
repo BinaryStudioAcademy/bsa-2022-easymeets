@@ -1,1 +1,60 @@
+@import "src/styles/color-variables"
 
+.table-container
+    width: 100%
+    .team-members-table.mat-table
+        width: 100%
+        box-shadow: none
+        margin-top: 35px
+        .mat-cell
+            font-family: 'Inter'
+            font-style: normal
+            font-weight: 400
+            font-size: 14px
+            line-height: 146%
+            color: $midnight
+            border-bottom: 1px solid $header-border-color
+
+.team-members-cell.mat-header-cell
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 700
+    font-size: 14px
+    line-height: 20px
+    color: $raven
+    background-color: $athens-gray
+    border-bottom: none
+
+.main-member-info
+    display: flex
+    flex-direction: row
+    .member-avatar
+        padding: 10px 10px 10px 0
+        display: flex
+        max-width: 40px
+        img
+            border-radius: 200px
+            width: 40px
+            height: 40px
+    .member-name-email
+        display: flex
+        flex-direction: column
+        padding: 10px 0 10px 0
+        .name
+            font-weight: 700
+        .email
+            color: $raven
+
+.copy-page-link-icon
+    width: 15px
+    height: 15px
+    margin-right: 3px
+    filter: invert(43%) sepia(5%) saturate(764%) hue-rotate(185deg) brightness(100%) contrast(92%)
+
+i
+    color: #6C707A
+    margin-left: 5px
+
+.connected-calendar-icon
+    width: 32px
+    height: 32px
