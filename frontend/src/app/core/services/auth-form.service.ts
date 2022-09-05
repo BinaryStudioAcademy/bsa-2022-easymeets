@@ -24,15 +24,21 @@ export class AuthFormService {
     ) {}
 
     public signIn(email: string, password: string): Observable<IUser> {
-        return this.authenticate(this.authService.signIn(email, password));
+        return this.authenticate(this.authService.signIn(email, password)).pipe(
+            tap({ next: () => this.notificationService.showInfoMessage('Verification email has been sent') }),
+        );
     }
 
     public signUp(email: string, password: string, userName: string): Observable<IUser> {
-        return this.authenticate(this.authService.signUp(email, password), userName);
+        return this.authenticate(this.authService.signUp(email, password), userName).pipe(
+            tap({ next: () => this.notificationService.showInfoMessage('Verification email has been sent') }),
+        );
     }
 
     public onSignInWithGoogle(): Observable<IUser> {
-        return this.authenticate(this.authService.loginWithGoogle());
+        return this.authenticate(this.authService.loginWithGoogle()).pipe(
+            tap({ next: () => this.notificationService.showInfoMessage('Authentication successful') }),
+        );
     }
 
     private authenticate(authMethod: Observable<firebase.auth.UserCredential>, userName?: string) {
@@ -59,7 +65,6 @@ export class AuthFormService {
             })
             .pipe(
                 tap(() => {
-                    this.notificationService.showSuccessMessage('Authentication successful');
                     this.router.navigateByUrl('availability');
                 }),
             );
