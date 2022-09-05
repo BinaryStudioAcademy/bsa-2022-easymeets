@@ -17,7 +17,6 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AdvancedSlotSettingsConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AvailabilitySlotConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CalendarConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ExternalAttendeeAvailabilityConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ExternalAttendeeConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MeetingConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(QuestionsConfig).Assembly);
@@ -50,7 +49,6 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.Entity<Calendar>().HasData(GenerateCalendars());
             modelBuilder.Entity<SlotMember>().HasData(GenerateSlotMembers());
             modelBuilder.Entity<ExternalAttendee>().HasData(GenerateExternalAttendee());
-            modelBuilder.Entity<ExternalAttendeeAvailability>().HasData(GenerateExternalAttendeeAvailabilities());
             modelBuilder.Entity<CalendarVisibleForTeam>().HasData(GenerateCalendarVisibleForTeams());
             modelBuilder.Entity<Schedule>().HasData(GenerateSchedules());
             modelBuilder.Entity<ScheduleItem>().HasData(GenerateScheduleItems());
@@ -276,24 +274,9 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.AvailabilitySlotId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.Name, f => f.Person.FullName)
                 .RuleFor(u => u.Email, f => f.Person.Email.ClampLength(max: 29))
-                .RuleFor(u => u.EventTime, f => f.Date.Future())
                 .RuleFor(u => u.IsDeleted, f => false)
                 .RuleFor(u => u.TimeZoneValue, f => string.Empty)
                 .RuleFor(u => u.TimeZoneName, f => string.Empty)
-                .Generate(count);
-        }
-
-        private static IList<ExternalAttendeeAvailability> GenerateExternalAttendeeAvailabilities(int count = 10)
-        {
-            var id = 1;
-
-            return new Faker<ExternalAttendeeAvailability>()
-                .UseSeed(SeedNumber)
-                .RuleFor(u => u.Id, f => id++)
-                .RuleFor(u => u.ExternalAttendeeId, f => f.Random.Int(1, 10))
-                .RuleFor(u => u.StartEvent, f => DateTime.Now.AddDays(1))
-                .RuleFor(u => u.EndEvent, f => DateTime.Now.AddDays(2))
-                .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
 

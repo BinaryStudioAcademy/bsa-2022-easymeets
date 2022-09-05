@@ -6,7 +6,7 @@ import { TimeFormat } from '@shared/enums/timeFormat';
 import { ITimeZone } from './ITimeZone';
 
 export interface IUser {
-    id: number;
+    id: bigint;
     uid?: string;
     userName: string;
     email: string;
@@ -21,7 +21,7 @@ export interface IUser {
 }
 
 export interface ILocalUser {
-    id: number;
+    id: bigint;
     uid?: string;
     userName: string;
     image?: string;

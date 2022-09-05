@@ -11,16 +11,21 @@ public class ExternalAttendeeConfig : IEntityTypeConfiguration<ExternalAttendee>
         builder.Property(at => at.AvailabilitySlotId)
             .IsRequired();
         
-        builder.Property(at => at.EventTime)
-            .IsRequired();
-        
         builder.Property(at => at.Name)
             .IsRequired()
             .HasMaxLength(50);
         
         builder.Property(at => at.Email)
             .IsRequired()
-            .HasMaxLength(30);
+            .HasMaxLength(50);
+        
+        builder.Property(at => at.TimeZoneName)
+            .IsRequired()
+            .HasMaxLength(50);
+            
+        builder.Property(at => at.TimeZoneValue)
+            .IsRequired()
+            .HasMaxLength(50);
 
         builder.HasOne(at => at.AvailabilitySlot)
             .WithMany(s => s.ExternalAttendees)
