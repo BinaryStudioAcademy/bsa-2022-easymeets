@@ -27,6 +27,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(dest => dest.MeetingCount, src => src.MapFrom(s => GetAllParticipants(s).Count()))
                 .ForMember(dest => dest.Location, src => src.MapFrom(s => s.LocationType.ToString()));
             CreateMap<SaveMeetingDto, Meeting>();
+            CreateMap<Meeting, SaveMeetingDto>();
 
             CreateMap<Meeting, NewZoomMeetingDto>()
                 .ForMember(m => m.Agenda, o
