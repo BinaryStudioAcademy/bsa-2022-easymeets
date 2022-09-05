@@ -61,7 +61,7 @@ namespace EasyMeets.Core.BLL.Services
 
             return members;
         }
-
+        
         public async Task<SaveMeetingDto> CreateMeeting(SaveMeetingDto meetingDto)
         {
             var currentUser = await _userService.GetCurrentUserAsync();
@@ -122,6 +122,13 @@ namespace EasyMeets.Core.BLL.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<OrderedMeetingTimesDto>> GetOrderedMeetingTimesAsync(long slotId)
+        {
+            return await _context.Meetings.Where(el => el.AvailabilitySlotId == slotId)
+                .Select(el => new OrderedMeetingTimesDto {StartTime = el.StartTime})
+                .ToListAsync();
+        }
+
         private async Task<ICollection<MeetingMember>> GetMeetingMembers(List<NewMeetingMemberDto> meetingMembers, long teamId)
         {
             var usersIds = meetingMembers.Select(x => x.Id);
@@ -150,7 +157,7 @@ namespace EasyMeets.Core.BLL.Services
         }
 
         private Meeting GetByIdInternal(long id)
-        { 
+        {
             return _context.Meetings
                 .Include(m => m.MeetingMembers)
                     .ThenInclude(mm => mm.TeamMember)

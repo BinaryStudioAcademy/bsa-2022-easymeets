@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IExternalAnswers } from '@core/models/IExternalAnswers';
 import { nameWithoutSpaces, userNameRegex } from '@shared/constants/model-validation';
@@ -9,6 +9,8 @@ import { nameWithoutSpaces, userNameRegex } from '@shared/constants/model-valida
     styleUrls: ['./external-booking-confirm-page.component.sass'],
 })
 export class ExternalBookingConfirmPageComponent implements OnInit {
+    @Output() confirmBooking = new EventEmitter<IExternalAnswers>();
+
     ngOnInit(): void {
         this.externalAnswers = {
             externalName: '',
@@ -19,7 +21,8 @@ export class ExternalBookingConfirmPageComponent implements OnInit {
 
     public confirmForm = new FormGroup({
         characters: new FormControl('', [
-            Validators.pattern(userNameRegex), Validators.pattern(nameWithoutSpaces),
+            Validators.pattern(userNameRegex),
+            Validators.pattern(nameWithoutSpaces),
             Validators.minLength(2),
             Validators.maxLength(50),
         ]),
@@ -37,6 +40,10 @@ export class ExternalBookingConfirmPageComponent implements OnInit {
 
     get extraInfo() {
         return this.confirmForm.get('extraInfo');
+    }
+
+    OnConfirmBooking() {
+        this.confirmBooking.emit(this.externalAnswers);
     }
 
     public externalAnswers: IExternalAnswers;
