@@ -3,6 +3,8 @@ import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
 
+import { ITimeZone } from './ITimeZone';
+
 export interface INewUser {
     uid?: string;
     userName: string;
@@ -13,5 +15,5 @@ export interface INewUser {
     dateFormat: DateFormat;
     country?: Country;
     phone?: string;
-    timeZone: number;
+    timeZone: ITimeZone;
 }

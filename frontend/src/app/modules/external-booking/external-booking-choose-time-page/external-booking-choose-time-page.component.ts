@@ -7,7 +7,7 @@ import { IDayTimeSlot } from '@core/models/IDayTimeSlot';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { SpinnerService } from '@core/services/spinner.service';
-import { TimeZone } from '@shared/enums/timeZone';
+import { TZone } from 'moment-timezone-picker';
 
 @Component({
     selector: 'app-external-booking-choose-time-page',
@@ -31,9 +31,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     public theEarliestStartOfTimeRanges: Date;
 
-    public timeZone = TimeZone;
-
-    public pickedTimeZone: TimeZone;
+    public pickedTimeZone: TZone;
 
     public calendarWeek: ICalendarWeek;
 

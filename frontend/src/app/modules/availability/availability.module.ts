@@ -8,6 +8,7 @@ import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { MomentTimezonePickerModule } from 'moment-timezone-picker';
 
 import { AvailabilityPageComponent } from './availability-page/availability-page.component';
 import { EditAvailabilityPageComponent } from './edit-slot/edit-availability-page/edit-availability-page.component';
@@ -55,6 +56,7 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         SideMenuModule,
         HeaderModule,
         FormsModule,
+        MomentTimezonePickerModule,
         CalendarModule.forRoot({
             provide: DateAdapter,
             useFactory: adapterFactory,
