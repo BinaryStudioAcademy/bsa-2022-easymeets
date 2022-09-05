@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as languageHelper from '@core/helpers/language-helper';
 import * as timeHelper from '@core/helpers/time-format-label-mapping';
+import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IUser } from '@core/models/IUser';
 import { AuthService } from '@core/services/auth.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -61,7 +62,7 @@ export class AuthFormService {
                 timeFormat: timeHelper.getTimeFormat(),
                 dateFormat: DateFormat.MonthDayYear,
                 phone: resp.user?.phoneNumber ?? undefined,
-                timeZone: new Date().getTimezoneOffset(),
+                timeZone: getDefaultTimeZone(),
             })
             .pipe(
                 tap(() => {
