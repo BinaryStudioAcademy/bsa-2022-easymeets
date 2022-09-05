@@ -10,8 +10,8 @@ import { AvailabilitySlotService } from '@core/services/availability-slot.servic
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { LocationType } from '@shared/enums/locationType';
-import { TimeZone } from '@shared/enums/timeZone';
 import { addDays, addHours, subDays } from 'date-fns';
+import { TZone } from 'moment-timezone-picker';
 
 @Component({
     selector: 'app-external-booking-choose-time-page',
@@ -50,7 +50,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     public zonesValues = Object.values(TimeZone);
 
-    public pickedTimeZone: TimeZone;
+    public pickedTimeZone: TZone;
 
     public calendarWeek: ICalendarWeek;
 

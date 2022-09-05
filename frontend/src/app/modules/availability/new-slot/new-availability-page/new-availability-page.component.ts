@@ -20,7 +20,7 @@ export class NewAvailabilityPageComponent extends BaseComponent {
         private teamService: TeamService,
     ) {
         super();
-        teamService.currentTeamEmitted$.subscribe(teamId => {
+        teamService.currentTeamEmitted$.subscribe((teamId) => {
             this.currentTeamId = teamId;
         });
     }

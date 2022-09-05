@@ -16,14 +16,12 @@ public class TeamSharedService : BaseService, ITeamSharedService
 
     public async Task CreateDefaultUsersTeamAsync(User user)
     {
-        var teamName = user.Name.Replace(" ", "") + "Team";
+        var teamName = $"{user.Name.Trim()} Team";
         var teamDto = new TeamDto
         {
-            Description = "",
-            Image = "",
             Name = teamName,
             PageLink = await GenerateNewPageLinkAsync(0, teamName),
-            TimeZone = user.TimeZone
+            TimeZone = { NameValue = user.TimeZoneName, TimeValue = user.TimeZoneValue },
         };
         
         var team = _mapper.Map<Team>(teamDto);
