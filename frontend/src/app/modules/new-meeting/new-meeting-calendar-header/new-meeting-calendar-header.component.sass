@@ -1,0 +1,16 @@
+@import 'src/styles/color-variables.sass'
+@import 'src/styles/screen-variables.sass'
+
+.calendar-header
+    display: flex
+    justify-content: flex-start
+    align-items: center
+    height: 80px
+    @media (max-width: $tablet-min-width)
+        width: 100%
+    .date-arrows
+        display: flex
+        color: $raven
+    .week-range
+        color: $midnight
+        font-weight: 700

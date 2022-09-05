@@ -12,15 +12,19 @@ namespace EasyMeets.Core.DAL.Migrations
             migrationBuilder.AddColumn<int>(
                 name: "Color",
                 table: "AvailabilitySlots",
-                defaultValue:0);
+                defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "Frequency",
                 table: "AdvancedSlotSettings",
-                defaultValue:0);
+                defaultValue: 0);
 
-            // migrationBuilder.Sql("UPDATE AvailabilitySlots SET Color = (SELECT Color FROM AdvancedSlotSettings WHERE AvailabilitySlots.id = AdvancedSlotSettings.id)");
-            // migrationBuilder.Sql("UPDATE AdvancedSlotSettings SET Frequency = (SELECT Frequency FROM AvailabilitySlots WHERE AvailabilitySlots.id = AdvancedSlotSettings.id)");
+            migrationBuilder.Sql($"UPDATE AvailabilitySlots " +
+                $"SET Color = (SELECT Color FROM AdvancedSlotSettings WHERE AvailabilitySlots.id = AdvancedSlotSettings.AvailabilitySlotId) " +
+                $"FROM AvailabilitySlots " +
+                $"INNER JOIN AdvancedSlotSettings ON AvailabilitySlots.id = AdvancedSlotSettings.AvailabilitySlotId");
+            migrationBuilder.Sql($"UPDATE AdvancedSlotSettings " +
+                $"SET Frequency = (SELECT Frequency FROM AvailabilitySlots WHERE AvailabilitySlots.id = AdvancedSlotSettings.AvailabilitySlotId)");
 
             migrationBuilder.DropColumn(
                 name: "Frequency",

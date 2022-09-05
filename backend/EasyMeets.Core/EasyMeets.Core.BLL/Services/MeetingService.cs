@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Meeting;
+using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -80,11 +81,14 @@ namespace EasyMeets.Core.BLL.Services
                 .Select(x => x.Team.Id)
                 .FirstOrDefaultAsync();
 
+            var meetingMembers = await GetMeetingMembers(meetingDto.MeetingMembers, teamId);
+
             var meeting = _mapper.Map<Meeting>(meetingDto, opts =>
                 opts.AfterMap((_, dest) =>
                 {
                     dest.CreatedBy = currentUser.Id;
                     dest.TeamId = teamId;
+                    dest.MeetingMembers = meetingMembers;
                 })
             );
 
@@ -100,6 +104,16 @@ namespace EasyMeets.Core.BLL.Services
                 .ToListAsync();
 
             return result;
+
+        private async Task<ICollection<MeetingMember>> GetMeetingMembers(List<NewMeetingMemberDto> meetingMembers, long teamId)
+        {
+            var usersIds = meetingMembers.Select(x => x.Id);
+            var teamMembers = await _context.TeamMembers
+                .Where(x => usersIds.Contains(x.UserId) && x.TeamId == teamId)
+                .Select(x => new MeetingMember { TeamMemberId = x.Id })
+                .ToListAsync();
+
+            return teamMembers;
         }
     }
 }
