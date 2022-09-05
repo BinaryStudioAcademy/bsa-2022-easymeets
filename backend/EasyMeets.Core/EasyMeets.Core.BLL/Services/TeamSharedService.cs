@@ -21,7 +21,7 @@ public class TeamSharedService : BaseService, ITeamSharedService
         {
             Name = teamName,
             PageLink = await GenerateNewPageLinkAsync(0, teamName),
-            TimeZone = { NameValue = user.TimeZoneName, TimeValue = user.TimeZoneValue },
+            TimeZone = new Common.DTO.Common.TimeZoneDto() { NameValue = user.TimeZoneName, TimeValue = user.TimeZoneValue },
         };
         
         var team = _mapper.Map<Team>(teamDto);
