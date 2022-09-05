@@ -23,6 +23,14 @@ public static class HttpClientHelper
         return await SendHttpRequestAsync<T>(HttpMethod.Post, endpoint, httpContent: null);
     }
 
+    public static async Task<T> SendPostTokenRequest<T>(string endpoint, Dictionary<string, string>? queryParams, object body, string accessToken)
+    {
+        var bodyJson = JsonConvert.SerializeObject(body);
+        var httpContent = new StringContent(bodyJson, Encoding.UTF8, "application/json");
+
+        return await SendHttpRequestAsync<T>(HttpMethod.Post, endpoint, accessToken, queryParams, httpContent);
+    }
+
     public static async Task SendPutRequest(string endpoint, Dictionary<string, string>? queryParams, object body, string accessToken)
     {
         var bodyJson = JsonConvert.SerializeObject(body);
