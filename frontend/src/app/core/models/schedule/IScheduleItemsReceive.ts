@@ -1,7 +1,9 @@
+import { WeekDay } from '@shared/enums/weekDay';
+
 export interface IScheduleItemReceive {
     id?: bigint;
     start: Date;
     end: Date;
-    weekDay: number;
+    weekDay: WeekDay;
     isEnabled: boolean;
 }
