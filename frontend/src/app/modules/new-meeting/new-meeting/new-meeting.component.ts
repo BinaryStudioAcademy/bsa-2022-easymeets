@@ -10,7 +10,7 @@ import { ConfirmationWindowService } from '@core/services/confirmation-window.se
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
+import { nameRegex, naturalNumberRegex } from '@shared/constants/model-validation';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
 import { map, Observable, startWith, Subscription } from 'rxjs';
@@ -20,7 +20,6 @@ import { map, Observable, startWith, Subscription } from 'rxjs';
     templateUrl: './new-meeting.component.html',
     styleUrls: ['./new-meeting.component.sass'],
 })
-
 export class NewMeetingComponent extends BaseComponent implements OnInit, OnDestroy {
     constructor(
         private newMeetingService: NewMeetingService,
@@ -63,7 +62,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(newMeetingNameRegex),
+        Validators.pattern(nameRegex),
     ]);
 
     customTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
@@ -89,10 +88,9 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.patchFormValues();
         this.setValidation();
 
-        this.teamService.currentTeamEmitted$
-            .subscribe(teamId => {
-                this.getTeamMembersOfCurrentUser(teamId);
-            });
+        this.teamService.currentTeamEmitted$.subscribe((teamId) => {
+            this.getTeamMembersOfCurrentUser(teamId);
+        });
         [this.duration] = this.durations;
     }
 
@@ -108,19 +106,18 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 createdAt: new Date(),
             };
 
-            this.createdMeeting = newMeeting;
-
             this.newMeetingService
                 .saveNewMeeting(newMeeting)
                 .pipe(this.untilThis)
-                .subscribe(() => {
+                .subscribe((value) => {
+                    this.createdMeeting = value;
                     this.reset();
+                    this.showConfirmWindow();
                 });
         } else {
             this.notificationService.showErrorMessage('All fields need to be set');
+            this.showConfirmWindow();
         }
-
-        this.showConfirmWindow();
     }
 
     getTeamMembersOfCurrentUser(teamId?: number) {
