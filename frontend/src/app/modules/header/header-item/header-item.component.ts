@@ -74,9 +74,7 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
     public activeTab = this.navLinks[0].label;
 
     public logout() {
-        return this.authService.signOut().then(() => {
-            this.router.navigateByUrl('auth');
-        });
+        return this.authService.signOut().subscribe(() => this.router.navigateByUrl('auth'));
     }
 
     public changeTeam(teamId: number) {
