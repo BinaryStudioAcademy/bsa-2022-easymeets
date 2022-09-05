@@ -3,80 +3,116 @@
 
 *
     box-sizing: border-box
-    font-size: 12px
+    font-size: 14px
+    font-weight: 400
+    color: $regent-gray
 
 .main-settings, .advanced-settings
-    margin: 0 60px 30px 30px
-    @media screen and ( max-width: $tablet-min-width)
-        margin: 0 40px 30px 0
+    margin: 30px
+    display: flex
+    min-width: calc(100% - 64px)
+    @media ( max-width: $desktop-min-width)
+        flex-direction: column
+        gap: 30px
 
-.inputs-grid
-    width: 100%
-    display: grid
-    grid-template-columns: 50% 50%
-    grid-template-rows: repeat(auto-fit, minmax(50px, 1fr))
-    align-items: end
-    justify-items: start
-    @media screen and(max-width: $desktop-min-width)
-        grid-template-columns: 100%
+.inputs-left-container, .inputs-right-container
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    gap: 30px
 
-.input-container
-    width: 100%
-    margin: 20px 10px
-    padding-left: 20px
+.inputs-left-container
+    justify-content: space-between
+    width: 40%
+    @media ( max-width: $desktop-min-width)
+        width: 100%
 
-select, input[type=text]
-    width: 100%
-    border: 2px solid $regent-gray
-    border-radius: 4px
-    height: 36px
+.inputs-right-container
+    width: 60%
+    @media ( max-width: $desktop-min-width)
+        width: 100%
 
-input[type=text]
-    padding-left: 5px
+.inputs-right-container.up
+    justify-content: space-between
+
+.inputs-right-container.down
+    justify-content: flex-end
 
 .input-description
-    font-weight: bold
+    font-weight: 700
     margin-bottom: 5px
 
 .show-advanced-container
     display: flex
-    flex-direction: row
-    margin: 20px 0 0 60px
-    @media screen and ( max-width: $tablet-min-width)
-        margin: 20px 0 0 30px
-    .advanced-settings-label
-        padding-top: 12px
-        align-self: center
-    mat-slide-toggle
-        margin-top: 10px
-        margin-right: 10px
-
-.form-switch
-    align-self: center
-    margin-right: 5px
-
-.mat-radio-button
-    margin: 5px
-
-.input-message
-    display: inline-block
-    width: 80%
-    margin: 5px
-    @media screen and(max-width: $desktop-min-width)
-        width: 100%
+    align-items: center
+    margin: 20px 0 0 30px
 
 .checkbox-container
-    margin: 20px
     display: flex
     flex-direction: row
     align-items: center
+    margin-top: 30px
+    margin-bottom: 10px
+    .input-message
+        margin-left: 5px
+    @media ( max-width: $desktop-min-width)
+        margin-top: 0
+
+input[type=text], .mat-select, .label-container, .error
+    max-width: calc(280px - 9px)
+    width: calc(100% - 9px)
+    @media ( max-width: $desktop-min-width)
+        max-width: calc(100% - 9px)
+
+.input-container
+    width: 100%
+
+.label-container
+    display: flex
+    justify-content: space-between
+
+.colorsRow
+    margin-bottom: 5px
+
+.mat-radio-group
+    display: flex
+    justify-content: space-between
+    max-width: calc(280px - 12px)
+    width: calc(100% - 12px)
+    margin-bottom: 5px
+    @media (max-width: $desktop-min-width)
+        max-width: calc(100% - 12px)
+
+.advanced-settings-label
+    margin-left: 5px
+
+input[type=text]
+    font-size: 14px
+    padding-left: 5px
+    border: 2px solid $pattens-blue
+    border-radius: 8px
+    height: 36px
 
 .disabled
     opacity: 0.3
 
 .error
     position: absolute
-    color: $red
+    div
+        font-size: 10px
+        color: $red
 
 .ng-invalid.ng-touched:not(.ng-pristine)
     border-color: $red
+
+::ng-deep .input-container
+    mat-select
+        align-items: center !important
+        display: flex !important
+
+.mat-select
+    font-size: 14px
+    padding-left: 5px
+    border: 2px solid $pattens-blue
+    border-radius: 8px
+    height: 36px

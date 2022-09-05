@@ -8,7 +8,6 @@ public class GeneralDetailsDtoValidator : AbstractValidator<GeneralDetailsDto>
 {
     public GeneralDetailsDtoValidator()
     {
-        RuleFor(g => g.Frequency).Must(f => f > 0);
         RuleFor(g => g.Name)
             .MinimumLength(1)
             .MaximumLength(50)

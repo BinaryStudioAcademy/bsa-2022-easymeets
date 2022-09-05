@@ -58,6 +58,7 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.Entity<ScheduleItem>().HasData(GenerateScheduleItems());
             modelBuilder.Entity<ExclusionDate>().HasData(exclusionDates);
             modelBuilder.Entity<DayTimeRange>().HasData(GenerateDateTimeRanges(exclusionDates));
+            modelBuilder.Entity<SyncGoogleCalendar>().HasNoKey();
         }
 
         private static IList<User> GenerateUsers(int count = 10)
@@ -131,6 +132,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
                 .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
                 .RuleFor(u => u.IsDeleted, f => false)
+                .RuleFor(u => u.IsFromGoogleCalendar, f => false)
                 .RuleFor(u => u.MeetingLink, f => f.Internet.Url().ClampLength(1, 30))
                 .Generate(count);
         }
@@ -150,7 +152,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.MaxNumberOfBookings, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.PaddingMeeting, f => f.Random.Int(1, 15))
                 .RuleFor(u => u.MinBookingMeetingDifference, f => f.Random.Int(1, 5))
-                .RuleFor(u => u.Color, f => (Color)f.Random.Int(1, 8))
+                .RuleFor(u => u.Frequency, f => f.Random.Int(15, 30))
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
         }
@@ -172,7 +174,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Link, f => f.Internet.Url().ClampLength(1, 30))
                 .RuleFor(u => u.Type, f => (SlotType)f.Random.Int(0, 1))
                 .RuleFor(u => u.Size, f => f.Random.Int(15, 60))
-                .RuleFor(u => u.Frequency, f => f.Random.Int(15, 30))
+                .RuleFor(u => u.Color, f => (Color)f.Random.Int(1, 8))
                 .RuleFor(u => u.Language, f => "Ukrainian")
                 .RuleFor(u => u.BookingsPerDay, f => f.Random.Int(1, 5))
                 .RuleFor(u => u.TimeZoneVisibility, f => true)

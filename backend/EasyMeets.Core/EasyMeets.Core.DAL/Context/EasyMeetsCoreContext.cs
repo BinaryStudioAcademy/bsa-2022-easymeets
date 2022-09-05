@@ -25,6 +25,7 @@ namespace EasyMeets.Core.DAL.Context
         public DbSet<ExclusionDate> ExclusionDates { get; private set; }
         public DbSet<DayTimeRange> DayTimeRanges { get; private set; }
         public DbSet<Credentials> Credentials { get; private set; }
+        public DbSet<SyncGoogleCalendar> SyncGoogleCalendar { get; private set; }
 
 
         public EasyMeetsCoreContext(DbContextOptions<EasyMeetsCoreContext> options) : base(options)
@@ -49,6 +50,7 @@ namespace EasyMeets.Core.DAL.Context
             DayTimeRanges = Set<DayTimeRange>();
             MeetingMembers = Set<MeetingMember>();
             Credentials = Set<Credentials>();
+            SyncGoogleCalendar = Set<SyncGoogleCalendar>();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

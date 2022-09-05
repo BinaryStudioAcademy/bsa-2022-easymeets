@@ -38,32 +38,32 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
             },
         });
 
-        this.teamService.currentTeamEmitted$
-            .pipe(this.untilThis)
-            .subscribe(currentTeamId => {
-                this.teamService.getCurrentUserTeams()
-                    .subscribe(teams => {
-                        this.teams = teams;
+        this.teamService.currentTeamEmitted$.pipe(this.untilThis).subscribe((currentTeamId) => {
+            this.teamService
+                .getCurrentUserTeams()
+                .pipe(this.untilThis)
+                .subscribe((teams) => {
+                    this.teams = teams;
+                    this.defineCurrentTeam(teams, currentTeamId);
+                });
+        });
 
-                        if (!currentTeamId && teams.length) {
-                            this.teamService.emitCurrentTeamChange(teams[0].id);
-                        } else {
-                            this.currentTeam = this.teams.find(team => team.id === currentTeamId);
-                        }
-                    });
-            });
-
-        this.teamService.teamStateChangeEmitted$
-            .subscribe((teamChange: { teamId: number, action: TeamStateChangeActionEnum }) => {
-                this.teamService.getCurrentUserTeams()
+        this.teamService.teamStateChangeEmitted$.subscribe(
+            (teamChange: { teamId: number; action: TeamStateChangeActionEnum }) => {
+                this.teamService
+                    .getCurrentUserTeams()
                     .pipe(this.untilThis)
-                    .subscribe(result => {
+                    .subscribe((result) => {
                         this.teams = result;
-                        if (teamChange.action === TeamStateChangeActionEnum.Deleted && this.currentTeam?.id === teamChange.teamId) {
+                        if (
+                            teamChange.action === TeamStateChangeActionEnum.Deleted &&
+                            this.currentTeam?.id === teamChange.teamId
+                        ) {
                             this.teamService.emitCurrentTeamChange(this.teams.length ? this.teams[0].id : undefined);
                         }
                     });
-            });
+            },
+        );
     }
 
     public navLinks = [
@@ -85,9 +85,15 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
 
     public navigateToTeam() {
         this.router.navigateByUrl(
-            this.currentTeam
-                ? `/settings/teams/edit/${this.currentTeam?.id}`
-                : '/settings/teams/new',
+            this.currentTeam ? `/settings/teams/edit/${this.currentTeam?.id}` : '/settings/teams/new',
         );
+    }
+
+    private defineCurrentTeam(teams: ITeam[], currentTeamId: number | undefined) {
+        if (!currentTeamId && teams.length) {
+            this.teamService.emitCurrentTeamChange(teams[0].id);
+        } else {
+            this.currentTeam = this.teams.find((team) => team.id === currentTeamId);
+        }
     }
 }

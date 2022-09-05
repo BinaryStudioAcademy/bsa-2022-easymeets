@@ -13,11 +13,11 @@ namespace EasyMeets.Core.WebAPI.Controllers
     public class MeetingController : ControllerBase
     {
         private readonly IMeetingService _meetingService;
-        private readonly ITeamService _teamService; 
+        private readonly ITeamService _teamService;
         public MeetingController(IMeetingService meetingService, ITeamService teamService)
         {
             _meetingService = meetingService;
-            _teamService = teamService; 
+            _teamService = teamService;
         }
 
         [HttpGet("GetThreeMeetingMembers/{teamId?}")]
@@ -30,18 +30,17 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("getTeamMembersOfCurrentUser")]
-        public async Task<ActionResult<ICollection<NewMeetingMemberDto>>> GetTeamMembersOfCurrentUser()
-        { 
-            var teamMembers = await _teamService.GetTeamMembersOfCurrentUserAsync();
+        [Route("getTeamMembersOfCurrentUser/{teamId?}")]
+        public async Task<ActionResult<ICollection<NewMeetingMemberDto>>> GetTeamMembersOfCurrentUser(long? teamId)
+        {
+            var teamMembers = await _teamService.GetTeamMembersOfCurrentUserAsync(teamId);
             return Ok(teamMembers);
         }
 
-        [HttpPost] 
-        public async Task<ActionResult> SaveNewMeeting([FromBody] SaveMeetingDto newMeetingDto)
+        [HttpPost]
+        public async Task<ActionResult<SaveMeetingDto>> SaveNewMeeting([FromBody] SaveMeetingDto newMeetingDto)
         {
-            await _meetingService.CreateMeeting(newMeetingDto);
-            return Ok();
-        } 
+            return Ok(await _meetingService.CreateMeeting(newMeetingDto));
+        }
     }
 }

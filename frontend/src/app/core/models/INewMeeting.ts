@@ -4,7 +4,7 @@ import { INewMeetingMember } from './INewMeetingTeamMember';
 
 export interface INewMeeting {
     name: string,
-    location: LocationType,
+    locationType: LocationType;
     duration: number,
     startTime: Date,
     meetingLink: string,
