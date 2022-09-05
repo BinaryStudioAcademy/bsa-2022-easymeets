@@ -39,7 +39,6 @@ namespace EasyMeets.Core.BLL.Services
                 .ToListAsync();
 
             var mapped = _mapper.Map<List<MeetingThreeMembersDTO>>(meetings);
-            ConvertTimeZone(mapped);
             return mapped;
         }
 
@@ -63,18 +62,6 @@ namespace EasyMeets.Core.BLL.Services
             return members;
         }
 
-        private void ConvertTimeZone(List<MeetingThreeMembersDTO> meetings)
-        {
-            foreach (var user in meetings.SelectMany(x => x.MeetingMembers ?? new List<UserMeetingDTO>()))
-            {
-                switch (user.TimeZone)
-                {
-                    case "0":
-                        user.TimeZone = "Eastern Europe (GMT -0:00)";
-                        break;
-                }
-            }
-        }
         public async Task<SaveMeetingDto> CreateMeeting(SaveMeetingDto meetingDto)
         {
             var currentUser = await _userService.GetCurrentUserAsync();
@@ -125,6 +112,7 @@ namespace EasyMeets.Core.BLL.Services
                          dest.TeamId = teamId;
                          dest.MeetingMembers = new List<MeetingMember> { new MeetingMember { TeamMemberId = userId } };
                          dest.Duration = (int)timeSpan.TotalMinutes;
+                         dest.IsFromGoogleCalendar = true;
                      })
                  );
 
