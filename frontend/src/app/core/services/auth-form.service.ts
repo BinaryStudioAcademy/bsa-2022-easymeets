@@ -11,10 +11,8 @@ import { DateFormat } from '@shared/enums/dateFormat';
 import firebase from 'firebase/compat';
 import { finalize, Observable, switchMap, tap } from 'rxjs';
 
-import { AuthModule } from '../auth.module';
-
 @Injectable({
-    providedIn: AuthModule,
+    providedIn: 'root',
 })
 export class AuthFormService {
     constructor(

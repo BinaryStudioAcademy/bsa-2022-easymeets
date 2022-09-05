@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
 import { AuthService } from '@core/services/auth.service';
-import { AuthFormService } from '@modules/auth/services/auth-form.service';
+import { AuthFormService } from '@core/services/auth-form.service';
 import { EmailValidator } from '@modules/auth/validators/email-validator';
 import { PasswordsErrorStateMatcher } from '@modules/auth/validators/passwordsErrorStateMatcher';
 import { userNameRegex } from '@shared/constants/model-validation';
