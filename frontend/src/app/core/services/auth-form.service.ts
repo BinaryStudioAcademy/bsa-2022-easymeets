@@ -26,7 +26,7 @@ export class AuthFormService {
 
     public signIn(email: string, password: string): Observable<IUser> {
         return this.authenticate(this.authService.signIn(email, password)).pipe(
-            tap({ next: () => this.notificationService.showInfoMessage('Verification email has been sent') }),
+            tap({ next: () => this.notificationService.showInfoMessage('Authentication successful') }),
         );
     }
 
