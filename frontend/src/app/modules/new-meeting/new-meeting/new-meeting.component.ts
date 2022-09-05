@@ -208,8 +208,9 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             map((value) => {
                 this.filterValue = typeof value === 'string' ? value.toLowerCase() : value.name;
 
-                return this.teamMembers.filter((teamMembers) =>
-                    teamMembers.name.toLowerCase().includes(this.filterValue),
+                return this.teamMembers.filter(
+                    (teamMembers) => teamMembers.name.toLowerCase().includes(this.filterValue),
+                    // eslint-disable-next-line function-paren-newline
                 );
             }),
         );
