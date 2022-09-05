@@ -21,7 +21,8 @@ export class AuthFormService {
         private spinnerService: SpinnerService,
         private userService: UserService,
         private notificationService: NotificationService,
-        private router: Router, // eslint-disable-next-line no-empty-function
+        private router: Router,
+        // eslint-disable-next-line no-empty-function
     ) {}
 
     public signIn(email: string, password: string): Observable<IUser> {
@@ -42,7 +43,7 @@ export class AuthFormService {
         );
     }
 
-    private authenticate(authMethod: Observable<firebase.auth.UserCredential>, userName?: string) {
+    private authenticate(authMethod: Observable<firebase.auth.UserCredential>, userName?: string): Observable<IUser> {
         this.spinnerService.show();
 
         return authMethod.pipe(

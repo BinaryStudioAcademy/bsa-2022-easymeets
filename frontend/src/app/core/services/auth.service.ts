@@ -93,7 +93,7 @@ export class AuthService {
         );
     }
 
-    public getAccessToken(): string | null {
+    public getAccessToken() {
         return localStorage.getItem('access-token');
     }
 
