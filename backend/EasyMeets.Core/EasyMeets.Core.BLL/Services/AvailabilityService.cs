@@ -42,7 +42,7 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(x => x.Team)
                 .Include(x => x.EmailTemplates)
                 .Where(x => x.CreatedBy == id || x.SlotMembers.Any(x => x.MemberId == id))
-                .Where(slot => teamId == null || (userTeam != null && slot.Team.Name == userTeam.Name))
+                .Where(slot => userTeam != null && slot.Team.Id == userTeam.Id)
                 .Select(y =>
                     new AvailabilitySlotDto
                     {
@@ -197,7 +197,7 @@ namespace EasyMeets.Core.BLL.Services
             {
                 _context.Remove(availabilitySlot.AdvancedSlotSettings);
             }
-            
+
             if (updateAvailabilityDto.TemplateSettings is not null)
             {
                 var oldTemplate = await _context.EmailTemplates.FirstOrDefaultAsync(t => t.TemplateType == updateAvailabilityDto.TemplateSettings.Type
