@@ -16,7 +16,6 @@ import { Country } from '@shared/enums/country';
 import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
-import { TimeZone } from '@shared/enums/timeZone';
 
 @Component({
     selector: 'app-user-profile-page',
@@ -31,8 +30,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     ) {
         super();
     }
-
-    public clickEvent = new EventEmitter<void>();
 
     public imageUrl?: string;
 
@@ -51,8 +48,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     public languageValues = [Language.Eng, Language.Ukr, Language.Pl, Language.Fr, Language.It];
 
     public languageLabelMapping = LanguageLabelMapping;
-
-    public timeZoneValues = Object.keys(TimeZone);
 
     public countryValues = Object.values(Country);
 
@@ -166,7 +161,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                 {
                     class: 'confirm-accept-button',
                     label: 'Ok',
-                    onClickEvent: this.clickEvent,
+                    onClickEvent: new EventEmitter<void>(),
                 },
             ],
             title: 'Oops...',

@@ -1,4 +1,5 @@
-﻿using EasyMeets.Core.Common.Enums;
+﻿using EasyMeets.Core.Common.DTO.Common;
+using EasyMeets.Core.Common.Enums;
 
 namespace EasyMeets.Core.Common.DTO.User;
 
@@ -14,5 +15,5 @@ public class NewUserDto
     public Country? Country { get; set; }
     public string? PhoneCode { get; set; }
     public string? Phone { get; set; }
-    public int TimeZone { get; set; }
+    public TimeZoneDto TimeZone { get; set; } = null!;
 }

@@ -1,4 +1,4 @@
 export interface ITimeZone {
-    value: number;
-    displayValue: string;
+    nameValue: string;
+    timeValue: string;
 }

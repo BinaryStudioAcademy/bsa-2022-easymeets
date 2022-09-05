@@ -1,0 +1,86 @@
+:host ::ng-deep .ng-select .ng-select-container
+    height: 20px
+    color: $dark-gray
+    align-items: center
+    background: $white
+    border: 2px solid $light-gray
+    border-radius: 4px
+    width: 100%
+
+:host ::ng-deep .ng-dropdown-panel
+    background: $white
+    left: 0
+    border: 2px solid $light-gray
+    border-radius: 4px
+
+:host ::ng-deep .ng-select .ng-select-container:after
+    border-bottom: 0px
+    content: ''
+    width: 100%
+    bottom: 0
+    position: absolute
+    transition: border-color 0.3s cubic-bezier(0.55, 0, 0.55, 0.2)
+
+:host ::ng-deep .ng-select .ng-select-container .ng-value-container .ng-input
+    bottom: .4375em
+    padding-left: 5px
+
+:host ::ng-deep .ng-select .ng-select-container
+    align-items: baseline
+    min-height: 35px
+
+:host ::ng-deep .ng-select .ng-select-container .ng-value-container
+    align-items: baseline
+    padding: .4375em 0
+    border-top: 0.5px solid transparent
+    padding-left: 5px
+
+:host ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-child
+    padding-left: 15px
+
+:host ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected
+    background: $black-1-intense
+    color: $black-5-intense
+
+:host ::ng-deep .ng-select .ng-arrow-wrapper
+    bottom: 2px
+
+:host ::ng-deep .ng-select .ng-arrow-wrapper .ng-arrow
+    border-left: 5px solid transparent
+    border-right: 5px solid transparent
+    border-top: 5px solid
+    margin: 0 4px
+    color: $dark-gray
+
+:host ::ng-deep .ng-dropdown-panel.ng-select-bottom
+    top: calc(100% - 1.25em)
+    box-shadow: 0 5px 5px -3px $black-2-intense, 0 8px 10px 1px $black-3-intense, 0 3px 14px 2px $black-4-intense
+
+:host ::ng-deep .ng-dropdown-panel.ng-select-top
+    bottom: calc(100% - .84375em)
+    box-shadow: 0 -5px 5px -3px $black-2-intense, 0 -8px 10px 1px $black-3-intense, 0 -3px 14px 2px $black-4-intense
+
+:host ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup
+    user-select: none
+    cursor: pointer
+    line-height: 3em
+    height: 3em
+    padding: 0 16px
+    color: $black
+    font-weight: 500
+
+:host ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option
+    line-height: 3em
+    min-height: 3em
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+    padding: 0 16px
+    text-decoration: none
+    position: relative
+    color: $black
+    text-align: left
+
+:host ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked
+    background: $black-1-intense
+    color: $black-5-intense
