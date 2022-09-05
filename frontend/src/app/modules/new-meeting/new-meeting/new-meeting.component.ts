@@ -10,7 +10,7 @@ import { ConfirmationWindowService } from '@core/services/confirmation-window.se
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { nameRegex, naturalNumberRegex } from '@shared/constants/model-validation';
+import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
 import { map, Observable, startWith, Subscription } from 'rxjs';
@@ -62,7 +62,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(nameRegex),
+        Validators.pattern(newMeetingNameRegex),
     ]);
 
     customTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
@@ -111,8 +111,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 .pipe(this.untilThis)
                 .subscribe((value) => {
                     this.createdMeeting = value;
-                    this.reset();
                     this.showConfirmWindow();
+                    this.reset();
                 });
         } else {
             this.notificationService.showErrorMessage('All fields need to be set');
@@ -202,17 +202,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.date = newDate;
     }
 
-    private getFilteredOptions() {
-        this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
-            startWith(''),
-            map((value) => {
-                this.filterValue = (typeof value === 'string') ? value.toLowerCase() : value.name;
-
-                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(this.filterValue));
-            }),
-        );
-    }
-
     showConfirmWindow() {
         this.confirmationWindowService.openBookingDialog({
             buttonsOptions: [
@@ -247,5 +236,16 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         const isDateInPast = new Date(control.value).getTime() < Date.now();
 
         return isDateInPast ? { invalid: true } : null;
+    }
+
+    private getFilteredOptions() {
+        this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
+            startWith(''),
+            map((value) => {
+                this.filterValue = (typeof value === 'string') ? value.toLowerCase() : value.name;
+
+                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(this.filterValue));
+            }),
+        );
     }
 }

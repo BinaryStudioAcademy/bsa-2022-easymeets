@@ -157,7 +157,7 @@ namespace EasyMeets.Core.BLL.Services
         }
 
         private Meeting GetByIdInternal(long id)
-        { 
+        {
             return _context.Meetings
                 .Include(m => m.MeetingMembers)
                     .ThenInclude(mm => mm.TeamMember)
