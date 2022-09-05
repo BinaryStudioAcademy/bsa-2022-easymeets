@@ -57,8 +57,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public countryCode: string;
 
-    public isTimeZoneExist: boolean = true;
-
     public userNameControl: FormControl = new FormControl('', [
         Validators.required,
         Validators.minLength(2),
@@ -100,7 +98,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                     image: user.image,
                 });
                 this.imageUrl = user.image;
-                this.isTimeZoneExist = !this.user?.timeZone;
                 if (user.phoneCode) {
                     this.countryCode = user.phoneCode;
                 } else {

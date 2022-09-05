@@ -93,7 +93,7 @@
             <ng-moment-timezone-picker
                 [formControlName]="'timeZone'"
                 customPlaceholderText=""
-                [getUserZone]="isTimeZoneExist">
+                [getUserZone]="!user.timeZone">
             </ng-moment-timezone-picker>
         </div>
         <div class="item">
