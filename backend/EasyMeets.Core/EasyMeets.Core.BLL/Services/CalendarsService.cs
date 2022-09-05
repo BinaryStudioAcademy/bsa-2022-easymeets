@@ -167,7 +167,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             _context.CalendarVisibleForTeams.RemoveRange(calendar!.VisibleForTeams);
 
-            await RemoveCalendarMeetings(calendar.VisibleForTeams.ToList());
+            await RemoveCalendarMeetings(calendar.VisibleForTeams);
 
             calendar.VisibleForTeams = Array.Empty<CalendarVisibleForTeam>();
 
@@ -184,7 +184,7 @@ namespace EasyMeets.Core.BLL.Services
                 calendar.VisibleForTeams = newVisibleForList;
                 await _context.CalendarVisibleForTeams.AddRangeAsync(newVisibleForList);
 
-                await AddMeetingsFromCalendar(calendar.ConnectedCalendar, calendar.VisibleForTeams.ToList(), calendar.UserId);
+                await AddMeetingsFromCalendar(calendar.ConnectedCalendar, calendar.VisibleForTeams, calendar.UserId);
             }
         }
 
@@ -200,12 +200,12 @@ namespace EasyMeets.Core.BLL.Services
             var visibleCalendar = await _context.CalendarVisibleForTeams.Where(x => x.CalendarId == calendar.Id).ToListAsync();
 
             await RemoveCalendarMeetings(visibleCalendar);
-            await AddMeetingsFromCalendar(email, calendar.VisibleForTeams.ToList(), calendar.UserId);
+            await AddMeetingsFromCalendar(email, calendar.VisibleForTeams, calendar.UserId);
 
             return true;
         }
 
-        private async Task RemoveCalendarMeetings(List<CalendarVisibleForTeam> visibleCalendar)
+        private async Task RemoveCalendarMeetings(IEnumerable<CalendarVisibleForTeam> visibleCalendar)
         {
             foreach (var item in visibleCalendar)
             {
@@ -213,7 +213,7 @@ namespace EasyMeets.Core.BLL.Services
             }
         }
 
-        private async Task AddMeetingsFromCalendar(string email, List<CalendarVisibleForTeam> visibleCalendar, long userId)
+        private async Task AddMeetingsFromCalendar(string email, IEnumerable<CalendarVisibleForTeam> visibleCalendar, long userId)
         {
             var events = await GetEventsFromGoogleCalendar(email);
 
