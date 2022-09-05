@@ -136,10 +136,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         const date = addDays(this.calendarWeek.firstDay, dayIndex);
         const time = addHours(this.theEarliestStartOfTimeRanges, (this.selectedMeetingDuration * timeIndex) / 60);
 
-        date.setHours(time.getHours());
-        date.setMinutes(time.getMinutes());
-        date.setSeconds(time.getSeconds());
-        date.setMilliseconds(time.getMilliseconds());
+        date.setHours(time.getHours(), time.getMinutes(), time.getSeconds(), time.getMilliseconds());
         const timeFinish = new Date(time.getTime() + this.selectedMeetingDuration * 60000);
 
         this.selectedTimeAndDateEvent.emit({ date, timeFinish, timeZone });
@@ -147,11 +144,17 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     public changeWeek(addingMode: boolean): void {
         if (addingMode) {
-            this.calendarWeek.firstDay = addDays(this.calendarWeek.firstDay, 7);
-            this.calendarWeek.lastDay = addDays(this.calendarWeek.lastDay, 7);
+            this.calendarWeek = {
+                ...this.calendarWeek,
+                firstDay: addDays(this.calendarWeek.firstDay, 7),
+                lastDay: addDays(this.calendarWeek.lastDay, 7),
+            };
         } else {
-            this.calendarWeek.firstDay = subDays(this.calendarWeek.firstDay, 7);
-            this.calendarWeek.lastDay = subDays(this.calendarWeek.lastDay, 7);
+            this.calendarWeek = {
+                ...this.calendarWeek,
+                firstDay: subDays(this.calendarWeek.firstDay, 7),
+                lastDay: subDays(this.calendarWeek.lastDay, 7),
+            };
         }
     }
 

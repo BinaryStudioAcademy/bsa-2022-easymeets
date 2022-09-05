@@ -99,11 +99,9 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<List<OrderedMeetingTimesDto>> GetOrderedMeetingTimesAsync(long slotId)
         {
-            var result = await _context.Meetings.Where(el => el.AvailabilitySlotId == slotId)
+            return await _context.Meetings.Where(el => el.AvailabilitySlotId == slotId)
                 .Select(el => new OrderedMeetingTimesDto {StartTime = el.StartTime})
                 .ToListAsync();
-
-            return result;
         }
 
         private async Task<ICollection<MeetingMember>> GetMeetingMembers(List<NewMeetingMemberDto> meetingMembers, long teamId)
