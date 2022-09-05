@@ -114,7 +114,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 .saveNewMeeting(newMeeting)
                 .pipe(this.untilThis)
                 .subscribe((value) => {
-                    debugger
                     this.createdMeeting.meetingLink = value;
                     this.reset();
                     this.showConfirmWindow();
