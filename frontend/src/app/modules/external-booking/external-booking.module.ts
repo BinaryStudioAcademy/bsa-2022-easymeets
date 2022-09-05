@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
+import { MomentTimezonePickerModule } from 'moment-timezone-picker';
 
 import { ExternalBookingMeetingComponent } from './external-booking-choose-meeting-page/external-booking-choose-meeting-page.component';
 import { ExternalBookingMembersComponent } from './external-booking-choose-members-page/external-booking-choose-members-page.component';
@@ -18,6 +19,6 @@ import { ExternalBookingRoutingModule } from './external-booking-routing.module'
         ExternalBookingConfirmPageComponent,
         ExternalBookingMembersComponent,
     ],
-    imports: [SharedModule, ExternalBookingRoutingModule, CommonModule, MaterialModule],
+    imports: [SharedModule, ExternalBookingRoutingModule, CommonModule, MaterialModule, MomentTimezonePickerModule],
 })
 export class ExternalBookingModule {}
