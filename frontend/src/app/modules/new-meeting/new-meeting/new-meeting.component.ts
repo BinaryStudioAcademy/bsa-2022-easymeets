@@ -108,19 +108,18 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 createdAt: new Date(),
             };
 
-            this.createdMeeting = newMeeting;
-
             this.newMeetingService
                 .saveNewMeeting(newMeeting)
                 .pipe(this.untilThis)
-                .subscribe(() => {
+                .subscribe((value) => {
+                    this.createdMeeting = value;
                     this.reset();
+                    this.showConfirmWindow();
                 });
         } else {
             this.notificationService.showErrorMessage('All fields need to be set');
+            this.showConfirmWindow();
         }
-
-        this.showConfirmWindow();
     }
 
     getTeamMembersOfCurrentUser(teamId?: number) {
