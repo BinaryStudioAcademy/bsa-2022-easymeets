@@ -30,13 +30,19 @@ export class AvailabilityPageComponent extends BaseComponent {
         this.getCurrentUser();
     }
 
-    public getUserPersonalAndTeamSlots(teamId?: number) {
-        this.availabilitySlotService
-            .getUserPersonalAndTeamSlots(this.currentUser.id, teamId)
+    public getUserPersonalAndTeamSlots() {
+        this.teamService.currentTeamEmitted$
             .pipe(this.untilThis)
-            .subscribe((resp) => {
-                this.userPersonalAndTeamSlots = resp;
-                this.spinnerService.hide();
+            .subscribe(teamId => {
+                if (teamId) {
+                    this.availabilitySlotService
+                        .getUserPersonalAndTeamSlots(this.currentUser.id, teamId)
+                        .pipe(this.untilThis)
+                        .subscribe((resp) => {
+                            this.userPersonalAndTeamSlots = resp;
+                            this.spinnerService.hide();
+                        });
+                }
             });
     }
 
@@ -49,9 +55,6 @@ export class AvailabilityPageComponent extends BaseComponent {
                 if (resp) {
                     this.currentUser = resp;
                     this.getUserPersonalAndTeamSlots();
-                    this.teamService.currentTeamEmitted$.subscribe(teamId => {
-                        this.getUserPersonalAndTeamSlots(teamId);
-                    });
                 }
             });
     }
