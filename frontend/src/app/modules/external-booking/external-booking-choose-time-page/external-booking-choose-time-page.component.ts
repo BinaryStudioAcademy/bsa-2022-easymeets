@@ -139,19 +139,11 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     }
 
     public changeWeek(addingMode: boolean): void {
-        if (addingMode) {
-            this.calendarWeek = {
-                ...this.calendarWeek,
-                firstDay: addDays(this.calendarWeek.firstDay, 7),
-                lastDay: addDays(this.calendarWeek.lastDay, 7),
-            };
-        } else {
-            this.calendarWeek = {
-                ...this.calendarWeek,
-                firstDay: subDays(this.calendarWeek.firstDay, 7),
-                lastDay: subDays(this.calendarWeek.lastDay, 7),
-            };
-        }
+        this.calendarWeek = {
+            ...this.calendarWeek,
+            firstDay: addingMode ? addDays(this.calendarWeek.firstDay, 7) : subDays(this.calendarWeek.firstDay, 7),
+            lastDay: addingMode ? addDays(this.calendarWeek.lastDay, 7) : subDays(this.calendarWeek.lastDay, 7),
+        };
     }
 
     public isTodayDate(date: Date, daysToAdd: number = 0): boolean {
@@ -172,12 +164,10 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
         result.setTime(result.getTime() + this.selectedMeetingDuration * timesToAdd * 60 * 1000);
 
-        const Test = (parsedDate: Date) =>
+        const checkBookedDate = (parsedDate: Date) =>
             parsedDate.getDate() === result.getDate() && parsedDate.getTime() === result.getTime();
 
-        const index = this.orderedTimes.findIndex((x) => Test(new Date(Date.parse(x.startTime))));
-
-        if (index !== -1) {
+        if (this.orderedTimes.some((x) => checkBookedDate(new Date(Date.parse(x.startTime))))) {
             return false;
         }
 

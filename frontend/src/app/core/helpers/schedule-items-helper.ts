@@ -8,15 +8,8 @@ export const parseTimeSpan = (value: string): Date => {
 };
 
 export const changeScheduleItemsDate = (items: IScheduleItem[]): IScheduleItemReceive[] =>
-    items.map((el) => {
-        const newStart = parseTimeSpan(el.start.toString());
-        const newEnd = parseTimeSpan(el.end.toString());
-
-        const newItem: IScheduleItemReceive = {
-            ...el,
-            start: newStart,
-            end: newEnd,
-        };
-
-        return newItem;
-    });
+    items.map((el) => ({
+        ...el,
+        start: parseTimeSpan(el.start.toString()),
+        end: parseTimeSpan(el.end.toString()),
+    }));
