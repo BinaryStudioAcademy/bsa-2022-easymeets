@@ -4,7 +4,7 @@ import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
 
 export interface IUser {
-    id: number;
+    id: bigint;
     uid?: string;
     userName: string;
     email: string;
@@ -19,7 +19,7 @@ export interface IUser {
 }
 
 export interface ILocalUser {
-    id: number;
+    id: bigint;
     uid?: string;
     userName: string;
     image?: string;

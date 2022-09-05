@@ -35,6 +35,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                     dest.Settings.ContactName = src.Author.Name;
                     dest.Settings.ContactEmail = src.Author.Email;
                 });
+
+            CreateMap<ExternalAttendeeMeetingDto, Meeting>();
         }
 
         private string CreateMemberTitle(Meeting meeting)

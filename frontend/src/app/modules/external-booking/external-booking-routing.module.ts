@@ -18,7 +18,7 @@ const routes: Routes = [
                 component: ExternalBookingMeetingComponent,
             },
             {
-                path: 'choose-time/:link',
+                path: 'choose-time',
                 component: ExternalBookingTimeComponent,
             },
             {

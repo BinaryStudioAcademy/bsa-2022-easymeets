@@ -4,6 +4,7 @@ using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyMeets.Core.DAL.Migrations
 {
     [DbContext(typeof(EasyMeetsCoreContext))]
-    partial class EasyMeetsCoreContextModelSnapshot : ModelSnapshot
+    [Migration("20220904194151_RemovedExternalAttendeeAvailability")]
+    partial class RemovedExternalAttendeeAvailability
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -417,7 +419,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 7L,
                             BookingsPerDay = 2,
-                            Color = 7,
+                            Color = 8,
                             CreatedAt = new DateTime(2021, 6, 11, 1, 41, 54, 366, DateTimeKind.Unspecified).AddTicks(7577),
                             CreatedBy = 7L,
                             IsDeleted = false,
@@ -483,7 +485,7 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 10L,
                             BookingsPerDay = 2,
-                            Color = 7,
+                            Color = 8,
                             CreatedAt = new DateTime(2020, 11, 21, 16, 22, 26, 916, DateTimeKind.Unspecified).AddTicks(2247),
                             CreatedBy = 10L,
                             IsDeleted = false,

@@ -10,13 +10,15 @@ public class ExternalAttendeeService : BaseService, IExternalAttendeeService
 {
     public ExternalAttendeeService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper) { }
 
-    public async Task SaveExternalAttendeeAsync(ExternalAttendeeDto externalAttendeeDto)
+    public async Task SaveExternalAttendeeAsync(ExternalAttendeeAndBookedMeetingDto bookingDto)
     {
-        var attendee = _mapper.Map<ExternalAttendee>(externalAttendeeDto);
-        if (!_context.ExternalAttendees.Any(el => el.Email == externalAttendeeDto.Email))
-        {
-            _context.ExternalAttendees.Add(attendee);
-            await _context.SaveChangesAsync();
-        }
+        var meeting = _mapper.Map<Meeting>(bookingDto.Meeting);
+        var createdMeeting = _context.Meetings.Add(meeting).Entity;
+        await _context.SaveChangesAsync();
+        
+        var attendee = _mapper.Map<ExternalAttendee>(bookingDto.Attendee);
+        attendee.MeetingId = createdMeeting.Id;
+        await _context.ExternalAttendees.AddAsync(attendee);
+        await _context.SaveChangesAsync();
     }
 }

@@ -1,4 +1,5 @@
 import { LocationType } from '@shared/enums/locationType';
+import { TimeZone } from '@shared/enums/timeZone';
 
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
 import { ITeam } from './ITeam';
@@ -20,4 +21,8 @@ export interface IExternalBookingSideMenu {
     date?: Date;
 
     slotId?: bigint;
+
+    teamId?: bigint;
+
+    timeZone?: TimeZone;
 }

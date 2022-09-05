@@ -4,7 +4,7 @@ import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
 
 export interface IUpdateUser {
-    id: number;
+    id: bigint;
     userName: string;
     language: Language;
     timeFormat: TimeFormat;

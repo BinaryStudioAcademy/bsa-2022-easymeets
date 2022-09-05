@@ -1,15 +1,11 @@
 <h1>Please, choose meeting</h1>
-<div class="meeting-cards">
+<div class="meeting-cards" *ngIf="selectedUserAvailabilitySlots">
     <ng-template
         *ngIf="selectedUserAvailabilitySlots.userSlots.length; else noUserSlots"
         ngFor
         let-item
         [ngForOf]="selectedUserAvailabilitySlots.userSlots">
-        <mat-card
-            class="card"
-            [routerLink]="['/external-booking/choose-time/' + item.link]"
-            [queryParams]="{ duration: item.size }"
-            (click)="addDurationAndLocation(item.size, item.locationType)">
+        <mat-card class="card" [routerLink]="['/external-booking/choose-time/']" [queryParams]="{ link: item.link }">
             <mat-card-title
                 ><p class="title">{{ item.name }}</p></mat-card-title
             >

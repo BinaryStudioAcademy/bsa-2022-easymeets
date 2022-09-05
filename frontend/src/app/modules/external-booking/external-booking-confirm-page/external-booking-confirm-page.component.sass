@@ -7,7 +7,7 @@
     margin-left: 150px
     grid-template-rows: 1fr 0.5fr 1fr 1fr 1fr 1fr
     grid-template-areas: "item0" "back" "name" "email" "extrainfo" "confirm"
-    resize: none
+    // resize: none
     overflow: auto
 
 #container-back
@@ -37,8 +37,10 @@
     align-items: flex-start
     justify-content: flex-start
     width: 337px
+    font-size: 14px
     padding-left: 5px
-    padding-top: 5px
+    height: 36px
+    line-height: normal
 
 .validationError
     margin-top: 5px
@@ -63,3 +65,18 @@
 
 .back-container
     cursor: pointer
+
+textarea
+    padding-top: 5px
+    background: $white-color
+    border: 2px solid $loblolly
+    border-radius: 4px
+    resize: none
+    display: flex
+    align-items: flex-start
+    justify-content: flex-start
+    width: 337px
+    font-size: 14px
+    padding-left: 5px
+    height: 36px
+    line-height: normal

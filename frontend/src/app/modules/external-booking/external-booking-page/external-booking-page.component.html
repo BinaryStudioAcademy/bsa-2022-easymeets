@@ -5,11 +5,11 @@
     <div class="main-content">
         <div class="sidebar">
             <ng-container *ngIf="!isTeamBooking(); else teamSideMenu">
-                <img *ngIf="menu.user.image; else defaultImage" src="{{ menu.user.image }}" />
+                <img *ngIf="menu.user && menu.user.image; else defaultImage" src="{{ menu.user.image }}" />
                 <ng-template #defaultImage>
                     <img src="assets/header/avatar-icon.png" />
                 </ng-template>
-                <h2>{{ menu.user.userName }}</h2>
+                <h2 *ngIf="menu.user">{{ menu.user.userName }}</h2>
                 <h1>Booking Page</h1>
             </ng-container>
             <ng-template #teamSideMenu>

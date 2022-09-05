@@ -19,8 +19,8 @@ namespace EasyMeets.Core.DAL.Migrations
                 table: "AdvancedSlotSettings",
                 defaultValue:0);
 
-            migrationBuilder.Sql("UPDATE AvailabilitySlots SET Color = (SELECT Color FROM AdvancedSlotSettings WHERE AvailabilitySlots.id = AdvancedSlotSettings.id)");
-            migrationBuilder.Sql("UPDATE AdvancedSlotSettings SET Frequency = (SELECT Frequency FROM AvailabilitySlots WHERE AvailabilitySlots.id = AdvancedSlotSettings.id)");
+            // migrationBuilder.Sql("UPDATE AvailabilitySlots SET Color = (SELECT Color FROM AdvancedSlotSettings WHERE AvailabilitySlots.id = AdvancedSlotSettings.id)");
+            // migrationBuilder.Sql("UPDATE AdvancedSlotSettings SET Frequency = (SELECT Frequency FROM AvailabilitySlots WHERE AvailabilitySlots.id = AdvancedSlotSettings.id)");
 
             migrationBuilder.DropColumn(
                 name: "Frequency",
@@ -147,7 +147,7 @@ namespace EasyMeets.Core.DAL.Migrations
                 keyColumn: "Id",
                 keyValue: 7L,
                 columns: new[] { "Color", "UpdatedAt" },
-                values: new object[] { 8, new DateTime(2022, 9, 2, 0, 0, 0, 0, DateTimeKind.Local) });
+                values: new object[] { 7, new DateTime(2022, 9, 2, 0, 0, 0, 0, DateTimeKind.Local) });
 
             migrationBuilder.UpdateData(
                 table: "AvailabilitySlots",
@@ -168,7 +168,7 @@ namespace EasyMeets.Core.DAL.Migrations
                 keyColumn: "Id",
                 keyValue: 10L,
                 columns: new[] { "Color", "UpdatedAt" },
-                values: new object[] { 8, new DateTime(2022, 9, 2, 0, 0, 0, 0, DateTimeKind.Local) });
+                values: new object[] { 7, new DateTime(2022, 9, 2, 0, 0, 0, 0, DateTimeKind.Local) });
 
             migrationBuilder.UpdateData(
                 table: "Calendars",

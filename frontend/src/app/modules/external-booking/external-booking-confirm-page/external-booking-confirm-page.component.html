@@ -5,10 +5,7 @@
     </div>
     <div id="container-name" class="name-container" [formGroup]="confirmForm">
         <p class="input-title">Your name</p>
-        <textarea
-            class="input-message"
-            formControlName="characters"
-            [(ngModel)]="externalAnswers.externalName"></textarea>
+        <input class="input-message" [(ngModel)]="externalAnswers.externalName" formControlName="characters" />
         <span *ngIf="confirmForm.controls['characters'].hasError('minlength')"
             ><p class="validationError">The minimum length is 2, the maximum is 50.</p></span
         >
@@ -21,7 +18,8 @@
     </div>
     <div id="container-email" class="email-container" [formGroup]="confirmForm">
         <p class="input-title">Your Email</p>
-        <textarea class="input-message" formControlName="email" [(ngModel)]="externalAnswers.externalEmail"></textarea>
+        <input class="input-message" [(ngModel)]="externalAnswers.externalEmail" formControlName="email" />
+        <!-- <textarea class="input-message" formControlName="email" [(ngModel)]="externalAnswers.externalEmail"></textarea> -->
         <span *ngIf="confirmForm.controls['email'].hasError('email')"
             ><p class="validationError">Email format is invalid.</p></span
         >
@@ -29,7 +27,7 @@
     <div id="container-extrainfo" class="extrainfo-container" [formGroup]="confirmForm">
         <p class="input-title">Please share anything that will help prepare<br />for our meeting</p>
         <textarea
-            class="input-message"
+            class="additional-info"
             formControlName="extraInfo"
             [(ngModel)]="externalAnswers.externalExtraInfo"></textarea>
         <span *ngIf="confirmForm.controls['extraInfo'].hasError('minlength')"

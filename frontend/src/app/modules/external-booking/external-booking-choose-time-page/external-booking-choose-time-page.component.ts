@@ -25,13 +25,14 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     @Output() selectedDurationAndLocationEvent = new EventEmitter<{
         slotId: bigint;
+        teamId?: bigint;
         duration: number;
         location: LocationType;
     }>();
 
     @Input() selectedMeetingDuration: number;
 
-    @Output() selectedTimeAndDateEvent = new EventEmitter<{ date: Date; timeFinish: Date }>();
+    @Output() selectedTimeAndDateEvent = new EventEmitter<{ date: Date; timeFinish: Date; timeZone: TimeZone }>();
 
     public slotsCount: Array<object>;
 
@@ -45,7 +46,9 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     public theEarliestStartOfTimeRanges: Date;
 
-    public timeZone = TimeZone;
+    public timeZone: TimeZone;
+
+    public zonesValues = Object.values(TimeZone);
 
     public pickedTimeZone: TimeZone;
 
@@ -73,7 +76,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
             .pipe(this.untilThis)
             .subscribe((resp) => {
                 this.slot = resp;
-                this.addDurationAndLocation(this.slot!.id, this.slot!.size, this.slot!.locationType);
+                this.addDurationAndLocation(this.slot!.id, this.slot!.teamId, this.slot!.size, this.slot!.locationType);
                 this.getOrderedTimes(this.slot!.id);
                 this.selectedMeetingDuration = this.slot!.size;
                 this.scheduleItems = changeScheduleItemsDate(resp!.schedule!.scheduleItems);
@@ -129,15 +132,17 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         return week;
     }
 
-    public AddTimeAndDate(timeIndex: number, dayIndex: number): void {
+    public AddTimeAndDate(timeIndex: number, dayIndex: number, timeZone: TimeZone): void {
         const date = addDays(this.calendarWeek.firstDay, dayIndex);
         const time = addHours(this.theEarliestStartOfTimeRanges, (this.selectedMeetingDuration * timeIndex) / 60);
 
         date.setHours(time.getHours());
         date.setMinutes(time.getMinutes());
+        date.setSeconds(time.getSeconds());
+        date.setMilliseconds(time.getMilliseconds());
         const timeFinish = new Date(time.getTime() + this.selectedMeetingDuration * 60000);
 
-        this.selectedTimeAndDateEvent.emit({ date, timeFinish });
+        this.selectedTimeAndDateEvent.emit({ date, timeFinish, timeZone });
     }
 
     public changeWeek(addingMode: boolean): void {
@@ -188,7 +193,11 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         max.setDate(result.getDate());
         max.setMonth(result.getMonth());
 
-        return result.getTime() >= min.getTime() && result.getTime() <= max.getTime();
+        return (
+            result.getTime() >= min.getTime() &&
+            result.getTime() <= max.getTime() &&
+            result.getTime() > this.nowDate.getTime()
+        );
     }
 
     public isLastDate(date: Date, daysToAdd: number = 0): boolean {
@@ -202,7 +211,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         );
     }
 
-    addDurationAndLocation(slotId: bigint, duration: number, location: LocationType) {
-        this.selectedDurationAndLocationEvent.emit({ slotId, duration, location });
+    addDurationAndLocation(slotId: bigint, teamId: bigint | undefined, duration: number, location: LocationType) {
+        this.selectedDurationAndLocationEvent.emit({ slotId, teamId, duration, location });
     }
 }

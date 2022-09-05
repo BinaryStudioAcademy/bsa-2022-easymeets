@@ -7,6 +7,7 @@ namespace EasyMeets.Core.Common.DTO.Availability
 {
     public class AvailabilitySlotDto : EntityDto<long>
     {
+        public long TeamId { get; set; }
         public string Name { get; set; } = string.Empty;
         public SlotType Type { get; set; }
         public int Size { get; set; }

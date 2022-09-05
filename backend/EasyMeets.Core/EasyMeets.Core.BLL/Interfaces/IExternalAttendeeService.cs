@@ -4,5 +4,5 @@ namespace EasyMeets.Core.BLL.Interfaces;
 
 public interface IExternalAttendeeService
 {
-    Task SaveExternalAttendeeAsync(ExternalAttendeeDto externalAttendeeDto);
+    Task SaveExternalAttendeeAsync(ExternalAttendeeAndBookedMeetingDto bookingDto);
 }
