@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { PendingChangesGuard } from '@core/guards/pending-changes.guard';
 import { HeaderModule } from '@modules/header/header.module';
 import { SideMenuModule } from '@modules/side-menu/side-menu.module';
 import { MaterialModule } from '@shared/material/material.module';
@@ -45,6 +46,7 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         ScheduleDefinitionComponent,
         ScheduleExternalComponent,
     ],
+    providers: [PendingChangesGuard],
     imports: [
         CommonModule,
         SharedModule,
@@ -56,6 +58,7 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         CalendarModule.forRoot({
             provide: DateAdapter,
             useFactory: adapterFactory,
-        })],
+        }),
+    ],
 })
 export class AvailabilityModule {}

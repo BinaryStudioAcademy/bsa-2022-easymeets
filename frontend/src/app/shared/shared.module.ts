@@ -12,6 +12,7 @@ import { BookingWindowComponent } from './components/booking-window/booking-wind
 import { ConfirmationWindowComponent } from './components/confirmation-window/confirmation-window.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { UnsavedChangesComponent } from './components/unsaved-changes/unsaved-changes.component';
 import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive';
 
 @NgModule({
@@ -30,6 +31,7 @@ import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive
         NotFoundComponent,
         ConfirmationWindowComponent,
         HeaderLessTabsDirective,
+        UnsavedChangesComponent,
         BookingWindowComponent,
     ],
     exports: [
@@ -41,6 +43,7 @@ import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive
         LoadingSpinnerComponent,
         NotFoundComponent,
         ConfirmationWindowComponent,
+        UnsavedChangesComponent,
         NgxMaskModule,
         HeaderLessTabsDirective,
     ],
