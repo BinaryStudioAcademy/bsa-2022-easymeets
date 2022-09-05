@@ -1,5 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+    AbstractControl,
+    AsyncValidatorFn,
+    FormControl,
+    FormGroup,
+    ValidationErrors,
+    Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { IImagePath } from '@core/models/IImagePath';
@@ -41,20 +48,14 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         Validators.pattern(/^[іІїЇaєЄa-zA-Z\dа-яА-Я-]+(\s|)[іІїЇєЄa-zA-Z\dа-яА-Я-]*$/),
     ]);
 
-    public pageLinkControl: FormControl = new FormControl(
-        '',
-        [Validators.required],
-        [this.teamLinkValidator()],
-    );
+    public pageLinkControl: FormControl = new FormControl('', [Validators.required], [this.teamLinkValidator()]);
 
-    public descriptionControl: FormControl = new FormControl(
-        '',
-        [
-            Validators.required,
-            Validators.minLength(2),
-            Validators.maxLength(80),
-            Validators.pattern(/^[.,іІїЇaєЄa-zA-Z\dа-яА-Я-\s]*$/)],
-    );
+    public descriptionControl: FormControl = new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(80),
+        Validators.pattern(/^[.,іІїЇaєЄa-zA-Z\dа-яА-Я-\s]*$/),
+    ]);
 
     constructor(
         private route: ActivatedRoute,
@@ -140,9 +141,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         return (control: AbstractControl): Observable<ValidationErrors | null> =>
             this.validateTeamLink(control.value)
                 .pipe(this.untilThis)
-                .pipe(
-                    map((response) => (response ? null : { teamLinkUniq: true })),
-                );
+                .pipe(map((response) => (response ? null : { teamLinkUniq: true })));
     }
 
     private validateTeamLink(teamLink: string): Observable<boolean> {

@@ -1,12 +1,19 @@
+<app-team-tabs-menu> </app-team-tabs-menu>
 <div class="wrapper">
     <form class="form-wrapper" [formGroup]="formGroup" (ngSubmit)="submitClick.emit()">
         <div class="item">
             <div class="logo-block">
                 <div class="logo">
-                    <img *ngIf="imageUrl" src="{{imageUrl}}">
+                    <img *ngIf="imageUrl" src="{{ imageUrl }}" />
                 </div>
-                <input enctype="multipart/form-data" method="put" hidden #file accept="image/png,.gif,.jpg" type="file"
-                       (change)="loadImage($event)"/>
+                <input
+                    enctype="multipart/form-data"
+                    method="put"
+                    hidden
+                    #file
+                    accept="image/png,.gif,.jpg"
+                    type="file"
+                    (change)="loadImage($event)" />
                 <button type="button" class="white-button" mat-flat-button (click)="file.click()">Upload Logo</button>
             </div>
         </div>
@@ -15,7 +22,7 @@
                 <div>Team Name</div>
             </label>
             <div>
-                <input type="text" formControlName="name" (input)="generateNewPageLink(formGroup)">
+                <input type="text" formControlName="name" (input)="generateNewPageLink(formGroup)" />
             </div>
             <div *ngIf="nameControl.invalid && nameControl.touched" class="validation">
                 <small *ngIf="nameControl.errors?.['required']">This field is required.</small>
@@ -29,7 +36,7 @@
                 <div>Team Page Link</div>
             </label>
             <div>
-                <input type="text" formControlName="pageLink">
+                <input type="text" formControlName="pageLink" />
             </div>
             <div *ngIf="pageLinkControl.invalid && nameControl.touched" class="validation">
                 <small *ngIf="pageLinkControl.errors?.['required']">This field is required.</small>
@@ -40,7 +47,7 @@
             <label>Time Zone</label>
             <mat-select formControlName="timeZone">
                 <mat-option *ngFor="let name of timeZoneValues" [value]="timeZoneValues.indexOf(name)">
-                    {{name}}
+                    {{ name }}
                 </mat-option>
             </mat-select>
         </div>
@@ -54,17 +61,26 @@
             <div *ngIf="descriptionControl.invalid && descriptionControl.touched" class="validation">
                 <small *ngIf="descriptionControl.errors?.['required']">This field is required.</small>
                 <small *ngIf="descriptionControl.errors?.['minlength']">Length must be more than 2 characters.</small>
-                <small *ngIf="descriptionControl.errors?.['maxlength']">The field “Description” must not exceed 80 characters.</small>
+                <small *ngIf="descriptionControl.errors?.['maxlength']"
+                    >The field “Description” must not exceed 80 characters.</small
+                >
                 <small *ngIf="descriptionControl.errors?.['pattern']">Invalid characters.</small>
             </div>
         </div>
         <div class="item">
             <div class="buttons-block">
-                <button mat-flat-button class="white-button" type="button" (click)="deleteClick.emit(formGroup)" *ngIf="showDeleteButton">
+                <button
+                    mat-flat-button
+                    class="white-button"
+                    type="button"
+                    (click)="deleteClick.emit(formGroup)"
+                    *ngIf="showDeleteButton">
                     <mat-icon class="icon">delete_outline</mat-icon>
                     Delete Team
                 </button>
-                <button mat-flat-button type="submit" [disabled]="formGroup.invalid || !formGroup.touched">{{submitButtonText}}</button>
+                <button mat-flat-button type="submit" [disabled]="formGroup.invalid || !formGroup.touched">
+                    {{ submitButtonText }}
+                </button>
             </div>
         </div>
     </form>
