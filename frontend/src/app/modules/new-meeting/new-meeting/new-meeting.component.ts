@@ -206,12 +206,9 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
             startWith(''),
             map((value) => {
-                this.filterValue = typeof value === 'string' ? value.toLowerCase() : value.name;
+                this.filterValue = (typeof value === 'string') ? value.toLowerCase() : value.name;
 
-                return this.teamMembers.filter(
-                    (teamMembers) => teamMembers.name.toLowerCase().includes(this.filterValue),
-                    // eslint-disable-next-line function-paren-newline
-                );
+                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(this.filterValue));
             }),
         );
     }
