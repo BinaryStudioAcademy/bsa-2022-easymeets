@@ -19,7 +19,7 @@
             <ng-container matColumnDef="events-for">
                 <th mat-header-cell *matHeaderCellDef>Event names visible for</th>
                 <td mat-cell *matCellDef="let element">
-                    <mat-form-field appearance="fill">
+                    <mat-form-field class="mat-select-form" appearance="fill">
                         <mat-label *ngIf="!element.visibleForTeams?.length">None</mat-label>
                         <mat-select
                             [(ngModel)]="element.visibleForTeams"
@@ -46,7 +46,7 @@
             <ng-container matColumnDef="events-from">
                 <th mat-header-cell *matHeaderCellDef>Add event from</th>
                 <td mat-cell *matCellDef="let element">
-                    <mat-form-field appearance="fill">
+                    <mat-form-field class="mat-select-form" appearance="fill">
                         <mat-label *ngIf="!element.importEventsFromTeam">None</mat-label>
                         <mat-select
                             [(ngModel)]="element.importEventsFromTeam"
@@ -63,7 +63,7 @@
             <ng-container matColumnDef="check">
                 <th mat-header-cell *matHeaderCellDef>Check for conflicts</th>
                 <td mat-cell *matCellDef="let element">
-                    <mat-form-field appearance="fill">
+                    <mat-form-field class="mat-select-form" appearance="fill">
                         <mat-select
                             [(ngModel)]="element.checkForConflicts"
                             (ngModelChange)="(element.checkForConflicts)">

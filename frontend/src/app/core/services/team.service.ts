@@ -19,7 +19,7 @@ export class TeamService {
 
     public teamStateChangeEmitted$ = this.emitTeamStateChangeSource.asObservable();
 
-    private currentTeamSource = new BehaviorSubject<number | undefined>(undefined);
+    private currentTeamSource = new BehaviorSubject<number | undefined>(this.getSelectedTeamId());
 
     public currentTeamEmitted$ = this.currentTeamSource.asObservable();
 
