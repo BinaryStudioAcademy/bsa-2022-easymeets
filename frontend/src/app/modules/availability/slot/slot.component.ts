@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
@@ -33,6 +33,8 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
     private changeActivitySubscription: Subscription;
 
     public isChecked: boolean = true;
+
+    @HostBinding('style.--color') color: string = 'red';
 
     locationTypeMapping = LocationTypeMapping;
 
