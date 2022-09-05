@@ -47,7 +47,7 @@
             <ng-moment-timezone-picker
                 [formControlName]="'timeZone'"
                 customPlaceholderText=""
-                [getUserZone]="isTimeZoneExist">
+                [getUserZone]="!team?.timeZone">
             </ng-moment-timezone-picker>
         </div>
         <div class="item">
@@ -60,8 +60,8 @@
             <div *ngIf="descriptionControl.invalid && descriptionControl.touched" class="validation">
                 <small *ngIf="descriptionControl.errors?.['required']">This field is required.</small>
                 <small *ngIf="descriptionControl.errors?.['minlength']">Length must be more than 2 characters.</small>
-                <small *ngIf="descriptionControl.errors?.['maxlength']"
-                    >The field “Description” must not exceed 80 characters.
+                <small *ngIf="descriptionControl.errors?.['maxlength']">
+                    The field “Description” must not exceed 80 characters.
                 </small>
                 <small *ngIf="descriptionControl.errors?.['pattern']">Invalid characters.</small>
             </div>

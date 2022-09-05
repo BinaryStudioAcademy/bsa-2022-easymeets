@@ -13,7 +13,7 @@ import { ITeam } from '@core/models/ITeam';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { teamDescriptionRegex, teamNameRegex } from '@shared/constants/model-validation';
+import { nameRegex, teamDescriptionRegex } from '@shared/constants/model-validation';
 import { map, Observable } from 'rxjs';
 
 @Component({
@@ -34,8 +34,6 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
 
     public imageUrl?: string;
 
-    public isTimeZoneExist: boolean = true;
-
     public clickEvent = new EventEmitter<void>();
 
     public formGroup: FormGroup;
@@ -44,7 +42,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(teamNameRegex),
+        Validators.pattern(nameRegex),
     ]);
 
     public pageLinkControl: FormControl = new FormControl('', [Validators.required], [this.teamLinkValidator()]);

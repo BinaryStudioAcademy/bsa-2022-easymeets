@@ -66,7 +66,6 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
                             description: team.description,
                         });
                         this.teamPreferencesComponent.imageUrl = team.image;
-                        this.teamPreferencesComponent.isTimeZoneExist = !team.timeZone;
                         this.spinnerService.hide();
                     },
                     error: (error) => {

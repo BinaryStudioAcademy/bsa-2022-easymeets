@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IAvailabilitySlotMember } from '@core/models/IAvailabilitySlotMember';
 import { IExternalBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
 import { SpinnerService } from '@core/services/spinner.service';
@@ -31,7 +32,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
                     image: '',
                     name: 'My Default Team',
                     pageLink: '',
-                    timeZone: { nameValue: '', timeValue: '' },
+                    timeZone: getDefaultTimeZone(),
                     description: '',
                 },
                 duration: 30,
