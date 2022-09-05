@@ -110,7 +110,8 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             availabilitySlotId: this.menu.slotId,
             name: answers.externalName,
             email: answers.externalEmail,
-            timeZone: this.menu.timeZone,
+            timeZoneValue: this.menu.timeZone?.timeValue,
+            timeZoneName: this.menu.timeZone?.nameValue,
         };
 
         const attendeeMeeting: IExternalAttendeeMeeting = {

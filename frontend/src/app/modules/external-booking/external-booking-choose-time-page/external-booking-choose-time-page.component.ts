@@ -165,8 +165,6 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     }
 
     public isDateInRange(date: Date, min: Date, max: Date, daysToAdd: number = 0, timesToAdd = 0): boolean {
-        let isOrdered = false;
-
         const firstCalendarDay = new Date(this.calendarWeek.firstDay);
 
         firstCalendarDay.setHours(date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
@@ -174,16 +172,12 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
         result.setTime(result.getTime() + this.selectedMeetingDuration * timesToAdd * 60 * 1000);
 
-        this.orderedTimes.forEach((el) => {
-            const parsedDate = new Date(Date.parse(el.startTime));
+        for (let i = 0; i < this.orderedTimes.length; i++) {
+            const parsedDate = new Date(Date.parse(this.orderedTimes[i].startTime));
 
             if (parsedDate.getDate() === result.getDate() && parsedDate.getTime() === result.getTime()) {
-                isOrdered = true;
+                return false;
             }
-        });
-
-        if (isOrdered) {
-            return false;
         }
 
         min.setDate(result.getDate());
