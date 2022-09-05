@@ -23,6 +23,7 @@ namespace EasyMeets.Core.DAL.Context
         public DbSet<Schedule> Schedules { get; private set; }
         public DbSet<ScheduleItem> ScheduleItems { get; private set; }
         public DbSet<Credentials> Credentials { get; private set; }
+        public DbSet<SyncGoogleCalendar> SyncGoogleCalendar { get; private set; }
 
 
         public EasyMeetsCoreContext(DbContextOptions<EasyMeetsCoreContext> options) : base(options)
@@ -45,6 +46,7 @@ namespace EasyMeets.Core.DAL.Context
             ScheduleItems = Set<ScheduleItem>();
             MeetingMembers = Set<MeetingMember>();
             Credentials = Set<Credentials>();
+            SyncGoogleCalendar = Set<SyncGoogleCalendar>();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
