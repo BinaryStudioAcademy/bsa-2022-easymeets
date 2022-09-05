@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
+import { WeekDay } from '@shared/enums/weekDay';
 import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { addHours, addMinutes, isSameDay, setDay, startOfDay } from 'date-fns';
 import { Subject } from 'rxjs';
@@ -82,9 +83,9 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
         this.refresh.next();
     }
 
-    private createDate(weekDay: number, hours: string): Date {
+    private createDate(weekDay: WeekDay, hours: string): Date {
         return addMinutes(addHours(
-            startOfDay(setDay(new Date(), this.recalculateDayIndexForCalendar(weekDay))),
+            startOfDay(setDay(new Date(), Object.keys(WeekDay).indexOf(weekDay))),
             this.parseTime(hours).getHours(),
         ), this.parseTime(hours).getMinutes());
     }
@@ -98,16 +99,6 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
         d.setSeconds(+seconds);
 
         return d;
-    }
-
-    private recalculateDayIndexForCalendar(weekDayIndex: number): number {
-        let index = weekDayIndex;
-
-        if (weekDayIndex < 6) {
-            return ++index;
-        }
-
-        return 0;
     }
 
     private dateTimeFloor(now: Date): Date {

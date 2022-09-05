@@ -11,6 +11,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
     {
         public MeetingProfile()
         {
+            CreateMap<User, UserMeetingDTO>();
+            CreateMap<ExternalAttendee, UserMeetingDTO>();
             CreateMap<Meeting, MeetingThreeMembersDTO>()
                 .ForMember(dest => dest.MeetingTime, src => src.MapFrom(meeting =>
                     $"{meeting.StartTime.Hour}:{meeting.StartTime.Minute:00} - " +
@@ -37,6 +39,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                     dest.Settings.ContactEmail = src.Author.Email;
                 });
 
+            CreateMap<ExternalAttendeeMeetingDto, Meeting>();
             CreateMap<EventItemDTO, Meeting>()
                 .ForMember(dest => dest.Name, src => src.MapFrom(eventItem => eventItem.Summary))
                 .ForMember(dest => dest.StartTime, src => src.MapFrom(eventItem => new DateTimeOffset(eventItem.Start!.DateTime)))
