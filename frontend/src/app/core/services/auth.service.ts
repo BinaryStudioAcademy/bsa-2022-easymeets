@@ -76,6 +76,7 @@ export class AuthService {
                     localStorage.removeItem('user');
                     localStorage.removeItem('email-verified');
                     localStorage.removeItem('access-token');
+                    localStorage.removeItem('selected-team-id');
                 },
                 error: (e) => this.notificationService.showErrorMessage(e.message),
             }),
