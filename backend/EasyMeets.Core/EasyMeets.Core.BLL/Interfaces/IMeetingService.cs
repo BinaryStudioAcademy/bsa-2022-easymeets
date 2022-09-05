@@ -6,6 +6,6 @@ namespace EasyMeets.Core.BLL.Interfaces
     { 
         public Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync(long? teamId);
         Task<List<UserMeetingDTO>> GetAllMembers(int id);
-        Task CreateMeeting(SaveMeetingDto meetingDto);
+        Task<SaveMeetingDto> CreateMeeting(SaveMeetingDto meetingDto);
     }
 }

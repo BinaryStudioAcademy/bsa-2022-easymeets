@@ -7,5 +7,5 @@ namespace EasyMeets.Core.BLL.Interfaces;
 public interface IZoomService
 {
     Task<CredentialsDto> GetNewCredentials(NewCredentialsRequestDto newCredentialsRequestDto);
-    Task CreateZoomMeeting(Meeting meeting);
+    Task CreateZoomMeeting(long meetingId);
 }
