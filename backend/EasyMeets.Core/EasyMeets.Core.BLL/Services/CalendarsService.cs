@@ -207,7 +207,7 @@ namespace EasyMeets.Core.BLL.Services
 
         private async Task RemoveCalendarMeetings(IEnumerable<CalendarVisibleForTeam> visibleCalendar)
         {
-            foreach (var item in visibleCalendar)
+            foreach (var item in visibleCalendar.ToList())
             {
                 await _meetingService.DeleteGoogleCalendarMeetings(item.TeamId);
             }
@@ -217,7 +217,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             var events = await GetEventsFromGoogleCalendar(email);
 
-            foreach (var item in visibleCalendar)
+            foreach (var item in visibleCalendar.ToList())
             {
                 await _meetingService.AddGoogleCalendarMeetings(item.TeamId, events, userId);
             }
