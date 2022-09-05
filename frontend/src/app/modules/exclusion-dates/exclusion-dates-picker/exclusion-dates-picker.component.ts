@@ -1,10 +1,11 @@
 import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 import { ExclusionDatesService } from '@core/services/exclusion-dates-service';
 import { HeaderDatePickerComponent } from '@modules/exclusion-dates/header-date-picker/header-date-picker.component';
+import { hourMinutesRegex } from "@shared/constants/model-validation";
 
 @Component({
     selector: 'app-exclusion-dates-picker',
@@ -17,7 +18,7 @@ export class ExclusionDatesPickerComponent implements OnInit {
 
     selected: Date | null;
 
-    currentTimeItemIndex = 0;
+    currentTimeItemIndex = 1;
 
     customHeader = HeaderDatePickerComponent;
 
@@ -30,7 +31,10 @@ export class ExclusionDatesPickerComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.formGroup = new FormGroup({});
+        this.formGroup = new FormGroup({
+            '00': new FormControl('', [Validators.pattern(hourMinutesRegex)]),
+            '01': new FormControl('', [Validators.pattern(hourMinutesRegex)]),
+        });
     }
 
     dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
@@ -56,8 +60,8 @@ export class ExclusionDatesPickerComponent implements OnInit {
     };
 
     addTimeItem() {
-        this.formGroup.addControl(`${this.currentTimeItemIndex.toString()}0`, new FormControl(''));
-        this.formGroup.addControl(`${this.currentTimeItemIndex.toString()}1`, new FormControl(''));
+        this.formGroup.addControl(`${this.currentTimeItemIndex.toString()}0`, new FormControl());
+        this.formGroup.addControl(`${this.currentTimeItemIndex.toString()}1`, new FormControl());
         this.currentTimeItemIndex++;
     }
 

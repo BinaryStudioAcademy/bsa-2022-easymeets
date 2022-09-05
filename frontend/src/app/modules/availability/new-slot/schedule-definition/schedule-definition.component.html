@@ -32,7 +32,23 @@
         </mat-tab-group>
     </div>
     <div class="override-container">
-        <button mat-flat-button [disabled]="disabled" (click)="exclusionDatesService.show()">+ Add Date overrides</button>
+        Exclusion Dates
+        <button
+            mat-flat-button
+            [disabled]="disabled"
+            (click)="exclusionDatesService.show()"
+        >
+            + Add Exclusion Date(s)
+        </button>
+        <div class="exclusion-dates-container">
+            <div *ngFor="let exclusionDate of schedule.exclusionDates; index as i">
+                {{exclusionDate.selectedDate | date}}
+                <div *ngFor="let dayTimeRange of exclusionDate.dayTimeRanges">
+                    {{dayTimeRange.start}} {{dayTimeRange.end}}
+                </div>
+                <button (click)="deleteExclusionDate(i)">Delete</button>
+            </div>
+        </div>
     </div>
 </div>
 <app-exclusion-dates-picker (datesEmitter)="exclusionDatesFilled($event)"></app-exclusion-dates-picker>

@@ -171,6 +171,9 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(slot => slot.SlotMembers)
                     .ThenInclude(slot => slot.Schedule)
                         .ThenInclude(s => s.ScheduleItems)
+                .Include(slot => slot.SlotMembers)
+                    .ThenInclude(slot => slot.Schedule)
+                        .ThenInclude(schedule => schedule.ExclusionDates)
                 .Include(slot => slot.EmailTemplates)
                 .FirstOrDefaultAsync(slot => slot.Id == id);
 
@@ -237,6 +240,10 @@ namespace EasyMeets.Core.BLL.Services
 
             if (!updateAvailabilityDto.Schedule.WithTeamMembers)
             {
+                var deletedExclusionDates = availabilitySlot.SlotMembers
+                    .First().Schedule.ExclusionDates
+                        .Where(d => updateAvailabilityDto.Schedule.ExclusionDates.All(updatedDate => updatedDate.Id != d.Id));
+                _context.ExclusionDates.RemoveRange(deletedExclusionDates);
                 _mapper.Map(updateAvailabilityDto.Schedule, availabilitySlot.SlotMembers.First().Schedule);
             }
 

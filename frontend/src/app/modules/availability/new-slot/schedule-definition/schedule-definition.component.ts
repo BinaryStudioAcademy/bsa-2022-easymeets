@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
 import { getPossibleTimeZones } from '@core/helpers/time-zone-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
+import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 import { ExclusionDatesService } from '@core/services/exclusion-dates-service';
-import { IExclusionDate } from "@core/models/schedule/exclusion-date/IExclusionDate";
 
 @Component({
     selector: 'app-schedule-definition',
@@ -45,5 +45,9 @@ export class ScheduleDefinitionComponent implements OnInit {
 
     exclusionDatesFilled(newExclusionDate: IExclusionDate) {
         this.schedule.exclusionDates.push(newExclusionDate);
+    }
+
+    deleteExclusionDate(index: number) {
+        this.schedule.exclusionDates.splice(index, 1);
     }
 }
