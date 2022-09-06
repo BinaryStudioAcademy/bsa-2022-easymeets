@@ -125,6 +125,11 @@ namespace EasyMeets.Core.BLL.Services
                 calendar!.CheckForConflicts = calendarDto.CheckForConflicts;
                 calendar.AddEventsFromTeamId = calendarDto.ImportEventsFromTeam?.Id;
 
+                if (calendar.AddEventsFromTeamId is not null)
+                {
+                    await AddMeetingsToCalendar(calendar.AddEventsFromTeamId);
+                }
+
                 _context.Calendars.Update(calendar);
                 await _context.SaveChangesAsync();
             }
@@ -183,8 +188,6 @@ namespace EasyMeets.Core.BLL.Services
             {
                 calendar.VisibleForTeams = newVisibleForList;
                 await _context.CalendarVisibleForTeams.AddRangeAsync(newVisibleForList);
-
-                await AddMeetingsFromCalendar(calendar.ConnectedCalendar, calendar.VisibleForTeams, calendar.UserId);
             }
         }
 
@@ -221,6 +224,50 @@ namespace EasyMeets.Core.BLL.Services
             {
                 await _meetingService.AddGoogleCalendarMeetings(item.TeamId, events, userId);
             }
+        }
+        private async Task AddMeetingsToCalendar(long? teamId)
+        {
+            var meetings = await _context.Meetings.Where(x => x.TeamId == teamId).ToListAsync();
+
+            if (meetings.Any())
+            {
+                foreach (var item in meetings)
+                {
+                    await AddMeetingToCalendar(item);
+                }
+            }
+        }
+
+        private async Task AddMeetingToCalendar(Meeting meeting)
+        {
+            var queryParams = new Dictionary<string, string>
+            {
+                { "calendarId", "primary" }
+            };
+
+            var starttime = meeting.StartTime.DateTime.AddHours(12).ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00" + "-09:00";
+            var endtime = meeting.StartTime.DateTime.AddMinutes(meeting.Duration).AddHours(12).ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00" + "-09:00";
+
+            var body = new
+            {
+                summary = meeting.Name,
+                status = "confirmed",
+                end = new
+                {
+                    dateTime = DateTime.Parse(endtime)
+                },
+                start = new
+                {
+                    dateTime = DateTime.Parse(starttime)
+                }
+            };
+
+            var refreshToken = _context.Calendars.FirstOrDefault(x => x.ConnectedCalendar == "doofeee@gmail.com") ?? throw new Exception("Connected email don't have refresh token.");
+
+            var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken.RefreshToken);
+
+            await HttpClientHelper.SendPostTokenRequest<SubscribeEventDTO>($"https://www.googleapis.com/calendar/v3/calendars/calendarId/events", queryParams, body,
+                tokenResultDto.AccessToken);
         }
     }
 }
