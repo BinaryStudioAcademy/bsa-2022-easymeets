@@ -20,8 +20,6 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
 
     public displayButton: boolean = false;
 
-    public containerWidth: number;
-
     public meetings: IMeetingBooking[];
 
     public cachedMeetings: IMeetingBooking[];
@@ -52,26 +50,6 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             });
     }
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event: Event) {
-        const eventWindowTarget = event.target as Window;
-
-        this.containerWidth = eventWindowTarget.innerWidth;
-
-        if (this.containerWidth > 1300) {
-            this.numberOfMembersToDisplay = 4;
-        }
-        if (this.containerWidth < 1400) {
-            this.numberOfMembersToDisplay = 3;
-        }
-        if (this.containerWidth < 1130) {
-            this.numberOfMembersToDisplay = 2;
-        }
-        if (this.containerWidth < 885) {
-            this.numberOfMembersToDisplay = 1;
-        }
-    }
-
     private loadMeetings(meetingMemberRequest: IMeetingMembersRequest) {
         this.meetingService
             .getThreeMeetings(meetingMemberRequest)
@@ -84,26 +62,27 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             );
     }
 
-    getPageSize() {
-        const bookingContainer = (<HTMLElement> this.el.nativeElement)
-            .querySelector('.container') as HTMLElement;
-
-        this.containerWidth = bookingContainer.offsetWidth;
-    }
-
     getNumberOfItemsToDisplay() {
-        this.getPageSize();
+        const containerWidth = this.getPageSize();
 
-        if (this.containerWidth > desktopMaxWidth) {
+        if (containerWidth > desktopMaxWidth) {
             this.numberOfMembersToDisplay = 4;
-        } else if (this.containerWidth > desktopMinWidth) {
+        } else if (containerWidth > desktopMinWidth) {
             this.numberOfMembersToDisplay = 4;
-        } else if (this.containerWidth < desktopMinWidth && this.containerWidth > tabletMinWidth) {
+        } else if (containerWidth < desktopMinWidth && containerWidth > tabletMinWidth) {
             this.numberOfMembersToDisplay = 2;
-        } else if (this.containerWidth < tabletMinWidth
-            || (this.containerWidth > tabletMinWidth && this.containerWidth < 1000)) {
+        } else if (containerWidth < tabletMinWidth) {
             this.numberOfMembersToDisplay = 1;
         }
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event: Event) {
+        const eventWindowTarget = event.target as Window;
+
+        const width = eventWindowTarget.innerWidth;
+
+        this.getNumberOfItemsToDisplayOnResize(width);
     }
 
     goToPage(pageName: string) {
@@ -112,5 +91,30 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
 
     followMeetingLink(link: string) {
         window.open(link);
+    }
+
+    private getNumberOfItemsToDisplayOnResize(width: number) {
+        if (width > 1300) {
+            this.numberOfMembersToDisplay = 4;
+        }
+        if (width < 1430) {
+            this.numberOfMembersToDisplay = 3;
+        }
+        if (width < 1100) {
+            this.numberOfMembersToDisplay = 2;
+        }
+        if (width < 950) {
+            this.numberOfMembersToDisplay = 1;
+        }
+        if (width < tabletMinWidth) {
+            this.numberOfMembersToDisplay = 0;
+        }
+    }
+
+    private getPageSize(): number {
+        const bookingContainer = (<HTMLElement> this.el.nativeElement)
+            .querySelector('.container') as HTMLElement;
+
+        return bookingContainer.offsetWidth;
     }
 }
