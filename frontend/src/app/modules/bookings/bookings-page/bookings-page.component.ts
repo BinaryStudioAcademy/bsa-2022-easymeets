@@ -53,9 +53,15 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
     }
 
     @HostListener('window:resize', ['$event'])
-    onResize(event: any) {
-        this.containerWidth = event.target.innerWidth;
-        if (this.containerWidth < 1300) {
+    onResize(event: Event) {
+        const eventWindowTarget = event.target as Window;
+
+        this.containerWidth = eventWindowTarget.innerWidth;
+
+        if (this.containerWidth > 1300) {
+            this.numberOfMembersToDisplay = 4;
+        }
+        if (this.containerWidth < 1400) {
             this.numberOfMembersToDisplay = 3;
         }
         if (this.containerWidth < 1130) {
@@ -72,22 +78,10 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             .pipe(this.untilThis)
             .subscribe(
                 (resp: IMeetingBooking[]) => {
-                    this.sliceListAccordingToContainerSize(resp);
                     this.meetings = resp;
                 },
                 (error) => this.notifications.showErrorMessage(error),
             );
-    }
-
-    sliceListAccordingToContainerSize(responseMeeting: IMeetingBooking[]) {
-        responseMeeting.forEach(meeting => {
-            if (meeting.meetingCount >= this.numberOfMembersToDisplay) {
-                if ((this.containerWidth > 1100 && this.containerWidth < 1336)) {
-                    meeting.meetingMembers = meeting.meetingMembers.slice(0, this.numberOfMembersToDisplay - 1);
-                }
-                this.meetings.push(meeting);
-            }
-        });
     }
 
     getPageSize() {
@@ -106,7 +100,8 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             this.numberOfMembersToDisplay = 4;
         } else if (this.containerWidth < desktopMinWidth && this.containerWidth > tabletMinWidth) {
             this.numberOfMembersToDisplay = 2;
-        } else if (this.containerWidth < tabletMinWidth || (this.containerWidth > tabletMinWidth && this.containerWidth < 1000)) {
+        } else if (this.containerWidth < tabletMinWidth
+            || (this.containerWidth > tabletMinWidth && this.containerWidth < 1000)) {
             this.numberOfMembersToDisplay = 1;
         }
     }
