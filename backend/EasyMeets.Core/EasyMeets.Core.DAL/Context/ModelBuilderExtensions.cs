@@ -17,7 +17,6 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AdvancedSlotSettingsConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AvailabilitySlotConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CalendarConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ExternalAttendeeAvailabilityConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ExternalAttendeeConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MeetingConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(QuestionsConfig).Assembly);
@@ -50,10 +49,10 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.Entity<Calendar>().HasData(GenerateCalendars());
             modelBuilder.Entity<SlotMember>().HasData(GenerateSlotMembers());
             modelBuilder.Entity<ExternalAttendee>().HasData(GenerateExternalAttendee());
-            modelBuilder.Entity<ExternalAttendeeAvailability>().HasData(GenerateExternalAttendeeAvailabilities());
             modelBuilder.Entity<CalendarVisibleForTeam>().HasData(GenerateCalendarVisibleForTeams());
             modelBuilder.Entity<Schedule>().HasData(GenerateSchedules());
             modelBuilder.Entity<ScheduleItem>().HasData(GenerateScheduleItems());
+            modelBuilder.Entity<SyncGoogleCalendar>().HasNoKey();
         }
 
         private static IList<User> GenerateUsers(int count = 10)
@@ -70,7 +69,8 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Language, f => Language.Pl)
                 .RuleFor(u => u.DateFormat, f => (DateFormat)f.Random.Int(0, 1))
                 .RuleFor(u => u.TimeFormat, f => (TimeFormat)f.Random.Int(0, 1))
-                .RuleFor(u => u.TimeZone, f => 0)
+                .RuleFor(u => u.TimeZoneValue, f => string.Empty)
+                .RuleFor(u => u.TimeZoneName, f => string.Empty)
                 .RuleFor(u => u.Country, f => Country.Ukraine)
                 .RuleFor(u => u.IsBanned, f => false)
                 .RuleFor(u => u.IsDeleted, f => false)
@@ -86,7 +86,8 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Id, f => id++)
                 .RuleFor(u => u.Name, f => f.Company.CompanyName())
                 .RuleFor(u => u.PageLink, f => f.Internet.Url())
-                .RuleFor(u => u.TimeZone, 0)
+                .RuleFor(u => u.TimeZoneValue, string.Empty)
+                .RuleFor(u => u.TimeZoneName, string.Empty)
                 .RuleFor(u => u.Description, f => f.Lorem.Text().ClampLength(1, 299))
                 .RuleFor(u => u.IsDeleted, f => false)
                 .Generate(count);
@@ -127,6 +128,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
                 .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
                 .RuleFor(u => u.IsDeleted, f => false)
+                .RuleFor(u => u.IsFromGoogleCalendar, f => false)
                 .RuleFor(u => u.MeetingLink, f => f.Internet.Url().ClampLength(1, 30))
                 .Generate(count);
         }
@@ -272,23 +274,9 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.AvailabilitySlotId, f => f.Random.Int(1, 10))
                 .RuleFor(u => u.Name, f => f.Person.FullName)
                 .RuleFor(u => u.Email, f => f.Person.Email.ClampLength(max: 29))
-                .RuleFor(u => u.EventTime, f => f.Date.Future())
                 .RuleFor(u => u.IsDeleted, f => false)
-                .RuleFor(u => u.TimeZone, f => 0)
-                .Generate(count);
-        }
-
-        private static IList<ExternalAttendeeAvailability> GenerateExternalAttendeeAvailabilities(int count = 10)
-        {
-            var id = 1;
-
-            return new Faker<ExternalAttendeeAvailability>()
-                .UseSeed(SeedNumber)
-                .RuleFor(u => u.Id, f => id++)
-                .RuleFor(u => u.ExternalAttendeeId, f => f.Random.Int(1, 10))
-                .RuleFor(u => u.StartEvent, f => DateTime.Now.AddDays(1))
-                .RuleFor(u => u.EndEvent, f => DateTime.Now.AddDays(2))
-                .RuleFor(u => u.IsDeleted, f => false)
+                .RuleFor(u => u.TimeZoneValue, f => string.Empty)
+                .RuleFor(u => u.TimeZoneName, f => string.Empty)
                 .Generate(count);
         }
 
@@ -314,7 +302,8 @@ namespace EasyMeets.Core.DAL.Context
                 .UseSeed(SeedNumber)
                 .RuleFor(s => s.Id, _ => id++)
                 .RuleFor(s => s.IsDeleted, _ => false)
-                .RuleFor(s => s.TimeZone, f => f.Random.Int(-11, 11) * 60)
+                .RuleFor(s => s.TimeZoneValue, f => string.Empty)
+                .RuleFor(s => s.TimeZoneName, f => string.Empty)
                 .RuleFor(s => s.WithTeamMembers, f => f.Random.Bool())
                 .Generate(count);
         }

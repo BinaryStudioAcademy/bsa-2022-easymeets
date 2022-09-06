@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using EasyMeets.Core.Common.DTO.Calendar;
 using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.Common.DTO.Zoom;
+using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Entities;
 
 namespace EasyMeets.Core.BLL.MappingProfiles
@@ -9,10 +11,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
     {
         public MeetingProfile()
         {
-            CreateMap<User, UserMeetingDTO>()
-                .ForMember(d => d.TimeZone, s => s.MapFrom(s => s.TimeZone.ToString()));
-            CreateMap<ExternalAttendee, UserMeetingDTO>()
-                .ForMember(d => d.TimeZone, s => s.MapFrom(s => s.TimeZone.ToString()));
+            CreateMap<User, UserMeetingDTO>();
+            CreateMap<ExternalAttendee, UserMeetingDTO>();
             CreateMap<Meeting, MeetingSlotDTO>()
                 .ForMember(dest => dest.MeetingTime, src => src.MapFrom(meeting =>
                     $"{meeting.StartTime.Hour}:{meeting.StartTime.Minute:00} - " +
@@ -25,6 +25,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(dest => dest.MeetingCount, src => src.MapFrom(s => GetAllParticipants(s).Count()))
                 .ForMember(dest => dest.Location, src => src.MapFrom(s => s.LocationType.ToString()));
             CreateMap<SaveMeetingDto, Meeting>();
+            CreateMap<Meeting, SaveMeetingDto>()
+                .ForMember(dest => dest.MeetingMembers, src => src.MapFrom(s => s.MeetingMembers));
 
             CreateMap<Meeting, NewZoomMeetingDto>()
                 .ForMember(m => m.Agenda, o
@@ -36,6 +38,17 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                     dest.Settings.ContactName = src.Author.Name;
                     dest.Settings.ContactEmail = src.Author.Email;
                 });
+
+            CreateMap<ExternalAttendeeMeetingDto, Meeting>();
+            CreateMap<EventItemDTO, Meeting>()
+                .ForMember(dest => dest.Name, src => src.MapFrom(eventItem => eventItem.Summary))
+                .ForMember(dest => dest.StartTime, src => src.MapFrom(eventItem => new DateTimeOffset(eventItem.Start!.DateTime)))
+                .ForMember(dest => dest.IsDeleted, src => src.MapFrom(eventItem => false))
+                .ForMember(dest => dest.CreatedAt, src => src.MapFrom(eventItem => eventItem.Created))
+                .ForMember(dest => dest.UpdatedAt, src => src.MapFrom(eventItem => eventItem.Updated))
+                .ForMember(dest => dest.LocationType, src => src.MapFrom(eventItem => LocationType.Zoom))
+                .ForMember(dest => dest.MeetingLink, src => src.MapFrom(eventItem => eventItem.Location))
+                .ForMember(dest => dest.IsFromGoogleCalendar, src => src.MapFrom(eventItem => true));
         }
 
         private string CreateMemberTitle(Meeting meeting)
@@ -51,14 +64,24 @@ namespace EasyMeets.Core.BLL.MappingProfiles
         private IEnumerable<UserMeetingDTO> GetAllParticipants(Meeting meeting)
         {
             var slotMembers = meeting.MeetingMembers
-                .Select(x => new UserMeetingDTO 
-                    { Name = x.TeamMember.User.Name, Email = x.TeamMember.User.Email, TimeZone = x.TeamMember.User.TimeZone.ToString() }).ToList();
+                .Select(x => new UserMeetingDTO
+                {
+                    Name = x.TeamMember.User.Name,
+                    Email = x.TeamMember.User.Email,
+                    //TimeZone = { NameValue = x.TeamMember.User.TimeZoneName, TimeValue = x.TeamMember.User.TimeZoneValue }
+                })
+                .ToList();
 
             if (meeting.AvailabilitySlot is not null)
             {
                 var external = meeting.AvailabilitySlot.ExternalAttendees
                     .Select(x => new UserMeetingDTO
-                        { Name = x.Name, Email = x.Email, TimeZone = x.TimeZone.ToString() }).ToList();
+                    {
+                        Name = x.Name,
+                        Email = x.Email,
+                        TimeZone = { NameValue = x.TimeZoneName, TimeValue = x.TimeZoneValue }
+                    })
+                    .ToList();
 
                 return slotMembers.Union(external).ToList();
             }

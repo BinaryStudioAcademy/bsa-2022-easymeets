@@ -12,6 +12,7 @@ using EasyMeets.Core.Common.NamingPolicies;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace EasyMeets.Core.BLL.Services;
@@ -37,8 +38,12 @@ public class ZoomService : BaseService, IZoomService
         return await GetCredentials(queryString);
     }
 
-    public async Task CreateZoomMeeting(Meeting meeting)
+    public async Task CreateZoomMeeting(long meetingId)
     {
+        var meeting = _context.Meetings
+            .Include(m => m.Author)
+                .ThenInclude(u => u.Credentials)
+            .FirstOrDefault(m => m.Id == meetingId) ?? throw new KeyNotFoundException("Invalid meeting id");
         var credentials = meeting.Author.Credentials.FirstOrDefault(cr => cr.Type == CredentialsType.Zoom) 
                           ?? throw new KeyNotFoundException("No zoom credentials found for meeting Author");
 
@@ -82,7 +87,7 @@ public class ZoomService : BaseService, IZoomService
 
     private static bool IsAlmostExpired(Credentials credentials)
     {
-        return DateTimeOffset.UtcNow - credentials.UpdatedAt < TimeSpan.FromSeconds(credentials.LifeCycle * 0.8);
+        return DateTimeOffset.UtcNow - credentials.UpdatedAt > TimeSpan.FromSeconds(credentials.LifeCycle * 0.8);
     }
 
     private async Task RefreshAccessToken(Credentials credentials)

@@ -64,7 +64,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
                     this.meetings = resp;
                     this.sliceListAccordingToCntainerSize(resp);
                 },
-                error => this.notifications.showErrorMessage(error),
+                (error) => this.notifications.showErrorMessage(error),
             );
     }
 
@@ -116,5 +116,9 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
 
     goToPage(pageName: string) {
         this.router.navigate([`${pageName}`]);
+    }
+
+    followMeetingLink(link: string) {
+        window.open(link);
     }
 }

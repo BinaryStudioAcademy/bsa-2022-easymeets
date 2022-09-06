@@ -3,8 +3,10 @@ import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
 
+import { ITimeZone } from './ITimeZone';
+
 export interface IUser {
-    id: number;
+    id: bigint;
     uid?: string;
     userName: string;
     email: string;
@@ -15,11 +17,11 @@ export interface IUser {
     country?: Country;
     phoneCode?: string;
     phone?: string;
-    timeZone: number;
+    timeZone: ITimeZone;
 }
 
 export interface ILocalUser {
-    id: number;
+    id: bigint;
     uid?: string;
     userName: string;
     image?: string;

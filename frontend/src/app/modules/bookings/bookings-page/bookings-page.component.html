@@ -12,7 +12,7 @@
                     </div>
 
                     <div class="buttonRow">
-                        <button class="buttonZoom">Open {{ item.location }} Link</button>
+                        <button class="buttonZoom" (click)="followMeetingLink(item.meetingLink)">Open {{ item.location }} Link</button>
                         <div class="threeDots">
                             <div class="oneDot"></div>
                             <div class="oneDot"></div>
@@ -27,8 +27,8 @@
                     </div>
                 </div>
 
-                <div *ngIf="item.meetingCount > 3">
-                    <div class="moreBlock" (click)="goToPage('/bookings/bookers/'+item.id)">{{ item.meetingCount - 3 }}+ Booker</div>
+                <div *ngIf="item.meetingCount > numberOfMembersToDisplay">
+                    <div class="moreBlock" (click)="goToPage('/bookings/bookers/'+item.id)">{{ item.meetingCount - numberOfMembersToDisplay }}+ Booker</div>
                 </div>
             </div>
         </div>

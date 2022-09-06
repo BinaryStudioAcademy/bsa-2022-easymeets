@@ -11,7 +11,6 @@ namespace EasyMeets.Core.DAL.Context
         public DbSet<Calendar> Calendars { get; private set; }
         public DbSet<CalendarVisibleForTeam> CalendarVisibleForTeams { get; private set; }
         public DbSet<ExternalAttendee> ExternalAttendees { get; private set; }
-        public DbSet<ExternalAttendeeAvailability> ExternalAttendeeAvailabilities { get; private set; }
         public DbSet<Meeting> Meetings { get; private set; } 
         public DbSet<MeetingMember> MeetingMembers { get; private set; } 
         public DbSet<Question> Questions { get; private set; }
@@ -23,6 +22,7 @@ namespace EasyMeets.Core.DAL.Context
         public DbSet<Schedule> Schedules { get; private set; }
         public DbSet<ScheduleItem> ScheduleItems { get; private set; }
         public DbSet<Credentials> Credentials { get; private set; }
+        public DbSet<SyncGoogleCalendar> SyncGoogleCalendar { get; private set; }
 
 
         public EasyMeetsCoreContext(DbContextOptions<EasyMeetsCoreContext> options) : base(options)
@@ -33,7 +33,6 @@ namespace EasyMeets.Core.DAL.Context
             Calendars = Set<Calendar>();
             CalendarVisibleForTeams = Set<CalendarVisibleForTeam>();
             ExternalAttendees = Set<ExternalAttendee>();
-            ExternalAttendeeAvailabilities = Set<ExternalAttendeeAvailability>();
             Meetings = Set<Meeting>();
             Questions = Set<Question>();
             EmailTemplates = Set<EmailTemplate>();
@@ -45,6 +44,7 @@ namespace EasyMeets.Core.DAL.Context
             ScheduleItems = Set<ScheduleItem>();
             MeetingMembers = Set<MeetingMember>();
             Credentials = Set<Credentials>();
+            SyncGoogleCalendar = Set<SyncGoogleCalendar>();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

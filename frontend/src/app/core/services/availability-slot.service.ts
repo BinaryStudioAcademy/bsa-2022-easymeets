@@ -3,6 +3,7 @@ import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
 import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
 import { ISchedule } from '@core/models/schedule/ISchedule';
+import { IScheduleItemReceive } from '@core/models/schedule/IScheduleItemsReceive';
 
 import { HttpInternalService } from './http-internal.service';
 
@@ -15,8 +16,10 @@ export class AvailabilitySlotService {
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService) {}
 
-    public getUserPersonalAndTeamSlots(currentUserId: number, currentTeamId?: number) {
-        return this.httpService.getRequest<IUserPersonalAndTeamSlots>(`${this.routePrefix}/${currentUserId}/${currentTeamId ?? ''}`);
+    public getUserPersonalAndTeamSlots(currentUserId: bigint, currentTeamId?: number) {
+        return this.httpService.getRequest<IUserPersonalAndTeamSlots>(
+            `${this.routePrefix}/${currentUserId}/${currentTeamId ?? ''}`,
+        );
     }
 
     public deleteSlot(slotId: bigint | undefined) {
@@ -33,6 +36,10 @@ export class AvailabilitySlotService {
 
     public getSlotById(slotId: bigint | undefined) {
         return this.httpService.getRequest<IAvailabilitySlot>(`/availability/slot/${slotId}`);
+    }
+
+    public getSlotScheduleItems(slotId: bigint) {
+        return this.httpService.getRequest<IScheduleItemReceive[]>(`/availability/slot-schedule/${slotId}`);
     }
 
     public createSlot(newAvailability: ISaveAvailability) {

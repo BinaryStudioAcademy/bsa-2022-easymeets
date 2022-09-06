@@ -2,13 +2,19 @@
     <form class="form-container" [formGroup]="userForm" (ngSubmit)="OnSubmit(userForm)">
         <div class="item">
             <div class="user-avatar-block">
-                <div class="user-avatar" >
-                    <img *ngIf="imageUrl" src="{{imageUrl}}">
+                <div class="user-avatar">
+                    <img *ngIf="imageUrl" src="{{ imageUrl }}" />
                 </div>
-                <input enctype="multipart/form-data" method="put" hidden #file accept="image/png,.gif,.jpg" type="file"
-                       (change)="loadImage($event)"/>
-                <button type="button" class="upload-picture-button" mat-flat-button (click)="file.click()">Upload
-                    Picture
+                <input
+                    enctype="multipart/form-data"
+                    method="put"
+                    hidden
+                    #file
+                    accept="image/png,.gif,.jpg"
+                    type="file"
+                    (change)="loadImage($event)" />
+                <button type="button" class="upload-picture-button" mat-flat-button (click)="file.click()">
+                    Upload Picture
                 </button>
             </div>
         </div>
@@ -17,7 +23,7 @@
                 <div>Name</div>
             </label>
             <div class="user-name">
-                <input type="text" formControlName="userName"/>
+                <input type="text" formControlName="userName" />
             </div>
             <div *ngIf="userNameControl.invalid && userNameControl.touched" class="validation">
                 <small *ngIf="userNameControl.errors?.['required']">This field is required.</small>
@@ -75,11 +81,7 @@
                 <div>Phone Number</div>
             </label>
             <div>
-                <input
-                    formControlName="phone"
-                    mask="00000000000"
-                    prefix="+{{ countryCode }} "
-                    [validation]="false"/>
+                <input formControlName="phone" mask="00000000000" prefix="+{{ countryCode }} " [validation]="false" />
             </div>
             <div *ngIf="phoneControl.invalid && phoneControl.touched" class="validation">
                 <small *ngIf="phoneControl.errors?.['required']">This field is required.</small>
@@ -88,16 +90,16 @@
         </div>
         <div class="item">
             <label>Time Zone</label>
-            <mat-select formControlName="timeZone">
-                <mat-option *ngFor="let name of timeZoneValues" [value]="timeZoneValues.indexOf(name)">
-                    {{ name }}
-                </mat-option>
-            </mat-select>
+            <ng-moment-timezone-picker
+                [formControlName]="'timeZone'"
+                customPlaceholderText=""
+                [getUserZone]="!user?.timeZone">
+            </ng-moment-timezone-picker>
         </div>
         <div class="item">
             <div class="update-preferences-button">
-                <button mat-flat-button type="submit" [disabled]="userForm.invalid || !userForm.touched">Update
-                    Preferences
+                <button mat-flat-button type="submit" [disabled]="userForm.invalid || !userForm.touched">
+                    Update Preferences
                 </button>
             </div>
         </div>

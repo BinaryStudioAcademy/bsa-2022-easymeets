@@ -1,13 +1,19 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+    AbstractControl,
+    AsyncValidatorFn,
+    FormControl,
+    FormGroup,
+    ValidationErrors,
+    Validators,
+} from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
 import { IImagePath } from '@core/models/IImagePath';
 import { ITeam } from '@core/models/ITeam';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { TimeZone } from '@shared/enums/timeZone';
+import { nameRegex, teamDescriptionRegex } from '@shared/constants/model-validation';
 import { map, Observable } from 'rxjs';
 
 @Component({
@@ -32,33 +38,23 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
 
     public formGroup: FormGroup;
 
-    public timeZoneValues = Object.values(TimeZone);
-
     public nameControl: FormControl = new FormControl('', [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(/^[іІїЇaєЄa-zA-Z\dа-яА-Я-]+(\s|)[іІїЇєЄa-zA-Z\dа-яА-Я-]*$/),
+        Validators.pattern(nameRegex),
     ]);
 
-    public pageLinkControl: FormControl = new FormControl(
-        '',
-        [Validators.required],
-        [this.teamLinkValidator()],
-    );
+    public pageLinkControl: FormControl = new FormControl('', [Validators.required], [this.teamLinkValidator()]);
 
-    public descriptionControl: FormControl = new FormControl(
-        '',
-        [
-            Validators.required,
-            Validators.minLength(2),
-            Validators.maxLength(80),
-            Validators.pattern(/^[.,іІїЇaєЄa-zA-Z\dа-яА-Я-\s]*$/)],
-    );
+    public descriptionControl: FormControl = new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(80),
+        Validators.pattern(teamDescriptionRegex),
+    ]);
 
     constructor(
-        private route: ActivatedRoute,
-        private router: Router,
         private teamService: TeamService,
         public notificationService: NotificationService,
         private confirmationWindowService: ConfirmationWindowService,
@@ -140,9 +136,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         return (control: AbstractControl): Observable<ValidationErrors | null> =>
             this.validateTeamLink(control.value)
                 .pipe(this.untilThis)
-                .pipe(
-                    map((response) => (response ? null : { teamLinkUniq: true })),
-                );
+                .pipe(map((response) => (response ? null : { teamLinkUniq: true })));
     }
 
     private validateTeamLink(teamLink: string): Observable<boolean> {
