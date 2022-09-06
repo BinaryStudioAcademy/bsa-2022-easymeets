@@ -11,5 +11,6 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task DeleteGoogleCalendarMeetings(long teamId);
         Task AddGoogleCalendarMeetings(long teamId, List<EventItemDTO> eventItemDTOs, long userId);
         Task<SaveMeetingDto> CreateMeeting(SaveMeetingDto meetingDto);
+        Task<long> CreateExternalAttendeeMeeting(ExternalAttendeeMeetingDto meetingDto);
     }
 }
