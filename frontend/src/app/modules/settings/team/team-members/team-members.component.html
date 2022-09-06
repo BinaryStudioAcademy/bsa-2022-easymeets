@@ -1,6 +1,6 @@
 <app-team-tabs-menu> </app-team-tabs-menu>
 <div class="table-container">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 team-members-table">
+    <table mat-table [dataSource]="teamMembers" class="mat-elevation-z8 team-members-table">
         <!-- Name and Email Column -->
         <ng-container matColumnDef="name-email">
             <th mat-header-cell *matHeaderCellDef class="team-members-cell">Name and Email</th>
@@ -67,4 +67,9 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+</div>
+<div class="add-member-container">
+    <button type="submit" mat-flat-button class="add-team-member-btn">
+        <i class="fa-solid fa-plus"></i>Add Member(s)
+    </button>
 </div>

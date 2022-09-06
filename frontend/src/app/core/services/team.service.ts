@@ -58,9 +58,6 @@ export class TeamService {
     }
 
     public getTeamMembers(teamId?: number) {
-        alert('id from getTeamMembers:');
-        alert(teamId);
-
         return this.httpService.getRequest<ITeamMember[]>(`${this.routePrefix}/team-members/${teamId}`);
     }
 
