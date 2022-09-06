@@ -100,7 +100,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
         if (width < 1430) {
             this.numberOfMembersToDisplay = 3;
         }
-        if (width < 1100) {
+        if (width < 1200) {
             this.numberOfMembersToDisplay = 2;
         }
         if (width < 950) {

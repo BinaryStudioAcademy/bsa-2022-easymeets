@@ -44,15 +44,21 @@ namespace EasyMeets.Core.BLL.Services
             var mapped = _mapper.Map<List<MeetingSlotDTO>>(meetings, opts =>
             {
                 opts.AfterMap((_, dest) =>
-                {
-                    for (int i = 0; i < meetings.Count(); i++)
+                { 
+                    foreach (MeetingSlotDTO meetingSlotDTO in dest)
                     {
-                        dest.ElementAt(i).MeetingMembers = dest.ElementAt(i)?.MeetingMembers?.Take(numberOfMembers).ToList();
+                        meetingSlotDTO.MeetingMembers = GetMeetingMembersByCount(meetingSlotDTO, numberOfMembers);
                     }
                 });
             });
 
             return mapped;
+        }
+
+        private List<UserMeetingDTO> GetMeetingMembersByCount(MeetingSlotDTO meetingSlotDto, int numberOfMembers)
+        {
+            var meetingSlot = meetingSlotDto?.MeetingMembers?.Take(numberOfMembers).ToList();
+            return meetingSlot;
         }
 
         public async Task<List<UserMeetingDTO>> GetAllMembers(int id)
