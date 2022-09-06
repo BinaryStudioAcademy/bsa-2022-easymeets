@@ -31,7 +31,7 @@ namespace EasyMeets.Core.BLL.Services
 
             var meetings = await _context.Meetings
                 .Include(m => m.AvailabilitySlot)
-                    .ThenInclude(s => s!.ExternalAttendees)
+                    .Include(s => s!.ExternalAttendees)
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
@@ -89,6 +89,19 @@ namespace EasyMeets.Core.BLL.Services
             await AddMeetingLink(meeting);
 
             return _mapper.Map<SaveMeetingDto>(GetByIdInternal(meeting.Id));
+        }
+
+        public async Task<long> CreateExternalAttendeeMeeting(ExternalAttendeeMeetingDto meetingDto)
+        {
+            var meeting = _mapper.Map<Meeting>(meetingDto);
+
+            await _context.Meetings.AddAsync(meeting);
+            
+            await _context.SaveChangesAsync();
+            
+            await AddMeetingLink(meeting);
+
+            return meeting.Id;
         }
 
         public async Task DeleteGoogleCalendarMeetings(long teamId)

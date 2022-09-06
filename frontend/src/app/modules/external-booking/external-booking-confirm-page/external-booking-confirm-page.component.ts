@@ -11,6 +11,8 @@ import { nameWithoutSpaces, userNameRegex } from '@shared/constants/model-valida
 export class ExternalBookingConfirmPageComponent implements OnInit {
     @Output() confirmBooking = new EventEmitter<IExternalAnswers>();
 
+    @Output() cancelBooking = new EventEmitter<boolean>();
+
     ngOnInit(): void {
         this.externalAnswers = {
             externalName: '',
