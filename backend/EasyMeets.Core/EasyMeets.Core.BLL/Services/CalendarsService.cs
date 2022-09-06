@@ -127,7 +127,7 @@ namespace EasyMeets.Core.BLL.Services
 
                 if (calendar.AddEventsFromTeamId is not null)
                 {
-                    await AddMeetingsToCalendar(calendar.AddEventsFromTeamId);
+                    await AddMeetingsToCalendar(calendar.AddEventsFromTeamId, calendar.ConnectedCalendar);
                 }
 
                 _context.Calendars.Update(calendar);
@@ -223,20 +223,24 @@ namespace EasyMeets.Core.BLL.Services
                 await _meetingService.AddGoogleCalendarMeetings(item.TeamId, events, userId);
             }
         }
-        private async Task AddMeetingsToCalendar(long? teamId)
+        private async Task AddMeetingsToCalendar(long? teamId, string email)
         {
             var meetings = await _context.Meetings.Where(x => x.TeamId == teamId).ToListAsync();
 
+            var refreshToken = _context.Calendars.FirstOrDefault(x => x.ConnectedCalendar == email) ?? throw new Exception("Connected email don't have refresh token.");
+
+            var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken.RefreshToken);
+
             if (meetings.Any())
             {
-                foreach (var item in meetings)
+                foreach (var item in await _context.Meetings.Where(x => x.TeamId == teamId).ToListAsync())
                 {
-                    await AddMeetingToCalendar(item);
+                    await AddMeetingToCalendar(item, tokenResultDto);
                 }
             }
         }
 
-        private async Task AddMeetingToCalendar(Meeting meeting)
+        private async Task AddMeetingToCalendar(Meeting meeting, TokenResultDto tokenResultDto)
         {
             var queryParams = new Dictionary<string, string>
             {
@@ -259,10 +263,6 @@ namespace EasyMeets.Core.BLL.Services
                     dateTime = DateTime.Parse(starttime)
                 }
             };
-
-            var refreshToken = _context.Calendars.FirstOrDefault(x => x.ConnectedCalendar == "doofeee@gmail.com") ?? throw new Exception("Connected email don't have refresh token.");
-
-            var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken.RefreshToken);
 
             await HttpClientHelper.SendPostTokenRequest<SubscribeEventDTO>($"https://www.googleapis.com/calendar/v3/calendars/calendarId/events", queryParams, body,
                 tokenResultDto.AccessToken);
