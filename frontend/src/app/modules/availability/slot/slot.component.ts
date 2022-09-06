@@ -3,6 +3,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { SlotColorAndShadow } from '@core/helpers/slotColorAndShadow';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
@@ -36,6 +37,8 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
 
     locationTypeMapping = LocationTypeMapping;
 
+    SlotColorAndShadow = SlotColorAndShadow;
+
     private activationTitle = 'Confirm Slot Activation';
 
     private inactivationTitle = 'Confirm Slot Inactivation';
@@ -54,6 +57,11 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.isChecked = this.slot.isEnabled;
+        /*this.color = SlotColorAndShadow[this.slot.color].colorHex;*/
+
+        /*const element: HTMLDivElement | undefined = document.getElementById('color-line-id') as HTMLDivElement;
+
+        element.style.color = 'red';*/
     }
 
     public goToPage(pageName: string) {
