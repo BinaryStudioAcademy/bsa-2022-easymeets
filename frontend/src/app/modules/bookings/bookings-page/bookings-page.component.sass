@@ -25,6 +25,8 @@ p, span
     color: $pale-sky
 
 .item
+    min-width: 25vw
+    width: 25vw
     background: white
     padding: 20px 29px
     display: flex
@@ -66,10 +68,13 @@ p, span
     flex-direction: row
     gap: 34px
     align-items: center
+    justify-content: space-between
 
 .itemText
     color: rgba($black, 0.5)
     margin: 0
+    overflow: hidden
+    text-overflow: ellipsis
 
 .listScrollBlock
     overflow-x: auto

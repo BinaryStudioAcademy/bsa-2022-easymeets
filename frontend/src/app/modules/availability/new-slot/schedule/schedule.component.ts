@@ -17,6 +17,7 @@ export class ScheduleComponent extends BaseComponent {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
         this.schedule = this.slot?.schedule ?? getDefaultSchedule(false);
+        this.slotLink = this.slot?.link ?? '';
     }
 
     @Input() public slotLink: string;
