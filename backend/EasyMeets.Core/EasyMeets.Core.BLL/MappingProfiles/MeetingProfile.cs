@@ -59,7 +59,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 1 => meeting.MeetingMembers.First().TeamMember.User.Name,
                 _ => $"{meeting.MeetingMembers.Count()} + Team Members"
             };
-        } 
+        }
 
         private IEnumerable<UserMeetingDTO> GetAllParticipants(Meeting meeting)
         {
@@ -68,16 +68,16 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 {
                     Name = x.TeamMember.User.Name,
                     Email = x.TeamMember.User.Email,
-                    TimeZone = new()  {NameValue = x.TeamMember.User.TimeZoneName, TimeValue = x.TeamMember.User.TimeZoneValue},
+                    TimeZone = new() { NameValue = x.TeamMember.User.TimeZoneName, TimeValue = x.TeamMember.User.TimeZoneValue },
                     Booked = meeting.CreatedAt
                 });
-            
+
             var external = meeting.ExternalAttendees
                 .Select(x => new UserMeetingDTO
                 {
                     Name = x.Name,
                     Email = x.Email,
-                    TimeZone = new() {NameValue = x.TimeZoneName, TimeValue = x.TimeZoneValue },
+                    TimeZone = new() { NameValue = x.TimeZoneName, TimeValue = x.TimeZoneValue },
                     Booked = meeting.CreatedAt
                 });
 

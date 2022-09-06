@@ -7,6 +7,7 @@ using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 
 
@@ -38,10 +39,18 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
                 .Where(meeting => meeting.TeamId == team.Id)
-
                 .ToListAsync();
 
-            var mapped = _mapper.Map<List<MeetingSlotDTO>>(meetings);
+            var mapped = _mapper.Map<List<MeetingSlotDTO>>(meetings, opts =>
+            {
+                opts.AfterMap((_, dest) =>
+                {
+                    for (int i = 0; i < meetings.Count(); i++)
+                    {
+                        dest.ElementAt(i).MeetingMembers = dest.ElementAt(i)?.MeetingMembers?.Take(numberOfMembers).ToList();
+                    }
+                });
+            });
 
             return mapped;
         }
