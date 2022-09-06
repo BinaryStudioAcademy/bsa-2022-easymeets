@@ -4,53 +4,47 @@
     display: flex
     align-items: center
     justify-content: center
-
-.cell> :first-child
-    width: 36px !important
-    height: 36px !important
-    font-style: normal
-    font-weight: 700
-    font-size: 14px
-    line-height: 146%
-    color: $raven
-    position: static
-    display: flex
-    align-items: center
-    justify-content: center
-    text-align: center
-    vertical-align: center
-    top: auto
-    left: auto
-
-.test-class> :first-child, .current-day> :first-child
-    background: #E1E6EF !important
-    border-radius: 8px !important
-    border: none !important
-
-.current-day
-    border: none !important
-
-.current-day
     position: relative
+    &> :first-child
+        width: 36px
+        height: 36px
+        font-style: normal
+        font-weight: 700
+        font-size: 14px
+        line-height: 146%
+        color: $raven
+        position: static
+        display: flex
+        align-items: center
+        justify-content: center
 
-.current-day> :first-child::before
+.ordinary> :first-child
+    border-radius: 8px
+    border: none !important
+    background: #F1F3F9
+
+.mat-calendar-body-today
+    box-shadow: none !important
+
+.today-line
     position: absolute
-    width: 16px !important
-    height: 2px !important
-    left: 2px !important
-    top: 21px !important
-    background: #4A505C !important
+    width: 16px
+    height: 2px
+    left: 10px
+    top: 29px
+    background: #4A505C
     border-radius: 1px
     display: block
-    z-index: 30
 
-.mat-calendar-body-active> :first-child
+.mat-calendar-body-selected
     background: $midnight !important
-    border-radius: 8px !important
     color: $white-color !important
 
-.mat-calendar-body-label:not(:last-of-type)
-    visibility: hidden
+.mat-calendar-body-label
+    &:not(:last-of-type)
+        visibility: hidden
+    &:last-of-type
+        display: none
 
-.mat-calendar-body-label:last-of-type
-    display: none
+.mat-calendar-table-header-divider
+    visibility: hidden

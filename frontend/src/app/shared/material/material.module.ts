@@ -6,7 +6,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -45,12 +44,11 @@ export { MatSelectModule } from '@angular/material/select';
         MatTableModule,
         MatTabsModule,
         MatSlideToggleModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
         DragDropModule,
         MatAutocompleteModule,
         MatCheckboxModule,
         MatTooltipModule,
+        MatDatepickerModule,
     ],
     exports: [
         FormsModule,
@@ -71,12 +69,11 @@ export { MatSelectModule } from '@angular/material/select';
         MatTableModule,
         MatTabsModule,
         MatSlideToggleModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
         MatAutocompleteModule,
         DragDropModule,
         MatCheckboxModule,
         MatTooltipModule,
+        MatDatepickerModule,
     ],
 })
 export class MaterialModule {}

@@ -1,5 +1,14 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import {
+    AfterViewInit,
+    Component, ElementRef,
+    EventEmitter,
+    Input,
+    Output,
+    ViewEncapsulation,
+} from '@angular/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MAT_NATIVE_DATE_FORMATS } from '@angular/material/core';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
+import { CustomDateAdapter } from '@modules/exclusion-dates/custom-date-adapter';
 import { HeaderDatePickerComponent } from '@modules/exclusion-dates/header-date-picker/header-date-picker.component';
 
 @Component({
@@ -7,9 +16,13 @@ import { HeaderDatePickerComponent } from '@modules/exclusion-dates/header-date-
     templateUrl: './custom-date-picker.component.html',
     styleUrls: ['./custom-date-picker.component.sass'],
     encapsulation: ViewEncapsulation.None,
+    providers: [
+        { provide: DateAdapter, useClass: CustomDateAdapter, deps: [MAT_DATE_LOCALE] },
+        { provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS },
+    ],
 })
-export class CustomDatePickerComponent {
-    todayDate: Date = new Date();
+export class CustomDatePickerComponent implements AfterViewInit {
+    todayDate: Date;
 
     @Input() selected: Date | null;
 
@@ -17,23 +30,23 @@ export class CustomDatePickerComponent {
 
     customHeader = HeaderDatePickerComponent;
 
+    constructor(private element: ElementRef) {
+        this.todayDate = new Date();
+        this.todayDate.setHours(0, 0, 0, 0);
+    }
+
+    ngAfterViewInit(): void {
+        const todayDayLine = document.createElement('div');
+
+        todayDayLine.classList.add('today-line');
+        this.element.nativeElement.getElementsByClassName('mat-calendar-body-today').item(0)?.appendChild(todayDayLine);
+    }
+
     dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
         if (view === 'month') {
-            const selectedDate = new Date(cellDate.getFullYear(), cellDate.getMonth(), cellDate.getDate());
+            cellDate.setHours(0, 0, 0, 0);
 
-            if (selectedDate.getDate() === this.todayDate.getDate() &&
-                selectedDate.getMonth() === this.todayDate.getMonth() &&
-                selectedDate.getFullYear() === this.todayDate.getFullYear()) {
-                return 'current-day cell';
-            }
-            if (selectedDate.getDate() === this.selected?.getDate() &&
-                selectedDate.getMonth() === this.selected?.getMonth() &&
-                selectedDate.getFullYear() === this.selected?.getFullYear()) {
-                return 'selected-day cell';
-            }
-            if (selectedDate >= this.todayDate) {
-                return 'test-class cell';
-            }
+            return cellDate >= this.todayDate ? 'cell ordinary' : 'cell';
         }
 
         return '';

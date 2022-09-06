@@ -6,26 +6,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 
+import {
+    CustomDatePickerComponent,
+} from './custom-date-picker/custom-date-picker.component';
 import { ExclusionDatesPickerComponent } from './exclusion-dates-picker/exclusion-dates-picker.component';
 import { HeaderDatePickerComponent } from './header-date-picker/header-date-picker.component';
-import { CustomDatePickerComponent } from './custom-date-picker/custom-date-picker.component';
 
 @NgModule({
-    declarations: [
-        ExclusionDatesPickerComponent,
-        HeaderDatePickerComponent,
-        CustomDatePickerComponent,
-    ],
-    exports: [
-        ExclusionDatesPickerComponent,
-    ],
-    imports: [
-        CommonModule,
-        MatButtonModule,
-        MatDatepickerModule,
-        MatCardModule,
-        MatIconModule,
-        ReactiveFormsModule,
-    ],
+    declarations: [ExclusionDatesPickerComponent, HeaderDatePickerComponent, CustomDatePickerComponent],
+    exports: [ExclusionDatesPickerComponent, HeaderDatePickerComponent, CustomDatePickerComponent],
+    imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, ReactiveFormsModule, MatDatepickerModule],
 })
-export class ExclusionDatesModule { }
+export class ExclusionDatesModule {}

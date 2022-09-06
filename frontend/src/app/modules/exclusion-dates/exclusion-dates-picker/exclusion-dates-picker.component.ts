@@ -1,8 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
-import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
 
 @Component({

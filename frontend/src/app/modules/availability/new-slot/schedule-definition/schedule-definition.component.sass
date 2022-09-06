@@ -6,7 +6,7 @@
     display: flex
     width: 100%
     flex-direction: row
-    @media (max-width: $desktop-min-width)
+    @media (max-width: 1300px)
         gap: 50px
         flex-direction: column
 
@@ -35,6 +35,8 @@
     justify-content: flex-start
     flex-direction: column
     padding: 0 32px
+    @media (max-width: $tablet-min-width)
+        padding: 0
     .override-heading-container
         width: 100%
         display: flex
@@ -71,12 +73,13 @@
         justify-content: center
         margin-bottom: 13px
         color: #6C707A
+        max-width: 248px
         &:hover
             box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1)
             color: $black
             i
                 color: #6C707A
-    @media (max-width: $desktop-min-width)
+    @media (max-width: 1300px)
         width: 100%
 
 .input
@@ -127,6 +130,8 @@ select
             color: $raven
             cursor: pointer
             margin-left: 25px
+            @media (max-width: $phone-min-width)
+                margin-left: 3px
 
 hr
     border-top: 1px solid #E1E6EF
