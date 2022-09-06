@@ -8,9 +8,6 @@ public class MeetingConfig : IEntityTypeConfiguration<Meeting>
 {
     public void Configure(EntityTypeBuilder<Meeting> builder)
     {
-        builder.Property(m => m.AvailabilitySlotId)
-            .IsRequired();
-    
         builder.Property(m => m.CreatedBy)
             .IsRequired();
         
