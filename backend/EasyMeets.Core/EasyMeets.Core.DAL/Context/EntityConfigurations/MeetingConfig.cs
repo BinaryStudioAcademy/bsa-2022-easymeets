@@ -8,6 +8,9 @@ public class MeetingConfig : IEntityTypeConfiguration<Meeting>
 {
     public void Configure(EntityTypeBuilder<Meeting> builder)
     {
+        builder.Property(m => m.AvailabilitySlotId)
+            .IsRequired();
+    
         builder.Property(m => m.CreatedBy)
             .IsRequired();
         
@@ -32,6 +35,11 @@ public class MeetingConfig : IEntityTypeConfiguration<Meeting>
         builder.HasOne(m => m.Author)
             .WithMany(u => u.CreatedMeetings)
             .HasForeignKey(m => m.CreatedBy)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.HasOne(m => m.AvailabilitySlot)
+            .WithMany(u => u.Meetings)
+            .HasForeignKey(m => m.AvailabilitySlotId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

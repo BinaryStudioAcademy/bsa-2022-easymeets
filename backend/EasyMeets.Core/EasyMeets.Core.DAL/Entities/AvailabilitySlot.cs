@@ -31,8 +31,8 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
 
     public User Author { get; set; } = null!;
     public Team Team { get; set; } = null!;
-    public Meeting? Meeting { get; set; }
-    public AdvancedSlotSettings? AdvancedSlotSettings { get; set; } = null!;
+    public AdvancedSlotSettings? AdvancedSlotSettings { get; set; }
+    public ICollection<Meeting>? Meetings { get; set; }
     public ICollection<ExternalAttendee> ExternalAttendees { get; set; }
     public ICollection<Question> Questions { get; set; }
     public ICollection<EmailTemplate> EmailTemplates { get; set; }

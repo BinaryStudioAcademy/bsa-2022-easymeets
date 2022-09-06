@@ -63,11 +63,6 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
             .HasForeignKey<AdvancedSlotSettings>(s => s.AvailabilitySlotId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne(s => s.Meeting)
-            .WithOne(s => s.AvailabilitySlot)
-            .HasForeignKey<Meeting>(s => s.AvailabilitySlotId)
-            .OnDelete(DeleteBehavior.NoAction);
-
         builder.HasMany(s => s.EmailTemplates)
             .WithOne(s => s.AvailabilitySlot)
             .HasForeignKey(s => s.AvailabilitySlotId)

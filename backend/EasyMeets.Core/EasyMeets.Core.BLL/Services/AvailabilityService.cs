@@ -280,6 +280,11 @@ namespace EasyMeets.Core.BLL.Services
 
             await _context.SaveChangesAsync();
         }
+        
+        public async Task<bool> ValidateLinkAsync(long? slotId, string slotLink)
+        {
+            return !await _context.AvailabilitySlots.AnyAsync(s => s.Id != slotId && s.Link == slotLink);
+        }
 
         private async Task<AvailabilitySlot?> GetByLinkInternal(string link)
         {

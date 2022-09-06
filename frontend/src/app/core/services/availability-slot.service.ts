@@ -53,4 +53,8 @@ export class AvailabilitySlotService {
     public updateScheduleExternally(link: string, schedule: ISchedule) {
         return this.httpService.putRequest(`${this.routePrefix}/${link}/externalSchedule`, schedule);
     }
+
+    public validateSlotLink(slotLink: string, id?: bigint) {
+        return this.httpService.getRequest<boolean>(`${this.routePrefix}/validateLink`, { id: id ?? '', slotLink });
+    }
 }

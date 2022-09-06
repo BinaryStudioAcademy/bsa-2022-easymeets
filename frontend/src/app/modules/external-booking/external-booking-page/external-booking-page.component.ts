@@ -87,6 +87,16 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         };
     }
 
+    public removeDateAndTime(isBack: boolean) {
+        if (isBack) {
+            this.menu = {
+                ...this.menu,
+                date: undefined,
+                timeFinish: undefined,
+            };
+        }
+    }
+
     public addMembersInMenu(selectedMembers: IAvailabilitySlotMember[]) {
         this.menu = {
             ...this.menu,
@@ -104,6 +114,8 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             duration: this.menu.duration,
             meetingLink: '',
             startTime: this.menu.date,
+            createdAt: new Date(),
+            updatedAt: new Date(),
         };
 
         const attendee: IExternalAttendee = {

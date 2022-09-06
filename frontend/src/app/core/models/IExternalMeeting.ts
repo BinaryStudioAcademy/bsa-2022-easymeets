@@ -9,4 +9,6 @@ export interface IExternalMeeting {
     duration?: number;
     startTime?: Date;
     meetingLink: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
