@@ -32,6 +32,15 @@ export class UserService {
         );
     }
 
+    public getUserByPersonalLink(link: string): Observable<IUser> {
+        return this.httpService.getRequest<IUser>(`${this.routePrefix}/byLink/${link}`).pipe(
+            tap({
+                next: (user) => this.updateUser(user),
+                error: () => this.notificationService.showErrorMessage('Something went wrong. Failed to fetch user.'),
+            }),
+        );
+    }
+
     public createUser(newUser: INewUser): Observable<IUser> {
         return this.httpService.postRequest<IUser>(`${this.routePrefix}`, newUser).pipe(
             tap({
@@ -93,16 +102,12 @@ export class UserService {
     }
 
     public getZoomClientId(): Observable<string> {
-        return this.httpService
-            .getStringRequest(`${this.routePrefix}/zoom/client`)
-            .pipe(
-                tap({
-                    error: () =>
-                        this.notificationService.showErrorMessage(
-                            'Something went wrong. Failed to fetch zoom client id.',
-                        ),
-                }),
-            );
+        return this.httpService.getStringRequest(`${this.routePrefix}/zoom/client`).pipe(
+            tap({
+                error: () =>
+                    this.notificationService.showErrorMessage('Something went wrong. Failed to fetch zoom client id.'),
+            }),
+        );
     }
 
     /* Local storage */

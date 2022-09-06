@@ -57,6 +57,7 @@ export class SignInFormComponent extends BaseComponent {
                     uid: resp.user?.uid,
                     userName: resp.user?.displayName ?? this.signInForm.get('name')?.value ?? '',
                     email: resp.user?.email ?? '',
+                    personalUrl: resp.user?.email?.substring(0, resp.user?.email.indexOf('@')).replace('.', '-') ?? '',
                     image: resp.user?.photoURL ?? undefined,
                     language: this.getLanguage(),
                     timeFormat: this.getTimeFormat(),
