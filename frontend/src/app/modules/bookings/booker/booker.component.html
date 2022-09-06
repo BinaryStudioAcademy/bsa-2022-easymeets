@@ -1,7 +1,7 @@
 <div class="booker-card">
     <span class="title bold">{{ booker.name }}</span>
     <span>{{ booker.email }}</span>
-    <span>{{ booker.timeZone }}</span>
+    <span>{{ booker.timeZone.nameValue }} {{ booker.timeZone.timeValue }}</span>
     <span class="underlined bold">Answers: 2/3</span>
-    <span>Booked: 19:21, 13 Aug, 2022</span>
+    <span>Booked: {{ booker.booked | date }}</span>
 </div>
