@@ -172,8 +172,6 @@ namespace EasyMeets.Core.BLL.Services
         {
             _context.CalendarVisibleForTeams.RemoveRange(calendar!.VisibleForTeams);
 
-            await RemoveCalendarMeetings(calendar.VisibleForTeams);
-
             calendar.VisibleForTeams = Array.Empty<CalendarVisibleForTeam>();
 
             var newVisibleForList = calendarDto.VisibleForTeams?
