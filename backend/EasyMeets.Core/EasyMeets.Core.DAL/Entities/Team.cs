@@ -16,7 +16,8 @@ public class Team : Entity<long>, IValidatableObject
     public string LogoPath { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string PageLink { get; set; } = string.Empty;
-    public int TimeZone { get; set; }
+    public string TimeZoneValue { get; set; } = string.Empty;
+    public string TimeZoneName { get; set; } = string.Empty;
     public string Description { get; set; }  = string.Empty;
 
     public ICollection<Calendar> ExportEventsToCalendars { get; set; }

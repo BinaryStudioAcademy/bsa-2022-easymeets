@@ -15,41 +15,33 @@
         </div>
     </div>
     <div class="timezone">
-        <mat-form-field appearance="fill" class="timezone-mat-form-field">
-            <mat-label>Select Time Zone</mat-label>
-            <mat-select [(ngModel)]="pickedTimeZone">
-                <mat-option *ngFor="let zone of timeZone | keyvalue" [value]="zone.value">
-                    {{ zone.value }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+        <ng-moment-timezone-picker [(ngModel)]="pickedTimeZone" customPlaceholderText="" [getUserZone]="true">
+        </ng-moment-timezone-picker>
     </div>
 </div>
-<div class="grid-container">
+<div class="grid-container" *ngIf="this.orderedTimes">
     <div class="grid">
-        <div class="column-label" *ngFor="let day of daysWithTimeRange; let i = index">
+        <div class="column-label" *ngFor="let day of scheduleItems; let i = index">
             <div class="today-label">
                 <h3 *ngIf="isTodayDate(this.calendarWeek.firstDay, i)">Today</h3>
             </div>
             <div class="day-name-label">
-                <h3>{{ day.dayOfWeek }}</h3>
+                <h3>{{ day.weekDay }}</h3>
             </div>
             <div class="day-number-label">
                 <h3>{{ this.calendarWeek.firstDay.getTime() + i * 24 * 60 * 60 * 1000 | date: 'dd' }}</h3>
             </div>
         </div>
         <ng-container *ngFor="let in of slotsCount; let i = index">
-            <ng-container *ngFor="let day of daysWithTimeRange; let j = index">
+            <ng-container *ngFor="let day of scheduleItems; let j = index">
                 <ng-container
-                    *ngIf="
-                        isDateInRange(theEarliestStartOfTimeRanges, day.startTime, day.finishTime, i);
-                        else defaultTimeSlot">
+                    *ngIf="isDateInRange(theEarliestStartOfTimeRanges, day.start, day.end, j, i); else defaultTimeSlot">
                     <span
                         #dateFrom
                         class="enabled"
                         *ngIf="isLastDate(this.calendarWeek.firstDay, j); else defaultTimeSlotPreviousDate"
                         [routerLink]="['/external-booking/confirm-booking']"
-                        (click)="AddTimeAndDate(i)">
+                        (click)="AddTimeAndDate(i, j, pickedTimeZone)">
                         {{
                             theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60000 | date: 'HH:mm'
                         }}

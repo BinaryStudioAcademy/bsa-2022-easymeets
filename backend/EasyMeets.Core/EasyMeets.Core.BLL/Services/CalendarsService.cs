@@ -125,6 +125,11 @@ namespace EasyMeets.Core.BLL.Services
                 calendar!.CheckForConflicts = calendarDto.CheckForConflicts;
                 calendar.AddEventsFromTeamId = calendarDto.ImportEventsFromTeam?.Id;
 
+                if (calendar.AddEventsFromTeamId is not null)
+                {
+                    await AddMeetingsToCalendar(calendar.AddEventsFromTeamId, calendar.ConnectedCalendar);
+                }
+
                 _context.Calendars.Update(calendar);
                 await _context.SaveChangesAsync();
             }
@@ -167,8 +172,6 @@ namespace EasyMeets.Core.BLL.Services
         {
             _context.CalendarVisibleForTeams.RemoveRange(calendar!.VisibleForTeams);
 
-            await RemoveCalendarMeetings(calendar.VisibleForTeams);
-
             calendar.VisibleForTeams = Array.Empty<CalendarVisibleForTeam>();
 
             var newVisibleForList = calendarDto.VisibleForTeams?
@@ -183,8 +186,6 @@ namespace EasyMeets.Core.BLL.Services
             {
                 calendar.VisibleForTeams = newVisibleForList;
                 await _context.CalendarVisibleForTeams.AddRangeAsync(newVisibleForList);
-
-                await AddMeetingsFromCalendar(calendar.ConnectedCalendar, calendar.VisibleForTeams, calendar.UserId);
             }
         }
 
@@ -207,7 +208,7 @@ namespace EasyMeets.Core.BLL.Services
 
         private async Task RemoveCalendarMeetings(IEnumerable<CalendarVisibleForTeam> visibleCalendar)
         {
-            foreach (var item in visibleCalendar)
+            foreach (var item in visibleCalendar.ToList())
             {
                 await _meetingService.DeleteGoogleCalendarMeetings(item.TeamId);
             }
@@ -217,10 +218,54 @@ namespace EasyMeets.Core.BLL.Services
         {
             var events = await GetEventsFromGoogleCalendar(email);
 
-            foreach (var item in visibleCalendar)
+            foreach (var item in visibleCalendar.ToList())
             {
                 await _meetingService.AddGoogleCalendarMeetings(item.TeamId, events, userId);
             }
+        }
+        private async Task AddMeetingsToCalendar(long? teamId, string email)
+        {
+            var meetings = await _context.Meetings.Where(x => x.TeamId == teamId).ToListAsync();
+
+            var refreshToken = _context.Calendars.FirstOrDefault(x => x.ConnectedCalendar == email) ?? throw new Exception("Connected email don't have refresh token.");
+
+            var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken.RefreshToken);
+
+            if (meetings.Any())
+            {
+                foreach (var item in meetings)
+                {
+                    await AddMeetingToCalendar(item, tokenResultDto);
+                }
+            }
+        }
+
+        private async Task AddMeetingToCalendar(Meeting meeting, TokenResultDto tokenResultDto)
+        {
+            var queryParams = new Dictionary<string, string>
+            {
+                { "calendarId", "primary" }
+            };
+
+            var starttime = meeting.StartTime.DateTime.AddHours(12).ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00" + "-09:00";
+            var endtime = meeting.StartTime.DateTime.AddMinutes(meeting.Duration).AddHours(12).ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00" + "-09:00";
+
+            var body = new
+            {
+                summary = meeting.Name,
+                status = "confirmed",
+                end = new
+                {
+                    dateTime = DateTime.Parse(endtime)
+                },
+                start = new
+                {
+                    dateTime = DateTime.Parse(starttime)
+                }
+            };
+
+            await HttpClientHelper.SendPostTokenRequest<SubscribeEventDTO>($"https://www.googleapis.com/calendar/v3/calendars/calendarId/events", queryParams, body,
+                tokenResultDto.AccessToken);
         }
     }
 }

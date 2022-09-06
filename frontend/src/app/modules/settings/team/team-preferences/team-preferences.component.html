@@ -21,9 +21,7 @@
             <label>
                 <div>Team Name</div>
             </label>
-            <div>
-                <input type="text" formControlName="name" (input)="generateNewPageLink(formGroup)" />
-            </div>
+            <div><input type="text" formControlName="name" (input)="generateNewPageLink(formGroup)" / /></div>
             <div *ngIf="nameControl.invalid && nameControl.touched" class="validation">
                 <small *ngIf="nameControl.errors?.['required']">This field is required.</small>
                 <small *ngIf="nameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
@@ -35,9 +33,7 @@
             <label>
                 <div>Team Page Link</div>
             </label>
-            <div>
-                <input type="text" formControlName="pageLink" />
-            </div>
+            <div><input type="text" formControlName="pageLink" / /></div>
             <div *ngIf="pageLinkControl.invalid && nameControl.touched" class="validation">
                 <small *ngIf="pageLinkControl.errors?.['required']">This field is required.</small>
                 <small *ngIf="pageLinkControl.errors?.['teamLinkUniq']">Team page link must be unique.</small>
@@ -45,11 +41,11 @@
         </div>
         <div class="item">
             <label>Time Zone</label>
-            <mat-select formControlName="timeZone">
-                <mat-option *ngFor="let name of timeZoneValues" [value]="timeZoneValues.indexOf(name)">
-                    {{ name }}
-                </mat-option>
-            </mat-select>
+            <ng-moment-timezone-picker
+                [formControlName]="'timeZone'"
+                customPlaceholderText=""
+                [getUserZone]="!team?.timeZone">
+            </ng-moment-timezone-picker>
         </div>
         <div class="item">
             <label>

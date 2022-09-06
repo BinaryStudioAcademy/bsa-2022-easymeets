@@ -7,14 +7,17 @@ import {
     ValidationErrors,
     Validators,
 } from '@angular/forms';
+<<<<<<< HEAD
 import { ActivatedRoute, Router } from '@angular/router';
+=======
+>>>>>>> development
 import { BaseComponent } from '@core/base/base.component';
 import { IImagePath } from '@core/models/IImagePath';
 import { ITeam } from '@core/models/ITeam';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { TimeZone } from '@shared/enums/timeZone';
+import { nameRegex, teamDescriptionRegex } from '@shared/constants/model-validation';
 import { map, Observable } from 'rxjs';
 
 @Component({
@@ -39,13 +42,11 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
 
     public formGroup: FormGroup;
 
-    public timeZoneValues = Object.values(TimeZone);
-
     public nameControl: FormControl = new FormControl('', [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(/^[іІїЇaєЄa-zA-Z\dа-яА-Я-]+(\s|)[іІїЇєЄa-zA-Z\dа-яА-Я-]*$/),
+        Validators.pattern(nameRegex),
     ]);
 
     public pageLinkControl: FormControl = new FormControl('', [Validators.required], [this.teamLinkValidator()]);
@@ -54,7 +55,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(80),
-        Validators.pattern(/^[.,іІїЇaєЄa-zA-Z\dа-яА-Я-\s]*$/),
+        Validators.pattern(teamDescriptionRegex),
     ]);
 
     constructor(

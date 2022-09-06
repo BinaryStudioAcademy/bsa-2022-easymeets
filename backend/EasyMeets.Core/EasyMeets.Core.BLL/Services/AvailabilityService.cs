@@ -42,7 +42,7 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(x => x.Team)
                 .Include(x => x.EmailTemplates)
                 .Where(x => x.CreatedBy == id || x.SlotMembers.Any(x => x.MemberId == id))
-                .Where(slot => teamId == null || (userTeam != null && slot.Team.Name == userTeam.Name))
+                .Where(slot => userTeam != null && slot.Team.Id == userTeam.Id)
                 .Select(y =>
                     new AvailabilitySlotDto
                     {
@@ -54,6 +54,7 @@ namespace EasyMeets.Core.BLL.Services
                         AuthorName = y.Author.Name,
                         TeamName = y.Team.Name,
                         LocationType = y.LocationType,
+                        Link = y.Link,
                         EmailTemplateSettings = _mapper.Map<List<EmailTemplatesSettingsDto>>(y.EmailTemplates),
                         Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.SlotMembers),
                     }
@@ -197,7 +198,7 @@ namespace EasyMeets.Core.BLL.Services
             {
                 _context.Remove(availabilitySlot.AdvancedSlotSettings);
             }
-            
+
             if (updateAvailabilityDto.TemplateSettings is not null)
             {
                 var oldTemplate = await _context.EmailTemplates.FirstOrDefaultAsync(t => t.TemplateType == updateAvailabilityDto.TemplateSettings.Type
@@ -256,6 +257,8 @@ namespace EasyMeets.Core.BLL.Services
         public async Task DeleteAvailabilitySlot(long slotId)
         {
             var slot = await _context.AvailabilitySlots.FirstAsync(el => el.Id == slotId);
+            var members = _context.SlotMembers.Where(member => member.SlotId == slotId);
+            _context.RemoveRange(members);
             _context.Remove(slot);
 
             await _context.SaveChangesAsync();
@@ -276,6 +279,11 @@ namespace EasyMeets.Core.BLL.Services
             }
 
             await _context.SaveChangesAsync();
+        }
+        
+        public async Task<bool> ValidateLinkAsync(long? slotId, string slotLink)
+        {
+            return !await _context.AvailabilitySlots.AnyAsync(s => s.Id != slotId && s.Link == slotLink);
         }
 
         private async Task<AvailabilitySlot?> GetByLinkInternal(string link)

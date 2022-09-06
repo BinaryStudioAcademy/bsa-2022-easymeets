@@ -9,6 +9,7 @@ import { IQuestion } from './IQuestion';
 
 export interface IAvailabilitySlot {
     id: bigint;
+    teamId?: bigint;
     name: string;
     authorName: string;
     size: number;
@@ -19,7 +20,7 @@ export interface IAvailabilitySlot {
     members: IAvailabilitySlotMember[];
     advancedSlotSettingsId?: number;
     advancedSlotSettings?: IAdvancedSlotSettings;
-    questions: IQuestion[],
+    questions: IQuestion[];
     schedule: ISchedule;
     welcomeMessage: string;
     color: Color;

@@ -17,6 +17,7 @@ export class ScheduleComponent extends BaseComponent {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
         this.schedule = this.slot?.schedule ?? getDefaultSchedule(false);
+        this.slotLink = this.slot?.link ?? '';
     }
 
     @Input() public slotLink: string;
@@ -33,7 +34,9 @@ export class ScheduleComponent extends BaseComponent {
 
     public externalDefinitionToggle($event: MatSlideToggleChange) {
         if (!this.schedule.definedExternally && !this.slotLink) {
-            this.notificationsService.showInfoMessage('Slot link must be defined and unique to allow external schedule definition');
+            this.notificationsService.showInfoMessage(
+                'Slot link must be defined and unique to allow external schedule definition',
+            );
             $event.source.checked = false;
 
             return;
