@@ -58,7 +58,7 @@ namespace EasyMeets.Core.BLL.Services
         private List<UserMeetingDTO> GetMeetingMembersByCount(MeetingSlotDTO meetingSlotDto, int numberOfMembers)
         {
             var meetingSlot = meetingSlotDto?.MeetingMembers?.Take(numberOfMembers).ToList();
-            return meetingSlot;
+            return meetingSlot!;
         }
 
         public async Task<List<UserMeetingDTO>> GetAllMembers(int id)
