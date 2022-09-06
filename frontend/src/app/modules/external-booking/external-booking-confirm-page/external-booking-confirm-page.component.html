@@ -1,5 +1,5 @@
 <div class="container">
-    <div id="container-back" class="back-container" onclick="history.back()">
+    <div id="container-back" class="back-container" (click)="cancelBooking.emit(true)" onclick="history.back()">
         <span class="arrow-back"><mat-icon>keyboard_backspace</mat-icon></span
         ><span class="back-text"> Enter details</span>
     </div>
@@ -7,18 +7,21 @@
         <p class="input-title">Your name</p>
         <input class="input-message" [(ngModel)]="externalAnswers.externalName" formControlName="characters" />
         <span *ngIf="confirmForm.controls['characters'].hasError('minlength')">
-		<p class="validationError">The minimum length is 2, the maximum is 50.</p>
-	</span>
+            <p class="validationError">The minimum length is 2, the maximum is 50.</p>
+        </span>
         <span *ngIf="confirmForm.controls['characters'].hasError('pattern')">
-		<p class="validationError">
-                	Invalid input field. Allow only only text, numbers, the symbol -. <br />Space cannot be the first or last character.
-            	</p>
-	</span>
+            <p class="validationError">
+                Invalid input field. Allow only only text, numbers, the symbol -. <br />Space cannot be the first or
+                last character.
+            </p>
+        </span>
     </div>
     <div id="container-email" class="email-container" [formGroup]="confirmForm">
         <p class="input-title">Your Email</p>
         <input class="input-message" [(ngModel)]="externalAnswers.externalEmail" formControlName="email" />
-        <span *ngIf="confirmForm.controls['email'].hasError('email')"><p class="validationError">Email format is invalid.</p></span>
+        <span *ngIf="confirmForm.controls['email'].hasError('email')"
+            ><p class="validationError">Email format is invalid.</p></span
+        >
     </div>
     <div id="container-extrainfo" class="extrainfo-container" [formGroup]="confirmForm">
         <p class="input-title">Please share anything that will help prepare<br />for our meeting</p>
@@ -26,7 +29,9 @@
             class="additional-info"
             formControlName="extraInfo"
             [(ngModel)]="externalAnswers.externalExtraInfo"></textarea>
-        <span *ngIf="confirmForm.controls['extraInfo'].hasError('minlength')"><p class="validationError">The minimum length is 3, the maximum is 80.</p></span>
+        <span *ngIf="confirmForm.controls['extraInfo'].hasError('minlength')"
+            ><p class="validationError">The minimum length is 3, the maximum is 80.</p></span
+        >
     </div>
     <div id="container-confirm" class="confirm-container">
         <button (click)="OnConfirmBooking()" mat-flat-button color="primary">Confirm booking</button>
