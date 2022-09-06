@@ -233,7 +233,7 @@ namespace EasyMeets.Core.BLL.Services
 
             if (meetings.Any())
             {
-                foreach (var item in await _context.Meetings.Where(x => x.TeamId == teamId).ToListAsync())
+                foreach (var item in meetings)
                 {
                     await AddMeetingToCalendar(item, tokenResultDto);
                 }
