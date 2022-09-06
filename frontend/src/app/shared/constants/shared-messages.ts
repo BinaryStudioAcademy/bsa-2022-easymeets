@@ -5,3 +5,4 @@ export const leavePageMessage =
 export const inactivationSlotMessage = 'Are you sure you want to inactivate this slot?';
 export const activationSlotMessage = 'Are you sure you want to activate this slot?';
 export const failedGettingUserMessage = 'Something went wrong. Failed to fetch current user.';
+export const zoomCreateErrorMessage = 'Something went wrong. Failed to create zoom credentials.';

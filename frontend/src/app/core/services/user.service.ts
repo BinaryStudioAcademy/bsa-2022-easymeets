@@ -3,7 +3,7 @@ import { IImagePath } from '@core/models/IImagePath';
 import { INewUser } from '@core/models/INewUser';
 import { IUpdateUser } from '@core/models/IUpdateUser';
 import { ILocalUser, IUser } from '@core/models/IUser';
-import { failedGettingUserMessage } from '@shared/constants/shared-messages';
+import { failedGettingUserMessage, zoomCreateErrorMessage } from '@shared/constants/shared-messages';
 import { BehaviorSubject, first, Observable, tap } from 'rxjs';
 
 import { HttpInternalService } from './http-internal.service';
@@ -93,10 +93,7 @@ export class UserService {
             })
             .pipe(
                 tap({
-                    error: () =>
-                        this.notificationService.showErrorMessage(
-                            'Something went wrong. Failed to create zoom credentials.',
-                        ),
+                    error: () => this.notificationService.showErrorMessage(zoomCreateErrorMessage),
                 }),
             );
     }
