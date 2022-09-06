@@ -9,6 +9,7 @@ using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
+
 namespace EasyMeets.Core.BLL.Services
 {
     public class MeetingService : BaseService, IMeetingService
@@ -33,7 +34,7 @@ namespace EasyMeets.Core.BLL.Services
             var meetings = await _context.Meetings
                 .Include(m => m.AvailabilitySlot)
                 .Include(s => s!.ExternalAttendees)
-                .Include(meeting => meeting.MeetingMembers.Take(numberOfMembers))
+                .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
                 .Where(meeting => meeting.TeamId == team.Id)
@@ -41,6 +42,7 @@ namespace EasyMeets.Core.BLL.Services
                 .ToListAsync();
 
             var mapped = _mapper.Map<List<MeetingSlotDTO>>(meetings);
+
             return mapped;
         }
 
