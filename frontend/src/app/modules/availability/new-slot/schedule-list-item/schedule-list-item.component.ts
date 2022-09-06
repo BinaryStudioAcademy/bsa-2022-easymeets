@@ -16,7 +16,18 @@ export class ScheduleListItemComponent extends BaseComponent implements OnInit {
 
     @Input() itemChange: EventEmitter<void> = new EventEmitter();
 
-    @Input() disabled: boolean = false;
+    @Input() set disabled(value: boolean) {
+        if (value) {
+            this.scheduleForm.get('startTime')?.disable();
+            this.scheduleForm.get('endTime')?.disable();
+        } else {
+            this.scheduleForm.get('startTime')?.enable();
+            this.scheduleForm.get('endTime')?.enable();
+        }
+        this.disabledValue = value;
+    }
+
+    public disabledValue: boolean = false;
 
     startValue: string;
 

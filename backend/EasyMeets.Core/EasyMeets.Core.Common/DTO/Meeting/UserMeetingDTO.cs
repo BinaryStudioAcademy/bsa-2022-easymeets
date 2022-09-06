@@ -7,5 +7,6 @@ namespace EasyMeets.Core.Common.DTO.Meeting
         public string? Name { get; set; }
         public string? Email { get; set; }
         public TimeZoneDto TimeZone { get; set; } = null!;
+        public DateTime Booked { get; set; }
     }
 }

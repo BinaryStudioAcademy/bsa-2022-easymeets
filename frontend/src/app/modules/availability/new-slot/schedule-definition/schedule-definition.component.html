@@ -6,6 +6,7 @@
                 <ng-moment-timezone-picker
                     [(ngModel)]="scheduleValue.timeZone"
                     customPlaceholderText=""
+                    [disabled]="disabled"
                     [getUserZone]="checkZone()">
                 </ng-moment-timezone-picker>
             </div>
