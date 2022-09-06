@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { DatesEqualComparator } from '@core/helpers/dates-equal-comparator-helper';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
 import { getPossibleTimeZones } from '@core/helpers/time-zone-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
+import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 import { ISchedule } from '@core/models/schedule/ISchedule';
-import {
-    ExclusionDatesPickerComponent,
-} from '@modules/exclusion-dates/exclusion-dates-picker/exclusion-dates-picker.component';
+import { ExclusionDatesPickerComponent } from '@modules/exclusion-dates/exclusion-dates-picker/exclusion-dates-picker.component';
 
 @Component({
     selector: 'app-schedule-definition',
@@ -54,12 +54,62 @@ export class ScheduleDefinitionComponent implements OnInit {
         this.dialog
             .open<ExclusionDatesPickerComponent, any, IExclusionDate | undefined>(ExclusionDatesPickerComponent)
             .afterClosed()
-            .subscribe(newExclusionDate => {
+            .subscribe((newExclusionDate) => {
                 if (newExclusionDate) {
-                    this.schedule.exclusionDates.push(newExclusionDate);
+                    this.sortDayTimeRanges(newExclusionDate.dayTimeRanges);
+                    newExclusionDate.dayTimeRanges = this.mergeDayTimeRanges(newExclusionDate.dayTimeRanges);
+
+                    if (!this.mergeExistingExclusionDates(newExclusionDate)) {
+                        this.schedule.exclusionDates.push(newExclusionDate);
+                    }
                 }
             });
     }
 
     formatTime = (time: string) => time.substring(0, 5);
+
+    private sortDayTimeRanges(ranges: IDayTimeRange[]) {
+        ranges.sort((firstRange, secondRange) => firstRange.start.localeCompare(secondRange.start));
+    }
+
+    private mergeDayTimeRanges(ranges: IDayTimeRange[]) {
+        const mergedExclusionDates: IDayTimeRange[] = [];
+        let currentDate = ranges.shift();
+
+        while (currentDate) {
+            let allFurtherDatesMerged = false;
+
+            let dateToMerge = ranges.shift();
+
+            while (!allFurtherDatesMerged && dateToMerge) {
+                if (dateToMerge.start <= currentDate.end && dateToMerge.end > currentDate.end) {
+                    currentDate.end = dateToMerge.end;
+                    dateToMerge = ranges.shift();
+                } else if (dateToMerge.start > currentDate.end) {
+                    allFurtherDatesMerged = true;
+                } else {
+                    dateToMerge = ranges.shift();
+                }
+            }
+            mergedExclusionDates.push(currentDate);
+            currentDate = ranges.shift();
+        }
+
+        return mergedExclusionDates;
+    }
+
+    private mergeExistingExclusionDates(newExclusionDate: IExclusionDate) {
+        const sameDate = this.schedule.exclusionDates.find((date) =>
+            DatesEqualComparator(new Date(date.selectedDate), newExclusionDate.selectedDate));
+
+        if (sameDate) {
+            sameDate.dayTimeRanges = [...sameDate.dayTimeRanges, ...newExclusionDate.dayTimeRanges];
+            this.sortDayTimeRanges(sameDate.dayTimeRanges);
+            sameDate.dayTimeRanges = this.mergeDayTimeRanges(sameDate.dayTimeRanges);
+
+            return true;
+        }
+
+        return false;
+    }
 }

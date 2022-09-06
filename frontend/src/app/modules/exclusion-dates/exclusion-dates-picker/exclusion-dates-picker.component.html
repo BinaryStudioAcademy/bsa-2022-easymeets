@@ -23,7 +23,7 @@
             <button class="cancel" (click)="clickCancel()">
                 Cancel
             </button>
-            <button class="apply" (click)="clickApply()">
+            <button class="apply" (click)="clickApply()" [disabled]="!selected || !formGroup.valid">
                 Apply
             </button>
         </div>

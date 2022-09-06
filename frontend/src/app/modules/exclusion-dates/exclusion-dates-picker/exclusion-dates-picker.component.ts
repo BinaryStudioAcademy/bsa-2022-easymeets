@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
+
+export function checkMatchValidator(secondControl: AbstractControl): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null =>
+        (control?.value && secondControl?.value ? null : { error: true });
+}
 
 @Component({
     selector: 'app-exclusion-dates-picker',
@@ -17,15 +22,17 @@ export class ExclusionDatesPickerComponent implements OnInit {
     formGroup: FormGroup;
 
     // eslint-disable-next-line no-empty-function
-    constructor(private dialogRef: MatDialogRef<ExclusionDatesPickerComponent>) { }
+    constructor(private dialogRef: MatDialogRef<ExclusionDatesPickerComponent>) {}
 
     ngOnInit() {
         this.formGroup = this.getDefaultFormGroup();
     }
 
     addTimeItem() {
-        this.formGroup.addControl(`${this.currentTimeItemIndex.toString()}0`, new FormControl());
-        this.formGroup.addControl(`${this.currentTimeItemIndex.toString()}1`, new FormControl());
+        const [firstTimeControl, secondTimeControl] = this.getTimeFormControls();
+
+        this.formGroup.addControl(`${this.currentTimeItemIndex.toString()}0`, firstTimeControl);
+        this.formGroup.addControl(`${this.currentTimeItemIndex.toString()}1`, secondTimeControl);
         this.currentTimeItemIndex++;
     }
 
@@ -56,7 +63,7 @@ export class ExclusionDatesPickerComponent implements OnInit {
     getValidDayTimeRanges() {
         const validDayTimeRanges: IDayTimeRange[] = [];
 
-        this.getIndexSequence().forEach(number => {
+        this.getIndexSequence().forEach((number) => {
             const start: string | null = this.formGroup.get(`${number.toString()}0`)?.value;
             const end: string | null = this.formGroup.get(`${number.toString()}1`)?.value;
 
@@ -68,9 +75,27 @@ export class ExclusionDatesPickerComponent implements OnInit {
         return validDayTimeRanges;
     }
 
-    private getDefaultFormGroup = () =>
-        new FormGroup({
-            '00': new FormControl('', [Validators.pattern(hourMinutesRegex)]),
-            '01': new FormControl('', [Validators.pattern(hourMinutesRegex)]),
+    private getDefaultFormGroup = () => {
+        const [firstTimeControl, secondTimeControl] = this.getTimeFormControls();
+
+        return new FormGroup({
+            '00': firstTimeControl,
+            '01': secondTimeControl,
         });
+    };
+
+    private getTimeFormControls = () => {
+        const firstControl = new FormControl(null, {
+            validators: [Validators.pattern(hourMinutesRegex)],
+            updateOn: 'change',
+        });
+
+        return [
+            firstControl,
+            new FormControl(null, {
+                validators: [Validators.pattern(hourMinutesRegex), checkMatchValidator(firstControl)],
+                updateOn: 'change',
+            }),
+        ];
+    };
 }
