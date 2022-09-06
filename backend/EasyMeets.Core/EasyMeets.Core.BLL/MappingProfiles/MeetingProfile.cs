@@ -68,25 +68,20 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 {
                     Name = x.TeamMember.User.Name,
                     Email = x.TeamMember.User.Email,
-                    //TimeZone = { NameValue = x.TeamMember.User.TimeZoneName, TimeValue = x.TeamMember.User.TimeZoneValue }
-                })
-                .ToList();
+                    TimeZone = new()  {NameValue = x.TeamMember.User.TimeZoneName, TimeValue = x.TeamMember.User.TimeZoneValue},
+                    Booked = meeting.CreatedAt
+                });
+            
+            var external = meeting.ExternalAttendees
+                .Select(x => new UserMeetingDTO
+                {
+                    Name = x.Name,
+                    Email = x.Email,
+                    TimeZone = new() {NameValue = x.TimeZoneName, TimeValue = x.TimeZoneValue },
+                    Booked = meeting.CreatedAt
+                });
 
-            if (meeting.AvailabilitySlot is not null)
-            {
-                var external = meeting.AvailabilitySlot.ExternalAttendees
-                    .Select(x => new UserMeetingDTO
-                    {
-                        Name = x.Name,
-                        Email = x.Email,
-                        TimeZone = { NameValue = x.TimeZoneName, TimeValue = x.TimeZoneValue }
-                    })
-                    .ToList();
-
-                return slotMembers.Union(external).ToList();
-            }
-
-            return slotMembers;
+            return slotMembers.Union(external).ToList();
         }
     }
 }

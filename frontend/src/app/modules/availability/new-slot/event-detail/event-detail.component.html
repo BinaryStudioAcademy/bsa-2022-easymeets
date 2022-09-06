@@ -1,13 +1,19 @@
 <div class="container">
-    <div class="link-container">
-        <p class="input-description">Link</p>
-        <div class="inputBlock">
-            <div class="inputStartBlock">
-                <p class="productName">{{appDomain}}/</p>
+    <form [formGroup]="formGroup">
+        <div class="link-container">
+            <p class="input-description">Link</p>
+            <div class="inputBlock">
+                <div class="inputStartBlock">
+                    <p class="productName">{{appDomain}}/</p>
+                </div>
+                <input formControlName="link" class="inputItem" (change)="onLinkChange()"/>
             </div>
-            <input class="inputItem" [(ngModel)]="settings.link" (change)="onLinkChange()"/>
         </div>
-    </div>
+        <div *ngIf="slotLinkControl.invalid && slotLinkControl.touched" class="validation">
+            <small *ngIf="slotLinkControl.errors?.['required']">This field is required.</small>
+            <small *ngIf="slotLinkControl.errors?.['linkUnique']">Link is not unique, please enter a unique link</small>
+        </div>
+    </form>
 
     <div class="welcome-message-container">
         <p class="input-description">Welcome Message</p>
@@ -54,7 +60,8 @@
     <mat-divider></mat-divider>
     <div class="password-container">
         <div class="input-password">
-            <mat-slide-toggle class="form-switch" [(ngModel)]="this.settings.passwordProtectionIsUsed"></mat-slide-toggle>
+            <mat-slide-toggle class="form-switch"
+                              [(ngModel)]="this.settings.passwordProtectionIsUsed"></mat-slide-toggle>
             <p class="input-field">Password protection</p>
         </div>
         <div class="input-description-tooltip-container">

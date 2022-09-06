@@ -32,18 +32,18 @@ namespace EasyMeets.Core.BLL.Services
 
             var meetings = await _context.Meetings
                 .Include(m => m.AvailabilitySlot)
-                    .ThenInclude(s => s!.ExternalAttendees)
-                .Include(meeting => meeting.MeetingMembers.Take(numberOfMembers)) 
+                .Include(s => s!.ExternalAttendees)
+                .Include(meeting => meeting.MeetingMembers.Take(numberOfMembers))
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
                 .Where(meeting => meeting.TeamId == team.Id)
-                
+
                 .ToListAsync();
 
             var mapped = _mapper.Map<List<MeetingSlotDTO>>(meetings);
             return mapped;
         }
-        
+
         public async Task<List<UserMeetingDTO>> GetAllMembers(int id)
         {
             var meeting = await _context.Meetings
@@ -63,7 +63,7 @@ namespace EasyMeets.Core.BLL.Services
 
             return members;
         }
-        
+
         public async Task<SaveMeetingDto> CreateMeeting(SaveMeetingDto meetingDto)
         {
             var currentUser = await _userService.GetCurrentUserAsync();
@@ -91,6 +91,19 @@ namespace EasyMeets.Core.BLL.Services
             await AddMeetingLink(meeting);
 
             return _mapper.Map<SaveMeetingDto>(GetByIdInternal(meeting.Id));
+        }
+
+        public async Task<long> CreateExternalAttendeeMeeting(ExternalAttendeeMeetingDto meetingDto)
+        {
+            var meeting = _mapper.Map<Meeting>(meetingDto);
+
+            await _context.Meetings.AddAsync(meeting);
+
+            await _context.SaveChangesAsync();
+
+            await AddMeetingLink(meeting);
+
+            return meeting.Id;
         }
 
         public async Task DeleteGoogleCalendarMeetings(long teamId)
@@ -127,7 +140,7 @@ namespace EasyMeets.Core.BLL.Services
         public async Task<List<OrderedMeetingTimesDto>> GetOrderedMeetingTimesAsync(long slotId)
         {
             return await _context.Meetings.Where(el => el.AvailabilitySlotId == slotId)
-                .Select(el => new OrderedMeetingTimesDto {StartTime = el.StartTime})
+                .Select(el => new OrderedMeetingTimesDto { StartTime = el.StartTime })
                 .ToListAsync();
         }
 
