@@ -3,6 +3,7 @@ import { TeamStateChangeActionEnum } from '@core/enums/team-state-change-action.
 import { IImagePath } from '@core/models/IImagePath';
 import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
+import { ITeamMember } from '@core/models/ITeamMember';
 import { IUpdateTeam } from '@core/models/IUpdateTeam';
 import { HttpInternalService } from '@core/services/http-internal.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -54,6 +55,13 @@ export class TeamService {
 
     public getCurrentUserAdminTeams(): Observable<ITeam[]> {
         return this.httpService.getRequest<ITeam[]>(`${this.routePrefix}/user-teams-admin`);
+    }
+
+    public getTeamMembers(teamId?: number) {
+        alert('id from getTeamMembers:');
+        alert(teamId);
+
+        return this.httpService.getRequest<ITeamMember[]>(`${this.routePrefix}/team-members/${teamId}`);
     }
 
     public validatePageLink(pageLink: string, teamId?: number) {

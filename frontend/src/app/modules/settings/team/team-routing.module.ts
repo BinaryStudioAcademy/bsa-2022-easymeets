@@ -20,7 +20,7 @@ const routes: Routes = [
         component: NewTeamComponent,
     },
     {
-        path: 'members',
+        path: 'members/:id',
         component: TeamMembersComponent,
     },
 ];

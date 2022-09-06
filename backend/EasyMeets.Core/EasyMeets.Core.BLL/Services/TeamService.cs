@@ -52,6 +52,35 @@ public class TeamService : BaseService, ITeamService
         return _mapper.Map<TeamDto>(createdTeam);
     }
 
+    //public async Task<List<TeamMemberDto>> GetTeamMembersAsync(long teamId)
+    //{
+    //    var members = await _context.TeamMembers
+    //       .Where(t => t.TeamId == teamId)
+    //       .Include(t => t.User)
+    //       .Select(o => _mapper.Map<TeamMemberDto>(o))
+    //       .ToListAsync();
+
+    //    return members;
+    //}
+
+    public async Task<List<TeamMemberDto>> GetTeamMembersAsync(long teamId)
+    {
+        var members = await _context.TeamMembers
+           .Where(t => t.TeamId == teamId)
+           .Include(t => t.User)
+           .Select(y =>
+                new TeamMemberDto()
+                {
+                    Id = y.Id,
+                    Name = y.User.Name,
+                    Email = y.User.Email,
+                    Image = y.User.ImagePath,
+                }
+           ).ToListAsync();
+
+        return members;
+    }
+
     public async Task UpdateTeamAsync(UpdateTeamDto teamDto)
     {
         if (await UserIsAdmin(teamDto.Id))
