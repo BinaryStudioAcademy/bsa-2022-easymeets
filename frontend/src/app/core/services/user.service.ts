@@ -3,6 +3,7 @@ import { IImagePath } from '@core/models/IImagePath';
 import { INewUser } from '@core/models/INewUser';
 import { IUpdateUser } from '@core/models/IUpdateUser';
 import { ILocalUser, IUser } from '@core/models/IUser';
+import { failedGettingUserMessage } from '@shared/constants/shared-messages';
 import { BehaviorSubject, first, Observable, tap } from 'rxjs';
 
 import { HttpInternalService } from './http-internal.service';
@@ -26,8 +27,7 @@ export class UserService {
         return this.httpService.getRequest<IUser>(`${this.routePrefix}/current`).pipe(
             tap({
                 next: (user) => this.updateUser(user),
-                error: () =>
-                    this.notificationService.showErrorMessage('Something went wrong. Failed to fetch current user.'),
+                error: () => this.notificationService.showErrorMessage(failedGettingUserMessage),
             }),
         );
     }
@@ -36,7 +36,7 @@ export class UserService {
         return this.httpService.getRequest<IUser>(`${this.routePrefix}/byLink/${link}`).pipe(
             tap({
                 next: (user) => this.updateUser(user),
-                error: () => this.notificationService.showErrorMessage('Something went wrong. Failed to fetch user.'),
+                error: () => this.notificationService.showErrorMessage(failedGettingUserMessage),
             }),
         );
     }
