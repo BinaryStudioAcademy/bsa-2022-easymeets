@@ -7,10 +7,7 @@ import {
     ValidationErrors,
     Validators,
 } from '@angular/forms';
-<<<<<<< HEAD
 import { ActivatedRoute, Router } from '@angular/router';
-=======
->>>>>>> development
 import { BaseComponent } from '@core/base/base.component';
 import { IImagePath } from '@core/models/IImagePath';
 import { ITeam } from '@core/models/ITeam';

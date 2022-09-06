@@ -19,6 +19,6 @@ import { TeamTabsMenuComponent } from './team-tabs-menu/team-tabs-menu.component
         TeamMembersComponent,
         TeamTabsMenuComponent,
     ],
-    imports: [CommonModule, SharedModule, MaterialModule, TeamRoutingModule],
+    imports: [CommonModule, SharedModule, MaterialModule, TeamRoutingModule, MomentTimezonePickerModule],
 })
 export class TeamModule {}
