@@ -104,9 +104,11 @@
             </p>
             <div class="avatar-list">
                 <div *ngFor="let member of slot.members">
-                    <img [src]="member.memberImage" class="avatar" />
+                    <img *ngIf="member.memberImage; else noAvatar" [src]="member.memberImage" class="avatar" />
                 </div>
-                <img src="assets/header/avatar-icon.png" class="avatar" />
+                <ng-template #noAvatar>
+                    <img class="avatar" src="assets/header/avatar-icon.png" />
+                </ng-template>
             </div>
         </div>
         <div class="options">
