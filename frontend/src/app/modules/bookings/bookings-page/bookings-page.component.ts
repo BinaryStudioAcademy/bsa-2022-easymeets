@@ -6,7 +6,7 @@ import { IMeetingMembersRequest } from '@core/models/IMeetingMemberRequest';
 import { MeetingBookingsService } from '@core/services/meeting-bookings.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { desktopMaxWidth, desktopMinWidth, phoneMinWidth, tabletMinWidth } from '@shared/constants/screen-variables';
+import { desktopMaxWidth, desktopMinWidth, tabletMinWidth } from '@shared/constants/screen-variables';
 
 @Component({
     selector: 'app-bookings-page',
@@ -37,11 +37,6 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
         this.meetings = [];
     }
 
-    @HostListener('window:resize', ['$event'])
-    onResize() {
-        //console.log(this.container.offsetWidth);
-    }
-
     public ngOnInit(): void {
         this.getNumberOfItemsToDisplay();
 
@@ -57,45 +52,43 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             });
     }
 
+    @HostListener('window:resize', ['$event'])
+    onResize(event: any) {
+        this.containerWidth = event.target.innerWidth;
+        if (this.containerWidth < 1300) {
+            this.numberOfMembersToDisplay = 3;
+        }
+        if (this.containerWidth < 1130) {
+            this.numberOfMembersToDisplay = 2;
+        }
+        if (this.containerWidth < 885) {
+            this.numberOfMembersToDisplay = 1;
+        }
+    }
+
     private loadMeetings(meetingMemberRequest: IMeetingMembersRequest) {
         this.meetingService
             .getThreeMeetings(meetingMemberRequest)
             .pipe(this.untilThis)
             .subscribe(
                 (resp: IMeetingBooking[]) => {
+                    this.sliceListAccordingToContainerSize(resp);
                     this.meetings = resp;
                 },
                 (error) => this.notifications.showErrorMessage(error),
             );
     }
 
-    sliceListAccordingToCotainerSize() {
-
+    sliceListAccordingToContainerSize(responseMeeting: IMeetingBooking[]) {
+        responseMeeting.forEach(meeting => {
+            if (meeting.meetingCount >= this.numberOfMembersToDisplay) {
+                if ((this.containerWidth > 1100 && this.containerWidth < 1336)) {
+                    meeting.meetingMembers = meeting.meetingMembers.slice(0, this.numberOfMembersToDisplay - 1);
+                }
+                this.meetings.push(meeting);
+            }
+        });
     }
-    // sliceListAccordingToCntainerSize(responseMeeting: IMeetingBooking[]) {
-    //     if (responseMeeting.length > 3) {
-    //         this.displayButton = true;
-    //         const widthOfListOfMembers = this.getPageSize();
-
-    //         const numberOfMembersToDisplay = Math.floor(widthOfListOfMembers / widthOfMemberItemContainerOnBookingPage);
-
-    //         this.meetings = responseMeeting.slice(0, numberOfMembersToDisplay);
-    //         console.log(this.meetings);
-    //     } else {
-    //         this.displayButton = false;
-    //         //this.meetings = responseMeeting;
-    //     }
-    // }
-
-    // detectMeetingMembersNumber() {
-    //     const widthOfListOfMembers = this.getPageSize();
-    //     const numberOfMembersToDisplay = widthOfListOfMembers / widthOfMemberItemContainerOnBookingPage;
-
-    //     console.log(numberOfMembersToDisplay);
-
-    //     this.numberOfMembersToDisplay = Math.floor(widthOfListOfMembers / widthOfMemberItemContainerOnBookingPage);
-    //     console.log(this.numberOfMembersToDisplay);
-    // }
 
     getPageSize() {
         const bookingContainer = (<HTMLElement> this.el.nativeElement)
@@ -106,29 +99,16 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
 
     getNumberOfItemsToDisplay() {
         this.getPageSize();
+
         if (this.containerWidth > desktopMaxWidth) {
             this.numberOfMembersToDisplay = 4;
         } else if (this.containerWidth > desktopMinWidth) {
-            this.numberOfMembersToDisplay = 3;
+            this.numberOfMembersToDisplay = 4;
         } else if (this.containerWidth < desktopMinWidth && this.containerWidth > tabletMinWidth) {
             this.numberOfMembersToDisplay = 2;
-        } else if (this.containerWidth < tabletMinWidth && this.containerWidth > phoneMinWidth) {
+        } else if (this.containerWidth < tabletMinWidth || (this.containerWidth > tabletMinWidth && this.containerWidth < 1000)) {
             this.numberOfMembersToDisplay = 1;
         }
-        // const widthOfBokingSlot = bookingContainerWidth - paddingLeftRigthOnBookingPage * 2;
-
-        // if (this.displayButton) {
-        //     const widthOfListOfMembers = widthOfBokingSlot - (widthOfItemInfoOnBookingPage + widthOfButtonRedirectionToBookersPage);
-
-        //     console.log(widthOfListOfMembers);
-
-        //     return widthOfListOfMembers;
-        // }
-        // const widthOfListOfMembers = widthOfBokingSlot - widthOfItemInfoOnBookingPage;
-
-        // console.log(widthOfListOfMembers);
-
-        // return widthOfListOfMembers;
     }
 
     goToPage(pageName: string) {

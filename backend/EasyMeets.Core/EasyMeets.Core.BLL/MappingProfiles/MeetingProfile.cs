@@ -57,7 +57,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             {
                 0 => "Empty meeting.",
                 1 => meeting.MeetingMembers.First().TeamMember.User.Name,
-                _ => $"{meeting.MeetingMembers.Count()} + Team Members"
+                _ => $"{meeting.MeetingMembers.Count()} Team Members"
             };
         }
 
