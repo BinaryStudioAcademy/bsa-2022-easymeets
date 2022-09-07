@@ -1,6 +1,7 @@
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.UploadImage;
+using EasyMeets.Core.Common.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace EasyMeets.Core.WebAPI.Controllers;
@@ -65,13 +66,20 @@ public class TeamController : ControllerBase
         return Ok(await _teamService.CreateTeamAsync(newTeamDto));
     }
 
-    [HttpPut("members/{teamId?}")]
+    [HttpPost("members/{teamId?}")]
     public async Task<IActionResult> UpdateTeamMembersAsync([FromBody] TeamMemberDto teamMemberDto, long teamId)
     {
-        await _teamService.UpdateTeamMembersAsync(teamMemberDto, teamId);
+        await _teamService.CreateTeamMemberAsync(teamMemberDto, teamId);
         return Ok();
     }
-        
+
+    [HttpPut("members")]
+    public async Task<IActionResult> UpdateTeamMemberRoleAsync([FromBody] TeamMemberDto teamMemberDto)
+    {
+        await _teamService.UpdateTeamMemberRoleAsync(teamMemberDto);
+        return Ok();
+    }
+
     [HttpPut]
     public async Task<IActionResult> UpdateTeam([FromBody] UpdateTeamDto teamDto)
     {

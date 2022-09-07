@@ -92,8 +92,12 @@ export class TeamService {
         return this.httpService.putRequest<ITeam>(`${this.routePrefix}`, team);
     }
 
-    public editTeamMembers(member: ITeamMember, teamId?: number) {
-        return this.httpService.putRequest<ITeamMember>(`${this.routePrefix}/members/${teamId}`, member);
+    public createTeamMember(member: ITeamMember, teamId?: number) {
+        return this.httpService.postRequest<ITeamMember>(`${this.routePrefix}/members/${teamId}`, member);
+    }
+
+    public updateTeamMember(member: ITeamMember) {
+        return this.httpService.putRequest<ITeamMember>(`${this.routePrefix}/members`, member);
     }
 
     public uploadLogo(data: FormData, id?: number) {

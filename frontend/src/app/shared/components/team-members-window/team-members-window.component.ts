@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
 import { ITeamMember } from '@core/models/ITeamMember';
 import { IUser } from '@core/models/IUser';
+import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
 import { UserService } from '@core/services/user.service';
 import { Role } from '@shared/enums/role';
@@ -37,6 +38,7 @@ export class TeamMembersWindowComponent extends BaseComponent {
         private dialogRef: MatDialogRef<TeamMembersWindowComponent>,
         private userService: UserService,
         private teamService: TeamService,
+        private notificationService: NotificationService,
     ) {
         super();
         this.title = data.title;
@@ -55,9 +57,14 @@ export class TeamMembersWindowComponent extends BaseComponent {
             this.userService
                 .getUsersByEmailOrName(searchData)
                 .pipe(this.untilThis)
-                .subscribe((users) => {
-                    this.searchedUsers = users;
-                });
+                .subscribe(
+                    (users) => {
+                        this.searchedUsers = users;
+                    },
+                    (error) => {
+                        this.notificationService.showErrorMessage(error);
+                    },
+                );
         }
     }
 
@@ -66,7 +73,6 @@ export class TeamMembersWindowComponent extends BaseComponent {
     }
 
     selectUser(user: IUser) {
-        alert(`I want to add user with id ${user.id}`);
         this.usersToAdd = [...this.usersToAdd, user];
 
         const teamMember: ITeamMember = {
@@ -79,13 +85,9 @@ export class TeamMembersWindowComponent extends BaseComponent {
             status: Status.Pending,
         };
 
-        console.log(this.teamId);
-        console.log(teamMember);
         this.teamService
-            .editTeamMembers(teamMember, this.teamId)
+            .createTeamMember(teamMember, this.teamId)
             .pipe(this.untilThis)
-            .subscribe((value) => {
-                console.log(value);
-            });
+            .subscribe(() => {});
     }
 }

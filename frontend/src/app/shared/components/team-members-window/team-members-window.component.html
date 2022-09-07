@@ -7,7 +7,11 @@
     <div *ngIf="message" mat-dialog-content class="message">
         {{ message }}
     </div>
-    <input [(ngModel)]="query" (input)="getUsersByEmailOrName(query)" class="search-input" />
+    <input
+        [(ngModel)]="query"
+        (input)="getUsersByEmailOrName(query)"
+        class="search-input"
+        placeholder="Search by Name or Email" />
     <div class="user-info-container">
         <div *ngIf="!query" class="query-message">Type some text for searching...</div>
         <div *ngFor="let user of searchedUsers">
@@ -41,12 +45,16 @@
                         <div class="name">{{ user.userName }}</div>
                         <div class="email">{{ user.email }}</div>
                     </div>
-                    <div class="added-user-icon">ADDED</div>
+                    <div class="added-user">
+                        <div class="added-user-text">Added</div>
+                    </div>
                 </div>
             </ng-template>
         </div>
     </div>
-    <div class="selected-text">Added {{ usersToAdd.length }} new member(s)</div>
+    <div class="selected-text-container">
+        <div class="selected-text" *ngIf="usersToAdd.length">Added {{ usersToAdd.length }} new member(s)</div>
+    </div>
     <hr />
     <div mat-dialog-actions class="mat-dialog-buttons">
         <button

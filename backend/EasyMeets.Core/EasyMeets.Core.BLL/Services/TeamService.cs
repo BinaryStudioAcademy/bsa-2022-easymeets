@@ -41,7 +41,7 @@ public class TeamService : BaseService, ITeamService
 
         var member = new TeamMember()
         {
-            Role = Role.Admin,
+            Role = Role.Owner,
             TeamId = createdTeam.Id,
             UserId = user.Id,
         };
@@ -64,6 +64,7 @@ public class TeamService : BaseService, ITeamService
                     Name = y.User.Name,
                     Email = y.User.Email,
                     Image = y.User.ImagePath,
+                    Role = y.Role,
                     ConnectedCalendar = _context.Calendars.Where(p => p.UserId == y.Id).Select(p => p.ConnectedCalendar).FirstOrDefault(),
                 }
            ).ToListAsync();
@@ -88,7 +89,7 @@ public class TeamService : BaseService, ITeamService
         }
     }
 
-    public async Task UpdateTeamMembersAsync(TeamMemberDto teamMemberDto, long teamId)
+    public async Task CreateTeamMemberAsync(TeamMemberDto teamMemberDto, long teamId)
     {
         var team = await GetTeamByIdAsync(teamId);
         if (team != null)
@@ -105,9 +106,26 @@ public class TeamService : BaseService, ITeamService
         }
         else
         {
-            throw new Exception("Team with thid id is not created");
+            throw new Exception("Team with this id is not created");
         }
     }
+
+    public async Task UpdateTeamMemberRoleAsync(TeamMemberDto teamMemberDto)
+    {
+        var teamMember = await _context.TeamMembers.FirstAsync(s => s.Id == teamMemberDto.Id);
+        if (teamMember != null)
+        {
+            teamMember.Role = teamMemberDto.Role;
+
+            _context.TeamMembers.Update(teamMember);
+            await _context.SaveChangesAsync();
+        }
+        else
+        {
+            throw new Exception("Team member with this id is not created");
+        }
+    }
+
 
     public async Task DeleteTeamAsync(long teamId)
     {
