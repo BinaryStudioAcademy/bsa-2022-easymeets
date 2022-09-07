@@ -85,18 +85,12 @@ namespace EasyMeets.Core.BLL.Services
         {
             var currentUser = await _userService.GetCurrentUserAsync();
 
-            var teamId = await _context.TeamMembers
-                .Where(x => x.UserId == currentUser.Id)
-                .Select(x => x.Team.Id)
-                .FirstOrDefaultAsync();
-
-            var meetingMembers = await GetMeetingMembers(meetingDto.MeetingMembers, teamId);
+            var meetingMembers = await GetMeetingMembers(meetingDto.MeetingMembers, meetingDto.TeamId);
 
             var meeting = _mapper.Map<Meeting>(meetingDto, opts =>
                 opts.AfterMap((_, dest) =>
                 {
                     dest.CreatedBy = currentUser.Id;
-                    dest.TeamId = teamId;
                     dest.MeetingMembers = meetingMembers;
                 })
             );
