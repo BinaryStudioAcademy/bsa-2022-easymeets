@@ -20,7 +20,9 @@ export class TeamTabsMenuComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.route.params.subscribe((params) => (this.teamId = params['id']));
+        this.route.params.subscribe((params) => {
+            this.teamId = params['id'];
+        });
         this.links = [
             { routerLink: `/settings/teams/edit/${this.teamId}`, text: 'General' },
             { routerLink: `/settings/teams/members/${this.teamId}`, text: 'Members' },

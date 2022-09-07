@@ -14,9 +14,10 @@
         placeholder="Search by Name or Email" />
     <div class="user-info-container">
         <div *ngIf="!query" class="query-message">Type some text for searching...</div>
+        <div *ngIf="query && !searchedUsers.length" class="query-message">No users found</div>
         <div *ngFor="let user of searchedUsers">
             <ng-container *ngIf="!isAddedMember(user); else notAddedMember">
-                <div class="user-info" (click)="selectUser(user)">
+                <div class="user-info not-added-user-info" id="user-info-{{ user.id }}" (click)="selectUser(user)">
                     <div class="user-avatar">
                         <ng-container *ngIf="user.image; else noMemberImage">
                             <img src="{{ user.image }}" />
@@ -61,7 +62,8 @@
             *ngFor="let buttonOptions of buttonsOptions"
             [ngClass]="buttonOptions.class"
             mat-flat-button
-            (click)="onClick(buttonOptions.onClickEvent)">
+            (click)="onClick(buttonOptions.onClickEvent)"
+            [disabled]="!usersToAdd.length">
             {{ buttonOptions.label }}
         </button>
     </div>

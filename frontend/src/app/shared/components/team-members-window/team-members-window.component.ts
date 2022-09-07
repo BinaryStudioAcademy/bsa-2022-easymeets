@@ -65,6 +65,8 @@ export class TeamMembersWindowComponent extends BaseComponent {
                         this.notificationService.showErrorMessage(error);
                     },
                 );
+        } else {
+            this.searchedUsers = [];
         }
     }
 
@@ -73,6 +75,11 @@ export class TeamMembersWindowComponent extends BaseComponent {
     }
 
     selectUser(user: IUser) {
+        const userElement: HTMLDivElement = document.getElementById(`user-info-${user.id}`) as HTMLDivElement;
+
+        userElement.classList.add('window-selected-user');
+        userElement.classList.remove('not-added-user-info');
+
         this.usersToAdd = [...this.usersToAdd, user];
 
         const teamMember: ITeamMember = {
