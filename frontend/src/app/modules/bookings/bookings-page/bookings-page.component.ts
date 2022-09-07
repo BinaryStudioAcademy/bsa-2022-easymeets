@@ -6,7 +6,7 @@ import { IMeetingMembersRequest } from '@core/models/IMeetingMemberRequest';
 import { MeetingBookingsService } from '@core/services/meeting-bookings.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { desktopMaxWidth, desktopWidthToContainFourItems, desktopWidthToContainThreeItems, desktopWidthToContainTwoItems,
+import { desktopWidthToContainFourItems, desktopWidthToContainThreeItems, desktopWidthToContainTwoItems,
     phoneMaxWidth, tabletMaxWidth, widthToContainThreeItems, widthToContainTwoLowerLimit, widthToContainTwoUpperLimit,
     widthToContainZeroItemUpperLimit } from '@shared/constants/screen-variables';
 
@@ -100,7 +100,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             case containerWidth < widthToContainThreeItems:
                 this.numberOfMembersToDisplay = 3;
                 break;
-            case containerWidth > desktopMaxWidth || containerWidth < desktopMaxWidth:
+            case containerWidth > widthToContainThreeItems:
                 this.numberOfMembersToDisplay = 4;
                 break;
             default:

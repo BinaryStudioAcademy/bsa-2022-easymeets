@@ -9,4 +9,3 @@ export const widthToContainTwoUpperLimit = 1220;
 export const desktopWidthToContainFourItems = 1400;
 export const desktopWidthToContainThreeItems = 1430;
 export const widthToContainThreeItems = 1460;
-export const desktopMaxWidth = 1536;
