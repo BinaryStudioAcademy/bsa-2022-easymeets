@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { BaseComponent } from '@core/base/base.component';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { TimeRangeValidator } from '@modules/exclusion-dates/validators/time-range-validator';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
@@ -10,15 +11,16 @@ import { hourMinutesRegex } from '@shared/constants/model-validation';
     templateUrl: './exclusion-dates-picker.component.html',
     styleUrls: ['./exclusion-dates-picker.component.sass'],
 })
-export class ExclusionDatesPickerComponent implements OnInit {
+export class ExclusionDatesPickerComponent extends BaseComponent implements OnInit {
     selected: Date | null;
 
     currentTimeItemIndex = 1;
 
     formGroup: FormGroup;
 
-    // eslint-disable-next-line no-empty-function
-    constructor(private dialogRef: MatDialogRef<ExclusionDatesPickerComponent>) {}
+    constructor(private dialogRef: MatDialogRef<ExclusionDatesPickerComponent>) {
+        super();
+    }
 
     ngOnInit() {
         this.formGroup = this.getDefaultFormGroup();

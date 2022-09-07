@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { BaseComponent } from '@core/base/base.component';
 import { DatesEqualComparator } from '@core/helpers/dates-equal-comparator-helper';
 import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
@@ -14,7 +15,7 @@ import { ExclusionDatesPickerComponent } from '@modules/exclusion-dates/exclusio
     templateUrl: './schedule-definition.component.html',
     styleUrls: ['./schedule-definition.component.sass'],
 })
-export class ScheduleDefinitionComponent {
+export class ScheduleDefinitionComponent extends BaseComponent {
     @Input() changeEvent: EventEmitter<any> = new EventEmitter();
 
     @Input() set schedule(value: ISchedule | undefined) {
@@ -31,8 +32,9 @@ export class ScheduleDefinitionComponent {
         return !this.scheduleValue.timeZone.nameValue;
     }
 
-    // eslint-disable-next-line no-empty-function
-    constructor(private dialog: MatDialog) {}
+    constructor(private dialog: MatDialog) {
+        super();
+    }
 
     deleteExclusionDate(index: number) {
         this.scheduleValue.exclusionDates.splice(index, 1);
@@ -40,7 +42,7 @@ export class ScheduleDefinitionComponent {
 
     showExclusionDatesWindow() {
         this.dialog
-            .open<ExclusionDatesPickerComponent, any, IExclusionDate | undefined>(ExclusionDatesPickerComponent)
+            .open<ExclusionDatesPickerComponent, IExclusionDate, IExclusionDate | undefined>(ExclusionDatesPickerComponent)
             .afterClosed()
             .subscribe((newExclusionDate) => {
                 if (newExclusionDate) {
