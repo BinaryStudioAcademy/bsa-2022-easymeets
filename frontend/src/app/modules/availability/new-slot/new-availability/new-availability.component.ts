@@ -68,13 +68,13 @@ export class NewAvailabilityComponent extends BaseComponent implements OnInit, A
 
     ngAfterViewInit(): void {
         this.generalComponent.generalForm.statusChanges?.subscribe((status: FormControlStatus) => {
-            this.generalErrors = status !== 'VALID';
-            this.hasAnyErrors = this.generalErrors || this.eventDetailsErrors;
+            this.generalErrors = !this.checkStatus(status);
+            this.refreshAllErrors();
         });
 
         this.eventDetailComponent.formGroup.statusChanges?.subscribe((status: FormControlStatus) => {
-            this.eventDetailsErrors = status !== 'VALID';
-            this.hasAnyErrors = this.generalErrors || this.eventDetailsErrors;
+            this.eventDetailsErrors = !this.checkStatus(status);
+            this.refreshAllErrors();
         });
     }
 
@@ -108,5 +108,13 @@ export class NewAvailabilityComponent extends BaseComponent implements OnInit, A
 
     onLinkChange($event: string) {
         this.link = $event;
+    }
+
+    private refreshAllErrors() {
+        this.hasAnyErrors = this.generalErrors || this.eventDetailsErrors;
+    }
+
+    private checkStatus(status: FormControlStatus) {
+        return status === 'VALID';
     }
 }
