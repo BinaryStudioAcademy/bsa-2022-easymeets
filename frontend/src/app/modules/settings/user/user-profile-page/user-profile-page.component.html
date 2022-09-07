@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" *ngIf="user">
     <form class="form-container" [formGroup]="userForm" (ngSubmit)="OnSubmit(userForm)">
         <div class="item">
             <div class="user-avatar-block">
@@ -91,7 +91,8 @@
         <div class="item">
             <label>Time Zone</label>
             <ng-moment-timezone-picker
-                [formControlName]="'timeZone'"
+                (ngModelChange)="changeZone()"
+                formControlName="timeZone"
                 customPlaceholderText=""
                 [getUserZone]="!user?.timeZone">
             </ng-moment-timezone-picker>
