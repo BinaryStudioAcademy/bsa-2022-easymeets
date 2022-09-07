@@ -84,23 +84,25 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
     private getNumberOfItemsToDisplay() {
         const containerWidth = this.getPageSize();
 
-        if (containerWidth > desktopMaxWidth) {
-            this.numberOfMembersToDisplay = 4;
-        }
-        if (containerWidth < desktopMaxWidth && containerWidth > widthToContainThreeItems) {
-            this.numberOfMembersToDisplay = 4;
-        }
-        if (containerWidth < widthToContainThreeItems && containerWidth > widthToContainTwoUpperLimit) {
-            this.numberOfMembersToDisplay = 3;
-        }
-        if (containerWidth < widthToContainTwoUpperLimit && containerWidth > widthToContainTwoLowerLimit) {
-            this.numberOfMembersToDisplay = 2;
-        }
-        if ((containerWidth < widthToContainTwoLowerLimit && containerWidth > tabletMinWidth) || containerWidth < phoneMaxWidth) {
-            this.numberOfMembersToDisplay = 1;
-        }
-        if (containerWidth < tabletMinWidth && containerWidth > phoneMaxWidth) {
-            this.numberOfMembersToDisplay = 0;
+        switch (true) {
+            case containerWidth > desktopMaxWidth
+            || (containerWidth < desktopMaxWidth && containerWidth > widthToContainThreeItems):
+                this.numberOfMembersToDisplay = 4;
+                break;
+            case containerWidth < widthToContainThreeItems && containerWidth > widthToContainTwoUpperLimit:
+                this.numberOfMembersToDisplay = 3;
+                break;
+            case containerWidth < widthToContainTwoUpperLimit && containerWidth > widthToContainTwoLowerLimit:
+                this.numberOfMembersToDisplay = 2;
+                break;
+            case (containerWidth < widthToContainTwoLowerLimit && containerWidth > tabletMinWidth) || containerWidth < phoneMaxWidth:
+                this.numberOfMembersToDisplay = 1;
+                break;
+            case containerWidth < tabletMinWidth && containerWidth > phoneMaxWidth:
+                this.numberOfMembersToDisplay = 0;
+                break;
+            default:
+                break;
         }
     }
 
