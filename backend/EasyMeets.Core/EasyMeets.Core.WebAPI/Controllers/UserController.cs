@@ -25,6 +25,13 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok(user);
         }
 
+        [HttpGet("search/{searchData}")]
+        public async Task<List<UserDto>> GetUsersByEmailOrNameAsync(string searchData)
+        {
+            var users = await _userService.GetUsersByEmailOrNameAsync(searchData);
+            return users;
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult<UserDto>> CreateUserPreferences([FromBody] NewUserDto user)

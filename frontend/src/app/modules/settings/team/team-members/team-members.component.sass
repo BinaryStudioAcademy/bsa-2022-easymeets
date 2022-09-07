@@ -3,9 +3,10 @@
 .table-container
     width: 100%
     .team-members-table.mat-table
-        width: 100%
+        width: 90%
         box-shadow: none
         margin-top: 35px
+        margin-left: 5%
         .mat-cell
             font-family: 'Inter'
             font-style: normal
@@ -28,6 +29,8 @@
 .main-member-info
     display: flex
     flex-direction: row
+    justify-content: flex-start
+    align-items: center
     .member-avatar
         padding: 10px 10px 10px 0
         display: flex
@@ -58,10 +61,11 @@ i
 .connected-calendar-icon
     width: 32px
     height: 32px
+    margin-right: 3px
 
 .add-member-container
     width: 30%
-    margin-left: 3%
+    margin-left: 5%
     margin-top: 5%
     .add-team-member-btn
         display: flex
@@ -86,3 +90,22 @@ i
         height: 17px
         width: 17px
         margin-right: 8px
+
+.member-calendar
+    display: flex
+    flex-direction: row
+    justify-content: flex-start
+    align-items: center
+
+.member-role-select
+    display: flex
+    flex-direction: row
+    justify-content: flex-start
+    align-items: center
+    .team-members-role-form-field
+        max-width: 100px
+
+.more-btn
+    display: flex
+    align-content: flex-start
+    max-width: 10px

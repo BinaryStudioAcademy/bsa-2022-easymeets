@@ -32,6 +32,10 @@ export class UserService {
         );
     }
 
+    public getUsersByEmailOrName(searchData: string): Observable<IUser[]> {
+        return this.httpService.getRequest<IUser[]>(`${this.routePrefix}/search/${searchData}`);
+    }
+
     public createUser(newUser: INewUser): Observable<IUser> {
         return this.httpService.postRequest<IUser>(`${this.routePrefix}`, newUser).pipe(
             tap({
@@ -93,16 +97,12 @@ export class UserService {
     }
 
     public getZoomClientId(): Observable<string> {
-        return this.httpService
-            .getStringRequest(`${this.routePrefix}/zoom/client`)
-            .pipe(
-                tap({
-                    error: () =>
-                        this.notificationService.showErrorMessage(
-                            'Something went wrong. Failed to fetch zoom client id.',
-                        ),
-                }),
-            );
+        return this.httpService.getStringRequest(`${this.routePrefix}/zoom/client`).pipe(
+            tap({
+                error: () =>
+                    this.notificationService.showErrorMessage('Something went wrong. Failed to fetch zoom client id.'),
+            }),
+        );
     }
 
     /* Local storage */

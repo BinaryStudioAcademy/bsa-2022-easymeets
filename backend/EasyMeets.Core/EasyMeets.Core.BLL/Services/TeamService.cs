@@ -52,17 +52,6 @@ public class TeamService : BaseService, ITeamService
         return _mapper.Map<TeamDto>(createdTeam);
     }
 
-    //public async Task<List<TeamMemberDto>> GetTeamMembersAsync(long teamId)
-    //{
-    //    var members = await _context.TeamMembers
-    //       .Where(t => t.TeamId == teamId)
-    //       .Include(t => t.User)
-    //       .Select(o => _mapper.Map<TeamMemberDto>(o))
-    //       .ToListAsync();
-
-    //    return members;
-    //}
-
     public async Task<List<TeamMemberDto>> GetTeamMembersAsync(long teamId)
     {
         var members = await _context.TeamMembers
@@ -75,6 +64,7 @@ public class TeamService : BaseService, ITeamService
                     Name = y.User.Name,
                     Email = y.User.Email,
                     Image = y.User.ImagePath,
+                    ConnectedCalendar = _context.Calendars.Where(p => p.UserId == y.Id).Select(p => p.ConnectedCalendar).FirstOrDefault(),
                 }
            ).ToListAsync();
 
@@ -95,6 +85,22 @@ public class TeamService : BaseService, ITeamService
         else
         {
             throw new Exception("User is not allowed enough access");
+        }
+    }
+
+    public async Task UpdateTeamMembersAsync(long teamId, TeamMemberDto teamMemberDto)
+    {
+        var teamEntity = await GetTeamByIdAsync(teamId);
+        if (teamEntity != null)
+        {
+            teamEntity.TeamMembers.Add(_mapper.Map<TeamMember>(teamMemberDto));
+            _context.Teams.Update(teamEntity);
+
+            await _context.SaveChangesAsync();
+        }
+        else
+        {
+            throw new Exception("Team with thid id is not created");
         }
     }
 

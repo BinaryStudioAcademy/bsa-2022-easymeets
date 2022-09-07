@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { ITeamMember } from '@core/models/ITeamMember';
+import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { TeamService } from '@core/services/team.service';
 import { Role } from '@shared/enums/role';
 import { Status } from '@shared/enums/status';
@@ -43,12 +44,18 @@ export class TeamMembersComponent extends BaseComponent implements OnInit {
 
     teamId: number;
 
-    constructor(public teamService: TeamService, private route: ActivatedRoute) {
+    constructor(
+        public teamService: TeamService,
+        public confirmationWindowService: ConfirmationWindowService,
+        private route: ActivatedRoute,
+    ) {
         super();
     }
 
     ngOnInit(): void {
-        this.route.params.subscribe((params) => (this.teamId = params['id']));
+        this.route.params.subscribe((params) => {
+            this.teamId = params['id'];
+        });
 
         this.teamService
             .getTeamMembers(this.teamId)
@@ -61,5 +68,20 @@ export class TeamMembersComponent extends BaseComponent implements OnInit {
 
     isActiveStatus(status: Status) {
         return status === Status.Active;
+    }
+
+    showTeamMembersWindow() {
+        this.confirmationWindowService.openTeamMembersDialog({
+            buttonsOptions: [
+                {
+                    class: 'confirm-accept-button',
+                    label: 'Cancel',
+                    onClickEvent: new EventEmitter<void>(),
+                },
+            ],
+            title: 'Add Member(s)',
+            teamMembers: this.teamMembers,
+            teamId: this.teamId,
+        });
     }
 }

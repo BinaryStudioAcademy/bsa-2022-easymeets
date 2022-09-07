@@ -88,6 +88,10 @@ export class TeamService {
         return this.httpService.putRequest<ITeam>(`${this.routePrefix}`, team);
     }
 
+    public editTeamMembers(teamId: number, members: ITeamMember) {
+        return this.httpService.putRequest<ITeamMember>(`${this.routePrefix}/members/${teamId}`, members);
+    }
+
     public uploadLogo(data: FormData, id?: number) {
         return this.httpService.putRequest<IImagePath>(`${this.routePrefix}/uploadlogo/${id ?? ''}`, data);
     }

@@ -65,6 +65,13 @@ public class TeamController : ControllerBase
         return Ok(await _teamService.CreateTeamAsync(newTeamDto));
     }
 
+    [HttpPut("members/{teamId?}")]
+    public async Task<IActionResult> UpdateTeamMembersAsync(long teamId, [FromBody] TeamMemberDto teamMemberDto)
+    {
+        await _teamService.UpdateTeamMembersAsync(teamId, teamMemberDto);
+        return Ok();
+    }
+        
     [HttpPut]
     public async Task<IActionResult> UpdateTeam([FromBody] UpdateTeamDto teamDto)
     {
