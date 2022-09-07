@@ -6,7 +6,10 @@ import { IMeetingMembersRequest } from '@core/models/IMeetingMemberRequest';
 import { MeetingBookingsService } from '@core/services/meeting-bookings.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { desktopMaxWidth, desktopMinWidth, tabletMinWidth } from '@shared/constants/screen-variables';
+import { desktopMaxWidth, desktopWidthToContainFourItems, desktopWidthToContainThreeItems,
+    desktopWidthToContainTwoItems, phoneMaxWidth, tabletMaxWidth, tabletMinWidth,
+    widthToContainThreeItems, widthToContainTwoLowerLimit, widthToContainTwoUpperLimit,
+    widthToContainZeroItemUpperLimit } from '@shared/constants/screen-variables';
 
 @Component({
     selector: 'app-bookings-page',
@@ -62,20 +65,6 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             );
     }
 
-    getNumberOfItemsToDisplay() {
-        const containerWidth = this.getPageSize();
-
-        if (containerWidth > desktopMaxWidth) {
-            this.numberOfMembersToDisplay = 4;
-        } else if (containerWidth > desktopMinWidth) {
-            this.numberOfMembersToDisplay = 4;
-        } else if (containerWidth < desktopMinWidth && containerWidth > tabletMinWidth) {
-            this.numberOfMembersToDisplay = 2;
-        } else if (containerWidth < tabletMinWidth) {
-            this.numberOfMembersToDisplay = 1;
-        }
-    }
-
     @HostListener('window:resize', ['$event'])
     onResize(event: Event) {
         const eventWindowTarget = event.target as Window;
@@ -93,20 +82,43 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
         window.open(link);
     }
 
-    private getNumberOfItemsToDisplayOnResize(width: number) {
-        if (width > 1300) {
+    private getNumberOfItemsToDisplay() {
+        const containerWidth = this.getPageSize();
+
+        if (containerWidth > desktopMaxWidth) {
             this.numberOfMembersToDisplay = 4;
         }
-        if (width < 1430) {
+        if (containerWidth < desktopMaxWidth && containerWidth > widthToContainThreeItems) {
+            this.numberOfMembersToDisplay = 4;
+        }
+        if (containerWidth < widthToContainThreeItems && containerWidth > widthToContainTwoUpperLimit) {
             this.numberOfMembersToDisplay = 3;
         }
-        if (width < 1200) {
+        if (containerWidth < widthToContainTwoUpperLimit && containerWidth > widthToContainTwoLowerLimit) {
             this.numberOfMembersToDisplay = 2;
         }
-        if (width < 950) {
+        if ((containerWidth < widthToContainTwoLowerLimit && containerWidth > tabletMinWidth) || containerWidth < phoneMaxWidth) {
             this.numberOfMembersToDisplay = 1;
         }
-        if (width < tabletMinWidth) {
+        if (containerWidth < tabletMinWidth && containerWidth > phoneMaxWidth) {
+            this.numberOfMembersToDisplay = 0;
+        }
+    }
+
+    private getNumberOfItemsToDisplayOnResize(width: number) {
+        if (width < desktopWidthToContainThreeItems) {
+            this.numberOfMembersToDisplay = 3;
+        }
+        if (width > desktopWidthToContainFourItems) {
+            this.numberOfMembersToDisplay = 4;
+        }
+        if (width < desktopWidthToContainTwoItems) {
+            this.numberOfMembersToDisplay = 2;
+        }
+        if (width < tabletMaxWidth) {
+            this.numberOfMembersToDisplay = 1;
+        }
+        if (width < widthToContainZeroItemUpperLimit) {
             this.numberOfMembersToDisplay = 0;
         }
     }
