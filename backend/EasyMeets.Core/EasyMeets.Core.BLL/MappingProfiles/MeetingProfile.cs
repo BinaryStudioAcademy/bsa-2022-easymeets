@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EasyMeets.Core.Common.DTO.Calendar;
 using EasyMeets.Core.Common.DTO.Meeting;
+using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.Zoom;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Entities;
@@ -40,6 +41,12 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 });
 
             CreateMap<ExternalAttendeeMeetingDto, Meeting>();
+
+            CreateMap<Meeting, UnavailabilityItemDto>()
+                .ForMember(u => u.Start, opts =>
+                    opts.MapFrom(src => src.StartTime.DateTime))
+                .ForMember(u => u.End, opts =>
+                    opts.MapFrom(src => src.StartTime.DateTime.AddMinutes(src.Duration)));
         }
 
         private string CreateMemberTitle(Meeting meeting)

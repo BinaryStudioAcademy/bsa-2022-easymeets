@@ -6,6 +6,7 @@ import { getDisplayDuration } from '@core/helpers/display-duration-helper';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
+import { IUnavailability } from '@core/models/IUnavailability';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -37,6 +38,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     teamMembers: INewMeetingMember[];
 
     addedMembers: INewMeetingMember[] = [];
+
+    memberUnavailability: IUnavailability[] = [];
 
     filteredOptions: Observable<INewMeetingMember[]>;
 
@@ -186,10 +189,12 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             this.addedMembers.push(value);
         }
         this.memberFilterCtrl.setValue('');
+        this.memberUnavailability = this.memberUnavailability.concat(value.unavailabilityItems);
     }
 
-    removeMemberToList(memberId: number) {
-        this.addedMembers = this.addedMembers.filter((member) => member.id !== memberId);
+    removeMemberToList(memberToRemove: INewMeetingMember) {
+        this.addedMembers = this.addedMembers.filter((member) => member.id !== memberToRemove.id);
+        this.memberUnavailability = this.memberUnavailability.filter(u => !memberToRemove.unavailabilityItems.includes(u));
     }
 
     reset() {

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EasyMeets.Core.Common.DTO.Calendar;
+using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.DAL.Entities;
 
 namespace EasyMeets.Core.BLL.MappingProfiles;
@@ -15,5 +16,7 @@ public class CalendarEventProfile : Profile
                 => opts.MapFrom(src => src.End!.DateTime))
             .ForMember(e => e.TimeZone, opts
                 => opts.MapFrom(src => src.Start!.TimeZone));
+
+        CreateMap<CalendarEvent, UnavailabilityItemDto>();
     }
 }
