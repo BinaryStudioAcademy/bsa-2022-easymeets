@@ -8,6 +8,7 @@ import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRang
 import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 import { ExclusionDatesPickerComponent } from '@modules/exclusion-dates/exclusion-dates-picker/exclusion-dates-picker.component';
+import { TimeRangesMergeHelper } from "@core/helpers/time-ranges-merge-helper";
 
 @Component({
     selector: 'app-schedule-definition',
@@ -57,7 +58,7 @@ export class ScheduleDefinitionComponent implements OnInit {
             .subscribe((newExclusionDate) => {
                 if (newExclusionDate) {
                     this.sortDayTimeRanges(newExclusionDate.dayTimeRanges);
-                    newExclusionDate.dayTimeRanges = this.mergeDayTimeRanges(newExclusionDate.dayTimeRanges);
+                    newExclusionDate.dayTimeRanges = TimeRangesMergeHelper(newExclusionDate.dayTimeRanges);
 
                     if (!this.mergeExistingExclusionDates(newExclusionDate)) {
                         this.schedule.exclusionDates.push(newExclusionDate);
@@ -72,32 +73,6 @@ export class ScheduleDefinitionComponent implements OnInit {
         ranges.sort((firstRange, secondRange) => firstRange.start.localeCompare(secondRange.start));
     }
 
-    private mergeDayTimeRanges(ranges: IDayTimeRange[]) {
-        const mergedExclusionDates: IDayTimeRange[] = [];
-        let currentDate = ranges.shift();
-
-        while (currentDate) {
-            let allFurtherDatesMerged = false;
-
-            let dateToMerge = ranges.shift();
-
-            while (!allFurtherDatesMerged && dateToMerge) {
-                if (dateToMerge.start <= currentDate.end && dateToMerge.end > currentDate.end) {
-                    currentDate.end = dateToMerge.end;
-                    dateToMerge = ranges.shift();
-                } else if (dateToMerge.start > currentDate.end) {
-                    allFurtherDatesMerged = true;
-                } else {
-                    dateToMerge = ranges.shift();
-                }
-            }
-            mergedExclusionDates.push(currentDate);
-            currentDate = ranges.shift();
-        }
-
-        return mergedExclusionDates;
-    }
-
     private mergeExistingExclusionDates(newExclusionDate: IExclusionDate) {
         const sameDate = this.schedule.exclusionDates.find((date) =>
             DatesEqualComparator(new Date(date.selectedDate), newExclusionDate.selectedDate));
@@ -105,7 +80,7 @@ export class ScheduleDefinitionComponent implements OnInit {
         if (sameDate) {
             sameDate.dayTimeRanges = [...sameDate.dayTimeRanges, ...newExclusionDate.dayTimeRanges];
             this.sortDayTimeRanges(sameDate.dayTimeRanges);
-            sameDate.dayTimeRanges = this.mergeDayTimeRanges(sameDate.dayTimeRanges);
+            sameDate.dayTimeRanges = TimeRangesMergeHelper(sameDate.dayTimeRanges);
 
             return true;
         }

@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
+import { TimeRangeValidator } from '@modules/exclusion-dates/validators/time-range-validator';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
-
-export function checkMatchValidator(secondControl: AbstractControl): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null =>
-        (control?.value && secondControl?.value ? null : { error: true });
-}
 
 @Component({
     selector: 'app-exclusion-dates-picker',
@@ -93,7 +89,7 @@ export class ExclusionDatesPickerComponent implements OnInit {
         return [
             firstControl,
             new FormControl(null, {
-                validators: [Validators.pattern(hourMinutesRegex), checkMatchValidator(firstControl)],
+                validators: [Validators.pattern(hourMinutesRegex), TimeRangeValidator(firstControl)],
                 updateOn: 'change',
             }),
         ];

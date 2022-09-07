@@ -12,7 +12,7 @@
         <form class="input-container" [formGroup]="formGroup" *ngIf="this.selected">
             <i class="fa-solid fa-plus add-time fa-xl" (click)="addTimeItem()"></i>
             <div class="time-item" *ngFor="let timeItem of getIndexSequence()">
-                <input class="time-input" type="time" [formControlName]="timeItem.toString() + '0'">
+                <input class="time-input first-time-input" type="time" [formControlName]="timeItem.toString() + '0'">
                 -
                 <input class="time-input" type="time" [formControlName]="timeItem.toString() + '1'">
                 <i class="fa-regular fa-circle-xmark xmark fa-xl" (click)="removeTimeItem()"></i>
