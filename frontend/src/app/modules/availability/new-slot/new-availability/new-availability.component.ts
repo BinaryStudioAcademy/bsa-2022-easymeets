@@ -56,7 +56,11 @@ export class NewAvailabilityComponent extends BaseComponent implements OnInit, A
 
     public appDomain = environment.appUrl;
 
-    hasAnyErrors: boolean = false;
+    hasAnyErrors: boolean = true;
+
+    eventDetailsErrors: boolean = true;
+
+    generalErrors: boolean = true;
 
     constructor(private router: Router) {
         super();
@@ -64,7 +68,13 @@ export class NewAvailabilityComponent extends BaseComponent implements OnInit, A
 
     ngAfterViewInit(): void {
         this.generalComponent.generalForm.statusChanges?.subscribe((status: FormControlStatus) => {
-            this.hasAnyErrors = status !== 'VALID';
+            this.generalErrors = status !== 'VALID';
+            this.hasAnyErrors = this.generalErrors || this.eventDetailsErrors;
+        });
+
+        this.eventDetailComponent.formGroup.statusChanges?.subscribe((status: FormControlStatus) => {
+            this.eventDetailsErrors = status !== 'VALID';
+            this.hasAnyErrors = this.generalErrors || this.eventDetailsErrors;
         });
     }
 
