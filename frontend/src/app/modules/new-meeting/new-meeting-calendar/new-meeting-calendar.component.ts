@@ -105,11 +105,11 @@ export class NewMeetingCalendarComponent extends BaseComponent {
     private isUnavailable(date: Date, unavailability: IUnavailability) {
         const start = new Date(unavailability.start);
         const end = new Date(unavailability.end);
+        const dateEnd = addMinutes(date, this.duration.minutes!);
 
         return this.containsDate(date, start, end) ||
-            this.containsDate(addMinutes(date, this.duration.minutes!), start, end) ||
-            (this.containsDate(start, date, addMinutes(date, this.duration.minutes!)) &&
-                this.containsDate(end, date, addMinutes(date, this.duration.minutes!)));
+            this.containsDate(dateEnd, start, end) ||
+            (this.containsDate(start, date, dateEnd) && this.containsDate(end, date, dateEnd));
     }
 
     private containsDate(date: Date, start: Date, end: Date) {
