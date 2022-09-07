@@ -146,9 +146,9 @@ namespace EasyMeets.Core.BLL.Services
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
                 .Include(slot => slot.Questions.OrderBy(q => q.Order))
-                //.Include(slot => slot.SlotMembers)
-                //    .ThenInclude(slot => slot.Schedule)
-                //        .ThenInclude(s => s.ScheduleItems)
+                .Include(slot => slot.SlotMembers)
+                    .ThenInclude(slot => slot.Schedule)
+                        .ThenInclude(s => s.ScheduleItems)
                 .Include(slot => slot.EmailTemplates)
                 .FirstOrDefaultAsync(slot => slot.Id == id);
             if (availabilitySlot is null)
