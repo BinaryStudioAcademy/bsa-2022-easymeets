@@ -168,4 +168,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             message: "Image can't be heavier than 5MB!",
         });
     }
+
+    public changeZone() {
+        this.userForm.markAsTouched();
+    }
 }
