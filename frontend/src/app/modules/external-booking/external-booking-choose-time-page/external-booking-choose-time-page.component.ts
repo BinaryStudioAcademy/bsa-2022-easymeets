@@ -1,3 +1,4 @@
+import { WeekDay } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
@@ -10,7 +11,7 @@ import { AvailabilitySlotService } from '@core/services/availability-slot.servic
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { LocationType } from '@shared/enums/locationType';
-import { addDays, addHours, subDays } from 'date-fns';
+import { addDays, addMinutes, subDays } from 'date-fns';
 import { TZone } from 'moment-timezone-picker';
 
 @Component({
@@ -35,6 +36,8 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     @Output() selectedTimeAndDateEvent = new EventEmitter<{ date: Date; timeFinish: Date; timeZone: TZone }>();
 
     public slotsCount: Array<object>;
+
+    public disabledDays: number[];
 
     public orderedTimes: IOrderedMeetingTimes[];
 
@@ -76,6 +79,9 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
                 this.getOrderedTimes(this.slot!.id);
                 this.selectedMeetingDuration = this.slot!.size;
                 this.scheduleItems = changeScheduleItemsDate(resp!.schedule!.scheduleItems);
+                this.disabledDays = resp!
+                    .schedule!.scheduleItems.filter((el) => !el.isEnabled)
+                    .map((el) => WeekDay[el.weekDay]);
                 this.slotsCount = this.slotsCounter();
             });
     }
@@ -130,7 +136,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     public AddTimeAndDate(timeIndex: number, dayIndex: number, timeZone: TZone): void {
         const date = addDays(this.calendarWeek.firstDay, dayIndex);
-        const time = addHours(this.theEarliestStartOfTimeRanges, (this.selectedMeetingDuration * timeIndex) / 60);
+        const time = addMinutes(this.theEarliestStartOfTimeRanges, this.selectedMeetingDuration * timeIndex);
 
         date.setHours(time.getHours(), time.getMinutes(), time.getSeconds(), time.getMilliseconds());
         const timeFinish = new Date(time.getTime() + this.selectedMeetingDuration * 60000);
@@ -163,6 +169,10 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         const result = addDays(firstCalendarDay, daysToAdd);
 
         result.setTime(result.getTime() + this.selectedMeetingDuration * timesToAdd * 60 * 1000);
+
+        if (this.disabledDays.includes(result.getDay())) {
+            return false;
+        }
 
         const checkBookedDate = (parsedDate: Date) =>
             parsedDate.getDate() === result.getDate() && parsedDate.getTime() === result.getTime();
