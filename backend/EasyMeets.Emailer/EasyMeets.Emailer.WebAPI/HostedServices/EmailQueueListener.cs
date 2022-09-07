@@ -33,35 +33,32 @@ public class EmailQueueListener : IHostedService
         return Task.CompletedTask;
     }
 
-    private void EmailReceived(object sender, BasicDeliverEventArgs args)
+    private async Task EmailReceived(object sender, BasicDeliverEventArgs args)
     {
-        Task.Run(async () =>
+        var emailDto = DeserializeEmailDto(args.Body.ToArray());
+
+        if (emailDto is null)
         {
-            var emailDto = DeserializeEmailDto(args.Body.ToArray());
-
-            if (emailDto is null)
-            {
-                _consumerService.SetAcknowledge(args.DeliveryTag, true);
+            _consumerService.SetAcknowledge(args.DeliveryTag, true);
                 
-                return;
-            }
+            return;
+        }
 
-            var isSent = false;
-            try
-            {
-                await _emailService.SendEmailAsync(emailDto.Recipient, emailDto.Body, emailDto.Subject);
+        var isSent = false;
+        try
+        {
+            await _emailService.SendEmailAsync(emailDto.Recipient, emailDto.Body, emailDto.Subject);
 
-                isSent = true;
-            }
-            catch (Exception)
-            {
-                isSent = false;
-            }
-            finally
-            {
-                _consumerService.SetAcknowledge(args.DeliveryTag, isSent);
-            }
-        });
+            isSent = true;
+        }
+        catch (Exception)
+        {
+            isSent = false;
+        }
+        finally
+        {
+            _consumerService.SetAcknowledge(args.DeliveryTag, isSent);
+        }
     }
 
     private static EmailDto DeserializeEmailDto(byte[] bytes)

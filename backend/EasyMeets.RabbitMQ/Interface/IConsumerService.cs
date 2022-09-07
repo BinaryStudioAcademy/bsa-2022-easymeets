@@ -4,7 +4,7 @@ namespace EasyMeets.RabbitMQ.Interface
 {
     public interface IConsumerService : IDisposable
     {
-        void Listen(EventHandler<BasicDeliverEventArgs> messageReceivedHandler);
+        void Listen(AsyncEventHandler<BasicDeliverEventArgs> messageReceivedHandler);
         void SetAcknowledge(ulong deliveryTag, bool processed);
     }
 }

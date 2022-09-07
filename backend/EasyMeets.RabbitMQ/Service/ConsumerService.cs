@@ -20,9 +20,9 @@ namespace EasyMeets.RabbitMQ.Service
             SetupChannel();
         }
 
-        public void Listen(EventHandler<BasicDeliverEventArgs> messageReceivedHandler)
+        public void Listen(AsyncEventHandler<BasicDeliverEventArgs> messageReceivedHandler)
         {
-            var consumer = new EventingBasicConsumer(_channel);
+            var consumer = new AsyncEventingBasicConsumer(_channel);
             
             consumer.Received += messageReceivedHandler;
 

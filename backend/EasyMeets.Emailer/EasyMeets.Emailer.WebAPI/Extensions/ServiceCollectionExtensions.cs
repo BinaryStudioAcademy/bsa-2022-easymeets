@@ -32,7 +32,7 @@ public static class ServiceCollectionExtensions
             var rabbitConnection = new Uri(configuration.GetSection("RabbitMQConfiguration:Uri").Value);
 
             var connectionFactory = new ConnectionFactory
-                { Uri = rabbitConnection };
+                { Uri = rabbitConnection, DispatchConsumersAsync = true };
 
             return connectionFactory.CreateConnection();
         });
