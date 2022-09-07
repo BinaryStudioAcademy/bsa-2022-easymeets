@@ -32,6 +32,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.redirectEventSubscription = this.redirectEventEmitter.subscribe(() => this.goToBookingsPage());
     }
 
+    currentTeamId?: number;
+
     date: Date = new Date();
 
     teamMembers: INewMeetingMember[];
@@ -89,6 +91,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.setValidation();
 
         this.teamService.currentTeamEmitted$.subscribe((teamId) => {
+            this.currentTeamId = teamId;
             this.getTeamMembersOfCurrentUser(teamId);
         });
         [this.duration] = this.durations;
@@ -98,6 +101,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         if (this.meetingForm.valid) {
             const newMeeting: INewMeeting = {
                 name: form.value.meetingName.trim(),
+                teamId: this.currentTeamId,
                 locationType: form.value.location,
                 duration: this.duration.minutes!,
                 startTime: form.value.date,
