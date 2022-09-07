@@ -88,14 +88,19 @@ public class TeamService : BaseService, ITeamService
         }
     }
 
-    public async Task UpdateTeamMembersAsync(long teamId, TeamMemberDto teamMemberDto)
+    public async Task UpdateTeamMembersAsync(TeamMemberDto teamMemberDto, long teamId)
     {
-        var teamEntity = await GetTeamByIdAsync(teamId);
-        if (teamEntity != null)
+        var team = await GetTeamByIdAsync(teamId);
+        if (team != null)
         {
-            teamEntity.TeamMembers.Add(_mapper.Map<TeamMember>(teamMemberDto));
-            _context.Teams.Update(teamEntity);
+            var member = new TeamMember()
+            {
+                Role = Role.Member,
+                TeamId = team.Id,
+                UserId = teamMemberDto.Id,
+            };
 
+            _context.TeamMembers.Add(member);
             await _context.SaveChangesAsync();
         }
         else
@@ -116,6 +121,13 @@ public class TeamService : BaseService, ITeamService
         {
             throw new Exception("User is not allowed enough access");
         }
+    }
+
+    public async Task DeleteTeamMemberAsync(long teamMemberId)
+    {
+        var teamMember = await _context.TeamMembers.FirstAsync(s => s.Id == teamMemberId);
+        _context.TeamMembers.Remove(teamMember);
+        await _context.SaveChangesAsync();
     }
 
     public async Task<ImagePathDto> UploadLogoAsync(IFormFile file, long? teamId)

@@ -6,6 +6,7 @@ import { TeamMembersWindowComponent } from '@shared/components/team-members-wind
 import { UnsavedChangesComponent } from '@shared/components/unsaved-changes/unsaved-changes.component';
 import { confirmLeaveTitle, leavePageMessage } from '@shared/constants/shared-messages';
 import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
+import { ITeamMembersDialogData } from '@shared/models/ITeamMembersDialogData';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -40,7 +41,7 @@ export class ConfirmationWindowService {
             .afterClosed();
     }
 
-    openTeamMembersDialog(data: IConfirmDialogData) {
+    openTeamMembersDialog(data: ITeamMembersDialogData) {
         return this.dialog
             .open(TeamMembersWindowComponent, {
                 data,

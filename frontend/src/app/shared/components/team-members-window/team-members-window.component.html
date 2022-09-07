@@ -10,25 +10,43 @@
     <input [(ngModel)]="query" (input)="getUsersByEmailOrName(query)" class="search-input" />
     <div class="user-info-container">
         <div *ngIf="!query" class="query-message">Type some text for searching...</div>
-        <div *ngFor="let user of searchedUsers" (click)="selectUser(user)">
-            <div class="user-info">
-                <div class="user-avatar">
-                    <ng-container *ngIf="user.image; else noMemberImage">
-                        <img src="{{ user.image }}" />
-                    </ng-container>
-                    <ng-template #noMemberImage>
-                        <img src="assets/header/avatar-icon.png" />
-                    </ng-template>
+        <div *ngFor="let user of searchedUsers">
+            <ng-container *ngIf="!isAddedMember(user); else notAddedMember">
+                <div class="user-info" (click)="selectUser(user)">
+                    <div class="user-avatar">
+                        <ng-container *ngIf="user.image; else noMemberImage">
+                            <img src="{{ user.image }}" />
+                        </ng-container>
+                        <ng-template #noMemberImage>
+                            <img src="assets/header/avatar-icon.png" />
+                        </ng-template>
+                    </div>
+                    <div class="user-name-email">
+                        <div class="name">{{ user.userName }}</div>
+                        <div class="email">{{ user.email }}</div>
+                    </div>
                 </div>
-                <div class="user-name-email">
-                    <div class="name">{{ user.userName }}</div>
-                    <div class="email">{{ user.email }}</div>
+            </ng-container>
+            <ng-template #notAddedMember>
+                <div class="user-info added-user-info">
+                    <div class="user-avatar">
+                        <ng-container *ngIf="user.image; else noMemberImage">
+                            <img src="{{ user.image }}" />
+                        </ng-container>
+                        <ng-template #noMemberImage>
+                            <img src="assets/header/avatar-icon.png" />
+                        </ng-template>
+                    </div>
+                    <div class="user-name-email">
+                        <div class="name">{{ user.userName }}</div>
+                        <div class="email">{{ user.email }}</div>
+                    </div>
+                    <div class="added-user-icon">ADDED</div>
                 </div>
-                <div class="added-member-icon" *ngIf="isAddedMember(user)">ADDED</div>
-            </div>
+            </ng-template>
         </div>
     </div>
-    <div class="selected-text">Selected {{ usersToAdd.length }} member(s)</div>
+    <div class="selected-text">Added {{ usersToAdd.length }} new member(s)</div>
     <hr />
     <div mat-dialog-actions class="mat-dialog-buttons">
         <button

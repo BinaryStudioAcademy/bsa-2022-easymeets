@@ -66,9 +66,9 @@ public class TeamController : ControllerBase
     }
 
     [HttpPut("members/{teamId?}")]
-    public async Task<IActionResult> UpdateTeamMembersAsync(long teamId, [FromBody] TeamMemberDto teamMemberDto)
+    public async Task<IActionResult> UpdateTeamMembersAsync([FromBody] TeamMemberDto teamMemberDto, long teamId)
     {
-        await _teamService.UpdateTeamMembersAsync(teamId, teamMemberDto);
+        await _teamService.UpdateTeamMembersAsync(teamMemberDto, teamId);
         return Ok();
     }
         
@@ -89,6 +89,13 @@ public class TeamController : ControllerBase
     public async Task<ActionResult> DeleteAsync(int teamId)
     {
         await _teamService.DeleteTeamAsync(teamId);
+        return NoContent();
+    }
+
+    [HttpDelete("deleteMember/{teamMemberId}")]
+    public async Task<ActionResult> DeleteTeamMemberAsync(int teamMemberId)
+    {
+        await _teamService.DeleteTeamMemberAsync(teamMemberId);
         return NoContent();
     }
 }

@@ -8,7 +8,7 @@ import { UserService } from '@core/services/user.service';
 import { Role } from '@shared/enums/role';
 import { Status } from '@shared/enums/status';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
-import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
+import { ITeamMembersDialogData } from '@shared/models/ITeamMembersDialogData';
 
 @Component({
     selector: 'app-team-members-window',
@@ -33,14 +33,13 @@ export class TeamMembersWindowComponent extends BaseComponent {
     usersToAdd: IUser[] = [];
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData,
+        @Inject(MAT_DIALOG_DATA) public data: ITeamMembersDialogData,
         private dialogRef: MatDialogRef<TeamMembersWindowComponent>,
         private userService: UserService,
         private teamService: TeamService,
     ) {
         super();
         this.title = data.title;
-        this.message = data.message;
         this.buttonsOptions = data.buttonsOptions;
         this.teamMembers = data.teamMembers;
         this.teamId = data.teamId;
@@ -52,12 +51,14 @@ export class TeamMembersWindowComponent extends BaseComponent {
     }
 
     getUsersByEmailOrName(searchData: string) {
-        this.userService
-            .getUsersByEmailOrName(searchData)
-            .pipe(this.untilThis)
-            .subscribe((users) => {
-                this.searchedUsers = users;
-            });
+        if (searchData.length !== 0) {
+            this.userService
+                .getUsersByEmailOrName(searchData)
+                .pipe(this.untilThis)
+                .subscribe((users) => {
+                    this.searchedUsers = users;
+                });
+        }
     }
 
     isAddedMember(user: IUser) {
@@ -69,6 +70,7 @@ export class TeamMembersWindowComponent extends BaseComponent {
         this.usersToAdd = [...this.usersToAdd, user];
 
         const teamMember: ITeamMember = {
+            id: user.id,
             image: user.image,
             name: user.userName,
             email: user.email,
@@ -79,7 +81,11 @@ export class TeamMembersWindowComponent extends BaseComponent {
 
         console.log(this.teamId);
         console.log(teamMember);
-        /*console.log(this.usersToAdd);*/
-        /*this.teamService.editTeamMembers(this.teamId, teamMember);*/
+        this.teamService
+            .editTeamMembers(teamMember, this.teamId)
+            .pipe(this.untilThis)
+            .subscribe((value) => {
+                console.log(value);
+            });
     }
 }

@@ -84,12 +84,16 @@ export class TeamService {
         return this.httpService.deleteRequest<ITeam>(`${this.routePrefix}/${teamId}`);
     }
 
+    public deleteTeamMember(teamMemberId: number) {
+        return this.httpService.deleteRequest<ITeam>(`${this.routePrefix}/deleteMember/${teamMemberId}`);
+    }
+
     public editTeam(team: IUpdateTeam) {
         return this.httpService.putRequest<ITeam>(`${this.routePrefix}`, team);
     }
 
-    public editTeamMembers(teamId: number, members: ITeamMember) {
-        return this.httpService.putRequest<ITeamMember>(`${this.routePrefix}/members/${teamId}`, members);
+    public editTeamMembers(member: ITeamMember, teamId?: number) {
+        return this.httpService.putRequest<ITeamMember>(`${this.routePrefix}/members/${teamId}`, member);
     }
 
     public uploadLogo(data: FormData, id?: number) {
