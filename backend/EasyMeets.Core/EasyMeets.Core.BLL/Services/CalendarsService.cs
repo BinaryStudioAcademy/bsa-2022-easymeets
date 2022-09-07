@@ -250,8 +250,10 @@ namespace EasyMeets.Core.BLL.Services
                 { "calendarId", "primary" }
             };
 
-            var starttime = meeting.StartTime.DateTime.AddHours(12).ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00" + "-09:00";
-            var endtime = meeting.StartTime.DateTime.AddMinutes(meeting.Duration).AddHours(12).ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00" + "-09:00";
+            var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == meeting.CreatedBy) ?? throw new Exception("Meeting doesnt have owner.");
+
+            var starttime = meeting.StartTime.DateTime.ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00" + currentUser.TimeZoneValue;
+            var endtime = meeting.StartTime.DateTime.AddMinutes(meeting.Duration).ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00" + currentUser.TimeZoneValue;
 
             var body = new
             {

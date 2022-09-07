@@ -9,6 +9,7 @@ export interface INewUser {
     uid?: string;
     userName: string;
     email: string;
+    personalUrl: string;
     image?: string;
     language: Language;
     timeFormat: TimeFormat;
