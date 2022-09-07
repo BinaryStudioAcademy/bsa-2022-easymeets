@@ -51,7 +51,7 @@
         </button>
         <hr>
         <div class="exclusion-dates-container">
-            <div class="exclusion-date-container" *ngFor="let exclusionDate of schedule.exclusionDates; index as i">
+            <div class="exclusion-date-container" *ngFor="let exclusionDate of scheduleValue.exclusionDates; index as i">
                 <div class="date-wrapper">
                     {{exclusionDate.selectedDate | date:'d MMM y'}}
                 </div>

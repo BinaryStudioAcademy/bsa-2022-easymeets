@@ -1,11 +1,9 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DatesEqualComparator } from '@core/helpers/dates-equal-comparator-helper';
 import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
 import { TimeRangesMergeHelper } from '@core/helpers/time-ranges-merge-helper';
-import { getPossibleTimeZones } from '@core/helpers/time-zone-helper';
-import { ITimeZone } from '@core/models/ITimeZone';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 import { ISchedule } from '@core/models/schedule/ISchedule';
@@ -31,31 +29,13 @@ export class ScheduleDefinitionComponent {
 
     public checkZone(): boolean {
         return !this.scheduleValue.timeZone.nameValue;
-    readonly timeZones: ITimeZone[] = getPossibleTimeZones();
-
-    selectedTimeZone: string;
+    }
 
     // eslint-disable-next-line no-empty-function
     constructor(private dialog: MatDialog) {}
 
-    changeTimeZone() {
-        this.schedule.timeZone = this.getSelectedTimeZoneValue();
-    }
-
-    getSelectedTimeZoneValue() {
-        return this.timeZones.find((x) => x.displayValue === this.selectedTimeZone)?.value ?? 0;
-    }
-
-    getDisplayTimeZone(value: number) {
-        return this.timeZones.find((x) => x.value === value)?.displayValue ?? '';
-    }
-
-    ngOnInit(): void {
-        this.selectedTimeZone = this.getDisplayTimeZone(this.schedule.timeZone);
-    }
-
     deleteExclusionDate(index: number) {
-        this.schedule.exclusionDates.splice(index, 1);
+        this.scheduleValue.exclusionDates.splice(index, 1);
     }
 
     showExclusionDatesWindow() {
@@ -68,7 +48,7 @@ export class ScheduleDefinitionComponent {
                     newExclusionDate.dayTimeRanges = TimeRangesMergeHelper(newExclusionDate.dayTimeRanges);
 
                     if (!this.mergeExistingExclusionDates(newExclusionDate)) {
-                        this.schedule.exclusionDates.push(newExclusionDate);
+                        this.scheduleValue.exclusionDates.push(newExclusionDate);
                     }
                 }
             });
@@ -81,7 +61,7 @@ export class ScheduleDefinitionComponent {
     }
 
     private mergeExistingExclusionDates(newExclusionDate: IExclusionDate) {
-        const sameDate = this.schedule.exclusionDates.find((date) =>
+        const sameDate = this.scheduleValue.exclusionDates.find((date) =>
             DatesEqualComparator(new Date(date.selectedDate), newExclusionDate.selectedDate));
 
         if (sameDate) {

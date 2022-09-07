@@ -1,4 +1,5 @@
-﻿using EasyMeets.Core.Common.DTO.Common;
+﻿using EasyMeets.Core.Common.DTO.Availability.Schedule.ExclusionDate;
+using EasyMeets.Core.Common.DTO.Common;
 
 namespace EasyMeets.Core.Common.DTO.Availability.Schedule;
 
