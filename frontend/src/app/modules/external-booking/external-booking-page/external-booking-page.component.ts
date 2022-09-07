@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
@@ -24,6 +24,8 @@ import { TZone } from 'moment-timezone-picker';
 export class ExternalBookingPageComponent extends BaseComponent implements OnInit {
     menu: IExternalBookingSideMenu = {} as IExternalBookingSideMenu;
 
+    link: string;
+
     locationTypeMapping = LocationTypeMapping;
 
     constructor(
@@ -32,11 +34,16 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         private notificationService: NotificationService,
         private userService: UserService,
         public router: Router,
+        private route: ActivatedRoute,
     ) {
         super();
     }
 
     ngOnInit(): void {
+        this.route.queryParams.pipe(this.untilThis).subscribe((params) => {
+            this.link = params['link'];
+        });
+
         if (this.isTeamBooking()) {
             this.menu = {
                 ...this.menu,
@@ -52,8 +59,9 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
                 location: LocationType.GoogleMeet,
             };
         }
+
         this.userService
-            .getCurrentUser()
+            .getUserByPersonalLink(this.link)
             .pipe(this.untilThis)
             .subscribe((user) => {
                 this.menu = {
@@ -143,6 +151,10 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
                     this.notificationService.showErrorMessage(error);
                 },
             );
+    }
+
+    isChooseMeetingRoute(): boolean {
+        return this.router.url.includes('/external-booking/choose-meeting');
     }
 
     isBookingChooseTimeRoute(): boolean {
