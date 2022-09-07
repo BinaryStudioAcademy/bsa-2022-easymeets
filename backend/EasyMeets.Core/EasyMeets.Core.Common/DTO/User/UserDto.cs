@@ -7,6 +7,7 @@ namespace EasyMeets.Core.Common.DTO.User
     {
         public string? Uid { get; set; }
         public string Email { get; set; } = string.Empty;
+        public string PersonalUrl { get; set; } = string.Empty;
         public string? Image { get; set; }
         public string UserName { get; set; } = string.Empty;
         public Language Language { get; set; }
