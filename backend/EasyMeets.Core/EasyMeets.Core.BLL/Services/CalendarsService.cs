@@ -172,7 +172,7 @@ namespace EasyMeets.Core.BLL.Services
         private async Task UpdateVisibleForTeamsTable(Calendar calendar, UserCalendarDto calendarDto)
         {
             _context.CalendarVisibleForTeams.RemoveRange(calendar.VisibleForTeams);
-            await RemoveCalendarMeetings(calendar.VisibleForTeams, calendar.UserId);
+            await RemoveCalendarMeetings(calendar.VisibleForTeams, calendar.Id);
 
             calendar.VisibleForTeams = Array.Empty<CalendarVisibleForTeam>();
 
@@ -188,7 +188,7 @@ namespace EasyMeets.Core.BLL.Services
             {
                 calendar.VisibleForTeams = newVisibleForList;
                 await _context.CalendarVisibleForTeams.AddRangeAsync(newVisibleForList);
-                await AddMeetingsFromCalendar(calendar.ConnectedCalendar, calendar.VisibleForTeams, calendar.UserId);
+                await AddMeetingsFromCalendar(calendar.ConnectedCalendar, calendar.VisibleForTeams, calendar.Id);
             }
         }
 
@@ -203,27 +203,27 @@ namespace EasyMeets.Core.BLL.Services
 
             var visibleCalendar = await _context.CalendarVisibleForTeams.Where(x => x.CalendarId == calendar.Id).ToListAsync();
 
-            await RemoveCalendarMeetings(visibleCalendar, calendar.UserId);
-            await AddMeetingsFromCalendar(email, calendar.VisibleForTeams, calendar.UserId);
+            await RemoveCalendarMeetings(visibleCalendar, calendar.Id);
+            await AddMeetingsFromCalendar(email, calendar.VisibleForTeams, calendar.Id);
 
             return true;
         }
 
-        private async Task RemoveCalendarMeetings(IEnumerable<CalendarVisibleForTeam> visibleCalendar, long userId)
+        private async Task RemoveCalendarMeetings(IEnumerable<CalendarVisibleForTeam> visibleCalendar, long calendarId)
         {
             foreach (var item in visibleCalendar.ToList())
             {
-                await _calendarEventService.RemoveCalendarEvents(userId);
+                await _calendarEventService.RemoveCalendarEvents(calendarId);
             }
         }
 
-        private async Task AddMeetingsFromCalendar(string email, IEnumerable<CalendarVisibleForTeam> visibleCalendar, long userId)
+        private async Task AddMeetingsFromCalendar(string email, IEnumerable<CalendarVisibleForTeam> visibleCalendar, long calendarId)
         {
             var events = await GetEventsFromGoogleCalendar(email);
 
             foreach (var item in visibleCalendar.ToList())
             {
-                await _calendarEventService.AddCalendarEvents(events, userId);
+                await _calendarEventService.AddCalendarEvents(events, calendarId);
             }
         }
         private async Task AddMeetingsToCalendar(long? teamId, string email)

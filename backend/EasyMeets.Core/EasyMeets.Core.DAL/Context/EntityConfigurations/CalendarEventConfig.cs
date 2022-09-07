@@ -8,11 +8,11 @@ public class CalendarEventConfig : IEntityTypeConfiguration<CalendarEvent>
 {
     public void Configure(EntityTypeBuilder<CalendarEvent> builder)
     {
-        builder.Property(e => e.UserId).IsRequired();
+        builder.Property(e => e.CalendarId).IsRequired();
 
-        builder.HasOne(e => e.User)
-            .WithMany(u => u.CalendarEvents)
-            .HasForeignKey(e => e.UserId)
+        builder.HasOne(e => e.Calendar)
+            .WithMany(c => c.CalendarEvents)
+            .HasForeignKey(e => e.CalendarId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

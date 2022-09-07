@@ -27,7 +27,6 @@ public class User : Entity<long>, IValidatableObject
     public ICollection<AvailabilitySlot> CreatedSlots { get; set; } = new List<AvailabilitySlot>();
 
     public ICollection<Credentials> Credentials { get; set; } = new List<Credentials>();
-    public ICollection<CalendarEvent> CalendarEvents { get; set; } = new List<CalendarEvent>();
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if (!Name.IsValidUsername() || Name.Length is < 2 or > 50)

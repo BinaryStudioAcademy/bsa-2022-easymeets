@@ -12,20 +12,20 @@ public class CalendarEventService : BaseService, ICalendarEventService
     {
     }
 
-    public async Task RemoveCalendarEvents(long userId)
+    public async Task RemoveCalendarEvents(long calendarId)
     {
-        var events = _context.CalendarEvents.Where(e => e.UserId == userId);
+        var events = _context.CalendarEvents.Where(e => e.CalendarId == calendarId);
         
         _context.CalendarEvents.RemoveRange(events);
         await _context.SaveChangesAsync();
     }
 
-    public async Task AddCalendarEvents(List<EventItemDTO> eventItemDtos, long userId)
+    public async Task AddCalendarEvents(List<EventItemDTO> eventItemDtos, long calendarId)
     {
         foreach (var item in eventItemDtos)
         {
             var calendarEvent = _mapper.Map<CalendarEvent>(item, opts => 
-                opts.AfterMap((_, dest) => dest.UserId = userId));
+                opts.AfterMap((_, dest) => dest.CalendarId = calendarId));
             await _context.CalendarEvents.AddAsync(calendarEvent);
         }
 
