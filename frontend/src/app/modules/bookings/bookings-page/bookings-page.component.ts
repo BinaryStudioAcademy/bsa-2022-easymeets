@@ -7,7 +7,7 @@ import { MeetingBookingsService } from '@core/services/meeting-bookings.service'
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
 import { desktopMaxWidth, desktopWidthToContainFourItems, desktopWidthToContainThreeItems, desktopWidthToContainTwoItems,
-    phoneMaxWidth, tabletMaxWidth, tabletMinWidth, widthToContainThreeItems, widthToContainTwoLowerLimit, widthToContainTwoUpperLimit,
+    phoneMaxWidth, tabletMaxWidth, widthToContainThreeItems, widthToContainTwoLowerLimit, widthToContainTwoUpperLimit,
     widthToContainZeroItemUpperLimit } from '@shared/constants/screen-variables';
 
 @Component({
@@ -85,10 +85,13 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
         const containerWidth = this.getPageSize();
 
         switch (true) {
-            case containerWidth < tabletMinWidth:
+            case containerWidth < phoneMaxWidth:
+                this.numberOfMembersToDisplay = 1;
+                break;
+            case containerWidth < widthToContainZeroItemUpperLimit:
                 this.numberOfMembersToDisplay = 0;
                 break;
-            case containerWidth < widthToContainTwoLowerLimit || containerWidth < phoneMaxWidth:
+            case containerWidth < widthToContainTwoLowerLimit:
                 this.numberOfMembersToDisplay = 1;
                 break;
             case containerWidth < widthToContainTwoUpperLimit:
@@ -116,6 +119,9 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             this.numberOfMembersToDisplay = 2;
         }
         if (width < tabletMaxWidth) {
+            this.numberOfMembersToDisplay = 1;
+        }
+        if (width < phoneMaxWidth) {
             this.numberOfMembersToDisplay = 1;
         }
         if (width < widthToContainZeroItemUpperLimit) {

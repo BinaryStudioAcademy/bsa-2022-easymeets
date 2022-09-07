@@ -1,6 +1,5 @@
 export const phoneMinWidth = 320;
 export const phoneMaxWidth = 600;
-export const tabletMinWidth = 730;
 export const widthToContainZeroItemUpperLimit = 768;
 export const tabletMaxWidth = 950;
 export const widthToContainTwoLowerLimit = 978;
