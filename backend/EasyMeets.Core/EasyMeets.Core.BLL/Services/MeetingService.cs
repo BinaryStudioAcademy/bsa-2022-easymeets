@@ -31,7 +31,7 @@ namespace EasyMeets.Core.BLL.Services
 
             var meetings = await _context.Meetings
                 .Include(m => m.AvailabilitySlot)
-                    .ThenInclude(s => s!.ExternalAttendees)
+                    .Include(s => s!.ExternalAttendees)
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
@@ -39,7 +39,6 @@ namespace EasyMeets.Core.BLL.Services
                 .ToListAsync();
 
             var mapped = _mapper.Map<List<MeetingThreeMembersDTO>>(meetings);
-            ConvertTimeZone(mapped);
             return mapped;
         }
 
@@ -62,19 +61,7 @@ namespace EasyMeets.Core.BLL.Services
 
             return members;
         }
-
-        private void ConvertTimeZone(List<MeetingThreeMembersDTO> meetings)
-        {
-            foreach (var user in meetings.SelectMany(x => x.MeetingMembers ?? new List<UserMeetingDTO>()))
-            {
-                switch (user.TimeZone)
-                {
-                    case "0":
-                        user.TimeZone = "Eastern Europe (GMT -0:00)";
-                        break;
-                }
-            }
-        }
+        
         public async Task<SaveMeetingDto> CreateMeeting(SaveMeetingDto meetingDto)
         {
             var currentUser = await _userService.GetCurrentUserAsync();
@@ -100,8 +87,21 @@ namespace EasyMeets.Core.BLL.Services
             await _context.SaveChangesAsync();
 
             await AddMeetingLink(meeting);
-            
+
             return _mapper.Map<SaveMeetingDto>(GetByIdInternal(meeting.Id));
+        }
+
+        public async Task<long> CreateExternalAttendeeMeeting(ExternalAttendeeMeetingDto meetingDto)
+        {
+            var meeting = _mapper.Map<Meeting>(meetingDto);
+
+            await _context.Meetings.AddAsync(meeting);
+            
+            await _context.SaveChangesAsync();
+            
+            await AddMeetingLink(meeting);
+
+            return meeting.Id;
         }
 
         public async Task DeleteGoogleCalendarMeetings(long teamId)
@@ -125,6 +125,7 @@ namespace EasyMeets.Core.BLL.Services
                          dest.TeamId = teamId;
                          dest.MeetingMembers = new List<MeetingMember> { new MeetingMember { TeamMemberId = userId } };
                          dest.Duration = (int)timeSpan.TotalMinutes;
+                         dest.IsFromGoogleCalendar = true;
                      })
                  );
 
@@ -132,6 +133,13 @@ namespace EasyMeets.Core.BLL.Services
             }
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<OrderedMeetingTimesDto>> GetOrderedMeetingTimesAsync(long slotId)
+        {
+            return await _context.Meetings.Where(el => el.AvailabilitySlotId == slotId)
+                .Select(el => new OrderedMeetingTimesDto {StartTime = el.StartTime})
+                .ToListAsync();
         }
 
         private async Task<ICollection<MeetingMember>> GetMeetingMembers(List<NewMeetingMemberDto> meetingMembers, long teamId)
@@ -165,6 +173,8 @@ namespace EasyMeets.Core.BLL.Services
         {
             return _context.Meetings
                 .Include(m => m.MeetingMembers)
+                    .ThenInclude(mm => mm.TeamMember)
+                    .ThenInclude(tm => tm.User)
                 .FirstOrDefault(m => m.Id == id) ?? throw new KeyNotFoundException("Invalid meeting id");
         }
     }

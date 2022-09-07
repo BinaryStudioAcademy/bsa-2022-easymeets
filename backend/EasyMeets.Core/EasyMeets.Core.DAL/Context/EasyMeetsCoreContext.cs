@@ -11,7 +11,6 @@ namespace EasyMeets.Core.DAL.Context
         public DbSet<Calendar> Calendars { get; private set; }
         public DbSet<CalendarVisibleForTeam> CalendarVisibleForTeams { get; private set; }
         public DbSet<ExternalAttendee> ExternalAttendees { get; private set; }
-        public DbSet<ExternalAttendeeAvailability> ExternalAttendeeAvailabilities { get; private set; }
         public DbSet<Meeting> Meetings { get; private set; } 
         public DbSet<MeetingMember> MeetingMembers { get; private set; } 
         public DbSet<Question> Questions { get; private set; }
@@ -36,7 +35,6 @@ namespace EasyMeets.Core.DAL.Context
             Calendars = Set<Calendar>();
             CalendarVisibleForTeams = Set<CalendarVisibleForTeam>();
             ExternalAttendees = Set<ExternalAttendee>();
-            ExternalAttendeeAvailabilities = Set<ExternalAttendeeAvailability>();
             Meetings = Set<Meeting>();
             Questions = Set<Question>();
             EmailTemplates = Set<EmailTemplate>();

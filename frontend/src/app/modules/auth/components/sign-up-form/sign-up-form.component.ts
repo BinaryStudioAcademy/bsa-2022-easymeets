@@ -1,18 +1,11 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { transformTextLanguageToEnum } from '@core/helpers/language-helper';
 import { AuthService } from '@core/services/auth.service';
-import { NotificationService } from '@core/services/notification.service';
-import { UserService } from '@core/services/user.service';
+import { AuthFormService } from '@core/services/auth-form.service';
 import { EmailValidator } from '@modules/auth/validators/email-validator';
 import { PasswordsErrorStateMatcher } from '@modules/auth/validators/passwordsErrorStateMatcher';
 import { userNameRegex } from '@shared/constants/model-validation';
-import { DateFormat } from '@shared/enums/dateFormat';
-import { Language } from '@shared/enums/language';
-import { TimeFormat } from '@shared/enums/timeFormat';
-import firebase from 'firebase/compat';
 
 @Component({
     selector: 'app-sign-up-form',
@@ -47,56 +40,31 @@ export class SignUpFormComponent extends BaseComponent {
 
     constructor(
         private authService: AuthService,
-        private router: Router,
-        private userService: UserService,
-        private notifications: NotificationService,
+        private authFormService: AuthFormService,
     ) {
         super();
     }
 
-    private setCredentialsIncorrect() {
+    private setCredentialsIncorrect(): void {
         this.signUpForm.get('email')?.setErrors({ incorrectCredentials: true });
         this.signUpForm.get('name')?.setErrors({ incorrectCredentials: true });
         this.signUpForm.get('password')?.setErrors({ incorrectCredentials: true });
     }
 
-    private handleAuthenticationResponse(resp: firebase.auth.UserCredential | void): void {
-        if (resp) {
-            this.userService
-                .createUser({
-                    uid: resp.user?.uid,
-                    userName: resp.user?.displayName ?? this.signUpForm.get('name')?.value ?? '',
-                    email: resp.user?.email ?? '',
-                    image: resp.user?.photoURL ?? undefined,
-                    language: this.getLanguage(),
-                    timeFormat: this.getTimeFormat(),
-                    dateFormat: DateFormat.MonthDayYear,
-                    phone: resp.user?.phoneNumber ?? undefined,
-                    timeZone: new Date().getTimezoneOffset(),
-                })
-                .pipe(this.untilThis)
-                .subscribe(
-                    () => {
-                        this.notifications.showSuccessMessage('You are successfully registered');
-                        this.router.navigateByUrl('availability');
-                    },
-                );
-        } else {
-            this.setCredentialsIncorrect();
-        }
-    }
-
     public onSignUp(): void {
         if (this.signUpForm.valid) {
-            const email = this.signUpForm.value.email ?? '';
-            const password = this.signUpForm.value.password ?? '';
+            const email = this.signUpForm.value.email!;
+            const password = this.signUpForm.value.password!;
+            const name = this.signUpForm.value.name!;
 
-            this.authService.signUp(email, password).then((resp) => this.handleAuthenticationResponse(resp));
+            this.authFormService
+                .signUp(email, password, name)
+                .subscribe({ error: () => this.setCredentialsIncorrect() });
         }
     }
 
     public onSignInWithGoogle(): void {
-        this.authService.loginWithGoogle().then((resp) => this.handleAuthenticationResponse(resp));
+        this.authFormService.onSignInWithGoogle().subscribe({ error: () => this.setCredentialsIncorrect() });
     }
 
     public getEmailErrorMessage(): string {
@@ -105,16 +73,5 @@ export class SignUpFormComponent extends BaseComponent {
         }
 
         return this.signUpForm.controls.email.invalid ? 'Email format is invalid' : '';
-    }
-
-    private getLanguage(): Language {
-        const userLanguageBrowser =
-            navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language;
-
-        return transformTextLanguageToEnum(userLanguageBrowser);
-    }
-
-    private getTimeFormat() {
-        return new Intl.DateTimeFormat().resolvedOptions().hour12 ? TimeFormat.TwelveHour : TimeFormat.TwentyFourHour;
     }
 }

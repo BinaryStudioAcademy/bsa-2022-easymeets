@@ -1,5 +1,8 @@
+import { ITimeZone } from './ITimeZone';
+
 export interface IUserMeeting {
     name: string;
     email: string;
-    timeZone: string;
+    timeZone: ITimeZone;
+    booked: string;
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { TeamStateChangeActionEnum } from '@core/enums/team-state-change-action.enum';
 import { ITeam } from '@core/models/ITeam';
+import { IUpdateTeam } from '@core/models/IUpdateTeam';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
@@ -36,7 +37,7 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
         private confirmationWindowService: ConfirmationWindowService,
     ) {
         super();
-        this.activateRoute.params.subscribe(params => {
+        this.activateRoute.params.subscribe((params) => {
             this.id = params['id'];
             this.spinnerService.show();
             this.loadTeamToEdit();
@@ -47,7 +48,8 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
 
     private loadTeamToEdit() {
         if (this.id) {
-            this.teamService.getTeamById(this.id)
+            this.teamService
+                .getTeamById(this.id)
                 .pipe(this.untilThis)
                 .subscribe({
                     next: (team) => {
@@ -110,7 +112,7 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
 
     public editTeam() {
         const form = this.teamPreferencesComponent.formGroup;
-        const editedTeam: ITeam = {
+        const editedTeam: IUpdateTeam = {
             id: this.team.id,
             image: this.teamPreferencesComponent.imageUrl,
             name: form.value.name,

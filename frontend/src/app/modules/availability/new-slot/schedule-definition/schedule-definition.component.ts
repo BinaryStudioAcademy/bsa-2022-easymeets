@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DatesEqualComparator } from '@core/helpers/dates-equal-comparator-helper';
+import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
 import { TimeRangesMergeHelper } from '@core/helpers/time-ranges-merge-helper';
 import { getPossibleTimeZones } from '@core/helpers/time-zone-helper';
@@ -15,15 +16,21 @@ import { ExclusionDatesPickerComponent } from '@modules/exclusion-dates/exclusio
     templateUrl: './schedule-definition.component.html',
     styleUrls: ['./schedule-definition.component.sass'],
 })
-export class ScheduleDefinitionComponent implements OnInit {
+export class ScheduleDefinitionComponent {
     @Input() changeEvent: EventEmitter<any> = new EventEmitter();
 
-    @Input() schedule: ISchedule;
+    @Input() set schedule(value: ISchedule | undefined) {
+        this.scheduleValue = value ?? getDefaultSchedule(false);
+    }
+
+    public scheduleValue: ISchedule;
 
     @Input() disabled: boolean = false;
 
     displayDays: string[] = getDisplayDays();
 
+    public checkZone(): boolean {
+        return !this.scheduleValue.timeZone.nameValue;
     readonly timeZones: ITimeZone[] = getPossibleTimeZones();
 
     selectedTimeZone: string;

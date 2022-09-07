@@ -194,21 +194,11 @@ erDiagram
   ExternalAttendee{
     bigint Id
     bigint AvailabilitySlotId
-    datetime EventTime
+    bigint MeetingId
     nvarchar Name
     nvarchar Email
-    bigint MeetingId
-    int TimeZone
+    nvarchar TimeZone
     boolean IsDeleted
-  }
-
-  ExternalAttendeeAvailability }o--|| ExternalAttendee : ExternalAttendeeId
-  ExternalAttendeeAvailability{
-    bigint Id
-    bigint ExternalAttendeeId
-    datetime StartDate
-    datetime EndDate
-    bool IsDeleted
   }
 
   Schedule{

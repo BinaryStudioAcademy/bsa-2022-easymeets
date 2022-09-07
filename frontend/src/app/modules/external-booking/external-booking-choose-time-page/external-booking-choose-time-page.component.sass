@@ -1,5 +1,6 @@
 @import '../../../../styles/color-variables'
 @import '../../../../styles/screen-variables'
+@import '../../../../styles/time-zone-picker'
 
 h1, h3, h4
     font-family: 'Inter'
@@ -24,7 +25,7 @@ h1
 
 .grid
     display: grid
-    grid-template-columns: repeat(6, 15%)
+    grid-template-columns: repeat(7, 14%)
     overflow-y: auto
     max-height: 100%
     grid-column-gap: 0px
@@ -100,8 +101,8 @@ h1
             padding-top: 5px
             padding-bottom: 5px
     .week-range
-        width: 40%
-        padding-right: 10%
+        width: 45%
+        margin-right: 10%
         height: 36px
         padding-top: 2%
         i
@@ -117,6 +118,7 @@ h1
 .timezone
     position: absolute
     right: 0
+    min-width: 30%
     @media screen and (max-width: $tablet-min-width)
         position: relative
 

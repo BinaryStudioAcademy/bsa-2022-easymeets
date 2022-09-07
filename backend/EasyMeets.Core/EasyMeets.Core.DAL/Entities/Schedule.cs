@@ -8,7 +8,8 @@ public class Schedule : Entity<long>, IValidatableObject
     /// <summary>
     /// Represents difference with GMT in minutes
     /// </summary>
-    public int TimeZone { get; set; }
+    public string TimeZoneValue { get; set; } = string.Empty;
+    public string TimeZoneName { get; set; } = string.Empty;
     public bool WithTeamMembers { get; set; }
     public bool DefinedExternally { get; set; }
     public string? DefinedBy { get; set; }

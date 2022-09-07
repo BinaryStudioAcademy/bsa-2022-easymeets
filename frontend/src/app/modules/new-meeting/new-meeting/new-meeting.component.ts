@@ -20,7 +20,6 @@ import { map, Observable, startWith, Subscription } from 'rxjs';
     templateUrl: './new-meeting.component.html',
     styleUrls: ['./new-meeting.component.sass'],
 })
-
 export class NewMeetingComponent extends BaseComponent implements OnInit, OnDestroy {
     constructor(
         private newMeetingService: NewMeetingService,
@@ -89,21 +88,20 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.patchFormValues();
         this.setValidation();
 
-        this.teamService.currentTeamEmitted$
-            .subscribe(teamId => {
-                this.getTeamMembersOfCurrentUser(teamId);
-            });
+        this.teamService.currentTeamEmitted$.subscribe((teamId) => {
+            this.getTeamMembersOfCurrentUser(teamId);
+        });
         [this.duration] = this.durations;
     }
 
     create(form: FormGroup) {
         if (this.meetingForm.valid) {
             const newMeeting: INewMeeting = {
-                name: form.value.meetingName,
+                name: form.value.meetingName.trim(),
                 locationType: form.value.location,
                 duration: this.duration.minutes!,
                 startTime: form.value.date,
-                meetingLink: form.value.meetingName,
+                meetingLink: form.value.meetingName.trim(),
                 meetingMembers: this.addedMembers,
                 createdAt: new Date(),
             };
@@ -113,8 +111,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 .pipe(this.untilThis)
                 .subscribe((value) => {
                     this.createdMeeting = value;
-                    this.reset();
                     this.showConfirmWindow();
+                    this.reset();
                 });
         } else {
             this.notificationService.showErrorMessage('All fields need to be set');
@@ -204,17 +202,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.date = newDate;
     }
 
-    private getFilteredOptions() {
-        this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
-            startWith(''),
-            map((value) => {
-                this.filterValue = (typeof value === 'string') ? value.toLowerCase() : value.name;
-
-                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(this.filterValue));
-            }),
-        );
-    }
-
     showConfirmWindow() {
         this.confirmationWindowService.openBookingDialog({
             buttonsOptions: [
@@ -249,5 +236,16 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         const isDateInPast = new Date(control.value).getTime() < Date.now();
 
         return isDateInPast ? { invalid: true } : null;
+    }
+
+    private getFilteredOptions() {
+        this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
+            startWith(''),
+            map((value) => {
+                this.filterValue = (typeof value === 'string') ? value.toLowerCase() : value.name;
+
+                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(this.filterValue));
+            }),
+        );
     }
 }

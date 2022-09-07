@@ -67,16 +67,14 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
     }
 
     public navLinks = [
-        { path: '../availability', label: 'Availability' },
-        { path: '../bookings', label: 'Bookings' },
+        { path: '/availability', label: 'Availability' },
+        { path: '/bookings', label: 'Bookings' },
     ];
 
     public activeTab = this.navLinks[0].label;
 
     public logout() {
-        return this.authService.signOut().then(() => {
-            this.router.navigateByUrl('auth');
-        });
+        return this.authService.signOut().subscribe(() => this.router.navigateByUrl('auth'));
     }
 
     public changeTeam(teamId: number) {
@@ -91,7 +89,7 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
 
     private defineCurrentTeam(teams: ITeam[], currentTeamId: number | undefined) {
         if (!currentTeamId && teams.length) {
-            this.teamService.emitCurrentTeamChange(teams[0].id);
+            this.teamService.emitCurrentTeamChange(this.teamService.getSelectedTeamId() || teams[0].id);
         } else {
             this.currentTeam = this.teams.find((team) => team.id === currentTeamId);
         }
