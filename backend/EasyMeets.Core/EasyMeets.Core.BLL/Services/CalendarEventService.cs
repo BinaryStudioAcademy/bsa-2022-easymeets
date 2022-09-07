@@ -12,12 +12,12 @@ public class CalendarEventService : BaseService, ICalendarEventService
     {
     }
 
-    public async Task RemoveCalendarEvents(long calendarId)
+    public Task RemoveCalendarEvents(long calendarId)
     {
         var events = _context.CalendarEvents.Where(e => e.CalendarId == calendarId);
         
         _context.CalendarEvents.RemoveRange(events);
-        await _context.SaveChangesAsync();
+        return _context.SaveChangesAsync();
     }
 
     public async Task AddCalendarEvents(List<EventItemDTO> eventItemDtos, long calendarId)
