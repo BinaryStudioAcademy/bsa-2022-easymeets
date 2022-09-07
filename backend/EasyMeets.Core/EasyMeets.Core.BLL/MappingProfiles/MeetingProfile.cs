@@ -14,9 +14,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             CreateMap<User, UserMeetingDTO>();
             CreateMap<ExternalAttendee, UserMeetingDTO>();
             CreateMap<Meeting, MeetingThreeMembersDTO>()
-                .ForMember(dest => dest.MeetingTime, src => src.MapFrom(meeting =>
-                    $"{meeting.StartTime.Hour}:{meeting.StartTime.Minute:00} - " +
-                    $"{meeting.StartTime.AddMinutes(meeting.Duration).Hour}:{meeting.StartTime.AddMinutes(meeting.Duration).Minute:00}"))
+                .ForMember(dest => dest.MeetingTime, src => src.MapFrom(meeting => CreateMeetingTime(meeting)))
                 .ForMember(dest => dest.MeetingTitle, src => src.MapFrom(s => s.Name))
                 .ForMember(dest => dest.MeetingDuration, src => src.MapFrom(s => $"{s.Duration} min"))
                 .ForMember(dest => dest.MembersTitle, src => src.MapFrom(s => CreateMemberTitle(s)))
@@ -61,6 +59,12 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             };
         }
 
+        private string CreateMeetingTime(Meeting meeting)
+        {
+            return $"{meeting.StartTime.ToLocalTime().Hour}:{meeting.StartTime.ToLocalTime().Minute:00} - " +
+                   $"{meeting.StartTime.ToLocalTime().AddMinutes(meeting.Duration).Hour}:{meeting.StartTime.ToLocalTime().AddMinutes(meeting.Duration).Minute:00}";
+        }
+
         private List<UserMeetingDTO> GetThreeMembersForMeeting(Meeting meeting)
         {
             return GetAllParticipants(meeting).Take(3).ToList();
@@ -73,16 +77,16 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 {
                     Name = x.TeamMember.User.Name,
                     Email = x.TeamMember.User.Email,
-                    TimeZone = new()  {NameValue = x.TeamMember.User.TimeZoneName, TimeValue = x.TeamMember.User.TimeZoneValue},
+                    TimeZone = new() { NameValue = x.TeamMember.User.TimeZoneName, TimeValue = x.TeamMember.User.TimeZoneValue },
                     Booked = meeting.CreatedAt
                 });
-            
+
             var external = meeting.ExternalAttendees
                 .Select(x => new UserMeetingDTO
                 {
                     Name = x.Name,
                     Email = x.Email,
-                    TimeZone = new() {NameValue = x.TimeZoneName, TimeValue = x.TimeZoneValue },
+                    TimeZone = new() { NameValue = x.TimeZoneName, TimeValue = x.TimeZoneValue },
                     Booked = meeting.CreatedAt
                 });
 
