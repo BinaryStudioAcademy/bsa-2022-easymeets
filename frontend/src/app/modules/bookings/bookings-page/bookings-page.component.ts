@@ -125,8 +125,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
     }
 
     private getPageSize(): number {
-        const bookingContainer = (<HTMLElement> this.el.nativeElement)
-            .querySelector('.container') as HTMLElement;
+        const bookingContainer = this.el.nativeElement.getElementsByClassName('container')[0] as HTMLElement;
 
         return bookingContainer.offsetWidth;
     }
