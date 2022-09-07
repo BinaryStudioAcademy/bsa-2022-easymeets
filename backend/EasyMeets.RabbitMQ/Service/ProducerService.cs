@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EasyMeets.RabbitMQ.Service
 {
-    public class ProducerService : IProducerService
+    public sealed class ProducerService : IProducerService
     {
         private readonly IConnection _connection;
         private readonly ProducerSettings _producerSettings;
@@ -31,6 +31,8 @@ namespace EasyMeets.RabbitMQ.Service
 
             if (!string.IsNullOrEmpty(_producerSettings.QueueName))
             {
+                channel.QueueDeclare(_producerSettings.QueueName, true, false, false);
+                
                 channel.QueueBind(
                     _producerSettings.QueueName,
                     _producerSettings.ExchangeName,
@@ -50,16 +52,7 @@ namespace EasyMeets.RabbitMQ.Service
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _connection.Dispose();
-            }
+            _connection.Dispose();
         }
     }
 }

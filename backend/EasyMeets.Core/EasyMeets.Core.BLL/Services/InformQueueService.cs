@@ -10,7 +10,7 @@ namespace EasyMeets.Core.BLL.Services
         public InformQueueService(IProducerService producer, IConsumerService consumer)
         {
             _producer = producer;
-            consumer.ListenQueue();
+            consumer.Listen(null);
         }
 
         public void InformEveryone(string message)

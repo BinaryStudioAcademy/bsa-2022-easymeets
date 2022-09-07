@@ -12,5 +12,6 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task AddGoogleCalendarMeetings(long teamId, List<EventItemDTO> eventItemDTOs, long userId);
         Task<SaveMeetingDto> CreateMeeting(SaveMeetingDto meetingDto);
         Task<long> CreateExternalAttendeeMeeting(ExternalAttendeeMeetingDto meetingDto);
+        Task SendConfirmationEmailsAsync(long meetingId);
     }
 }
