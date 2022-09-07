@@ -63,6 +63,13 @@ namespace EasyMeets.Core.BLL.Services
             return _mapper.Map<UserDto>(userEntity);
         }
 
+        public async Task<UserDto> GetUserByPersonalLink(string link)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.PersonalUrl == link) ?? throw new KeyNotFoundException("User doesn't exist");
+            
+            return _mapper.Map<UserDto>(user);
+        }
+
         private async Task<User> GetUserById(long id)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id) ?? throw new KeyNotFoundException("User doesn't exist");
