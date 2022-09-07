@@ -9,7 +9,7 @@ public class NewTeamDtoValidator: AbstractValidator<NewTeamDto>
     {
         RuleFor(u => u.Description)
             .NotNull()
-            .Must(p => p!.IsValidDescription());
+            .MaximumLength(300);
 
         RuleFor(u => u.Name)
             .NotNull()
