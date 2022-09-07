@@ -23,10 +23,10 @@ namespace EasyMeets.Emailer.WebAPI.Services
         {
             var email = new SendSmtpEmailSender(_senderName, _senderEmail);
             var smtpEmailTo = new SendSmtpEmailTo(recipient);
-            var to = new List<SendSmtpEmailTo> { smtpEmailTo };
+            var recipients = new List<SendSmtpEmailTo> { smtpEmailTo };
             try
             {
-                var sendSmtpEmail = new SendSmtpEmail(email, to, null, null, null, body, subject);
+                var sendSmtpEmail = new SendSmtpEmail(email, recipients, null, null, null, body, subject);
                 var result = await _api.SendTransacEmailAsync(sendSmtpEmail);
 
                 return result.MessageId;

@@ -174,14 +174,11 @@ namespace EasyMeets.Core.BLL.Services
                 return;
             }
             
+            var emailDto = _mapper.Map<EmailDto>(emailTemplate);
+            
             foreach (var recipient in recipients)
             {
-                var emailDto = new EmailDto
-                {
-                    Subject = emailTemplate.Subject, 
-                    Body = emailTemplate.Body, 
-                    Recipient = recipient
-                };
+                emailDto.Recipient = recipient;
                 
                 _emailSender.Send(emailDto);
             }
