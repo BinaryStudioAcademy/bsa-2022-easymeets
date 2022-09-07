@@ -17,7 +17,7 @@ builder.WebHost.UseUrls("http://*:5090");
 
 var app = builder.Build();
 
-Configuration.Default.ApiKey.Add("api-key", app.Configuration["Sendinblue:ApiKey"]);
+Configuration.Default.ApiKey.Add("api-key", app.Configuration["SendingBlue_api_key"]);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
