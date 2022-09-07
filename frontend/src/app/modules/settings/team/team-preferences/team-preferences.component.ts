@@ -13,7 +13,7 @@ import { ITeam } from '@core/models/ITeam';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { nameRegex, teamDescriptionRegex } from '@shared/constants/model-validation';
+import { nameRegex } from '@shared/constants/model-validation';
 import { map, Observable } from 'rxjs';
 
 @Component({
@@ -47,12 +47,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
 
     public pageLinkControl: FormControl = new FormControl('', [Validators.required], [this.teamLinkValidator()]);
 
-    public descriptionControl: FormControl = new FormControl('', [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(80),
-        Validators.pattern(teamDescriptionRegex),
-    ]);
+    public descriptionControl: FormControl = new FormControl('', [Validators.maxLength(300)]);
 
     constructor(
         private teamService: TeamService,
