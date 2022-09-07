@@ -9,6 +9,7 @@ export interface IUser {
     id: bigint;
     uid?: string;
     userName: string;
+    personalUrl: string;
     email: string;
     image?: string;
     language: Language;
