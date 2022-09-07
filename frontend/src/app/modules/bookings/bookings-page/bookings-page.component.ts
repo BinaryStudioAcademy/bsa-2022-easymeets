@@ -85,21 +85,20 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
         const containerWidth = this.getPageSize();
 
         switch (true) {
-            case containerWidth > desktopMaxWidth
-            || (containerWidth < desktopMaxWidth && containerWidth > widthToContainThreeItems):
-                this.numberOfMembersToDisplay = 4;
+            case containerWidth < tabletMinWidth:
+                this.numberOfMembersToDisplay = 0;
                 break;
-            case containerWidth < widthToContainThreeItems && containerWidth > widthToContainTwoUpperLimit:
-                this.numberOfMembersToDisplay = 3;
-                break;
-            case containerWidth < widthToContainTwoUpperLimit && containerWidth > widthToContainTwoLowerLimit:
-                this.numberOfMembersToDisplay = 2;
-                break;
-            case (containerWidth < widthToContainTwoLowerLimit && containerWidth > tabletMinWidth) || containerWidth < phoneMaxWidth:
+            case containerWidth < widthToContainTwoLowerLimit || containerWidth < phoneMaxWidth:
                 this.numberOfMembersToDisplay = 1;
                 break;
-            case containerWidth < tabletMinWidth && containerWidth > phoneMaxWidth:
-                this.numberOfMembersToDisplay = 0;
+            case containerWidth < widthToContainTwoUpperLimit:
+                this.numberOfMembersToDisplay = 2;
+                break;
+            case containerWidth < widthToContainThreeItems:
+                this.numberOfMembersToDisplay = 3;
+                break;
+            case containerWidth > desktopMaxWidth || containerWidth < desktopMaxWidth:
+                this.numberOfMembersToDisplay = 4;
                 break;
             default:
                 break;
