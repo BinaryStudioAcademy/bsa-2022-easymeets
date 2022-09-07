@@ -100,10 +100,8 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             case containerWidth < widthToContainThreeItems:
                 this.numberOfMembersToDisplay = 3;
                 break;
-            case containerWidth > widthToContainThreeItems:
-                this.numberOfMembersToDisplay = 4;
-                break;
             default:
+                this.numberOfMembersToDisplay = 4;
                 break;
         }
     }
