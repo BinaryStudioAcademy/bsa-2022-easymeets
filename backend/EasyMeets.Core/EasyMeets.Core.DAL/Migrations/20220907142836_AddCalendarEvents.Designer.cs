@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyMeets.Core.DAL.Migrations
 {
     [DbContext(typeof(EasyMeetsCoreContext))]
-    [Migration("20220907094602_AddCalendarEvents")]
+    [Migration("20220907142836_AddCalendarEvents")]
     partial class AddCalendarEvents
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1248,7 +1248,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 0,
                             MeetingLink = "http://karson.net",
                             Name = "ut",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 3, 4, 2, 33, 53, 119, DateTimeKind.Unspecified).AddTicks(9832), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 3, 4, 7, 16, 26, 566, DateTimeKind.Unspecified).AddTicks(5320), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 2L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1263,7 +1263,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 1,
                             MeetingLink = "https://mariela.com",
                             Name = "explicabo",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 7, 26, 12, 18, 41, 653, DateTimeKind.Unspecified).AddTicks(4148), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 7, 26, 17, 1, 15, 99, DateTimeKind.Unspecified).AddTicks(9575), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 4L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1278,7 +1278,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 2,
                             MeetingLink = "http://maximilian.name",
                             Name = "atque",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 5, 6, 15, 26, 49, DateTimeKind.Unspecified).AddTicks(6069), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 5, 10, 57, 59, 496, DateTimeKind.Unspecified).AddTicks(1499), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 2L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1293,7 +1293,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 2,
                             MeetingLink = "http://heath.name",
                             Name = "qui",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 14, 10, 47, 27, 574, DateTimeKind.Unspecified).AddTicks(6936), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 14, 15, 30, 1, 21, DateTimeKind.Unspecified).AddTicks(2378), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 7L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1308,7 +1308,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 0,
                             MeetingLink = "https://alan.biz",
                             Name = "quia",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 6, 6, 29, 31, 125, DateTimeKind.Unspecified).AddTicks(9900), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 6, 11, 12, 4, 572, DateTimeKind.Unspecified).AddTicks(5368), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 8L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1323,7 +1323,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 0,
                             MeetingLink = "http://dortha.name",
                             Name = "qui",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 25, 3, 29, 2, 352, DateTimeKind.Unspecified).AddTicks(3948), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 25, 8, 11, 35, 798, DateTimeKind.Unspecified).AddTicks(9353), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 4L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1338,7 +1338,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 2,
                             MeetingLink = "http://dimitri.name",
                             Name = "voluptate",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 3, 5, 9, 12, 58, 402, DateTimeKind.Unspecified).AddTicks(3433), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 3, 5, 13, 55, 31, 848, DateTimeKind.Unspecified).AddTicks(8808), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 2L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1353,7 +1353,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 0,
                             MeetingLink = "https://jules.com",
                             Name = "nesciunt",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 6, 6, 23, 17, 31, 564, DateTimeKind.Unspecified).AddTicks(223), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 6, 7, 4, 0, 5, 10, DateTimeKind.Unspecified).AddTicks(5500), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 3L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1368,7 +1368,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 2,
                             MeetingLink = "http://floy.net",
                             Name = "fuga",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 7, 16, 16, 35, 283, DateTimeKind.Unspecified).AddTicks(7498), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 7, 20, 59, 8, 730, DateTimeKind.Unspecified).AddTicks(2774), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 6L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1383,7 +1383,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             LocationType = 0,
                             MeetingLink = "http://loren.org",
                             Name = "libero",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 9, 3, 21, 7, 15, 28, DateTimeKind.Unspecified).AddTicks(1586), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 9, 4, 1, 49, 48, 474, DateTimeKind.Unspecified).AddTicks(6903), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 6L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         });
@@ -3080,6 +3080,11 @@ namespace EasyMeets.Core.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("PersonalUrl")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("PhoneCode")
                         .HasColumnType("nvarchar(max)");
 
@@ -3119,11 +3124,12 @@ namespace EasyMeets.Core.DAL.Migrations
                             Country = 1,
                             DateFormat = 0,
                             Email = "Albert39@yahoo.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1239.jpg",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/518.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
                             Name = "Albert Barrows",
+                            PersonalUrl = "doloribus",
                             PhoneNumber = "287.766.04",
                             TimeFormat = 0,
                             TimeZoneName = "",
@@ -3134,13 +3140,14 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 2L,
                             Country = 1,
                             DateFormat = 0,
-                            Email = "Tyrone2@gmail.com",
+                            Email = "Joel90@gmail.com",
                             ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1236.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Tyrone Gleason",
-                            PhoneNumber = "1-259-731-",
+                            Name = "Joel Mohr",
+                            PersonalUrl = "officia",
+                            PhoneNumber = "793-610-41",
                             TimeFormat = 1,
                             TimeZoneName = "",
                             TimeZoneValue = ""
@@ -3149,13 +3156,14 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 3L,
                             Country = 1,
-                            DateFormat = 0,
+                            DateFormat = 1,
                             Email = "Flora57@yahoo.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/808.jpg",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/121.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
                             Name = "Flora Abernathy",
+                            PersonalUrl = "est",
                             PhoneNumber = "489-790-47",
                             TimeFormat = 1,
                             TimeZoneName = "",
@@ -3165,14 +3173,15 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 4L,
                             Country = 1,
-                            DateFormat = 1,
-                            Email = "Sonja98@yahoo.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/186.jpg",
+                            DateFormat = 0,
+                            Email = "Doreen.Frami57@gmail.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1165.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Sonja Spinka",
-                            PhoneNumber = "392-637-49",
+                            Name = "Doreen Frami",
+                            PersonalUrl = "delectus",
+                            PhoneNumber = "937-349-26",
                             TimeFormat = 1,
                             TimeZoneName = "",
                             TimeZoneValue = ""
@@ -3182,14 +3191,15 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 5L,
                             Country = 1,
                             DateFormat = 1,
-                            Email = "Brittany94@gmail.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/851.jpg",
+                            Email = "Hector_Gleason57@yahoo.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/394.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Brittany Mueller",
-                            PhoneNumber = "(319) 287-",
-                            TimeFormat = 0,
+                            Name = "Hector Gleason",
+                            PersonalUrl = "sint",
+                            PhoneNumber = "803.814.99",
+                            TimeFormat = 1,
                             TimeZoneName = "",
                             TimeZoneValue = ""
                         },
@@ -3197,15 +3207,16 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 6L,
                             Country = 1,
-                            DateFormat = 0,
-                            Email = "Chelsea_Mertz96@hotmail.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/954.jpg",
+                            DateFormat = 1,
+                            Email = "Marta.Daugherty@hotmail.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1039.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Chelsea Mertz",
-                            PhoneNumber = "(258) 515-",
-                            TimeFormat = 0,
+                            Name = "Marta Daugherty",
+                            PersonalUrl = "laboriosam",
+                            PhoneNumber = "478.699.56",
+                            TimeFormat = 1,
                             TimeZoneName = "",
                             TimeZoneValue = ""
                         },
@@ -3213,15 +3224,16 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 7L,
                             Country = 1,
-                            DateFormat = 0,
-                            Email = "Clinton.Hayes95@gmail.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1101.jpg",
+                            DateFormat = 1,
+                            Email = "Dominic.Gaylord@gmail.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/345.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Clinton Hayes",
-                            PhoneNumber = "(504) 681-",
-                            TimeFormat = 0,
+                            Name = "Dominic Gaylord",
+                            PersonalUrl = "quaerat",
+                            PhoneNumber = "(228) 663-",
+                            TimeFormat = 1,
                             TimeZoneName = "",
                             TimeZoneValue = ""
                         },
@@ -3229,14 +3241,15 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 8L,
                             Country = 1,
-                            DateFormat = 0,
-                            Email = "Randall9@hotmail.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/481.jpg",
+                            DateFormat = 1,
+                            Email = "Saul.Glover@gmail.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1216.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Randall Wintheiser",
-                            PhoneNumber = "897-873-88",
+                            Name = "Saul Glover",
+                            PersonalUrl = "nam",
+                            PhoneNumber = "1-888-460-",
                             TimeFormat = 0,
                             TimeZoneName = "",
                             TimeZoneValue = ""
@@ -3245,14 +3258,15 @@ namespace EasyMeets.Core.DAL.Migrations
                         {
                             Id = 9L,
                             Country = 1,
-                            DateFormat = 0,
-                            Email = "Orlando.Wiza@hotmail.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/757.jpg",
+                            DateFormat = 1,
+                            Email = "Olivia_Kuhn@hotmail.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1072.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Orlando Wiza",
-                            PhoneNumber = "(884) 579-",
+                            Name = "Olivia Kuhn",
+                            PersonalUrl = "voluptatem",
+                            PhoneNumber = "(802) 917-",
                             TimeFormat = 1,
                             TimeZoneName = "",
                             TimeZoneValue = ""
@@ -3262,14 +3276,15 @@ namespace EasyMeets.Core.DAL.Migrations
                             Id = 10L,
                             Country = 1,
                             DateFormat = 1,
-                            Email = "Leona86@hotmail.com",
-                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/790.jpg",
+                            Email = "Jeremy.Welch57@yahoo.com",
+                            ImagePath = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/947.jpg",
                             IsBanned = false,
                             IsDeleted = false,
                             Language = 2,
-                            Name = "Leona Cronin",
-                            PhoneNumber = "947.872.74",
-                            TimeFormat = 1,
+                            Name = "Jeremy Welch",
+                            PersonalUrl = "et",
+                            PhoneNumber = "774.348.25",
+                            TimeFormat = 0,
                             TimeZoneName = "",
                             TimeZoneValue = ""
                         });
