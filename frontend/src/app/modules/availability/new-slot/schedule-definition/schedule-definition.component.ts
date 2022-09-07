@@ -2,13 +2,13 @@ import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DatesEqualComparator } from '@core/helpers/dates-equal-comparator-helper';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
+import { TimeRangesMergeHelper } from '@core/helpers/time-ranges-merge-helper';
 import { getPossibleTimeZones } from '@core/helpers/time-zone-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 import { ExclusionDatesPickerComponent } from '@modules/exclusion-dates/exclusion-dates-picker/exclusion-dates-picker.component';
-import { TimeRangesMergeHelper } from "@core/helpers/time-ranges-merge-helper";
 
 @Component({
     selector: 'app-schedule-definition',
