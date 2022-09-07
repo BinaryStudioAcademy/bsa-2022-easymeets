@@ -58,12 +58,9 @@
                 <textarea class="text-area-class" formControlName="description"></textarea>
             </div>
             <div *ngIf="descriptionControl.invalid && descriptionControl.touched" class="validation">
-                <small *ngIf="descriptionControl.errors?.['required']">This field is required.</small>
-                <small *ngIf="descriptionControl.errors?.['minlength']">Length must be more than 2 characters.</small>
                 <small *ngIf="descriptionControl.errors?.['maxlength']">
-                    The field “Description” must not exceed 80 characters.
+                    The field “Description” must not exceed 300 characters.
                 </small>
-                <small *ngIf="descriptionControl.errors?.['pattern']">Invalid characters.</small>
             </div>
         </div>
         <div class="item">
