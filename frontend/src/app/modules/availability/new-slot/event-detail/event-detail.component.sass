@@ -18,7 +18,13 @@
     @media (max-width: $desktop-min-width)
         grid-template-columns: 100%
 
-    .link-container,
+    .form-container
+        width: 96.5%
+        grid-column-start: 1
+        grid-column-end: span 2
+        grid-row-start: 1
+        grid-row-end: span 1
+
     .time-zones-container,
     .password-container
         width: 100%
@@ -73,6 +79,9 @@
     justify-content: flex-start
     padding: 5px
     word-break: break-all
+
+.inputBlock
+    width: 100%
 
 .inputItem
     flex: 1
