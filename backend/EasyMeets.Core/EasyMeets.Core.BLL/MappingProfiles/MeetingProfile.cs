@@ -22,8 +22,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(dest => dest.MeetingDuration, src => src.MapFrom(s => $"{s.Duration} min"))
                 .ForMember(dest => dest.MembersTitle, src => src.MapFrom(s => CreateMemberTitle(s)))
                 .ForMember(dest => dest.MeetingLink, src => src.MapFrom(s => s.MeetingLink))
-                .ForMember(dest => dest.MeetingMembers, src => src.MapFrom(s => GetAllParticipants(s)))
-                .ForMember(dest => dest.MeetingCount, src => src.MapFrom(s => GetAllParticipants(s).Count()))
+                .ForMember(dest => dest.MeetingMembers, src => src.MapFrom(s => new List<UserMeetingDTO>())) 
                 .ForMember(dest => dest.Location, src => src.MapFrom(s => s.LocationType.ToString()));
             CreateMap<SaveMeetingDto, Meeting>();
             CreateMap<Meeting, SaveMeetingDto>()
@@ -57,29 +56,6 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 1 => meeting.MeetingMembers.First().TeamMember.User.Name,
                 _ => $"{meeting.MeetingMembers.Count()} Team Members"
             };
-        }
-
-        private IEnumerable<UserMeetingDTO> GetAllParticipants(Meeting meeting)
-        {
-            var slotMembers = meeting.MeetingMembers
-                .Select(x => new UserMeetingDTO
-                {
-                    Name = x.TeamMember.User.Name,
-                    Email = x.TeamMember.User.Email,
-                    TimeZone = new() { NameValue = x.TeamMember.User.TimeZoneName, TimeValue = x.TeamMember.User.TimeZoneValue },
-                    Booked = meeting.CreatedAt
-                });
-
-            var external = meeting.ExternalAttendees
-                .Select(x => new UserMeetingDTO
-                {
-                    Name = x.Name,
-                    Email = x.Email,
-                    TimeZone = new() { NameValue = x.TimeZoneName, TimeValue = x.TimeZoneValue },
-                    Booked = meeting.CreatedAt
-                });
-
-            return slotMembers.Union(external).ToList();
-        }
+        } 
     }
 }

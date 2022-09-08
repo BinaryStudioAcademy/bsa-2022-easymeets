@@ -36,22 +36,34 @@ namespace EasyMeets.Core.BLL.Services
 
             var team = await _context.Teams.FirstOrDefaultAsync(team => team.Id == teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
 
-            var meetings = await _context.Meetings
-                .Include(m => m.AvailabilitySlot)
-                .Include(s => s!.ExternalAttendees)
-                .Include(meeting => meeting.MeetingMembers)
-                    .ThenInclude(meetingMember => meetingMember.TeamMember)
-                    .ThenInclude(teamMember => teamMember.User)
+            var meetings = await _context.Meetings 
                 .Where(meeting => meeting.TeamId == team.Id)
                 .ToListAsync();
+
+            var meetingMembers = await _context.Meetings
+                .Where(meeting => meeting.TeamId == team.Id)
+                .Include(m => m.AvailabilitySlot)
+                .Include(s => s!.ExternalAttendees)
+                .Include(meeting => meeting.MeetingMembers.Take(numberOfMembers))
+                    .ThenInclude(meetingMember => meetingMember.TeamMember)
+                    .ThenInclude(teamMember => teamMember.User)
+                .Select(x => new { MeetingMembers = GetAllParticipants(x) })
+                .ToListAsync();
+
+            var meetingMembersCount = await _context.Meetings
+               .Where(meeting => meeting.TeamId == team.Id)
+               .Include(meeting => meeting.MeetingMembers) 
+               .Select(x => new { MeetingMembersCount = x.MeetingMembers.Count })
+               .ToListAsync();
 
             var mapped = _mapper.Map<List<MeetingSlotDTO>>(meetings, opts =>
             {
                 opts.AfterMap((_, dest) =>
-                { 
-                    foreach (MeetingSlotDTO meetingSlotDTO in dest)
+                {
+                    for (int i = 0; i < meetings.Count; i++)
                     {
-                        meetingSlotDTO.MeetingMembers = GetMeetingMembersByCount(meetingSlotDTO, numberOfMembers);
+                        dest.ElementAt(i).MeetingMembers = meetingMembers.ElementAt(i).MeetingMembers.ToList();
+                        dest.ElementAt(i).MeetingCount = meetingMembersCount.ElementAt(i).MeetingMembersCount;
                     }
                 });
             });
@@ -59,11 +71,28 @@ namespace EasyMeets.Core.BLL.Services
             return mapped;
         }
 
-        private List<UserMeetingDTO> GetMeetingMembersByCount(MeetingSlotDTO meetingSlotDto, int numberOfMembers)
+        private static IEnumerable<UserMeetingDTO> GetAllParticipants(Meeting meeting)
         {
-            var meetingSlot = meetingSlotDto?.MeetingMembers?.Take(numberOfMembers).ToList();
-            return meetingSlot!;
-        }
+            var slotMembers = meeting.MeetingMembers
+                .Select(x => new UserMeetingDTO
+                {
+                    Name = x.TeamMember.User.Name,
+                    Email = x.TeamMember.User.Email,
+                    TimeZone = new() { NameValue = x.TeamMember.User.TimeZoneName, TimeValue = x.TeamMember.User.TimeZoneValue },
+                    Booked = meeting.CreatedAt
+                });
+
+            var external = meeting.ExternalAttendees
+                .Select(x => new UserMeetingDTO
+                {
+                    Name = x.Name,
+                    Email = x.Email,
+                    TimeZone = new() { NameValue = x.TimeZoneName, TimeValue = x.TimeZoneValue },
+                    Booked = meeting.CreatedAt
+                });
+
+            return slotMembers.Union(external).ToList();
+        } 
 
         public async Task<List<UserMeetingDTO>> GetAllMembers(int id)
         {
@@ -139,7 +168,7 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(m => m.AvailabilitySlot)
                     .ThenInclude(slot => slot!.EmailTemplates)
                 .FirstOrDefaultAsync(m => m.Id == meetingId);
-            
+
             var emailTemplate = meeting?
                 .AvailabilitySlot?
                 .EmailTemplates
@@ -150,22 +179,22 @@ namespace EasyMeets.Core.BLL.Services
                 .Select(meetingMember => meetingMember.TeamMember.User.Email)
                 .Concat(meeting.ExternalAttendees.Select(attendee => attendee.Email))
                 .ToList();
-            
+
             if (emailTemplate is null || recipients is null || !recipients.Any())
             {
                 return;
             }
-            
+
             var emailDto = _mapper.Map<EmailDto>(emailTemplate);
-            
+
             foreach (var recipient in recipients)
             {
                 emailDto.Recipient = recipient;
-                
+
                 _emailSender.Send(emailDto);
             }
         }
-        
+
         private async Task<ICollection<MeetingMember>> GetMeetingMembers(List<NewMeetingMemberDto> meetingMembers, long teamId)
         {
             var usersIds = meetingMembers.Select(x => x.Id);
