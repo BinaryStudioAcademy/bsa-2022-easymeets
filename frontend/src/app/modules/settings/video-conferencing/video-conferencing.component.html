@@ -1,6 +1,13 @@
 <div class="container">
     <div class="zoom-block">
         <p class="zoom-label">Zoom account</p>
-        <button mat-flat-button (click)="connectZoom()">+ Connect Zoom</button>
+        <button *ngIf="!email && isLoad" mat-flat-button (click)="connectZoom()">+ Connect Zoom</button>
+        <div *ngIf="email && isLoad" class="connected-zoom">
+            <div>
+                <p>Connected by</p>
+                <p>{{email}}</p>
+            </div>
+            <button mat-flat-button (click)="logoutZoom()">Disconnect</button>
+        </div>
     </div>
 </div>

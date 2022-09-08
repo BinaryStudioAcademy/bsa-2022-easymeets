@@ -1,5 +1,4 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
-using EasyMeets.Core.Common.DTO.Credentials.Zoom;
 using EasyMeets.Core.Common.DTO.UploadImage;
 using EasyMeets.Core.Common.DTO.User;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +24,12 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok(user);
         }
 
+        [HttpGet("byLink/{link}")]
+        public async Task<ActionResult<UserDto>> GetUserByPersonalUrl(string link)
+        {
+            return Ok(await _userService.GetUserByPersonalLink(link));
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult<UserDto>> CreateUserPreferences([FromBody] NewUserDto user)
@@ -43,32 +48,17 @@ namespace EasyMeets.Core.WebAPI.Controllers
         public async Task<IActionResult> UpdatePreferences([FromBody] UpdateUserDto user)
         {
             var currentUser = await _userService.GetCurrentUserAsync();
-            
+
             var updatedUser = await _userService.UpdateUserPreferences(user, currentUser.Email);
-            
+
             return Ok(updatedUser);
         }
-
 
         [HttpPut("uploadimage")]
         public async Task<ActionResult<ImagePathDto>> UploadImageAsync([FromForm] IFormFile file)
         {
             var imagePath = await _userService.UploadImageAsync(file);
             return Ok(imagePath);
-        }
-
-        [HttpPost("zoom/add")]
-        public async Task<ActionResult> CreateZoomCredentials([FromBody]NewCredentialsRequestDto newCredentialsRequestDto)
-        {
-            await _userService.CreateZoomCredentials(newCredentialsRequestDto);
-            return Ok();
-        }
-
-        [HttpGet("zoom/client")]
-        public ActionResult<string> GetZoomClientId()
-        {
-            var clientId = Environment.GetEnvironmentVariable("ZoomClientId");
-            return Ok(clientId!);
         }
     }
 }

@@ -15,14 +15,15 @@ namespace EasyMeets.Core.BLL.Services
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
         private readonly IGoogleOAuthService _googleOAuthService;
-        private readonly IMeetingService _meetingService;
+        private readonly ICalendarEventService _calendarEventService;
+        
         public CalendarsService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IConfiguration configuration, 
-            IGoogleOAuthService googleOAuthService, IMeetingService meetingService) : base(context, mapper)
+            IGoogleOAuthService googleOAuthService, ICalendarEventService calendarEventService) : base(context, mapper)
         {
             _configuration = configuration;
             _userService = userService;
             _googleOAuthService = googleOAuthService;
-            _meetingService = meetingService;
+            _calendarEventService = calendarEventService;
         }
 
         public async Task<bool> CreateGoogleCalendarConnection(TokenResultDto tokenResultDto, UserDto currentUser)
@@ -125,6 +126,11 @@ namespace EasyMeets.Core.BLL.Services
                 calendar!.CheckForConflicts = calendarDto.CheckForConflicts;
                 calendar.AddEventsFromTeamId = calendarDto.ImportEventsFromTeam?.Id;
 
+                if (calendar.AddEventsFromTeamId is not null)
+                {
+                    await AddMeetingsToCalendar(calendar.AddEventsFromTeamId, calendar.ConnectedCalendar);
+                }
+
                 _context.Calendars.Update(calendar);
                 await _context.SaveChangesAsync();
             }
@@ -165,9 +171,8 @@ namespace EasyMeets.Core.BLL.Services
 
         private async Task UpdateVisibleForTeamsTable(Calendar calendar, UserCalendarDto calendarDto)
         {
-            _context.CalendarVisibleForTeams.RemoveRange(calendar!.VisibleForTeams);
-
-            await RemoveCalendarMeetings(calendar.VisibleForTeams);
+            _context.CalendarVisibleForTeams.RemoveRange(calendar.VisibleForTeams);
+            await RemoveCalendarMeetings(calendar.VisibleForTeams, calendar.Id);
 
             calendar.VisibleForTeams = Array.Empty<CalendarVisibleForTeam>();
 
@@ -183,8 +188,7 @@ namespace EasyMeets.Core.BLL.Services
             {
                 calendar.VisibleForTeams = newVisibleForList;
                 await _context.CalendarVisibleForTeams.AddRangeAsync(newVisibleForList);
-
-                await AddMeetingsFromCalendar(calendar.ConnectedCalendar, calendar.VisibleForTeams, calendar.UserId);
+                await AddMeetingsFromCalendar(calendar.ConnectedCalendar, calendar.VisibleForTeams, calendar.Id);
             }
         }
 
@@ -199,28 +203,74 @@ namespace EasyMeets.Core.BLL.Services
 
             var visibleCalendar = await _context.CalendarVisibleForTeams.Where(x => x.CalendarId == calendar.Id).ToListAsync();
 
-            await RemoveCalendarMeetings(visibleCalendar);
-            await AddMeetingsFromCalendar(email, calendar.VisibleForTeams, calendar.UserId);
+            await RemoveCalendarMeetings(visibleCalendar, calendar.Id);
+            await AddMeetingsFromCalendar(email, calendar.VisibleForTeams, calendar.Id);
 
             return true;
         }
 
-        private async Task RemoveCalendarMeetings(IEnumerable<CalendarVisibleForTeam> visibleCalendar)
+        private async Task RemoveCalendarMeetings(IEnumerable<CalendarVisibleForTeam> visibleCalendar, long calendarId)
         {
             foreach (var item in visibleCalendar.ToList())
             {
-                await _meetingService.DeleteGoogleCalendarMeetings(item.TeamId);
+                await _calendarEventService.RemoveCalendarEvents(calendarId);
             }
         }
 
-        private async Task AddMeetingsFromCalendar(string email, IEnumerable<CalendarVisibleForTeam> visibleCalendar, long userId)
+        private async Task AddMeetingsFromCalendar(string email, IEnumerable<CalendarVisibleForTeam> visibleCalendar, long calendarId)
         {
             var events = await GetEventsFromGoogleCalendar(email);
 
             foreach (var item in visibleCalendar.ToList())
             {
-                await _meetingService.AddGoogleCalendarMeetings(item.TeamId, events, userId);
+                await _calendarEventService.AddCalendarEvents(events, calendarId);
             }
+        }
+        private async Task AddMeetingsToCalendar(long? teamId, string email)
+        {
+            var meetings = await _context.Meetings.Where(x => x.TeamId == teamId).ToListAsync();
+
+            var refreshToken = _context.Calendars.FirstOrDefault(x => x.ConnectedCalendar == email) ?? throw new Exception("Connected email don't have refresh token.");
+
+            var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken.RefreshToken);
+
+            if (meetings.Any())
+            {
+                foreach (var item in meetings)
+                {
+                    await AddMeetingToCalendar(item, tokenResultDto);
+                }
+            }
+        }
+
+        private async Task AddMeetingToCalendar(Meeting meeting, TokenResultDto tokenResultDto)
+        {
+            var queryParams = new Dictionary<string, string>
+            {
+                { "calendarId", "primary" }
+            };
+
+            var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == meeting.CreatedBy) ?? throw new Exception("Meeting doesnt have owner.");
+
+            var starttime = meeting.StartTime.DateTime.ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00" + currentUser.TimeZoneValue;
+            var endtime = meeting.StartTime.DateTime.AddMinutes(meeting.Duration).ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00" + currentUser.TimeZoneValue;
+
+            var body = new
+            {
+                summary = meeting.Name,
+                status = "confirmed",
+                end = new
+                {
+                    dateTime = DateTime.Parse(endtime)
+                },
+                start = new
+                {
+                    dateTime = DateTime.Parse(starttime)
+                }
+            };
+
+            await HttpClientHelper.SendPostTokenRequest<SubscribeEventDTO>($"https://www.googleapis.com/calendar/v3/calendars/calendarId/events", queryParams, body,
+                tokenResultDto.AccessToken);
         }
     }
 }

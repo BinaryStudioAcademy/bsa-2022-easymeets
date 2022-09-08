@@ -63,8 +63,8 @@
         </div>
         <div class="choice">
             <app-external-booking-choose-meeting-page
-                *ngIf="this.router.url === '/external-booking/choose-meeting'"
-                [selectedUserId]="this.menu.user.id">
+                *ngIf="isChooseMeetingRoute() && menu.user"
+                [userId]="menu.user.id">
             </app-external-booking-choose-meeting-page>
             <app-external-booking-choose-time-page
                 *ngIf="isBookingChooseTimeRoute()"
@@ -73,7 +73,8 @@
             </app-external-booking-choose-time-page>
             <app-external-booking-confirm-page
                 *ngIf="isConfirmBookingRoute()"
-                (confirmBooking)="confirmBookingByExternalAttendee($event)">
+                (confirmBooking)="confirmBookingByExternalAttendee($event)"
+                (cancelBooking)="removeDateAndTime($event)">
             </app-external-booking-confirm-page>
             <app-external-booking-choose-members-page
                 *ngIf="this.router.url === '/external-booking/team/choose-team-members'"

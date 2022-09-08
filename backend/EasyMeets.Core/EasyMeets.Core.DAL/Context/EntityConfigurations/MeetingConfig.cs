@@ -33,5 +33,10 @@ public class MeetingConfig : IEntityTypeConfiguration<Meeting>
             .WithMany(u => u.CreatedMeetings)
             .HasForeignKey(m => m.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.HasOne(m => m.AvailabilitySlot)
+            .WithMany(u => u.Meetings)
+            .HasForeignKey(m => m.AvailabilitySlotId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

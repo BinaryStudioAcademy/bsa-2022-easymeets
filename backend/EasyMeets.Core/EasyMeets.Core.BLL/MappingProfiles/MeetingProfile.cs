@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EasyMeets.Core.Common.DTO.Calendar;
 using EasyMeets.Core.Common.DTO.Meeting;
+using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.Zoom;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Entities;
@@ -40,15 +41,12 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 });
 
             CreateMap<ExternalAttendeeMeetingDto, Meeting>();
-            CreateMap<EventItemDTO, Meeting>()
-                .ForMember(dest => dest.Name, src => src.MapFrom(eventItem => eventItem.Summary))
-                .ForMember(dest => dest.StartTime, src => src.MapFrom(eventItem => new DateTimeOffset(eventItem.Start!.DateTime)))
-                .ForMember(dest => dest.IsDeleted, src => src.MapFrom(eventItem => false))
-                .ForMember(dest => dest.CreatedAt, src => src.MapFrom(eventItem => eventItem.Created))
-                .ForMember(dest => dest.UpdatedAt, src => src.MapFrom(eventItem => eventItem.Updated))
-                .ForMember(dest => dest.LocationType, src => src.MapFrom(eventItem => LocationType.Zoom))
-                .ForMember(dest => dest.MeetingLink, src => src.MapFrom(eventItem => eventItem.Location))
-                .ForMember(dest => dest.IsFromGoogleCalendar, src => src.MapFrom(eventItem => true));
+
+            CreateMap<Meeting, UnavailabilityItemDto>()
+                .ForMember(u => u.Start, opts =>
+                    opts.MapFrom(src => src.StartTime.DateTime))
+                .ForMember(u => u.End, opts =>
+                    opts.MapFrom(src => src.StartTime.DateTime.AddMinutes(src.Duration)));
         }
 
         private string CreateMemberTitle(Meeting meeting)
@@ -73,25 +71,20 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 {
                     Name = x.TeamMember.User.Name,
                     Email = x.TeamMember.User.Email,
-                    TimeZone = { NameValue = x.TeamMember.User.TimeZoneName, TimeValue = x.TeamMember.User.TimeZoneValue }
-                })
-                .ToList();
+                    TimeZone = new()  {NameValue = x.TeamMember.User.TimeZoneName, TimeValue = x.TeamMember.User.TimeZoneValue},
+                    Booked = meeting.CreatedAt
+                });
+            
+            var external = meeting.ExternalAttendees
+                .Select(x => new UserMeetingDTO
+                {
+                    Name = x.Name,
+                    Email = x.Email,
+                    TimeZone = new() {NameValue = x.TimeZoneName, TimeValue = x.TimeZoneValue },
+                    Booked = meeting.CreatedAt
+                });
 
-            if (meeting.AvailabilitySlot is not null)
-            {
-                var external = meeting.AvailabilitySlot.ExternalAttendees
-                    .Select(x => new UserMeetingDTO
-                    {
-                        Name = x.Name,
-                        Email = x.Email,
-                        TimeZone = { NameValue = x.TimeZoneName, TimeValue = x.TimeZoneValue }
-                    })
-                    .ToList();
-
-                return slotMembers.Union(external).ToList();
-            }
-
-            return slotMembers;
+            return slotMembers.Union(external).ToList();
         }
     }
 }

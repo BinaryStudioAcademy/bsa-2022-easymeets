@@ -46,6 +46,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddTransient<IZoomService, ZoomService>();
             services.AddTransient<IExternalAttendeeService, ExternalAttendeeService>();
             services.AddHttpClient<IZoomService, ZoomService>();
+            services.AddTransient<ICalendarEventService, CalendarEventService>();
             services.AddRabbitMQ(configuration);
         }
 
@@ -82,6 +83,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
             });
 
             services.AddRabbitMQInformEveryone(configuration);
+            services.AddRabbitMqEmailSender(configuration);
         }
 
         private static void AddRabbitMQInformEveryone(this IServiceCollection services, IConfiguration configuration)
@@ -105,6 +107,18 @@ namespace EasyMeets.Core.WebAPI.Extentions
                     new ConsumerService(provider.GetRequiredService<IConnection>(), consumerSettings)));
         }
 
+        private static void AddRabbitMqEmailSender(this IServiceCollection services, IConfiguration configuration)
+        {
+            var settings = configuration
+                .GetSection("RabbitMQConfiguration:Queues:EmailProducer")
+                .Get<ProducerSettings>();
+
+            services.AddSingleton<IEmailSenderService>(provider => 
+                new EmailSenderService(new ProducerService(
+                    provider.GetRequiredService<IConnection>(),
+                    settings)));
+        }
+        
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
         {
             var authority = configuration["Jwt:Firebase:ValidIssuer"];
