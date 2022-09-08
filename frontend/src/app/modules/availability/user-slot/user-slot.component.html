@@ -13,7 +13,16 @@
                 <p>{{ currentUser.userName }}</p>
             </div>
         </div>
-        <img src="assets/copy_icon.png" class="copy-icon" />
+        <div class="user-url">
+            <img src="assets/copy_icon.png" class="copy-icon" />
+            <div>
+                <a
+                    [routerLink]="['/external-booking/choose-meeting/']"
+                    [queryParams]="{ link: currentUser.personalUrl }">
+                    {{ currentUser.personalUrl }}
+                </a>
+            </div>
+        </div>
     </div>
     <div class="availability-slot">
         <div *ngFor="let _slot of userSlots">

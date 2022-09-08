@@ -15,7 +15,6 @@ public class Meeting : AuditEntity<long>
     public int Duration { get; set; }
     public DateTimeOffset StartTime { get; set; }
     public string MeetingLink { get; set; } = string.Empty;
-    public bool IsFromGoogleCalendar { get; set; }
 
     public AvailabilitySlot? AvailabilitySlot { get; set; }
     public Team Team { get; set; } = null!;

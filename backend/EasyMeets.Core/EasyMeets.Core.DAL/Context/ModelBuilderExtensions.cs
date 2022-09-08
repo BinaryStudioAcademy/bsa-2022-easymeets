@@ -65,6 +65,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Name, f => f.Person.FullName)
                 .RuleFor(u => u.Email, f => f.Person.Email)
                 .RuleFor(u => u.PhoneNumber, f => f.Person.Phone.ClampLength(1, 10))
+                .RuleFor(u => u.PersonalUrl, f => f.Lorem.Word().ClampLength(1, 10))
                 .RuleFor(u => u.ImagePath, f => f.Internet.Avatar())
                 .RuleFor(u => u.Language, f => Language.Pl)
                 .RuleFor(u => u.DateFormat, f => (DateFormat)f.Random.Int(0, 1))
@@ -128,7 +129,6 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
                 .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
                 .RuleFor(u => u.IsDeleted, f => false)
-                .RuleFor(u => u.IsFromGoogleCalendar, f => false)
                 .RuleFor(u => u.MeetingLink, f => f.Internet.Url().ClampLength(1, 30))
                 .Generate(count);
         }

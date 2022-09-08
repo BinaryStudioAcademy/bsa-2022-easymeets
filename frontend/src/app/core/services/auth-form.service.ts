@@ -61,6 +61,7 @@ export class AuthFormService {
                 uid: resp.user?.uid,
                 userName: resp.user?.displayName ?? userName,
                 email: resp.user?.email ?? '',
+                personalUrl: resp.user?.email?.substring(0, resp.user?.email.indexOf('@')).replace('.', '-') ?? '',
                 image: resp.user?.photoURL ?? undefined,
                 language: languageHelper.getLanguage(),
                 timeFormat: timeHelper.getTimeFormat(),

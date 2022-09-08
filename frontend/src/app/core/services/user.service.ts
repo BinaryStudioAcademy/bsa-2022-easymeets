@@ -3,6 +3,7 @@ import { IImagePath } from '@core/models/IImagePath';
 import { INewUser } from '@core/models/INewUser';
 import { IUpdateUser } from '@core/models/IUpdateUser';
 import { ILocalUser, IUser } from '@core/models/IUser';
+import { failedGettingUserMessage } from '@shared/constants/shared-messages';
 import { BehaviorSubject, first, Observable, tap } from 'rxjs';
 
 import { HttpInternalService } from './http-internal.service';
@@ -26,8 +27,16 @@ export class UserService {
         return this.httpService.getRequest<IUser>(`${this.routePrefix}/current`).pipe(
             tap({
                 next: (user) => this.updateUser(user),
-                error: () =>
-                    this.notificationService.showErrorMessage('Something went wrong. Failed to fetch current user.'),
+                error: () => this.notificationService.showErrorMessage(failedGettingUserMessage),
+            }),
+        );
+    }
+
+    public getUserByPersonalLink(link: string): Observable<IUser> {
+        return this.httpService.getRequest<IUser>(`${this.routePrefix}/byLink/${link}`).pipe(
+            tap({
+                next: (user) => this.updateUser(user),
+                error: () => this.notificationService.showErrorMessage(failedGettingUserMessage),
             }),
         );
     }
@@ -77,36 +86,6 @@ export class UserService {
         );
     }
 
-    public createZoomCredentials(authCode: string, redirectUri: string): Observable<unknown> {
-        return this.httpService
-            .postRequest(`${this.routePrefix}/zoom/add`, {
-                code: authCode,
-                grantType: 'authorization_code',
-                redirectUri,
-            })
-            .pipe(
-                tap({
-                    error: () =>
-                        this.notificationService.showErrorMessage(
-                            'Something went wrong. Failed to create zoom credentials.',
-                        ),
-                }),
-            );
-    }
-
-    public getZoomClientId(): Observable<string> {
-        return this.httpService
-            .getStringRequest(`${this.routePrefix}/zoom/client`)
-            .pipe(
-                tap({
-                    error: () =>
-                        this.notificationService.showErrorMessage(
-                            'Something went wrong. Failed to fetch zoom client id.',
-                        ),
-                }),
-            );
-    }
-
     /* Local storage */
     private updateUser(user: IUser): void {
         if (user) {
@@ -115,6 +94,7 @@ export class UserService {
                 uid: user.uid,
                 userName: user.userName,
                 image: user.image,
+                timeZone: user.timeZone,
             };
 
             this.updateUserInLocalStorage(localUser);
