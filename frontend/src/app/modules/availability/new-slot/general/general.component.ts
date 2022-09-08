@@ -162,6 +162,7 @@ export class GeneralComponent implements OnInit {
 
     onDurationChange() {
         this.customTimeShown = this.duration.time === 'Custom';
+        this.settings.size = this.duration.minutes!;
     }
 
     customDurationChanged() {
