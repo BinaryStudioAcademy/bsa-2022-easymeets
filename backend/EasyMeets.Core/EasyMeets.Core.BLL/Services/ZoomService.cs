@@ -76,11 +76,14 @@ public class ZoomService : BaseService, IZoomService
 
         var user = await _context.Users.Include(u => u.Credentials)
             .FirstAsync(u => u.Uid == currentUser.Uid);
-        Credentials credentials = user.Credentials.First(cr => cr.Type == CredentialsType.Zoom);
+        var credentials = user.Credentials.FirstOrDefault(cr => cr.Type == CredentialsType.Zoom) ??
+            throw new KeyNotFoundException("Credentials doesn't exist");
+
+        var token = await GetAccessToken(credentials);
 
         var queryString = new Dictionary<string, string?>
         {
-            { "token", credentials.AccessToken}
+            { "token", token}
         };
 
         var uri = QueryHelpers.AddQueryString(_configuration["Zoom:RevokeUri"], queryString);
@@ -100,12 +103,15 @@ public class ZoomService : BaseService, IZoomService
 
     public async Task<EmailDto> CreateZoomCredentials(NewCredentialsRequestDto newCredentialsRequestDto)
     {
-        var currentUser = await _userService.GetCurrentUserAsync();
         EmailDto emailDto;
+
+        var currentUser = await _userService.GetCurrentUserAsync();
         var user = await _context.Users.Include(u => u.Credentials)
-            .FirstOrDefaultAsync(u => u.Uid == currentUser.Uid);
+            .FirstOrDefaultAsync(u => u.Uid == currentUser.Uid) ?? throw new KeyNotFoundException("User doesn't exist");
+
         var credentialsDto = await GetNewCredentials(newCredentialsRequestDto);
-        if (user!.Credentials.Any(cr => cr.Type == CredentialsType.Zoom))
+
+        if (user.Credentials.Any(cr => cr.Type == CredentialsType.Zoom))
         {
             var credentials = user.Credentials.First(cr => cr.Type == CredentialsType.Zoom);
             _mapper.Map(credentialsDto, credentials);
@@ -209,6 +215,8 @@ public class ZoomService : BaseService, IZoomService
             PropertyNamingPolicy = SnakeCaseNamingPolicy.Instance
         };
 
-        return await response.Content.ReadFromJsonAsync<EmailDto>(options);
+        var emailDto = await response.Content.ReadFromJsonAsync<EmailDto>(options) ?? new EmailDto();
+
+        return emailDto;
     }
 }
