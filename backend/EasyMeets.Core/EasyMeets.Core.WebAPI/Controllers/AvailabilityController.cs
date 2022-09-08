@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyMeets.Core.WebAPI.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class AvailabilityController : ControllerBase
@@ -18,6 +17,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
             _availabilityService = availabilityService;
         }
         
+        [Authorize]
         [HttpGet("slot/{id}")]
         public async Task<ActionResult<AvailabilitySlotDto>> GetAvailabilitySlotById(long id)
         {
@@ -25,6 +25,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateAvailabilitySlot([FromBody] SaveAvailabilitySlotDto slotDto)
         {
@@ -32,6 +33,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok();
         } 
 
+        [Authorize]
         [HttpGet("{id}/{teamId?}")]
         public async Task<ActionResult<UserPersonalAndTeamSlotsDto>> GetUserPersonalAndTeamSlotsAsync(long id, long? teamId)
         {
@@ -39,18 +41,21 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok(availabilitySlots);
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult<AvailabilitySlotDto>> UpdateAvailabilitySlot(long id, [FromBody] SaveAvailabilitySlotDto updateAvailabilityDto)
         {
             return Ok(await _availabilityService.UpdateAvailabilitySlot(id, updateAvailabilityDto));
         }
 
+        [Authorize]
         [HttpPost("enabling/{id}")]
         public async Task<ActionResult<bool>> UpdateAvailabilitySlotEnabling(long id)
         {
             return Ok(await _availabilityService.UpdateAvailabilitySlotEnablingAsync(id));
         }
 
+        [Authorize]
         [HttpDelete("{slotId}")]
         public async Task<IActionResult> DeleteAvailabilitySlot(int slotId)
         {
@@ -71,6 +76,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok();
         }
         
+        [Authorize]
         [HttpGet("validateLink")]
         public async Task<ActionResult<bool>> ValidatePageLinkAsync(long? id, string slotLink)
         {

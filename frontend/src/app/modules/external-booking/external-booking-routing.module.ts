@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '@core/guards/auth.guard';
 
 import { ExternalBookingMeetingComponent } from './external-booking-choose-meeting-page/external-booking-choose-meeting-page.component';
 import { ExternalBookingMembersComponent } from './external-booking-choose-members-page/external-booking-choose-members-page.component';
@@ -14,11 +13,11 @@ const routes: Routes = [
         component: ExternalBookingPageComponent,
         children: [
             {
-                path: 'choose-meeting',
+                path: 'choose-meeting/:userLink',
                 component: ExternalBookingMeetingComponent,
             },
             {
-                path: 'choose-time',
+                path: 'choose-time/:slotLink',
                 component: ExternalBookingTimeComponent,
             },
             {
@@ -39,7 +38,6 @@ const routes: Routes = [
                 redirectTo: 'choose-meeting',
             },
         ],
-        canActivate: [AuthGuard],
     },
 ];
 

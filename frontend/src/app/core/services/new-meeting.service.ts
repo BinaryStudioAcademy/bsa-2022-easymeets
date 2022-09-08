@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
-import { IOrderedMeetingTimes } from '@core/models/IOrderedMeetingTimes';
 
 import { HttpInternalService } from './http-internal.service';
 
@@ -20,9 +19,5 @@ export class NewMeetingService {
 
     public saveNewMeeting(data: INewMeeting) {
         return this.httpService.postRequest<INewMeeting>(`${this.routePrefix}`, data);
-    }
-
-    public getOrderedMeetingTimes(slotId: bigint) {
-        return this.httpService.getRequest<IOrderedMeetingTimes[]>(`${this.routePrefix}/ordered-times/${slotId}`);
     }
 }
