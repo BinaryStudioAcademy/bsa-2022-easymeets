@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { ColorShadowMapping } from '@core/helpers/color-shadow-mapping';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
-import { SlotColorAndShadow } from '@core/helpers/slotColorAndShadow';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
@@ -37,7 +37,7 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
 
     locationTypeMapping = LocationTypeMapping;
 
-    SlotColorAndShadow = SlotColorAndShadow;
+    ColorShadowMapping = ColorShadowMapping;
 
     private activationTitle = 'Confirm Slot Activation';
 
@@ -57,6 +57,7 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.isChecked = this.slot.isEnabled;
+        console.log(this.slot.color);
         /*this.color = SlotColorAndShadow[this.slot.color].colorHex;*/
 
         /*const element: HTMLDivElement | undefined = document.getElementById('color-line-id') as HTMLDivElement;
