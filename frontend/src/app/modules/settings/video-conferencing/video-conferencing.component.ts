@@ -26,7 +26,6 @@ export class VideoConferencingComponent extends BaseComponent implements OnInit 
     }
 
     ngOnInit(): void {
-        this.spinnerService.show();
         this.checkActivatedRoute();
     }
 
@@ -60,6 +59,7 @@ export class VideoConferencingComponent extends BaseComponent implements OnInit 
     }
 
     private createZoomCredentials(authCode: string) {
+        this.spinnerService.show();
         this.zoomService.createZoomCredentials(authCode, this.redirectUri)
             .pipe(this.untilThis)
             .subscribe(result => {
@@ -75,6 +75,7 @@ export class VideoConferencingComponent extends BaseComponent implements OnInit 
     }
 
     private getZoomClientEmail() {
+        this.spinnerService.show();
         this.zoomService.getZoomClientEmail()
             .pipe(this.untilThis)
             .subscribe(resp => {
