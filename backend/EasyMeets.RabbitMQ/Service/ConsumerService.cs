@@ -2,66 +2,62 @@
 using EasyMeets.RabbitMQ.Settings;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System.Text;
 
 namespace EasyMeets.RabbitMQ.Service
 {
-    public class ConsumerService : IConsumerService
+    public sealed class ConsumerService : IConsumerService
     {
         private readonly IConnection _connection;
-        private readonly IModel _channelReceive;
-        private readonly string _receiveNotificationFrom;
+        private readonly IModel _channel;
+        private readonly ConsumerSettings _settings;
 
         public ConsumerService(IConnection connection, ConsumerSettings settings)
         {
-            _receiveNotificationFrom = settings.QueueName;
-
             _connection = connection;
-            _channelReceive = _connection.CreateModel();
-            _channelReceive.QueueDeclare(
-                    queue: _receiveNotificationFrom,
-                    durable: false,
-                    exclusive: false,
-                    autoDelete: false,
-                    arguments: null);
-
-            _channelReceive.QueueBind(settings.QueueName, settings.ExchangeName, settings.RoutingKey);
-
-            _channelReceive.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
+            _settings = settings;
+            _channel = _connection.CreateModel();
+            
+            SetupChannel();
         }
 
-        public void ListenQueue()
+        public void Listen(AsyncEventHandler<BasicDeliverEventArgs> messageReceivedHandler)
         {
-            var consumer = new EventingBasicConsumer(_channelReceive);
+            var consumer = new AsyncEventingBasicConsumer(_channel);
+            
+            consumer.Received += messageReceivedHandler;
 
-            consumer.Received += (model, ea) =>
-            {
-                var body = ea.Body.ToArray();
-                var message = Encoding.UTF8.GetString(body);
-
-                _channelReceive.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
-            };
-
-            _channelReceive.BasicConsume(queue: _receiveNotificationFrom,
-                                 autoAck: false,
-                                 consumer: consumer);
+            _channel.BasicConsume(_settings.QueueName, _settings.AutoAcknowledge, consumer);
         }
 
+        public void SetAcknowledge(ulong deliveryTag, bool processed)
+        {
+            if (processed)
+            {
+                _channel.BasicAck(deliveryTag, processed);
+            }
+            else
+            {
+                _channel.BasicNack(deliveryTag, false, true);
+            }
+        }
+        
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            _connection.Dispose();
+            _channel.Dispose();
         }
-
-        protected virtual void Dispose(bool disposing)
+        
+        private void SetupChannel()
         {
-            if (disposing)
+            _channel.ExchangeDeclare(_settings.ExchangeName, _settings.ExchangeType);
+
+            _channel.QueueDeclare(_settings.QueueName, true, false, false);
+
+            _channel.QueueBind(_settings.QueueName, _settings.ExchangeName, _settings.RoutingKey);
+
+            if (_settings.SequentialFetch)
             {
-                if (_connection is not null)
-                {
-                    _connection.Dispose();
-                    _channelReceive.Dispose();
-                }
+                _channel.BasicQos(0, 1, false);
             }
         }
     }

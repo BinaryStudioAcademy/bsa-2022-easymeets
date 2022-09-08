@@ -1,4 +1,4 @@
-﻿using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.RabbitMQ.Interface;
 
 namespace EasyMeets.Core.BLL.Services
@@ -10,7 +10,6 @@ namespace EasyMeets.Core.BLL.Services
         public InformQueueService(IProducerService producer, IConsumerService consumer)
         {
             _producer = producer;
-            consumer.ListenQueue();
         }
 
         public void InformEveryone(string message)
