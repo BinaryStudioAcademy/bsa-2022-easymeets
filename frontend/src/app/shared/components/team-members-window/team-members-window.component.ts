@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
 import { ITeamMember } from '@core/models/ITeamMember';
@@ -38,6 +38,7 @@ export class TeamMembersWindowComponent extends BaseComponent {
         private dialogRef: MatDialogRef<TeamMembersWindowComponent>,
         private userService: UserService,
         private teamService: TeamService,
+        private el: ElementRef,
         private notificationService: NotificationService,
     ) {
         super();
@@ -76,10 +77,10 @@ export class TeamMembersWindowComponent extends BaseComponent {
     }
 
     selectUser(user: IUser) {
-        const userElement: HTMLDivElement = document.getElementById(`user-info-${user.id}`) as HTMLDivElement;
+        const element: HTMLDivElement = this.el.nativeElement.querySelector(`#user-info-${user.id}`) as HTMLDivElement;
 
-        userElement.classList.add('window-selected-user');
-        userElement.classList.remove('not-added-user-info');
+        element.classList.add('window-selected-user');
+        element.classList.remove('not-added-user-info');
 
         this.usersToAdd = [...this.usersToAdd, user];
 
