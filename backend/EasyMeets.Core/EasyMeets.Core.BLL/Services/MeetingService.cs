@@ -17,11 +17,13 @@ namespace EasyMeets.Core.BLL.Services
         private readonly IUserService _userService;
         private readonly IZoomService _zoomService;
         private readonly IEmailSenderService _emailSender;
-        public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IZoomService zoomService, IEmailSenderService emailSender) : base(context, mapper)
+        private readonly IGoogleMeetService _googleMeetService;
+        public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IZoomService zoomService, IEmailSenderService emailSender, IGoogleMeetService googleMeetService) : base(context, mapper)
         {
             _userService = userService;
             _zoomService = zoomService;
             _emailSender = emailSender;
+            _googleMeetService = googleMeetService;
         }
 
         public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync(long? teamId)
@@ -116,6 +118,7 @@ namespace EasyMeets.Core.BLL.Services
             var meeting = await _context.Meetings
                 .Include(m => m.MeetingMembers)
                     .ThenInclude(member => member.TeamMember)
+                        .ThenInclude(m => m.User)
                 .Include(m => m.ExternalAttendees)
                 .Include(m => m.AvailabilitySlot)
                     .ThenInclude(slot => slot!.EmailTemplates)
@@ -166,6 +169,7 @@ namespace EasyMeets.Core.BLL.Services
                     await _zoomService.CreateZoomMeeting(meeting.Id);
                     break;
                 case LocationType.GoogleMeet:
+                    await _googleMeetService.CreateGoogleMeet(meeting.Id);
                     break;
                 case LocationType.Office:
                     break;

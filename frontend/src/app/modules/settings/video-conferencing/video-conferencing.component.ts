@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { IGoogleMeetCredentials } from '@core/models/IGoogleMeetCredentials';
+import { GoogleMeetService } from '@core/services/google-meet.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { ZoomService } from '@core/services/zoom.service';
 
@@ -16,17 +18,27 @@ export class VideoConferencingComponent extends BaseComponent implements OnInit 
 
     isLoad: boolean = false;
 
+    availableAccounts: IGoogleMeetCredentials[] = [];
+
+    selectedAccount: IGoogleMeetCredentials;
+
     constructor(
         private spinnerService: SpinnerService,
         private zoomService: ZoomService,
         private router: Router,
         private activatedRoute: ActivatedRoute,
+        private googleMeetService: GoogleMeetService,
     ) {
         super();
     }
 
     ngOnInit(): void {
         this.checkActivatedRoute();
+        this.googleMeetService.getAvailableCredentials()
+            .pipe(this.untilThis)
+            .subscribe(resp => {
+                this.availableAccounts = resp;
+            });
     }
 
     connectZoom() {
@@ -43,6 +55,12 @@ export class VideoConferencingComponent extends BaseComponent implements OnInit 
             .subscribe(() => {
                 this.email = undefined;
             });
+    }
+
+    changeMeetAccount() {
+        this.googleMeetService.createCredentials(this.availableAccounts[0])
+            .pipe(this.untilThis)
+            .subscribe();
     }
 
     private checkActivatedRoute() {

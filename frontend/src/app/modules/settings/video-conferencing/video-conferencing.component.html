@@ -10,4 +10,12 @@
             <button mat-flat-button (click)="logoutZoom()">Disconnect</button>
         </div>
     </div>
+    <div class="meet-block">
+        <mat-select class="selectBlock" [(ngModel)]="selectedAccount">
+            <mat-option *ngFor="let account of availableAccounts; index as i" [value]="availableAccounts[i].userEmail">
+                {{availableAccounts[i].userEmail}}
+            </mat-option>
+        </mat-select>
+        <button (click)="changeMeetAccount()">Save</button>
+    </div>
 </div>
