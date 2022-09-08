@@ -37,7 +37,10 @@ export class ScheduleDefinitionComponent extends BaseComponent {
     }
 
     deleteExclusionDate(index: number) {
-        this.scheduleValue.exclusionDates.splice(index, 1);
+        this.scheduleValue.exclusionDates = [
+            ...this.scheduleValue.exclusionDates.slice(0, index),
+            ...this.scheduleValue.exclusionDates.slice(index + 1),
+        ];
     }
 
     showExclusionDatesWindow() {
@@ -66,7 +69,10 @@ export class ScheduleDefinitionComponent extends BaseComponent {
         const sameDate = FindSameExclusionDateHelper(this.scheduleValue.exclusionDates, newExclusionDate);
 
         if (sameDate) {
-            sameDate.dayTimeRanges = this.sortDayTimeRanges([...sameDate.dayTimeRanges, ...newExclusionDate.dayTimeRanges]);
+            sameDate.dayTimeRanges = this.sortDayTimeRanges([
+                ...sameDate.dayTimeRanges,
+                ...newExclusionDate.dayTimeRanges,
+            ]);
             sameDate.dayTimeRanges = TimeRangesMergeHelper(sameDate.dayTimeRanges);
 
             return true;
