@@ -5,6 +5,7 @@ import { BaseComponent } from '@core/base/base.component';
 import { ColorShadowMapping } from '@core/helpers/color-shadow-mapping';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
+import { IColorHex } from '@core/models/IColorHex';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -61,8 +62,11 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.isChecked = this.slot.isEnabled;
-        this.slotLineColor = ColorShadowMapping(this.slot.color).colorHex;
-        this.slotShadowColor = ColorShadowMapping(this.slot.color).shadowHex;
+
+        const slotLineColorInfo: IColorHex = ColorShadowMapping(this.slot.color);
+
+        this.slotLineColor = slotLineColorInfo.colorHex;
+        this.slotShadowColor = slotLineColorInfo.shadowHex;
     }
 
     public goToPage(pageName: string) {
