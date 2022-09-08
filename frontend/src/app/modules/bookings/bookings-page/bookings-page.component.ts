@@ -6,9 +6,8 @@ import { IMeetingMembersRequest } from '@core/models/IMeetingMemberRequest';
 import { MeetingBookingsService } from '@core/services/meeting-bookings.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { desktopWidthToContainFourItems, desktopWidthToContainThreeItems, desktopWidthToContainTwoItems,
-    phoneMaxWidth, tabletMaxWidth, widthToContainThreeItems, widthToContainTwoLowerLimit, widthToContainTwoUpperLimit,
-    widthToContainZeroItemUpperLimit } from '@shared/constants/screen-variables';
+import { desktopWidthToContainFourItems, desktopWidthToContainTwoItems, phoneMaxWidth, tabletMaxWidth,
+    widthToContainThreeItems, widthToContainZeroItemUpperLimit } from '@shared/constants/screen-variables';
 
 @Component({
     selector: 'app-bookings-page',
@@ -38,8 +37,9 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.numberOfMembersToDisplay = this.getNumberOfItemsToDisplay();
+        const containerWidth = this.getPageSize();
 
+        this.getNumberOfItemsToDisplay(containerWidth);
         this.teamService.currentTeamEmitted$
             .subscribe(teamId => {
                 this.teamId = teamId;
@@ -70,7 +70,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
 
         const width = eventWindowTarget.innerWidth;
 
-        this.getNumberOfItemsToDisplayOnResize(width);
+        this.getNumberOfItemsToDisplay(width);
     }
 
     goToPage(pageName: string) {
@@ -81,31 +81,12 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
         window.open(link);
     }
 
-    private getNumberOfItemsToDisplay(): number {
-        const containerWidth = this.getPageSize();
-
-        switch (true) {
-            case containerWidth < phoneMaxWidth:
-                return 1;
-            case containerWidth < widthToContainZeroItemUpperLimit:
-                return 0;
-            case containerWidth < widthToContainTwoLowerLimit:
-                return 1;
-            case containerWidth < widthToContainTwoUpperLimit:
-                return 2;
-            case containerWidth < widthToContainThreeItems:
-                return 3;
-            default:
-                return 4;
-        }
-    }
-
-    private getNumberOfItemsToDisplayOnResize(width: number) {
-        if (width < desktopWidthToContainThreeItems) {
-            this.numberOfMembersToDisplay = 3;
-        }
+    private getNumberOfItemsToDisplay(width: number) {
         if (width > desktopWidthToContainFourItems) {
             this.numberOfMembersToDisplay = 4;
+        }
+        if (width < widthToContainThreeItems) {
+            this.numberOfMembersToDisplay = 3;
         }
         if (width < desktopWidthToContainTwoItems) {
             this.numberOfMembersToDisplay = 2;
