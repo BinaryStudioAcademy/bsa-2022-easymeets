@@ -116,17 +116,10 @@ public class TeamService : BaseService, ITeamService
         var teamMember = await _context.TeamMembers.FirstAsync(s => s.Id == teamMemberDto.Id);
         if (teamMember != null)
         {
-            if (await UserHasRole(teamMember.TeamId, Role.Admin) || await UserHasRole(teamMember.TeamId, Role.Owner))
-            {
-                teamMember.Role = teamMemberDto.Role;
+            teamMember.Role = teamMemberDto.Role;
 
-                _context.TeamMembers.Update(teamMember);
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                throw new Exception("User is not allowed enough access");
-            }
+            _context.TeamMembers.Update(teamMember);
+            await _context.SaveChangesAsync();
         }
         else
         {

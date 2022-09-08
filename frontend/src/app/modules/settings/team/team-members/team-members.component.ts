@@ -35,9 +35,9 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
 
     private reloadEventSubscription: Subscription;
 
-    private deleteTeamWithOwnerEventEmitter = new EventEmitter<void>();
+    private deleteOwnerEventEmitter = new EventEmitter<void>();
 
-    private deleteTeamWithOwnerEventSubscription: Subscription;
+    private deleteOwnerEventSubscription: Subscription;
 
     constructor(
         private teamService: TeamService,
@@ -48,9 +48,7 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
     ) {
         super();
         this.reloadEventSubscription = this.reloadEventEmitter.subscribe(() => this.reloadTeamMembers());
-        this.deleteTeamWithOwnerEventSubscription = this.deleteTeamWithOwnerEventEmitter.subscribe(() =>
-            this.deleteTeamWithOwner(),
-        );
+        this.deleteOwnerEventSubscription = this.deleteOwnerEventEmitter.subscribe(() => this.deleteTeamWithOwner());
     }
 
     ngOnInit(): void {
@@ -108,7 +106,7 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
                 {
                     class: 'confirm-accept-button',
                     label: 'Yes',
-                    onClickEvent: this.deleteTeamWithOwnerEventEmitter,
+                    onClickEvent: this.deleteOwnerEventEmitter,
                 },
             ],
             title: 'Confirm Owner Deletion',
@@ -192,6 +190,6 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
         super.ngOnDestroy();
 
         this.reloadEventSubscription.unsubscribe();
-        this.deleteTeamWithOwnerEventSubscription.unsubscribe();
+        this.deleteOwnerEventSubscription.unsubscribe();
     }
 }
