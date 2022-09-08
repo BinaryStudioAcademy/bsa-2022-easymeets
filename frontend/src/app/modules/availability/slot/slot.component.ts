@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
@@ -25,6 +25,16 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
 
     @Output() isChangedActivity = new EventEmitter<boolean>();
 
+    locationTypeMapping = LocationTypeMapping;
+
+    ColorShadowMapping = ColorShadowMapping;
+
+    isChecked: boolean = true;
+
+    @HostBinding('style.--slotLineColor') slotLineColor = '';
+
+    @HostBinding('style.--slotShadowColor') slotShadowColor = '';
+
     private deleteEventEmitter = new EventEmitter<void>();
 
     private deleteEventSubscription: Subscription;
@@ -32,12 +42,6 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
     private changeActivityEventEmitter = new EventEmitter<void>();
 
     private changeActivitySubscription: Subscription;
-
-    public isChecked: boolean = true;
-
-    locationTypeMapping = LocationTypeMapping;
-
-    ColorShadowMapping = ColorShadowMapping;
 
     private activationTitle = 'Confirm Slot Activation';
 
@@ -57,12 +61,8 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.isChecked = this.slot.isEnabled;
-        console.log(this.slot.color);
-        /*this.color = SlotColorAndShadow[this.slot.color].colorHex;*/
-
-        /*const element: HTMLDivElement | undefined = document.getElementById('color-line-id') as HTMLDivElement;
-
-        element.style.color = 'red';*/
+        this.slotLineColor = ColorShadowMapping(this.slot.color).colorHex;
+        this.slotShadowColor = ColorShadowMapping(this.slot.color).shadowHex;
     }
 
     public goToPage(pageName: string) {
