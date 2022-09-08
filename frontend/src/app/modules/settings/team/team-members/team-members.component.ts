@@ -26,6 +26,8 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
 
     teamId: number;
 
+    Role = Role;
+
     private reloadEventEmitter = new EventEmitter<void>();
 
     private reloadEventSubscription: Subscription;

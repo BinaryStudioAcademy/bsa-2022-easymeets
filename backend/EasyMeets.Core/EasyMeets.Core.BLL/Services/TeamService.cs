@@ -74,7 +74,7 @@ public class TeamService : BaseService, ITeamService
 
     public async Task UpdateTeamAsync(UpdateTeamDto teamDto)
     {
-        if (await UserHasRole(teamDto.Id, Role.Admin))
+        if (await UserHasRole(teamDto.Id, Role.Admin) || await UserHasRole(teamDto.Id, Role.Owner))
         {
             var teamEntity = await GetTeamByIdAsync(teamDto.Id);
             teamEntity = _mapper.Map(teamDto, teamEntity);
