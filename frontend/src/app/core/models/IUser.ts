@@ -26,4 +26,5 @@ export interface ILocalUser {
     uid?: string;
     userName: string;
     image?: string;
+    timeZone?: ITimeZone;
 }

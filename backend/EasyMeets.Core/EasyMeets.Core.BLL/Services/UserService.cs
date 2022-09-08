@@ -1,15 +1,13 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Extentions;
 using EasyMeets.Core.BLL.Interfaces;
-using EasyMeets.Core.Common.DTO.Credentials.Zoom;
 using EasyMeets.Core.Common.DTO.User;
-using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 using EasyMeets.Core.Common.DTO.UploadImage;
+using EasyMeets.Core.Common.Enums;
 using FirebaseAdmin.Auth;
 
 namespace EasyMeets.Core.BLL.Services
@@ -17,16 +15,14 @@ namespace EasyMeets.Core.BLL.Services
     public class UserService : BaseService, IUserService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IZoomService _zoomService;
         private readonly IUploadFileService _uploadFileService;
         private readonly ITeamSharedService _teamSharedService;
         private readonly FirebaseAuth _firebaseAuth;
 
         public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor,
-            IUploadFileService uploadFileService, IZoomService zoomService, ITeamSharedService teamSharedService, FirebaseAuth firebaseAuth) : base(context, mapper)
+            IUploadFileService uploadFileService, ITeamSharedService teamSharedService, FirebaseAuth firebaseAuth) : base(context, mapper)
         {
             _httpContextAccessor = httpContextAccessor;
-            _zoomService = zoomService;
             _uploadFileService = uploadFileService;
             _teamSharedService = teamSharedService;
             _firebaseAuth = firebaseAuth;
@@ -157,32 +153,11 @@ namespace EasyMeets.Core.BLL.Services
             return  user.Credentials.Select(c => c.Type).ToList();
         }
 
-        private string? GetCurrentUserId()
+
+        public string? GetCurrentUserId()
         {
             var userId = _httpContextAccessor.HttpContext.User.GetUid();
             return userId;
-        }
-
-        public async Task CreateZoomCredentials(NewCredentialsRequestDto newCredentialsRequestDto)
-        {
-            var user = await _context.Users.Include(u => u.Credentials)
-                .FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId());
-            var credentialsDto = await _zoomService.GetNewCredentials(newCredentialsRequestDto);
-            if (user!.Credentials.Any(cr => cr.Type == CredentialsType.Zoom))
-            {
-                var credentials = user.Credentials.First(cr => cr.Type == CredentialsType.Zoom);
-                _mapper.Map(credentialsDto, credentials);
-            }
-            else
-            {
-                var credentials = _mapper.Map<Credentials>(credentialsDto, opts => opts.AfterMap((_, dest) =>
-                {
-                    dest.Type = CredentialsType.Zoom;
-                    dest.UserId = user.Id;
-                }));
-                await _context.Credentials.AddAsync(credentials);
-            }
-            await _context.SaveChangesAsync();
         }
 
         private Task<User> GetCurrentUserInternalAsync()
