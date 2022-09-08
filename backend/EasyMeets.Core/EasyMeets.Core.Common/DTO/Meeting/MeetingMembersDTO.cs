@@ -1,6 +1,6 @@
 ﻿namespace EasyMeets.Core.Common.DTO.Meeting
 {
-    public class MeetingThreeMembersDTO
+    public class MeetingSlotDTO
     {
         public long Id { get; set; }
         public string? MeetingTime { get; set; }
