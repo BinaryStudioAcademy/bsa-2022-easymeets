@@ -38,10 +38,7 @@ export class SignUpFormComponent extends BaseComponent {
         }),
     });
 
-    constructor(
-        private authService: AuthService,
-        private authFormService: AuthFormService,
-    ) {
+    constructor(private authService: AuthService, private authFormService: AuthFormService) {
         super();
     }
 

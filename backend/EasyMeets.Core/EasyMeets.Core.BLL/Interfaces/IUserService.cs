@@ -9,9 +9,10 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task<bool> CheckExistingUserByEmail(string email);
         Task<UserDto> UpdateUserPreferences(UpdateUserDto userDto, string currentUserEmail);
         Task<UserDto> GetCurrentUserAsync();
+        Task<UserDto> GetUserByPersonalLink(string link);
         Task<UserDto> CreateUserPreferences(NewUserDto userDto);
         Task<bool> ComparePassedIdAndCurrentUserIdAsync(long id);
         Task<ImagePathDto> UploadImageAsync(IFormFile file);
-        Task CreateZoomCredentials(NewCredentialsRequestDto newCredentialsRequestDto);
+        string? GetCurrentUserId();
     }
 }
