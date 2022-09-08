@@ -93,6 +93,12 @@ export class NewMeetingCalendarComponent extends BaseComponent {
     }
 
     private checkSelectedDate(date: Date) {
+        if (date < new Date()) {
+            this.notificationsService.showInfoMessage('You cannot select time period that starts in the past');
+
+            return;
+        }
+
         if (this.unavailablePeriods.some(u => this.isUnavailable(date, u))) {
             this.notificationsService.showInfoMessage('At least one selected team member is unavailable in this time period, try again');
 
