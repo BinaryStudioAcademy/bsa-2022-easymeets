@@ -47,7 +47,6 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddTransient<IExternalAttendeeService, ExternalAttendeeService>();
             services.AddHttpClient<IZoomService, ZoomService>();
             services.AddRabbitMQ(configuration);
-            services.AddRabbitMqEmailSender(configuration);
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
@@ -83,6 +82,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
             });
 
             services.AddRabbitMQInformEveryone(configuration);
+            services.AddRabbitMqEmailSender(configuration);
         }
 
         private static void AddRabbitMQInformEveryone(this IServiceCollection services, IConfiguration configuration)
@@ -106,7 +106,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
                     new ConsumerService(provider.GetRequiredService<IConnection>(), consumerSettings)));
         }
 
-        public static void AddRabbitMqEmailSender(this IServiceCollection services, IConfiguration configuration)
+        private static void AddRabbitMqEmailSender(this IServiceCollection services, IConfiguration configuration)
         {
             var settings = configuration
                 .GetSection("RabbitMQConfiguration:Queues:EmailProducer")

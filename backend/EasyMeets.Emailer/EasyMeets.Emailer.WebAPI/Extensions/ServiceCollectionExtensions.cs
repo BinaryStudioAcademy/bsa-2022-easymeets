@@ -5,15 +5,26 @@ using EasyMeets.RabbitMQ.Interface;
 using EasyMeets.RabbitMQ.Service;
 using EasyMeets.RabbitMQ.Settings;
 using RabbitMQ.Client;
+using sib_api_v3_sdk.Client;
 
 namespace EasyMeets.Emailer.WebAPI.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddEmailQueueListener(this IServiceCollection services, IConfiguration configuration)
+    public static void RegisterCustomServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddTransient<IEmailService, EmailService>();
-        
+        services.AddEmailService(configuration);
+        services.AddRabbitMq(configuration);
+    }
+    
+    private static void AddRabbitMq(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddRabbitMqConnection(configuration);
+        services.AddEmailQueueListener(configuration);
+    }
+    
+    private static void AddEmailQueueListener(this IServiceCollection services, IConfiguration configuration)
+    {
         var settings = configuration
             .GetSection("RabbitMQConfiguration:Queues:EmailConsumer")
             .Get<ConsumerSettings>();
@@ -25,7 +36,7 @@ public static class ServiceCollectionExtensions
         services.AddHostedService<EmailQueueListener>();
     }
     
-    public static void AddRabbitMqConnection(this IServiceCollection services, IConfiguration configuration)
+    private static void AddRabbitMqConnection(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton(provider =>
         {
@@ -36,5 +47,11 @@ public static class ServiceCollectionExtensions
 
             return connectionFactory.CreateConnection();
         });
+    }
+
+    private static void AddEmailService(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddTransient<IEmailService, EmailService>();
+        Configuration.Default.ApiKey.Add("api-key", configuration["SendingBlue_api_key"]);
     }
 }
