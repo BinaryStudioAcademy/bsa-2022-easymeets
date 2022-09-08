@@ -110,7 +110,7 @@
                             <div class="member-info">
                                 <p>{{ member.name }}</p>
                                 <i class="fa-solid fa-xmark fa-lg cancel-icon"
-                                (click)="removeMemberToList(member.id)"></i>
+                                (click)="removeMemberToList(member)"></i>
                             </div>
                             <mat-divider></mat-divider>
                         </div>
@@ -123,6 +123,7 @@
             </app-new-meeting-calendar-header>
 
             <app-new-meeting-calendar
+                [unavailability]="memberUnavailability"
                 [viewDate]="date"
                 [duration]="duration"
                 (meetingStartTimeChange)="onMeetingStartChange($event)">

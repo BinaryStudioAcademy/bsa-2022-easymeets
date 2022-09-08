@@ -5,7 +5,6 @@ import { BaseComponent } from '@core/base/base.component';
 import { getNewAvailabilityMenu } from '@core/helpers/new-availability-menu-helper';
 import { SideMenuGroupTabs } from '@core/interfaces/sideMenu/tabs/sideMenuGroupTabs';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
-import { environment } from '@env/environment';
 import { EventDetailComponent } from '@modules/availability/new-slot/event-detail/event-detail.component';
 import { GeneralComponent } from '@modules/availability/new-slot/general/general.component';
 import { ScheduleComponent } from '@modules/availability/new-slot/schedule/schedule.component';
@@ -54,9 +53,9 @@ export class NewAvailabilityComponent extends BaseComponent implements OnInit, A
 
     link: string;
 
-    public appDomain = environment.appUrl;
+    eventDetailsErrors: boolean = true;
 
-    hasAnyErrors: boolean = false;
+    generalErrors: boolean = true;
 
     constructor(private router: Router) {
         super();
@@ -64,7 +63,14 @@ export class NewAvailabilityComponent extends BaseComponent implements OnInit, A
 
     ngAfterViewInit(): void {
         this.generalComponent.generalForm.statusChanges?.subscribe((status: FormControlStatus) => {
-            this.hasAnyErrors = status !== 'VALID';
+            this.generalErrors = !this.checkStatus(status);
+        });
+
+        this.eventDetailComponent.formGroup.statusChanges?.subscribe((status: FormControlStatus) => {
+            if (status === 'PENDING') {
+                return;
+            }
+            this.eventDetailsErrors = !this.checkStatus(status);
         });
     }
 
@@ -98,5 +104,13 @@ export class NewAvailabilityComponent extends BaseComponent implements OnInit, A
 
     onLinkChange($event: string) {
         this.link = $event;
+    }
+
+    public isInvalid() {
+        return this.generalErrors || this.eventDetailsErrors;
+    }
+
+    private checkStatus(status: FormControlStatus) {
+        return status === 'VALID';
     }
 }

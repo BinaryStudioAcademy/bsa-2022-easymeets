@@ -16,7 +16,8 @@
                     color="primary"
                     class="save-activate-button"
                     (click)="saveChanges()"
-                    [disabled]="hasAnyErrors">
+                    disabled="false"
+                    [disabled]="isInvalid()">
                     Save and Activate
                 </button>
             </div>

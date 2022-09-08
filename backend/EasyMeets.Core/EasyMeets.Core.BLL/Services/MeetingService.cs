@@ -70,18 +70,12 @@ namespace EasyMeets.Core.BLL.Services
         {
             var currentUser = await _userService.GetCurrentUserAsync();
 
-            var teamId = await _context.TeamMembers
-                .Where(x => x.UserId == currentUser.Id)
-                .Select(x => x.Team.Id)
-                .FirstOrDefaultAsync();
-
-            var meetingMembers = await GetMeetingMembers(meetingDto.MeetingMembers, teamId);
+            var meetingMembers = await GetMeetingMembers(meetingDto.MeetingMembers, meetingDto.TeamId);
 
             var meeting = _mapper.Map<Meeting>(meetingDto, opts =>
                 opts.AfterMap((_, dest) =>
                 {
                     dest.CreatedBy = currentUser.Id;
-                    dest.TeamId = teamId;
                     dest.MeetingMembers = meetingMembers;
                 })
             );
@@ -108,37 +102,6 @@ namespace EasyMeets.Core.BLL.Services
             await AddMeetingLink(meeting);
 
             return meeting.Id;
-        }
-
-        public async Task DeleteGoogleCalendarMeetings(long teamId)
-        {
-            var meetings = await _context.Meetings.Where(x => x.IsFromGoogleCalendar == true).ToListAsync();
-
-            _context.Meetings.RemoveRange(meetings);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task AddGoogleCalendarMeetings(long teamId, List<EventItemDTO> eventItemDTOs, long userId)
-        {
-            foreach (var item in eventItemDTOs)
-            {
-                var timeSpan = item.End!.DateTime - item.Start!.DateTime;
-
-                var meeting = _mapper.Map<Meeting>(item, opts =>
-                     opts.AfterMap((_, dest) =>
-                     {
-                         dest.CreatedBy = userId;
-                         dest.TeamId = teamId;
-                         dest.MeetingMembers = new List<MeetingMember> { new MeetingMember { TeamMemberId = userId } };
-                         dest.Duration = (int)timeSpan.TotalMinutes;
-                         dest.IsFromGoogleCalendar = true;
-                     })
-                 );
-
-                await _context.Meetings.AddAsync(meeting);
-            }
-
-            await _context.SaveChangesAsync();
         }
 
         public async Task<List<OrderedMeetingTimesDto>> GetOrderedMeetingTimesAsync(long slotId)
