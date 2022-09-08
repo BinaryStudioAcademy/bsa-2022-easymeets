@@ -37,10 +37,10 @@ public class TeamController : ControllerBase
         return Ok(await _teamService.GetCurrentUserTeams());
     }
     
-    [HttpGet("user-teams-admin")]
+    [HttpGet("user-teams-admin-owner")]
     public async Task<ActionResult<List<TeamDto>>> GetCurrentUserAdminTeams()
     {
-        return Ok(await _teamService.GetCurrentUserAdminTeams());
+        return Ok(await _teamService.GetCurrentUserAdminAndOwnerTeams());
     }
 
     [HttpGet("team-members/{teamId}")]

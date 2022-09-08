@@ -74,7 +74,7 @@ public class TeamService : BaseService, ITeamService
 
     public async Task UpdateTeamAsync(UpdateTeamDto teamDto)
     {
-        if (await UserIsAdmin(teamDto.Id))
+        if (await UserHasRole(teamDto.Id, Role.Admin))
         {
             var teamEntity = await GetTeamByIdAsync(teamDto.Id);
             teamEntity = _mapper.Map(teamDto, teamEntity);
@@ -115,10 +115,17 @@ public class TeamService : BaseService, ITeamService
         var teamMember = await _context.TeamMembers.FirstAsync(s => s.Id == teamMemberDto.Id);
         if (teamMember != null)
         {
-            teamMember.Role = teamMemberDto.Role;
+            if (await UserHasRole(teamMember.TeamId, Role.Admin) || await UserHasRole(teamMember.TeamId, Role.Owner))
+            {
+                teamMember.Role = teamMemberDto.Role;
 
-            _context.TeamMembers.Update(teamMember);
-            await _context.SaveChangesAsync();
+                _context.TeamMembers.Update(teamMember);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception("User is not allowed enough access");
+            }
         }
         else
         {
@@ -129,7 +136,7 @@ public class TeamService : BaseService, ITeamService
 
     public async Task DeleteTeamAsync(long teamId)
     {
-        if (await UserIsAdmin(teamId))
+        if (await UserHasRole(teamId, Role.Admin))
         {
             var teamEntity = await GetTeamByIdAsync(teamId);
             _context.Teams.Remove(teamEntity);
@@ -165,15 +172,15 @@ public class TeamService : BaseService, ITeamService
         return new ImagePathDto() { Path = imagePath };
     }
 
-    private async Task<bool> UserIsAdmin(long teamId)
+    private async Task<bool> UserHasRole(long teamId, Role role)
     {
         var user = await _userService.GetCurrentUserAsync();
-        var isAdmin = await _context.Teams.Where(t => t.Id == teamId)
+        var hasRole = await _context.Teams.Where(t => t.Id == teamId)
             .Include(t => t.TeamMembers)
             .SelectMany(t => t.TeamMembers)
-            .AnyAsync(m => m.UserId == user.Id && m.Role == Role.Admin);
+            .AnyAsync(m => m.UserId == user.Id && m.Role == role);
 
-        return isAdmin;
+        return hasRole;
     }
 
     private async Task<Team> GetTeamByIdAsync(long id)
@@ -203,10 +210,10 @@ public class TeamService : BaseService, ITeamService
         return teamMembers;
     }
 
-    public async Task<List<TeamDto>> GetCurrentUserAdminTeams()
+    public async Task<List<TeamDto>> GetCurrentUserAdminAndOwnerTeams()
     {
         var currentUser = await _userService.GetCurrentUserAsync();
-        var teams = await _context.TeamMembers.Where(el => el.UserId == currentUser.Id && el.Role == Role.Admin)
+        var teams = await _context.TeamMembers.Where(el => el.UserId == currentUser.Id && (el.Role == Role.Admin || el.Role == Role.Owner))
             .Include(el => el.Team)
             .Select(el => el.Team)
             .ToListAsync();
