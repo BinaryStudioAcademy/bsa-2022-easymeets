@@ -62,20 +62,13 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
 
     getIndexSequence = () => [...Array(this.currentTimeItemIndex).keys()];
 
-    getValidDayTimeRanges() {
-        const validDayTimeRanges: IDayTimeRange[] = [];
-
-        this.getIndexSequence().forEach((number) => {
-            const start: string | null = this.formGroup.get(number.toString() + this.startRangeIdentifier)?.value;
-            const end: string | null = this.formGroup.get(number.toString() + this.endRangeIdentifier)?.value;
-
-            if (start && end) {
-                validDayTimeRanges.push({ start, end });
-            }
-        });
-
-        return validDayTimeRanges;
-    }
+    getValidDayTimeRanges = () =>
+        this.getIndexSequence()
+            .map((number) => ({
+                start: this.formGroup.get(number.toString() + this.startRangeIdentifier)?.value as string | null,
+                end: this.formGroup.get(number.toString() + this.endRangeIdentifier)?.value as string | null,
+            }))
+            .filter((range) => range.start && range.end);
 
     private getDefaultFormGroup = () => {
         const [firstTimeControl, secondTimeControl] = this.getTimeFormControls();
