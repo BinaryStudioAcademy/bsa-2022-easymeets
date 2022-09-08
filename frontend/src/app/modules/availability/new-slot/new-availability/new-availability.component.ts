@@ -5,7 +5,6 @@ import { BaseComponent } from '@core/base/base.component';
 import { getNewAvailabilityMenu } from '@core/helpers/new-availability-menu-helper';
 import { SideMenuGroupTabs } from '@core/interfaces/sideMenu/tabs/sideMenuGroupTabs';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
-import { environment } from '@env/environment';
 import { EventDetailComponent } from '@modules/availability/new-slot/event-detail/event-detail.component';
 import { GeneralComponent } from '@modules/availability/new-slot/general/general.component';
 import { ScheduleComponent } from '@modules/availability/new-slot/schedule/schedule.component';
@@ -54,10 +53,6 @@ export class NewAvailabilityComponent extends BaseComponent implements OnInit, A
 
     link: string;
 
-    public appDomain = environment.appUrl;
-
-    hasAnyErrors: boolean = true;
-
     eventDetailsErrors: boolean = true;
 
     generalErrors: boolean = true;
@@ -69,12 +64,13 @@ export class NewAvailabilityComponent extends BaseComponent implements OnInit, A
     ngAfterViewInit(): void {
         this.generalComponent.generalForm.statusChanges?.subscribe((status: FormControlStatus) => {
             this.generalErrors = !this.checkStatus(status);
-            this.refreshAllErrors();
         });
 
         this.eventDetailComponent.formGroup.statusChanges?.subscribe((status: FormControlStatus) => {
+            if (status === 'PENDING') {
+                return;
+            }
             this.eventDetailsErrors = !this.checkStatus(status);
-            this.refreshAllErrors();
         });
     }
 
@@ -110,8 +106,8 @@ export class NewAvailabilityComponent extends BaseComponent implements OnInit, A
         this.link = $event;
     }
 
-    private refreshAllErrors() {
-        this.hasAnyErrors = this.generalErrors || this.eventDetailsErrors;
+    public isInvalid() {
+        return this.generalErrors || this.eventDetailsErrors;
     }
 
     private checkStatus(status: FormControlStatus) {
