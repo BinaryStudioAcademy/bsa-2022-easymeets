@@ -72,10 +72,8 @@ public class ZoomService : BaseService, IZoomService
 
     public async Task RevokeAccessTokenAsync()
     {
-        var currentUser = await _userService.GetCurrentUserAsync();
+        var user = await GetUserWithCredentials();
 
-        var user = await _context.Users.Include(u => u.Credentials)
-            .FirstAsync(u => u.Uid == currentUser.Uid);
         var credentials = user.Credentials.FirstOrDefault(cr => cr.Type == CredentialsType.Zoom) ??
             throw new KeyNotFoundException("Credentials doesn't exist");
 
@@ -105,9 +103,7 @@ public class ZoomService : BaseService, IZoomService
     {
         EmailDto emailDto;
 
-        var currentUser = await _userService.GetCurrentUserAsync();
-        var user = await _context.Users.Include(u => u.Credentials)
-            .FirstOrDefaultAsync(u => u.Uid == currentUser.Uid) ?? throw new KeyNotFoundException("User doesn't exist");
+        var user = await GetUserWithCredentials();
 
         var credentialsDto = await GetNewCredentials(newCredentialsRequestDto);
 
@@ -135,10 +131,8 @@ public class ZoomService : BaseService, IZoomService
 
     public async Task<EmailDto> GetZoomUserEmailAsync()
     {
-        var currentUser = await _userService.GetCurrentUserAsync();
+        var user = await GetUserWithCredentials();
 
-        var user = await _context.Users.Include(u => u.Credentials)
-            .FirstAsync(u => u.Uid == currentUser.Uid);
         var credentials = user.Credentials.FirstOrDefault(cr => cr.Type == CredentialsType.Zoom);
 
         var emailDto = new EmailDto
@@ -218,5 +212,12 @@ public class ZoomService : BaseService, IZoomService
         var emailDto = await response.Content.ReadFromJsonAsync<EmailDto>(options) ?? new EmailDto();
 
         return emailDto;
+    }
+
+    private async Task<User> GetUserWithCredentials()
+    {
+        return await _context.Users.Include(u => u.Credentials)
+            .FirstOrDefaultAsync(u => u.Uid == _userService.GetCurrentUserId())
+            ?? throw new KeyNotFoundException("User doesn't exist");
     }
 }

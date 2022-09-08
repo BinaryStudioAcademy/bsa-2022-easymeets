@@ -31,30 +31,34 @@ export class VideoConferencingComponent extends BaseComponent {
             .subscribe(clientId => {
                 this.clientId = clientId;
             });
-        activatedRoute.queryParams.subscribe(params => {
-            if (params['code']) {
-                const authCode = params['code'];
+        activatedRoute.queryParams
+            .pipe(this.untilThis)
+            .subscribe(params => {
+                if (params['code']) {
+                    const authCode = params['code'];
 
-                this.zoomService.createZoomCredentials(authCode, this.redirectUri)
-                    .pipe(this.untilThis)
-                    .subscribe(result => {
-                        router.navigate([], {
-                            queryParams: {
-                                code: null,
-                            },
+                    this.zoomService.createZoomCredentials(authCode, this.redirectUri)
+                        .pipe(this.untilThis)
+                        .subscribe(result => {
+                            router.navigate([], {
+                                queryParams: {
+                                    code: null,
+                                },
+                            });
+                            this.isLoad = true;
+                            this.email = result.email;
+                            spinnerService.hide();
                         });
-                        this.isLoad = true;
-                        this.email = result.email;
-                        spinnerService.hide();
-                    });
-            }
-        });
+                }
+            });
 
-        zoomService.getZoomClientEmail().subscribe(resp => {
-            this.isLoad = true;
-            this.email = resp.email;
-            spinnerService.hide();
-        });
+        zoomService.getZoomClientEmail()
+            .pipe(this.untilThis)
+            .subscribe(resp => {
+                this.isLoad = true;
+                this.email = resp.email;
+                spinnerService.hide();
+            });
     }
 
     connectZoom() {
@@ -62,8 +66,10 @@ export class VideoConferencingComponent extends BaseComponent {
     }
 
     logoutZoom() {
-        this.zoomService.logoutZoom().subscribe(() => {
-            this.email = undefined;
-        });
+        this.zoomService.logoutZoom()
+            .pipe(this.untilThis)
+            .subscribe(() => {
+                this.email = undefined;
+            });
     }
 }

@@ -143,7 +143,7 @@ namespace EasyMeets.Core.BLL.Services
             return new ImagePathDto() { Path = imagePath };
         }
 
-        private string? GetCurrentUserId()
+        public string? GetCurrentUserId()
         {
             var userId = _httpContextAccessor.HttpContext.User.GetUid();
             return userId;
