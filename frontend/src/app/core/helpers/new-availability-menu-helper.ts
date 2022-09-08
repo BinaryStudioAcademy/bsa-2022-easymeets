@@ -4,9 +4,9 @@ export const getNewAvailabilityMenu = (): SideMenuGroupTabs[] => [
     {
         items: [
             { text: 'General' },
+            { text: 'Schedule' },
             { text: 'Booking page' },
             { text: 'Questions' },
-            { text: 'Schedule' },
             { text: 'Notification Emails' },
         ],
     },
