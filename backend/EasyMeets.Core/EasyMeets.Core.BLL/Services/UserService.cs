@@ -21,7 +21,7 @@ namespace EasyMeets.Core.BLL.Services
         private readonly IUploadFileService _uploadFileService;
         private readonly ITeamSharedService _teamSharedService;
         private readonly FirebaseAuth _firebaseAuth;
-        
+
         public UserService(EasyMeetsCoreContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor,
             IUploadFileService uploadFileService, IZoomService zoomService, ITeamSharedService teamSharedService, FirebaseAuth firebaseAuth) : base(context, mapper)
         {
@@ -31,13 +31,13 @@ namespace EasyMeets.Core.BLL.Services
             _teamSharedService = teamSharedService;
             _firebaseAuth = firebaseAuth;
         }
-        
+
         public async Task<UserDto> GetCurrentUserAsync()
         {
             var currentUser = await GetCurrentUserInternalAsync();
 
             await AddUserClaims(currentUser.Uid, currentUser.Id);
-            
+
             var currentUserDto = _mapper.Map<UserDto>(currentUser);
             return currentUserDto;
         }
@@ -66,7 +66,7 @@ namespace EasyMeets.Core.BLL.Services
         public async Task<UserDto> GetUserByPersonalLink(string link)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.PersonalUrl == link) ?? throw new KeyNotFoundException("User doesn't exist");
-            
+
             return _mapper.Map<UserDto>(user);
         }
 
@@ -93,12 +93,12 @@ namespace EasyMeets.Core.BLL.Services
             await _context.SaveChangesAsync();
 
             await _teamSharedService.CreateDefaultUsersTeamAsync(user);
-            
+
             await AddUserClaims(user.Uid, user.Id);
 
             return _mapper.Map<User, UserDto>(user);
         }
-        
+
         private async Task AddUserClaims(string? uid, long? id)
         {
             if (uid is null || id is null)
@@ -112,7 +112,7 @@ namespace EasyMeets.Core.BLL.Services
             {
                 return;
             }
-            
+
             var userClaims = new Dictionary<string, object>
             {
                 { "id", id }
@@ -146,6 +146,15 @@ namespace EasyMeets.Core.BLL.Services
             _context.Users.Update(currentUser);
             await _context.SaveChangesAsync();
             return new ImagePathDto() { Path = imagePath };
+        }
+
+        public async Task<List<CredentialsType>> GetUserMeetLocationIntegration()
+        {
+            var user = await _context.Users.Include(u => u.Credentials)
+                .FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId())
+                ?? throw new KeyNotFoundException("User doesn't exist");
+
+            return  user.Credentials.Select(c => c.Type).ToList();
         }
 
         private string? GetCurrentUserId()
