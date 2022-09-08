@@ -11,4 +11,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\EasyMeets.Core\EasyMeets.Core.Common\EasyMeets.Core.Common.csproj" />
+    <ProjectReference Include="..\..\EasyMeets.RabbitMQ\EasyMeets.RabbitMQ.csproj" />
+  </ItemGroup>
+
 </Project>
