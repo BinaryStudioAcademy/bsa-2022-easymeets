@@ -84,7 +84,7 @@ export class TeamService {
         return this.httpService.deleteRequest<ITeam>(`${this.routePrefix}/${teamId}`);
     }
 
-    public deleteTeamMember(teamMemberId: number) {
+    public deleteTeamMember(teamMemberId: bigint | undefined) {
         return this.httpService.deleteRequest<ITeam>(`${this.routePrefix}/deleteMember/${teamMemberId}`);
     }
 

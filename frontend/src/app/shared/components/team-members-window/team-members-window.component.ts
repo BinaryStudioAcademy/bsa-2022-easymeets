@@ -21,7 +21,7 @@ export class TeamMembersWindowComponent extends BaseComponent {
 
     message?: string;
 
-    buttonsOptions: IConfirmButtonOptions[];
+    buttonsOptions?: IConfirmButtonOptions[];
 
     teamMembers?: ITeamMember[];
 
@@ -45,6 +45,7 @@ export class TeamMembersWindowComponent extends BaseComponent {
         this.buttonsOptions = data.buttonsOptions;
         this.teamMembers = data.teamMembers;
         this.teamId = data.teamId;
+        this.message = data.message;
     }
 
     onClick(event: EventEmitter<void>) {
