@@ -5,7 +5,19 @@
             <div class="infoRow">
                 <div class="item itemInfo">
                     <div class="itemTextInfo">
-                        <span class="timeTitle">{{ item.meetingTime }}</span>
+                        <div class="title-menu-row">
+                            <span class="timeTitle">{{ item.meetingTime }}</span>
+                            <button class="fas fa-ellipsis fa-xl menu-icon"  [matMenuTriggerFor]="menu"></button>
+                            <mat-menu #menu="matMenu" class="drop-down-menu">
+                                <button mat-menu-item class="btn edit">
+                                    <i class="fa-solid fa-pen"></i>Edit
+                                </button>
+                                <button mat-menu-item class="btn delete"  >
+                                    <i class="fa-solid fa-trash"></i>Delete
+                                </button>
+                            </mat-menu>
+                        </div>
+
                         <p class="itemText">
                             {{ item.meetingTitle }}<br />{{ item.meetingDuration }}, {{ item.membersTitle }}
                         </p>
@@ -13,12 +25,7 @@
 
                     <div class="buttonRow">
                         <button class="buttonZoom" (click)="followMeetingLink(item.meetingLink)">Open {{ item.location }} Link</button>
-                        <div class="threeDots">
-                            <div class="oneDot"></div>
-                            <div class="oneDot"></div>
-                            <div class="oneDot"></div>
-                        </div>
-                    </div>
+                   </div>
                 </div>
 
                 <div class="listScrollBlock">
