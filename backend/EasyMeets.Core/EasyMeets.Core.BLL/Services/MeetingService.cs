@@ -60,8 +60,7 @@ namespace EasyMeets.Core.BLL.Services
 
         private static List<UserMeetingDTO> GetAllParticipants(Meeting meeting, int numberOfMembers)
         {
-            var slotMembers = meeting.MeetingMembers
-                .Take(numberOfMembers)
+            var slotMembers = meeting.MeetingMembers 
                 .Select(x => new UserMeetingDTO
                 {
                     Name = x.TeamMember.User.Name,
@@ -70,8 +69,7 @@ namespace EasyMeets.Core.BLL.Services
                     Booked = meeting.CreatedAt
                 });
 
-            var external = meeting.ExternalAttendees
-                .Take(numberOfMembers)
+            var external = meeting.ExternalAttendees 
                 .Select(x => new UserMeetingDTO
                 {
                     Name = x.Name,
@@ -80,7 +78,7 @@ namespace EasyMeets.Core.BLL.Services
                     Booked = meeting.CreatedAt
                 });
 
-            return slotMembers.Union(external).ToList();
+            return slotMembers.Union(external).Take(numberOfMembers).ToList();
         } 
         private static string CreateMemberTitle(Meeting meeting)
         {
