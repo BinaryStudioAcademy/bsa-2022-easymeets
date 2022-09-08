@@ -1,5 +1,7 @@
-﻿using AutoMapper;
+using System.Collections;
+using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.Common.DTO;
 using EasyMeets.Core.Common.DTO.Calendar;
 using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.Common.DTO.Team;
@@ -14,10 +16,12 @@ namespace EasyMeets.Core.BLL.Services
     {
         private readonly IUserService _userService;
         private readonly IZoomService _zoomService;
-        public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IZoomService zoomService) : base(context, mapper)
+        private readonly IEmailSenderService _emailSender;
+        public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IZoomService zoomService, IEmailSenderService emailSender) : base(context, mapper)
         {
             _userService = userService;
             _zoomService = zoomService;
+            _emailSender = emailSender;
         }
 
         public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync(long? teamId)
@@ -66,18 +70,12 @@ namespace EasyMeets.Core.BLL.Services
         {
             var currentUser = await _userService.GetCurrentUserAsync();
 
-            var teamId = await _context.TeamMembers
-                .Where(x => x.UserId == currentUser.Id)
-                .Select(x => x.Team.Id)
-                .FirstOrDefaultAsync();
-
-            var meetingMembers = await GetMeetingMembers(meetingDto.MeetingMembers, teamId);
+            var meetingMembers = await GetMeetingMembers(meetingDto.MeetingMembers, meetingDto.TeamId);
 
             var meeting = _mapper.Map<Meeting>(meetingDto, opts =>
                 opts.AfterMap((_, dest) =>
                 {
                     dest.CreatedBy = currentUser.Id;
-                    dest.TeamId = teamId;
                     dest.MeetingMembers = meetingMembers;
                 })
             );
@@ -87,6 +85,8 @@ namespace EasyMeets.Core.BLL.Services
             await _context.SaveChangesAsync();
 
             await AddMeetingLink(meeting);
+
+            await SendConfirmationEmailsAsync(meeting.Id);
 
             return _mapper.Map<SaveMeetingDto>(GetByIdInternal(meeting.Id));
         }
@@ -104,37 +104,6 @@ namespace EasyMeets.Core.BLL.Services
             return meeting.Id;
         }
 
-        public async Task DeleteGoogleCalendarMeetings(long teamId)
-        {
-            var meetings = await _context.Meetings.Where(x => x.IsFromGoogleCalendar == true).ToListAsync();
-
-            _context.Meetings.RemoveRange(meetings);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task AddGoogleCalendarMeetings(long teamId, List<EventItemDTO> eventItemDTOs, long userId)
-        {
-            foreach (var item in eventItemDTOs)
-            {
-                var timeSpan = item.End!.DateTime - item.Start!.DateTime;
-
-                var meeting = _mapper.Map<Meeting>(item, opts =>
-                     opts.AfterMap((_, dest) =>
-                     {
-                         dest.CreatedBy = userId;
-                         dest.TeamId = teamId;
-                         dest.MeetingMembers = new List<MeetingMember> { new MeetingMember { TeamMemberId = userId } };
-                         dest.Duration = (int)timeSpan.TotalMinutes;
-                         dest.IsFromGoogleCalendar = true;
-                     })
-                 );
-
-                await _context.Meetings.AddAsync(meeting);
-            }
-
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<List<OrderedMeetingTimesDto>> GetOrderedMeetingTimesAsync(long slotId)
         {
             return await _context.Meetings.Where(el => el.AvailabilitySlotId == slotId)
@@ -142,6 +111,42 @@ namespace EasyMeets.Core.BLL.Services
                 .ToListAsync();
         }
 
+        public async Task SendConfirmationEmailsAsync(long meetingId)
+        {
+            var meeting = await _context.Meetings
+                .Include(m => m.MeetingMembers)
+                    .ThenInclude(member => member.TeamMember)
+                .Include(m => m.ExternalAttendees)
+                .Include(m => m.AvailabilitySlot)
+                    .ThenInclude(slot => slot!.EmailTemplates)
+                .FirstOrDefaultAsync(m => m.Id == meetingId);
+            
+            var emailTemplate = meeting?
+                .AvailabilitySlot?
+                .EmailTemplates
+                .FirstOrDefault(template => template.TemplateType == TemplateType.Confirmation);
+
+            var recipients = meeting?
+                .MeetingMembers
+                .Select(meetingMember => meetingMember.TeamMember.User.Email)
+                .Concat(meeting.ExternalAttendees.Select(attendee => attendee.Email))
+                .ToList();
+            
+            if (emailTemplate is null || recipients is null || !recipients.Any())
+            {
+                return;
+            }
+            
+            var emailDto = _mapper.Map<EmailDto>(emailTemplate);
+            
+            foreach (var recipient in recipients)
+            {
+                emailDto.Recipient = recipient;
+                
+                _emailSender.Send(emailDto);
+            }
+        }
+        
         private async Task<ICollection<MeetingMember>> GetMeetingMembers(List<NewMeetingMemberDto> meetingMembers, long teamId)
         {
             var usersIds = meetingMembers.Select(x => x.Id);

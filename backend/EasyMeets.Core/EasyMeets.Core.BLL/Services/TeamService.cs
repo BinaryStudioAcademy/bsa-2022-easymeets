@@ -207,6 +207,11 @@ public class TeamService : BaseService, ITeamService
             .Select(a => _mapper.Map<NewMeetingMemberDto>(a))
             .ToListAsync();
 
+        foreach (var teamMember in teamMembers)
+        {
+            teamMember.UnavailabilityItems = await GetMemberUnavailability(teamMember.Id);
+        }
+
         return teamMembers;
     }
 
@@ -219,5 +224,29 @@ public class TeamService : BaseService, ITeamService
             .ToListAsync();
 
         return _mapper.Map<List<TeamDto>>(teams);
+    }
+
+    private async Task<List<UnavailabilityItemDto>> GetMemberUnavailability(long teamMemberId)
+    {
+        var member = await _context.TeamMembers
+            .FirstOrDefaultAsync(m => m.Id == teamMemberId) ?? throw new KeyNotFoundException("Invalid team member id");
+
+        var meetings = await _context.Meetings
+            .Include(m => m.MeetingMembers)
+                .ThenInclude(mm => mm.TeamMember)
+            .Where(m => m.MeetingMembers.Any(mm => mm.TeamMember.Id == teamMemberId))
+            .ToListAsync();
+
+        var calendarEvents = await _context.CalendarVisibleForTeams
+            .Include(c => c.Calendar)
+                .ThenInclude(c => c.CalendarEvents)
+            .Where(c => c.Team.Id == member.TeamId && c.Calendar.UserId == member.UserId)
+            .SelectMany(c => c.Calendar.CalendarEvents)
+            .ToListAsync();
+
+        return _mapper.Map<List<UnavailabilityItemDto>>(meetings)
+            .Union(_mapper.Map<List<UnavailabilityItemDto>>(calendarEvents))
+            .Distinct()
+            .ToList();
     }
 }

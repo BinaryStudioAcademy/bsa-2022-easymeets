@@ -24,6 +24,12 @@ namespace EasyMeets.Core.WebAPI.Controllers
             var user = await _userService.GetCurrentUserAsync();
             return Ok(user);
         }
+        
+        [HttpGet("byLink/{link}")]
+        public async Task<ActionResult<UserDto>> GetUserByPersonalUrl(string link)
+        {
+            return Ok(await _userService.GetUserByPersonalLink(link));
+        }
 
         [HttpGet("search/{searchData}")]
         public async Task<List<UserDto>> GetUsersByEmailOrNameAsync(string searchData)
