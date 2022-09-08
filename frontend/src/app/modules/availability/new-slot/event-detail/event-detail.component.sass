@@ -190,6 +190,11 @@ p
 small
     color: $cinnabar
 
+.mat-divider
+    @media (max-width: $desktop-min-width)
+        width: 95%
+
 ::ng-deep .input-button-matgroup .mat-radio-label
     @media (max-width: $desktop-min-width)
-        white-space: pre-line !important
+        white-space: normal
+        align-items: flex-start
