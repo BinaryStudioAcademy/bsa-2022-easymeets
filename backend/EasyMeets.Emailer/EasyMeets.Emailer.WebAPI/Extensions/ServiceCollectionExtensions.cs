@@ -13,7 +13,8 @@ public static class ServiceCollectionExtensions
 {
     public static void RegisterCustomServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddEmailService(configuration);
+        services.AddTransient<IEmailService, EmailService>();
+        services.ConfigureSendingBlue(configuration);
         services.AddRabbitMq(configuration);
     }
     
@@ -49,9 +50,8 @@ public static class ServiceCollectionExtensions
         });
     }
 
-    private static void AddEmailService(this IServiceCollection services, IConfiguration configuration)
+    private static void ConfigureSendingBlue(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddTransient<IEmailService, EmailService>();
         Configuration.Default.ApiKey.Add("api-key", configuration["SendingBlue_api_key"]);
     }
 }
