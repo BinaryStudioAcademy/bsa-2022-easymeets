@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyMeets.Core.DAL.Migrations
 {
     [DbContext(typeof(EasyMeetsCoreContext))]
-    [Migration("20220907115926_Add_UserEmail_to_Credentials")]
-    partial class Add_UserEmail_to_Credentials
+    [Migration("20220907142836_AddCalendarEvents")]
+    partial class AddCalendarEvents
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -715,6 +715,41 @@ namespace EasyMeets.Core.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.CalendarEvent", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("CalendarId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TimeZone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CalendarId");
+
+                    b.ToTable("CalendarEvents");
+                });
+
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.CalendarVisibleForTeam", b =>
                 {
                     b.Property<long>("Id")
@@ -840,9 +875,6 @@ namespace EasyMeets.Core.DAL.Migrations
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("UserEmail")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -1173,9 +1205,6 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsFromGoogleCalendar")
-                        .HasColumnType("bit");
-
                     b.Property<int>("LocationType")
                         .HasColumnType("int");
 
@@ -1216,11 +1245,10 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedBy = 4L,
                             Duration = 52,
                             IsDeleted = false,
-                            IsFromGoogleCalendar = false,
                             LocationType = 0,
                             MeetingLink = "http://karson.net",
                             Name = "ut",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 3, 4, 4, 47, 16, 555, DateTimeKind.Unspecified).AddTicks(7110), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 3, 4, 7, 16, 26, 566, DateTimeKind.Unspecified).AddTicks(5320), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 2L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1232,11 +1260,10 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedBy = 2L,
                             Duration = 46,
                             IsDeleted = false,
-                            IsFromGoogleCalendar = false,
                             LocationType = 1,
                             MeetingLink = "https://mariela.com",
                             Name = "explicabo",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 7, 26, 14, 32, 5, 89, DateTimeKind.Unspecified).AddTicks(1688), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 7, 26, 17, 1, 15, 99, DateTimeKind.Unspecified).AddTicks(9575), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 4L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1248,11 +1275,10 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedBy = 9L,
                             Duration = 14,
                             IsDeleted = false,
-                            IsFromGoogleCalendar = false,
                             LocationType = 2,
                             MeetingLink = "http://maximilian.name",
                             Name = "atque",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 5, 8, 28, 49, 485, DateTimeKind.Unspecified).AddTicks(3659), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 1, 5, 10, 57, 59, 496, DateTimeKind.Unspecified).AddTicks(1499), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 2L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1264,11 +1290,10 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedBy = 2L,
                             Duration = 52,
                             IsDeleted = false,
-                            IsFromGoogleCalendar = false,
                             LocationType = 2,
                             MeetingLink = "http://heath.name",
                             Name = "qui",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 14, 13, 0, 51, 10, DateTimeKind.Unspecified).AddTicks(4558), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 14, 15, 30, 1, 21, DateTimeKind.Unspecified).AddTicks(2378), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 7L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1280,11 +1305,10 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedBy = 1L,
                             Duration = 27,
                             IsDeleted = false,
-                            IsFromGoogleCalendar = false,
                             LocationType = 0,
                             MeetingLink = "https://alan.biz",
                             Name = "quia",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 6, 8, 42, 54, 561, DateTimeKind.Unspecified).AddTicks(7558), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 6, 11, 12, 4, 572, DateTimeKind.Unspecified).AddTicks(5368), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 8L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1296,11 +1320,10 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedBy = 8L,
                             Duration = 48,
                             IsDeleted = false,
-                            IsFromGoogleCalendar = false,
                             LocationType = 0,
                             MeetingLink = "http://dortha.name",
                             Name = "qui",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 25, 5, 42, 25, 788, DateTimeKind.Unspecified).AddTicks(1503), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 10, 25, 8, 11, 35, 798, DateTimeKind.Unspecified).AddTicks(9353), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 4L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1312,11 +1335,10 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedBy = 10L,
                             Duration = 31,
                             IsDeleted = false,
-                            IsFromGoogleCalendar = false,
                             LocationType = 2,
                             MeetingLink = "http://dimitri.name",
                             Name = "voluptate",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 3, 5, 11, 26, 21, 838, DateTimeKind.Unspecified).AddTicks(989), new TimeSpan(0, 2, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 3, 5, 13, 55, 31, 848, DateTimeKind.Unspecified).AddTicks(8808), new TimeSpan(0, 2, 0, 0, 0)),
                             TeamId = 2L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1328,11 +1350,10 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedBy = 1L,
                             Duration = 56,
                             IsDeleted = false,
-                            IsFromGoogleCalendar = false,
                             LocationType = 0,
                             MeetingLink = "https://jules.com",
                             Name = "nesciunt",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 6, 7, 1, 30, 54, 999, DateTimeKind.Unspecified).AddTicks(7713), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 6, 7, 4, 0, 5, 10, DateTimeKind.Unspecified).AddTicks(5500), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 3L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1344,11 +1365,10 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedBy = 4L,
                             Duration = 15,
                             IsDeleted = false,
-                            IsFromGoogleCalendar = false,
                             LocationType = 2,
                             MeetingLink = "http://floy.net",
                             Name = "fuga",
-                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 7, 18, 29, 58, 719, DateTimeKind.Unspecified).AddTicks(5023), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2022, 9, 7, 20, 59, 8, 730, DateTimeKind.Unspecified).AddTicks(2774), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 6L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
@@ -1360,11 +1380,10 @@ namespace EasyMeets.Core.DAL.Migrations
                             CreatedBy = 10L,
                             Duration = 22,
                             IsDeleted = false,
-                            IsFromGoogleCalendar = false,
                             LocationType = 0,
                             MeetingLink = "http://loren.org",
                             Name = "libero",
-                            StartTime = new DateTimeOffset(new DateTime(2023, 9, 3, 23, 20, 38, 463, DateTimeKind.Unspecified).AddTicks(9135), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2023, 9, 4, 1, 49, 48, 474, DateTimeKind.Unspecified).AddTicks(6903), new TimeSpan(0, 3, 0, 0, 0)),
                             TeamId = 6L,
                             UpdatedAt = new DateTime(2022, 9, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         });
@@ -3318,6 +3337,17 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("EasyMeets.Core.DAL.Entities.CalendarEvent", b =>
+                {
+                    b.HasOne("EasyMeets.Core.DAL.Entities.Calendar", "Calendar")
+                        .WithMany("CalendarEvents")
+                        .HasForeignKey("CalendarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Calendar");
+                });
+
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.CalendarVisibleForTeam", b =>
                 {
                     b.HasOne("EasyMeets.Core.DAL.Entities.Calendar", "Calendar")
@@ -3508,6 +3538,8 @@ namespace EasyMeets.Core.DAL.Migrations
 
             modelBuilder.Entity("EasyMeets.Core.DAL.Entities.Calendar", b =>
                 {
+                    b.Navigation("CalendarEvents");
+
                     b.Navigation("VisibleForTeams");
                 });
 
