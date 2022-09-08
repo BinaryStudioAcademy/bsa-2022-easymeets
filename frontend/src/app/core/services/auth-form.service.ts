@@ -27,7 +27,10 @@ export class AuthFormService {
 
     public signIn(email: string, password: string): Observable<IUser> {
         return this.authenticate(this.authService.signIn(email, password)).pipe(
-            tap({ next: () => this.notificationService.showInfoMessage('Authentication successful') }),
+            tap({
+                next: () => this.notificationService.showSuccessMessage('Authentication successful'),
+                error: (e) => this.notificationService.showErrorMessage(e),
+            }),
         );
     }
 
@@ -39,7 +42,7 @@ export class AuthFormService {
 
     public onSignInWithGoogle(): Observable<IUser> {
         return this.authenticate(this.authService.loginWithGoogle()).pipe(
-            tap({ next: () => this.notificationService.showInfoMessage('Authentication successful') }),
+            tap({ next: () => this.notificationService.showSuccessMessage('Authentication successful') }),
         );
     }
 
