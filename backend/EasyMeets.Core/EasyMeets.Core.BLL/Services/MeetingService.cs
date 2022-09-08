@@ -1,8 +1,6 @@
-using System.Collections;
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
-using EasyMeets.Core.Common.DTO;
-using EasyMeets.Core.Common.DTO.Calendar;
+using EasyMeets.Core.Common.DTO; 
 using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.Enums;
@@ -50,7 +48,8 @@ namespace EasyMeets.Core.BLL.Services
                         MembersTitle = CreateMemberTitle(x),
                         MeetingTitle = x.Name,
                         MeetingDuration = $"{x.Duration} min",
-                        MeetingTime = $"{x.StartTime.Hour}:{x.StartTime.Minute:00} - {x.StartTime.AddMinutes(x.Duration).Hour}:{x.StartTime.AddMinutes(x.Duration).Minute:00}",
+                        MeetingTime = $"{x.StartTime.Hour}:{x.StartTime.Minute:00} - " +
+                            $"{x.StartTime.AddMinutes(x.Duration).Hour}:{x.StartTime.AddMinutes(x.Duration).Minute:00}",
                         MeetingLink = x.MeetingLink,
                         MeetingMembers = GetAllParticipants(x, numberOfMembers)
                     })
