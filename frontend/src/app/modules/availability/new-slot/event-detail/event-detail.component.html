@@ -61,7 +61,8 @@
     <div class="password-container">
         <div class="input-password">
             <mat-slide-toggle class="form-switch"
-                              [(ngModel)]="this.settings.passwordProtectionIsUsed"></mat-slide-toggle>
+                [(ngModel)]="this.settings.passwordProtectionIsUsed">
+            </mat-slide-toggle>
             <p class="input-field">Password protection</p>
         </div>
         <div class="input-description-tooltip-container">
