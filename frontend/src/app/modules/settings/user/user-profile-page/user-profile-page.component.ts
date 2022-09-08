@@ -33,7 +33,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public imageUrl?: string;
 
-    public user: IUser;
+    public user?: IUser;
 
     public userForm: FormGroup;
 
@@ -107,25 +107,27 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     }
 
     public OnSubmit(form: FormGroup) {
-        const editedUser: IUpdateUser = {
-            id: this.user.id,
-            phoneCode: this.countryCodeValues[form.value.country as Country],
-            phone: form.value.phone,
-            userName: form.value.userName,
-            country: form.value.country,
-            dateFormat: form.value.dateFormat,
-            language: form.value.language,
-            timeFormat: form.value.timeFormat,
-            timeZone: form.value.timeZone,
-        };
+        if (this.user) {
+            const editedUser: IUpdateUser = {
+                id: this.user.id,
+                phoneCode: this.countryCodeValues[form.value.country as Country],
+                phone: form.value.phone,
+                userName: form.value.userName,
+                country: form.value.country,
+                dateFormat: form.value.dateFormat,
+                language: form.value.language,
+                timeFormat: form.value.timeFormat,
+                timeZone: form.value.timeZone,
+            };
 
-        this.userService
-            .editUser(editedUser)
-            .pipe(this.untilThis)
-            .subscribe({
-                next: () =>
-                    this.notificationService.showSuccessMessage('Personal information was updated successfully.'),
-            });
+            this.userService
+                .editUser(editedUser)
+                .pipe(this.untilThis)
+                .subscribe({
+                    next: () =>
+                        this.notificationService.showSuccessMessage('Personal information was updated successfully.'),
+                });
+        }
     }
 
     public changeCountryCode(form: FormGroup) {
