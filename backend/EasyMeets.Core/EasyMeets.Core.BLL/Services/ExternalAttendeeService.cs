@@ -37,7 +37,7 @@ public class ExternalAttendeeService : BaseService, IExternalAttendeeService
         var infoDto = new ExternalAttendeeBookingInfoDto
         {
             User = _mapper.Map<ExternalUserDto>(user),
-            PersonalSlots = _mapper.Map<List<ExternalAvailabilitySlotDto>>(user.CreatedSlots)
+            PersonalSlots = _mapper.Map<List<ExternalAvailabilitySlotDto>>(user.CreatedSlots.Where(el => el.IsEnabled))
         };
 
         return infoDto;
