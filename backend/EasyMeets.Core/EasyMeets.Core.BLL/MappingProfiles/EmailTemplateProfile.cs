@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EasyMeets.Core.Common.DTO;
 using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.DAL.Entities;
 
@@ -19,6 +20,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(s => s.EmailBody, opt => opt.MapFrom(src => src.Body))
                 .ForMember(s => s.Type, opt => opt.MapFrom(src => src.TemplateType))
                 .ForMember(s => s.AllowToSend, opt => opt.MapFrom(src => src.IsSend));
+
+            CreateMap<EmailTemplate, EmailDto>();
         }
     }
 }
