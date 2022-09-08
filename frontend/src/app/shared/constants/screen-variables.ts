@@ -1,11 +1,6 @@
-export const phoneMinWidth = 320;
 export const phoneMaxWidth = 600;
-export const widthToContainZeroItemUpperLimit = 768;
+export const widthToContainZeroItemUpperLimit = 820;
 export const tabletMaxWidth = 950;
-export const widthToContainTwoLowerLimit = 978;
-export const desktopMinWidth = 1024;
 export const desktopWidthToContainTwoItems = 1200;
-export const widthToContainTwoUpperLimit = 1220;
 export const desktopWidthToContainFourItems = 1400;
-export const desktopWidthToContainThreeItems = 1430;
-export const widthToContainThreeItems = 1460;
+export const widthToContainThreeItems = 1480;
