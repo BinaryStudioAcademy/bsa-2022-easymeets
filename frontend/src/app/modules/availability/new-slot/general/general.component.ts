@@ -162,25 +162,30 @@ export class GeneralComponent implements OnInit {
 
     onDurationChange() {
         this.customTimeShown = this.duration.time === 'Custom';
-        this.settings.size = this.duration.minutes!;
+        this.updateSettingSize(this.duration.minutes!);
     }
 
     customDurationChanged() {
-        const unitOfTime: UnitOfTime = UnitOfTime[this.selectedUnit as keyof typeof UnitOfTime];
-
-        this.settings.size =
-            unitOfTime === UnitOfTime.Hour
+        const slotSize: number =
+            UnitOfTime[this.selectedUnit as keyof typeof UnitOfTime] === UnitOfTime.Hour
                 ? parseInt(this.inputCustomTime, 10) * 60
                 : parseInt(this.inputCustomTime, 10);
+
+        this.updateSettingSize(slotSize);
     }
 
     private defineCurrentDuration(slotDuration: number) {
-        this.duration = this.durations.find((x) => x.minutes === slotDuration) ?? this.durations[4];
+        this.duration =
+            this.durations.find((x) => x.minutes === slotDuration) ?? this.durations.find((x) => x.time === 'Custom')!;
 
         if (this.duration.time === 'Custom') {
             this.customTimeShown = true;
-            this.selectedUnit = this.unitOfTime.find((x) => x === 'Min')!;
+            this.selectedUnit = this.unitOfTime.find((x) => x === String(UnitOfTime.Min))!;
             this.inputCustomTime = String(slotDuration);
         }
+    }
+
+    private updateSettingSize(slotSize: number) {
+        this.settings.size = slotSize;
     }
 }
