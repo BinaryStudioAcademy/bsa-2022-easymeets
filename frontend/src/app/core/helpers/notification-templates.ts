@@ -6,19 +6,19 @@ export const getNotificationTemplate = (type: TemplateType): INotificationEmail 
         case TemplateType.Confirmation:
             return {
                 label: 'Confirmation Email',
-                body: `Hi {Invitee Full Name} \r\nYour {Event Name} with {My Name} 
+                body: `Hi {Invitee Full Name} \r\nYour {Event Name} with {My Name}
                 at {Event Time} on {Event Date} is scheduled\r\n{Event Description}\r\n{Location}\r\n{Questions and Answers}`,
             };
         case TemplateType.Cancellation:
             return {
                 label: 'Cancellation Email',
-                body: `Hi {Invitee Full Name} \r\nYour {Event Name} with {My Name} 
+                body: `Hi {Invitee Full Name} \r\nYour {Event Name} with {My Name}
                 at {Event Time} on {Event Date} is unfortunately cancelled`,
             };
         case TemplateType.Reminders:
             return {
                 label: 'Reminders Email',
-                body: `Hi {Invitee Full Name} \r\nThis is a friendly reminder that your {Event Name} with {My Name} is 
+                body: `Hi {Invitee Full Name} \r\nThis is a friendly reminder that your {Event Name} with {My Name} is
                 at {Event Time} on {Event Date}\r\n{Event Description}\r\n{Location}\r\n{Questions and Answers}`,
             };
         case TemplateType.FollowUp:
