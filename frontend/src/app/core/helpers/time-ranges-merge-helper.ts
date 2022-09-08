@@ -5,23 +5,14 @@ export const TimeRangesMergeHelper = (ranges: IDayTimeRange[]) => {
     let currentDate = ranges.shift();
 
     while (currentDate) {
-        let allFurtherDatesMerged = false;
+        const dateToMerge = ranges.shift();
 
-        let dateToMerge = ranges.shift();
-
-        while (!allFurtherDatesMerged && dateToMerge) {
-            if (dateToMerge.start <= currentDate.end && dateToMerge.end > currentDate.end) {
-                currentDate.end = dateToMerge.end;
-                dateToMerge = ranges.shift();
-            } else if (dateToMerge.start > currentDate.end) {
-                allFurtherDatesMerged = true;
-                ranges.unshift(dateToMerge);
-            } else {
-                dateToMerge = ranges.shift();
-            }
+        if (!dateToMerge || (dateToMerge.start > currentDate.end)) {
+            mergedExclusionDates.push(currentDate);
+            currentDate = dateToMerge;
+        } else if (dateToMerge.start <= currentDate.end && dateToMerge.end > currentDate.end) {
+            currentDate.end = dateToMerge.end;
         }
-        mergedExclusionDates.push(currentDate);
-        currentDate = ranges.shift();
     }
 
     return mergedExclusionDates;
