@@ -10,5 +10,6 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task<List<OrderedMeetingTimesDto>> GetOrderedMeetingTimesAsync(long slotId);
         Task<SaveMeetingDto> CreateMeeting(SaveMeetingDto meetingDto);
         Task<long> CreateExternalAttendeeMeeting(ExternalAttendeeMeetingDto meetingDto);
+        Task SendConfirmationEmailsAsync(long meetingId);
     }
 }

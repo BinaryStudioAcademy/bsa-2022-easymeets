@@ -24,5 +24,7 @@ public class ExternalAttendeeService : BaseService, IExternalAttendeeService
         attendee.MeetingId = meetingId;
         await _context.ExternalAttendees.AddAsync(attendee);
         await _context.SaveChangesAsync();
+
+        await _meetingService.SendConfirmationEmailsAsync(meetingId);
     }
 }
