@@ -9,8 +9,6 @@ using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
 
 
 namespace EasyMeets.Core.BLL.Services
@@ -36,44 +34,35 @@ namespace EasyMeets.Core.BLL.Services
 
             var team = await _context.Teams.FirstOrDefaultAsync(team => team.Id == teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
 
-            var meetings = await _context.Meetings 
-                .Where(meeting => meeting.TeamId == team.Id)
-                .ToListAsync();
-
-            var meetingMembers = await _context.Meetings
+            var meetings = await _context.Meetings
                 .Where(meeting => meeting.TeamId == team.Id)
                 .Include(m => m.AvailabilitySlot)
                 .Include(s => s!.ExternalAttendees)
-                .Include(meeting => meeting.MeetingMembers.Take(numberOfMembers))
+                .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
-                .Select(x => new { MeetingMembers = GetAllParticipants(x) })
-                .ToListAsync();
-
-            var meetingMembersCount = await _context.Meetings
-               .Where(meeting => meeting.TeamId == team.Id)
-               .Include(meeting => meeting.MeetingMembers) 
-               .Select(x => new { MeetingMembersCount = x.MeetingMembers.Count })
-               .ToListAsync();
-
-            var mapped = _mapper.Map<List<MeetingSlotDTO>>(meetings, opts =>
-            {
-                opts.AfterMap((_, dest) =>
-                {
-                    for (int i = 0; i < meetings.Count; i++)
+                .Select(x =>
+                    new MeetingSlotDTO
                     {
-                        dest.ElementAt(i).MeetingMembers = meetingMembers.ElementAt(i).MeetingMembers.ToList();
-                        dest.ElementAt(i).MeetingCount = meetingMembersCount.ElementAt(i).MeetingMembersCount;
-                    }
-                });
-            });
+                        Id = x.Id,
+                        Location = x.LocationType.ToString(),
+                        MeetingCount = x.MeetingMembers.Count,
+                        MembersTitle = CreateMemberTitle(x),
+                        MeetingTitle = x.Name,
+                        MeetingDuration = $"{x.Duration} min",
+                        MeetingTime = $"{x.StartTime.Hour}:{x.StartTime.Minute:00} - {x.StartTime.AddMinutes(x.Duration).Hour}:{x.StartTime.AddMinutes(x.Duration).Minute:00}",
+                        MeetingLink = x.MeetingLink,
+                        MeetingMembers = GetAllParticipants(x, numberOfMembers)
+                    })
+            .ToListAsync(); 
 
-            return mapped;
+            return meetings;
         }
 
-        private static IEnumerable<UserMeetingDTO> GetAllParticipants(Meeting meeting)
+        private static List<UserMeetingDTO> GetAllParticipants(Meeting meeting, int numberOfMembers)
         {
             var slotMembers = meeting.MeetingMembers
+                .Take(numberOfMembers)
                 .Select(x => new UserMeetingDTO
                 {
                     Name = x.TeamMember.User.Name,
@@ -83,6 +72,7 @@ namespace EasyMeets.Core.BLL.Services
                 });
 
             var external = meeting.ExternalAttendees
+                .Take(numberOfMembers)
                 .Select(x => new UserMeetingDTO
                 {
                     Name = x.Name,
@@ -93,6 +83,15 @@ namespace EasyMeets.Core.BLL.Services
 
             return slotMembers.Union(external).ToList();
         } 
+        private static string CreateMemberTitle(Meeting meeting)
+        {
+            return meeting.MeetingMembers.Count() switch
+            {
+                0 => "Empty meeting.",
+                1 => meeting.MeetingMembers.First().TeamMember.User.Name,
+                _ => $"{meeting.MeetingMembers.Count()} Team Members"
+            };
+        }
 
         public async Task<List<UserMeetingDTO>> GetAllMembers(int id)
         {
@@ -112,7 +111,7 @@ namespace EasyMeets.Core.BLL.Services
             }
 
             return members;
-        }
+        } 
 
         public async Task<SaveMeetingDto> CreateMeeting(SaveMeetingDto meetingDto)
         {

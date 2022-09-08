@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using EasyMeets.Core.Common.DTO.Calendar;
 using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.Common.DTO.Team;
-using EasyMeets.Core.Common.DTO.Zoom;
-using EasyMeets.Core.Common.Enums;
+using EasyMeets.Core.Common.DTO.Zoom; 
 using EasyMeets.Core.DAL.Entities;
 
 namespace EasyMeets.Core.BLL.MappingProfiles
@@ -14,16 +12,6 @@ namespace EasyMeets.Core.BLL.MappingProfiles
         {
             CreateMap<User, UserMeetingDTO>();
             CreateMap<ExternalAttendee, UserMeetingDTO>();
-            CreateMap<Meeting, MeetingSlotDTO>()
-                .ForMember(dest => dest.MeetingTime, src => src.MapFrom(meeting =>
-                    $"{meeting.StartTime.Hour}:{meeting.StartTime.Minute:00} - " +
-                    $"{meeting.StartTime.AddMinutes(meeting.Duration).Hour}:{meeting.StartTime.AddMinutes(meeting.Duration).Minute:00}"))
-                .ForMember(dest => dest.MeetingTitle, src => src.MapFrom(s => s.Name))
-                .ForMember(dest => dest.MeetingDuration, src => src.MapFrom(s => $"{s.Duration} min"))
-                .ForMember(dest => dest.MembersTitle, src => src.MapFrom(s => CreateMemberTitle(s)))
-                .ForMember(dest => dest.MeetingLink, src => src.MapFrom(s => s.MeetingLink))
-                .ForMember(dest => dest.MeetingMembers, src => src.MapFrom(s => new List<UserMeetingDTO>())) 
-                .ForMember(dest => dest.Location, src => src.MapFrom(s => s.LocationType.ToString()));
             CreateMap<SaveMeetingDto, Meeting>();
             CreateMap<Meeting, SaveMeetingDto>()
                 .ForMember(dest => dest.MeetingMembers, src => src.MapFrom(s => s.MeetingMembers));
@@ -47,15 +35,5 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(u => u.End, opts =>
                     opts.MapFrom(src => src.StartTime.DateTime.AddMinutes(src.Duration)));
         }
-
-        private string CreateMemberTitle(Meeting meeting)
-        {
-            return meeting.MeetingMembers.Count() switch
-            {
-                0 => "Empty meeting.",
-                1 => meeting.MeetingMembers.First().TeamMember.User.Name,
-                _ => $"{meeting.MeetingMembers.Count()} Team Members"
-            };
-        } 
     }
 }
