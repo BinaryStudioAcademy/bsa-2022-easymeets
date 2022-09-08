@@ -6,9 +6,9 @@
     overflow-y: auto
     margin-top: 35px
     .team-members-table.mat-table
-        width: 90%
+        width: 95%
         box-shadow: none
-        margin-left: 5%
+        margin-left: 3%
         .mat-cell
             font-family: 'Inter'
             font-style: normal
@@ -101,7 +101,6 @@ i
 
 .member-role-select
     display: flex
-    flex-direction: row
     justify-content: flex-start
     align-items: center
     .team-members-role-form-field
@@ -111,3 +110,10 @@ i
     display: flex
     align-content: flex-start
     max-width: 10px
+
+::ng-deep .member-role-select
+    margin-left: -5px
+    .mat-select-value
+        margin-top: -3px
+    .mat-select-arrow-wrapper
+        margin-top: 10px

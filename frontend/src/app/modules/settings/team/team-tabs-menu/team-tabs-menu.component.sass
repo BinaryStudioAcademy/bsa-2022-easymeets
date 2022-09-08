@@ -1,3 +1,5 @@
+@import "src/styles/color-variables"
+
 .team-tabs-container
     width: 100%
     padding: 0
@@ -6,6 +8,11 @@
     align-items: center
     justify-content: center
     padding-top: 20px
-    border-bottom: 1px solid #E1E6EF
+    border-bottom: 1px solid $solitude
     .mat-tab-link
         padding-bottom: 15px
+        .link-text
+            padding: 5px 4px
+            border-radius: 2px
+        .link-text:hover
+            background-color: $solitude

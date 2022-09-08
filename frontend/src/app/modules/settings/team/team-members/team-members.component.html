@@ -27,6 +27,7 @@
                 <div class="member-role-select">
                     <mat-form-field appearance="fill" class="team-members-role-form-field">
                         <mat-select
+                            class="member-role-select"
                             [(ngModel)]="member.role"
                             (ngModelChange)="(member.role)"
                             (selectionChange)="changeTeamMemberRole(member, member.role)">

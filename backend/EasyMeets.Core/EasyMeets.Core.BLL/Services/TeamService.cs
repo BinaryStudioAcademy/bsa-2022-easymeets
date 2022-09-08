@@ -91,7 +91,7 @@ public class TeamService : BaseService, ITeamService
 
     public async Task CreateTeamMemberAsync(TeamMemberDto teamMemberDto, long teamId)
     {
-        var team = await GetTeamByIdAsync(teamId);
+        var team = await GetTeamByIdAsync(teamId); 
         if (team != null)
         {
             var member = new TeamMember()
