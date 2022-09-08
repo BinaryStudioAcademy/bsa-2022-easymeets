@@ -11,11 +11,9 @@ namespace EasyMeets.Core.WebAPI.Controllers;
 public class ExternalAttendeeController : ControllerBase
 {
     private readonly IExternalAttendeeService _attendeeService;
-    private readonly IMeetingService _meetingService;
     
-    public ExternalAttendeeController(IExternalAttendeeService attendeeService, IMeetingService meetingService)
+    public ExternalAttendeeController(IExternalAttendeeService attendeeService)
     {
-        _meetingService = meetingService;
         _attendeeService = attendeeService;
     }
 
@@ -30,13 +28,7 @@ public class ExternalAttendeeController : ControllerBase
     {
         return Ok(await _attendeeService.GetOrganizerBySlotLinkAsync(slotLink));
     }
-    
-    [HttpGet("ordered-times/{slotId}")]
-    public async Task<ActionResult<List<OrderedMeetingTimesDto>>> GetOrderedMeetingTimes(long slotId)
-    {
-        return Ok(await _meetingService.GetOrderedMeetingTimesAsync(slotId));
-    }
-    
+
     [HttpPost]
     public async Task<IActionResult> BookMeetingByExternalAttendee([FromBody] ExternalAttendeeAndBookedMeetingDto bookedMeetingDto)
     {

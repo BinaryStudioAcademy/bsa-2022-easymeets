@@ -33,13 +33,13 @@ public class ExternalAttendeeService : BaseService, IExternalAttendeeService
 
     public async Task<ExternalAttendeeBookingInfoDto> GetOrganizerAndPersonalSlotsAsync(string personalUrl)
     {
-        var user = await _context.Users.Include(u => u.CreatedSlots).FirstOrDefaultAsync(u => u.PersonalUrl == personalUrl)
+        var user = await _context.Users.Include(u => u.CreatedSlots.Where(el => el.IsEnabled)).FirstOrDefaultAsync(u => u.PersonalUrl == personalUrl)
             ?? throw new KeyNotFoundException("User doesn't exist");
 
         var infoDto = new ExternalAttendeeBookingInfoDto
         {
             User = _mapper.Map<ExternalUserDto>(user),
-            PersonalSlots = _mapper.Map<List<ExternalAvailabilitySlotDto>>(user.CreatedSlots.Where(el => el.IsEnabled))
+            PersonalSlots = _mapper.Map<List<ExternalAvailabilitySlotDto>>(user.CreatedSlots)
         };
 
         return infoDto;

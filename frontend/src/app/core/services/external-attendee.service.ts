@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { IExternalAttendeeBookingInfo } from '@core/models/IExternalAttendeeBookingInfo';
 import { IExternalAttendeeMeeting } from '@core/models/IExternalAttendeeMeeting';
 import { IExternalUser } from '@core/models/IExternalUser';
-import { IOrderedMeetingTimes } from '@core/models/IOrderedMeetingTimes';
 
 import { HttpInternalService } from './http-internal.service';
 
@@ -27,9 +26,5 @@ export class ExternalAttendeeService {
 
     public getUserBySlotLink(slotUrl: string) {
         return this.httpService.getRequest<IExternalUser>(`${this.routePrefix}/organizer/${slotUrl}`);
-    }
-
-    public getOrderedMeetingTimes(slotId: bigint) {
-        return this.httpService.getRequest<IOrderedMeetingTimes[]>(`${this.routePrefix}/ordered-times/${slotId}`);
     }
 }

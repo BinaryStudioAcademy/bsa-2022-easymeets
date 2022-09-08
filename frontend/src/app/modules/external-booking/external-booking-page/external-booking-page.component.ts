@@ -10,6 +10,7 @@ import { IExternalAttendee } from '@core/models/IExternalAttendee';
 import { IExternalAttendeeMeeting } from '@core/models/IExternalAttendeeMeeting';
 import { IExternalAvailabilitySlot } from '@core/models/IExternalAvailabilitySlot';
 import { IExternalMeeting } from '@core/models/IExternalMeeting';
+import { IExternalUser } from '@core/models/IExternalUser';
 import { ExternalAttendeeService } from '@core/services/external-attendee.service';
 import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
@@ -42,15 +43,9 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
 
     ngOnInit(): void {
         if (this.isChooseMeetingRoute()) {
-            this.route.firstChild?.paramMap.pipe(this.untilThis).subscribe((params) => {
-                this.link = params.get('userLink')!;
-            });
-            this.getUserAndSlots();
+            this.loadDataByUserLink();
         } else if (this.isBookingChooseTimeRoute()) {
-            this.route.firstChild?.paramMap.pipe(this.untilThis).subscribe((params) => {
-                this.link = params.get('slotLink')!;
-            });
-            this.getUser();
+            this.loadDataBySlotLink();
         }
 
         if (this.isTeamBooking()) {
@@ -76,10 +71,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             .pipe(this.untilThis)
             .subscribe(
                 (user) => {
-                    this.menu = {
-                        ...this.menu,
-                        user,
-                    };
+                    this.addUserToMenu(user);
                 },
                 (error) => {
                     this.notificationService.showErrorMessage(error);
@@ -93,19 +85,20 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             .pipe(this.untilThis)
             .subscribe(
                 (response) => {
-                    const { user } = response;
-
-                    this.menu = {
-                        ...this.menu,
-                        user,
-                    };
-
+                    this.addUserToMenu(response.user);
                     this.personalSlots = response.personalSlots;
                 },
                 (error) => {
                     this.notificationService.showErrorMessage(error);
                 },
             );
+    }
+
+    public addUserToMenu(user: IExternalUser) {
+        this.menu = {
+            ...this.menu,
+            user,
+        };
     }
 
     public addDurationAndLocationInMenu(data: {
@@ -195,6 +188,20 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
                     this.notificationService.showErrorMessage(error);
                 },
             );
+    }
+
+    loadDataByUserLink() {
+        this.route.firstChild?.paramMap.pipe(this.untilThis).subscribe((params) => {
+            this.link = params.get('userLink')!;
+        });
+        this.getUserAndSlots();
+    }
+
+    loadDataBySlotLink() {
+        this.route.firstChild?.paramMap.pipe(this.untilThis).subscribe((params) => {
+            this.link = params.get('slotLink')!;
+        });
+        this.getUser();
     }
 
     isChooseMeetingRoute(): boolean {

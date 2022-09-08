@@ -9,6 +9,7 @@ import { IOrderedMeetingTimes } from '@core/models/IOrderedMeetingTimes';
 import { IScheduleItemReceive } from '@core/models/schedule/IScheduleItemsReceive';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { ExternalAttendeeService } from '@core/services/external-attendee.service';
+import { NewMeetingService } from '@core/services/new-meeting.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { LocationType } from '@shared/enums/locationType';
 import { addDays, addMinutes, subDays } from 'date-fns';
@@ -58,6 +59,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     constructor(
         public spinnerService: SpinnerService,
         private availabilitySlotService: AvailabilitySlotService,
+        private meetingService: NewMeetingService,
         private externalService: ExternalAttendeeService,
         private route: ActivatedRoute,
     ) {
@@ -87,7 +89,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     }
 
     private getOrderedTimes(slotId: bigint) {
-        this.externalService
+        this.meetingService
             .getOrderedMeetingTimes(slotId)
             .pipe(this.untilThis)
             .subscribe((result) => {
