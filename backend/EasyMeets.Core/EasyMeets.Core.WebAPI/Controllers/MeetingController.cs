@@ -19,8 +19,9 @@ namespace EasyMeets.Core.WebAPI.Controllers
             _teamService = teamService;
         }
 
-        [HttpGet("GetThreeMeetingMembers/{teamId?}")]
-        public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync(long? teamId) => await _meetingService.GetThreeMeetingMembersAsync(teamId);
+        [HttpPost("GetThreeMeetingMembers")]
+        public async Task<List<MeetingSlotDTO>> GetMeetingMembersByCountAsync(MeetingMemberRequestDto meetingMemberRequestDto) => 
+            await _meetingService.GetMeetingMembersByNumberOfMembersToDisplayAsync(meetingMemberRequestDto.TeamId, meetingMemberRequestDto.NumberOfMembersToDisplay);
 
         [HttpGet("{id:int}/members/all")]
         public async Task<ActionResult<List<UserMeetingDTO>>> GetAllMembers(int id)
