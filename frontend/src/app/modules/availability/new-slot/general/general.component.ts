@@ -155,7 +155,7 @@ export class GeneralComponent implements OnInit {
 
     customDurationChanged() {
         const slotSize: number =
-            UnitOfTime[this.selectedUnit as keyof typeof UnitOfTime] === UnitOfTime.Hour
+            UnitOfTime[this.selectedUnit as UnitOfTime] === UnitOfTime.Hour
                 ? parseInt(this.inputCustomTime, 10) * 60
                 : parseInt(this.inputCustomTime, 10);
 
@@ -175,13 +175,8 @@ export class GeneralComponent implements OnInit {
 
     private updateSettingSize(slotSize: number): ISaveGeneralSettings {
         const settings: ISaveGeneralSettings = {
+            ...this.settings,
             size: slotSize,
-            isVisible: this.settings.isVisible,
-            color: this.settings.color,
-            name: this.settings.name,
-            locationType: this.settings.locationType,
-            isEnabled: this.settings.isEnabled,
-            type: this.settings.type,
         };
 
         return settings;
