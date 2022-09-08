@@ -38,7 +38,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.getNumberOfItemsToDisplay();
+        this.numberOfMembersToDisplay = this.getNumberOfItemsToDisplay();
 
         this.teamService.currentTeamEmitted$
             .subscribe(teamId => {
@@ -81,28 +81,22 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
         window.open(link);
     }
 
-    private getNumberOfItemsToDisplay() {
+    private getNumberOfItemsToDisplay(): number {
         const containerWidth = this.getPageSize();
 
         switch (true) {
             case containerWidth < phoneMaxWidth:
-                this.numberOfMembersToDisplay = 1;
-                break;
+                return 1;
             case containerWidth < widthToContainZeroItemUpperLimit:
-                this.numberOfMembersToDisplay = 0;
-                break;
+                return 0;
             case containerWidth < widthToContainTwoLowerLimit:
-                this.numberOfMembersToDisplay = 1;
-                break;
+                return 1;
             case containerWidth < widthToContainTwoUpperLimit:
-                this.numberOfMembersToDisplay = 2;
-                break;
+                return 2;
             case containerWidth < widthToContainThreeItems:
-                this.numberOfMembersToDisplay = 3;
-                break;
+                return 3;
             default:
-                this.numberOfMembersToDisplay = 4;
-                break;
+                return 4;
         }
     }
 
