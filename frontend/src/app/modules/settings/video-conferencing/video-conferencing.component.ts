@@ -12,8 +12,6 @@ import { ZoomService } from '@core/services/zoom.service';
 export class VideoConferencingComponent extends BaseComponent {
     private redirectUri: string = document.location.href.split('?')[0];
 
-    private clientId: string;
-
     email: string | undefined;
 
     isLoad: boolean = false;
@@ -26,13 +24,16 @@ export class VideoConferencingComponent extends BaseComponent {
     ) {
         super();
         spinnerService.show();
-        this.getZoomClientId();
-        this.createZoomCredentials();
+        this.checkActivatedRoute();
         this.getZoomClientEmail();
     }
 
     connectZoom() {
-        this.zoomService.authorizeUser(this.redirectUri, this.clientId);
+        this.zoomService.getZoomClientId()
+            .pipe(this.untilThis)
+            .subscribe(clientId => {
+                this.zoomService.authorizeUser(this.redirectUri, clientId);
+            });
     }
 
     logoutZoom() {
@@ -43,33 +44,29 @@ export class VideoConferencingComponent extends BaseComponent {
             });
     }
 
-    private getZoomClientId() {
-        this.zoomService.getZoomClientId()
-            .pipe(this.untilThis)
-            .subscribe(clientId => {
-                this.clientId = clientId;
-            });
-    }
-
-    private createZoomCredentials() {
+    private checkActivatedRoute() {
         this.activatedRoute.queryParams.pipe(this.untilThis)
             .subscribe(params => {
                 if (params['code']) {
                     const authCode = params['code'];
 
-                    this.zoomService.createZoomCredentials(authCode, this.redirectUri)
-                        .pipe(this.untilThis)
-                        .subscribe(result => {
-                            this.router.navigate([], {
-                                queryParams: {
-                                    code: null,
-                                },
-                            });
-                            this.isLoad = true;
-                            this.email = result.email;
-                            this.spinnerService.hide();
-                        });
+                    this.createZoomCredentials(authCode);
                 }
+            });
+    }
+
+    private createZoomCredentials(authCode: string) {
+        this.zoomService.createZoomCredentials(authCode, this.redirectUri)
+            .pipe(this.untilThis)
+            .subscribe(result => {
+                this.router.navigate([], {
+                    queryParams: {
+                        code: null,
+                    },
+                });
+                this.isLoad = true;
+                this.email = result.email;
+                this.spinnerService.hide();
             });
     }
 
