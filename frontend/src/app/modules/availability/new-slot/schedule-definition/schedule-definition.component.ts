@@ -50,7 +50,7 @@ export class ScheduleDefinitionComponent extends BaseComponent {
                     newExclusionDate.dayTimeRanges = TimeRangesMergeHelper(newExclusionDate.dayTimeRanges);
 
                     if (!this.mergeExistingExclusionDates(newExclusionDate)) {
-                        this.scheduleValue.exclusionDates.push(newExclusionDate);
+                        this.scheduleValue.exclusionDates = [...this.scheduleValue.exclusionDates, newExclusionDate];
                     }
                 }
             });
