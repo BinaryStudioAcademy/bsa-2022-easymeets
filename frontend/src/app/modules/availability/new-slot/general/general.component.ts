@@ -39,18 +39,6 @@ export class GeneralComponent implements OnInit {
             minBookingMeetingDifference:
                 this.slot?.advancedSlotSettings?.minBookingMeetingDifference ?? this.minBookingMeetingDifferences[0],
         };
-
-        if (!this.slotsFrequencies.some((f) => f === this.advancedSettings?.frequency)) {
-            this.slotsFrequencies.push(this.advancedSettings?.frequency);
-        }
-
-        if (!this.minBookingMeetingDifferences.some((f) => f === this.advancedSettings?.minBookingMeetingDifference)) {
-            this.minBookingMeetingDifferences.push(this.advancedSettings.minBookingMeetingDifference);
-        }
-
-        if (!this.meetingPaddings.some((f) => f === this.advancedSettings?.paddingMeeting)) {
-            this.meetingPaddings.push(this.advancedSettings.paddingMeeting);
-        }
         this.addAdvanced = Boolean(this.slot?.advancedSlotSettingsId);
         this.defineCurrentDuration(this.settings.size);
     }
@@ -162,7 +150,7 @@ export class GeneralComponent implements OnInit {
 
     onDurationChange() {
         this.customTimeShown = this.duration.time === 'Custom';
-        this.updateSettingSize(this.duration.minutes!);
+        this.settings = this.updateSettingSize(this.duration.minutes!);
     }
 
     customDurationChanged() {
@@ -171,7 +159,7 @@ export class GeneralComponent implements OnInit {
                 ? parseInt(this.inputCustomTime, 10) * 60
                 : parseInt(this.inputCustomTime, 10);
 
-        this.updateSettingSize(slotSize);
+        this.settings = this.updateSettingSize(slotSize);
     }
 
     private defineCurrentDuration(slotDuration: number) {
@@ -180,12 +168,22 @@ export class GeneralComponent implements OnInit {
 
         if (this.duration.time === 'Custom') {
             this.customTimeShown = true;
-            this.selectedUnit = this.unitOfTime.find((x) => x === String(UnitOfTime.Min))!;
+            this.selectedUnit = UnitOfTime.Min.toString();
             this.inputCustomTime = String(slotDuration);
         }
     }
 
-    private updateSettingSize(slotSize: number) {
-        this.settings.size = slotSize;
+    private updateSettingSize(slotSize: number): ISaveGeneralSettings {
+        const settings: ISaveGeneralSettings = {
+            size: slotSize,
+            isVisible: this.settings.isVisible,
+            color: this.settings.color,
+            name: this.settings.name,
+            locationType: this.settings.locationType,
+            isEnabled: this.settings.isEnabled,
+            type: this.settings.type,
+        };
+
+        return settings;
     }
 }
