@@ -20,7 +20,7 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
 
     displayedColumns: string[] = ['name-email', 'role', 'page', 'calendar-connected', 'action'];
 
-    teamMemberRoleValues = Object.values(Role);
+    teamMemberRoleValues = Object.values(Role).filter((p) => p !== Role.Owner);
 
     teamMemberStatusValues = Object.values(Status);
 
