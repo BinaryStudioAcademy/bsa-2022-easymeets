@@ -18,6 +18,10 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
 
     formGroup: FormGroup;
 
+    public readonly startRangeIdentifier = '0';
+
+    public readonly endRangeIdentifier = '0';
+
     constructor(private dialogRef: MatDialogRef<ExclusionDatesPickerComponent>) {
         super();
     }
@@ -29,15 +33,15 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
     addTimeItem() {
         const [firstTimeControl, secondTimeControl] = this.getTimeFormControls();
 
-        this.formGroup.addControl(`${this.currentTimeItemIndex.toString()}0`, firstTimeControl);
-        this.formGroup.addControl(`${this.currentTimeItemIndex.toString()}1`, secondTimeControl);
+        this.formGroup.addControl(this.currentTimeItemIndex.toString() + this.startRangeIdentifier, firstTimeControl);
+        this.formGroup.addControl(this.currentTimeItemIndex.toString() + this.endRangeIdentifier, secondTimeControl);
         this.currentTimeItemIndex++;
     }
 
     removeTimeItem() {
         this.currentTimeItemIndex--;
-        this.formGroup.removeControl(`${this.currentTimeItemIndex.toString()}0`);
-        this.formGroup.removeControl(`${this.currentTimeItemIndex.toString()}1`);
+        this.formGroup.removeControl(this.currentTimeItemIndex.toString() + this.startRangeIdentifier);
+        this.formGroup.removeControl(this.currentTimeItemIndex.toString() + this.endRangeIdentifier);
     }
 
     clickApply() {
@@ -62,8 +66,8 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
         const validDayTimeRanges: IDayTimeRange[] = [];
 
         this.getIndexSequence().forEach((number) => {
-            const start: string | null = this.formGroup.get(`${number.toString()}0`)?.value;
-            const end: string | null = this.formGroup.get(`${number.toString()}1`)?.value;
+            const start: string | null = this.formGroup.get(number.toString() + this.startRangeIdentifier)?.value;
+            const end: string | null = this.formGroup.get(number.toString() + this.endRangeIdentifier)?.value;
 
             if (start && end) {
                 validDayTimeRanges.push({ start, end });
@@ -77,8 +81,8 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
         const [firstTimeControl, secondTimeControl] = this.getTimeFormControls();
 
         return new FormGroup({
-            '00': firstTimeControl,
-            '01': secondTimeControl,
+            [`0${this.startRangeIdentifier}`]: firstTimeControl,
+            [`0${this.endRangeIdentifier}`]: secondTimeControl,
         });
     };
 

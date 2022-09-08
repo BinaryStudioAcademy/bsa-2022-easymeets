@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
-import { DatesEqualComparator } from '@core/helpers/dates-equal-comparator-helper';
 import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
+import { FindSameExclusionDateHelper } from '@core/helpers/find-same-exclusion-date-helper';
 import { TimeRangesMergeHelper } from '@core/helpers/time-ranges-merge-helper';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
@@ -59,16 +59,14 @@ export class ScheduleDefinitionComponent extends BaseComponent {
     formatTime = (time: string) => time.substring(0, 5);
 
     private sortDayTimeRanges(ranges: IDayTimeRange[]) {
-        ranges.sort((firstRange, secondRange) => firstRange.start.localeCompare(secondRange.start));
+        return ranges.sort((firstRange, secondRange) => firstRange.start.localeCompare(secondRange.start));
     }
 
     private mergeExistingExclusionDates(newExclusionDate: IExclusionDate) {
-        const sameDate = this.scheduleValue.exclusionDates.find((date) =>
-            DatesEqualComparator(new Date(date.selectedDate), newExclusionDate.selectedDate));
+        const sameDate = FindSameExclusionDateHelper(this.scheduleValue.exclusionDates, newExclusionDate);
 
         if (sameDate) {
-            sameDate.dayTimeRanges = [...sameDate.dayTimeRanges, ...newExclusionDate.dayTimeRanges];
-            this.sortDayTimeRanges(sameDate.dayTimeRanges);
+            sameDate.dayTimeRanges = this.sortDayTimeRanges([...sameDate.dayTimeRanges, ...newExclusionDate.dayTimeRanges]);
             sameDate.dayTimeRanges = TimeRangesMergeHelper(sameDate.dayTimeRanges);
 
             return true;
