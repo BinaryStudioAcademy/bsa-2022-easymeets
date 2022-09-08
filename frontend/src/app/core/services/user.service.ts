@@ -92,6 +92,7 @@ export class UserService {
                 uid: user.uid,
                 userName: user.userName,
                 image: user.image,
+                timeZone: user.timeZone,
             };
 
             this.updateUserInLocalStorage(localUser);
