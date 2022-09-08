@@ -8,8 +8,6 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task<List<MeetingSlotDTO>> GetMeetingMembersByNumberOfMembersToDisplayAsync(long? teamId, int numberOfMembers);
         Task<List<UserMeetingDTO>> GetAllMembers(int id);
         Task<List<OrderedMeetingTimesDto>> GetOrderedMeetingTimesAsync(long slotId);
-        Task DeleteGoogleCalendarMeetings(long teamId);
-        Task AddGoogleCalendarMeetings(long teamId, List<EventItemDTO> eventItemDTOs, long userId);
         Task<SaveMeetingDto> CreateMeeting(SaveMeetingDto meetingDto);
         Task<long> CreateExternalAttendeeMeeting(ExternalAttendeeMeetingDto meetingDto);
     }
