@@ -1,5 +1,5 @@
-using EasyMeets.Emailer.WebAPI.DTO;
-using EasyMeets.Emailer.WebAPI.Services;
+using EasyMeets.Core.Common.DTO;
+using EasyMeets.Emailer.WebAPI.Extensions;
 using EasyMeets.Emailer.WebAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.RegisterCustomServices(builder.Configuration);
 builder.WebHost.UseUrls("http://*:5090");
 
 var app = builder.Build();
@@ -25,7 +25,7 @@ app.UseHttpsRedirection();
 
 app.MapPost("/send", async ([FromBody] EmailDto model, IEmailService emailService) =>
 {
-    return await emailService.SendEmail(model.Recipient, model.Body, model.Subject);
+    return await emailService.SendEmailAsync(model.Recipient, model.Body, model.Subject);
 })
 .WithName("SendEmail");
 
