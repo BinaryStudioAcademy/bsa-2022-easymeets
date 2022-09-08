@@ -11,11 +11,11 @@
         <hr>
         <form class="input-container" [formGroup]="formGroup" *ngIf="this.selected">
             <i class="fa-solid fa-plus add-time fa-xl" (click)="addTimeItem()"></i>
-            <div class="time-item" *ngFor="let timeItem of getIndexSequence()">
-                <input class="time-input start-range" type="time" [formControlName]="timeItem.toString() + startRangeIdentifier">
+            <div class="time-item" *ngFor="let timeItemIndex of timeControlsIdentifiers">
+                <input class="time-input start-range" type="time" [formControlName]="timeItemIndex.toString() + startRangeIdentifier">
                 -
-                <input class="time-input" type="time" [formControlName]="timeItem.toString() + endRangeIdentifier">
-                <i class="fa-regular fa-circle-xmark xmark fa-xl" (click)="removeTimeItem()"></i>
+                <input class="time-input" type="time" [formControlName]="timeItemIndex.toString() + endRangeIdentifier">
+                <i class="fa-regular fa-circle-xmark xmark fa-xl" (click)="removeTimeItem(timeItemIndex)"></i>
             </div>
             <hr>
         </form>

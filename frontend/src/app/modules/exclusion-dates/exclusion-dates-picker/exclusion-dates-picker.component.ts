@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
-import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { TimeRangeValidator } from '@modules/exclusion-dates/validators/time-range-validator';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
 
@@ -14,13 +13,15 @@ import { hourMinutesRegex } from '@shared/constants/model-validation';
 export class ExclusionDatesPickerComponent extends BaseComponent implements OnInit {
     selected: Date | null;
 
-    currentTimeItemIndex = 1;
+    timeIndexIdSeed = 1;
+
+    timeControlsIdentifiers: number[] = [0];
 
     formGroup: FormGroup;
 
-    public readonly startRangeIdentifier = '0';
+    readonly startRangeIdentifier = '0';
 
-    public readonly endRangeIdentifier = '0';
+    readonly endRangeIdentifier = '1';
 
     constructor(private dialogRef: MatDialogRef<ExclusionDatesPickerComponent>) {
         super();
@@ -33,15 +34,16 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
     addTimeItem() {
         const [firstTimeControl, secondTimeControl] = this.getTimeFormControls();
 
-        this.formGroup.addControl(this.currentTimeItemIndex.toString() + this.startRangeIdentifier, firstTimeControl);
-        this.formGroup.addControl(this.currentTimeItemIndex.toString() + this.endRangeIdentifier, secondTimeControl);
-        this.currentTimeItemIndex++;
+        this.formGroup.addControl(this.timeIndexIdSeed.toString() + this.startRangeIdentifier, firstTimeControl);
+        this.formGroup.addControl(this.timeIndexIdSeed.toString() + this.endRangeIdentifier, secondTimeControl);
+        this.timeControlsIdentifiers = [...this.timeControlsIdentifiers, this.timeIndexIdSeed];
+        this.timeIndexIdSeed++;
     }
 
-    removeTimeItem() {
-        this.currentTimeItemIndex--;
-        this.formGroup.removeControl(this.currentTimeItemIndex.toString() + this.startRangeIdentifier);
-        this.formGroup.removeControl(this.currentTimeItemIndex.toString() + this.endRangeIdentifier);
+    removeTimeItem(controlsIdentifier: number) {
+        this.formGroup.removeControl(controlsIdentifier.toString() + this.startRangeIdentifier);
+        this.formGroup.removeControl(controlsIdentifier.toString() + this.endRangeIdentifier);
+        this.timeControlsIdentifiers.splice(this.timeControlsIdentifiers.indexOf(controlsIdentifier), 1);
     }
 
     clickApply() {
@@ -60,10 +62,8 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
         this.dialogRef.close();
     }
 
-    getIndexSequence = () => [...Array(this.currentTimeItemIndex).keys()];
-
     getValidDayTimeRanges = () =>
-        this.getIndexSequence()
+        this.timeControlsIdentifiers
             .map((number) => ({
                 start: this.formGroup.get(number.toString() + this.startRangeIdentifier)?.value as string | null,
                 end: this.formGroup.get(number.toString() + this.endRangeIdentifier)?.value as string | null,
