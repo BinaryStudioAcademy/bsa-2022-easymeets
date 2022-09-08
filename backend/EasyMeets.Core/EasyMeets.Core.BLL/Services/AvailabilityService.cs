@@ -156,11 +156,6 @@ namespace EasyMeets.Core.BLL.Services
                 throw new KeyNotFoundException("Availability slot doesn't exist");
             }
 
-            if (!availabilitySlot.SlotMembers.Any())
-            {
-                availabilitySlot.SlotMembers.Add(new SlotMember { Schedule = new Schedule() });
-            }
-
             return _mapper.Map<AvailabilitySlotDto>(availabilitySlot);
         }
 
