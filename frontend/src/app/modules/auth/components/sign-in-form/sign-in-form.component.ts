@@ -4,6 +4,7 @@ import { BaseComponent } from '@core/base/base.component';
 import { AuthService } from '@core/services/auth.service';
 import { AuthFormService } from '@core/services/auth-form.service';
 import { EmailValidator } from '@modules/auth/validators/email-validator';
+import firebase from 'firebase/compat/app';
 
 @Component({
     selector: 'app-sign-in-form',
@@ -39,7 +40,11 @@ export class SignInFormComponent extends BaseComponent {
         if (this.signInForm.valid) {
             this.authFormService
                 .signIn(this.signInForm.value.email!, this.signInForm.value.password!)
-                .subscribe({ error: () => this.setCredentialsIncorrect() });
+                .subscribe({ error: (e: firebase.auth.Error) => {
+                    if (e.code && e.code === 'auth/wrong-password') {
+                        this.setCredentialsIncorrect();
+                    }
+                } });
         }
     }
 
