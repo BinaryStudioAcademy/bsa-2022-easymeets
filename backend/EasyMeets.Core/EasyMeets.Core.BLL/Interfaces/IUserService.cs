@@ -15,5 +15,6 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task<ImagePathDto> UploadImageAsync(IFormFile file);
         Task CreateZoomCredentials(NewCredentialsRequestDto newCredentialsRequestDto);
         Task<List<UserDto>> GetUsersByEmailOrNameAsync(string searchData);
+        string? GetCurrentUserId();
     }
 }
