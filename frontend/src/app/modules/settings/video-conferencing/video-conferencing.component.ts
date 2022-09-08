@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { SpinnerService } from '@core/services/spinner.service';
@@ -9,7 +9,7 @@ import { ZoomService } from '@core/services/zoom.service';
     templateUrl: './video-conferencing.component.html',
     styleUrls: ['./video-conferencing.component.sass'],
 })
-export class VideoConferencingComponent extends BaseComponent {
+export class VideoConferencingComponent extends BaseComponent implements OnInit {
     private redirectUri: string = document.location.href.split('?')[0];
 
     email: string | undefined;
@@ -23,7 +23,10 @@ export class VideoConferencingComponent extends BaseComponent {
         private activatedRoute: ActivatedRoute,
     ) {
         super();
-        spinnerService.show();
+    }
+
+    ngOnInit(): void {
+        this.spinnerService.show();
         this.checkActivatedRoute();
         this.getZoomClientEmail();
     }
