@@ -20,7 +20,7 @@ export class VideoConferencingComponent extends BaseComponent implements OnInit 
 
     availableAccounts: IGoogleMeetCredentials[] = [];
 
-    selectedAccount: IGoogleMeetCredentials;
+    selectedAccount?: IGoogleMeetCredentials;
 
     constructor(
         private spinnerService: SpinnerService,
@@ -34,10 +34,19 @@ export class VideoConferencingComponent extends BaseComponent implements OnInit 
 
     ngOnInit(): void {
         this.checkActivatedRoute();
+        this.getMeetData();
+    }
+
+    getMeetData() {
         this.googleMeetService.getAvailableCredentials()
             .pipe(this.untilThis)
             .subscribe(resp => {
                 this.availableAccounts = resp;
+            });
+        this.googleMeetService.getCredentials()
+            .pipe(this.untilThis)
+            .subscribe(resp => {
+                this.selectedAccount = resp;
             });
     }
 
@@ -58,7 +67,7 @@ export class VideoConferencingComponent extends BaseComponent implements OnInit 
     }
 
     changeMeetAccount() {
-        this.googleMeetService.createCredentials(this.availableAccounts[0])
+        this.googleMeetService.createCredentials(this.selectedAccount!)
             .pipe(this.untilThis)
             .subscribe();
     }

@@ -1,9 +1,9 @@
 @import "src/styles/color-variables"
 
 .container
-    padding: 25px
+    padding: 0 25px
     .zoom-label
-        padding-bottom: 15px
+        padding: 15px 0
         font-weight: bold
         font-size: 14px
     button
@@ -28,7 +28,13 @@
     border-radius: 8px
     padding-left: 5px
 
-::ng-deep .container
+.info-label
+    color: $dark-gray
+
+::ng-deep .connected-block
+    display: flex
+    gap: 15px
+    align-items: center
     .mat-select
         box-sizing: border-box
         align-items: center

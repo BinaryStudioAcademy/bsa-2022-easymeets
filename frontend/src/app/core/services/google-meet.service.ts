@@ -18,4 +18,8 @@ export class GoogleMeetService {
     public createCredentials(credentials: IGoogleMeetCredentials) {
         return this.httpService.postRequest<IGoogleMeetCredentials>(`${this.routePrefix}/credentials/create`, credentials);
     }
+
+    public getCredentials() {
+        return this.httpService.getRequest<IGoogleMeetCredentials>(`${this.routePrefix}/credentials`);
+    }
 }

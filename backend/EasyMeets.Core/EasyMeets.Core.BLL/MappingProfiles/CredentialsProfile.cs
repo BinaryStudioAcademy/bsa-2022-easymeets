@@ -25,5 +25,7 @@ public class CredentialsProfile : Profile
                 => opts.MapFrom((_, dest) => dest.UserId))
             .ForMember(dest => dest.Type, opts 
                 => opts.MapFrom(src => CredentialsType.Meet));
+
+        CreateMap<Credentials, MeetCredentialsDto>();
     }
 }
