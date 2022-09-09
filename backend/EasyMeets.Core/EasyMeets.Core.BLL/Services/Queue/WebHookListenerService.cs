@@ -32,17 +32,9 @@ namespace EasyMeets.Core.BLL.Services.Queue
             using var scope = _provider.CreateScope();
             var calendarService = scope.ServiceProvider.GetRequiredService<ICalendarsService>();
 
-            try
-            {
-                await calendarService.SyncChangesFromGoogleCalendar(messageString);
-            }
-            catch (Exception)
-            {
-            }
-            finally
-            {
-                _consumer.SetAcknowledge(args.DeliveryTag, true);
-            }
+            await calendarService.SyncChangesFromGoogleCalendar(messageString);
+            
+            _consumer.SetAcknowledge(args.DeliveryTag, true);
         }
 
         public override void Dispose()
