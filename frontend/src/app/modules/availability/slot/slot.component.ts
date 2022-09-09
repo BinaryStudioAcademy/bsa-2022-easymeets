@@ -1,12 +1,16 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { Component, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { ColorShadowMapping } from '@core/helpers/color-shadow-mapping';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
+import { IColorHex } from '@core/models/IColorHex';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
+import { environment } from '@env/environment';
 import { activationSlotMessage, deletionMessage, inactivationSlotMessage } from '@shared/constants/shared-messages';
 import { Subscription } from 'rxjs';
 
@@ -24,6 +28,16 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
 
     @Output() isChangedActivity = new EventEmitter<boolean>();
 
+    locationTypeMapping = LocationTypeMapping;
+
+    ColorShadowMapping = ColorShadowMapping;
+
+    isChecked: boolean = true;
+
+    @HostBinding('style.--slotLineColor') slotLineColor = '';
+
+    @HostBinding('style.--slotShadowColor') slotShadowColor = '';
+
     private deleteEventEmitter = new EventEmitter<void>();
 
     private deleteEventSubscription: Subscription;
@@ -31,10 +45,6 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
     private changeActivityEventEmitter = new EventEmitter<void>();
 
     private changeActivitySubscription: Subscription;
-
-    public isChecked: boolean = true;
-
-    locationTypeMapping = LocationTypeMapping;
 
     private activationTitle = 'Confirm Slot Activation';
 
@@ -45,6 +55,7 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
         private notifications: NotificationService,
         private router: Router,
         private confirmWindowService: ConfirmationWindowService,
+        private clipboard: Clipboard,
     ) {
         super();
 
@@ -54,6 +65,11 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.isChecked = this.slot.isEnabled;
+
+        const slotLineColorInfo: IColorHex = ColorShadowMapping(this.slot.color);
+
+        this.slotLineColor = slotLineColorInfo.colorHex;
+        this.slotShadowColor = slotLineColorInfo.shadowHex;
     }
 
     public goToPage(pageName: string) {
@@ -135,5 +151,14 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
 
         this.deleteEventSubscription.unsubscribe();
         this.changeActivitySubscription.unsubscribe();
+    }
+
+    public getDefinitionLink() {
+        return `${environment.appUrl}/external-booking/choose-time/${this.slot.link}`;
+    }
+
+    saveLink() {
+        this.clipboard.copy(this.getDefinitionLink());
+        this.notifications.showSuccessMessage('Link copied to clipboard');
     }
 }
