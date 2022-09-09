@@ -109,15 +109,12 @@ public class TeamService : BaseService, ITeamService
 
     public async Task UpdateTeamMemberRoleAsync(TeamMemberDto teamMemberDto)
     {
-        var teamMember = await _context.TeamMembers.FirstAsync(s => s.Id == teamMemberDto.Id) ??
+        var teamMember = await _context.TeamMembers.FirstOrDefaultAsync(s => s.Id == teamMemberDto.Id) ??
             throw new KeyNotFoundException("Team member doesn't exist");
-        if (teamMember is not null)
-        {
-            teamMember.Role = teamMemberDto.Role;
+        teamMember.Role = teamMemberDto.Role;
 
-            _context.TeamMembers.Update(teamMember);
-            await _context.SaveChangesAsync();
-        }
+        _context.TeamMembers.Update(teamMember);
+        await _context.SaveChangesAsync();
     }
 
 
