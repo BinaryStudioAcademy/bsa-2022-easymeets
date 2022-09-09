@@ -78,9 +78,10 @@ public class GoogleMeetService : BaseService, IGoogleMeetService
 
     public async Task CreateMeetCredentials(MeetCredentialsDto credentialsDto)
     {
+        var userId = _userService.GetCurrentUserId();
         var user = await _context.Users
                        .Include(u => u.Credentials)
-                       .FirstOrDefaultAsync(u => u.Uid == _userService.GetCurrentUserId()) 
+                       .FirstOrDefaultAsync(u => u.Uid == userId) 
                    ?? throw new KeyNotFoundException("User doesn't exist");
         if (user.Credentials.Any(cr => cr.Type == CredentialsType.Meet))
         {
