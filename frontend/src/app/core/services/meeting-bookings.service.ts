@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IMeetingBooking } from '@core/models/IMeetingBooking';
+import { IMeetingMembersRequest } from '@core/models/IMeetingMemberRequest';
 import { IUserMeeting } from '@core/models/IUserMeeting';
 import { Observable } from 'rxjs';
 
@@ -14,8 +15,8 @@ export class MeetingBookingsService {
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService) {}
 
-    public getThreeMeetings(currentTeamId?: number): Observable<IMeetingBooking[]> {
-        return this.httpService.getRequest<IMeetingBooking[]>(`${this.routePrefix}/getThreeMeetingMembers/${currentTeamId ?? ''}`);
+    public getThreeMeetings(data: IMeetingMembersRequest): Observable<IMeetingBooking[]> {
+        return this.httpService.postRequest<IMeetingBooking[]>(`${this.routePrefix}/getThreeMeetingMembers`, data);
     }
 
     public getAllMembers(id: number) {
