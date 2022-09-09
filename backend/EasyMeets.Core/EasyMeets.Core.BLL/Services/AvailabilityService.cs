@@ -54,6 +54,7 @@ namespace EasyMeets.Core.BLL.Services
                         AuthorName = y.Author.Name,
                         TeamName = y.Team.Name,
                         LocationType = y.LocationType,
+                        MeetingRoom = y.MeetingRoom,
                         Link = y.Link,
                         EmailTemplateSettings = _mapper.Map<List<EmailTemplatesSettingsDto>>(y.EmailTemplates),
                         Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.SlotMembers),
@@ -280,7 +281,7 @@ namespace EasyMeets.Core.BLL.Services
 
             await _context.SaveChangesAsync();
         }
-        
+
         public async Task<bool> ValidateLinkAsync(long? slotId, string slotLink)
         {
             return !await _context.AvailabilitySlots.AnyAsync(s => s.Id != slotId && s.Link == slotLink);

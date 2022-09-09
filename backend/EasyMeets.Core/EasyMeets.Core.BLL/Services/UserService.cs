@@ -144,15 +144,14 @@ namespace EasyMeets.Core.BLL.Services
             return new ImagePathDto() { Path = imagePath };
         }
 
-        public async Task<List<CredentialsType>> GetUserMeetLocationIntegration()
+        public async Task<List<CredentialsType>> GetUserMeetIntegrations()
         {
             var user = await _context.Users.Include(u => u.Credentials)
                 .FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId())
                 ?? throw new KeyNotFoundException("User doesn't exist");
 
-            return  user.Credentials.Select(c => c.Type).ToList();
+            return  user.Credentials.Select(c => c.Type).Distinct().ToList();
         }
-
 
         public string? GetCurrentUserId()
         {

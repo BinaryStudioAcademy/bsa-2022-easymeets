@@ -4,6 +4,7 @@ import { INewUser } from '@core/models/INewUser';
 import { IUpdateUser } from '@core/models/IUpdateUser';
 import { ILocalUser, IUser } from '@core/models/IUser';
 import { failedGettingUserMessage } from '@shared/constants/shared-messages';
+import { LocationType } from '@shared/enums/locationType';
 import { BehaviorSubject, first, Observable, tap } from 'rxjs';
 
 import { HttpInternalService } from './http-internal.service';
@@ -66,6 +67,10 @@ export class UserService {
                     this.notificationService.showErrorMessage('Something went wrong. Failed to verify email exists.'),
             }),
         );
+    }
+
+    public getUserMeetIntegrations(): Observable<LocationType[]> {
+        return this.httpService.getRequest<LocationType[]>(`${this.routePrefix}/meet-integrations`);
     }
 
     public uploadImage(data: FormData): Observable<IImagePath> {

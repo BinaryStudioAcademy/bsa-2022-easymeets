@@ -17,6 +17,7 @@ export interface IAvailabilitySlot {
     isEnabled: boolean;
     isVisible: boolean;
     locationType: LocationType;
+    meetingRoom?: string;
     members: IAvailabilitySlotMember[];
     advancedSlotSettingsId?: number;
     advancedSlotSettings?: IAdvancedSlotSettings;
