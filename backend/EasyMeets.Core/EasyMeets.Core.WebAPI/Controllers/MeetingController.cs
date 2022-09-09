@@ -20,7 +20,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpPost("GetThreeMeetingMembers")]
-        public async Task<List<MeetingSlotDTO>> GetMeetingMembersByCountAsync(MeetingMemberRequestDto meetingMemberRequestDto) => 
+        public async Task<List<MeetingSlotDTO>> GetMeetingMembersByCountAsync(MeetingMemberRequestDto meetingMemberRequestDto) =>
             await _meetingService.GetMeetingMembersByNumberOfMembersToDisplayAsync(meetingMemberRequestDto.TeamId, meetingMemberRequestDto.NumberOfMembersToDisplay);
 
         [HttpGet("{id:int}/members/all")]
@@ -47,6 +47,14 @@ namespace EasyMeets.Core.WebAPI.Controllers
         public async Task<ActionResult<SaveMeetingDto>> SaveNewMeeting([FromBody] SaveMeetingDto newMeetingDto)
         {
             return Ok(await _meetingService.CreateMeeting(newMeetingDto));
+        }
+
+        [HttpDelete]
+        [Route("{meetingId}")]
+        public async Task<ActionResult<SaveMeetingDto>> DeleteMeeting(long meetingId)
+        {
+            await _meetingService.DeleteMeeting(meetingId);
+            return NoContent();
         }
     }
 }

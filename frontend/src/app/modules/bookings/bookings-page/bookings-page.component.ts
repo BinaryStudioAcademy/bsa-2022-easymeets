@@ -52,6 +52,20 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
             });
     }
 
+    public deleteBooking(id: number) {
+        this.meetingService
+            .deleteBooking(id)
+            .pipe(this.untilThis)
+            .subscribe(
+                () => {
+                    this.notifications.showSuccessMessage('Slot was successfully deleted');
+                },
+                (error) => {
+                    this.notifications.showErrorMessage(error);
+                },
+            );
+    }
+
     private loadMeetings(meetingMemberRequest: IMeetingMembersRequest) {
         this.meetingService
             .getThreeMeetings(meetingMemberRequest)

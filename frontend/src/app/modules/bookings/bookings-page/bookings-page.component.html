@@ -12,7 +12,7 @@
                                 <button mat-menu-item class="btn edit">
                                     <i class="fa-solid fa-pen"></i>Edit
                                 </button>
-                                <button mat-menu-item class="btn delete"  >
+                                <button mat-menu-item class="btn delete" (click)="deleteBooking(item.id)">
                                     <i class="fa-solid fa-trash"></i>Delete
                                 </button>
                             </mat-menu>

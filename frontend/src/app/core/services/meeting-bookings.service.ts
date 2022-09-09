@@ -22,4 +22,8 @@ export class MeetingBookingsService {
     public getAllMembers(id: number) {
         return this.httpService.getRequest<IUserMeeting[]>(`${this.routePrefix}/${id}/members/all`);
     }
+
+    public deleteBooking(id: number) {
+        return this.httpService.deleteRequest<IUserMeeting[]>(`${this.routePrefix}/${id}`);
+    }
 }

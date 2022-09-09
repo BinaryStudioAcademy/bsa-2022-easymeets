@@ -226,5 +226,15 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(tm => tm.User)
                 .FirstOrDefault(m => m.Id == id) ?? throw new KeyNotFoundException("Invalid meeting id");
         }
+
+        public async Task DeleteMeeting(long meetingId)
+        {
+            var meeting = await _context.Meetings.FirstAsync(meeting => meeting.Id == meetingId);
+            var members = _context.MeetingMembers.Where(member => member.MeetingId == meetingId);
+            _context.RemoveRange(members);
+            _context.Remove(meeting);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }
