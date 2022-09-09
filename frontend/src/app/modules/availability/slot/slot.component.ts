@@ -1,3 +1,4 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
@@ -7,6 +8,7 @@ import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
+import { environment } from '@env/environment';
 import { activationSlotMessage, deletionMessage, inactivationSlotMessage } from '@shared/constants/shared-messages';
 import { Subscription } from 'rxjs';
 
@@ -45,6 +47,7 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
         private notifications: NotificationService,
         private router: Router,
         private confirmWindowService: ConfirmationWindowService,
+        private clipboard: Clipboard,
     ) {
         super();
 
@@ -135,5 +138,14 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
 
         this.deleteEventSubscription.unsubscribe();
         this.changeActivitySubscription.unsubscribe();
+    }
+
+    public getDefinitionLink() {
+        return `${environment.appUrl}/external-booking/choose-time/${this.slot.link}`;
+    }
+
+    saveLink() {
+        this.clipboard.copy(this.getDefinitionLink());
+        this.notifications.showSuccessMessage('Link copied to clipboard');
     }
 }

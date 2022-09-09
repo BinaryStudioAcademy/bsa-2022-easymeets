@@ -14,11 +14,9 @@
             </div>
         </div>
         <div class="user-url">
-            <img src="assets/copy_icon.png" class="copy-icon" />
+            <img src="assets/copy_icon.png" class="copy-icon" (click)="saveLink()" />
             <div>
-                <a
-                    [routerLink]="['/external-booking/choose-meeting/']"
-                    [queryParams]="{ link: currentUser.personalUrl }">
+                <a [routerLink]="['/external-booking/choose-meeting/' + currentUser.personalUrl]">
                     {{ currentUser.personalUrl }}
                 </a>
             </div>
