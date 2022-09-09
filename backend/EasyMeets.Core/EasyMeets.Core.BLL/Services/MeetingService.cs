@@ -1,14 +1,13 @@
-using System.Collections;
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
-using EasyMeets.Core.Common.DTO;
-using EasyMeets.Core.Common.DTO.Calendar;
+using EasyMeets.Core.Common.DTO; 
 using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -24,26 +23,71 @@ namespace EasyMeets.Core.BLL.Services
             _emailSender = emailSender;
         }
 
-        public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync(long? teamId)
+        public async Task<List<MeetingSlotDTO>> GetMeetingMembersByNumberOfMembersToDisplayAsync(long? teamId, int numberOfMembers)
         {
             if (teamId is null)
             {
-                return new List<MeetingThreeMembersDTO>();
+                return new List<MeetingSlotDTO>();
             }
 
             var team = await _context.Teams.FirstOrDefaultAsync(team => team.Id == teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
 
             var meetings = await _context.Meetings
+                .Where(meeting => meeting.TeamId == team.Id)
                 .Include(m => m.AvailabilitySlot)
-                    .Include(s => s!.ExternalAttendees)
+                .Include(s => s!.ExternalAttendees)
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
-                .Where(meeting => meeting.TeamId == team.Id)
-                .ToListAsync();
+                .Select(x =>
+                    new MeetingSlotDTO
+                    {
+                        Id = x.Id,
+                        Location = x.LocationType.ToString(),
+                        MeetingCount = x.MeetingMembers.Count,
+                        MembersTitle = CreateMemberTitle(x),
+                        MeetingTitle = x.Name,
+                        MeetingDuration = $"{x.Duration} min",
+                        MeetingTime = $"{x.StartTime.Hour}:{x.StartTime.Minute:00} - " +
+                            $"{x.StartTime.AddMinutes(x.Duration).Hour}:{x.StartTime.AddMinutes(x.Duration).Minute:00}",
+                        MeetingLink = x.MeetingLink,
+                        MeetingMembers = GetAllParticipants(x, numberOfMembers)
+                    })
+            .ToListAsync(); 
 
-            var mapped = _mapper.Map<List<MeetingThreeMembersDTO>>(meetings);
-            return mapped;
+            return meetings;
+        }
+
+        private static List<UserMeetingDTO> GetAllParticipants(Meeting meeting, int numberOfMembers)
+        {
+            var slotMembers = meeting.MeetingMembers 
+                .Select(x => new UserMeetingDTO
+                {
+                    Name = x.TeamMember.User.Name,
+                    Email = x.TeamMember.User.Email,
+                    TimeZone = new() { NameValue = x.TeamMember.User.TimeZoneName, TimeValue = x.TeamMember.User.TimeZoneValue },
+                    Booked = meeting.CreatedAt
+                });
+
+            var external = meeting.ExternalAttendees 
+                .Select(x => new UserMeetingDTO
+                {
+                    Name = x.Name,
+                    Email = x.Email,
+                    TimeZone = new() { NameValue = x.TimeZoneName, TimeValue = x.TimeZoneValue },
+                    Booked = meeting.CreatedAt
+                });
+
+            return slotMembers.Union(external).Take(numberOfMembers).ToList();
+        } 
+        private static string CreateMemberTitle(Meeting meeting)
+        {
+            return meeting.MeetingMembers.Count() switch
+            {
+                0 => "Empty meeting.",
+                1 => meeting.MeetingMembers.First().TeamMember.User.Name,
+                _ => $"{meeting.MeetingMembers.Count()} Team Members"
+            };
         }
 
         public async Task<List<UserMeetingDTO>> GetAllMembers(int id)
@@ -64,8 +108,8 @@ namespace EasyMeets.Core.BLL.Services
             }
 
             return members;
-        }
-        
+        } 
+
         public async Task<SaveMeetingDto> CreateMeeting(SaveMeetingDto meetingDto)
         {
             var currentUser = await _userService.GetCurrentUserAsync();
@@ -96,9 +140,9 @@ namespace EasyMeets.Core.BLL.Services
             var meeting = _mapper.Map<Meeting>(meetingDto);
 
             await _context.Meetings.AddAsync(meeting);
-            
+
             await _context.SaveChangesAsync();
-            
+
             await AddMeetingLink(meeting);
 
             return meeting.Id;
@@ -107,7 +151,7 @@ namespace EasyMeets.Core.BLL.Services
         public async Task<List<OrderedMeetingTimesDto>> GetOrderedMeetingTimesAsync(long slotId)
         {
             return await _context.Meetings.Where(el => el.AvailabilitySlotId == slotId)
-                .Select(el => new OrderedMeetingTimesDto {StartTime = el.StartTime})
+                .Select(el => new OrderedMeetingTimesDto { StartTime = el.StartTime })
                 .ToListAsync();
         }
 
@@ -120,7 +164,7 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(m => m.AvailabilitySlot)
                     .ThenInclude(slot => slot!.EmailTemplates)
                 .FirstOrDefaultAsync(m => m.Id == meetingId);
-            
+
             var emailTemplate = meeting?
                 .AvailabilitySlot?
                 .EmailTemplates
@@ -131,22 +175,22 @@ namespace EasyMeets.Core.BLL.Services
                 .Select(meetingMember => meetingMember.TeamMember.User.Email)
                 .Concat(meeting.ExternalAttendees.Select(attendee => attendee.Email))
                 .ToList();
-            
+
             if (emailTemplate is null || recipients is null || !recipients.Any())
             {
                 return;
             }
-            
+
             var emailDto = _mapper.Map<EmailDto>(emailTemplate);
-            
+
             foreach (var recipient in recipients)
             {
                 emailDto.Recipient = recipient;
-                
+
                 _emailSender.Send(emailDto);
             }
         }
-        
+
         private async Task<ICollection<MeetingMember>> GetMeetingMembers(List<NewMeetingMemberDto> meetingMembers, long teamId)
         {
             var usersIds = meetingMembers.Select(x => x.Id);

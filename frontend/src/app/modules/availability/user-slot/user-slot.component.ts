@@ -1,9 +1,12 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IUser } from '@core/models/IUser';
+import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-user-slot',
@@ -19,7 +22,12 @@ export class UserSlotComponent extends BaseComponent {
 
     @Output() isReload = new EventEmitter<boolean>();
 
-    constructor(public spinnerService: SpinnerService, private router: Router) {
+    constructor(
+        public spinnerService: SpinnerService,
+        private router: Router,
+        private clipboard: Clipboard,
+        private notificationService: NotificationService,
+    ) {
         super();
     }
 
@@ -33,5 +41,14 @@ export class UserSlotComponent extends BaseComponent {
 
     isChangedActivity(isChanged: boolean) {
         this.isReload.emit(isChanged);
+    }
+
+    public getDefinitionLink() {
+        return `${environment.appUrl}/external-booking/choose-meeting/${this.currentUser.personalUrl}`;
+    }
+
+    saveLink() {
+        this.clipboard.copy(this.getDefinitionLink());
+        this.notificationService.showSuccessMessage('Link copied to clipboard');
     }
 }

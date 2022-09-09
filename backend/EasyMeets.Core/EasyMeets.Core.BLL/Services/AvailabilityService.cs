@@ -58,6 +58,7 @@ namespace EasyMeets.Core.BLL.Services
                         Link = y.Link,
                         EmailTemplateSettings = _mapper.Map<List<EmailTemplatesSettingsDto>>(y.EmailTemplates),
                         Members = _mapper.Map<ICollection<AvailabilitySlotMemberDto>>(y.SlotMembers),
+                        Color = y.Color,
                     }
                 )
                 .ToListAsync();

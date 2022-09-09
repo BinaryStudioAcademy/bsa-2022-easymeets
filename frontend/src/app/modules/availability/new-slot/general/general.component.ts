@@ -4,13 +4,18 @@ import { BaseComponent } from '@core/base/base.component';
 import { ActivityType } from '@core/enums/activity-type.enum';
 import { Color } from '@core/enums/color.enum';
 import { SlotType } from '@core/enums/slot-type.enum';
+import { getDisplayDuration } from '@core/helpers/display-duration-helper';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { colorInputs } from '@core/helpers/slot-shadow-helper';
+import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
+import { IDuration } from '@core/models/IDuration';
 import { ISaveAdvancedSettings } from '@core/models/save-availability-slot/ISaveAdvancedSettings';
 import { ISaveGeneralSettings } from '@core/models/save-availability-slot/ISaveGeneralSettings';
 import { UserService } from '@core/services/user.service';
 import { meetingNameRegex, naturalNumberRegex } from '@shared/constants/model-validation';
 import { LocationType } from '@shared/enums/locationType';
+import { UnitOfTime } from '@shared/enums/unitOfTime';
 
 @Component({
     selector: 'app-general',
@@ -21,9 +26,9 @@ export class GeneralComponent extends BaseComponent implements OnInit {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
         this.settings = {
-            size: this.slot?.size ?? this.slotSizes[0],
+            size: this.slot?.size ?? this.durations[0].minutes!,
             isVisible: this.slot?.isVisible ?? false,
-            color: this.slot?.color ?? Color.Azure,
+            color: this.slot?.color ?? Color.Cyan,
             name: this.slot?.name ?? '',
             locationType: this.slot?.locationType ?? LocationType.Zoom,
             meetingRoom: this.slot?.meetingRoom,
@@ -39,23 +44,8 @@ export class GeneralComponent extends BaseComponent implements OnInit {
             minBookingMeetingDifference:
                 this.slot?.advancedSlotSettings?.minBookingMeetingDifference ?? this.minBookingMeetingDifferences[0],
         };
-
-        if (!this.slotSizes.some((f) => f === this.settings.size)) {
-            this.slotSizes.push(this.settings.size);
-        }
-
-        if (!this.slotsFrequencies.some((f) => f === this.advancedSettings?.frequency)) {
-            this.slotsFrequencies.push(this.advancedSettings?.frequency);
-        }
-
-        if (!this.minBookingMeetingDifferences.some((f) => f === this.advancedSettings?.minBookingMeetingDifference)) {
-            this.minBookingMeetingDifferences.push(this.advancedSettings.minBookingMeetingDifference);
-        }
-
-        if (!this.meetingPaddings.some((f) => f === this.advancedSettings?.paddingMeeting)) {
-            this.meetingPaddings.push(this.advancedSettings.paddingMeeting);
-        }
         this.addAdvanced = Boolean(this.slot?.advancedSlotSettingsId);
+        this.defineCurrentDuration(this.settings.size);
     }
 
     public slot?: IAvailabilitySlot;
@@ -63,8 +53,6 @@ export class GeneralComponent extends BaseComponent implements OnInit {
     public settings: ISaveGeneralSettings;
 
     public advancedSettings: ISaveAdvancedSettings;
-
-    public slotSizes: number[] = [30, 60];
 
     public slotsFrequencies: number[] = [30, 60];
 
@@ -92,6 +80,18 @@ export class GeneralComponent extends BaseComponent implements OnInit {
 
     public naturalNumberInputPattern = naturalNumberRegex;
 
+    public durations: IDuration[] = getDisplayDuration();
+
+    public duration: IDuration = this.durations[0];
+
+    public customTimeShown: boolean = false;
+
+    public unitOfTime = Object.keys(UnitOfTime);
+
+    public selectedUnit: string = this.unitOfTime[0];
+
+    public inputCustomTime: string;
+
     @ViewChild(NgForm) public generalForm: NgForm;
 
     locationTypeMapping = LocationTypeMapping;
@@ -102,9 +102,9 @@ export class GeneralComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         this.settings = {
-            size: this.slotSizes[0],
+            size: this.durations[0].minutes!,
             isVisible: false,
-            color: Color.Azure,
+            color: Color.Cyan,
             name: '',
             locationType: LocationType.Zoom,
             isEnabled: true,
@@ -122,40 +122,7 @@ export class GeneralComponent extends BaseComponent implements OnInit {
         this.initLocations();
     }
 
-    public colorInputs: { id: string; enumValue: Color }[] = [
-        {
-            id: 'dark-blue-color',
-            enumValue: Color.Black,
-        },
-        {
-            id: 'light-red-color',
-            enumValue: Color.Red,
-        },
-        {
-            id: 'light-green-color',
-            enumValue: Color.Orange,
-        },
-        {
-            id: 'yellow-green-color',
-            enumValue: Color.Green,
-        },
-        {
-            id: 'aqua-color',
-            enumValue: Color.Azure,
-        },
-        {
-            id: 'blue-color',
-            enumValue: Color.Blue,
-        },
-        {
-            id: 'light-purple-color',
-            enumValue: Color.Purple,
-        },
-        {
-            id: 'red-color',
-            enumValue: Color.Cherry,
-        },
-    ];
+    colorInputs = colorInputs;
 
     colorInputChanged(color: Color) {
         this.settings.color = color;
@@ -169,5 +136,43 @@ export class GeneralComponent extends BaseComponent implements OnInit {
 
                 this.locations = this.locations.concat(LocationType.Office);
             });
+    }
+
+    meetingNameChanged(value: string) {
+        this.settings.name = removeExcessiveSpaces(value);
+    }
+
+    onDurationChange() {
+        this.customTimeShown = this.duration.time === 'Custom';
+        this.settings = this.updateSettingSize(this.duration.minutes!);
+    }
+
+    customDurationChanged() {
+        const slotSize: number =
+            UnitOfTime[this.selectedUnit as UnitOfTime] === UnitOfTime.Hour
+                ? parseInt(this.inputCustomTime, 10) * 60
+                : parseInt(this.inputCustomTime, 10);
+
+        this.settings = this.updateSettingSize(slotSize);
+    }
+
+    private defineCurrentDuration(slotDuration: number) {
+        this.duration =
+            this.durations.find((x) => x.minutes === slotDuration) ?? this.durations.find((x) => x.time === 'Custom')!;
+
+        if (this.duration.time === 'Custom') {
+            this.customTimeShown = true;
+            this.selectedUnit = UnitOfTime.Min.toString();
+            this.inputCustomTime = String(slotDuration);
+        }
+    }
+
+    private updateSettingSize(slotSize: number): ISaveGeneralSettings {
+        const settings: ISaveGeneralSettings = {
+            ...this.settings,
+            size: slotSize,
+        };
+
+        return settings;
     }
 }
