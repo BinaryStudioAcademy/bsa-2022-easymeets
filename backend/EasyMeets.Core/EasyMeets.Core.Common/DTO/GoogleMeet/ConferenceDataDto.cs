@@ -1,7 +1,9 @@
-﻿namespace EasyMeets.Core.Common.DTO.GoogleMeet;
+﻿using Newtonsoft.Json;
+
+namespace EasyMeets.Core.Common.DTO.GoogleMeet;
 
 public class ConferenceDataDto
 {
+    [JsonProperty("createRequest")]
     public CreateRequestDto CreateRequest { get; set; } = new();
-    public string RequestId { get; set; } = Guid.NewGuid().ToString();
 }
