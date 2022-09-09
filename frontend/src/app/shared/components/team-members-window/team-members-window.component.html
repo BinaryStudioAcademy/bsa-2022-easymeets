@@ -17,7 +17,10 @@
         <div *ngIf="query && !searchedUsers.length" class="query-message">No users found</div>
         <div *ngFor="let user of searchedUsers">
             <ng-container *ngIf="!isAddedMember(user); else notAddedMember">
-                <div class="user-info not-added-user-info" id="user-info-{{ user.id }}" (click)="selectUser(user)">
+                <div
+                    class="user-info not-added-user-info"
+                    [ngClass]="isSelectedUserToAdd(user.id)"
+                    (click)="selectUser(user)">
                     <div class="user-avatar">
                         <ng-container *ngIf="user.image; else noMemberImage">
                             <img src="{{ user.image }}" />
