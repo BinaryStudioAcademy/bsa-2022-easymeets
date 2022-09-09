@@ -36,6 +36,46 @@ public class GoogleMeetService : BaseService, IGoogleMeetService
             }).ToListAsync();
     }
 
+    public async Task<MeetCredentialsDto?> GetCurrentCredentials()
+    {
+        var userId = _userService.GetCurrentUserId();
+        return await _context.Credentials
+            .Include(c => c.User)
+            .Where(c => c.User.Uid == userId && c.Type == CredentialsType.Meet)
+            .Select(c => _mapper.Map<MeetCredentialsDto>(c))
+            .FirstOrDefaultAsync();
+    }
+
+    public Task DeleteCredentials(string email, long userId)
+    {
+        var credentials = _context.Credentials
+            .Where(c => c.UserId == userId &&
+                        c.UserEmail == email &&
+                        c.Type == CredentialsType.Meet);
+        _context.Credentials.RemoveRange(credentials);
+        return _context.SaveChangesAsync();
+    }
+
+    public async Task CreateDefaultCredentials(string? userId = null)
+    {
+        var user = await _context.Users
+                       .Include(u => u.Credentials)
+                       .Include(u => u.Calendars)
+                       .FirstOrDefaultAsync(u => u.Uid == (userId ?? _userService.GetCurrentUserId())) 
+                   ?? throw new KeyNotFoundException("User doesn't exist");
+        if (user.Credentials.All(c => c.Type != CredentialsType.Meet) && user.Calendars.Any())
+        {
+            var credentials = new Credentials
+            {
+                UserEmail = user.Calendars.First().ConnectedCalendar,
+                Type = CredentialsType.Meet,
+                UserId = user.Id
+            };
+            await _context.Credentials.AddAsync(credentials);
+            await _context.SaveChangesAsync();
+        }
+    }
+
     public async Task CreateMeetCredentials(MeetCredentialsDto credentialsDto)
     {
         var user = await _context.Users

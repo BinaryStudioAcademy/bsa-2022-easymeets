@@ -15,6 +15,12 @@ public class GoogleMeetController : ControllerBase
         _googleMeetService = googleMeetService;
     }
 
+    [HttpGet("credentials")]
+    public async Task<ActionResult<MeetCredentialsDto?>> GetCurrentCredentials()
+    {
+        return Ok(await _googleMeetService.GetCurrentCredentials());
+    }
+
     [HttpGet("credentials/available")]
     public async Task<ActionResult<List<MeetCredentialsDto>>> GetAvailableCredentials()
     {
