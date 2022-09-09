@@ -21,7 +21,7 @@
                 <div>Team Name</div>
             </label>
             <div>
-                <input type="text" formControlName="name" (input)="generateNewPageLink(formGroup)" />
+                <input #teamNameInput type="text" formControlName="name" (input)="generateNewPageLink(formGroup)" (change)="teamNameChanged(teamNameInput.value)" />
             </div>
             <div *ngIf="nameControl.invalid && nameControl.touched" class="validation">
                 <small *ngIf="nameControl.errors?.['required']">This field is required.</small>

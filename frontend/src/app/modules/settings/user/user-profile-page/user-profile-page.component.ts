@@ -5,6 +5,7 @@ import { CountryLabelMapping } from '@core/helpers/country-label-mapping';
 import { CountryCode } from '@core/helpers/countryCode';
 import { DateFormatLabelMapping } from '@core/helpers/date-format-label-mapping';
 import { LanguageLabelMapping } from '@core/helpers/language-label-mapping';
+import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { TimeFormatLabelMapping } from '@core/helpers/time-format-label-mapping';
 import { IImagePath } from '@core/models/IImagePath';
 import { IUpdateUser } from '@core/models/IUpdateUser';
@@ -173,5 +174,9 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public changeZone() {
         this.userForm.markAsTouched();
+    }
+
+    public userNameChanged(value: string) {
+        this.userForm.patchValue({ userName: removeExcessiveSpaces(value) });
     }
 }

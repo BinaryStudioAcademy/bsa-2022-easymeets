@@ -4,6 +4,7 @@ import { ActivityType } from '@core/enums/activity-type.enum';
 import { Color } from '@core/enums/color.enum';
 import { SlotType } from '@core/enums/slot-type.enum';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveAdvancedSettings } from '@core/models/save-availability-slot/ISaveAdvancedSettings';
 import { ISaveGeneralSettings } from '@core/models/save-availability-slot/ISaveGeneralSettings';
@@ -148,5 +149,9 @@ export class GeneralComponent implements OnInit {
 
     colorInputChanged(color: Color) {
         this.settings.color = color;
+    }
+
+    public meetingNameChanged(value: string) {
+        this.settings.name = removeExcessiveSpaces(value);
     }
 }
