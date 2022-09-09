@@ -6,6 +6,7 @@ import { SlotType } from '@core/enums/slot-type.enum';
 import { getDisplayDuration } from '@core/helpers/display-duration-helper';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { colorInputs } from '@core/helpers/slot-shadow-helper';
+import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IDuration } from '@core/models/IDuration';
 import { ISaveAdvancedSettings } from '@core/models/save-availability-slot/ISaveAdvancedSettings';
@@ -114,6 +115,10 @@ export class GeneralComponent implements OnInit {
 
     colorInputChanged(color: Color) {
         this.settings.color = color;
+    }
+
+    public meetingNameChanged(value: string) {
+        this.settings.name = removeExcessiveSpaces(value);
     }
 
     onDurationChange() {
