@@ -128,16 +128,6 @@ export class GeneralComponent extends BaseComponent implements OnInit {
         this.settings.color = color;
     }
 
-    private initLocations() {
-        this.userService.getUserMeetIntegrations()
-            .pipe(this.untilThis)
-            .subscribe(resp => {
-                this.locations = resp;
-
-                this.locations = this.locations.concat(LocationType.Office);
-            });
-    }
-
     meetingNameChanged(value: string) {
         this.settings.name = removeExcessiveSpaces(value);
     }
@@ -154,6 +144,14 @@ export class GeneralComponent extends BaseComponent implements OnInit {
                 : parseInt(this.inputCustomTime, 10);
 
         this.settings = this.updateSettingSize(slotSize);
+    }
+
+    private initLocations() {
+        this.userService.getUserMeetIntegrations()
+            .pipe(this.untilThis)
+            .subscribe(locations => {
+                this.locations = locations.concat(LocationType.Office);
+            });
     }
 
     private defineCurrentDuration(slotDuration: number) {
