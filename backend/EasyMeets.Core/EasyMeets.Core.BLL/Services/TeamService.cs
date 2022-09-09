@@ -93,18 +93,15 @@ public class TeamService : BaseService, ITeamService
     public async Task CreateTeamMemberAsync(TeamMemberDto teamMemberDto, long teamId)
     {
         var team = await GetTeamByIdAsync(teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
-        if (team is not null)
+        var member = new TeamMember()
         {
-            var member = new TeamMember()
-            {
-                Role = Role.Member,
-                TeamId = team.Id,
-                UserId = teamMemberDto.Id,
-            };
+            Role = Role.Member,
+            TeamId = team.Id,
+            UserId = teamMemberDto.Id,
+        };
 
-            _context.TeamMembers.Add(member);
-            await _context.SaveChangesAsync();
-        }
+        _context.TeamMembers.Add(member);
+        await _context.SaveChangesAsync();
     }
 
     public async Task UpdateTeamMemberRoleAsync(TeamMemberDto teamMemberDto)
