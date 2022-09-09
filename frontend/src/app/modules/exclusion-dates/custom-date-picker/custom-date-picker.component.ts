@@ -21,7 +21,7 @@ import { HeaderDatePickerComponent } from '@modules/exclusion-dates/header-date-
         { provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS },
     ],
 })
-export class CustomDatePickerComponent implements AfterViewInit {
+export class CustomDatePickerComponent {
     todayDate: Date;
 
     @Input() selected: Date | null;
@@ -33,13 +33,6 @@ export class CustomDatePickerComponent implements AfterViewInit {
     constructor(private element: ElementRef) {
         this.todayDate = new Date();
         this.todayDate.setHours(0, 0, 0, 0);
-    }
-
-    ngAfterViewInit(): void {
-        const todayDayLine = document.createElement('div');
-
-        todayDayLine.classList.add('today-line');
-        this.element.nativeElement.getElementsByClassName('mat-calendar-body-today').item(0)?.appendChild(todayDayLine);
     }
 
     dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {

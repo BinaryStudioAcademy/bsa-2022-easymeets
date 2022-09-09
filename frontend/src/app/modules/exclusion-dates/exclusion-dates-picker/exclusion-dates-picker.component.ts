@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
-import { TimeRangeValidator } from '@modules/exclusion-dates/validators/time-range-validator';
+import { TimeRangeValidator } from '@core/helpers/time-helper';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
 
 @Component({
