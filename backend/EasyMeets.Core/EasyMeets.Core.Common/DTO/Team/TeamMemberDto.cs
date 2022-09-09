@@ -1,4 +1,5 @@
-﻿using EasyMeets.Core.Common.DTO.Common;
+﻿using EasyMeets.Core.Common.DTO.Calendar;
+using EasyMeets.Core.Common.DTO.Common;
 using EasyMeets.Core.Common.Enums;
 
 namespace EasyMeets.Core.Common.DTO.Team;
@@ -11,5 +12,5 @@ public class TeamMemberDto : EntityDto<long>
     public string PageLink { get; set; } = string.Empty;
     public Role Role { get; set; }
     public Status Status { get; set; }
-    public string? ConnectedCalendar { get; set; } = string.Empty;
+    public List<string>? ConnectedCalendars { get; set; } = new List<string>();
 }

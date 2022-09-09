@@ -9,5 +9,5 @@ export interface ITeamMember {
     pageLink: string;
     role: Role;
     status: Status;
-    calendar?: string;
+    calendars?: string[];
 }

@@ -55,20 +55,19 @@ public class TeamService : BaseService, ITeamService
     public async Task<List<TeamMemberDto>> GetTeamMembersAsync(long teamId)
     {
         var members = await _context.TeamMembers
-           .Where(t => t.TeamId == teamId)
-           .Include(t => t.User)
-           .Select(y =>
-                new TeamMemberDto()
+            .GroupJoin(_context.Calendars,
+                x => x.UserId,
+                y => y.UserId,
+                (person, recs) => new TeamMemberDto()
                 {
-                    Id = y.Id,
-                    Name = y.User.Name,
-                    Email = y.User.Email,
-                    Image = y.User.ImagePath,
-                    Role = y.Role,
-                    ConnectedCalendar = _context.Calendars.Where(p => p.UserId == y.Id).Select(p => p.ConnectedCalendar).FirstOrDefault(),
-                    PageLink = y.User.PersonalUrl,
-                }
-           ).ToListAsync();
+                    Id = person.Id,
+                    Name = person.User.Name,
+                    Email = person.User.Email,
+                    Image = person.User.ImagePath,
+                    Role = person.Role,
+                    PageLink = person.User.PersonalUrl,
+                    ConnectedCalendars = recs.Select(r => r.ConnectedCalendar).ToList(),
+                }).ToListAsync();
 
         return members;
     }
