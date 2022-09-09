@@ -145,7 +145,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 serviceAccount.PrivateKey = configuration["Firebase_Service_Account_Private_Key"].Replace(@"\n", "\n");
             }
 
-                var jsonSerializerSettings = new JsonSerializerSettings
+            var jsonSerializerSettings = new JsonSerializerSettings
             {
                 ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }
             };

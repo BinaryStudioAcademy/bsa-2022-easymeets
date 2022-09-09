@@ -1,5 +1,4 @@
-﻿using EasyMeets.RabbitMQ.Interface;
-using EasyMeets.RabbitMQ.Service;
+﻿using EasyMeets.RabbitMQ.Service;
 using EasyMeets.RabbitMQ.Settings;
 using EasyMeets.Watcher.BLL.Interfaces;
 using EasyMeets.Watcher.BLL.Queries;

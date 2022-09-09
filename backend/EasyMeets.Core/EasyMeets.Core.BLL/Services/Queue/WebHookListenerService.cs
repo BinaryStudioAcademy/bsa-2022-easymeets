@@ -36,9 +36,8 @@ namespace EasyMeets.Core.BLL.Services.Queue
             {
                 await calendarService.SyncChangesFromGoogleCalendar(messageString);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception(ex.Message);
             }
             finally
             {
