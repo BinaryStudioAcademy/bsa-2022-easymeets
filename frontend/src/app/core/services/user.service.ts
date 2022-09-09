@@ -60,7 +60,9 @@ export class UserService {
     }
 
     public checkExistingEmail(email: string): Observable<boolean> {
-        return this.httpService.getRequest<boolean>(`${this.routePrefix}/check-email?email=${email}`).pipe(
+        const emailEncoded = encodeURIComponent(email);
+
+        return this.httpService.getRequest<boolean>(`${this.routePrefix}/check-email?email=${emailEncoded}`).pipe(
             tap({
                 error: () =>
                     this.notificationService.showErrorMessage('Something went wrong. Failed to verify email exists.'),

@@ -4,6 +4,7 @@ import { ActivityType } from '@core/enums/activity-type.enum';
 import { Color } from '@core/enums/color.enum';
 import { SlotType } from '@core/enums/slot-type.enum';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { colorInputs } from '@core/helpers/slot-shadow-helper';
 import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveAdvancedSettings } from '@core/models/save-availability-slot/ISaveAdvancedSettings';
@@ -22,7 +23,7 @@ export class GeneralComponent implements OnInit {
         this.settings = {
             size: this.slot?.size ?? this.slotSizes[0],
             isVisible: this.slot?.isVisible ?? false,
-            color: this.slot?.color ?? Color.Azure,
+            color: this.slot?.color ?? Color.Cyan,
             name: this.slot?.name ?? '',
             locationType: this.slot?.locationType ?? LocationType.Zoom,
             isEnabled: this.slot?.isEnabled ?? true,
@@ -96,7 +97,7 @@ export class GeneralComponent implements OnInit {
         this.settings = {
             size: this.slotSizes[0],
             isVisible: false,
-            color: Color.Azure,
+            color: Color.Cyan,
             name: '',
             locationType: LocationType.Zoom,
             isEnabled: true,
@@ -112,40 +113,7 @@ export class GeneralComponent implements OnInit {
         };
     }
 
-    public colorInputs: { id: string; enumValue: Color }[] = [
-        {
-            id: 'dark-blue-color',
-            enumValue: Color.Black,
-        },
-        {
-            id: 'light-red-color',
-            enumValue: Color.Red,
-        },
-        {
-            id: 'light-green-color',
-            enumValue: Color.Orange,
-        },
-        {
-            id: 'yellow-green-color',
-            enumValue: Color.Green,
-        },
-        {
-            id: 'aqua-color',
-            enumValue: Color.Azure,
-        },
-        {
-            id: 'blue-color',
-            enumValue: Color.Blue,
-        },
-        {
-            id: 'light-purple-color',
-            enumValue: Color.Purple,
-        },
-        {
-            id: 'red-color',
-            enumValue: Color.Cherry,
-        },
-    ];
+    colorInputs = colorInputs;
 
     colorInputChanged(color: Color) {
         this.settings.color = color;

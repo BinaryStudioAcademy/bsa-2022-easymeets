@@ -8,6 +8,7 @@ import { ICalendarWeek } from '@core/models/ICalendarWeek';
 import { IOrderedMeetingTimes } from '@core/models/IOrderedMeetingTimes';
 import { IScheduleItemReceive } from '@core/models/schedule/IScheduleItemsReceive';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
+import { ExternalAttendeeService } from '@core/services/external-attendee.service';
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { LocationType } from '@shared/enums/locationType';
@@ -59,6 +60,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         public spinnerService: SpinnerService,
         private availabilitySlotService: AvailabilitySlotService,
         private meetingService: NewMeetingService,
+        private externalService: ExternalAttendeeService,
         private route: ActivatedRoute,
     ) {
         super();
@@ -66,8 +68,8 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     ngOnInit(): void {
         this.calendarWeek = this.getCurrentWeek();
-        this.route.queryParams.pipe(this.untilThis).subscribe((params) => {
-            this.link = params['link'];
+        this.route.firstChild?.paramMap.subscribe((params) => {
+            this.link = params.get('slotLink')!;
         });
 
         this.availabilitySlotService
