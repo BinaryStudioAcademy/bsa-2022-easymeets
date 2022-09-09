@@ -37,6 +37,7 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             CreateMap<SaveAdvancedSlotSettingsDto, AdvancedSlotSettings>();
             CreateMap<AdvancedSlotSettings, AdvancedSlotSettingsDto>();
             CreateMap<AdvancedSlotSettingsDto, AdvancedSlotSettings>();
+            CreateMap<AvailabilitySlot, ExternalAvailabilitySlotDto>();
         }
     }
 }
