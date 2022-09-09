@@ -23,7 +23,7 @@
                 <div>Name</div>
             </label>
             <div class="user-name">
-                <input type="text" formControlName="userName" />
+                <input #userNameInput type="text" formControlName="userName" (change)="userNameChanged(userNameInput.value)" />
             </div>
             <div *ngIf="userNameControl.invalid && userNameControl.touched" class="validation">
                 <small *ngIf="userNameControl.errors?.['required']">This field is required.</small>
