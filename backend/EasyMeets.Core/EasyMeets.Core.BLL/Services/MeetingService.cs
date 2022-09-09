@@ -43,7 +43,7 @@ namespace EasyMeets.Core.BLL.Services
                     new MeetingSlotDTO
                     {
                         Id = x.Id,
-                        Location = x.LocationType.ToString(),
+                        LocationType = x.LocationType,
                         MeetingCount = x.MeetingMembers.Count,
                         MembersTitle = CreateMemberTitle(x),
                         MeetingTitle = x.Name,
