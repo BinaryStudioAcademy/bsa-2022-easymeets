@@ -6,5 +6,6 @@ export interface IExternalAvailabilitySlot {
     name: string;
     size: number;
     locationType: LocationType;
+    meetingRoom?: string;
     link: string;
 }

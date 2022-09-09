@@ -80,7 +80,7 @@
                         </mat-select>
                     </div>
                 </div>
-                <div class="item">
+                <div *ngIf="locationControl.value === locationOffice" class="item">
                     <p class="name-label">Meeting room</p>
                     <input
                         matInput

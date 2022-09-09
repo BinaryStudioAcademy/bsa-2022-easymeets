@@ -9,6 +9,7 @@
         public string? MembersTitle { get; set; }
         public string? MeetingLink { get; set; }
         public string? Location { get; set; }
+        public string? MeetingRoom { get; set; }
         public int? MeetingCount { get; set; }
         public List<UserMeetingDTO>? MeetingMembers { get; set; }
     }

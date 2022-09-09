@@ -16,6 +16,8 @@ export interface IExternalBookingSideMenu {
 
     location?: LocationType;
 
+    meetingRoom?: string;
+
     timeFinish?: Date;
 
     date?: Date;

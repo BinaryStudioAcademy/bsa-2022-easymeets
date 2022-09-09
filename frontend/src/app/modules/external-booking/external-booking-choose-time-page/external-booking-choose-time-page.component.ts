@@ -30,6 +30,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         teamId?: bigint;
         duration: number;
         location: LocationType;
+        meetingRoom?: string;
     }>();
 
     @Input() selectedMeetingDuration: number;
@@ -77,7 +78,13 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
             .pipe(this.untilThis)
             .subscribe((resp) => {
                 this.slot = resp;
-                this.addDurationAndLocation(this.slot!.id, this.slot!.teamId, this.slot!.size, this.slot!.locationType);
+                this.addDurationAndLocation(
+                    this.slot!.id,
+                    this.slot!.teamId,
+                    this.slot!.size,
+                    this.slot!.locationType,
+                    this.slot!.meetingRoom,
+                );
                 this.getOrderedTimes(this.slot!.id);
                 this.selectedMeetingDuration = this.slot!.size;
                 this.scheduleItems = changeScheduleItemsDate(resp!.schedule!.scheduleItems);
@@ -207,7 +214,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         );
     }
 
-    addDurationAndLocation(slotId: bigint, teamId: bigint | undefined, duration: number, location: LocationType) {
-        this.selectedDurationAndLocationEvent.emit({ slotId, teamId, duration, location });
+    addDurationAndLocation(slotId: bigint, teamId: bigint | undefined, duration: number, location: LocationType, meetingRoom?: string) {
+        this.selectedDurationAndLocationEvent.emit({ slotId, teamId, duration, location, meetingRoom });
     }
 }

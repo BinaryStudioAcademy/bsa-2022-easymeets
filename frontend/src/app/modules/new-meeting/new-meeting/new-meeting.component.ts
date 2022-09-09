@@ -68,6 +68,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     memberFilterCtrl: FormControl = new FormControl('');
 
+    locationControl: FormControl = new FormControl();
+
     meetingNameControl: FormControl = new FormControl('', [
         Validators.required,
         Validators.minLength(2),
@@ -98,7 +100,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             meetingName: this.meetingNameControl,
             customTime: this.customTimeControl,
             unitOfTime: new FormControl(),
-            location: new FormControl(),
+            location: this.locationControl,
             meetingRoom: this.meetingRoomControl,
             duration: new FormControl(),
             date: new FormControl('', [Validators.required, this.validateDateIsInFuture]),
@@ -121,7 +123,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 name: form.value.meetingName.trim(),
                 teamId: this.currentTeamId,
                 locationType: form.value.location,
-                // meetingRoom: form.value.meetingRoom,
+                meetingRoom: form.value.meetingRoom,
                 duration: this.duration.minutes!,
                 startTime: form.value.date,
                 meetingLink: form.value.meetingName.trim(),
