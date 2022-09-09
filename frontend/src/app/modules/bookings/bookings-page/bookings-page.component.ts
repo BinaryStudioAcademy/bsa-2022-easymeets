@@ -98,7 +98,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
             .pipe(this.untilThis)
             .subscribe(
                 () => {
-                    this.notifications.showSuccessMessage('Slot was successfully deleted');
+                    this.notifications.showSuccessMessage('Meeting was successfully deleted');
                     this.reloadBookings();
                 },
                 (error) => {
@@ -149,11 +149,11 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         if (width < tabletMaxWidth) {
             this.numberOfMembersToDisplay = 1;
         }
-        if (width < phoneMaxWidth) {
-            this.numberOfMembersToDisplay = 1;
-        }
         if (width < widthToContainZeroItemUpperLimit) {
             this.numberOfMembersToDisplay = 0;
+        }
+        if (width < phoneMaxWidth) {
+            this.numberOfMembersToDisplay = 1;
         }
     }
 
