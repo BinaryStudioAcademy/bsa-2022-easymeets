@@ -92,8 +92,8 @@ public class TeamService : BaseService, ITeamService
 
     public async Task CreateTeamMemberAsync(TeamMemberDto teamMemberDto, long teamId)
     {
-        var team = await GetTeamByIdAsync(teamId); 
-        if (team != null)
+        var team = await GetTeamByIdAsync(teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
+        if (team is not null)
         {
             var member = new TeamMember()
             {
@@ -105,25 +105,18 @@ public class TeamService : BaseService, ITeamService
             _context.TeamMembers.Add(member);
             await _context.SaveChangesAsync();
         }
-        else
-        {
-            throw new Exception("Team with this id is not created");
-        }
     }
 
     public async Task UpdateTeamMemberRoleAsync(TeamMemberDto teamMemberDto)
     {
-        var teamMember = await _context.TeamMembers.FirstAsync(s => s.Id == teamMemberDto.Id);
-        if (teamMember != null)
+        var teamMember = await _context.TeamMembers.FirstAsync(s => s.Id == teamMemberDto.Id) ??
+            throw new KeyNotFoundException("Team member doesn't exist");
+        if (teamMember is not null)
         {
             teamMember.Role = teamMemberDto.Role;
 
             _context.TeamMembers.Update(teamMember);
             await _context.SaveChangesAsync();
-        }
-        else
-        {
-            throw new Exception("Team member with this id is not created");
         }
     }
 

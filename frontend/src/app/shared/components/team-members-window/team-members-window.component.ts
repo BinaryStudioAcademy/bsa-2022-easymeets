@@ -55,7 +55,7 @@ export class TeamMembersWindowComponent extends BaseComponent {
     }
 
     getUsersByEmailOrName(searchData: string) {
-        if (searchData.length !== 0) {
+        if (searchData.length) {
             this.userService
                 .getUsersByEmailOrName(searchData)
                 .pipe(this.untilThis)
@@ -97,6 +97,11 @@ export class TeamMembersWindowComponent extends BaseComponent {
         this.teamService
             .createTeamMember(teamMember, this.teamId)
             .pipe(this.untilThis)
-            .subscribe(() => {});
+            .subscribe(
+                () => {},
+                (error) => {
+                    this.notificationService.showErrorMessage(error);
+                },
+            );
     }
 }
