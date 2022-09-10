@@ -8,7 +8,6 @@ import { ICalendarWeek } from '@core/models/ICalendarWeek';
 import { IOrderedMeetingTimes } from '@core/models/IOrderedMeetingTimes';
 import { IScheduleItemReceive } from '@core/models/schedule/IScheduleItemsReceive';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
-import { ExternalAttendeeService } from '@core/services/external-attendee.service';
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { LocationType } from '@shared/enums/locationType';
@@ -65,7 +64,6 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         public spinnerService: SpinnerService,
         private availabilitySlotService: AvailabilitySlotService,
         private meetingService: NewMeetingService,
-        private externalService: ExternalAttendeeService,
         private route: ActivatedRoute,
         private router: Router,
     ) {
@@ -176,7 +174,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         );
     }
 
-    public isDateInRange(date: Date, min: Date, max: Date, daysToAdd: number = 0, timesToAdd = 0): boolean {
+    public convertDate(date: Date, daysToAdd: number = 0, timesToAdd = 0) {
         const firstCalendarDay = new Date(this.calendarWeek.firstDay);
 
         firstCalendarDay.setHours(date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
@@ -184,14 +182,30 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
         result.setTime(result.getTime() + this.selectedMeetingDuration * timesToAdd * 60 * 1000);
 
+        return result;
+    }
+
+    public checkBookedDates(result: Date) {
+        const checkBookedDate = (parsedDate: Date) =>
+            parsedDate.getDate() === result.getDate() && parsedDate.getTime() === result.getTime();
+
+        return this.orderedTimes.some((x) => checkBookedDate(new Date(Date.parse(x.startTime))));
+    }
+
+    public isOrderedDate(date: Date, daysToAdd: number = 0, timesToAdd = 0) {
+        const result = this.convertDate(date, daysToAdd, timesToAdd);
+
+        return this.checkBookedDates(result) && result.getDate() >= this.nowDate.getDate();
+    }
+
+    public isDateInRange(date: Date, min: Date, max: Date, daysToAdd: number = 0, timesToAdd = 0): boolean {
+        const result = this.convertDate(date, daysToAdd, timesToAdd);
+
         if (this.disabledDays.includes(result.getDay())) {
             return false;
         }
 
-        const checkBookedDate = (parsedDate: Date) =>
-            parsedDate.getDate() === result.getDate() && parsedDate.getTime() === result.getTime();
-
-        if (this.orderedTimes.some((x) => checkBookedDate(new Date(Date.parse(x.startTime))))) {
+        if (this.checkBookedDates(result)) {
             return false;
         }
 

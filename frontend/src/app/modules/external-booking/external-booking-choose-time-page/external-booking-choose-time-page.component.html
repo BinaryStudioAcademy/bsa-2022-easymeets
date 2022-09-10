@@ -74,7 +74,7 @@
                     <ng-template #defaultTimeSlot>
                         <span
                             class="disabled"
-                            *ngIf="isLastDate(this.calendarWeek.firstDay, j); else defaultTimeSlotPreviousDate">
+                            *ngIf="isOrderedDate(theEarliestStartOfTimeRanges, j, i); else defaultTimeSlotPreviousDate">
                             {{
                                 theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60000
                                     | date: 'HH:mm'
