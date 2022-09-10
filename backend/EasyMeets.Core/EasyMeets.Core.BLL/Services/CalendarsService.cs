@@ -16,14 +16,16 @@ namespace EasyMeets.Core.BLL.Services
         private readonly IConfiguration _configuration;
         private readonly IGoogleOAuthService _googleOAuthService;
         private readonly ICalendarEventService _calendarEventService;
+        private readonly IGoogleMeetService _googleMeetService;
         
         public CalendarsService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IConfiguration configuration, 
-            IGoogleOAuthService googleOAuthService, ICalendarEventService calendarEventService) : base(context, mapper)
+            IGoogleOAuthService googleOAuthService, ICalendarEventService calendarEventService, IGoogleMeetService googleMeetService) : base(context, mapper)
         {
             _configuration = configuration;
             _userService = userService;
             _googleOAuthService = googleOAuthService;
             _calendarEventService = calendarEventService;
+            _googleMeetService = googleMeetService;
         }
 
         public async Task<bool> CreateGoogleCalendarConnection(TokenResultDto tokenResultDto, UserDto currentUser)
@@ -53,6 +55,8 @@ namespace EasyMeets.Core.BLL.Services
 
             _context.Calendars.Add(calendar);
             await _context.SaveChangesAsync();
+            
+            await _googleMeetService.CreateDefaultCredentials(currentUser.Uid);
 
             var synced = await _context.SyncGoogleCalendar.AnyAsync(x => x.Email == connectedEmail);
 
@@ -163,6 +167,8 @@ namespace EasyMeets.Core.BLL.Services
             {
                 _context.Calendars.Remove(calendar);
                 await _context.SaveChangesAsync();
+                await _googleMeetService.DeleteCredentials(calendar.ConnectedCalendar, calendar.UserId);
+                await _googleMeetService.CreateDefaultCredentials();
                 return true;
             }
 
