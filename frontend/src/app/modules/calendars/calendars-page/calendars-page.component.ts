@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getDefaultOptions } from '@core/helpers/options-helper';
@@ -28,8 +28,6 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
     public connectOutlookCalendar = new EventEmitter<void>();
 
     public connectAppleCalendar = new EventEmitter<void>();
-
-    @Output() saveChangesClick: EventEmitter<void> = new EventEmitter();
 
     constructor(
         private teamService: TeamService,
