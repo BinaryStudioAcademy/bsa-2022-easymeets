@@ -7,6 +7,7 @@ import {
     ValidationErrors,
     Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IImagePath } from '@core/models/IImagePath';
@@ -51,6 +52,8 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
     public descriptionControl: FormControl = new FormControl('', [Validators.maxLength(300)]);
 
     constructor(
+        private route: ActivatedRoute,
+        private router: Router,
         private teamService: TeamService,
         public notificationService: NotificationService,
         private confirmationWindowService: ConfirmationWindowService,

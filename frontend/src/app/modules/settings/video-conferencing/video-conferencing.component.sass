@@ -1,9 +1,9 @@
 @import "src/styles/color-variables"
 
 .container
-    padding: 25px
+    padding: 0 25px
     .zoom-label
-        padding-bottom: 15px
+        padding: 15px 0
         font-weight: bold
         font-size: 14px
     button
@@ -20,3 +20,27 @@
 
 .zoom-block
     height: 100px
+
+.selectBlock
+    height: 36px
+    background: $white-color
+    border: 2px solid $loblolly
+    border-radius: 8px
+    padding-left: 5px
+
+.info-label
+    color: $dark-gray
+
+::ng-deep .connected-block
+    display: flex
+    gap: 15px
+    align-items: center
+    .mat-select
+        box-sizing: border-box
+        align-items: center
+        display: flex
+        width: min(17.5em, 90%)
+
+    .mat-select-value
+        color: $dark-gray
+        font-size: 15px
