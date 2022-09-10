@@ -109,6 +109,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         duration: number;
         location: LocationType;
         meetingRoom?: string;
+        name: string;
     }): void {
         this.menu = {
             ...this.menu,
@@ -117,6 +118,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             meetingRoom: data.meetingRoom,
             slotId: data.slotId,
             teamId: data.teamId,
+            slotName: data.name,
         };
     }
 
@@ -137,6 +139,16 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
                 timeFinish: undefined,
             };
         }
+    }
+
+    public reloadData(reloadLink: string) {
+        this.menu = {
+            ...this.menu,
+            duration: undefined,
+            location: undefined,
+        };
+        this.link = reloadLink;
+        this.getUserAndSlots();
     }
 
     public addMembersInMenu(selectedMembers: IAvailabilitySlotMember[]) {
