@@ -59,18 +59,14 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
                 this.allTeams = response;
             });
 
-        /*this.calendarService
+        this.calendarService
             .getUserGoogleCalendars()
             .pipe(this.untilThis)
             .subscribe((response) => {
                 this.userCalendars = response;
 
                 this.updateSelectedItems();
-            });*/
-        this.userCalendars = [
-            { id: 1n, connectedCalendar: 'mycalendar1@gmail.com', checkForConflicts: true },
-            { id: 2n, connectedCalendar: 'mycalendar2@gmail.com', checkForConflicts: false },
-        ];
+            });
     }
 
     updateSelectedItems() {

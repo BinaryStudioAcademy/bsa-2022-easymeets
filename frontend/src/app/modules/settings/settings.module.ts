@@ -12,6 +12,14 @@ import { VideoConferencingComponent } from './video-conferencing/video-conferenc
 
 @NgModule({
     declarations: [SettingsPageComponent, VideoConferencingComponent],
-    imports: [CommonModule, SettingsRoutingModule, SharedModule, MaterialModule, SideMenuModule, HeaderModule, CalendarModule],
+    imports: [
+        CommonModule,
+        SettingsRoutingModule,
+        SharedModule,
+        MaterialModule,
+        SideMenuModule,
+        HeaderModule,
+        CalendarModule,
+    ],
 })
-export class SettingsModule { }
+export class SettingsModule {}
