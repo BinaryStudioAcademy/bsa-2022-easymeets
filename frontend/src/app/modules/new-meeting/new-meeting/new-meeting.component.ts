@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getDisplayDuration } from '@core/helpers/display-duration-helper';
+import { convertLocalDateToUTCWithUserSelectedTimeZone, getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
@@ -107,7 +108,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 teamId: this.currentTeamId,
                 locationType: form.value.location,
                 duration: this.duration.minutes!,
-                startTime: form.value.date,
+                startTime: convertLocalDateToUTCWithUserSelectedTimeZone(form.value.date, getDefaultTimeZone()),
                 meetingLink: form.value.meetingName.trim(),
                 meetingMembers: this.addedMembers,
                 createdAt: new Date(),
