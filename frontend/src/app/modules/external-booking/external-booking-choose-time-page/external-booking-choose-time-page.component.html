@@ -32,7 +32,7 @@
                 <h3>{{ day.weekDay.substring(0, 3) }}</h3>
             </div>
             <div class="day-number-label">
-                <h3>{{ this.calendarWeek.firstDay.getTime() + i * 24 * 60 * 60 * 1000 | date: 'd' }}</h3>
+                <h3>{{ getWeekDate(this.calendarWeek.firstDay, i) | date: 'd' }}</h3>
             </div>
         </div>
         <ng-container *ngFor="let in of slotsCount; let i = index">
@@ -58,14 +58,13 @@
                             [routerLink]="['/external-booking/confirm-booking']"
                             (click)="AddTimeAndDate(i, j, pickedTimeZone)">
                             {{
-                                theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60000
-                                    | date: 'HH:mm'
+                                getTimeForItem(theEarliestStartOfTimeRanges, selectedMeetingDuration, i) | date: 'HH:mm'
                             }}
                         </span>
                         <ng-template #defaultTimeSlotPreviousDate>
                             <span class="previous-date-enabled">
                                 {{
-                                    theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60000
+                                    getTimeForItem(theEarliestStartOfTimeRanges, selectedMeetingDuration, i)
                                         | date: 'HH:mm'
                                 }}
                             </span>
@@ -76,14 +75,13 @@
                             class="disabled"
                             *ngIf="isOrderedDate(theEarliestStartOfTimeRanges, j, i); else defaultTimeSlotPreviousDate">
                             {{
-                                theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60000
-                                    | date: 'HH:mm'
+                                getTimeForItem(theEarliestStartOfTimeRanges, selectedMeetingDuration, i) | date: 'HH:mm'
                             }}
                         </span>
                         <ng-template #defaultTimeSlotPreviousDate>
                             <span class="previous-date-disabled">
                                 {{
-                                    theEarliestStartOfTimeRanges.getTime() + selectedMeetingDuration * i * 60000
+                                    getTimeForItem(theEarliestStartOfTimeRanges, selectedMeetingDuration, i)
                                         | date: 'HH:mm'
                                 }}
                             </span>

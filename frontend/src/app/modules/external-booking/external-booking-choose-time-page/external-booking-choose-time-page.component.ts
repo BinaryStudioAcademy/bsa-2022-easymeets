@@ -107,6 +107,14 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
             });
     }
 
+    public getWeekDate(date: Date, daysToAdd: number) {
+        return addDays(date, daysToAdd);
+    }
+
+    public getTimeForItem(startTime: Date, duration: number, index: number) {
+        return addMinutes(startTime, duration * index);
+    }
+
     private slotsCounter(): Array<object> {
         this.theLatestFinishOfTimeRanges = this.scheduleItems[0]?.end;
         this.theEarliestStartOfTimeRanges = this.scheduleItems[0]?.start;
@@ -201,11 +209,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     public isDateInRange(date: Date, min: Date, max: Date, daysToAdd: number = 0, timesToAdd = 0): boolean {
         const result = this.convertDate(date, daysToAdd, timesToAdd);
 
-        if (this.disabledDays.includes(result.getDay())) {
-            return false;
-        }
-
-        if (this.checkBookedDates(result)) {
+        if (this.disabledDays.includes(result.getDay()) || this.checkBookedDates(result)) {
             return false;
         }
 
