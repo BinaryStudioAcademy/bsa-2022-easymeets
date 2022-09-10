@@ -16,7 +16,8 @@ import { ConfirmationWindowService } from '@core/services/confirmation-window.se
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
 import { nameRegex } from '@shared/constants/model-validation';
-import { delay, map, Observable, of, switchMap } from 'rxjs';
+import { debounceIntervalMedium } from '@shared/constants/rxjs-constants';
+import { debounceTime, delay, map, Observable, of, switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-team-preferences',
@@ -132,6 +133,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         this.teamService
             .getNewPageLink(this.team ? this.team.id : 0, teamName.replace(/\s/g, ''))
             .pipe(this.untilThis)
+            .pipe(debounceTime(debounceIntervalMedium))
             .subscribe((res) => {
                 this.formGroup.patchValue({
                     pageLink: res,
@@ -142,7 +144,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
     private teamLinkValidator(): AsyncValidatorFn {
         return (control: AbstractControl): Observable<ValidationErrors | null> =>
             of(control.value).pipe(
-                delay(500),
+                delay(debounceIntervalMedium),
                 switchMap((value) =>
                     this.teamService
                         .validatePageLink(value, this.team?.id)
