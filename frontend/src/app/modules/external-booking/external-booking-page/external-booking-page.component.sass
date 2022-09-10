@@ -8,10 +8,9 @@
     display: flex
     flex-direction: column
     justify-items: center
-    background-color: $athens-gray
     height: 100%
     width: 100%
-    padding: 0 10% 5% 10%
+    padding: 4% 8%
     @media screen and (max-width: $tablet-min-width)
         padding: 0 5% 2% 5%
 
@@ -30,7 +29,10 @@
     flex-direction: row
     justify-content: center
     padding: 0 20px
+    height: 100% !important
     background-color: $white
+    box-shadow: $athens-gray 0px 1px 2px 2px, $silver-chalice 0px 2px 6px 0px
+    border-radius: 32px
     height: calc(100% - 72px)
     @media screen and (max-width: $desktop-min-width)
         flex-direction: column
@@ -53,13 +55,14 @@
     flex-direction: column
     align-items: flex-start
     border-right: 2px solid $athens-gray
-    padding: 30px 30px 0px 30px
-    gap: 15px
+    padding: 30px 10px
+    gap: 10px
+    .slot-name
+        color: $logo-color
     img
         height: 78px
         width: 78px
         border-radius: 100%
-        margin-bottom: 20px
     .team-img
         border-radius: 0
         width: 130px
@@ -91,16 +94,30 @@
                 .selected-member-img
                     display: inline
                     float: left
+    .logo-wrapper
+        position: absolute
+        left: 10px
+        bottom: 30px
+        display: flex
+        justify-content: center
+        align-items: center
+        img
+            width: 30px
+            height: 30px
+            border-radius: 0
+            margin-bottom: 0
+            margin-right: 5px
+        .product-name
+            font-size: 24px
+            color: $logo-color
+
     .welcome-message
         @media screen and (max-width: $desktop-min-width)
             display: none
 
 .choice
     position: relative
-    display: flex
-    flex-direction: column
-    align-items: flex-start
-    padding: 30px 23px
+    padding: 30px 0 30px 23px
     app-external-booking-choose-meeting-page
         width: 100%
 
@@ -119,7 +136,7 @@ h3
     font-size: 14px
 
 h2, h4
-    font-weight: 400
+    font-weight: bold
     font-size: 14px
 
 h1
