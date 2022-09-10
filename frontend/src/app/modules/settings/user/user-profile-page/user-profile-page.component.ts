@@ -17,6 +17,7 @@ import { Country } from '@shared/enums/country';
 import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
+import { finalize } from 'rxjs';
 
 @Component({
     selector: 'app-user-profile-page',
@@ -125,6 +126,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             this.userService
                 .editUser(editedUser)
                 .pipe(this.untilThis)
+                .pipe(finalize(() => this.userForm.markAsPristine()))
                 .subscribe({
                     next: () =>
                         this.notificationService.showSuccessMessage('Personal information was updated successfully.'),
