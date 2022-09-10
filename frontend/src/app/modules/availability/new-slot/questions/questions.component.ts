@@ -13,7 +13,7 @@ export class QuestionsComponent {
     @Input() set newSlot(slot: IAvailabilitySlot | undefined) {
         this.questions = slot?.questions ?? getLocalMandatoryQuestions();
         this.mandatoryQuestions = this.questions.filter((q) => q.isMandatory);
-        const biggestOrderInQuestions = Math.max(...this.questions.map(q => q.order));
+        const biggestOrderInQuestions = Math.max(...this.questions.map((q) => q.order));
 
         this.newQuestionOrder = biggestOrderInQuestions + 1;
         this.onQuestionsArrayChange();
@@ -35,13 +35,17 @@ export class QuestionsComponent {
     }
 
     public addNewQuestion(): void {
-        this.questions = [...this.questions,
+        this.questions = [
+            ...this.questions,
             {
                 id: 0,
                 order: this.newQuestionOrder++,
                 questionText: '',
+                placeHolderText: '',
+                checkboxText: '',
                 isMandatory: false,
-            }];
+            },
+        ];
         this.onQuestionsArrayChange();
     }
 
@@ -54,5 +58,14 @@ export class QuestionsComponent {
         const offset: number = this.mandatoryQuestions.length;
 
         moveItemInArray(this.questions, event.previousIndex + offset, event.currentIndex + offset);
+    }
+
+    public move(currentIndex: number, isDown: boolean): void {
+        const toIndex = isDown ? currentIndex + 1 : currentIndex - 1;
+
+        if (currentIndex === this.mandatoryQuestions.length && !isDown) {
+            return;
+        }
+        moveItemInArray(this.questions, currentIndex, toIndex);
     }
 }

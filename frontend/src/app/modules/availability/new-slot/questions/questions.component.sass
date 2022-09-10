@@ -4,11 +4,12 @@
 $container-padding-top-bottom: 33px
 $question-input-width: 337px
 
-.bold
-    font-weight: 700
+.title
+    color: $black
+    margin-bottom: 40px
 
 .outside-label
-    margin-bottom: 20px
+    font-weight: 700
 
 .flex
     display: flex
@@ -17,6 +18,11 @@ $question-input-width: 337px
     display: flex
     flex-direction: column
 
+.flex-row
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+
 .cross-axis-center
     align-items: center
 
@@ -24,8 +30,22 @@ $question-input-width: 337px
 .mat-input
     font-size: 14px
 
-.color-dark-grey
+.drag-button
+    margin-left: 10px
+    margin-right: 10px
     color: $dark-gray
+    font-size: 20px
+    width: 20px
+    height: 20px
+    line-height: 20px
+    align-items: center
+    .mat-icon
+        scale: 0.7
+
+.delete-button
+    color: $dark-gray
+    .mat-icon
+        scale: 1.2
 
 .container
     padding: $container-padding-top-bottom 47px
@@ -35,15 +55,18 @@ $question-input-width: 337px
         padding: $container-padding-top-bottom 14px
 
 .list-item-wrapper
-    padding-bottom: 20px
+    padding-top: 5px
+    padding-bottom: 5px
 
 .question-index
     margin-right: 17px
+    font-weight: 700
 
 .question-input
     width: 100%
     min-width: 0
     max-width: $question-input-width
+    border-radius: 3px
 
 .question-mandatory
     .question-index
@@ -58,11 +81,30 @@ $question-input-width: 337px
     .list-item-wrapper .question-index
         cursor: ns-resize
 
+.drag-container
+    border: 2px solid $light-gray
+    border-radius: 10px
+    margin: 10px
+
+.button-container
+    display: flex
+    align-items: center
+    justify-content: center
+
 .questions-divider
     margin-bottom: 20px
 
 .plus-sign-btn
-    color: $dark-gray
+    border-radius: 24px
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
+    font-size: 14px
+    align-items: center
+    background: $white
+    border: 1px solid $nepal
+    color: $midnight
+    max-height: 36px
     .mat-icon
         scale: 0.8
 
@@ -76,3 +118,21 @@ $question-input-width: 337px
     cursor: ns-resize
     .cdk-drag:not(.cdk-drag-placeholder)
         transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)
+
+.checkbox-container
+    display: flex
+    flex-direction: row
+    align-items: center
+    margin-top: 10px
+    margin-bottom: 10px
+    margin-left: 5%
+
+    .input-message
+        margin-left: 5px
+    @media ( max-width: $desktop-min-width)
+        margin-top: 0
+
+:host ::ng-deep .mat-checkbox-checked
+    .mat-checkbox-background
+        background-color: $black !important
+        border-radius: 3px
