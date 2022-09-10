@@ -1,0 +1,104 @@
+<app-team-tabs-menu> </app-team-tabs-menu>
+<div class="table-container">
+    <table mat-table [dataSource]="teamMembers" class="mat-elevation-z8 team-members-table">
+        <!-- Name and Email Column -->
+        <ng-container matColumnDef="name-email">
+            <th mat-header-cell *matHeaderCellDef class="team-members-cell">Name and Email</th>
+            <td mat-cell *matCellDef="let member" class="main-member-info">
+                <div class="member-avatar">
+                    <ng-container *ngIf="member.image; else noMemberImage">
+                        <img src="{{ member.image }}" />
+                    </ng-container>
+                    <ng-template #noMemberImage>
+                        <img src="assets/header/avatar-icon.png" />
+                    </ng-template>
+                </div>
+                <div class="member-name-email">
+                    <div class="name">{{ member.name }}</div>
+                    <div class="email">{{ member.email }}</div>
+                </div>
+            </td>
+        </ng-container>
+
+        <!-- Role Column -->
+        <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef class="team-members-cell">Role</th>
+            <td mat-cell *matCellDef="let member">
+                <div class="member-role-select">
+                    <mat-form-field appearance="fill" class="team-members-role-form-field">
+                        <mat-select
+                            class="member-role-select"
+                            [(ngModel)]="member.role"
+                            (ngModelChange)="(member.role)"
+                            (selectionChange)="changeTeamMemberRole(member, member.role)">
+                            <mat-option *ngFor="let role of teamMemberRoleValues" [value]="role">
+                                {{ role }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </td>
+        </ng-container>
+
+        <!-- Page Column -->
+        <ng-container matColumnDef="page">
+            <th mat-header-cell *matHeaderCellDef class="team-members-cell">Booking Page</th>
+            <td mat-cell *matCellDef="let member">
+                <ng-container *ngIf="member.pageLink; else noMemberPageLink">
+                    <img src="assets/copy_icon.png" class="copy-page-link-icon" />
+                    <span class="member-page-link">.../{{ member.pageLink }}</span>
+                </ng-container>
+                <ng-template #noMemberPageLink>No</ng-template>
+            </td>
+        </ng-container>
+
+        <!-- Calendar Connected Column -->
+        <ng-container matColumnDef="calendar-connected">
+            <th mat-header-cell *matHeaderCellDef class="team-members-cell">Calendar Connected</th>
+            <td mat-cell *matCellDef="let member">
+                <div class="member-calendar">
+                    <ng-container
+                        *ngIf="member.connectedCalendars.length; else pendingMemberCalendar"
+                        class="calendar-icon">
+                        <img src="assets/booked-icon.png" />
+                        <div class="member-calendar-status">
+                            <p class="member-calendar-email" *ngFor="let calendar of member.connectedCalendars">
+                                {{ calendar }}
+                            </p>
+                        </div>
+                    </ng-container>
+                    <ng-template #pendingMemberCalendar class="calendar-icon">
+                        <span class="not-connected-calendar-icon">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </span>
+                        <div class="member-calendar-status">Pending</div>
+                    </ng-template>
+                </div>
+            </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="team-members-cell">Action</th>
+            <td mat-cell *matCellDef="let member">
+                <button class="more-btn" mat-icon-button [matMenuTriggerFor]="menuTeamMember" disableRipple="true">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+                <mat-menu #menuTeamMember="matMenu" class="team-member-mat-menu">
+                    <button mat-menu-item (click)="deleteTeamMember(member.id, member.role)">
+                        <i class="fa-solid fa-trash"></i>
+                        <span>Delete</span>
+                    </button>
+                </mat-menu>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+</div>
+<div class="add-member-container">
+    <button type="submit" mat-flat-button class="add-team-member-btn" (click)="showTeamMembersWindow()">
+        <i class="fa-solid fa-plus"></i>Add Member(s)
+    </button>
+</div>
