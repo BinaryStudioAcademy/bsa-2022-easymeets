@@ -57,10 +57,14 @@
             <th mat-header-cell *matHeaderCellDef class="team-members-cell">Calendar Connected</th>
             <td mat-cell *matCellDef="let member">
                 <div class="member-calendar">
-                    <ng-container *ngIf="member.calendar; else pendingMemberCalendar" class="calendar-icon">
+                    <ng-container
+                        *ngIf="member.connectedCalendars.length; else pendingMemberCalendar"
+                        class="calendar-icon">
                         <img src="assets/booked-icon.png" />
                         <div class="member-calendar-status">
-                            {{ member.calendar }}
+                            <p class="member-calendar-email" *ngFor="let calendar of member.connectedCalendars">
+                                {{ calendar }}
+                            </p>
                         </div>
                     </ng-container>
                     <ng-template #pendingMemberCalendar class="calendar-icon">

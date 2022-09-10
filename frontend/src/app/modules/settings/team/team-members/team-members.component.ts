@@ -65,6 +65,7 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
             .pipe(this.untilThis)
             .subscribe((members) => {
                 this.teamMembers = members;
+                console.log(this.teamMembers);
             });
     }
 
