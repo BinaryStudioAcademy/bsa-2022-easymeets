@@ -49,6 +49,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddTransient<IExternalAttendeeService, ExternalAttendeeService>();
             services.AddHttpClient<IZoomService, ZoomService>();
             services.AddTransient<ICalendarEventService, CalendarEventService>();
+            services.AddTransient<IGoogleMeetService, GoogleMeetService>();
             services.AddRabbitMQ(configuration);
         }
 
