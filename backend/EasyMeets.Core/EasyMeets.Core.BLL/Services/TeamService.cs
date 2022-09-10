@@ -65,7 +65,7 @@ public class TeamService : BaseService, ITeamService
                     Email = y.User.Email,
                     Image = y.User.ImagePath,
                     Role = y.Role,
-                    ConnectedCalendars = y.User.Calendars.Select(x => x.ConnectedCalendar),
+                    ConnectedCalendars = y.User.Calendars.Where(x => x.VisibleForTeams.Any(y => y.TeamId == teamId)).Select(x => x.ConnectedCalendar),
                     PageLink = y.User.PersonalUrl,
                 }
            ).ToListAsync();
