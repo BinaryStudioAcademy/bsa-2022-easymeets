@@ -60,10 +60,20 @@
                 <th mat-header-cell *matHeaderCellDef>Check for conflicts</th>
                 <td mat-cell *matCellDef="let element">
                     <div class="toggle">
-                        <mat-slide-toggle
-                            [(ngModel)]="element.checkForConflicts"
-                            (ngModelChange)="(element.checkForConflicts)">
-                        </mat-slide-toggle>
+                        <div>
+                            <mat-slide-toggle
+                                [(ngModel)]="element.checkForConflicts"
+                                (ngModelChange)="(element.checkForConflicts)">
+                            </mat-slide-toggle>
+                        </div>
+                        <div class="check-text">
+                            <ng-container *ngIf="element.checkForConflicts; else notCheckedForConflicts">
+                                <div class="yes-check-text">Yes</div>
+                            </ng-container>
+                            <ng-template #notCheckedForConflicts>
+                                <div class="no-check-text">No</div>
+                            </ng-template>
+                        </div>
                     </div>
                 </td>
             </ng-container>
@@ -80,11 +90,11 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
     </div>
-
-    <button (click)="updateCalendar()" class="update-references">Update References</button>
 </div>
 <div class="add-calendar-container">
     <button type="submit" mat-flat-button class="add-calendar-item-btn" (click)="confirmDialog()">
         <i class="fa-solid fa-plus"></i>Connect New Calendar
     </button>
 </div>
+
+<button (click)="updateCalendar()" class="update-references">Update References</button>
