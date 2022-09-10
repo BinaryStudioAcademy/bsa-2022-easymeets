@@ -21,7 +21,12 @@
                 <div>Team Name</div>
             </label>
             <div>
-                <input #teamNameInput type="text" formControlName="name" (input)="generateNewPageLink(formGroup)" (change)="teamNameChanged(teamNameInput.value)" />
+                <input
+                    #teamNameInput
+                    type="text"
+                    formControlName="name"
+                    (input)="generateNewPageLink(formGroup)"
+                    (change)="teamNameChanged(teamNameInput.value)" />
             </div>
             <div *ngIf="nameControl.invalid && nameControl.touched" class="validation">
                 <small *ngIf="nameControl.errors?.['required']">This field is required.</small>
@@ -45,6 +50,7 @@
         <div class="item">
             <label>Time Zone</label>
             <ng-moment-timezone-picker
+                (change)="markTimeZoneDirty()"
                 [formControlName]="'timeZone'"
                 customPlaceholderText=""
                 [getUserZone]="!team?.timeZone">
@@ -74,7 +80,7 @@
                     <mat-icon class="icon">delete_outline</mat-icon>
                     Delete Team
                 </button>
-                <button mat-flat-button type="submit" [disabled]="formGroup.invalid || !formGroup.touched">
+                <button mat-flat-button type="submit" [disabled]="formGroup.invalid || formGroup.pending || !formGroup.dirty">
                     {{ submitButtonText }}
                 </button>
             </div>

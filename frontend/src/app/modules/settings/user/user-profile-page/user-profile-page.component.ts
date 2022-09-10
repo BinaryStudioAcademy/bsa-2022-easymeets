@@ -98,6 +98,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                     timeZone: user.timeZone,
                     image: user.image,
                 });
+                this.userForm.markAsPristine();
                 this.imageUrl = user.image;
                 if (user.phoneCode) {
                     this.countryCode = user.phoneCode;
@@ -172,8 +173,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         });
     }
 
-    public changeZone() {
-        this.userForm.markAsTouched();
+    public markTimeZoneDirty() {
+        this.userForm.get('timeZone')?.markAsDirty();
     }
 
     public userNameChanged(value: string) {

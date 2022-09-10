@@ -15,7 +15,7 @@ import { ConfirmationWindowService } from '@core/services/confirmation-window.se
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
 import { nameRegex } from '@shared/constants/model-validation';
-import { map, Observable } from 'rxjs';
+import { delay, map, Observable, of, switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-team-preferences',
@@ -103,6 +103,10 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         });
     }
 
+    public markTimeZoneDirty() {
+        this.formGroup.get('timeZone')?.markAsDirty();
+    }
+
     public teamNameChanged(value: string) {
         this.formGroup.patchValue({ name: removeExcessiveSpaces(value) });
     }
@@ -134,12 +138,12 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
 
     private teamLinkValidator(): AsyncValidatorFn {
         return (control: AbstractControl): Observable<ValidationErrors | null> =>
-            this.validateTeamLink(control.value)
-                .pipe(this.untilThis)
-                .pipe(map((response) => (response ? null : { teamLinkUniq: true })));
-    }
-
-    private validateTeamLink(teamLink: string): Observable<boolean> {
-        return this.teamService.validatePageLink(teamLink, this.team?.id);
+            of(control.value).pipe(
+                delay(500),
+                switchMap((value) =>
+                    this.teamService
+                        .validatePageLink(value, this.team?.id)
+                        .pipe(map((isValidLink) => (isValidLink ? null : { teamLinkUniq: true })))),
+            );
     }
 }
