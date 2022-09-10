@@ -38,11 +38,12 @@ export class SettingsPageComponent extends BaseComponent implements OnInit {
     }
 
     private displayUserAdminTeams() {
-        this.teamService.getCurrentUserAdminTeams()
+        this.teamService
+            .getCurrentUserAdminAndOwnerTeams()
             .pipe(this.untilThis)
             .subscribe((teams) => {
                 this.teams = teams;
-                this.teamsMenuGroup.items = teams.map(team => ({
+                this.teamsMenuGroup.items = teams.map((team) => ({
                     text: team.name,
                     routerLink: this.teamEditBaseLink + team.id,
                 }));

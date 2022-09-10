@@ -1,4 +1,5 @@
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
+import { ITeamMember } from '@core/models/ITeamMember';
 import { LocationType } from '@shared/enums/locationType';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
 
@@ -13,4 +14,6 @@ export interface IConfirmDialogData {
     participants?: INewMeetingMember[];
     location?: LocationType;
     link?: string;
+    teamMembers?: ITeamMember[];
+    teamId?: number;
 }

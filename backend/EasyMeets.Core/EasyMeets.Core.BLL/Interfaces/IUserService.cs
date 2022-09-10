@@ -14,6 +14,7 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task<bool> ComparePassedIdAndCurrentUserIdAsync(long id);
         Task<ImagePathDto> UploadImageAsync(IFormFile file);
         Task<List<CredentialsType>> GetUserMeetIntegrations();
+        Task<List<UserDto>> GetUsersByEmailOrNameAsync(string searchData);
         string? GetCurrentUserId();
     }
 }
