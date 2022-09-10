@@ -1,7 +1,4 @@
-<div class="container">
-    <div class="header">
-        <img src="assets/header/header-logo.png" />
-    </div>
+<div class="container" *ngIf="menu.user">
     <div class="main-content">
         <div class="sidebar">
             <ng-container *ngIf="!isTeamBooking(); else teamSideMenu">
@@ -10,7 +7,7 @@
                     <img src="assets/header/avatar-icon.png" />
                 </ng-template>
                 <h2 *ngIf="menu.user">{{ menu.user.userName }}</h2>
-                <h1>Booking Page</h1>
+                <h1 class="slot-name" *ngIf="menu.slotName">{{ menu.slotName }}</h1>
             </ng-container>
             <ng-template #teamSideMenu>
                 <img *ngIf="menu.team.image; else defaultImageTeam" src="{{ menu.team.image }}" class="team-img" />
@@ -20,7 +17,6 @@
                 <h2>{{ menu.team.name }}</h2>
                 <h1>Meeting with Designers</h1>
             </ng-template>
-            <h4 class="welcome-message">Hello! Welcome to my booking page, please choose a time that works for you.</h4>
             <div class="sidebar-list">
                 <div class="sidebar-list-item" *ngIf="menu.timeFinish">
                     <h5>Time</h5>
@@ -60,6 +56,10 @@
                     </div>
                 </div>
             </div>
+            <div class="logo-wrapper">
+                <img src="../../../../assets/logo_icon.png" class="meets-logo" alt="EasyMeets Logo" />
+                <h2 class="product-name">EasyMeets</h2>
+            </div>
         </div>
         <div class="choice">
             <app-external-booking-choose-meeting-page
@@ -69,6 +69,8 @@
             </app-external-booking-choose-meeting-page>
             <app-external-booking-choose-time-page
                 *ngIf="isBookingChooseTimeRoute()"
+                [userLink]="menu.user.personalLink"
+                (reloadData)="reloadData($event)"
                 (selectedDurationAndLocationEvent)="addDurationAndLocationInMenu($event)"
                 (selectedTimeAndDateEvent)="addTimeAndDateInMenu($event)">
             </app-external-booking-choose-time-page>

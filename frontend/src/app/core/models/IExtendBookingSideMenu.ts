@@ -10,6 +10,8 @@ export interface IExternalBookingSideMenu {
 
     team: ITeam;
 
+    slotName?: string;
+
     teamSlotMembers?: IAvailabilitySlotMember[];
 
     duration?: number;
