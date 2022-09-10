@@ -3,6 +3,7 @@ import { TeamStateChangeActionEnum } from '@core/enums/team-state-change-action.
 import { IImagePath } from '@core/models/IImagePath';
 import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
+import { ITeamMember } from '@core/models/ITeamMember';
 import { IUpdateTeam } from '@core/models/IUpdateTeam';
 import { HttpInternalService } from '@core/services/http-internal.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -52,8 +53,12 @@ export class TeamService {
         return this.httpService.getRequest<ITeam[]>(`${this.routePrefix}/user-teams`);
     }
 
-    public getCurrentUserAdminTeams(): Observable<ITeam[]> {
-        return this.httpService.getRequest<ITeam[]>(`${this.routePrefix}/user-teams-admin`);
+    public getCurrentUserAdminAndOwnerTeams(): Observable<ITeam[]> {
+        return this.httpService.getRequest<ITeam[]>(`${this.routePrefix}/user-teams-admin-owner`);
+    }
+
+    public getTeamMembers(teamId?: number) {
+        return this.httpService.getRequest<ITeamMember[]>(`${this.routePrefix}/team-members/${teamId}`);
     }
 
     public validatePageLink(pageLink: string, teamId?: number) {
@@ -79,8 +84,20 @@ export class TeamService {
         return this.httpService.deleteRequest<ITeam>(`${this.routePrefix}/${teamId}`);
     }
 
+    public deleteTeamMember(teamMemberId: bigint | undefined) {
+        return this.httpService.deleteRequest<ITeam>(`${this.routePrefix}/deleteMember/${teamMemberId}`);
+    }
+
     public editTeam(team: IUpdateTeam) {
         return this.httpService.putRequest<ITeam>(`${this.routePrefix}`, team);
+    }
+
+    public createTeamMember(member: ITeamMember, teamId?: number) {
+        return this.httpService.postRequest<ITeamMember>(`${this.routePrefix}/members/${teamId}`, member);
+    }
+
+    public updateTeamMember(member: ITeamMember) {
+        return this.httpService.putRequest<ITeamMember>(`${this.routePrefix}/members`, member);
     }
 
     public uploadLogo(data: FormData, id?: number) {
