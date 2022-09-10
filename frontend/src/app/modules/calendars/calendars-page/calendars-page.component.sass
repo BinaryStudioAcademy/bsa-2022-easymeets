@@ -8,29 +8,25 @@
 table
     width: 100%
     box-shadow: none
-
-.connect-new
-    width: 100%
-    height: 40px
-    font-size: 18px
-    font-weight: bold
-    background-color: $white
-    border: 2px solid $black
-    cursor: pointer
-    margin-bottom: 20px
-    display: flex
-    align-items: center
-    justify-content: center
-    @media screen and ( max-width: $tablet-min-width )
-        height: 30px
-        font-size: 16px
+    .mat-cell
+        font-family: 'Inter'
+        font-style: normal
+        font-weight: 400
+        font-size: 14px
+        line-height: 146%
+        color: $midnight
+        border-bottom: 1px solid $header-border-color
 
 .mat-header-cell
-    background-color: $athens-gray
-    font-weight: bold
-    font-size: 14px
     height: 10px
     padding-left: 24px
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 700
+    font-size: 14px
+    color: $raven
+    background-color: $athens-gray
+    border-bottom: none
 
 button
     width: 20px
@@ -38,15 +34,10 @@ button
     background: none
     border: none
     margin-right: 5px
-.cancel
-    font-size: 20px
-    color: $silver-chalice
-    cursor: pointer
-    &:hover
-        color: $red
 
 .email-wrapper
     display: flex
+    justify-content: flex-start
     align-items: center
 
 .example-additional-selection
@@ -96,3 +87,35 @@ mat-label
 ::ng-deep .mat-select-form .mat-select-value-text
     display: block
     margin-bottom: 20px
+
+i
+    color: $silver-chalice
+    cursor: pointer
+    &:hover
+        color: $red
+
+.add-calendar-container
+    width: 30%
+    margin-top: 5%
+    .add-calendar-item-btn
+        display: flex
+        flex-direction: row
+        justify-content: center
+        align-items: center
+        width: 100%
+        padding: 8px 24px
+        gap: 8px
+        height: 48px
+        background: $white
+        border: 1px solid $nepal
+        border-radius: 24px
+        font-family: 'Inter'
+        font-style: normal
+        font-weight: 400
+        font-size: 14px
+        line-height: 146%
+        color: $midnight
+    i
+        color: $raven
+        height: 17px
+        width: 17px

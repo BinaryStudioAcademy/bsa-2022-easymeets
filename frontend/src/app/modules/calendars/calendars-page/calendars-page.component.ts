@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getDefaultOptions } from '@core/helpers/options-helper';
@@ -29,6 +29,8 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
 
     public connectAppleCalendar = new EventEmitter<void>();
 
+    @Output() saveChangesClick: EventEmitter<void> = new EventEmitter();
+
     constructor(
         private teamService: TeamService,
         private oauthService: GoogleOauthService,
@@ -57,14 +59,18 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
                 this.allTeams = response;
             });
 
-        this.calendarService
+        /*this.calendarService
             .getUserGoogleCalendars()
             .pipe(this.untilThis)
             .subscribe((response) => {
                 this.userCalendars = response;
 
                 this.updateSelectedItems();
-            });
+            });*/
+        this.userCalendars = [
+            { id: 1n, connectedCalendar: 'mycalendar1@gmail.com', checkForConflicts: true },
+            { id: 2n, connectedCalendar: 'mycalendar2@gmail.com', checkForConflicts: false },
+        ];
     }
 
     updateSelectedItems() {
@@ -144,5 +150,5 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
         });
     }
 
-    displayedColumns: string[] = ['connected-calendars', 'events-for', 'events-from', 'check'];
+    displayedColumns: string[] = ['connected-calendars', 'events-for', 'events-from', 'check', 'action'];
 }

@@ -11,5 +11,5 @@ public class TeamMember : Entity<long>
 
     public User User { get; set; } = null!;
     public Team Team { get; set; } = null!;
-    public ICollection<MeetingMember> MeetingMembers { get; set; } = new List<MeetingMember>();
+    public List<MeetingMember> MeetingMembers { get; set; } = new List<MeetingMember>();
 }
