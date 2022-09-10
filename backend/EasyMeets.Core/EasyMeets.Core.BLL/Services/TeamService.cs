@@ -74,6 +74,10 @@ public class TeamService : BaseService, ITeamService
         if (await UserIsAdmin(teamId))
         {
             var teamEntity = await GetTeamByIdAsync(teamId);
+            var slots = await _context.AvailabilitySlots.Where(el => el.TeamId == teamId).ToListAsync();
+            var slotMembers = slots.SelectMany(_ => _.SlotMembers).ToList();
+            _context.RemoveRange(slotMembers);
+            _context.RemoveRange(slots);
             _context.Teams.Remove(teamEntity);
             await _context.SaveChangesAsync();
         }
