@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { ITeamMember } from '@core/models/ITeamMember';
 import { NotificationService } from '@core/services/notification.service';
@@ -33,6 +34,7 @@ export class OwnerRightsWindowComponent extends BaseComponent implements OnInit 
         private dialogRef: MatDialogRef<OwnerRightsWindowComponent>,
         private teamService: TeamService,
         private notificationService: NotificationService,
+        private router: Router,
     ) {
         super();
         this.title = data.title;
@@ -70,6 +72,7 @@ export class OwnerRightsWindowComponent extends BaseComponent implements OnInit 
             .subscribe(
                 () => {
                     this.notificationService.showSuccessMessage('Team member was successfully deleted');
+                    this.router.navigate(['settings']);
                 },
                 (error) => {
                     this.notificationService.showErrorMessage(error);

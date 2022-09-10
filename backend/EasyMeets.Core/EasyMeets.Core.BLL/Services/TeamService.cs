@@ -117,16 +117,9 @@ public class TeamService : BaseService, ITeamService
 
     public async Task DeleteTeamAsync(long teamId)
     {
-        if (await UserHasRole(teamId, Role.Admin))
-        {
-            var teamEntity = await GetTeamByIdAsync(teamId);
-            _context.Teams.Remove(teamEntity);
-            await _context.SaveChangesAsync();
-        }
-        else
-        {
-            throw new Exception("User is not allowed enough access");
-        }
+        var teamEntity = await GetTeamByIdAsync(teamId);
+        _context.Teams.Remove(teamEntity);
+        await _context.SaveChangesAsync();
     }
 
     public async Task DeleteTeamMemberAsync(long teamMemberId)
