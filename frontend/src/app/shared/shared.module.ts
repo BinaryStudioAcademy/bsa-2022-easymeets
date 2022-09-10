@@ -12,6 +12,8 @@ import { BookingWindowComponent } from './components/booking-window/booking-wind
 import { ConfirmationWindowComponent } from './components/confirmation-window/confirmation-window.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { OwnerRightsWindowComponent } from './components/owner-rights-window/owner-rights-window.component';
+import { TeamMembersWindowComponent } from './components/team-members-window/team-members-window.component';
 import { UnsavedChangesComponent } from './components/unsaved-changes/unsaved-changes.component';
 import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive';
 
@@ -33,6 +35,8 @@ import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive
         HeaderLessTabsDirective,
         UnsavedChangesComponent,
         BookingWindowComponent,
+        TeamMembersWindowComponent,
+        OwnerRightsWindowComponent,
     ],
     exports: [
         CommonModule,

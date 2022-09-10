@@ -1,0 +1,59 @@
+<div class="confirmation-window-wrapper">
+    <div class="title-container">
+        <div class="mat-title-text">
+            <h1 mat-dialog-title>{{ title }}</h1>
+        </div>
+    </div>
+    <div *ngIf="message" mat-dialog-content class="message">
+        {{ message }}
+    </div>
+    <div class="user-info-container">
+        <div *ngFor="let user of teamMembers">
+            <ng-container *ngIf="user.role === Role.Owner; else notOwnerTeamMember">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <ng-container *ngIf="user.image; else noMemberImage">
+                            <img src="{{ user.image }}" />
+                        </ng-container>
+                        <ng-template #noMemberImage>
+                            <img src="assets/header/avatar-icon.png" />
+                        </ng-template>
+                    </div>
+                    <div class="user-name-email">
+                        <div class="name">{{ user.name }}</div>
+                        <div class="email">{{ user.email }}</div>
+                    </div>
+                    <div class="owner-user">
+                        <div class="owner-user-text">Current</div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #notOwnerTeamMember>
+                <div class="user-info not-owner-user-info" (click)="selectUserToDelegateRights(user)">
+                    <div class="user-avatar">
+                        <ng-container *ngIf="user.image; else noMemberImage">
+                            <img src="{{ user.image }}" />
+                        </ng-container>
+                        <ng-template #noMemberImage>
+                            <img src="assets/header/avatar-icon.png" />
+                        </ng-template>
+                    </div>
+                    <div class="user-name-email">
+                        <div class="name">{{ user.name }}</div>
+                        <div class="email">{{ user.email }}</div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    <hr />
+    <div mat-dialog-actions class="mat-dialog-buttons">
+        <button
+            *ngFor="let buttonOptions of buttonsOptions"
+            [ngClass]="buttonOptions.class"
+            mat-flat-button
+            (click)="onClick(buttonOptions.onClickEvent)">
+            {{ buttonOptions.label }}
+        </button>
+    </div>
+</div>

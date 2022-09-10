@@ -16,23 +16,39 @@ h1
     font-weight: 700
     font-size: 20px
 
+.header-container
+    position: relative
+    margin-bottom: 24px
+    .arrow-back
+        position: absolute
+        top: 12px
+        cursor: pointer
+    .page-title
+        font-size: 32px
+        color: $logo-color
+        text-align: center
+        line-height: 48px
+
 .grid-container
-    background-color: $light-gray
-    width: 56vw
+    width: 100%
     height: 60vh
     @media screen and (max-width: $desktop-min-width)
         width: 73vw
+
+.grid::-webkit-scrollbar
+    display: none
 
 .grid
     display: grid
     grid-template-columns: repeat(7, 14%)
     overflow-y: auto
     max-height: 100%
-    grid-column-gap: 0px
-    grid-row-gap: 6px
     justify-content: center
     justify-self: center
     span
+        position: relative
+        z-index: 1
+        display: block
         text-align: center
         padding: 4px 8px
         border-radius: 4px
@@ -42,21 +58,27 @@ h1
         font-size: 12px
         line-height: 20px
         color: $pale-sky
-        width: 45%
-        margin-bottom: 5px
-        margin-left: 20%
+        border-radius: 24px
+        margin-right: 5px
+        margin-left: 5px
+        border: 2px solid $black
+    .background-line
+        height: 1px
+        width: 100%
+        background-color: $black
 
     .enabled
-        background: $white
-        border: 2px solid $loblolly
+        background: $midnight
+        border: 2px solid $midnight
+        color: $white
 
     .enabled:hover
-        background-color: $light-gray
-        border: 2px solid $pale-sky
+        border: 2px solid $white
         cursor: pointer
 
     .disabled
-        background: $loblolly
+        color: $white
+        background: $white-gray
         border: 2px solid $light-gray
 
     .previous-date-enabled
@@ -64,17 +86,18 @@ h1
         color: $alto
 
     .previous-date-disabled
+        color: $white-gray
         border: 2px solid $alto
-        background-color: $alto
-        opacity: 40%
+        background-color: $white
 
 .column-label
+    border-top: 1px solid $header-border-color
+    background-color: $white
     font-family: 'Inter'
     font-style: normal
     align-items: center
     text-align: center
     color: $pale-sky
-    margin: 10px 0
 
 .settings
     width: 100%
@@ -89,28 +112,38 @@ h1
     width: 50%
     display: flex
     flex-direction: row
+    align-items: center
     font-family: 'Inter'
     font-style: normal
     line-height: 20px
     color: $pale-sky
     position: relative
     align-items: flex-start
-    @media screen and (max-width: $tablet-min-width)
-        flex-direction: column
-        .week-nav
-            padding-top: 5px
-            padding-bottom: 5px
+    @media screen and (max-width: $desktop-min-width)
+        display: block
     .week-range
+        margin-top: 6px
+        margin-left: 24px
         width: 45%
-        margin-right: 10%
-        height: 36px
-        padding-top: 2%
+        font-weight: bold
+        @media screen and (max-width: $desktop-min-width)
+            margin-left: 0
+            width: 100%
+        span
+            margin-left: 5px
+            font-size: 14px
+            line-height: 20px
+            color: $logo-color
         i
-            padding-right: 5%
+            font-size: 20px
     button
+        border-radius: 24px
         width: 15%
-        padding: 0px 5px 2px 5px
-        height: 36px
+        padding: 8px 24px
+        width: 48px
+        height: 32px
+        &:first-child
+            margin-right: 8px
         i
             display: flex
             justify-content: center
@@ -148,13 +181,25 @@ h1
 ::ng-deep .btn.mat-button
     border: 2px solid $loblolly !important
 
-::ng-deep .right-btn.mat-button
-    border-top-left-radius: 0 !important
-    border-bottom-left-radius: 0 !important
-
-::ng-deep .left-btn.mat-button
-    border-top-right-radius: 0 !important
-    border-bottom-right-radius: 0 !important
+.item-container
+    width: 100%
+    height: 30px
+    position: relative
+    padding-top: 5px
+    padding-bottom: 5px
+    background-color: $light-gray
+    border: 1px solid $white-gray
+    .lines
+        width: 100%
+        position: absolute
+        display: flex
+        flex-direction: column
+        .line
+            z-index: 0
+            height: 1px
+            width: 100%
+            margin-bottom: 5px
+            background-color: $white-gray
 
 ::ng-deep .timezone-mat-form-field.mat-form-field
     border: 2px solid $loblolly

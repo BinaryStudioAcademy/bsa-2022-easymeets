@@ -39,7 +39,7 @@ export class SettingsPageComponent extends BaseComponent implements OnInit {
 
     private displayUserAdminTeams() {
         this.teamService
-            .getCurrentUserAdminTeams()
+            .getCurrentUserAdminAndOwnerTeams()
             .pipe(this.untilThis)
             .subscribe((teams) => {
                 this.teams = teams;
