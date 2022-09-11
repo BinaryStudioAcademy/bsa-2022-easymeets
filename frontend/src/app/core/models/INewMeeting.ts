@@ -8,7 +8,7 @@ export interface INewMeeting {
     locationType: LocationType;
     meetingRoom?: string;
     duration: number;
-    startTime: Date;
+    startTime: string;
     meetingLink: string;
     createdAt: Date;
     meetingMembers: INewMeetingMember[];

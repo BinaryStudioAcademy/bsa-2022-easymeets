@@ -50,9 +50,8 @@ namespace EasyMeets.Core.BLL.Services
                         MembersTitle = CreateMemberTitle(x),
                         MeetingTitle = x.Name,
                         MeetingRoom = x.MeetingRoom,
-                        MeetingDuration = $"{x.Duration} min",
-                        MeetingTime = $"{x.StartTime.Hour}:{x.StartTime.Minute:00} - " +
-                            $"{x.StartTime.AddMinutes(x.Duration).Hour}:{x.StartTime.AddMinutes(x.Duration).Minute:00}",
+                        MeetingDuration = x.Duration,
+                        MeetingTime = x.StartTime,
                         MeetingLink = x.MeetingLink,
                         MeetingMembers = GetAllParticipants(x, numberOfMembers)
                     })
