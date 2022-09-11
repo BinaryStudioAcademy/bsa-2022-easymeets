@@ -9,8 +9,7 @@ export const getDefaultTimeZone = (): ITimeZone => {
 };
 
 export function convertLocalDateToUTCWithUserSelectedTimeZone(date: Date, timeZone: ITimeZone) {
-    const userOffset = date.getTimezoneOffset() * 60000;
-    const dateWithoutLocalOffset = new Date(date.getTime() - userOffset);
+    const dateWithoutLocalOffset = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
 
     return formatDate(dateWithoutLocalOffset, 'yyyy-MM-ddTHH:mm:ss.SSSZZZ', 'en-US', timeZone.nameValue);
 }
