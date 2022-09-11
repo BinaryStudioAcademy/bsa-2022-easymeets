@@ -11,7 +11,8 @@ import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IDuration } from '@core/models/IDuration';
 import { ISaveAdvancedSettings } from '@core/models/save-availability-slot/ISaveAdvancedSettings';
 import { ISaveGeneralSettings } from '@core/models/save-availability-slot/ISaveGeneralSettings';
-import { meetingNameRegex, naturalNumberRegex } from '@shared/constants/model-validation';
+import { naturalNumberRegex, textFieldRegex } from '@shared/constants/model-validation';
+import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
 
@@ -71,7 +72,9 @@ export class GeneralComponent implements OnInit {
 
     public addAdvanced: boolean = false;
 
-    public meetingNameInputPattern = meetingNameRegex;
+    public textFieldRegex = textFieldRegex;
+
+    public invalidCharactersMessage = invalidCharactersMessage;
 
     public naturalNumberInputPattern = naturalNumberRegex;
 

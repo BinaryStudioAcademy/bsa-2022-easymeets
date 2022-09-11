@@ -12,7 +12,8 @@ import { ConfirmationWindowService } from '@core/services/confirmation-window.se
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
+import { naturalNumberRegex, textFieldRegex } from '@shared/constants/model-validation';
+import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
 import { map, Observable, startWith, Subscription } from 'rxjs';
@@ -60,6 +61,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     meetingForm: FormGroup;
 
+    invalidCharactersMessage = invalidCharactersMessage;
+
     private bookedIconPath: string = 'assets/booked-icon.png';
 
     memberFilterCtrl: FormControl = new FormControl('');
@@ -68,7 +71,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(newMeetingNameRegex),
+        Validators.pattern(textFieldRegex),
     ]);
 
     customTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);

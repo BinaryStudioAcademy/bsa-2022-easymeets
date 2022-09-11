@@ -24,9 +24,13 @@
                         class="select-input" />
                     <div *ngIf="meetingNameControl.invalid && meetingNameControl.touched">
                         <small *ngIf="meetingNameControl.errors?.['required']">This field is required.</small>
-                        <small *ngIf="meetingNameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
-                        <small *ngIf="meetingNameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
-                        <small *ngIf="meetingNameControl.errors?.['pattern']">Invalid characters.</small>
+                        <small *ngIf="meetingNameControl.errors?.['minlength']"
+                            >Length must be more than 2 characters.</small
+                        >
+                        <small *ngIf="meetingNameControl.errors?.['maxlength']"
+                            >Length must be less than 50 characters.</small
+                        >
+                        <small *ngIf="meetingNameControl.errors?.['pattern']">{{ invalidCharactersMessage }}</small>
                     </div>
                 </div>
                 <div class="item">

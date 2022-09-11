@@ -3,6 +3,8 @@ import { Component, Input } from '@angular/core';
 import { getLocalMandatoryQuestions } from '@core/helpers/questions-mandatory-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IQuestion } from '@core/models/IQuestion';
+import { textFieldRegex } from '@shared/constants/model-validation';
+import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 
 @Component({
     selector: 'app-questions',
@@ -26,6 +28,10 @@ export class QuestionsComponent {
     public optionalQuestionsExist: boolean = false;
 
     public mandatoryQuestionsExist: boolean = false;
+
+    public textFieldRegex = textFieldRegex;
+
+    public invalidCharactersMessage = invalidCharactersMessage;
 
     private newQuestionOrder: number = 0;
 

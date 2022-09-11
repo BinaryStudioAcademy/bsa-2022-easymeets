@@ -32,6 +32,9 @@
         <span *ngIf="confirmForm.controls['extraInfo'].hasError('minlength')"
             ><p class="validationError">The minimum length is 3, the maximum is 80.</p></span
         >
+        <span *ngIf="confirmForm.controls['extraInfo'].hasError('pattern')">
+            <p class="validationError">{{ invalidCharactersMessage }}</p>
+        </span>
     </div>
     <div id="container-confirm" class="confirm-container">
         <button (click)="OnConfirmBooking()" mat-flat-button color="primary">Confirm booking</button>

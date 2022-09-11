@@ -1,7 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IExternalAnswers } from '@core/models/IExternalAnswers';
-import { nameWithoutSpaces, userNameRegex } from '@shared/constants/model-validation';
+import { nameWithoutSpaces, textFieldRegex, userNameRegex } from '@shared/constants/model-validation';
+import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 
 @Component({
     selector: 'app-external-booking-confirm-page',
@@ -29,7 +30,11 @@ export class ExternalBookingConfirmPageComponent implements OnInit {
             Validators.maxLength(50),
         ]),
         email: new FormControl('', [Validators.email]),
-        extraInfo: new FormControl('', [Validators.minLength(3), Validators.maxLength(80)]),
+        extraInfo: new FormControl('', [
+            Validators.minLength(3),
+            Validators.maxLength(80),
+            Validators.pattern(textFieldRegex),
+        ]),
     });
 
     get characters() {
@@ -49,4 +54,6 @@ export class ExternalBookingConfirmPageComponent implements OnInit {
     }
 
     public externalAnswers: IExternalAnswers;
+
+    invalidCharactersMessage = invalidCharactersMessage;
 }

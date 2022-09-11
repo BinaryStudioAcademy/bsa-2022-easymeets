@@ -17,7 +17,14 @@
 
     <div class="welcome-message-container">
         <p class="input-description">Welcome Message</p>
-        <textarea id="welcomeMessage" class="input-message" [(ngModel)]="settings.welcomeMessage"></textarea>
+        <textarea
+            id="welcomeMessage"
+            [formControl]="welcomeMessageControl"
+            class="input-message"
+            (blur)="onWelcomeMessageChange(welcomeMessageControl.value)"></textarea>
+        <div *ngIf="welcomeMessageControl.invalid && welcomeMessageControl.touched" class="validation">
+            <small *ngIf="welcomeMessageControl.errors?.['pattern']">{{ invalidCharactersMessage }}</small>
+        </div>
     </div>
 
     <div class="language-container">

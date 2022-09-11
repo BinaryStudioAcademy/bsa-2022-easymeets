@@ -21,13 +21,18 @@
                 <div>Team Name</div>
             </label>
             <div>
-                <input #teamNameInput type="text" formControlName="name" (input)="generateNewPageLink(formGroup)" (change)="teamNameChanged(teamNameInput.value)" />
+                <input
+                    #teamNameInput
+                    type="text"
+                    formControlName="name"
+                    (input)="generateNewPageLink(formGroup)"
+                    (change)="teamNameChanged(teamNameInput.value)" />
             </div>
             <div *ngIf="nameControl.invalid && nameControl.touched" class="validation">
                 <small *ngIf="nameControl.errors?.['required']">This field is required.</small>
                 <small *ngIf="nameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
                 <small *ngIf="nameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
-                <small *ngIf="nameControl.errors?.['pattern']">Invalid characters.</small>
+                <small *ngIf="nameControl.errors?.['pattern']">{{ invalidCharactersMessage }}</small>
             </div>
         </div>
         <div class="item">
@@ -58,6 +63,9 @@
             <div *ngIf="descriptionControl.invalid && descriptionControl.touched" class="validation">
                 <small *ngIf="descriptionControl.errors?.['maxlength']">
                     The field “Description” must not exceed 300 characters.
+                </small>
+                <small *ngIf="descriptionControl.errors?.['pattern']">
+                    {{ invalidCharactersMessage }}
                 </small>
             </div>
         </div>
