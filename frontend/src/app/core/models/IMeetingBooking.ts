@@ -2,9 +2,9 @@ import { IUserMeeting } from './IUserMeeting';
 
 export interface IMeetingBooking {
     id: number;
-    meetingTime: string;
+    meetingTime: Date;
     meetingTitle: string;
-    meetingDuration: string;
+    meetingDuration: number;
     meetingLink: string;
     membersTitle: string;
     location: string;
