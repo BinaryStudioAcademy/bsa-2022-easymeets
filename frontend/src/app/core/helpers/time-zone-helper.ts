@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { ITimeZone } from '@core/models/ITimeZone';
 import { ILocalUser } from '@core/models/IUser';
 
@@ -8,11 +9,8 @@ export const getDefaultTimeZone = (): ITimeZone => {
 };
 
 export function convertLocalDateToUTCWithUserSelectedTimeZone(date: Date, timeZone: ITimeZone) {
-    const dateWithoutLocalOffset = new Date(date.getTime() - 2 * (date.getTimezoneOffset() * 60000));
+    const userOffset = date.getTimezoneOffset() * 60000;
+    const dateWithoutLocalOffset = new Date(date.getTime() - userOffset);
 
-    return new Date(
-        dateWithoutLocalOffset.toLocaleString('en-US', {
-            timeZone: timeZone.nameValue,
-        }),
-    );
+    return formatDate(dateWithoutLocalOffset, 'yyyy-MM-ddTHH:mm:ss.SSSZZZ', 'en-US', timeZone.nameValue);
 }

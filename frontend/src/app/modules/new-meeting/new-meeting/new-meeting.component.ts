@@ -223,7 +223,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             ],
             title: 'Meeting Created !',
             titleImagePath: this.bookedIconPath,
-            dateTime: this.createdMeeting.startTime,
+            dateTime: new Date(this.createdMeeting.startTime),
             duration: this.duration.minutes,
             meetingName: this.createdMeeting.name,
             participants: this.addedMembers,
