@@ -101,7 +101,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
             .subscribe(
                 () => {
                     this.notifications.showSuccessMessage('Meeting was successfully deleted');
-                    this.reloadBookings();
+                    this.getBookings();
                 },
                 (error) => {
                     this.notifications.showErrorMessage(error);
@@ -171,9 +171,5 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         const bookingContainer = this.el.nativeElement.getElementsByClassName('container')[0] as HTMLElement;
 
         return bookingContainer.offsetWidth;
-    }
-
-    private reloadBookings() {
-        this.getBookings();
     }
 }
