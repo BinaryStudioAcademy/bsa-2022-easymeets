@@ -109,8 +109,7 @@ namespace EasyMeets.Core.BLL.Services
             }
 
             return members;
-        } 
-
+        }
 
         public async Task<SaveMeetingDto> CreateMeeting(SaveMeetingDto meetingDto)
         {
