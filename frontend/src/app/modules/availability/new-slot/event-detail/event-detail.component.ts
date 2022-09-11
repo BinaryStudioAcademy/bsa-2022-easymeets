@@ -94,8 +94,8 @@ export class EventDetailComponent extends BaseComponent implements OnInit {
         this.linkChange.emit(this.settings.link);
     }
 
-    onWelcomeMessageChange(message: string | null) {
-        this.settings.welcomeMessage = removeExcessiveSpaces(message ?? '');
+    onWelcomeMessageChange(message: string) {
+        this.welcomeMessageControl.patchValue(removeExcessiveSpaces(message));
     }
 
     private slotLinkValidator(): AsyncValidatorFn {

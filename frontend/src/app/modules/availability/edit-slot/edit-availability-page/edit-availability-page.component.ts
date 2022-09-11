@@ -2,7 +2,6 @@ import { Component, EventEmitter, HostListener, OnDestroy, ViewChild } from '@an
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { ComponentCanDeactivate } from '@core/guards/pending-changes.guard';
-import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
@@ -78,13 +77,9 @@ export class EditAvailabilityPageComponent extends BaseComponent implements OnDe
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
             advancedSettings,
             eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
+            questions: this.newAvailabilityComponent.questionsComponent.questions,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
-            questions: this.newAvailabilityComponent.questionsComponent.questions.map((question) => {
-                question.questionText = removeExcessiveSpaces(question.questionText);
-
-                return question;
-            }),
         };
 
         this.http

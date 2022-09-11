@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -62,15 +61,11 @@ export class NewAvailabilityPageComponent extends BaseComponent {
             generalDetails: general,
             advancedSettings,
             eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
+            questions: this.newAvailabilityComponent.questionsComponent.questions,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
             teamId: this.currentTeamId,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
-            questions: this.newAvailabilityComponent.questionsComponent.questions.map((question) => {
-                question.questionText = removeExcessiveSpaces(question.questionText);
-
-                return question;
-            }),
         };
 
         return newAvailability;

@@ -7,5 +7,5 @@ export const emailRegex =
     '^([a-zA-z0-9]+([._\\-][a-zA-z0-9]+)?)+@([a-zA-z0-9]+([.\\-][a-zA-Z0-9]+)?)+\\.[a-zA-Z]{2,4}$';
 export const textFieldRegex = new RegExp(
     '^[\\p{L}\\s0-9"\\(\\),:;<>@\\[\\\\\\]!#\\$%&\'\\*\\+-\\/=\\?\\^_`\\{\\|\\]\\*]*$',
-    'um',
+    'u',
 );

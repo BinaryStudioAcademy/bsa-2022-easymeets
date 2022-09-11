@@ -27,7 +27,8 @@
                                 type="text"
                                 #questionField="ngModel"
                                 [(ngModel)]="question.questionText"
-                                [pattern]="textFieldRegex" />
+                                [pattern]="textFieldRegex"
+                                (change)="trimInputValue(questionField.control)" />
                         </mat-form-field>
                         <button mat-icon-button class="color-dark-grey" (click)="deleteQuestion(question.order)">
                             <mat-icon>close</mat-icon>

@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getDisplayDuration } from '@core/helpers/display-duration-helper';
+import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { convertLocalDateToUTCWithUserSelectedTimeZone, getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
@@ -237,6 +238,10 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     goToBookingsPage() {
         this.router.navigate(['/bookings']);
+    }
+
+    trimInputValue(control: FormControl) {
+        control.patchValue(removeExcessiveSpaces(control.value));
     }
 
     override ngOnDestroy(): void {

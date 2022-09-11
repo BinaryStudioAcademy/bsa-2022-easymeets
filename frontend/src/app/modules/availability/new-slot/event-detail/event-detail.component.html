@@ -18,10 +18,11 @@
     <div class="welcome-message-container">
         <p class="input-description">Welcome Message</p>
         <textarea
+            #welcomeMessageField
             id="welcomeMessage"
             [formControl]="welcomeMessageControl"
             class="input-message"
-            (blur)="onWelcomeMessageChange(welcomeMessageControl.value)"></textarea>
+            (change)="onWelcomeMessageChange(welcomeMessageField.value)"></textarea>
         <div *ngIf="welcomeMessageControl.invalid && welcomeMessageControl.touched" class="validation">
             <small *ngIf="welcomeMessageControl.errors?.['pattern']">{{ invalidCharactersMessage }}</small>
         </div>

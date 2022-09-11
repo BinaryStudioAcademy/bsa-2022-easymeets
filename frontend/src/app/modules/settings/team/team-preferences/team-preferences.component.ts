@@ -112,8 +112,8 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         });
     }
 
-    public teamNameChanged(value: string) {
-        this.formGroup.patchValue({ name: removeExcessiveSpaces(value) });
+    public trimInputValue(control: FormControl) {
+        control.patchValue(removeExcessiveSpaces(control.value));
     }
 
     private uploadLogo(formData: FormData) {

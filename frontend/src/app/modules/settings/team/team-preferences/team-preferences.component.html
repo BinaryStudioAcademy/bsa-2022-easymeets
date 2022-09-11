@@ -22,11 +22,10 @@
             </label>
             <div>
                 <input
-                    #teamNameInput
                     type="text"
                     formControlName="name"
                     (input)="generateNewPageLink(formGroup)"
-                    (change)="teamNameChanged(teamNameInput.value)" />
+                    (change)="trimInputValue(nameControl)" />
             </div>
             <div *ngIf="nameControl.invalid && nameControl.touched" class="validation">
                 <small *ngIf="nameControl.errors?.['required']">This field is required.</small>
@@ -58,7 +57,10 @@
                 <div>Description</div>
             </label>
             <div>
-                <textarea class="text-area-class" formControlName="description"></textarea>
+                <textarea
+                    class="text-area-class"
+                    formControlName="description"
+                    (change)="trimInputValue(descriptionControl)"></textarea>
             </div>
             <div *ngIf="descriptionControl.invalid && descriptionControl.touched" class="validation">
                 <small *ngIf="descriptionControl.errors?.['maxlength']">

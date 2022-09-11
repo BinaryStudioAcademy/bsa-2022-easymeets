@@ -117,7 +117,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                 id: this.user.id,
                 phoneCode: this.countryCodeValues[form.value.country as Country],
                 phone: form.value.phone,
-                userName: removeExcessiveSpaces(form.value.userName),
+                userName: form.value.userName,
                 country: form.value.country,
                 dateFormat: form.value.dateFormat,
                 language: form.value.language,
