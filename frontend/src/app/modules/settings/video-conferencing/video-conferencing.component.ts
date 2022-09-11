@@ -38,28 +38,32 @@ export class VideoConferencingComponent extends BaseComponent implements OnInit 
     }
 
     getMeetData() {
-        this.googleMeetService.getAvailableCredentials()
+        this.googleMeetService
+            .getAvailableCredentials()
             .pipe(this.untilThis)
-            .subscribe(resp => {
+            .subscribe((resp) => {
                 this.availableAccounts = resp;
             });
-        this.googleMeetService.getCredentials()
+        this.googleMeetService
+            .getCredentials()
             .pipe(this.untilThis)
-            .subscribe(resp => {
+            .subscribe((resp) => {
                 this.selectedAccount = resp;
             });
     }
 
     connectZoom() {
-        this.zoomService.getZoomClientId()
+        this.zoomService
+            .getZoomClientId()
             .pipe(this.untilThis)
-            .subscribe(clientId => {
+            .subscribe((clientId) => {
                 this.zoomService.authorizeUser(this.redirectUri, clientId);
             });
     }
 
     logoutZoom() {
-        this.zoomService.logoutZoom()
+        this.zoomService
+            .logoutZoom()
             .pipe(this.untilThis)
             .subscribe(() => {
                 this.email = undefined;
@@ -67,29 +71,27 @@ export class VideoConferencingComponent extends BaseComponent implements OnInit 
     }
 
     changeMeetAccount() {
-        this.googleMeetService.createCredentials(this.selectedAccount!)
-            .pipe(this.untilThis)
-            .subscribe();
+        this.googleMeetService.createCredentials(this.selectedAccount!).pipe(this.untilThis).subscribe();
     }
 
     private checkActivatedRoute() {
-        this.activatedRoute.queryParams.pipe(this.untilThis)
-            .subscribe(params => {
-                if (params['code']) {
-                    const authCode = params['code'];
+        this.activatedRoute.queryParams.pipe(this.untilThis).subscribe((params) => {
+            if (params['code']) {
+                const authCode = params['code'];
 
-                    this.createZoomCredentials(authCode);
-                } else {
-                    this.getZoomClientEmail();
-                }
-            });
+                this.createZoomCredentials(authCode);
+            } else {
+                this.getZoomClientEmail();
+            }
+        });
     }
 
     private createZoomCredentials(authCode: string) {
         this.spinnerService.show();
-        this.zoomService.createZoomCredentials(authCode, this.redirectUri)
+        this.zoomService
+            .createZoomCredentials(authCode, this.redirectUri)
             .pipe(this.untilThis)
-            .subscribe(result => {
+            .subscribe((result) => {
                 this.router.navigate([], {
                     queryParams: {
                         code: null,
@@ -103,9 +105,10 @@ export class VideoConferencingComponent extends BaseComponent implements OnInit 
 
     private getZoomClientEmail() {
         this.spinnerService.show();
-        this.zoomService.getZoomClientEmail()
+        this.zoomService
+            .getZoomClientEmail()
             .pipe(this.untilThis)
-            .subscribe(resp => {
+            .subscribe((resp) => {
                 this.isLoad = true;
                 this.email = resp.email;
                 this.spinnerService.hide();

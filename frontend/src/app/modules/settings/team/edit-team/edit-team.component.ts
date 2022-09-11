@@ -9,7 +9,7 @@ import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { TeamService } from '@core/services/team.service';
 import { TeamPreferencesComponent } from '@modules/settings/team/team-preferences/team-preferences.component';
-import { deletionMessage } from '@shared/constants/shared-messages';
+import { deleteTeamMessage } from '@shared/constants/shared-messages';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -90,7 +90,7 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
                 },
             ],
             title: 'Confirm Team Deletion',
-            message: deletionMessage,
+            message: deleteTeamMessage,
         });
     }
 

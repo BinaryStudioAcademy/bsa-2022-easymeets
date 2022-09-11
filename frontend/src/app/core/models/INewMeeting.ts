@@ -7,7 +7,7 @@ export interface INewMeeting {
     teamId?: number;
     locationType: LocationType;
     duration: number;
-    startTime: Date;
+    startTime: string;
     meetingLink: string;
     createdAt: Date;
     meetingMembers: INewMeetingMember[];
