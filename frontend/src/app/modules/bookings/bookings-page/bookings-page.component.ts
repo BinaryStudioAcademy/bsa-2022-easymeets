@@ -1,6 +1,8 @@
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { addMinutesHelper } from '@core/helpers/date-helper';
+import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IMeetingBooking } from '@core/models/IMeetingBooking';
 import { IMeetingMembersRequest } from '@core/models/IMeetingMemberRequest';
 import { MeetingBookingsService } from '@core/services/meeting-bookings.service';
@@ -79,6 +81,14 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
 
     followMeetingLink(link: string) {
         window.open(link);
+    }
+
+    getEndMeetingDate(date: Date, duration: number) {
+        return addMinutesHelper(date, duration);
+    }
+
+    getTimeZoneValue() {
+        return getDefaultTimeZone().timeValue;
     }
 
     private getNumberOfItemsToDisplay(width: number) {
