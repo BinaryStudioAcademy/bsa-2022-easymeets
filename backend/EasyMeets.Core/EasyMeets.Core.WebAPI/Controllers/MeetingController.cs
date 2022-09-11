@@ -19,19 +19,14 @@ namespace EasyMeets.Core.WebAPI.Controllers
             _teamService = teamService;
         }
 
-        [HttpGet("GetThreeMeetingMembers/{teamId?}")]
-        public async Task<List<MeetingThreeMembersDTO>> GetThreeMeetingMembersAsync(long? teamId) => await _meetingService.GetThreeMeetingMembersAsync(teamId);
+        [HttpPost("GetThreeMeetingMembers")]
+        public async Task<List<MeetingSlotDTO>> GetMeetingMembersByCountAsync(MeetingMemberRequestDto meetingMemberRequestDto) => 
+            await _meetingService.GetMeetingMembersByNumberOfMembersToDisplayAsync(meetingMemberRequestDto.TeamId, meetingMemberRequestDto.NumberOfMembersToDisplay);
 
         [HttpGet("{id:int}/members/all")]
         public async Task<ActionResult<List<UserMeetingDTO>>> GetAllMembers(int id)
         {
             return Ok(await _meetingService.GetAllMembers(id));
-        }
-
-        [HttpGet("ordered-times/{slotId}")]
-        public async Task<ActionResult<List<OrderedMeetingTimesDto>>> GetOrderedMeetingTimes(long slotId)
-        {
-            return Ok(await _meetingService.GetOrderedMeetingTimesAsync(slotId));
         }
 
         [HttpGet]
@@ -40,6 +35,13 @@ namespace EasyMeets.Core.WebAPI.Controllers
         {
             var teamMembers = await _teamService.GetTeamMembersOfCurrentUserAsync(teamId);
             return Ok(teamMembers);
+        }
+        
+        [HttpGet("ordered-times/{slotId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<OrderedMeetingTimesDto>>> GetOrderedMeetingTimes(long slotId)
+        {
+            return Ok(await _meetingService.GetOrderedMeetingTimesAsync(slotId));
         }
 
         [HttpPost]

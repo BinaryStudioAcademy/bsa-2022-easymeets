@@ -41,6 +41,10 @@ export class UserService {
         );
     }
 
+    public getUsersByEmailOrName(searchData: string): Observable<IUser[]> {
+        return this.httpService.getRequest<IUser[]>(`${this.routePrefix}/search/${searchData}`);
+    }
+
     public createUser(newUser: INewUser): Observable<IUser> {
         return this.httpService.postRequest<IUser>(`${this.routePrefix}`, newUser).pipe(
             tap({
@@ -60,7 +64,9 @@ export class UserService {
     }
 
     public checkExistingEmail(email: string): Observable<boolean> {
-        return this.httpService.getRequest<boolean>(`${this.routePrefix}/check-email?email=${email}`).pipe(
+        const emailEncoded = encodeURIComponent(email);
+
+        return this.httpService.getRequest<boolean>(`${this.routePrefix}/check-email?email=${emailEncoded}`).pipe(
             tap({
                 error: () =>
                     this.notificationService.showErrorMessage('Something went wrong. Failed to verify email exists.'),

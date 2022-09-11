@@ -31,7 +31,7 @@ public class TeamSharedService : BaseService, ITeamSharedService
         
         var member = new TeamMember
         {
-            Role = Role.Admin,
+            Role = Role.Owner,
             TeamId = createdTeam.Id,
             UserId = user.Id,
         };

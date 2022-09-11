@@ -41,7 +41,7 @@ public class TeamService : BaseService, ITeamService
 
         var member = new TeamMember()
         {
-            Role = Role.Admin,
+            Role = Role.Owner,
             TeamId = createdTeam.Id,
             UserId = user.Id,
         };
@@ -52,9 +52,30 @@ public class TeamService : BaseService, ITeamService
         return _mapper.Map<TeamDto>(createdTeam);
     }
 
+    public async Task<List<TeamMemberDto>> GetTeamMembersAsync(long teamId)
+    {
+        var members = await _context.TeamMembers
+            .Include(t => t.User.Calendars)
+            .Where(t => t.TeamId == teamId)
+            .Select(y =>
+                new TeamMemberDto()
+                {
+                    Id = y.Id,
+                    Name = y.User.Name,
+                    Email = y.User.Email,
+                    Image = y.User.ImagePath,
+                    Role = y.Role,
+                    ConnectedCalendars = y.User.Calendars.Where(x => x.VisibleForTeams.Any(y => y.TeamId == teamId)).Select(x => x.ConnectedCalendar),
+                    PageLink = y.User.PersonalUrl,
+                }
+           ).ToListAsync();
+
+        return members;
+    }
+
     public async Task UpdateTeamAsync(UpdateTeamDto teamDto)
     {
-        if (await UserIsAdmin(teamDto.Id))
+        if (await UserHasRole(teamDto.Id, Role.Admin) || await UserHasRole(teamDto.Id, Role.Owner))
         {
             var teamEntity = await GetTeamByIdAsync(teamDto.Id);
             teamEntity = _mapper.Map(teamDto, teamEntity);
@@ -69,22 +90,47 @@ public class TeamService : BaseService, ITeamService
         }
     }
 
+    public async Task CreateTeamMemberAsync(TeamMemberDto teamMemberDto, long teamId)
+    {
+        var team = await GetTeamByIdAsync(teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
+        var member = new TeamMember()
+        {
+            Role = Role.Member,
+            TeamId = team.Id,
+            UserId = teamMemberDto.Id,
+        };
+
+        _context.TeamMembers.Add(member);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateTeamMemberRoleAsync(TeamMemberDto teamMemberDto)
+    {
+        var teamMember = await _context.TeamMembers.FirstOrDefaultAsync(s => s.Id == teamMemberDto.Id) ??
+            throw new KeyNotFoundException("Team member doesn't exist");
+        teamMember.Role = teamMemberDto.Role;
+
+        _context.TeamMembers.Update(teamMember);
+        await _context.SaveChangesAsync();
+    }
+
+
     public async Task DeleteTeamAsync(long teamId)
     {
-        if (await UserIsAdmin(teamId))
-        {
-            var teamEntity = await GetTeamByIdAsync(teamId);
-            var slots = await _context.AvailabilitySlots.Where(el => el.TeamId == teamId).ToListAsync();
-            var slotMembers = slots.SelectMany(_ => _.SlotMembers).ToList();
-            _context.RemoveRange(slotMembers);
-            _context.RemoveRange(slots);
-            _context.Teams.Remove(teamEntity);
-            await _context.SaveChangesAsync();
-        }
-        else
-        {
-            throw new Exception("User is not allowed enough access");
-        }
+        var teamEntity = await GetTeamByIdAsync(teamId);
+        var slots = await _context.AvailabilitySlots.Where(el => el.TeamId == teamId).ToListAsync();
+        var slotMembers = slots.SelectMany(_ => _.SlotMembers).ToList();
+        _context.RemoveRange(slotMembers);
+        _context.RemoveRange(slots);
+        _context.Teams.Remove(teamEntity);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteTeamMemberAsync(long teamMemberId)
+    {
+        var teamMember = await _context.TeamMembers.FirstAsync(s => s.Id == teamMemberId);
+        _context.TeamMembers.Remove(teamMember);
+        await _context.SaveChangesAsync();
     }
 
     public async Task<ImagePathDto> UploadLogoAsync(IFormFile file, long? teamId)
@@ -104,15 +150,15 @@ public class TeamService : BaseService, ITeamService
         return new ImagePathDto() { Path = imagePath };
     }
 
-    private async Task<bool> UserIsAdmin(long teamId)
+    private async Task<bool> UserHasRole(long teamId, Role role)
     {
         var user = await _userService.GetCurrentUserAsync();
-        var isAdmin = await _context.Teams.Where(t => t.Id == teamId)
+        var hasRole = await _context.Teams.Where(t => t.Id == teamId)
             .Include(t => t.TeamMembers)
             .SelectMany(t => t.TeamMembers)
-            .AnyAsync(m => m.UserId == user.Id && m.Role == Role.Admin);
+            .AnyAsync(m => m.UserId == user.Id && m.Role == role);
 
-        return isAdmin;
+        return hasRole;
     }
 
     private async Task<Team> GetTeamByIdAsync(long id)
@@ -147,10 +193,10 @@ public class TeamService : BaseService, ITeamService
         return teamMembers;
     }
 
-    public async Task<List<TeamDto>> GetCurrentUserAdminTeams()
+    public async Task<List<TeamDto>> GetCurrentUserAdminAndOwnerTeams()
     {
         var currentUser = await _userService.GetCurrentUserAsync();
-        var teams = await _context.TeamMembers.Where(el => el.UserId == currentUser.Id && el.Role == Role.Admin)
+        var teams = await _context.TeamMembers.Where(el => el.UserId == currentUser.Id && (el.Role == Role.Admin || el.Role == Role.Owner))
             .Include(el => el.Team)
             .Select(el => el.Team)
             .ToListAsync();
