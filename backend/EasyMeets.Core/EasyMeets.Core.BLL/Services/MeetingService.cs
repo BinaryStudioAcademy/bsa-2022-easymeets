@@ -81,6 +81,7 @@ namespace EasyMeets.Core.BLL.Services
 
             return slotMembers.Union(external).Take(numberOfMembers).ToList();
         }
+
         private static string CreateMemberTitle(Meeting meeting)
         {
             return meeting.MeetingMembers.Count() switch
