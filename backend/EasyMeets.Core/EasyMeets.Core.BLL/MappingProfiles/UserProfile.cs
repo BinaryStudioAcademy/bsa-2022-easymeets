@@ -40,7 +40,8 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             CreateMap<User, ExternalUserDto>()
                 .ForMember(dest => dest.Id, src => src.MapFrom(s => s.Id))
                 .ForMember(dest => dest.UserName, src => src.MapFrom(s => s.Name))
-                .ForMember(dest => dest.Image, src => src.MapFrom(s => s.ImagePath));
+                .ForMember(dest => dest.Image, src => src.MapFrom(s => s.ImagePath))
+                .ForMember(dest => dest.PersonalLink, src => src.MapFrom(s => s.PersonalUrl));
 
             CreateMap<UpdateUserDto, User>()
                 .ForMember(dest => dest.Name, src => src.MapFrom(s => s.UserName))

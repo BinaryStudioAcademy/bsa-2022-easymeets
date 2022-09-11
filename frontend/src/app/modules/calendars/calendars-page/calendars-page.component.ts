@@ -144,5 +144,5 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
         });
     }
 
-    displayedColumns: string[] = ['connected-calendars', 'events-for', 'events-from', 'check'];
+    displayedColumns: string[] = ['connected-calendars', 'events-for', 'events-from', 'check', 'action'];
 }

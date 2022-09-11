@@ -16,11 +16,13 @@ namespace EasyMeets.Core.BLL.Services
         private readonly IUserService _userService;
         private readonly IZoomService _zoomService;
         private readonly IEmailSenderService _emailSender;
-        public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IZoomService zoomService, IEmailSenderService emailSender) : base(context, mapper)
+        private readonly IGoogleMeetService _googleMeetService;
+        public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IZoomService zoomService, IEmailSenderService emailSender, IGoogleMeetService googleMeetService) : base(context, mapper)
         {
             _userService = userService;
             _zoomService = zoomService;
             _emailSender = emailSender;
+            _googleMeetService = googleMeetService;
         }
 
         public async Task<List<MeetingSlotDTO>> GetMeetingMembersByNumberOfMembersToDisplayAsync(long? teamId, int numberOfMembers)
@@ -47,9 +49,8 @@ namespace EasyMeets.Core.BLL.Services
                         MeetingCount = x.MeetingMembers.Count,
                         MembersTitle = CreateMemberTitle(x),
                         MeetingTitle = x.Name,
-                        MeetingDuration = $"{x.Duration} min",
-                        MeetingTime = $"{x.StartTime.Hour}:{x.StartTime.Minute:00} - " +
-                            $"{x.StartTime.AddMinutes(x.Duration).Hour}:{x.StartTime.AddMinutes(x.Duration).Minute:00}",
+                        MeetingDuration = x.Duration,
+                        MeetingTime = x.StartTime,
                         MeetingLink = x.MeetingLink,
                         MeetingMembers = GetAllParticipants(x, numberOfMembers)
                     })
@@ -211,6 +212,7 @@ namespace EasyMeets.Core.BLL.Services
                     await _zoomService.CreateZoomMeeting(meeting.Id);
                     break;
                 case LocationType.GoogleMeet:
+                    await _googleMeetService.CreateGoogleMeet(meeting.Id);
                     break;
                 case LocationType.Office:
                     break;

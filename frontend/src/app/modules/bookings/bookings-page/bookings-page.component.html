@@ -6,7 +6,7 @@
                 <div class="item itemInfo">
                     <div class="itemTextInfo">
                         <div class="title-menu-row">
-                            <span class="timeTitle">{{ item.meetingTime }}</span>
+                            <span class="timeTitle">{{ item.meetingTime | date: 'hh:mm':getTimeZoneValue() }} - {{ getEndMeetingDate(item.meetingTime, item.meetingDuration) | date: 'hh:mm':getTimeZoneValue() }}</span>
                             <button class="fas fa-ellipsis fa-xl menu-icon"  [matMenuTriggerFor]="menu"></button>
                             <mat-menu #menu="matMenu" class="drop-down-menu">
                                 <button mat-menu-item class="btn edit">
@@ -19,7 +19,7 @@
                         </div>
 
                         <p class="itemText">
-                            {{ item.meetingTitle }}<br />{{ item.meetingDuration }}, {{ item.membersTitle }}
+                            {{ item.meetingTitle }}<br />{{ item.meetingDuration }} min, {{ item.membersTitle }}
                         </p>
                     </div>
 

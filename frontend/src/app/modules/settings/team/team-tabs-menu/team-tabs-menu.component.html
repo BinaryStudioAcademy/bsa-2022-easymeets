@@ -1,0 +1,15 @@
+<div class="team-tabs-container">
+    <nav mat-tab-nav-bar>
+        <a
+            mat-tab-link
+            *ngFor="let link of links"
+            [routerLink]="link.routerLink"
+            routerLinkActive
+            #rla="routerLinkActive"
+            [active]="rla.isActive">
+            <span class="link-text">
+                {{ link.text }}
+            </span>
+        </a>
+    </nav>
+</div>
