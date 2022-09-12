@@ -5,7 +5,7 @@
             <button mat-flat-button class="new-meeting-button" routerLink="/new-meeting">+ New Meeting</button>
             <button mat-flat-button color="primary" routerLink="/availability/new" class="new-availability-button">+ New Availability Slots</button>
         </div>
-        <div *ngIf="userPersonalAndTeamSlots">
+        <div>
             <app-user-slot
                 (isReload)="reloadData($event)"
                 [userSlots]="userPersonalAndTeamSlots.userSlots"
