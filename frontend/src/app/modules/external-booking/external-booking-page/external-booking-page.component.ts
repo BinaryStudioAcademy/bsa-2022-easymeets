@@ -30,6 +30,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
     link: string;
 
     isUserBooking: boolean;
+
     locationTypeOffice = LocationType.Office;
 
     locationTypeMapping = LocationTypeMapping;
