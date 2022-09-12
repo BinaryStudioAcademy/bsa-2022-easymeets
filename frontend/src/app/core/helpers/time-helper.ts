@@ -9,9 +9,6 @@ export function MinimalTimeValidator(selectedDateFunc: DateFunc): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
         const selectedDate = selectedDateFunc();
 
-        console.log(selectedDate);
-        console.log('validator runs');
-
         if (selectedDate && !datesEqual(selectedDate, new Date())) {
             return null;
         }
