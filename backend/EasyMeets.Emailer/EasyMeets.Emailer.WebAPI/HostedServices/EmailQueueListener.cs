@@ -12,24 +12,24 @@ public class EmailQueueListener : IHostedService
 {
     private readonly IEmailService _emailService;
     private readonly IConsumerService _consumerService;
-    
+
     public EmailQueueListener(IEmailService emailService, IConsumerService consumerService)
     {
         _emailService = emailService;
         _consumerService = consumerService;
     }
-    
+
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _consumerService.Listen(EmailReceived);
-        
+        _consumerService.ListenAsync(EmailReceived);
+
         return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
         _consumerService.Dispose();
-        
+
         return Task.CompletedTask;
     }
 
@@ -40,7 +40,7 @@ public class EmailQueueListener : IHostedService
         if (emailDto is null)
         {
             _consumerService.SetAcknowledge(args.DeliveryTag, true);
-                
+
             return;
         }
 
