@@ -80,9 +80,8 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
     }
 
     public subscribeToFormUpdates() {
-        this.formGroup
-            .get('name')
-            ?.valueChanges.pipe(
+        this.formGroup.get('name')?.valueChanges
+            .pipe(
                 this.untilThis,
                 tap(() => {
                     this.formValueUpdating = true;
