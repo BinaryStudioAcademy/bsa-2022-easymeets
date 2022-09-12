@@ -29,6 +29,8 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
 
     link: string;
 
+    isUserBooking: boolean;
+
     locationTypeOffice = LocationType.Office;
 
     locationTypeMapping = LocationTypeMapping;
@@ -65,6 +67,8 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
                 location: LocationType.GoogleMeet,
             };
         }
+
+        this.isUserBooking = this.isChooseMeetingRoute();
     }
 
     public getUser() {
@@ -199,7 +203,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             .subscribe(
                 () => {
                     this.notificationService.showSuccessMessage('Meeting successfully created');
-                    this.router.navigate(['/availability']);
+                    this.router.navigate(['/external-booking/confirmed-booking']);
                 },
                 (error) => {
                     this.notificationService.showErrorMessage(error);
@@ -221,6 +225,27 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         this.getUser();
     }
 
+    bookAnotherMeeting() {
+        const navigationURL: string = this.isUserBooking
+            ? `/external-booking/choose-meeting/${this.link}`
+            : `/external-booking/choose-time/${this.link}`;
+
+        this.router.navigateByUrl(navigationURL);
+        this.clearMeetingDetails();
+    }
+
+    clearMeetingDetails() {
+        this.menu = {
+            ...this.menu,
+            slotName: this.isUserBooking ? undefined : this.menu.slotName,
+        };
+
+        delete this.menu.duration;
+        delete this.menu.location;
+        delete this.menu.timeFinish;
+        delete this.menu.date;
+    }
+
     isChooseMeetingRoute(): boolean {
         return this.router.url.includes('/external-booking/choose-meeting');
     }
@@ -235,5 +260,9 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
 
     isTeamBooking(): boolean {
         return this.router.url.includes('/team/') || !!this.menu.team;
+    }
+
+    isConfirmedRoute(): boolean {
+        return this.router.url.includes('/external-booking/confirmed-booking');
     }
 }

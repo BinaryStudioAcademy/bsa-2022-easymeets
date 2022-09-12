@@ -1,0 +1,42 @@
+@import '../../../../styles/color-variables'
+
+.cell
+    display: flex
+    align-items: center
+    justify-content: center
+    position: relative
+    &> :first-child
+        width: 36px
+        height: 36px
+        font-style: normal
+        font-weight: 700
+        font-size: 14px
+        line-height: 146%
+        color: $raven
+        position: static
+        display: flex
+        align-items: center
+        justify-content: center
+
+.ordinary> :first-child
+    border-radius: 8px
+    border: none !important
+    background: $cell-color
+
+.mat-calendar-body-today
+    box-shadow: none !important
+    text-decoration: solid underline $bright-grey 2px
+    text-underline-offset: 5px
+
+.mat-calendar-body-selected
+    background: $midnight !important
+    color: $white-color !important
+
+.mat-calendar-body-label
+    &:not(:last-of-type)
+        visibility: hidden
+    &:last-of-type
+        display: none
+
+.mat-calendar-table-header-divider
+    visibility: hidden

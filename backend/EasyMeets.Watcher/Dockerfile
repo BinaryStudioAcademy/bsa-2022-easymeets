@@ -7,6 +7,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
 WORKDIR /src
 COPY ["EasyMeets.Watcher/EasyMeets.Watcher.WebAPI/EasyMeets.Watcher.WebAPI.csproj", "EasyMeets.Watcher/EasyMeets.Watcher.WebAPI/"]
 COPY ["EasyMeets.Watcher/EasyMeets.Watcher.BLL/EasyMeets.Watcher.BLL.csproj", "EasyMeets.Watcher/EasyMeets.Watcher.BLL/"]
+COPY ["EasyMeets.RabbitMQ/EasyMeets.RabbitMQ.csproj", "EasyMeets.RabbitMQ/"]
 
 RUN dotnet restore "EasyMeets.Watcher/EasyMeets.Watcher.WebAPI/EasyMeets.Watcher.WebAPI.csproj"
 COPY . .
