@@ -30,7 +30,7 @@ export class GeneralComponent extends BaseComponent implements OnInit {
             isVisible: this.slot?.isVisible ?? false,
             color: this.slot?.color ?? Color.Cyan,
             name: this.slot?.name ?? '',
-            locationType: this.slot?.locationType ?? LocationType.Zoom,
+            locationType: this.slot?.locationType ?? LocationType.Office,
             meetingRoom: this.slot?.meetingRoom,
             isEnabled: this.slot?.isEnabled ?? true,
             type: SlotType.Personal,
@@ -106,7 +106,7 @@ export class GeneralComponent extends BaseComponent implements OnInit {
             isVisible: false,
             color: Color.Cyan,
             name: '',
-            locationType: LocationType.Zoom,
+            locationType: LocationType.Office,
             isEnabled: true,
             type: SlotType.Personal,
         };

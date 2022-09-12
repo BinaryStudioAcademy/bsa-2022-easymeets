@@ -63,8 +63,6 @@
                     </mat-option>
                 </mat-select>
             </div>
-        </div>
-        <div class="inputs-right-container up">
             <div *ngIf="settings.locationType === locationOffice" class="input-container">
                 <p class="input-description">Meeting room</p>
                 <input
@@ -80,6 +78,8 @@
                     <div *ngIf="name.errors?.['pattern']">Input field accepts only text, numbers, symbols -'</div>
                 </div>
             </div>
+        </div>
+        <div class="inputs-right-container up">
             <div class="checkbox-container">
                 <mat-checkbox color="primary" name="hideAvailabilitySlots" [(ngModel)]="settings.isVisible">
                 </mat-checkbox>
