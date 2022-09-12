@@ -1,7 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IExternalAnswers } from '@core/models/IExternalAnswers';
-import { nameWithoutSpaces, userNameRegex } from '@shared/constants/model-validation';
+import { userNameRegex } from '@shared/constants/model-validation';
 
 @Component({
     selector: 'app-external-booking-confirm-page',
@@ -24,7 +25,6 @@ export class ExternalBookingConfirmPageComponent implements OnInit {
     public confirmForm = new FormGroup({
         characters: new FormControl('', [
             Validators.pattern(userNameRegex),
-            Validators.pattern(nameWithoutSpaces),
             Validators.minLength(2),
             Validators.maxLength(50),
         ]),
@@ -49,4 +49,8 @@ export class ExternalBookingConfirmPageComponent implements OnInit {
     }
 
     public externalAnswers: IExternalAnswers;
+
+    public userNameChanged(value: string) {
+        this.confirmForm.patchValue({ characters: removeExcessiveSpaces(value) });
+    }
 }
