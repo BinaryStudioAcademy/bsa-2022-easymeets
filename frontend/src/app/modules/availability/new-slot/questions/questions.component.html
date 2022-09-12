@@ -12,11 +12,6 @@
                     <mat-form-field class="question-input no-padding max-input-width" appearance="outline">
                         <input matInput type="text" [placeholder]="question.placeHolderText" disabled />
                     </mat-form-field>
-                    <div class="checkbox-container flex cross-axis-center">
-                        <mat-checkbox name="questionCheckBox" [(ngModel)]="checkBoxAnswers[i]" disableRipple>
-                        </mat-checkbox>
-                        <span class="input-message">{{ checkBoxTexts[i] }}</span>
-                    </div>
                 </div>
             </ng-container>
         </ng-container>
@@ -50,12 +45,13 @@
                         </div>
                         <mat-label class="question-index bold">{{ i + 1 }}.</mat-label>
                         <mat-form-field class="question-input no-padding margins" appearance="outline">
-                            <input matInput
-                                   type="text"
-                                   #questionField="ngModel"
-                                   [(ngModel)]="question.questionText"
-                                   [pattern]="textFieldRegex"
-                                   (change)="trimInputValue(questionField.control)" />
+                            <input
+                                matInput
+                                type="text"
+                                #questionField="ngModel"
+                                [(ngModel)]="question.questionText"
+                                [pattern]="textFieldRegex"
+                                (change)="trimInputValue(questionField.control)" />
                         </mat-form-field>
                         <button mat-icon-button class="delete-button" (click)="deleteQuestion(question.order)">
                             <mat-icon>highlight_off</mat-icon>

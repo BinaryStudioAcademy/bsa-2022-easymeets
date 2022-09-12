@@ -25,8 +25,6 @@ export class QuestionsComponent {
 
     public questions: IQuestion[] = [];
 
-    public checkBoxAnswers: boolean[] = [true, true];
-
     public optionalQuestionsExist: boolean = false;
 
     public mandatoryQuestionsExist: boolean = false;
@@ -34,8 +32,6 @@ export class QuestionsComponent {
     public textFieldRegex = textFieldRegex;
 
     public invalidCharactersMessage = invalidCharactersMessage;
-
-    public checkBoxTexts: string[] = ['Autofill Invitee Name, Email', 'Allow Booker to add additional guests'];
 
     private mandatoryQuestions: IQuestion[] = [];
 
