@@ -23,21 +23,22 @@ namespace EasyMeets.Watcher.BLL.Handlers
                 {
                     return Task.FromResult(new NotifyCalendarResponse { StatusCode = HttpStatusCode.Unauthorized });
                 }
-            }
-            catch (Exception)
-            {
-                throw new Exception("Something went wrong with Verify code.");
-            }
 
-            try
-            {
                 _webHookNotifier.NotifyCalendarChanges(request.Email);
 
                 return Task.FromResult(new NotifyCalendarResponse { StatusCode = HttpStatusCode.OK });
             }
-            catch (Exception)
+            catch (InvalidOperationException ex)
             {
-                throw new Exception("Something went wrong with RabbitMQ Producer.");
+                throw new InvalidOperationException($"RabbitMQ Producer doesnt work correctly. Error : {ex}");
+            }
+            catch (NullReferenceException ex)
+            {
+                throw new NullReferenceException($"Empty in GetEnvironmentVariable. Error : {ex}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

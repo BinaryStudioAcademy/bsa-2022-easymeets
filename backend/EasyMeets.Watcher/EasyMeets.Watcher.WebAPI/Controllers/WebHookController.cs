@@ -31,8 +31,8 @@ namespace EasyMeets.Watcher.WebAPI.Controllers
                 return Ok();
             }
             catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
+            { 
+                return BadRequest(ex.Message);
             }
         }
     }

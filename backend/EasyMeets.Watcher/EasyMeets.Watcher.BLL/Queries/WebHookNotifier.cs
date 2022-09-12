@@ -14,14 +14,7 @@ namespace EasyMeets.Watcher.BLL.Queries
 
         public void NotifyCalendarChanges(string message)
         {
-            try
-            {
-                _producer.Send(message, null);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            _producer.Send(message, null);
         }
     }
 }
