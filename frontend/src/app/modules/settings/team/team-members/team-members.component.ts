@@ -2,7 +2,6 @@ import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { ITeamMember } from '@core/models/ITeamMember';
-import { IUser } from '@core/models/IUser';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
@@ -28,6 +27,8 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
     teamId: number;
 
     ownerIdToDeleteWithTeam: bigint;
+
+    ownerId: bigint | undefined;
 
     Role = Role;
 
@@ -65,6 +66,7 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
             .pipe(this.untilThis)
             .subscribe((members) => {
                 this.teamMembers = members;
+                this.ownerId = this.teamMembers.find((x) => x.role === Role.Owner)?.id;
             });
     }
 
@@ -161,29 +163,37 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
             );
     }
 
-    changeTeamMemberRole(user: IUser, newRole: Role) {
+    changeTeamMemberRole(user: ITeamMember, newRole: Role) {
         const teamMember: ITeamMember = {
             id: user.id,
             image: user.image,
-            name: user.userName,
+            name: user.name,
             email: user.email,
             pageLink: '',
             role: newRole,
             status: Status.Pending,
         };
 
-        this.teamService
-            .updateTeamMember(teamMember)
-            .pipe(this.untilThis)
-            .subscribe(
-                () => {
-                    this.notificationService.showSuccessMessage('Team member`s role was successfully changed');
-                    this.reloadTeamMembers();
-                },
-                (error) => {
-                    this.notificationService.showErrorMessage(error);
-                },
-            );
+        if (newRole === Role.Owner && this.teamMembers.some((p) => p.role === Role.Owner)) {
+            this.notificationService.showErrorMessage('Team member with owner role should be the only');
+            this.reloadTeamMembers();
+        } else if (user.id === this.ownerId) {
+            this.notificationService.showErrorMessage('Owner role can be modified only when owner leave the team');
+            this.reloadTeamMembers();
+        } else {
+            this.teamService
+                .updateTeamMember(teamMember)
+                .pipe(this.untilThis)
+                .subscribe(
+                    () => {
+                        this.notificationService.showSuccessMessage('Team member`s role was successfully changed');
+                        this.reloadTeamMembers();
+                    },
+                    (error) => {
+                        this.notificationService.showErrorMessage(error);
+                    },
+                );
+        }
     }
 
     override ngOnDestroy(): void {
