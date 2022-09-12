@@ -247,16 +247,14 @@ namespace EasyMeets.Core.BLL.Services
                 var updatedDayTimeRangeIds =
                     updateAvailabilityDto.Schedule.ExclusionDates.SelectMany(dto => dto.DayTimeRanges)
                         .Select(dto => dto.Id);
-                var deletedExclusionDates = await _context.ExclusionDates.Where(date =>
-                        date.ScheduleId == scheduleId &&
-                        updatedExclusionDateIds.All(updatedDateId => updatedDateId != date.Id))
-                    .ToListAsync();
-                var deletedDayTimeRanges = await _context.DayTimeRanges
+                var deletedExclusionDates = _context.ExclusionDates.Where(date =>
+                    date.ScheduleId == scheduleId &&
+                    updatedExclusionDateIds.All(updatedDateId => updatedDateId != date.Id));
+                var deletedDayTimeRanges = _context.DayTimeRanges
                     .Where(range =>
                         updatedExclusionDateIds.Any(updatedExclusionDateId =>
-                            updatedExclusionDateId == range.ExclusionDateId) && 
-                            updatedDayTimeRangeIds.All(updatedDayTimeRangeId => updatedDayTimeRangeId != range.Id))
-                    .ToListAsync();
+                            updatedExclusionDateId == range.ExclusionDateId) &&
+                        updatedDayTimeRangeIds.All(updatedDayTimeRangeId => updatedDayTimeRangeId != range.Id));
                 _context.ExclusionDates.RemoveRange(deletedExclusionDates);
                 _context.DayTimeRanges.RemoveRange(deletedDayTimeRanges);
                 _mapper.Map(updateAvailabilityDto.Schedule,
