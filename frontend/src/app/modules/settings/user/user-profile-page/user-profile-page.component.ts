@@ -13,6 +13,8 @@ import { IUser } from '@core/models/IUser';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { UserService } from '@core/services/user.service';
+import { userNameRegex } from '@shared/constants/model-validation';
+import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { Country } from '@shared/enums/country';
 import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
@@ -58,11 +60,13 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public countryCode: string;
 
+    public invalidCharactersMessage = invalidCharactersMessage;
+
     public userNameControl: FormControl = new FormControl('', [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(/^[єЄіІїЇa-zA-Z\dа-яА-Я-]+(\s|)[єЄіІїЇa-zA-Z\dа-яА-Я-]*$/),
+        Validators.pattern(userNameRegex),
     ]);
 
     public phoneControl: FormControl = new FormControl('', [

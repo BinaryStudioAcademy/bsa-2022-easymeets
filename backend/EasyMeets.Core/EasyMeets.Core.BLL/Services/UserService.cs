@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using EasyMeets.Core.Common.DTO.UploadImage;
+using EasyMeets.Core.Common.Enums;
 using FirebaseAdmin.Auth;
 
 namespace EasyMeets.Core.BLL.Services
@@ -152,6 +153,15 @@ namespace EasyMeets.Core.BLL.Services
             _context.Users.Update(currentUser);
             await _context.SaveChangesAsync();
             return new ImagePathDto() { Path = imagePath };
+        }
+
+        public async Task<List<CredentialsType>> GetUserMeetIntegrations()
+        {
+            var user = await _context.Users.Include(u => u.Credentials)
+                .FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId())
+                ?? throw new KeyNotFoundException("User doesn't exist");
+
+            return  user.Credentials.Select(c => c.Type).Distinct().ToList();
         }
 
         public string? GetCurrentUserId()

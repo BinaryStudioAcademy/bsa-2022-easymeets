@@ -21,8 +21,8 @@ public class CredentialsProfile : Profile
                 => opts.MapFrom((_, dest) => dest.Type));
 
         CreateMap<MeetCredentialsDto, Credentials>()
-            .ForMember(dest => dest.Type, opts 
-                => opts.MapFrom(src => CredentialsType.Meet));
+            .ForMember(dest => dest.Type, opts
+                => opts.MapFrom(src => CredentialsType.GoogleMeet));
 
         CreateMap<Credentials, MeetCredentialsDto>();
     }

@@ -16,15 +16,36 @@ namespace EasyMeets.RabbitMQ.Service
             _connection = connection;
             _settings = settings;
             _channel = _connection.CreateModel();
-            
-            SetupChannel();
         }
 
-        public void Listen(AsyncEventHandler<BasicDeliverEventArgs> messageReceivedHandler)
+        public void Listen(EventHandler<BasicDeliverEventArgs> messageReceivedHandler)
         {
-            var consumer = new AsyncEventingBasicConsumer(_channel);
-            
+            SetupChannel();
+
+            var consumer = new EventingBasicConsumer(_channel);
+
             consumer.Received += messageReceivedHandler;
+
+            if (_settings.SequentialFetch)
+            {
+                _channel.BasicQos(0, 1, false);
+            }
+
+            _channel.BasicConsume(_settings.QueueName, _settings.AutoAcknowledge, consumer);
+        }
+
+        public void ListenAsync(AsyncEventHandler<BasicDeliverEventArgs> messageReceivedHandler)
+        {
+            SetupChannel();
+
+            var consumer = new AsyncEventingBasicConsumer(_channel);
+
+            consumer.Received += messageReceivedHandler;
+
+            if (_settings.SequentialFetch)
+            {
+                _channel.BasicQos(0, 1, false);
+            }
 
             _channel.BasicConsume(_settings.QueueName, _settings.AutoAcknowledge, consumer);
         }
@@ -33,7 +54,7 @@ namespace EasyMeets.RabbitMQ.Service
         {
             if (processed)
             {
-                _channel.BasicAck(deliveryTag, processed);
+                _channel.BasicAck(deliveryTag, false);
             }
             else
             {
@@ -54,11 +75,6 @@ namespace EasyMeets.RabbitMQ.Service
             _channel.QueueDeclare(_settings.QueueName, true, false, false);
 
             _channel.QueueBind(_settings.QueueName, _settings.ExchangeName, _settings.RoutingKey);
-
-            if (_settings.SequentialFetch)
-            {
-                _channel.BasicQos(0, 1, false);
-            }
         }
     }
 }

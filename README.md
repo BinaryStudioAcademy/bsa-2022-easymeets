@@ -125,6 +125,7 @@ erDiagram
       bigint AuthorId
       bigint TeamId
       int LocationType
+      nvarchar MeetingRoom
       boolean IsDeleted
       datetime CreatedAt
       datetime UpdatedAt
@@ -149,6 +150,7 @@ erDiagram
     int Type
     int Size
     int LocationType
+    nvarchar MeetingRoom
     boolean IsDeleted
     bigint AuthorId
     bigint TeamId

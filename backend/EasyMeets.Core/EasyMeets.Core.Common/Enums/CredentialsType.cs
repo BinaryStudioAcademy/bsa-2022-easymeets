@@ -3,5 +3,5 @@
 public enum CredentialsType
 {
     Zoom,
-    Meet
+    GoogleMeet
 }

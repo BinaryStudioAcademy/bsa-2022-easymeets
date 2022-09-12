@@ -7,7 +7,7 @@
         </mat-form-field>
         <mat-label class="outside-label bold">Name</mat-label>
         <mat-form-field appearance="outline">
-            <input matInput id="name" type="text" formControlName="name" placeholder="Jack White" />
+            <input #name matInput id="name" type="text" formControlName="name" placeholder="Jack White" (change)="userNameChanged(name.value)" />
             <mat-error
                 *ngIf="
                     signUpForm.controls['name'].hasError('required') ||
