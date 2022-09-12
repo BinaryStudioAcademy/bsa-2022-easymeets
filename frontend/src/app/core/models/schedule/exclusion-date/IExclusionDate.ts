@@ -1,6 +1,6 @@
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 
 export interface IExclusionDate {
-    selectedDate: Date;
+    selectedDate: string;
     dayTimeRanges: IDayTimeRange[];
 }
