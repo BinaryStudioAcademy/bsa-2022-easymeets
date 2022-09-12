@@ -15,7 +15,8 @@ import { ITeam } from '@core/models/ITeam';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { nameRegex } from '@shared/constants/model-validation';
+import { textFieldRegex } from '@shared/constants/model-validation';
+import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { map, Observable } from 'rxjs';
 
 @Component({
@@ -44,12 +45,17 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(nameRegex),
+        Validators.pattern(textFieldRegex),
     ]);
 
     public pageLinkControl: FormControl = new FormControl('', [Validators.required], [this.teamLinkValidator()]);
 
-    public descriptionControl: FormControl = new FormControl('', [Validators.maxLength(300)]);
+    public descriptionControl: FormControl = new FormControl('', [
+        Validators.maxLength(300),
+        Validators.pattern(textFieldRegex),
+    ]);
+
+    invalidCharactersMessage = invalidCharactersMessage;
 
     constructor(
         private route: ActivatedRoute,
@@ -106,8 +112,8 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         });
     }
 
-    public teamNameChanged(value: string) {
-        this.formGroup.patchValue({ name: removeExcessiveSpaces(value) });
+    public trimInputValue(control: FormControl) {
+        control.patchValue(removeExcessiveSpaces(control.value));
     }
 
     private uploadLogo(formData: FormData) {

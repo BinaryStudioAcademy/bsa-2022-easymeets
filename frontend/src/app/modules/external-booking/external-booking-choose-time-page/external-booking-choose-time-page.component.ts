@@ -29,6 +29,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         teamId?: bigint;
         duration: number;
         location: LocationType;
+        meetingRoom?: string;
         name: string;
     }>();
 
@@ -87,6 +88,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
                     this.slot!.size,
                     this.slot!.locationType,
                     this.slot!.name,
+                    this.slot!.meetingRoom,
                 );
                 this.getOrderedTimes(this.slot!.id);
                 this.selectedMeetingDuration = this.slot!.size;
@@ -241,8 +243,8 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         );
     }
 
-    addSlotInfo(slotId: bigint, teamId: bigint | undefined, duration: number, location: LocationType, name: string) {
-        this.selectedDurationAndLocationEvent.emit({ slotId, teamId, duration, location, name });
+    addSlotInfo(slotId: bigint, teamId: bigint | undefined, duration: number, location: LocationType, name: string, meetingRoom?: string) {
+        this.selectedDurationAndLocationEvent.emit({ slotId, teamId, duration, location, name, meetingRoom });
     }
 
     redirectToChooseMeeting() {
