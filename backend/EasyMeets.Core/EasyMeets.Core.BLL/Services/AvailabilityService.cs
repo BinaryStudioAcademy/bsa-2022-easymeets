@@ -254,7 +254,7 @@ namespace EasyMeets.Core.BLL.Services
                     .Where(range =>
                         updatedExclusionDateIds.Any(updatedExclusionDateId =>
                             updatedExclusionDateId == range.ExclusionDateId) &&
-                        updatedDayTimeRangeIds.All(updatedDayTimeRangeId => updatedDayTimeRangeId != range.Id));
+                            updatedDayTimeRangeIds.All(updatedDayTimeRangeId => updatedDayTimeRangeId != range.Id));
                 _context.ExclusionDates.RemoveRange(deletedExclusionDates);
                 _context.DayTimeRanges.RemoveRange(deletedDayTimeRanges);
                 _mapper.Map(updateAvailabilityDto.Schedule,
