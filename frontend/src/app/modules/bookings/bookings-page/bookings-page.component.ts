@@ -37,6 +37,8 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
 
     public locationTypeOffice = LocationType.Office;
 
+    public currentDate = new Date();
+
     constructor(
         private el: ElementRef,
         private meetingService: MeetingBookingsService,
@@ -141,6 +143,10 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
 
     getTimeZoneValue() {
         return getDefaultTimeZone().timeValue;
+    }
+
+    public currentDateToday() {
+        return this.currentDate.getDate() === new Date().getDate();
     }
 
     private getNumberOfItemsToDisplay(width: number) {

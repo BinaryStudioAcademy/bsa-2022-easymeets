@@ -1,6 +1,20 @@
 <app-header-item></app-header-item>
 <div class="container">
     <div class="bookings-container">
+        <div class="bookings-header">
+            <p class="date-label">{{currentDate | date:'EEEE, d LLLL y'}}</p>
+            <div class="header-buttons">
+                <div class="day-input-wrapper">
+                    <mat-icon matPrefix>calendar_today</mat-icon>
+                    <input class="day-input" [matDatepicker]="picker" [(ngModel)]="currentDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </div>
+
+            </div>
+        </div>
         <div *ngFor="let item of meetings">
             <div class="infoRow">
                 <div class="item itemInfo">
