@@ -19,14 +19,21 @@ namespace EasyMeets.Watcher.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> SyncCalendars([FromBody] NotifyCalendarCommand command)
         {
-            var result = await _mediator.Send(command);
-
-            if (result.StatusCode == HttpStatusCode.Unauthorized)
+            try
             {
-                return Unauthorized();
-            }
+                var result = await _mediator.Send(command);
 
-            return Ok();
+                if (result.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    return Unauthorized();
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            { 
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
