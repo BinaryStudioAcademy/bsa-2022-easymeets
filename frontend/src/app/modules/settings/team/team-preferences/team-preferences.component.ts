@@ -89,10 +89,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
                         }),
                     )),
             )
-            .subscribe((newLink) =>
-                this.formGroup.patchValue({
-                    pageLink: newLink,
-                }));
+            .subscribe((newLink) => this.formGroup.patchValue({ pageLink: newLink }));
     }
 
     public loadImage(event: Event) {
