@@ -151,6 +151,10 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(slot => slot.SlotMembers)
                     .ThenInclude(slot => slot.Schedule)
                         .ThenInclude(s => s.ScheduleItems)
+                .Include(slot => slot.SlotMembers)
+                    .ThenInclude(slot => slot.Schedule)
+                        .ThenInclude(s => s.ExclusionDates)
+                            .ThenInclude(d => d.DayTimeRanges)
                 .Include(slot => slot.EmailTemplates)
                 .FirstOrDefaultAsync(slot => slot.Id == id);
             if (availabilitySlot is null)
@@ -164,6 +168,7 @@ namespace EasyMeets.Core.BLL.Services
         public async Task<AvailabilitySlotDto> UpdateAvailabilitySlot(long id,
             SaveAvailabilitySlotDto updateAvailabilityDto)
         {
+            var currentUser = await _userService.GetCurrentUserAsync();
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
                 .Include(slot => slot.Questions)
@@ -236,7 +241,14 @@ namespace EasyMeets.Core.BLL.Services
 
             if (!updateAvailabilityDto.Schedule.WithTeamMembers)
             {
-                _mapper.Map(updateAvailabilityDto.Schedule, availabilitySlot.SlotMembers.First().Schedule);
+                var scheduleId = availabilitySlot.SlotMembers.First(member => member.MemberId == currentUser.Id).ScheduleId;
+                var updatedExclusionDateIds = updateAvailabilityDto.Schedule.ExclusionDates.Select(date => date.Id);
+                var deletedExclusionDates = await _context.ExclusionDates
+                    .Where(date => date.ScheduleId == scheduleId &&
+                                   updatedExclusionDateIds.All(updatedDateId => updatedDateId != date.Id))
+                    .ToListAsync();
+                _context.ExclusionDates.RemoveRange(deletedExclusionDates);
+                _mapper.Map(updateAvailabilityDto.Schedule, availabilitySlot.SlotMembers.First(member => member.MemberId == currentUser.Id).Schedule);
             }
 
             availabilitySlot.LocationType = updateAvailabilityDto.GeneralDetails!.LocationType;
