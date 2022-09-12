@@ -8,6 +8,7 @@ import { ExternalBookingMeetingComponent } from './external-booking-choose-meeti
 import { ExternalBookingMembersComponent } from './external-booking-choose-members-page/external-booking-choose-members-page.component';
 import { ExternalBookingTimeComponent } from './external-booking-choose-time-page/external-booking-choose-time-page.component';
 import { ExternalBookingConfirmPageComponent } from './external-booking-confirm-page/external-booking-confirm-page.component';
+import { ExternalBookingConfirmedComponent } from './external-booking-confirmed-page/external-booking-confirmed-page.component';
 import { ExternalBookingPageComponent } from './external-booking-page/external-booking-page.component';
 import { ExternalBookingRoutingModule } from './external-booking-routing.module';
 
@@ -18,6 +19,7 @@ import { ExternalBookingRoutingModule } from './external-booking-routing.module'
         ExternalBookingTimeComponent,
         ExternalBookingConfirmPageComponent,
         ExternalBookingMembersComponent,
+        ExternalBookingConfirmedComponent,
     ],
     imports: [SharedModule, ExternalBookingRoutingModule, CommonModule, MaterialModule, MomentTimezonePickerModule],
 })
