@@ -82,6 +82,7 @@ namespace EasyMeets.Core.BLL.Services
 
             return slotMembers.Union(external).Take(numberOfMembers).ToList();
         }
+
         private static string CreateMemberTitle(Meeting meeting)
         {
             return meeting.MeetingMembers.Count() switch
@@ -162,7 +163,7 @@ namespace EasyMeets.Core.BLL.Services
             var meeting = await _context.Meetings
                 .Include(m => m.MeetingMembers)
                     .ThenInclude(member => member.TeamMember)
-                        .ThenInclude(m => m.User)
+                    .ThenInclude(teamMember => teamMember.User)
                 .Include(m => m.ExternalAttendees)
                 .Include(m => m.AvailabilitySlot)
                     .ThenInclude(slot => slot!.EmailTemplates)
@@ -229,6 +230,16 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(mm => mm.TeamMember)
                     .ThenInclude(tm => tm.User)
                 .FirstOrDefault(m => m.Id == id) ?? throw new KeyNotFoundException("Invalid meeting id");
+        }
+
+        public async Task DeleteMeeting(long meetingId)
+        {
+            var meeting = await _context.Meetings.FirstAsync(meeting => meeting.Id == meetingId);
+            var members = _context.MeetingMembers.Where(member => member.MeetingId == meetingId);
+            _context.RemoveRange(members);
+            _context.Remove(meeting);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

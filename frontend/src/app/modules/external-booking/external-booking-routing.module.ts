@@ -5,6 +5,7 @@ import { ExternalBookingMeetingComponent } from './external-booking-choose-meeti
 import { ExternalBookingMembersComponent } from './external-booking-choose-members-page/external-booking-choose-members-page.component';
 import { ExternalBookingTimeComponent } from './external-booking-choose-time-page/external-booking-choose-time-page.component';
 import { ExternalBookingConfirmPageComponent } from './external-booking-confirm-page/external-booking-confirm-page.component';
+import { ExternalBookingConfirmedComponent } from './external-booking-confirmed-page/external-booking-confirmed-page.component';
 import { ExternalBookingPageComponent } from './external-booking-page/external-booking-page.component';
 
 const routes: Routes = [
@@ -23,6 +24,10 @@ const routes: Routes = [
             {
                 path: 'confirm-booking',
                 component: ExternalBookingConfirmPageComponent,
+            },
+            {
+                path: 'confirmed-booking',
+                component: ExternalBookingConfirmedComponent,
             },
             {
                 path: 'team',
