@@ -1,3 +1,4 @@
+using EasyMeets.Watcher.WebAPI.Extensions;
 using EasyMeets.Watcher.BLL;
 using MediatR;
 
@@ -15,6 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddMediatR(typeof(EasyMeetsWatcherBllEntrypoint).Assembly);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.RegisterCustomServices(builder.Configuration);
 builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
