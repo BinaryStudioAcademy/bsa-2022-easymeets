@@ -20,6 +20,8 @@ using RabbitMQ.Client;
 using EasyMeets.RabbitMQ.Settings;
 using EasyMeets.RabbitMQ.Service;
 using Newtonsoft.Json.Converters;
+using EasyMeets.RabbitMQ.Interface;
+using EasyMeets.Core.BLL.Services.Queue;
 
 namespace EasyMeets.Core.WebAPI.Extentions
 {
@@ -83,29 +85,8 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 return connectionFactory.CreateConnection();
             });
 
-            services.AddRabbitMQInformEveryone(configuration);
             services.AddRabbitMqEmailSender(configuration);
-        }
-
-        private static void AddRabbitMQInformEveryone(this IServiceCollection services, IConfiguration configuration)
-        {
-            var producerSettings = new ProducerSettings();
-            var consumerSettings = new ConsumerSettings();
-
-            configuration
-                .GetSection("RabbitMQConfiguration:Queues:InformProducer")
-                .Bind(producerSettings);
-
-            configuration
-                .GetSection("RabbitMQConfiguration:Queues:InformConsumer")
-                .Bind(consumerSettings);
-
-            services.AddScoped<IInformQueueService>(provider =>
-                new InformQueueService(
-                    new ProducerService(
-                        provider.GetRequiredService<IConnection>(),
-                        producerSettings),
-                    new ConsumerService(provider.GetRequiredService<IConnection>(), consumerSettings)));
+            services.AddGoogleNotifyConsumer(configuration);
         }
 
         private static void AddRabbitMqEmailSender(this IServiceCollection services, IConfiguration configuration)
@@ -119,7 +100,21 @@ namespace EasyMeets.Core.WebAPI.Extentions
                     provider.GetRequiredService<IConnection>(),
                     settings)));
         }
-        
+
+        private static void AddGoogleNotifyConsumer(this IServiceCollection services, IConfiguration configuration)
+        {
+            var settings = configuration
+                .GetSection("RabbitMQConfiguration:Queues:WebHookConsumer")
+                .Get<ConsumerSettings>();
+
+            services.AddHostedService(provider =>
+                new WebHookListenerService(
+                    new ConsumerService(
+                        provider.GetRequiredService<IConnection>(),
+                        settings),
+                    provider));
+        }
+
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
         {
             var authority = configuration["Jwt:Firebase:ValidIssuer"];
@@ -150,7 +145,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 serviceAccount.PrivateKeyId = configuration["Firebase_Service_Account_Private_Id"];
                 serviceAccount.PrivateKey = configuration["Firebase_Service_Account_Private_Key"].Replace(@"\n", "\n");
             }
-            
+
             var jsonSerializerSettings = new JsonSerializerSettings
             {
                 ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }

@@ -23,13 +23,17 @@
                 <div>Name</div>
             </label>
             <div class="user-name">
-                <input #userNameInput type="text" formControlName="userName" (change)="userNameChanged(userNameInput.value)" />
+                <input
+                    #userNameInput
+                    type="text"
+                    formControlName="userName"
+                    (change)="userNameChanged(userNameInput.value)" />
             </div>
             <div *ngIf="userNameControl.invalid && userNameControl.touched" class="validation">
                 <small *ngIf="userNameControl.errors?.['required']">This field is required.</small>
                 <small *ngIf="userNameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
                 <small *ngIf="userNameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
-                <small *ngIf="userNameControl.errors?.['pattern']">Invalid characters.</small>
+                <small *ngIf="userNameControl.errors?.['pattern']">{{ invalidCharactersMessage }}</small>
             </div>
         </div>
         <div class="item">

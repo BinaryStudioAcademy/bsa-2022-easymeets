@@ -13,17 +13,7 @@ namespace EasyMeets.Core.DAL.Context
         public static int SeedNumber = 123456;
         public static void Configure(this ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(SampleConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AdvancedSlotSettingsConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AvailabilitySlotConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CalendarConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ExternalAttendeeConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(MeetingConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(QuestionsConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamMemberConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(SlotMemberConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfig).Assembly);
 
             foreach (var type in modelBuilder.Model.GetEntityTypes())
             {
@@ -37,6 +27,8 @@ namespace EasyMeets.Core.DAL.Context
         public static void Seed(this ModelBuilder modelBuilder)
         {
             var availabilitySlots = GenerateAvailabilitySlots();
+            var schedules = GenerateSchedules();
+            var exclusionDates = GenerateExclusionDates(schedules);
 
             modelBuilder.Entity<User>().HasData(GenerateUsers());
             modelBuilder.Entity<Team>().HasData(GenerateTeams());
@@ -50,8 +42,10 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.Entity<SlotMember>().HasData(GenerateSlotMembers());
             modelBuilder.Entity<ExternalAttendee>().HasData(GenerateExternalAttendee());
             modelBuilder.Entity<CalendarVisibleForTeam>().HasData(GenerateCalendarVisibleForTeams());
-            modelBuilder.Entity<Schedule>().HasData(GenerateSchedules());
+            modelBuilder.Entity<Schedule>().HasData(schedules);
             modelBuilder.Entity<ScheduleItem>().HasData(GenerateScheduleItems());
+            modelBuilder.Entity<ExclusionDate>().HasData(exclusionDates);
+            modelBuilder.Entity<DayTimeRange>().HasData(GenerateDateTimeRanges(exclusionDates));
             modelBuilder.Entity<SyncGoogleCalendar>().HasNoKey();
         }
 
@@ -322,6 +316,31 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(i => i.IsEnabled, f => f.Random.Bool())
                 .RuleFor(i => i.Start, f => TimeSpan.FromHours(f.Random.Int(8, 12)))
                 .RuleFor(i => i.End, f => TimeSpan.FromHours(f.Random.Int(13, 18)))
+                .Generate(count);
+        }
+        
+        private static IList<ExclusionDate> GenerateExclusionDates(ICollection<Schedule> schedules, int count = 10)
+        {
+            var id = 1;
+            return new Faker<ExclusionDate>()
+                .UseSeed(SeedNumber)
+                .RuleFor(i => i.Id, _ => id++)
+                .RuleFor(i => i.IsDeleted, _ => false)
+                .RuleFor(i => i.ScheduleId, f => f.PickRandom(schedules).Id)
+                .RuleFor(i => i.SelectedDate, f => f.Date.Future())
+                .Generate(count);
+        }
+        
+        private static IList<DayTimeRange> GenerateDateTimeRanges(ICollection<ExclusionDate> exclusionDates, int count = 5)
+        {
+            var id = 1;
+            return new Faker<DayTimeRange>()
+                .UseSeed(SeedNumber)
+                .RuleFor(i => i.Id, _ => id++)
+                .RuleFor(i => i.IsDeleted, _ => false)
+                .RuleFor(i => i.ExclusionDateId, f => f.PickRandom(exclusionDates).Id)
+                .RuleFor(i => i.Start, f => TimeSpan.FromHours(f.Random.Int(8, 12)))
+                .RuleFor(i => i.End, f => TimeSpan.FromHours(f.Random.Int(15, 18)))
                 .Generate(count);
         }
     }

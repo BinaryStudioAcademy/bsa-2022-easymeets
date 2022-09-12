@@ -4,11 +4,15 @@
 $container-padding-top-bottom: 33px
 $question-input-width: 337px
 
+.title
+    color: $black
+    margin-bottom: 20px
+
 .bold
     font-weight: 700
 
-.outside-label
-    margin-bottom: 20px
+.bottom
+    margin-top: 15px
 
 .flex
     display: flex
@@ -17,6 +21,13 @@ $question-input-width: 337px
     display: flex
     flex-direction: column
 
+.optional-questions-header
+    margin-top: 10px
+    justify-content: space-between
+
+.restrict-container
+    max-width: 500px
+
 .cross-axis-center
     align-items: center
 
@@ -24,8 +35,21 @@ $question-input-width: 337px
 .mat-input
     font-size: 14px
 
-.color-dark-grey
+.drag-button
+    margin-left: 10px
+    margin-right: 10px
     color: $dark-gray
+    font-size: 20px
+    width: 20px
+    height: 20px
+    line-height: 20px
+    .mat-icon
+        scale: 0.7
+
+.delete-button
+    color: $dark-gray
+    .mat-icon
+        scale: 1.2
 
 .container
     padding: $container-padding-top-bottom 47px
@@ -34,8 +58,21 @@ $question-input-width: 337px
     @media screen and (max-width: $phone-min-width)
         padding: $container-padding-top-bottom 14px
 
-.list-item-wrapper
-    padding-bottom: 20px
+.list-item-wrapper, .validation-error
+    margin-bottom: 5px
+
+.margins
+    margin-top: 10px
+    margin-bottom: 10px
+
+.hover
+    border: 1px solid transparent
+    &:hover
+        border-radius: 5px
+        border: 1px solid $nepal
+
+.validation-error
+    color: $red
 
 .question-index
     margin-right: 17px
@@ -43,16 +80,19 @@ $question-input-width: 337px
 .question-input
     width: 100%
     min-width: 0
+    border-radius: 8px
+
+.max-input-width
     max-width: $question-input-width
 
 .question-mandatory
     .question-index
-        color: $light-gray
+        color: $dark-gray
     .question-input
         background-color: $light-gray
+        margin-left: 30px
 
 .optional-questions-wrapper
-    padding-left: 22px
     @media screen and (max-width: $tablet-min-width)
         padding-left: 0
     .list-item-wrapper .question-index
@@ -62,7 +102,13 @@ $question-input-width: 337px
     margin-bottom: 20px
 
 .plus-sign-btn
-    color: $dark-gray
+    border-radius: 24px
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
+    align-items: center
+    border: 1px solid $nepal
+    max-height: 36px
     .mat-icon
         scale: 0.8
 
@@ -74,5 +120,6 @@ $question-input-width: 337px
 
 .cdk-drop-list-dragging
     cursor: ns-resize
+
     .cdk-drag:not(.cdk-drag-placeholder)
         transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)

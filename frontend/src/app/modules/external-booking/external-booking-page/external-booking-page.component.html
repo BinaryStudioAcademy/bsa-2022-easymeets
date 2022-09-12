@@ -18,14 +18,6 @@
                 <h1>Meeting with Designers</h1>
             </ng-template>
             <div class="sidebar-list">
-                <div class="sidebar-list-item" *ngIf="menu.timeFinish">
-                    <h5>Time</h5>
-                    <h3>{{ menu.date | date: 'HH:mm' }} - {{ menu.timeFinish | date: 'HH:mm' }}</h3>
-                </div>
-                <div class="sidebar-list-item" *ngIf="menu.date">
-                    <h5>Date</h5>
-                    <h3>{{ menu.date | date }}</h3>
-                </div>
                 <div class="sidebar-list-item" *ngIf="menu.duration">
                     <h5>Duration</h5>
                     <h3>{{ menu.duration }} min</h3>
@@ -33,6 +25,15 @@
                 <div class="sidebar-list-item" *ngIf="menu.location">
                     <h5>Location</h5>
                     <h3>{{ locationTypeMapping(menu.location) }}</h3>
+                    <h3 *ngIf="menu.location === locationTypeOffice">{{ menu.meetingRoom }}</h3>
+                </div>
+                <div class="sidebar-list-item" *ngIf="menu.timeFinish">
+                    <h5>Time</h5>
+                    <h3>{{ menu.date | date: 'HH:mm' }} - {{ menu.timeFinish | date: 'HH:mm' }}</h3>
+                </div>
+                <div class="sidebar-list-item" *ngIf="menu.date">
+                    <h5>Date</h5>
+                    <h3>{{ menu.date | date }}</h3>
                 </div>
                 <div class="sidebar-list-item" *ngIf="menu.teamSlotMembers">
                     <h5>Team Members: {{ menu.teamSlotMembers.length }}</h5>
@@ -83,6 +84,10 @@
                 *ngIf="this.router.url === '/external-booking/team/choose-team-members'"
                 (selectedMembersEvent)="addMembersInMenu($event)">
             </app-external-booking-choose-members-page>
+            <app-external-booking-confirmed-page
+                *ngIf="isConfirmedRoute()"
+                (anotherMeetingEvent)="bookAnotherMeeting()">
+            </app-external-booking-confirmed-page>
         </div>
     </div>
 </div>

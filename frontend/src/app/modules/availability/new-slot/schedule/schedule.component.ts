@@ -28,7 +28,10 @@ export class ScheduleComponent extends BaseComponent {
 
     schedule: ISchedule;
 
-    constructor(private notificationsService: NotificationService, private clipboard: Clipboard) {
+    constructor(
+        private notificationsService: NotificationService,
+        private clipboard: Clipboard,
+    ) {
         super();
     }
 

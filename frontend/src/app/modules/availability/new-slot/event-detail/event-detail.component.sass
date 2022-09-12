@@ -90,11 +90,10 @@
     border-radius: 0 8px 8px 0
     height: 38.4px
 
-.selectInput
-    border: 2px solid $regent-gray
-    border-radius: 4px
-    height: 36px
-    width: 20.4em
+.inputItem:focus
+    outline: none
+    border: 2px solid
+    border-left: none
 
 .selectBlock
     height: 36px
@@ -102,6 +101,12 @@
     border: 2px solid $loblolly
     border-radius: 8px
     padding-left: 5px
+
+.selectInput
+    border: 2px solid $regent-gray
+    border-radius: 4px
+    height: 36px
+    width: 20.4em
 
 .inputStartBlock
     height: 38.4px
@@ -159,11 +164,13 @@ p
         box-sizing: border-box
         align-items: center
         display: flex
-        width: min(17.5em, 90%)
 
     .mat-select-value
         color: $dark-gray
         font-size: 15px
+
+.mat-select
+    width: min(17.5em, 90%)
 
 .password-input-container
     box-sizing: border-box

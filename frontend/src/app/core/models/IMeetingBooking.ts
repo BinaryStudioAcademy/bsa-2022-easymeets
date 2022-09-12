@@ -1,13 +1,16 @@
+import { LocationType } from '@shared/enums/locationType';
+
 import { IUserMeeting } from './IUserMeeting';
 
 export interface IMeetingBooking {
     id: number;
-    meetingTime: string;
+    meetingTime: Date;
     meetingTitle: string;
-    meetingDuration: string;
+    meetingDuration: number;
     meetingLink: string;
     membersTitle: string;
-    location: string;
+    locationType: LocationType;
+    meetingRoom?: string;
     meetingCount: number;
     meetingMembers: Array<IUserMeeting>;
 }

@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="exclusion-wrapper">
+        <p class="title">
+            Select Exclusion Dates:
+        </p>
+        <app-custom-date-picker
+            class="calendar"
+            [(selected)]="selected"
+            (selectedChange)="updateStartRangeValidators()"
+        >
+        </app-custom-date-picker>
+        <hr>
+        <form class="input-container" [formGroup]="formGroup" *ngIf="this.selected">
+            <i class="fa-solid fa-plus add-time fa-xl" (click)="addTimeItem()"></i>
+            <div class="time-item" *ngFor="let timeItemIndex of timeControlsIdentifiers">
+                <input class="time-input start-range" type="time" [formControlName]="timeItemIndex.toString() + startRangeIdentifier">
+                -
+                <input class="time-input" type="time" [formControlName]="timeItemIndex.toString() + endRangeIdentifier">
+                <i class="fa-regular fa-circle-xmark xmark fa-xl" (click)="removeTimeItem(timeItemIndex)"></i>
+            </div>
+            <hr>
+        </form>
+        <div class="buttons-wrapper">
+            <button class="cancel" (click)="clickCancel()">
+                Cancel
+            </button>
+            <button class="apply" (click)="clickApply()" [disabled]="!selected || !formGroup.valid">
+                Apply
+            </button>
+        </div>
+    </div>
+</div>

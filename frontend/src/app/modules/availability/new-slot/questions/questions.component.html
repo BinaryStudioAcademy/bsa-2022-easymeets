@@ -1,41 +1,67 @@
 <div class="container flex-col">
-    <mat-label class="outside-label bold">Questions for Booker</mat-label>
+    <mat-label class="title bold">Required Questions</mat-label>
     <!-- Mandatory questions -->
     <ng-container *ngIf="mandatoryQuestionsExist">
         <ng-container *ngFor="let question of questions; let i = index">
             <ng-container *ngIf="question.isMandatory">
-                <div class="question-mandatory list-item-wrapper flex cross-axis-center">
+                <div class="question-mandatory list-item-wrapper flex cross-axis-center bottom">
                     <mat-label class="question-index bold">{{ i + 1 }}.</mat-label>
-                    <mat-form-field class="question-input no-padding" appearance="outline">
-                        <input matInput type="text" [(ngModel)]="question.questionText" disabled />
+                    <mat-label class="bold">{{ question.questionText }}</mat-label>
+                </div>
+                <div class="question-mandatory list-item-wrapper flex cross-axis-center">
+                    <mat-form-field class="question-input no-padding max-input-width" appearance="outline">
+                        <input matInput type="text" [placeholder]="question.placeHolderText" disabled />
                     </mat-form-field>
                 </div>
             </ng-container>
         </ng-container>
-        <mat-divider class="questions-divider"></mat-divider>
+        <mat-divider class="questions-divider bottom"></mat-divider>
     </ng-container>
     <!-- Optional questions -->
-    <div cdkDropList class="optional-questions-wrapper" (cdkDropListDropped)="drop($event)">
+    <div class="restrict-container optional-questions-header flex">
+        <mat-label class="title bold">Additional Questions</mat-label>
+        <button class="plus-sign-btn cross-axis-center" mat-flat-button (click)="addNewQuestion()">
+            <div class="flex cross-axis-center">
+                <mat-icon>add</mat-icon>
+                <span>Add New question</span>
+            </div>
+        </button>
+    </div>
+    <div cdkDropList class="optional-questions-wrapper" cdkDropListLockAxis="y" (cdkDropListDropped)="drop($event)">
         <ng-container *ngIf="optionalQuestionsExist">
             <ng-container *ngFor="let question of questions; let i = index">
                 <ng-container *ngIf="!question.isMandatory">
-                    <div cdkDrag class="list-item-wrapper flex cross-axis-center">
-                        <mat-label class="question-index bold" cdkDragHandle>{{ i + 1 }}.</mat-label>
-                        <mat-form-field class="question-input no-padding" appearance="outline">
-                            <input matInput type="text" [(ngModel)]="question.questionText" />
+                    <div
+                        cdkDrag
+                        class="restrict-container list-item-wrapper flex cross-axis-center hover bottom"
+                        cdkDragBoundary=".optional-questions-wrapper">
+                        <div class="flex-col cross-axis-center">
+                            <button mat-icon-button class="drag-button cross-axis-center" (click)="move(i, false)">
+                                <mat-icon inline="true">arrow_upward</mat-icon>
+                            </button>
+                            <button mat-icon-button class="drag-button cross-axis-center" (click)="move(i, true)">
+                                <mat-icon inline="true">arrow_downward</mat-icon>
+                            </button>
+                        </div>
+                        <mat-label class="question-index bold">{{ i + 1 }}.</mat-label>
+                        <mat-form-field class="question-input no-padding margins" appearance="outline">
+                            <input
+                                matInput
+                                type="text"
+                                #questionField="ngModel"
+                                [(ngModel)]="question.questionText"
+                                [pattern]="textFieldRegex"
+                                (change)="trimInputValue(questionField.control)" />
                         </mat-form-field>
-                        <button mat-icon-button class="color-dark-grey" (click)="deleteQuestion(question.order)">
-                            <mat-icon>close</mat-icon>
+                        <button mat-icon-button class="delete-button" (click)="deleteQuestion(question.order)">
+                            <mat-icon>highlight_off</mat-icon>
                         </button>
                     </div>
+                    <p *ngIf="questionField.errors?.['pattern']" class="validation-error">
+                        {{ invalidCharactersMessage }}
+                    </p>
                 </ng-container>
             </ng-container>
         </ng-container>
-        <button class="plus-sign-btn" mat-flat-button (click)="addNewQuestion()">
-            <div class="flex cross-axis-center">
-                <mat-icon>add</mat-icon>
-                <span class="bold">Add New question</span>
-            </div>
-        </button>
     </div>
 </div>
