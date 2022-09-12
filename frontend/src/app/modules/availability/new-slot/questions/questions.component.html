@@ -13,7 +13,8 @@
                         <input matInput type="text" [placeholder]="question.placeHolderText" disabled />
                     </mat-form-field>
                     <div class="checkbox-container flex cross-axis-center">
-                        <mat-checkbox name="questionCheckBox" checked="true"> </mat-checkbox>
+                        <mat-checkbox name="questionCheckBox" [(ngModel)]="checkBoxAnswers[i]" disableRipple>
+                        </mat-checkbox>
                         <span class="input-message">{{ checkBoxTexts[i] }}</span>
                     </div>
                 </div>

@@ -21,13 +21,15 @@ export class QuestionsComponent {
 
     public questions: IQuestion[] = [];
 
-    private mandatoryQuestions: IQuestion[] = [];
+    public checkBoxAnswers: boolean[] = [true, true];
 
     public optionalQuestionsExist: boolean = false;
 
     public mandatoryQuestionsExist: boolean = false;
 
     public checkBoxTexts: string[] = ['Autofill Invitee Name, Email', 'Allow Booker to add additional guests'];
+
+    private mandatoryQuestions: IQuestion[] = [];
 
     private newQuestionOrder: number = 0;
 
