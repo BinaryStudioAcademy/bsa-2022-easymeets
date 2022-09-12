@@ -5,7 +5,7 @@
         <ng-container *ngFor="let question of questions; let i = index">
             <ng-container *ngIf="question.isMandatory">
                 <div class="question-mandatory list-item-wrapper flex cross-axis-center bottom">
-                    <mat-label class="question-index">{{ i + 1 }}.</mat-label>
+                    <mat-label class="question-index bold">{{ i + 1 }}.</mat-label>
                     <mat-label class="bold">{{ question.questionText }}</mat-label>
                 </div>
                 <div class="question-mandatory list-item-wrapper flex cross-axis-center">
@@ -22,7 +22,7 @@
         <mat-divider class="questions-divider bottom"></mat-divider>
     </ng-container>
     <!-- Optional questions -->
-    <div class="additional-container flex">
+    <div class="restrict-container optional-questions-header flex">
         <mat-label class="title bold">Additional Questions</mat-label>
         <button class="plus-sign-btn cross-axis-center" mat-flat-button (click)="addNewQuestion()">
             <div class="flex cross-axis-center">
@@ -37,7 +37,7 @@
                 <ng-container *ngIf="!question.isMandatory">
                     <div
                         cdkDrag
-                        class="list-item-wrapper flex cross-axis-center hover item-width bottom"
+                        class="restrict-container list-item-wrapper flex cross-axis-center hover bottom"
                         cdkDragBoundary=".optional-questions-wrapper">
                         <div class="flex-col cross-axis-center">
                             <button mat-icon-button class="drag-button cross-axis-center" (click)="move(i, false)">
@@ -47,7 +47,7 @@
                                 <mat-icon inline="true">arrow_downward</mat-icon>
                             </button>
                         </div>
-                        <mat-label class="question-index">{{ i + 1 }}.</mat-label>
+                        <mat-label class="question-index bold">{{ i + 1 }}.</mat-label>
                         <mat-form-field class="question-input no-padding margins" appearance="outline">
                             <input matInput type="text" [(ngModel)]="question.questionText" />
                         </mat-form-field>
