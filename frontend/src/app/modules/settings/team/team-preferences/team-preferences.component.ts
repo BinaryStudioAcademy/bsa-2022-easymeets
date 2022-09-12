@@ -7,7 +7,9 @@ import {
     ValidationErrors,
     Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IImagePath } from '@core/models/IImagePath';
 import { ITeam } from '@core/models/ITeam';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
@@ -50,6 +52,8 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
     public descriptionControl: FormControl = new FormControl('', [Validators.maxLength(300)]);
 
     constructor(
+        private route: ActivatedRoute,
+        private router: Router,
         private teamService: TeamService,
         public notificationService: NotificationService,
         private confirmationWindowService: ConfirmationWindowService,
@@ -100,6 +104,10 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
             title: 'Oops...',
             message: "Image can't be heavier than 5MB!",
         });
+    }
+
+    public teamNameChanged(value: string) {
+        this.formGroup.patchValue({ name: removeExcessiveSpaces(value) });
     }
 
     private uploadLogo(formData: FormData) {

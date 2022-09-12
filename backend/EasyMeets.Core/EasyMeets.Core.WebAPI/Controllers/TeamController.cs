@@ -1,6 +1,7 @@
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.UploadImage;
+using EasyMeets.Core.Common.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace EasyMeets.Core.WebAPI.Controllers;
@@ -36,10 +37,16 @@ public class TeamController : ControllerBase
         return Ok(await _teamService.GetCurrentUserTeams());
     }
     
-    [HttpGet("user-teams-admin")]
+    [HttpGet("user-teams-admin-owner")]
     public async Task<ActionResult<List<TeamDto>>> GetCurrentUserAdminTeams()
     {
-        return Ok(await _teamService.GetCurrentUserAdminTeams());
+        return Ok(await _teamService.GetCurrentUserAdminAndOwnerTeams());
+    }
+
+    [HttpGet("team-members/{teamId}")]
+    public async Task<ActionResult<List<TeamMemberDto>>> GetTeamMembersAsync(long teamId)
+    {
+        return Ok(await _teamService.GetTeamMembersAsync(teamId));
     }
 
     [HttpGet("validatepagelink")]
@@ -59,6 +66,20 @@ public class TeamController : ControllerBase
         return Ok(await _teamService.CreateTeamAsync(newTeamDto));
     }
 
+    [HttpPost("members/{teamId?}")]
+    public async Task<IActionResult> UpdateTeamMembersAsync([FromBody] TeamMemberDto teamMemberDto, long teamId)
+    {
+        await _teamService.CreateTeamMemberAsync(teamMemberDto, teamId);
+        return Ok();
+    }
+
+    [HttpPut("members")]
+    public async Task<IActionResult> UpdateTeamMemberRoleAsync([FromBody] TeamMemberDto teamMemberDto)
+    {
+        await _teamService.UpdateTeamMemberRoleAsync(teamMemberDto);
+        return Ok();
+    }
+
     [HttpPut]
     public async Task<IActionResult> UpdateTeam([FromBody] UpdateTeamDto teamDto)
     {
@@ -76,6 +97,13 @@ public class TeamController : ControllerBase
     public async Task<ActionResult> DeleteAsync(int teamId)
     {
         await _teamService.DeleteTeamAsync(teamId);
+        return NoContent();
+    }
+
+    [HttpDelete("deleteMember/{teamMemberId}")]
+    public async Task<ActionResult> DeleteTeamMemberAsync(int teamMemberId)
+    {
+        await _teamService.DeleteTeamMemberAsync(teamMemberId);
         return NoContent();
     }
 }

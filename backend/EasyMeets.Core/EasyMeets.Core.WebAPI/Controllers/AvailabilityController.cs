@@ -59,12 +59,14 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpGet("byLink/{link}")]
+        [AllowAnonymous]
         public async Task<ActionResult<AvailabilitySlotDto?>> GetByLink(string link)
         {
             return Ok(await _availabilityService.GetByLink(link));
         }
 
         [HttpPut("{link}/externalSchedule")]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateScheduleExternally(string link, [FromBody] ScheduleDto scheduleDto)
         {
             await _availabilityService.UpdateScheduleExternally(link, scheduleDto);

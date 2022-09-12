@@ -6,7 +6,7 @@
 
 .bookings-container
     height: 100%
-    padding: 144px 130px
+    padding: 100px 100px
     display: flex
     flex-direction: column
     gap: 24px
@@ -25,8 +25,7 @@ p, span
     color: $pale-sky
 
 .item
-    min-width: 25vw
-    width: 25vw
+    width: 20em
     background: white
     padding: 20px 29px
     display: flex
@@ -77,31 +76,13 @@ p, span
     text-overflow: ellipsis
 
 .listScrollBlock
-    overflow-x: auto
+    overflow-x: hidden
     display: flex
     flex-direction: row
+    align-items: center
+    justify-content: stretch
     gap: 20px
     width: 100%
-
-.listItem
-    background: white
-    padding-left: 20px
-
-.listItemName
-    font-weight: 600
-    font-size: 16px
-    line-height: 24px
-    color: $pale-sky
-
-.listItemAnswers
-    font-weight: 600
-    font-size: 14px
-    line-height: 20px
-    display: flex
-    align-items: center
-    text-align: center
-    text-decoration-line: underline
-    color: $pale-sky
 
 .threeDots
     display: flex
@@ -145,14 +126,6 @@ p, span
     margin-bottom: 20px
     overflow: auto
     resize: none
-
-@media only screen and (max-width: 1200px)
-    .bookings-container
-        padding: 130px
-
-@media only screen and (max-width: 800px)
-    .bookings-container
-        padding: 130px
 
 @media only screen and (max-width: 600px)
     .infoRow

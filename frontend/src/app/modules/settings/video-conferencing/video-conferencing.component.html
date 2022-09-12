@@ -10,4 +10,19 @@
             <button mat-flat-button (click)="logoutZoom()">Disconnect</button>
         </div>
     </div>
+    <mat-divider></mat-divider>
+    <div class="meet-block">
+        <p class="zoom-label">Google Meet</p>
+        <div class="connected-block" *ngIf="!!selectedAccount">
+            <mat-select class="selectBlock" [(ngModel)]="selectedAccount.userEmail" (selectionChange)="changeMeetAccount()">
+                <mat-option *ngFor="let account of availableAccounts; index as i" [value]="availableAccounts[i].userEmail">
+                    {{availableAccounts[i].userEmail}}
+                </mat-option>
+            </mat-select>
+            <p class="info-label">Account for meeting would be chosen automatically, depends on Calendar, where meeting was created</p>
+        </div>
+        <div class="not-connected-block" *ngIf="!selectedAccount">
+            <p class="info-label">You have to have at least one calendar connected for google meet integration</p>
+        </div>
+    </div>
 </div>

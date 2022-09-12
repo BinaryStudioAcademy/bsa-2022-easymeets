@@ -5,9 +5,9 @@
             <div class="infoRow">
                 <div class="item itemInfo">
                     <div class="itemTextInfo">
-                        <span class="timeTitle">{{ item.meetingTime }}</span>
+                        <span class="timeTitle">{{ item.meetingTime | date: 'hh:mm':getTimeZoneValue() }} - {{ getEndMeetingDate(item.meetingTime, item.meetingDuration) | date: 'hh:mm':getTimeZoneValue() }}</span>
                         <p class="itemText">
-                            {{ item.meetingTitle }}<br />{{ item.meetingDuration }}, {{ item.membersTitle }}
+                            {{ item.meetingTitle }}<br />{{ item.meetingDuration }} min, {{ item.membersTitle }}
                         </p>
                     </div>
 
@@ -27,8 +27,8 @@
                     </div>
                 </div>
 
-                <div *ngIf="item.meetingCount > 3">
-                    <div class="moreBlock" (click)="goToPage('/bookings/bookers/'+item.id)">{{ item.meetingCount - 3 }}+ Booker</div>
+                <div *ngIf="item.meetingCount > numberOfMembersToDisplay">
+                    <div class="moreBlock" (click)="goToPage('/bookings/bookers/'+item.id)">{{ item.meetingCount - numberOfMembersToDisplay }}+ Booker</div>
                 </div>
             </div>
         </div>

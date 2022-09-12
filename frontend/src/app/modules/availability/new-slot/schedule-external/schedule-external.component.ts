@@ -33,16 +33,17 @@ export class ScheduleExternalComponent extends BaseComponent {
         private slotService: AvailabilitySlotService,
     ) {
         super();
-        activatedRoute.params.subscribe(params => {
+        activatedRoute.params.subscribe((params) => {
             this.link = params['link'];
             this.getSlotFromLink();
         });
     }
 
     private getSlotFromLink() {
-        this.slotService.getByLink(this.link)
+        this.slotService
+            .getByLink(this.link)
             .pipe(this.untilThis)
-            .subscribe(slot => {
+            .subscribe((slot) => {
                 if (!slot) {
                     this.notificationsService.showErrorMessage('Link is invalid or not unique');
                     this.router.navigate(['/availability']);
@@ -62,14 +63,18 @@ export class ScheduleExternalComponent extends BaseComponent {
     }
 
     public doneClicked() {
-        this.slotService.updateScheduleExternally(this.link, this.schedule)
+        this.slotService
+            .updateScheduleExternally(this.link, this.schedule)
             .pipe(this.untilThis)
-            .subscribe(() => {
-                this.state = ExternalScheduleState.Done;
-            }, () => {
-                this.notificationsService.showErrorMessage('Something went wrong, try defining schedule again');
-                this.returnToSchedule();
-            });
+            .subscribe(
+                () => {
+                    this.state = ExternalScheduleState.Done;
+                },
+                () => {
+                    this.notificationsService.showErrorMessage('Something went wrong, try defining schedule again');
+                    this.returnToSchedule();
+                },
+            );
     }
 
     public returnToSchedule() {

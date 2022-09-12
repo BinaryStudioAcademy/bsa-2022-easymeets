@@ -2,13 +2,15 @@ import { LocationType } from '@shared/enums/locationType';
 import { TZone } from 'moment-timezone-picker';
 
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
+import { IExternalUser } from './IExternalUser';
 import { ITeam } from './ITeam';
-import { IUser } from './IUser';
 
 export interface IExternalBookingSideMenu {
-    user: IUser;
+    user: IExternalUser;
 
     team: ITeam;
+
+    slotName?: string;
 
     teamSlotMembers?: IAvailabilitySlotMember[];
 

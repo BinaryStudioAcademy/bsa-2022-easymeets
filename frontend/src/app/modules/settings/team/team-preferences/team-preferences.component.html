@@ -21,7 +21,7 @@
                 <div>Team Name</div>
             </label>
             <div>
-                <input type="text" formControlName="name" (input)="generateNewPageLink(formGroup)" />
+                <input #teamNameInput type="text" formControlName="name" (input)="generateNewPageLink(formGroup)" (change)="teamNameChanged(teamNameInput.value)" />
             </div>
             <div *ngIf="nameControl.invalid && nameControl.touched" class="validation">
                 <small *ngIf="nameControl.errors?.['required']">This field is required.</small>
@@ -34,9 +34,7 @@
             <label>
                 <div>Team Page Link</div>
             </label>
-            <div>
-                <input type="text" formControlName="pageLink" />
-            </div>
+            <div><input type="text" formControlName="pageLink" /></div>
             <div *ngIf="pageLinkControl.invalid && nameControl.touched" class="validation">
                 <small *ngIf="pageLinkControl.errors?.['required']">This field is required.</small>
                 <small *ngIf="pageLinkControl.errors?.['teamLinkUniq']">Team page link must be unique.</small>
