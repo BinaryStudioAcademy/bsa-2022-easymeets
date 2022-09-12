@@ -47,7 +47,6 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
     }
 
     clickApply() {
-        console.log(this.selected);
         if (!this.selected) {
             this.dialogRef.close();
 
