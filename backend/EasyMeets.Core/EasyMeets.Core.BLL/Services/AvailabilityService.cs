@@ -241,14 +241,26 @@ namespace EasyMeets.Core.BLL.Services
 
             if (!updateAvailabilityDto.Schedule.WithTeamMembers)
             {
-                var scheduleId = availabilitySlot.SlotMembers.First(member => member.MemberId == currentUser.Id).ScheduleId;
+                var scheduleId = availabilitySlot.SlotMembers.First(member => member.MemberId == currentUser.Id)
+                    .ScheduleId;
                 var updatedExclusionDateIds = updateAvailabilityDto.Schedule.ExclusionDates.Select(date => date.Id);
-                var deletedExclusionDates = await _context.ExclusionDates
-                    .Where(date => date.ScheduleId == scheduleId &&
-                                   updatedExclusionDateIds.All(updatedDateId => updatedDateId != date.Id))
+                var updatedDayTimeRangeIds =
+                    updateAvailabilityDto.Schedule.ExclusionDates.SelectMany(dto => dto.DayTimeRanges)
+                        .Select(dto => dto.Id);
+                var deletedExclusionDates = await _context.ExclusionDates.Where(date =>
+                        date.ScheduleId == scheduleId &&
+                        updatedExclusionDateIds.All(updatedDateId => updatedDateId != date.Id))
+                    .ToListAsync();
+                var deletedDayTimeRanges = await _context.DayTimeRanges
+                    .Where(range =>
+                        updatedExclusionDateIds.Any(updatedExclusionDateId =>
+                            updatedExclusionDateId == range.ExclusionDateId) && 
+                            updatedDayTimeRangeIds.All(updatedDayTimeRangeId => updatedDayTimeRangeId != range.Id))
                     .ToListAsync();
                 _context.ExclusionDates.RemoveRange(deletedExclusionDates);
-                _mapper.Map(updateAvailabilityDto.Schedule, availabilitySlot.SlotMembers.First(member => member.MemberId == currentUser.Id).Schedule);
+                _context.DayTimeRanges.RemoveRange(deletedDayTimeRanges);
+                _mapper.Map(updateAvailabilityDto.Schedule,
+                    availabilitySlot.SlotMembers.First(member => member.MemberId == currentUser.Id).Schedule);
             }
 
             availabilitySlot.LocationType = updateAvailabilityDto.GeneralDetails!.LocationType;
