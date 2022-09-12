@@ -1,12 +1,12 @@
+import { datesEqual } from '@core/helpers/date-helper';
 import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 
-export const FindSameExclusionDateHelper = (dates: IExclusionDate[], dateToFind: IExclusionDate) =>
-    dates.find((date) => {
+export const FindSameExclusionDateHelper = (dates: IExclusionDate[], dateToFind: IExclusionDate) => {
+    const dateToFindSelected = new Date(dateToFind.selectedDate);
+
+    return dates.find((date) => {
         const selectedDate = new Date(date.selectedDate);
 
-        return (
-            dateToFind.selectedDate.getDate() === selectedDate.getDate() &&
-            dateToFind.selectedDate.getMonth() === selectedDate.getMonth() &&
-            dateToFind.selectedDate.getFullYear() === selectedDate.getFullYear()
-        );
+        return datesEqual(dateToFindSelected, selectedDate);
     });
+};
