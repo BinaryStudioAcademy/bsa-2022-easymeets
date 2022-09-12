@@ -29,6 +29,8 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
 
     link: string;
 
+    isUserBooking: boolean;
+
     locationTypeMapping = LocationTypeMapping;
 
     constructor(
@@ -63,6 +65,8 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
                 location: LocationType.GoogleMeet,
             };
         }
+
+        this.isUserBooking = this.isChooseMeetingRoute();
     }
 
     public getUser() {
@@ -188,13 +192,17 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             meeting,
         };
 
+        alert(`REDIRECT TO MEETING INSTEAD OF TIME SLOTS: ${this.isUserBooking}`);
+
+        this.router.navigate(['/external-booking/confirmed-booking']);
+
         this.externalService
             .createExternalMeeting(attendeeMeeting)
             .pipe(this.untilThis)
             .subscribe(
                 () => {
                     this.notificationService.showSuccessMessage('Meeting successfully created');
-                    this.router.navigate(['/availability']);
+                    this.router.navigate(['/external-booking/confirmed-booking']);
                 },
                 (error) => {
                     this.notificationService.showErrorMessage(error);
@@ -216,6 +224,27 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         this.getUser();
     }
 
+    bookAnotherMeeting() {
+        if (this.isUserBooking) {
+            this.router.navigateByUrl(`/external-booking/choose-meeting/${this.link}`);
+            this.clearMeetingDetails();
+        } else {
+            this.router.navigate([`/external-booking/choose-time/${this.link}`]);
+            this.clearMeetingDetails();
+        }
+    }
+
+    clearMeetingDetails() {
+        this.menu = {
+            ...this.menu,
+            duration: undefined,
+            location: undefined,
+            timeFinish: undefined,
+            date: undefined,
+            slotName: this.isUserBooking ? undefined : this.menu.slotName,
+        };
+    }
+
     isChooseMeetingRoute(): boolean {
         return this.router.url.includes('/external-booking/choose-meeting');
     }
@@ -230,5 +259,9 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
 
     isTeamBooking(): boolean {
         return this.router.url.includes('/team/') || !!this.menu.team;
+    }
+
+    isConfirmedRoute(): boolean {
+        return this.router.url.includes('/external-booking/confirmed-booking');
     }
 }
