@@ -11,3 +11,4 @@ export const deletingTheOnlyMemberOfTeamMessage =
     ' Team will be deleted too because it`s the only member of this team. This action cannot be undone';
 export const deleteTeamMessage =
     "Are you sure you want to delete this team? All nested data (available slots, etc.) will be removed and couldn't be brought back";
+export const invalidCharactersMessage = 'This field contains invalid symbols';
