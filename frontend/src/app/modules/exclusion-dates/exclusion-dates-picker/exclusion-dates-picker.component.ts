@@ -43,17 +43,11 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
     removeTimeItem(controlsIdentifier: number) {
         this.formGroup.removeControl(controlsIdentifier.toString() + this.startRangeIdentifier);
         this.formGroup.removeControl(controlsIdentifier.toString() + this.endRangeIdentifier);
-        const indexOfControlsIdentifier = this.timeControlsIdentifiers.indexOf(controlsIdentifier);
-
-        if (indexOfControlsIdentifier > 0) {
-            this.timeControlsIdentifiers = [
-                ...this.timeControlsIdentifiers.slice(0, indexOfControlsIdentifier),
-                ...this.timeControlsIdentifiers.slice(indexOfControlsIdentifier + 1),
-            ];
-        }
+        this.timeControlsIdentifiers = this.timeControlsIdentifiers.filter(identifier => identifier !== controlsIdentifier);
     }
 
     clickApply() {
+        console.log(this.selected);
         if (!this.selected) {
             this.dialogRef.close();
 
