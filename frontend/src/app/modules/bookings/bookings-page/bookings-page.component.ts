@@ -10,6 +10,7 @@ import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
 import { desktopWidthToContainFourItems, desktopWidthToContainTwoItems, phoneMaxWidth, tabletMaxWidth,
     widthToContainThreeItems, widthToContainZeroItemUpperLimit } from '@shared/constants/screen-variables';
+import { LocationType } from '@shared/enums/locationType';
 
 @Component({
     selector: 'app-bookings-page',
@@ -26,6 +27,8 @@ export class BookingsPageComponent extends BaseComponent implements OnInit {
     public meetings: IMeetingBooking[];
 
     public cachedMeetings: IMeetingBooking[];
+
+    public locationTypeOffice = LocationType.Office;
 
     constructor(
         private el: ElementRef,

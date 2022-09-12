@@ -8,7 +8,12 @@
             <mat-card-title>
                 <p class="title">{{ item.name }}</p>
             </mat-card-title>
-            <mat-card-subtitle> {{ item.size }} Min, {{ locationTypeMapping(item.locationType) }} </mat-card-subtitle>
+            <mat-card-subtitle *ngIf="item.locationType !== locationTypeOffice">
+                {{ item.size }} Min, {{ locationTypeMapping(item.locationType) }}
+            </mat-card-subtitle>
+            <mat-card-subtitle *ngIf="item.locationType === locationTypeOffice">
+                {{ item.size }} Min, {{ locationTypeMapping(item.locationType) }} {{ item.meetingRoom }}
+            </mat-card-subtitle>
         </mat-card>
     </ng-template>
     <ng-template #noUserSlots>

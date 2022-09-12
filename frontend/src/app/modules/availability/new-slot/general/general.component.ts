@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { BaseComponent } from '@core/base/base.component';
 import { ActivityType } from '@core/enums/activity-type.enum';
 import { Color } from '@core/enums/color.enum';
 import { SlotType } from '@core/enums/slot-type.enum';
@@ -11,6 +12,7 @@ import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IDuration } from '@core/models/IDuration';
 import { ISaveAdvancedSettings } from '@core/models/save-availability-slot/ISaveAdvancedSettings';
 import { ISaveGeneralSettings } from '@core/models/save-availability-slot/ISaveGeneralSettings';
+import { UserService } from '@core/services/user.service';
 import { meetingNameRegex, naturalNumberRegex } from '@shared/constants/model-validation';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
@@ -20,7 +22,7 @@ import { UnitOfTime } from '@shared/enums/unitOfTime';
     templateUrl: './general.component.html',
     styleUrls: ['./general.component.sass'],
 })
-export class GeneralComponent implements OnInit {
+export class GeneralComponent extends BaseComponent implements OnInit {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
         this.settings = {
@@ -28,7 +30,8 @@ export class GeneralComponent implements OnInit {
             isVisible: this.slot?.isVisible ?? false,
             color: this.slot?.color ?? Color.Cyan,
             name: this.slot?.name ?? '',
-            locationType: this.slot?.locationType ?? LocationType.Zoom,
+            locationType: this.slot?.locationType ?? LocationType.Office,
+            meetingRoom: this.slot?.meetingRoom,
             isEnabled: this.slot?.isEnabled ?? true,
             type: SlotType.Personal,
         };
@@ -53,7 +56,9 @@ export class GeneralComponent implements OnInit {
 
     public slotsFrequencies: number[] = [30, 60];
 
-    public locations = Object.values(LocationType);
+    public locations: LocationType[];
+
+    public locationOffice = LocationType.Office;
 
     public meetingPaddings: number[] = [15, 30];
 
@@ -91,13 +96,17 @@ export class GeneralComponent implements OnInit {
 
     locationTypeMapping = LocationTypeMapping;
 
+    constructor(private userService: UserService) {
+        super();
+    }
+
     ngOnInit(): void {
         this.settings = {
             size: this.durations[0].minutes!,
             isVisible: false,
             color: Color.Cyan,
             name: '',
-            locationType: LocationType.Zoom,
+            locationType: LocationType.Office,
             isEnabled: true,
             type: SlotType.Personal,
         };
@@ -109,6 +118,8 @@ export class GeneralComponent implements OnInit {
             minBookingMeetingDifference: this.minBookingMeetingDifferences[0],
             frequency: this.slotsFrequencies[0],
         };
+
+        this.initLocations();
     }
 
     colorInputs = colorInputs;
@@ -117,7 +128,7 @@ export class GeneralComponent implements OnInit {
         this.settings.color = color;
     }
 
-    public meetingNameChanged(value: string) {
+    meetingNameChanged(value: string) {
         this.settings.name = removeExcessiveSpaces(value);
     }
 
@@ -133,6 +144,14 @@ export class GeneralComponent implements OnInit {
                 : parseInt(this.inputCustomTime, 10);
 
         this.settings = this.updateSettingSize(slotSize);
+    }
+
+    private initLocations() {
+        this.userService.getUserMeetIntegrations()
+            .pipe(this.untilThis)
+            .subscribe(locations => {
+                this.locations = locations.concat(LocationType.Office);
+            });
     }
 
     private defineCurrentDuration(slotDuration: number) {
