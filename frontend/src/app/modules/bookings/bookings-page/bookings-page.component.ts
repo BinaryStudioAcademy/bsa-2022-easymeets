@@ -54,12 +54,6 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         this.getBookings();
     }
 
-    override ngOnDestroy(): void {
-        super.ngOnDestroy();
-
-        this.deleteEventSubscription.unsubscribe();
-    }
-
     getBookings() {
         const containerWidth = this.getPageSize();
 
@@ -174,5 +168,11 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         const bookingContainer = this.el.nativeElement.getElementsByClassName('container')[0] as HTMLElement;
 
         return bookingContainer.offsetWidth;
+    }
+
+    override ngOnDestroy(): void {
+        super.ngOnDestroy();
+
+        this.deleteEventSubscription.unsubscribe();
     }
 }
