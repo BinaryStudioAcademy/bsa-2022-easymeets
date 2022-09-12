@@ -1,3 +1,3 @@
-export const debounceIntervalSmall = 250;
+export const debounceIntervalShort = 250;
 export const debounceIntervalMedium = 500;
-export const debounceIntervalLarge = 1000;
+export const debounceIntervalLong = 1000;
