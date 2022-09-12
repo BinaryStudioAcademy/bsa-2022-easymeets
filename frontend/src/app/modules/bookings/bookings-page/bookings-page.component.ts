@@ -12,6 +12,7 @@ import { TeamService } from '@core/services/team.service';
 import { desktopWidthToContainFourItems, desktopWidthToContainTwoItems, phoneMaxWidth, tabletMaxWidth,
     widthToContainThreeItems, widthToContainZeroItemUpperLimit } from '@shared/constants/screen-variables';
 import { deletionMessage } from '@shared/constants/shared-messages';
+import { LocationType } from '@shared/enums/locationType';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -33,6 +34,8 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
     private deleteEventSubscription: Subscription;
 
     private currentBookingId: number;
+
+    public locationTypeOffice = LocationType.Office;
 
     constructor(
         private el: ElementRef,
@@ -128,7 +131,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
 
     private loadMeetings(meetingMemberRequest: IMeetingMembersRequest) {
         this.meetingService
-            .getThreeMeetings(meetingMemberRequest)
+            .getMeetings(meetingMemberRequest)
             .pipe(this.untilThis)
             .subscribe(
                 (resp: IMeetingBooking[]) => {

@@ -27,6 +27,7 @@
         "@angular/router": "^14.1.1",
         "@microsoft/signalr": "^6.0.7",
         "@ng-select/ng-select": "^9.0.2",
+        "@ngtools/webpack": "^14.2.2",
         "angular-calendar": "^0.30.1",
         "date-fns": "^2.29.2",
         "eslint-plugin-prettier": "^4.2.1",

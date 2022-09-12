@@ -63,6 +63,21 @@
                     </mat-option>
                 </mat-select>
             </div>
+            <div *ngIf="settings.locationType === locationOffice" class="input-container">
+                <p class="input-description">Meeting room</p>
+                <input
+                    [(ngModel)]="settings.meetingRoom"
+                    name="meetingRoom"
+                    #name="ngModel"
+                    type="text"
+                    required
+                    maxlength="50"
+                    [pattern]="meetingNameInputPattern"/>
+                <div *ngIf="name.invalid && name.touched" class="error">
+                    <div *ngIf="name.errors?.['required']">Field is required</div>
+                    <div *ngIf="name.errors?.['pattern']">Input field accepts only text, numbers, symbols -'</div>
+                </div>
+            </div>
         </div>
         <div class="inputs-right-container up">
             <div class="checkbox-container">
