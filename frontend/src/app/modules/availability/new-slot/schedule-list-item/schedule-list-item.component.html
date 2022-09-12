@@ -26,9 +26,9 @@
                     required />
             </div>
             <div class="error-container">
-                <span *ngIf="(endTime && endTime.invalid) || (startTime && startTime.invalid)"
-                    ><p class="validText">Input filed is not valid. Correct format is hh:mm.</p></span
-                >
+                <span *ngIf="(endTime && endTime.invalid) || (startTime && startTime.invalid)">
+                    <p class="validText">Input filed is not valid. Correct format is hh:mm.</p>
+                </span>
             </div>
         </div>
     </form>
