@@ -192,10 +192,6 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             meeting,
         };
 
-        alert(`REDIRECT TO MEETING INSTEAD OF TIME SLOTS: ${this.isUserBooking}`);
-
-        this.router.navigate(['/external-booking/confirmed-booking']);
-
         this.externalService
             .createExternalMeeting(attendeeMeeting)
             .pipe(this.untilThis)
