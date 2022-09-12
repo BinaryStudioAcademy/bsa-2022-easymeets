@@ -27,6 +27,8 @@ export class QuestionsComponent {
 
     public mandatoryQuestionsExist: boolean = false;
 
+    public checkBoxTexts: string[] = ['Autofill Invitee Name, Email', 'Allow Booker to add additional guests'];
+
     private newQuestionOrder: number = 0;
 
     private onQuestionsArrayChange(): void {
@@ -42,7 +44,6 @@ export class QuestionsComponent {
                 order: this.newQuestionOrder++,
                 questionText: '',
                 placeHolderText: '',
-                checkboxText: '',
                 isMandatory: false,
             },
         ];

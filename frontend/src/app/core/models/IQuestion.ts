@@ -3,6 +3,5 @@ export interface IQuestion {
     order: number;
     questionText: string;
     placeHolderText: string;
-    checkboxText: string;
     isMandatory: boolean;
 }

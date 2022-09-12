@@ -6,7 +6,6 @@ export const getLocalMandatoryQuestions = (): IQuestion[] => [
         order: 0,
         questionText: 'Name and Surname *',
         placeHolderText: 'Name Surname',
-        checkboxText: 'Autofill Invitee Name, Email',
         isMandatory: true,
     },
     {
@@ -14,7 +13,6 @@ export const getLocalMandatoryQuestions = (): IQuestion[] => [
         order: 0,
         questionText: 'Your Email *',
         placeHolderText: 'booker@email.com',
-        checkboxText: 'Allow Booker to add additional guests',
         isMandatory: true,
     },
 ];
