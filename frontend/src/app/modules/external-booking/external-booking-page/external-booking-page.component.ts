@@ -237,12 +237,13 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
     clearMeetingDetails() {
         this.menu = {
             ...this.menu,
-            duration: undefined,
-            location: undefined,
-            timeFinish: undefined,
-            date: undefined,
             slotName: this.isUserBooking ? undefined : this.menu.slotName,
         };
+
+        delete this.menu.duration;
+        delete this.menu.location;
+        delete this.menu.timeFinish;
+        delete this.menu.date;
     }
 
     isChooseMeetingRoute(): boolean {
