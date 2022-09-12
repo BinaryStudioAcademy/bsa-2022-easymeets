@@ -5,10 +5,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EasyMeets.Core.DAL.Migrations
 {
-    public partial class ChangedDeletionRuleCalendarsAndTeems : Migration
+    public partial class ChangedDeletionBehaviorForTeams : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_AvailabilitySlots_Teams_TeamId",
+                table: "AvailabilitySlots");
+
             migrationBuilder.DropForeignKey(
                 name: "FK_Calendars_Teams_AddEventsFromTeamId",
                 table: "Calendars");
@@ -18,140 +22,148 @@ namespace EasyMeets.Core.DAL.Migrations
                 keyColumn: "Id",
                 keyValue: 1L,
                 column: "SelectedDate",
-                value: new DateTime(2022, 10, 21, 15, 13, 25, 670, DateTimeKind.Local).AddTicks(5070));
+                value: new DateTime(2022, 10, 21, 17, 22, 3, 617, DateTimeKind.Local).AddTicks(4393));
 
             migrationBuilder.UpdateData(
                 table: "ExclusionDates",
                 keyColumn: "Id",
                 keyValue: 2L,
                 column: "SelectedDate",
-                value: new DateTime(2023, 1, 25, 10, 1, 54, 16, DateTimeKind.Local).AddTicks(2410));
+                value: new DateTime(2023, 1, 25, 12, 10, 31, 963, DateTimeKind.Local).AddTicks(1714));
 
             migrationBuilder.UpdateData(
                 table: "ExclusionDates",
                 keyColumn: "Id",
                 keyValue: 3L,
                 column: "SelectedDate",
-                value: new DateTime(2023, 3, 9, 10, 53, 50, 763, DateTimeKind.Local).AddTicks(5328));
+                value: new DateTime(2023, 3, 9, 13, 2, 28, 710, DateTimeKind.Local).AddTicks(4632));
 
             migrationBuilder.UpdateData(
                 table: "ExclusionDates",
                 keyColumn: "Id",
                 keyValue: 4L,
                 column: "SelectedDate",
-                value: new DateTime(2023, 2, 2, 21, 22, 15, 337, DateTimeKind.Local).AddTicks(1543));
+                value: new DateTime(2023, 2, 2, 23, 30, 53, 284, DateTimeKind.Local).AddTicks(846));
 
             migrationBuilder.UpdateData(
                 table: "ExclusionDates",
                 keyColumn: "Id",
                 keyValue: 5L,
                 column: "SelectedDate",
-                value: new DateTime(2023, 7, 5, 5, 49, 22, 194, DateTimeKind.Local).AddTicks(1012));
+                value: new DateTime(2023, 7, 5, 7, 58, 0, 141, DateTimeKind.Local).AddTicks(313));
 
             migrationBuilder.UpdateData(
                 table: "ExclusionDates",
                 keyColumn: "Id",
                 keyValue: 6L,
                 column: "SelectedDate",
-                value: new DateTime(2023, 1, 18, 13, 51, 45, 799, DateTimeKind.Local).AddTicks(9899));
+                value: new DateTime(2023, 1, 18, 16, 0, 23, 746, DateTimeKind.Local).AddTicks(9198));
 
             migrationBuilder.UpdateData(
                 table: "ExclusionDates",
                 keyColumn: "Id",
                 keyValue: 7L,
                 column: "SelectedDate",
-                value: new DateTime(2022, 10, 20, 20, 26, 0, 971, DateTimeKind.Local).AddTicks(4346));
+                value: new DateTime(2022, 10, 20, 22, 34, 38, 918, DateTimeKind.Local).AddTicks(3643));
 
             migrationBuilder.UpdateData(
                 table: "ExclusionDates",
                 keyColumn: "Id",
                 keyValue: 8L,
                 column: "SelectedDate",
-                value: new DateTime(2023, 7, 31, 20, 38, 39, 296, DateTimeKind.Local).AddTicks(9154));
+                value: new DateTime(2023, 7, 31, 22, 47, 17, 243, DateTimeKind.Local).AddTicks(8452));
 
             migrationBuilder.UpdateData(
                 table: "ExclusionDates",
                 keyColumn: "Id",
                 keyValue: 9L,
                 column: "SelectedDate",
-                value: new DateTime(2023, 5, 1, 15, 45, 58, 854, DateTimeKind.Local).AddTicks(3186));
+                value: new DateTime(2023, 5, 1, 17, 54, 36, 801, DateTimeKind.Local).AddTicks(2483));
 
             migrationBuilder.UpdateData(
                 table: "ExclusionDates",
                 keyColumn: "Id",
                 keyValue: 10L,
                 column: "SelectedDate",
-                value: new DateTime(2022, 10, 12, 6, 45, 3, 151, DateTimeKind.Local).AddTicks(9323));
+                value: new DateTime(2022, 10, 12, 8, 53, 41, 98, DateTimeKind.Local).AddTicks(8618));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 1L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2023, 3, 9, 10, 53, 50, 776, DateTimeKind.Unspecified).AddTicks(5910), new TimeSpan(0, 2, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 3, 9, 13, 2, 28, 723, DateTimeKind.Unspecified).AddTicks(4682), new TimeSpan(0, 2, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 2L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2023, 7, 31, 20, 38, 39, 310, DateTimeKind.Unspecified).AddTicks(479), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 7, 31, 22, 47, 17, 256, DateTimeKind.Unspecified).AddTicks(9270), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 3L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2023, 1, 10, 14, 35, 23, 706, DateTimeKind.Unspecified).AddTicks(2466), new TimeSpan(0, 2, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 1, 10, 16, 44, 1, 653, DateTimeKind.Unspecified).AddTicks(1266), new TimeSpan(0, 2, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 4L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2022, 10, 19, 19, 7, 25, 231, DateTimeKind.Unspecified).AddTicks(3364), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2022, 10, 19, 21, 16, 3, 178, DateTimeKind.Unspecified).AddTicks(2176), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 5L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2022, 10, 11, 14, 49, 28, 782, DateTimeKind.Unspecified).AddTicks(6368), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2022, 10, 11, 16, 58, 6, 729, DateTimeKind.Unspecified).AddTicks(5191), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 6L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2022, 10, 30, 11, 49, 0, 9, DateTimeKind.Unspecified).AddTicks(415), new TimeSpan(0, 2, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2022, 10, 30, 13, 57, 37, 955, DateTimeKind.Unspecified).AddTicks(9152), new TimeSpan(0, 2, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 7L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2023, 3, 10, 17, 32, 56, 58, DateTimeKind.Unspecified).AddTicks(9916), new TimeSpan(0, 2, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 3, 10, 19, 41, 34, 5, DateTimeKind.Unspecified).AddTicks(8657), new TimeSpan(0, 2, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 8L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2023, 6, 12, 7, 37, 29, 220, DateTimeKind.Unspecified).AddTicks(6644), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 6, 12, 9, 46, 7, 167, DateTimeKind.Unspecified).AddTicks(5398), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 9L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2022, 9, 13, 0, 36, 32, 940, DateTimeKind.Unspecified).AddTicks(3956), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2022, 9, 13, 2, 45, 10, 887, DateTimeKind.Unspecified).AddTicks(2723), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Meetings",
                 keyColumn: "Id",
                 keyValue: 10L,
                 column: "StartTime",
-                value: new DateTimeOffset(new DateTime(2023, 9, 9, 5, 27, 12, 684, DateTimeKind.Unspecified).AddTicks(8073), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2023, 9, 9, 7, 35, 50, 631, DateTimeKind.Unspecified).AddTicks(6853), new TimeSpan(0, 3, 0, 0, 0)));
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AvailabilitySlots_Teams_TeamId",
+                table: "AvailabilitySlots",
+                column: "TeamId",
+                principalTable: "Teams",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Calendars_Teams_AddEventsFromTeamId",
@@ -164,6 +176,10 @@ namespace EasyMeets.Core.DAL.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_AvailabilitySlots_Teams_TeamId",
+                table: "AvailabilitySlots");
+
             migrationBuilder.DropForeignKey(
                 name: "FK_Calendars_Teams_AddEventsFromTeamId",
                 table: "Calendars");
@@ -307,6 +323,14 @@ namespace EasyMeets.Core.DAL.Migrations
                 keyValue: 10L,
                 column: "StartTime",
                 value: new DateTimeOffset(new DateTime(2023, 9, 8, 22, 1, 42, 468, DateTimeKind.Unspecified).AddTicks(1733), new TimeSpan(0, 3, 0, 0, 0)));
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AvailabilitySlots_Teams_TeamId",
+                table: "AvailabilitySlots",
+                column: "TeamId",
+                principalTable: "Teams",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Calendars_Teams_AddEventsFromTeamId",
