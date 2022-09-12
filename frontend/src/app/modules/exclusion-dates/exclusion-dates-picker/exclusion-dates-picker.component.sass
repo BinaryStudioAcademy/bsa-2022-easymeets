@@ -1,0 +1,130 @@
+@import '../../../../styles/color-variables'
+@import '../../../../styles/screen-variables'
+
+*
+    font-family
+        font-family: 'Inter', serif !important
+
+.container
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    overflow-y: scroll
+
+.exclusion-wrapper
+    z-index: 40
+    box-sizing: border-box
+    position: absolute
+    top: 20%
+    left: 50%
+    transform: translate(-50%, 0)
+    display: flex
+    flex-direction: column
+    justify-content: flex-start
+    align-items: center
+    padding: 32px
+    width: 460px
+    background: $white-color
+    border: 1px solid $cell-color
+    box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03)
+    border-radius: 32px
+    flex: none
+    order: 4
+    flex-grow: 0
+    @media (max-width: $tablet-min-width)
+        max-width: 460px
+        width: 100%
+        padding: 32px 5px
+        margin: 10px
+    .title
+        font-style: normal
+        font-weight: 900
+        font-size: 22px
+        line-height: 146%
+        color: $midnight
+        align-self: flex-start
+    .calendar
+        width: 100%
+        margin: 32px 0
+
+.cancel, .apply
+    box-sizing: border-box
+    padding: 8px 24px
+    gap: 8px
+    width: 186px
+    height: 48px
+    border: 1px solid $button-border
+    border-radius: 24px
+    cursor: pointer
+
+.cancel
+    background: $white-color
+.apply
+    background: $midnight
+    color: $white-color
+    &:disabled
+        cursor: default
+        opacity: 0.3
+
+hr
+    border: 1px solid $line-color
+    width: 100%
+
+.time-input
+    border: 2px solid $icon-color
+    border-radius: 8px
+    width: 75px
+    height: 36px
+    font-style: normal
+    font-weight: 400
+    font-size: 14px
+    line-height: 146%
+    padding-left: 8px
+    margin-left: 12px
+    margin-right: 12px
+
+.start-range
+    margin-left: 0
+
+input[type="time"]::-webkit-calendar-picker-indicator
+    background: none
+
+.input-container
+    position: relative
+    width: 100%
+    min-height: 100px
+    hr
+        position: absolute
+        bottom: 0
+
+.add-time
+    position: absolute
+    right: 1%
+    top: 48px
+    color: $raven
+    font-style: normal
+    cursor: pointer
+
+.buttons-wrapper
+    display: flex
+    flex-direction: row
+    width: 100%
+    justify-content: space-between
+    padding-top: 32px
+    @media (max-width: $phone-min-width)
+        flex-direction: column
+        align-items: center
+
+.xmark
+    color: $raven
+    cursor: pointer
+    margin-left: 25px
+
+.time-item
+    display: flex
+    align-items: center
+    justify-content: flex-start
+    margin-top: 32px
+    margin-bottom: 32px

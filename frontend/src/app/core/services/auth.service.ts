@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import * as auth from 'firebase/auth';
 import firebase from 'firebase/compat/app';
-import { concatMap, defer, first, Observable } from 'rxjs';
+import { concatMap, defer, first, from, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { NotificationService } from './notification.service';
@@ -45,9 +45,16 @@ export class AuthService {
         return defer(() => this.afAuth.signInWithEmailAndPassword(email, password)).pipe(
             first(),
             tap({
-                next: async (userCredential) => {
+                next: (userCredential) => {
                     if (userCredential.user) {
-                        localStorage.setItem('access-token', await userCredential.user.getIdToken());
+                        from(userCredential.user.getIdToken())
+                            .subscribe((token => localStorage.setItem('access-token', token)));
+                        if (!userCredential.user.emailVerified) {
+                            const emailNotVerified = new Error('Email is not verified');
+
+                            emailNotVerified.name = 'email-not-verified';
+                            throw emailNotVerified;
+                        }
                     }
                 },
                 error: (e) => this.notificationService.showErrorMessage(e.message),

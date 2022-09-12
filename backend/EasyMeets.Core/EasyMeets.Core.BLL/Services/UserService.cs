@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using EasyMeets.Core.Common.DTO.UploadImage;
+using EasyMeets.Core.Common.Enums;
 using FirebaseAdmin.Auth;
 
 namespace EasyMeets.Core.BLL.Services
@@ -35,6 +36,17 @@ namespace EasyMeets.Core.BLL.Services
 
             var currentUserDto = _mapper.Map<UserDto>(currentUser);
             return currentUserDto;
+        }
+
+        public async Task<List<UserDto>> GetUsersByEmailOrNameAsync(string searchData)
+        {
+            var users = await _context.Users
+                .Where(x => x.Name.Contains(searchData) || x.Email.Contains(searchData))
+                .ToListAsync();
+
+            var mappedUsers = _mapper.Map<List<UserDto>>(users);
+
+            return mappedUsers;
         }
 
         public async Task<bool> CheckExistingUserByEmail(string email)
@@ -143,14 +155,23 @@ namespace EasyMeets.Core.BLL.Services
             return new ImagePathDto() { Path = imagePath };
         }
 
+        public async Task<List<CredentialsType>> GetUserMeetIntegrations()
+        {
+            var user = await _context.Users.Include(u => u.Credentials)
+                .FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId())
+                ?? throw new KeyNotFoundException("User doesn't exist");
+
+            return  user.Credentials.Select(c => c.Type).Distinct().ToList();
+        }
+
         public string? GetCurrentUserId()
         {
             var userId = _httpContextAccessor.HttpContext.User.GetUid();
             return userId;
         }
 
-        private Task<User> GetCurrentUserInternalAsync()
-            => (_context.Users.FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId())
+        private async Task<User> GetCurrentUserInternalAsync()
+            => (await _context.Users.FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId())
                 ?? throw new KeyNotFoundException("User doesn't exist"))!;
     }
 }

@@ -1,47 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { BaseComponent } from '@core/base/base.component';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
-import { IUserPersonalAndTeamSlots } from '@core/models/IUserPersonalAndTeamSlots';
-import { AvailabilitySlotService } from '@core/services/availability-slot.service';
-import { SpinnerService } from '@core/services/spinner.service';
-import { TeamService } from '@core/services/team.service';
+import { IExternalAvailabilitySlot } from '@core/models/IExternalAvailabilitySlot';
+import { LocationType } from '@shared/enums/locationType';
 
 @Component({
     selector: 'app-external-booking-choose-meeting-page',
     templateUrl: './external-booking-choose-meeting-page.component.html',
     styleUrls: ['./external-booking-choose-meeting-page.component.sass'],
 })
-export class ExternalBookingMeetingComponent extends BaseComponent implements OnInit {
-    @Input() userId: bigint;
+export class ExternalBookingMeetingComponent {
+    @Input() personalSlots?: IExternalAvailabilitySlot[];
 
-    teamId?: number;
+    @Output() setTeamId = new EventEmitter<bigint>();
 
-    selectedUserAvailabilitySlots: IUserPersonalAndTeamSlots;
+    locationTypeOffice = LocationType.Office;
 
     locationTypeMapping = LocationTypeMapping;
-
-    constructor(
-        public spinnerService: SpinnerService,
-        private teamService: TeamService,
-        private availabilitySlotService: AvailabilitySlotService,
-    ) {
-        super();
-    }
-
-    ngOnInit(): void {
-        this.teamService.currentTeamEmitted$.pipe(this.untilThis).subscribe((teamId) => {
-            this.teamId = teamId;
-            this.downloadSlots();
-        });
-    }
-
-    downloadSlots() {
-        this.availabilitySlotService
-            .getUserPersonalAndTeamSlots(this.userId, this.teamId)
-            .pipe(this.untilThis)
-            .subscribe((resp) => {
-                this.selectedUserAvailabilitySlots = resp;
-                this.spinnerService.hide();
-            });
-    }
 }

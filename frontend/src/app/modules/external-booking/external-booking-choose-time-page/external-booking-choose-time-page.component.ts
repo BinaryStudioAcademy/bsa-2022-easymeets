@@ -1,6 +1,6 @@
 import { WeekDay } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { changeScheduleItemsDate } from '@core/helpers/schedule-items-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
@@ -29,9 +29,15 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         teamId?: bigint;
         duration: number;
         location: LocationType;
+        meetingRoom?: string;
+        name: string;
     }>();
 
+    @Output() reloadData = new EventEmitter<string>();
+
     @Input() selectedMeetingDuration: number;
+
+    @Input() userLink: string;
 
     @Output() selectedTimeAndDateEvent = new EventEmitter<{ date: Date; timeFinish: Date; timeZone: TZone }>();
 
@@ -60,14 +66,15 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         private availabilitySlotService: AvailabilitySlotService,
         private meetingService: NewMeetingService,
         private route: ActivatedRoute,
+        private router: Router,
     ) {
         super();
     }
 
     ngOnInit(): void {
         this.calendarWeek = this.getCurrentWeek();
-        this.route.queryParams.pipe(this.untilThis).subscribe((params) => {
-            this.link = params['link'];
+        this.route.firstChild?.paramMap.subscribe((params) => {
+            this.link = params.get('slotLink')!;
         });
 
         this.availabilitySlotService
@@ -75,7 +82,14 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
             .pipe(this.untilThis)
             .subscribe((resp) => {
                 this.slot = resp;
-                this.addDurationAndLocation(this.slot!.id, this.slot!.teamId, this.slot!.size, this.slot!.locationType);
+                this.addSlotInfo(
+                    this.slot!.id,
+                    this.slot!.teamId,
+                    this.slot!.size,
+                    this.slot!.locationType,
+                    this.slot!.name,
+                    this.slot!.meetingRoom,
+                );
                 this.getOrderedTimes(this.slot!.id);
                 this.selectedMeetingDuration = this.slot!.size;
                 this.scheduleItems = changeScheduleItemsDate(resp!.schedule!.scheduleItems);
@@ -93,6 +107,14 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
             .subscribe((result) => {
                 this.orderedTimes = result;
             });
+    }
+
+    public getWeekDate(date: Date, daysToAdd: number) {
+        return addDays(date, daysToAdd);
+    }
+
+    public getTimeForItem(startTime: Date, duration: number, index: number) {
+        return addMinutes(startTime, duration * index);
     }
 
     private slotsCounter(): Array<object> {
@@ -162,7 +184,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         );
     }
 
-    public isDateInRange(date: Date, min: Date, max: Date, daysToAdd: number = 0, timesToAdd = 0): boolean {
+    public convertDate(date: Date, daysToAdd: number = 0, timesToAdd = 0) {
         const firstCalendarDay = new Date(this.calendarWeek.firstDay);
 
         firstCalendarDay.setHours(date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
@@ -170,14 +192,26 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
         result.setTime(result.getTime() + this.selectedMeetingDuration * timesToAdd * 60 * 1000);
 
-        if (this.disabledDays.includes(result.getDay())) {
-            return false;
-        }
+        return result;
+    }
 
+    public checkBookedDates(result: Date) {
         const checkBookedDate = (parsedDate: Date) =>
             parsedDate.getDate() === result.getDate() && parsedDate.getTime() === result.getTime();
 
-        if (this.orderedTimes.some((x) => checkBookedDate(new Date(Date.parse(x.startTime))))) {
+        return this.orderedTimes.some((x) => checkBookedDate(new Date(Date.parse(x.startTime))));
+    }
+
+    public isOrderedDate(date: Date, daysToAdd: number = 0, timesToAdd = 0) {
+        const result = this.convertDate(date, daysToAdd, timesToAdd);
+
+        return this.checkBookedDates(result) && result.getDate() >= this.nowDate.getDate();
+    }
+
+    public isDateInRange(date: Date, min: Date, max: Date, daysToAdd: number = 0, timesToAdd = 0): boolean {
+        const result = this.convertDate(date, daysToAdd, timesToAdd);
+
+        if (this.disabledDays.includes(result.getDay()) || this.checkBookedDates(result)) {
             return false;
         }
 
@@ -197,6 +231,10 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     public isLastDate(date: Date, daysToAdd: number = 0): boolean {
         const newDate = addDays(date, daysToAdd);
 
+        if (this.disabledDays.includes(newDate.getDay())) {
+            return false;
+        }
+
         return (
             (newDate.getDate() >= this.nowDate.getDate() &&
                 newDate.getMonth() === this.nowDate.getMonth() &&
@@ -205,7 +243,12 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         );
     }
 
-    addDurationAndLocation(slotId: bigint, teamId: bigint | undefined, duration: number, location: LocationType) {
-        this.selectedDurationAndLocationEvent.emit({ slotId, teamId, duration, location });
+    addSlotInfo(slotId: bigint, teamId: bigint | undefined, duration: number, location: LocationType, name: string, meetingRoom?: string) {
+        this.selectedDurationAndLocationEvent.emit({ slotId, teamId, duration, location, name, meetingRoom });
+    }
+
+    redirectToChooseMeeting() {
+        this.reloadData.emit(this.userLink);
+        this.router.navigateByUrl(`/external-booking/choose-meeting/${this.userLink}`);
     }
 }

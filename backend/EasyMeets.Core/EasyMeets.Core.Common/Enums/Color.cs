@@ -2,12 +2,11 @@ namespace EasyMeets.Core.Common.Enums;
 
 public enum Color
 {
-    Black,
     Red,
     Orange,
+    Lime,
     Green,
-    Azure,
+    Cyan,
     Blue,
-    Purple,
-    Cherry
+    Violet,
 }

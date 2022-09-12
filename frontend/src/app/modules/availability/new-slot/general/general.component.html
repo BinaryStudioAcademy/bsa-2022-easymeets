@@ -10,17 +10,50 @@
                     type="text"
                     required
                     maxlength="50"
-                    [pattern]="meetingNameInputPattern"/>
+                    [pattern]="textFieldRegex"
+                    (change)="meetingNameChanged(name.value)" />
                 <div *ngIf="name.invalid && name.touched" class="error">
                     <div *ngIf="name.errors?.['required']">Field is required</div>
-                    <div *ngIf="name.errors?.['pattern']">Input field accepts only text, numbers, symbols -'</div>
+                    <div *ngIf="name.errors?.['pattern']">{{ invalidCharactersMessage }}</div>
                 </div>
             </div>
             <div class="input-container">
                 <p class="input-description">Duration</p>
-                <mat-select [(ngModel)]="settings.size" name="slotSize">
-                    <mat-option *ngFor="let slotSize of slotSizes" [value]="slotSize">{{ slotSize }} min</mat-option>
+                <mat-select [(ngModel)]="duration" name="slotSize" (selectionChange)="onDurationChange()">
+                    <mat-option *ngFor="let _duration of durations" [value]="_duration">
+                        {{ _duration.time }} {{ _duration.unitOfTime }}
+                    </mat-option>
                 </mat-select>
+            </div>
+            <div class="input-container" *ngIf="customTimeShown">
+                <p class="input-description">Custom time</p>
+                <div class="custom-time">
+                    <input
+                        matInput
+                        [(ngModel)]="inputCustomTime"
+                        class="select-input time"
+                        name="customTime"
+                        #customTime="ngModel"
+                        type="text"
+                        placeholder="Custom time"
+                        required
+                        [pattern]="naturalNumberInputPattern"
+                        (change)="customDurationChanged()" />
+                    <mat-select
+                        class="select-input unit-of-time"
+                        name="selectedUnit"
+                        #customTime="ngModel"
+                        [(ngModel)]="selectedUnit"
+                        (selectionChange)="customDurationChanged()">
+                        <mat-option *ngFor="let unit of unitOfTime" [value]="unit">
+                            {{ unit }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+                <div *ngIf="customTime.invalid && customTime.touched">
+                    <small *ngIf="customTimeShown && customTime.errors?.['required']">Field is required</small>
+                    <small *ngIf="customTime.errors?.['pattern']">Input field accepts only numbers</small>
+                </div>
             </div>
             <div class="input-container">
                 <p class="input-description">Location</p>
@@ -30,13 +63,25 @@
                     </mat-option>
                 </mat-select>
             </div>
+            <div *ngIf="settings.locationType === locationOffice" class="input-container">
+                <p class="input-description">Meeting room</p>
+                <input
+                    [(ngModel)]="settings.meetingRoom"
+                    name="meetingRoom"
+                    #name="ngModel"
+                    type="text"
+                    required
+                    maxlength="50"
+                    [pattern]="textFieldRegex" />
+                <div *ngIf="name.invalid && name.touched" class="error">
+                    <div *ngIf="name.errors?.['required']">Field is required</div>
+                    <div *ngIf="name.errors?.['pattern']">Input field accepts only text, numbers, symbols -'</div>
+                </div>
+            </div>
         </div>
         <div class="inputs-right-container up">
             <div class="checkbox-container">
-                <mat-checkbox
-                    color="primary"
-                    name="hideAvailabilitySlots"
-                    [(ngModel)]="settings.isVisible">
+                <mat-checkbox color="primary" name="hideAvailabilitySlots" [(ngModel)]="settings.isVisible">
                 </mat-checkbox>
                 <span class="input-message">Hide this Availability Slots Card from Common Booking Page</span>
             </div>
@@ -49,7 +94,7 @@
                             name="color"
                             value="{{ colorInput.enumValue }}"
                             (change)="colorInputChanged(colorInput.enumValue)"
-                            [checked]="settings.color === colorInput.enumValue"/>
+                            [checked]="settings.color === colorInput.enumValue" />
                     </div>
                 </div>
             </div>
@@ -63,15 +108,15 @@
     <div class="advanced-settings" [ngClass]="{ disabled: !addAdvanced }">
         <div class="inputs-left-container">
             <div class="input-container">
-                <p class="input-description">Availability Slots Activity Time
-                </p>
+                <p class="input-description">Availability Slots Activity Time</p>
                 <mat-radio-group
                     [(ngModel)]="advancedSettings.activityType"
                     name="activityType"
                     [disabled]="!addAdvanced">
                     <mat-radio-button
                         *ngFor="let slotActivity of this.slotActivityOptionsEnums; index as i"
-                        [value]="slotActivity">{{ this.slotActivityOptions[i] }}
+                        [value]="slotActivity"
+                        >{{ this.slotActivityOptions[i] }}
                     </mat-radio-button>
                 </mat-radio-group>
                 <input
@@ -81,7 +126,7 @@
                     type="text"
                     [pattern]="naturalNumberInputPattern"
                     maxlength="3"
-                    [disabled]="!addAdvanced || advancedSettings.activityType === ActivityType.Indefinitely"/>
+                    [disabled]="!addAdvanced || advancedSettings.activityType === ActivityType.Indefinitely" />
                 <div *ngIf="days.invalid && !days.pristine" class="error">
                     <div *ngIf="days.errors?.['pattern']">Input field accepts only natural numbers</div>
                 </div>
@@ -102,7 +147,10 @@
                     <p class="input-description">Paddings Before & After Meeting</p>
                     <i class="fa-solid fa-circle-question input-description-icon"></i>
                 </div>
-                <mat-select [(ngModel)]="advancedSettings.paddingMeeting" name="meetingPadding" [disabled]="!addAdvanced">
+                <mat-select
+                    [(ngModel)]="advancedSettings.paddingMeeting"
+                    name="meetingPadding"
+                    [disabled]="!addAdvanced">
                     <mat-option *ngFor="let meetingPadding of meetingPaddings" [value]="meetingPadding">
                         {{ meetingPadding }} min
                     </mat-option>
@@ -122,7 +170,7 @@
                     type="text"
                     [disabled]="!addAdvanced"
                     [pattern]="naturalNumberInputPattern"
-                    maxlength="3"/>
+                    maxlength="3" />
 
                 <div *ngIf="maxNumberOfBookings.invalid && !maxNumberOfBookings.pristine" class="error">
                     <div *ngIf="maxNumberOfBookings.errors?.['pattern']">Input field accepts only natural numbers</div>

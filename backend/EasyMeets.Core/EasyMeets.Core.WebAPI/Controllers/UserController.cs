@@ -1,6 +1,7 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.UploadImage;
 using EasyMeets.Core.Common.DTO.User;
+using EasyMeets.Core.Common.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +31,13 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok(await _userService.GetUserByPersonalLink(link));
         }
 
+        [HttpGet("search/{searchData}")]
+        public async Task<List<UserDto>> GetUsersByEmailOrNameAsync(string searchData)
+        {
+            var users = await _userService.GetUsersByEmailOrNameAsync(searchData);
+            return users;
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult<UserDto>> CreateUserPreferences([FromBody] NewUserDto user)
@@ -42,6 +50,12 @@ namespace EasyMeets.Core.WebAPI.Controllers
         public async Task<ActionResult<bool>> CheckUserExistingByEmail(string email)
         {
             return Ok(await _userService.CheckExistingUserByEmail(email));
+        }
+
+        [HttpGet("meet-integrations")]
+        public async Task<ActionResult<List<CredentialsType>>>GetUserMeetIntegrations()
+        {
+            return Ok(await _userService.GetUserMeetIntegrations());
         }
 
         [HttpPut]

@@ -6,6 +6,7 @@ export interface IExternalMeeting {
     availabilitySlotId?: bigint;
     name: string;
     locationType?: LocationType;
+    meetingRoom?: string;
     duration?: number;
     startTime?: Date;
     meetingLink: string;

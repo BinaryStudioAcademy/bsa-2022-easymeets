@@ -21,22 +21,24 @@
                 <div>Team Name</div>
             </label>
             <div>
-                <input type="text" formControlName="name" (input)="generateNewPageLink(formGroup)" />
+                <input
+                    type="text"
+                    formControlName="name"
+                    (input)="generateNewPageLink(formGroup)"
+                    (change)="trimInputValue(nameControl)" />
             </div>
             <div *ngIf="nameControl.invalid && nameControl.touched" class="validation">
                 <small *ngIf="nameControl.errors?.['required']">This field is required.</small>
                 <small *ngIf="nameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
                 <small *ngIf="nameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
-                <small *ngIf="nameControl.errors?.['pattern']">Invalid characters.</small>
+                <small *ngIf="nameControl.errors?.['pattern']">{{ invalidCharactersMessage }}</small>
             </div>
         </div>
         <div class="item">
             <label>
                 <div>Team Page Link</div>
             </label>
-            <div>
-                <input type="text" formControlName="pageLink" />
-            </div>
+            <div><input type="text" formControlName="pageLink" /></div>
             <div *ngIf="pageLinkControl.invalid && nameControl.touched" class="validation">
                 <small *ngIf="pageLinkControl.errors?.['required']">This field is required.</small>
                 <small *ngIf="pageLinkControl.errors?.['teamLinkUniq']">Team page link must be unique.</small>
@@ -55,11 +57,17 @@
                 <div>Description</div>
             </label>
             <div>
-                <textarea class="text-area-class" formControlName="description"></textarea>
+                <textarea
+                    class="text-area-class"
+                    formControlName="description"
+                    (change)="trimInputValue(descriptionControl)"></textarea>
             </div>
             <div *ngIf="descriptionControl.invalid && descriptionControl.touched" class="validation">
                 <small *ngIf="descriptionControl.errors?.['maxlength']">
                     The field “Description” must not exceed 300 characters.
+                </small>
+                <small *ngIf="descriptionControl.errors?.['pattern']">
+                    {{ invalidCharactersMessage }}
                 </small>
             </div>
         </div>

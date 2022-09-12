@@ -4,12 +4,12 @@
             <p class="input-description">Link</p>
             <div class="inputBlock">
                 <div class="inputStartBlock">
-                    <p class="productName">{{appDomain}}/</p>
+                    <p class="productName">{{ appDomain }}/</p>
                 </div>
-                <input formControlName="link" class="inputItem" (change)="onLinkChange()"/>
+                <input formControlName="link" class="inputItem" (change)="onLinkChange()" />
             </div>
         </div>
-        <div *ngIf="slotLinkControl.invalid && slotLinkControl.touched" class="validation">
+        <div *ngIf="slotLinkControl.invalid && slotLinkControl.dirty" class="validation">
             <small *ngIf="slotLinkControl.errors?.['required']">This field is required.</small>
             <small *ngIf="slotLinkControl.errors?.['linkUnique']">Link is not unique, please enter a unique link</small>
         </div>
@@ -17,7 +17,16 @@
 
     <div class="welcome-message-container">
         <p class="input-description">Welcome Message</p>
-        <textarea id="welcomeMessage" class="input-message" [(ngModel)]="settings.welcomeMessage"></textarea>
+        <textarea
+            #welcomeMessageField
+            id="welcomeMessage"
+            [formControl]="welcomeMessageControl"
+            class="input-message"
+            [(ngModel)]="settings.welcomeMessage"
+            (change)="onWelcomeMessageChange(welcomeMessageField.value)"></textarea>
+        <div *ngIf="welcomeMessageControl.invalid && welcomeMessageControl.touched" class="validation">
+            <small *ngIf="welcomeMessageControl.errors?.['pattern']">{{ invalidCharactersMessage }}</small>
+        </div>
     </div>
 
     <div class="language-container">
@@ -60,13 +69,12 @@
     <mat-divider></mat-divider>
     <div class="password-container">
         <div class="input-password">
-            <mat-slide-toggle class="form-switch"
-                [(ngModel)]="this.settings.passwordProtectionIsUsed">
+            <mat-slide-toggle class="form-switch" [(ngModel)]="this.settings.passwordProtectionIsUsed">
             </mat-slide-toggle>
             <p class="input-field">Password protection</p>
         </div>
         <div class="input-description-tooltip-container">
-            <p class="input-description">Password to Booking Page </p>
+            <p class="input-description">Password to Booking Page</p>
             <mat-icon matTooltip="This password will be required to book this slot">help_outline</mat-icon>
         </div>
         <div class="password-input-container">
@@ -74,8 +82,7 @@
                 matInput
                 [disabled]="!settings.passwordProtectionIsUsed"
                 [(ngModel)]="settings.passwordProtection"
-                [type]="hidePassword ? 'password' : 'text'"
-            />
+                [type]="hidePassword ? 'password' : 'text'" />
             <button
                 mat-icon-button
                 matSuffix
@@ -87,6 +94,5 @@
                 <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
         </div>
-
     </div>
 </div>

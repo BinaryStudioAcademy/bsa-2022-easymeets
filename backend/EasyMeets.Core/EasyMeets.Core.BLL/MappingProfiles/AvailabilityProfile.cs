@@ -13,11 +13,12 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             CreateMap<AvailabilitySlot, AvailabilitySlotDto>()
                 .ForMember(dest => dest.Members, opt => opt.MapFrom(src => src.SlotMembers.Select(x => x.User)))
                 .ForMember(dest => dest.EmailTemplateSettings, opt => opt.MapFrom(src => src.EmailTemplates))
-                .ForMember(dest => dest.Schedule, opt => opt.MapFrom(s => s.SlotMembers.First().Schedule));
+                .ForMember(dest => dest.Schedule, opt => opt.MapFrom(s => s.SlotMembers.Select(x => x.Schedule).FirstOrDefault(x => x != null)));
             CreateMap<AvailabilitySlotDto, AvailabilitySlot>();
             CreateMap<SaveAvailabilitySlotDto, AvailabilitySlot>()
                 .ForMember(s => s.TeamId, opt => opt.MapFrom((src, dest) => src.TeamId ?? dest.TeamId))
                 .ForMember(s => s.LocationType, opt => opt.MapFrom(src => src.GeneralDetails!.LocationType))
+                .ForMember(s => s.MeetingRoom, opt => opt.MapFrom(src => src.GeneralDetails!.MeetingRoom))
                 .ForMember(s => s.Name, opt => opt.MapFrom(src => src.GeneralDetails!.Name))
                 .ForMember(s => s.WelcomeMessage, opt => opt.MapFrom(src => src.EventDetails!.WelcomeMessage))
                 .ForMember(s => s.Link, opt => opt.MapFrom(src => src.EventDetails!.Link))
@@ -37,6 +38,9 @@ namespace EasyMeets.Core.BLL.MappingProfiles
             CreateMap<SaveAdvancedSlotSettingsDto, AdvancedSlotSettings>();
             CreateMap<AdvancedSlotSettings, AdvancedSlotSettingsDto>();
             CreateMap<AdvancedSlotSettingsDto, AdvancedSlotSettings>();
+            CreateMap<AvailabilitySlot, ExternalAvailabilitySlotDto>();
+            CreateMap<User, AvailabilitySlotMemberDto>()
+                .ForMember(dto => dto.MemberImage, opt => opt.MapFrom(src => src.ImagePath));
         }
     }
 }

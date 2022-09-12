@@ -7,13 +7,16 @@ import {
     ValidationErrors,
     Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IImagePath } from '@core/models/IImagePath';
 import { ITeam } from '@core/models/ITeam';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { nameRegex } from '@shared/constants/model-validation';
+import { textFieldRegex } from '@shared/constants/model-validation';
+import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { map, Observable } from 'rxjs';
 
 @Component({
@@ -42,14 +45,21 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(nameRegex),
+        Validators.pattern(textFieldRegex),
     ]);
 
     public pageLinkControl: FormControl = new FormControl('', [Validators.required], [this.teamLinkValidator()]);
 
-    public descriptionControl: FormControl = new FormControl('', [Validators.maxLength(300)]);
+    public descriptionControl: FormControl = new FormControl('', [
+        Validators.maxLength(300),
+        Validators.pattern(textFieldRegex),
+    ]);
+
+    invalidCharactersMessage = invalidCharactersMessage;
 
     constructor(
+        private route: ActivatedRoute,
+        private router: Router,
         private teamService: TeamService,
         public notificationService: NotificationService,
         private confirmationWindowService: ConfirmationWindowService,
@@ -100,6 +110,10 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
             title: 'Oops...',
             message: "Image can't be heavier than 5MB!",
         });
+    }
+
+    public trimInputValue(control: FormControl) {
+        control.patchValue(removeExcessiveSpaces(control.value));
     }
 
     private uploadLogo(formData: FormData) {

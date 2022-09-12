@@ -3,6 +3,9 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getDisplayDuration } from '@core/helpers/display-duration-helper';
+import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { removeExcessiveSpaces } from '@core/helpers/string-helper';
+import { convertLocalDateToUTCWithUserSelectedTimeZone, getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
@@ -11,7 +14,9 @@ import { ConfirmationWindowService } from '@core/services/confirmation-window.se
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
+import { UserService } from '@core/services/user.service';
+import { naturalNumberRegex, textFieldRegex } from '@shared/constants/model-validation';
+import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
 import { map, Observable, startWith, Subscription } from 'rxjs';
@@ -28,6 +33,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         private confirmationWindowService: ConfirmationWindowService,
         private router: Router,
         private teamService: TeamService,
+        private userService: UserService,
     ) {
         super();
         this.redirectEventSubscription = this.redirectEventEmitter.subscribe(() => this.goToBookingsPage());
@@ -47,7 +53,9 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     durations: IDuration[] = getDisplayDuration();
 
-    locations = Object.values(LocationType);
+    locations: LocationType[] = [LocationType.Office];
+
+    public locationOffice = LocationType.Office;
 
     unitOfTime = Object.keys(UnitOfTime);
 
@@ -59,33 +67,46 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     meetingForm: FormGroup;
 
+    invalidCharactersMessage = invalidCharactersMessage;
+
     private bookedIconPath: string = 'assets/booked-icon.png';
 
     memberFilterCtrl: FormControl = new FormControl('');
+
+    locationControl: FormControl = new FormControl();
 
     meetingNameControl: FormControl = new FormControl('', [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(newMeetingNameRegex),
+        Validators.pattern(textFieldRegex),
+    ]);
+
+    meetingRoomControl: FormControl = new FormControl('', [
+        Validators.minLength(2),
+        Validators.maxLength(50),
+        Validators.pattern(textFieldRegex),
     ]);
 
     customTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
 
     mainContainerCustomTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
 
+    createdMeeting: INewMeeting;
+
+    locationTypeMapping = LocationTypeMapping;
+
     private redirectEventEmitter = new EventEmitter<void>();
 
     private redirectEventSubscription: Subscription;
-
-    createdMeeting: INewMeeting;
 
     ngOnInit(): void {
         this.meetingForm = new FormGroup({
             meetingName: this.meetingNameControl,
             customTime: this.customTimeControl,
             unitOfTime: new FormControl(),
-            location: new FormControl(),
+            location: this.locationControl,
+            meetingRoom: this.meetingRoomControl,
             duration: new FormControl(),
             date: new FormControl('', [Validators.required, this.validateDateIsInFuture]),
             teamMember: new FormControl(),
@@ -98,6 +119,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             this.getTeamMembersOfCurrentUser(teamId);
         });
         [this.duration] = this.durations;
+        this.initLocations();
     }
 
     create(form: FormGroup) {
@@ -106,8 +128,9 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 name: form.value.meetingName.trim(),
                 teamId: this.currentTeamId,
                 locationType: form.value.location,
+                meetingRoom: form.value.meetingRoom,
                 duration: this.duration.minutes!,
-                startTime: form.value.date,
+                startTime: convertLocalDateToUTCWithUserSelectedTimeZone(form.value.date, getDefaultTimeZone()),
                 meetingLink: form.value.meetingName.trim(),
                 meetingMembers: this.addedMembers,
                 createdAt: new Date(),
@@ -222,7 +245,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             ],
             title: 'Meeting Created !',
             titleImagePath: this.bookedIconPath,
-            dateTime: this.createdMeeting.startTime,
+            dateTime: new Date(this.createdMeeting.startTime),
             duration: this.duration.minutes,
             meetingName: this.createdMeeting.name,
             participants: this.addedMembers,
@@ -235,10 +258,22 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.router.navigate(['/bookings']);
     }
 
+    trimInputValue(control: FormControl) {
+        control.patchValue(removeExcessiveSpaces(control.value));
+    }
+
     override ngOnDestroy(): void {
         super.ngOnDestroy();
 
         this.redirectEventSubscription.unsubscribe();
+    }
+
+    private initLocations() {
+        this.userService.getUserMeetIntegrations()
+            .pipe(this.untilThis)
+            .subscribe(locations => {
+                this.locations = locations.concat(LocationType.Office);
+            });
     }
 
     private validateDateIsInFuture(control: AbstractControl): ValidationErrors | null {

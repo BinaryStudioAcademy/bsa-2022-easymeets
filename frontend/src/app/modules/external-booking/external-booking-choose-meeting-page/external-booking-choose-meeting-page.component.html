@@ -1,13 +1,19 @@
 <h1>Please, choose meeting</h1>
-<div class="meeting-cards" *ngIf="selectedUserAvailabilitySlots">
-    <ng-template
-        *ngIf="selectedUserAvailabilitySlots.userSlots.length; else noUserSlots"
-        ngFor
-        let-item
-        [ngForOf]="selectedUserAvailabilitySlots.userSlots">
-        <mat-card class="card" [routerLink]="['/external-booking/choose-time/']" [queryParams]="{ link: item.link }">
-            <mat-card-title><p class="title">{{ item.name }}</p></mat-card-title>
-            <mat-card-subtitle> {{ item.size }} Min, {{ locationTypeMapping(item.locationType) }} </mat-card-subtitle>
+<div class="meeting-cards" *ngIf="personalSlots">
+    <ng-template *ngIf="personalSlots.length; else noUserSlots" ngFor let-item [ngForOf]="personalSlots">
+        <mat-card
+            class="card"
+            (click)="setTeamId.emit(item.teamId)"
+            [routerLink]="['/external-booking/choose-time/' + item.link]">
+            <mat-card-title>
+                <p class="title">{{ item.name }}</p>
+            </mat-card-title>
+            <mat-card-subtitle *ngIf="item.locationType !== locationTypeOffice">
+                {{ item.size }} Min, {{ locationTypeMapping(item.locationType) }}
+            </mat-card-subtitle>
+            <mat-card-subtitle *ngIf="item.locationType === locationTypeOffice">
+                {{ item.size }} Min, {{ locationTypeMapping(item.locationType) }} {{ item.meetingRoom }}
+            </mat-card-subtitle>
         </mat-card>
     </ng-template>
     <ng-template #noUserSlots>

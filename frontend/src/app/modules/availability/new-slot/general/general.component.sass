@@ -67,6 +67,23 @@ input[type=text], .mat-select, .label-container, .error
 .input-container
     width: 100%
 
+    .custom-time
+        display: flex
+        align-items: flex-start
+        justify-content: space-between
+        max-width: 18.5em
+        width: 18.5em
+        .time
+            width: 60%
+            margin-right: 10px
+
+        .unit-of-time
+            width: 40%
+            min-height: 40px
+    small
+        font-size: 10px
+        color: $red
+
 .label-container
     display: flex
     justify-content: space-between
@@ -116,3 +133,18 @@ input[type=text]
     border: 2px solid $pattens-blue
     border-radius: 8px
     height: 36px
+
+.select-input
+    &:focus
+        &.ng-valid.ng-touched
+            border-color: 2px solid $cinnabar
+            outline: $cinnabar
+
+        &.ng-invalid.ng-touched
+            border: 2px solid $cinnabar
+            outline: $cinnabar
+
+
+::ng-deep .checkbox-container
+    .mat-checkbox-checked.mat-primary .mat-checkbox-background
+        background-color: black !important

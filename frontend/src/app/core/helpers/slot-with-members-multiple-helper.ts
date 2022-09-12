@@ -15,7 +15,7 @@ export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
         link: '',
         isEnabled: true,
         isVisible: true,
-        color: Color.Azure,
+        color: Color.Cyan,
         locationType: LocationType.GoogleMeet,
         members: [
             {
@@ -43,6 +43,7 @@ export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
         schedule: {
             timeZone: getDefaultTimeZone(),
             scheduleItems: getScheduleItems(),
+            exclusionDates: [],
             withTeamMembers: true,
             definedExternally: false,
         },

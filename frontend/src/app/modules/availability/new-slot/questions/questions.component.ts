@@ -1,8 +1,12 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Input } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { getLocalMandatoryQuestions } from '@core/helpers/questions-mandatory-helper';
+import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IQuestion } from '@core/models/IQuestion';
+import { textFieldRegex } from '@shared/constants/model-validation';
+import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 
 @Component({
     selector: 'app-questions',
@@ -26,6 +30,10 @@ export class QuestionsComponent {
     public optionalQuestionsExist: boolean = false;
 
     public mandatoryQuestionsExist: boolean = false;
+
+    public textFieldRegex = textFieldRegex;
+
+    public invalidCharactersMessage = invalidCharactersMessage;
 
     public checkBoxTexts: string[] = ['Autofill Invitee Name, Email', 'Allow Booker to add additional guests'];
 
@@ -70,5 +78,9 @@ export class QuestionsComponent {
             return;
         }
         moveItemInArray(this.questions, currentIndex, toIndex);
+    }
+
+    public trimInputValue(control: FormControl) {
+        control.patchValue(removeExcessiveSpaces(control.value));
     }
 }
