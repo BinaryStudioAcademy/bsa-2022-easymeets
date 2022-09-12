@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
+import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { AuthService } from '@core/services/auth.service';
 import { AuthFormService } from '@core/services/auth-form.service';
 import { EmailValidator } from '@modules/auth/validators/email-validator';
@@ -70,5 +71,9 @@ export class SignUpFormComponent extends BaseComponent {
         }
 
         return this.signUpForm.controls.email.invalid ? 'Email format is invalid' : '';
+    }
+
+    public userNameChanged(value: string) {
+        this.signUpForm.patchValue({ name: removeExcessiveSpaces(value) });
     }
 }
