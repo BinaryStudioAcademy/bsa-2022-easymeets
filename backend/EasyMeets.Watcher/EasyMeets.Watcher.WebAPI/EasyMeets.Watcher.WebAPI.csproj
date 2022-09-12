@@ -8,13 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="MediatR" Version="10.0.1" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
         <PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\EasyMeets.Emailer\EasyMeets.Emailer.WebAPI\EasyMeets.Emailer.WebAPI.csproj" />
         <ProjectReference Include="..\..\EasyMeets.RabbitMQ\EasyMeets.RabbitMQ.csproj" />
         <ProjectReference Include="..\EasyMeets.Watcher.BLL\EasyMeets.Watcher.BLL.csproj" />
     </ItemGroup>

@@ -1,5 +1,7 @@
-﻿using EasyMeets.Watcher.BLL.Interfaces;
+﻿using EasyMeets.Watcher.BLL.Commands;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace EasyMeets.Watcher.WebAPI.Controllers
 {
@@ -7,22 +9,22 @@ namespace EasyMeets.Watcher.WebAPI.Controllers
     [Route("[controller]")]
     public class WebHookController : ControllerBase
     {
-        private readonly IWebHookNotifier _webHookNotifier;
+        private readonly IMediator _mediator;
 
-        public WebHookController(IWebHookNotifier webHookNotifier)
+        public WebHookController(IMediator mediator)
         {
-            _webHookNotifier = webHookNotifier;
+            _mediator = mediator;
         }
 
         [HttpPost]
-        public IActionResult SyncCalendars(string email, string verifyCode)
+        public async Task<IActionResult> SyncCalendars([FromBody] NotifyCalendarCommand command)
         {
-            if (verifyCode != Environment.GetEnvironmentVariable("WebHookGoogleAuthorizationCode"))
+            var result = await _mediator.Send(command);
+
+            if (result.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return Unauthorized();
             }
-
-            _webHookNotifier.NotifyCalendarChanges(email);
 
             return Ok();
         }
