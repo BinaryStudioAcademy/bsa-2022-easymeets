@@ -7,6 +7,7 @@ export const getDefaultSchedule = (externallyDefined: boolean): ISchedule => ({
     timeZone: getDefaultTimeZone(),
     withTeamMembers: false,
     scheduleItems: externallyDefined ? [] : getScheduleItems(),
+    exclusionDates: [],
     definedExternally: externallyDefined,
     definedBy: undefined,
 });
