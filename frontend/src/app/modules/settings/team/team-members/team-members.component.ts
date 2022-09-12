@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { ITeamMember } from '@core/models/ITeamMember';
@@ -163,37 +164,42 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
             );
     }
 
-    changeTeamMemberRole(user: ITeamMember, newRole: Role) {
+    changeTeamMemberRole(user: ITeamMember, event: MatSelectChange) {
+        const selectedRole: Role = Role[event.value as keyof typeof Role];
+
+        event.source.value = user.role;
+        if (selectedRole === Role.Owner && this.ownerId) {
+            this.notificationService.showErrorMessage('Team member with owner role should be the only');
+
+            return;
+        }
+        if (user.id === this.ownerId) {
+            this.notificationService.showErrorMessage('Owner role can be modified only when owner leave the team');
+
+            return;
+        }
         const teamMember: ITeamMember = {
             id: user.id,
             image: user.image,
             name: user.name,
             email: user.email,
             pageLink: '',
-            role: newRole,
+            role: selectedRole,
             status: Status.Pending,
         };
 
-        if (newRole === Role.Owner && this.ownerId) {
-            this.notificationService.showErrorMessage('Team member with owner role should be the only');
-            this.reloadTeamMembers();
-        } else if (user.id === this.ownerId) {
-            this.notificationService.showErrorMessage('Owner role can be modified only when owner leave the team');
-            this.reloadTeamMembers();
-        } else {
-            this.teamService
-                .updateTeamMember(teamMember)
-                .pipe(this.untilThis)
-                .subscribe(
-                    () => {
-                        this.notificationService.showSuccessMessage('Team member`s role was successfully changed');
-                        this.reloadTeamMembers();
-                    },
-                    (error) => {
-                        this.notificationService.showErrorMessage(error);
-                    },
-                );
-        }
+        this.teamService
+            .updateTeamMember(teamMember)
+            .pipe(this.untilThis)
+            .subscribe(
+                () => {
+                    this.notificationService.showSuccessMessage('Team member`s role was successfully changed');
+                    this.reloadTeamMembers();
+                },
+                (error) => {
+                    this.notificationService.showErrorMessage(error);
+                },
+            );
     }
 
     override ngOnDestroy(): void {
