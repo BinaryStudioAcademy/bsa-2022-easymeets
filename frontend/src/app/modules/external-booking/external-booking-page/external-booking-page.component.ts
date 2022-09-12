@@ -221,13 +221,12 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
     }
 
     bookAnotherMeeting() {
-        if (this.isUserBooking) {
-            this.router.navigateByUrl(`/external-booking/choose-meeting/${this.link}`);
-            this.clearMeetingDetails();
-        } else {
-            this.router.navigate([`/external-booking/choose-time/${this.link}`]);
-            this.clearMeetingDetails();
-        }
+        const navigationURL: string = this.isUserBooking
+            ? `/external-booking/choose-meeting/${this.link}`
+            : `/external-booking/choose-time/${this.link}`;
+
+        this.router.navigateByUrl(navigationURL);
+        this.clearMeetingDetails();
     }
 
     clearMeetingDetails() {
