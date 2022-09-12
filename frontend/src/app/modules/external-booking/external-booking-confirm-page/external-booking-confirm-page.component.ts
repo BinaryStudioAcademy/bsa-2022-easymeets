@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IExternalAnswers } from '@core/models/IExternalAnswers';
-import { textFieldRegex, userNameRegex } from '@shared/constants/model-validation';
+import { emailRegex, textFieldRegex, userNameRegex } from '@shared/constants/model-validation';
 import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 
 @Component({
@@ -28,8 +28,9 @@ export class ExternalBookingConfirmPageComponent implements OnInit {
             Validators.pattern(userNameRegex),
             Validators.minLength(2),
             Validators.maxLength(50),
+            Validators.required,
         ]),
-        email: new FormControl('', [Validators.email]),
+        email: new FormControl('', [Validators.email, Validators.required, Validators.pattern(emailRegex)]),
         extraInfo: new FormControl('', [
             Validators.minLength(3),
             Validators.maxLength(80),
