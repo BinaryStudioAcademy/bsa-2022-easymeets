@@ -6,6 +6,7 @@
         <app-custom-date-picker
             class="calendar"
             [(selected)]="selected"
+            (selectedChange)="updateStartRangeValidators()"
         >
         </app-custom-date-picker>
         <hr>
