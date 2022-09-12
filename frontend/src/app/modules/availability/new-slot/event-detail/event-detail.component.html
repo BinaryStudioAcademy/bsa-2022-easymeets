@@ -22,6 +22,7 @@
             id="welcomeMessage"
             [formControl]="welcomeMessageControl"
             class="input-message"
+            [(ngModel)]="settings.welcomeMessage"
             (change)="onWelcomeMessageChange(welcomeMessageField.value)"></textarea>
         <div *ngIf="welcomeMessageControl.invalid && welcomeMessageControl.touched" class="validation">
             <small *ngIf="welcomeMessageControl.errors?.['pattern']">{{ invalidCharactersMessage }}</small>
