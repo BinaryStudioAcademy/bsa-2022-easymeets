@@ -32,18 +32,18 @@ export class ScheduleDefinitionComponent extends BaseComponent implements OnInit
 
     timeFormat?: TimeFormat;
 
-    ngOnInit(): void {
-        const user = this.userService.getLocalUser();
-
-        this.timeFormat = user ? user.timeFormat : TimeFormat.TwentyFourHour;
-    }
-
     public checkZone(): boolean {
         return !this.scheduleValue.timeZone.nameValue;
     }
 
     constructor(private dialog: MatDialog, private userService: UserService) {
         super();
+    }
+
+    ngOnInit(): void {
+        this.userService.currentLocalUserEmitted$.pipe(this.untilThis).subscribe((user) => {
+            this.timeFormat = user?.timeFormat;
+        });
     }
 
     deleteExclusionDate(index: number) {
