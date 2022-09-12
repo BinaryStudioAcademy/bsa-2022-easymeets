@@ -41,7 +41,7 @@ export class ScheduleDefinitionComponent extends BaseComponent implements OnInit
     }
 
     ngOnInit(): void {
-        this.userService.currentLocalUserEmitted$.pipe(this.untilThis).subscribe((user) => {
+        this.userService.userChangedEvent$.pipe(this.untilThis).subscribe((user) => {
             this.timeFormat = user?.timeFormat;
         });
     }
