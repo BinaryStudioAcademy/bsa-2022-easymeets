@@ -10,11 +10,11 @@
                     type="text"
                     required
                     maxlength="50"
-                    [pattern]="meetingNameInputPattern"
+                    [pattern]="textFieldRegex"
                     (change)="meetingNameChanged(name.value)" />
                 <div *ngIf="name.invalid && name.touched" class="error">
                     <div *ngIf="name.errors?.['required']">Field is required</div>
-                    <div *ngIf="name.errors?.['pattern']">Input field accepts only text, numbers, symbols -'</div>
+                    <div *ngIf="name.errors?.['pattern']">{{ invalidCharactersMessage }}</div>
                 </div>
             </div>
             <div class="input-container">
@@ -72,7 +72,7 @@
                     type="text"
                     required
                     maxlength="50"
-                    [pattern]="meetingNameInputPattern"/>
+                    [pattern]="textFieldRegex" />
                 <div *ngIf="name.invalid && name.touched" class="error">
                     <div *ngIf="name.errors?.['required']">Field is required</div>
                     <div *ngIf="name.errors?.['pattern']">Input field accepts only text, numbers, symbols -'</div>

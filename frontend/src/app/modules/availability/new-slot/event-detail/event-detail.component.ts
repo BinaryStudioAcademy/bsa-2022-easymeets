@@ -1,10 +1,20 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+    AbstractControl,
+    AsyncValidatorFn,
+    FormControl,
+    FormGroup,
+    ValidationErrors,
+    Validators,
+} from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
+import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveEventDetails } from '@core/models/save-availability-slot/ISaveEventDetails';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { environment } from '@env/environment';
+import { textFieldRegex } from '@shared/constants/model-validation';
+import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { map, Observable } from 'rxjs';
 
 @Component({
@@ -35,9 +45,14 @@ export class EventDetailComponent extends BaseComponent implements OnInit {
 
     public settings: ISaveEventDetails;
 
-    public formGroup: FormGroup;
-
     public slotLinkControl = new FormControl('', [Validators.required], [this.slotLinkValidator()]);
+
+    public welcomeMessageControl = new FormControl('', [Validators.pattern(textFieldRegex)]);
+
+    public formGroup: FormGroup = new FormGroup({
+        link: this.slotLinkControl,
+        welcomeMessage: this.welcomeMessageControl,
+    });
 
     public timeZoneChoices: { text: string; value: boolean }[] = [
         {
@@ -56,6 +71,8 @@ export class EventDetailComponent extends BaseComponent implements OnInit {
 
     public hidePassword: boolean = false;
 
+    public invalidCharactersMessage = invalidCharactersMessage;
+
     constructor(private slotService: AvailabilitySlotService) {
         super();
     }
@@ -70,12 +87,15 @@ export class EventDetailComponent extends BaseComponent implements OnInit {
             passwordProtectionIsUsed: false,
             passwordProtection: '',
         };
-        this.formGroup = new FormGroup({ link: this.slotLinkControl });
     }
 
     onLinkChange() {
         this.settings.link = this.slotLinkControl.value ?? '';
         this.linkChange.emit(this.settings.link);
+    }
+
+    onWelcomeMessageChange(message: string) {
+        this.welcomeMessageControl.patchValue(removeExcessiveSpaces(message));
     }
 
     private slotLinkValidator(): AsyncValidatorFn {

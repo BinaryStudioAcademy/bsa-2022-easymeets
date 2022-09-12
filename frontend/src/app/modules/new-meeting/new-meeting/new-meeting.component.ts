@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getDisplayDuration } from '@core/helpers/display-duration-helper';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { convertLocalDateToUTCWithUserSelectedTimeZone, getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
@@ -14,7 +15,8 @@ import { NewMeetingService } from '@core/services/new-meeting.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
 import { UserService } from '@core/services/user.service';
-import { naturalNumberRegex, newMeetingNameRegex } from '@shared/constants/model-validation';
+import { naturalNumberRegex, textFieldRegex } from '@shared/constants/model-validation';
+import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
 import { map, Observable, startWith, Subscription } from 'rxjs';
@@ -65,6 +67,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     meetingForm: FormGroup;
 
+    invalidCharactersMessage = invalidCharactersMessage;
+
     private bookedIconPath: string = 'assets/booked-icon.png';
 
     memberFilterCtrl: FormControl = new FormControl('');
@@ -75,13 +79,13 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(newMeetingNameRegex),
+        Validators.pattern(textFieldRegex),
     ]);
 
     meetingRoomControl: FormControl = new FormControl('', [
         Validators.minLength(2),
         Validators.maxLength(50),
-        Validators.pattern(newMeetingNameRegex),
+        Validators.pattern(textFieldRegex),
     ]);
 
     customTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
@@ -252,6 +256,10 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     goToBookingsPage() {
         this.router.navigate(['/bookings']);
+    }
+
+    trimInputValue(control: FormControl) {
+        control.patchValue(removeExcessiveSpaces(control.value));
     }
 
     override ngOnDestroy(): void {
