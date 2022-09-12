@@ -55,9 +55,7 @@ export class ScheduleDefinitionComponent extends BaseComponent implements OnInit
 
     showExclusionDatesWindow() {
         this.dialog
-            .open<ExclusionDatesPickerComponent, IExclusionDate, IExclusionDate | undefined>(
-                ExclusionDatesPickerComponent,
-            )
+            .open<ExclusionDatesPickerComponent, IExclusionDate, IExclusionDate | undefined>(ExclusionDatesPickerComponent)
             .afterClosed()
             .subscribe((newExclusionDate) => {
                 if (newExclusionDate) {
