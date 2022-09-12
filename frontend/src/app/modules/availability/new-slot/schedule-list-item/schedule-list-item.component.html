@@ -16,7 +16,8 @@
                         class="date-input"
                         formControlName="startTime"
                         [value]="startValue"
-                        (change)="onDateChange($event, true)" />
+                        (change)="onDateChange($event, true)"
+                        required />
                     <p class="centerline">-</p>
                     <input
                         matInput
@@ -24,7 +25,8 @@
                         class="date-input"
                         formControlName="endTime"
                         [value]="endValue"
-                        (change)="onDateChange($event, false)" />
+                        (change)="onDateChange($event, false)"
+                        required />
                 </div>
             </ng-container>
             <ng-template #twentyFourFormat>
@@ -35,7 +37,8 @@
                         class="date-input"
                         formControlName="startTime"
                         [value]="startValue"
-                        (change)="onDateChange($event, true)" />
+                        (change)="onDateChange($event, true)"
+                        required />
                     <p class="centerline">-</p>
                     <input
                         matInput
@@ -43,7 +46,8 @@
                         class="date-input"
                         formControlName="endTime"
                         [value]="endValue"
-                        (change)="onDateChange($event, false)" />
+                        (change)="onDateChange($event, false)"
+                        required />
                 </div>
             </ng-template>
 
