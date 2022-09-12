@@ -17,14 +17,28 @@ namespace EasyMeets.Watcher.BLL.Handlers
 
         public Task<NotifyCalendarResponse> Handle(NotifyCalendarCommand request, CancellationToken cancellationToken)
         {
-            if (request.VerifyCode != Environment.GetEnvironmentVariable("WebHookGoogleAuthorizationCode"))
+            try
             {
-                return Task.FromResult(new NotifyCalendarResponse { StatusCode = HttpStatusCode.Unauthorized });
+                if (request.VerifyCode != Environment.GetEnvironmentVariable("WebHookGoogleAuthorizationCode"))
+                {
+                    return Task.FromResult(new NotifyCalendarResponse { StatusCode = HttpStatusCode.Unauthorized });
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("Something went wrong with Verify code.");
             }
 
-            _webHookNotifier.NotifyCalendarChanges(request.Email);
+            try
+            {
+                _webHookNotifier.NotifyCalendarChanges(request.Email);
 
-            return Task.FromResult(new NotifyCalendarResponse { StatusCode = HttpStatusCode.OK });
+                return Task.FromResult(new NotifyCalendarResponse { StatusCode = HttpStatusCode.OK });
+            }
+            catch (Exception)
+            {
+                throw new Exception("Something went wrong with RabbitMQ Producer.");
+            }
         }
     }
 }
