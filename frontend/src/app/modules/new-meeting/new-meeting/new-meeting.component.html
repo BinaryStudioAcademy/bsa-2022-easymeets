@@ -7,7 +7,7 @@
             type="submit"
             mat-flat-button
             class="new-meeting-header-button"
-            [disabled]="meetingForm.invalid || !meetingForm.touched">
+            [disabled]="meetingForm.invalid || !meetingForm.touched || addedMembers.length === 0">
             Create
         </button>
     </div>
