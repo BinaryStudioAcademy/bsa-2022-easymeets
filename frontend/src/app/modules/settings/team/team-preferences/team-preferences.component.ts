@@ -7,7 +7,6 @@ import {
     ValidationErrors,
     Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IImagePath } from '@core/models/IImagePath';
@@ -17,7 +16,7 @@ import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
 import { nameRegex } from '@shared/constants/model-validation';
 import { debounceIntervalMedium } from '@shared/constants/rxjs-constants';
-import { debounceTime, delay, map, Observable, of, switchMap } from 'rxjs';
+import { debounceTime, delay, finalize, map, Observable, of, switchMap, tap } from 'rxjs';
 
 @Component({
     selector: 'app-team-preferences',
@@ -52,9 +51,9 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
 
     public descriptionControl: FormControl = new FormControl('', [Validators.maxLength(300)]);
 
+    public formValueUpdating = false;
+
     constructor(
-        private route: ActivatedRoute,
-        private router: Router,
         private teamService: TeamService,
         public notificationService: NotificationService,
         private confirmationWindowService: ConfirmationWindowService,
@@ -70,12 +69,30 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
             timeZone: new FormControl(),
             description: this.descriptionControl,
         });
+
+        this.subscribeToFormUpdates();
     }
 
-    public generateNewPageLink(formGroup: FormGroup) {
-        if (formGroup.value.name.length) {
-            this.getUniquePageLink(formGroup.value.name);
-        }
+    public subscribeToFormUpdates() {
+        this.formGroup
+            .get('name')
+            ?.valueChanges.pipe(
+                this.untilThis,
+                tap(() => {
+                    this.formValueUpdating = true;
+                }),
+                debounceTime(debounceIntervalMedium),
+                switchMap((newTeamName: string) =>
+                    this.getUniquePageLink(newTeamName).pipe(
+                        finalize(() => {
+                            this.formValueUpdating = false;
+                        }),
+                    )),
+            )
+            .subscribe((newLink) =>
+                this.formGroup.patchValue({
+                    pageLink: newLink,
+                }));
     }
 
     public loadImage(event: Event) {
@@ -111,8 +128,8 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         this.formGroup.get('timeZone')?.markAsDirty();
     }
 
-    public teamNameChanged(value: string) {
-        this.formGroup.patchValue({ name: removeExcessiveSpaces(value) });
+    public teamNameChanged(newName: string) {
+        this.formGroup.patchValue({ name: removeExcessiveSpaces(newName) });
     }
 
     private uploadLogo(formData: FormData) {
@@ -130,15 +147,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
     }
 
     private getUniquePageLink(teamName: string) {
-        this.teamService
-            .getNewPageLink(this.team ? this.team.id : 0, teamName.replace(/\s/g, ''))
-            .pipe(this.untilThis)
-            .pipe(debounceTime(debounceIntervalMedium))
-            .subscribe((res) => {
-                this.formGroup.patchValue({
-                    pageLink: res,
-                });
-            });
+        return this.teamService.getNewPageLink(this.team ? this.team.id : 0, teamName.replace(/\s/g, ''));
     }
 
     private teamLinkValidator(): AsyncValidatorFn {
