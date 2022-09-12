@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
-import { ILocalUser } from '@core/models/IUser';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
 import { TimeFormat } from '@shared/enums/timeFormat';
@@ -15,6 +14,8 @@ export class ScheduleListItemComponent extends BaseComponent implements OnInit {
     @Input() item: IScheduleItem;
 
     @Input() displayDay: string;
+
+    @Input() timeFormat?: TimeFormat;
 
     @Input() itemChange: EventEmitter<void> = new EventEmitter();
 
@@ -57,9 +58,7 @@ export class ScheduleListItemComponent extends BaseComponent implements OnInit {
     }
 
     isTwelveHoursFormat() {
-        const user = JSON.parse(localStorage.getItem('user')!) as ILocalUser;
-
-        return user.timeFormat && user.timeFormat === TimeFormat.TwelveHour;
+        return this.timeFormat && this.timeFormat === TimeFormat.TwelveHour;
     }
 
     ngOnInit(): void {

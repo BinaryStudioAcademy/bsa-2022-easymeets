@@ -20,6 +20,7 @@
                 <app-schedule-list-item
                     *ngFor="let item of scheduleValue.scheduleItems; index as i"
                     [disabled]="disabled"
+                    [timeFormat]="timeFormat"
                     [item]="scheduleValue.scheduleItems[i]"
                     [itemChange]="changeEvent"
                     [displayDay]="displayDays[i]">

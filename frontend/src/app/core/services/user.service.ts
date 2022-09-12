@@ -112,6 +112,10 @@ export class UserService {
         }
     }
 
+    public getLocalUser(): ILocalUser {
+        return JSON.parse(localStorage.getItem('user')!) as ILocalUser;
+    }
+
     public removeUser(): void {
         this.removeUserFromLocalStorage();
         this.onUserChanged.next(undefined);
