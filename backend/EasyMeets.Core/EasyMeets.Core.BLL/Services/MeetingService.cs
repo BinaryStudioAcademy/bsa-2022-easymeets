@@ -1,6 +1,6 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
-using EasyMeets.Core.Common.DTO; 
+using EasyMeets.Core.Common.DTO;
 using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.Enums;
@@ -45,23 +45,24 @@ namespace EasyMeets.Core.BLL.Services
                     new MeetingSlotDTO
                     {
                         Id = x.Id,
-                        Location = x.LocationType.ToString(),
+                        LocationType = x.LocationType,
                         MeetingCount = x.MeetingMembers.Count,
                         MembersTitle = CreateMemberTitle(x),
                         MeetingTitle = x.Name,
+                        MeetingRoom = x.MeetingRoom,
                         MeetingDuration = x.Duration,
                         MeetingTime = x.StartTime,
                         MeetingLink = x.MeetingLink,
                         MeetingMembers = GetAllParticipants(x, numberOfMembers)
                     })
-            .ToListAsync(); 
+            .ToListAsync();
 
             return meetings;
         }
 
         private static List<UserMeetingDTO> GetAllParticipants(Meeting meeting, int numberOfMembers)
         {
-            var slotMembers = meeting.MeetingMembers 
+            var slotMembers = meeting.MeetingMembers
                 .Select(x => new UserMeetingDTO
                 {
                     Name = x.TeamMember.User.Name,
@@ -70,7 +71,7 @@ namespace EasyMeets.Core.BLL.Services
                     Booked = meeting.CreatedAt
                 });
 
-            var external = meeting.ExternalAttendees 
+            var external = meeting.ExternalAttendees
                 .Select(x => new UserMeetingDTO
                 {
                     Name = x.Name,
@@ -80,7 +81,7 @@ namespace EasyMeets.Core.BLL.Services
                 });
 
             return slotMembers.Union(external).Take(numberOfMembers).ToList();
-        } 
+        }
         private static string CreateMemberTitle(Meeting meeting)
         {
             return meeting.MeetingMembers.Count() switch
@@ -109,7 +110,7 @@ namespace EasyMeets.Core.BLL.Services
             }
 
             return members;
-        } 
+        }
 
         public async Task<SaveMeetingDto> CreateMeeting(SaveMeetingDto meetingDto)
         {

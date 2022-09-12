@@ -13,17 +13,7 @@ namespace EasyMeets.Core.DAL.Context
         public static int SeedNumber = 123456;
         public static void Configure(this ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(SampleConfig).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AdvancedSlotSettingsConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AvailabilitySlotConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CalendarConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ExternalAttendeeConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(MeetingConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(QuestionsConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TeamMemberConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(SlotMemberConfig).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfig).Assembly);
 
             foreach (var type in modelBuilder.Model.GetEntityTypes())
             {
