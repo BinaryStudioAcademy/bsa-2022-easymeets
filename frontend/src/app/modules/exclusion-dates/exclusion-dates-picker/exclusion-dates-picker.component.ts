@@ -19,9 +19,9 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
 
     formGroup: FormGroup;
 
-    readonly startRangeIdentifier = '0';
+    readonly startRangeIdentifier = 'startRange';
 
-    readonly endRangeIdentifier = '1';
+    readonly endRangeIdentifier = 'endRange';
 
     constructor(private dialogRef: MatDialogRef<ExclusionDatesPickerComponent>) {
         super();
@@ -43,7 +43,14 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
     removeTimeItem(controlsIdentifier: number) {
         this.formGroup.removeControl(controlsIdentifier.toString() + this.startRangeIdentifier);
         this.formGroup.removeControl(controlsIdentifier.toString() + this.endRangeIdentifier);
-        this.timeControlsIdentifiers.splice(this.timeControlsIdentifiers.indexOf(controlsIdentifier), 1);
+        const indexOfControlsIdentifier = this.timeControlsIdentifiers.indexOf(controlsIdentifier);
+
+        if (indexOfControlsIdentifier > 0) {
+            this.timeControlsIdentifiers = [
+                ...this.timeControlsIdentifiers.slice(0, indexOfControlsIdentifier),
+                ...this.timeControlsIdentifiers.slice(indexOfControlsIdentifier + 1),
+            ];
+        }
     }
 
     clickApply() {
