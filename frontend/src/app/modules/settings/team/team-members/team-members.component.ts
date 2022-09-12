@@ -174,7 +174,7 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
             status: Status.Pending,
         };
 
-        if (newRole === Role.Owner && this.teamMembers.some((p) => p.role === Role.Owner)) {
+        if (newRole === Role.Owner && this.ownerId) {
             this.notificationService.showErrorMessage('Team member with owner role should be the only');
             this.reloadTeamMembers();
         } else if (user.id === this.ownerId) {
