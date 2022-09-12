@@ -5,8 +5,8 @@
     </div>
     <div id="container-name" class="name-container" [formGroup]="confirmForm">
         <p class="input-title">Your name</p>
-        <input class="input-message" [(ngModel)]="externalAnswers.externalName" formControlName="characters" />
-        <span *ngIf="confirmForm.controls['characters'].hasError('minlength')">
+        <input #userNameInput class="input-message" [(ngModel)]="externalAnswers.externalName" formControlName="characters" (change)="userNameChanged(userNameInput.value)"/>
+        <span *ngIf="confirmForm.controls['characters'].hasError('minlength') || confirmForm.controls['characters'].hasError('maxlength')">
             <p class="validationError">The minimum length is 2, the maximum is 50.</p>
         </span>
         <span *ngIf="confirmForm.controls['characters'].hasError('pattern')">
@@ -26,9 +26,11 @@
     <div id="container-extrainfo" class="extrainfo-container" [formGroup]="confirmForm">
         <p class="input-title">Please share anything that will help prepare<br />for our meeting</p>
         <textarea
+            #extraInfoInput
             class="additional-info"
             formControlName="extraInfo"
-            [(ngModel)]="externalAnswers.externalExtraInfo"></textarea>
+            [(ngModel)]="externalAnswers.externalExtraInfo"
+            (change)="extraInfoChanged(extraInfoInput.value)"></textarea>
         <span *ngIf="confirmForm.controls['extraInfo'].hasError('minlength')"
             ><p class="validationError">The minimum length is 3, the maximum is 80.</p></span
         >
