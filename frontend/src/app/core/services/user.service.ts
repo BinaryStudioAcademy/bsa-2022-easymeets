@@ -96,6 +96,21 @@ export class UserService {
     }
 
     /* Local storage */
+    public getLocalUser() {
+        const user = localStorage.getItem('user');
+
+        if (!user) {
+            return undefined;
+        }
+
+        return JSON.parse(user) as ILocalUser;
+    }
+
+    public removeUser(): void {
+        this.removeUserFromLocalStorage();
+        this.onUserChanged.next(undefined);
+    }
+
     private updateUser(user: IUser): void {
         if (user) {
             const localUser: ILocalUser = {
@@ -109,11 +124,6 @@ export class UserService {
             this.updateUserInLocalStorage(localUser);
             this.onUserChanged.next(user);
         }
-    }
-
-    public removeUser(): void {
-        this.removeUserFromLocalStorage();
-        this.onUserChanged.next(undefined);
     }
 
     private updateUserInLocalStorage(localUser: ILocalUser): void {
