@@ -12,7 +12,8 @@
                     </div>
 
                     <div class="buttonRow">
-                        <button class="buttonZoom" (click)="followMeetingLink(item.meetingLink)">Open {{ item.location }} Link</button>
+                        <button *ngIf="item.locationType !== locationTypeOffice"  class="buttonZoom" (click)="followMeetingLink(item.meetingLink)">Open {{ item.locationType }} Link</button>
+                        <h3 *ngIf="item.locationType === locationTypeOffice" class="itemText"> {{ item.locationType }} {{ item.meetingRoom }} </h3>
                         <div class="threeDots">
                             <div class="oneDot"></div>
                             <div class="oneDot"></div>

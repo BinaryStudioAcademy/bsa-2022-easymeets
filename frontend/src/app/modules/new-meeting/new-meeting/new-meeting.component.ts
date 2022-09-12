@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getDisplayDuration } from '@core/helpers/display-duration-helper';
+import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { convertLocalDateToUTCWithUserSelectedTimeZone, getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IDuration } from '@core/models/IDuration';
@@ -13,6 +14,7 @@ import { ConfirmationWindowService } from '@core/services/confirmation-window.se
 import { NewMeetingService } from '@core/services/new-meeting.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
+import { UserService } from '@core/services/user.service';
 import { naturalNumberRegex, textFieldRegex } from '@shared/constants/model-validation';
 import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { LocationType } from '@shared/enums/locationType';
@@ -31,6 +33,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         private confirmationWindowService: ConfirmationWindowService,
         private router: Router,
         private teamService: TeamService,
+        private userService: UserService,
     ) {
         super();
         this.redirectEventSubscription = this.redirectEventEmitter.subscribe(() => this.goToBookingsPage());
@@ -50,7 +53,9 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     durations: IDuration[] = getDisplayDuration();
 
-    locations = Object.values(LocationType);
+    locations: LocationType[] = [LocationType.Office];
+
+    public locationOffice = LocationType.Office;
 
     unitOfTime = Object.keys(UnitOfTime);
 
@@ -68,8 +73,16 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     memberFilterCtrl: FormControl = new FormControl('');
 
+    locationControl: FormControl = new FormControl();
+
     meetingNameControl: FormControl = new FormControl('', [
         Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50),
+        Validators.pattern(textFieldRegex),
+    ]);
+
+    meetingRoomControl: FormControl = new FormControl('', [
         Validators.minLength(2),
         Validators.maxLength(50),
         Validators.pattern(textFieldRegex),
@@ -79,18 +92,21 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     mainContainerCustomTimeControl: FormControl = new FormControl('', [Validators.pattern(naturalNumberRegex)]);
 
+    createdMeeting: INewMeeting;
+
+    locationTypeMapping = LocationTypeMapping;
+
     private redirectEventEmitter = new EventEmitter<void>();
 
     private redirectEventSubscription: Subscription;
-
-    createdMeeting: INewMeeting;
 
     ngOnInit(): void {
         this.meetingForm = new FormGroup({
             meetingName: this.meetingNameControl,
             customTime: this.customTimeControl,
             unitOfTime: new FormControl(),
-            location: new FormControl(),
+            location: this.locationControl,
+            meetingRoom: this.meetingRoomControl,
             duration: new FormControl(),
             date: new FormControl('', [Validators.required, this.validateDateIsInFuture]),
             teamMember: new FormControl(),
@@ -103,6 +119,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             this.getTeamMembersOfCurrentUser(teamId);
         });
         [this.duration] = this.durations;
+        this.initLocations();
     }
 
     create(form: FormGroup) {
@@ -111,6 +128,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 name: form.value.meetingName.trim(),
                 teamId: this.currentTeamId,
                 locationType: form.value.location,
+                meetingRoom: form.value.meetingRoom,
                 duration: this.duration.minutes!,
                 startTime: convertLocalDateToUTCWithUserSelectedTimeZone(form.value.date, getDefaultTimeZone()),
                 meetingLink: form.value.meetingName.trim(),
@@ -248,6 +266,14 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         super.ngOnDestroy();
 
         this.redirectEventSubscription.unsubscribe();
+    }
+
+    private initLocations() {
+        this.userService.getUserMeetIntegrations()
+            .pipe(this.untilThis)
+            .subscribe(locations => {
+                this.locations = locations.concat(LocationType.Office);
+            });
     }
 
     private validateDateIsInFuture(control: AbstractControl): ValidationErrors | null {

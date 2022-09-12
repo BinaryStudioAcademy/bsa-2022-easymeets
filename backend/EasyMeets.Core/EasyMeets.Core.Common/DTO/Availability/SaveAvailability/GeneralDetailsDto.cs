@@ -5,6 +5,7 @@ namespace EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
 public class GeneralDetailsDto
 {
     public LocationType LocationType { get; set; }
+    public string? MeetingRoom { get; set; }
     public string Name { get; set; } = string.Empty;
     public SlotType Type { get; set; }
     public int Size { get; set; }
