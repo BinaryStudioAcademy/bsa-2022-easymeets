@@ -30,6 +30,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
     link: string;
 
     isUserBooking: boolean;
+    locationTypeOffice = LocationType.Office;
 
     locationTypeMapping = LocationTypeMapping;
 
@@ -110,12 +111,14 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         teamId?: bigint;
         duration: number;
         location: LocationType;
+        meetingRoom?: string;
         name: string;
     }): void {
         this.menu = {
             ...this.menu,
             duration: data.duration,
             location: data.location,
+            meetingRoom: data.meetingRoom,
             slotId: data.slotId,
             teamId: data.teamId,
             slotName: data.name,
@@ -172,6 +175,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             createdBy: this.menu.user.id,
             name: `Meeting with ${answers.externalName}`,
             locationType: this.menu.location,
+            meetingRoom: this.menu.meetingRoom,
             duration: this.menu.duration,
             meetingLink: '',
             startTime: this.menu.date,

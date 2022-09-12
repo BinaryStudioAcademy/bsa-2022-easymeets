@@ -4,6 +4,7 @@ import { LocationType } from '@shared/enums/locationType';
 
 export interface ISaveGeneralSettings {
     locationType: LocationType;
+    meetingRoom?: string;
     name: string;
     type: SlotType;
     size: number;

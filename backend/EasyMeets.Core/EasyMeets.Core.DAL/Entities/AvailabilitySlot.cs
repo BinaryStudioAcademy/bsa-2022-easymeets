@@ -15,6 +15,7 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
     }
     public long TeamId { get; set; }
     public LocationType LocationType { get; set; }
+    public string? MeetingRoom { get; set; }
     public string Name { get; set; } = string.Empty;
     public string WelcomeMessage { get; set; } = string.Empty;
     public string Link { get; set; } = string.Empty;

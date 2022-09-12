@@ -22,12 +22,21 @@
                     <div cdkDrag class="list-item-wrapper flex cross-axis-center">
                         <mat-label class="question-index bold" cdkDragHandle>{{ i + 1 }}.</mat-label>
                         <mat-form-field class="question-input no-padding" appearance="outline">
-                            <input matInput type="text" [(ngModel)]="question.questionText" />
+                            <input
+                                matInput
+                                type="text"
+                                #questionField="ngModel"
+                                [(ngModel)]="question.questionText"
+                                [pattern]="textFieldRegex"
+                                (change)="trimInputValue(questionField.control)" />
                         </mat-form-field>
                         <button mat-icon-button class="color-dark-grey" (click)="deleteQuestion(question.order)">
                             <mat-icon>close</mat-icon>
                         </button>
                     </div>
+                    <p *ngIf="questionField.errors?.['pattern']" class="validation-error">
+                        {{ invalidCharactersMessage }}
+                    </p>
                 </ng-container>
             </ng-container>
         </ng-container>

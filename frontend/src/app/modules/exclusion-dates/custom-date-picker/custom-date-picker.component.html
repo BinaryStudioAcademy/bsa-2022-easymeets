@@ -1,0 +1,7 @@
+<mat-calendar
+    [(selected)]="selected"
+    (selectedChange)="selectedChange.emit($event)"
+    [minDate]="todayDate"
+    [dateClass]="dateClass"
+    [headerComponent]="customHeader"
+></mat-calendar>
