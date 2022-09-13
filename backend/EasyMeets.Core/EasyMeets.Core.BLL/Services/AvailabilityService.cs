@@ -289,7 +289,9 @@ namespace EasyMeets.Core.BLL.Services
         {
             var slot = await _context.AvailabilitySlots.FirstAsync(el => el.Id == slotId);
             var members = _context.SlotMembers.Where(member => member.SlotId == slotId);
+            var meetings = _context.Meetings.Where(meeting => meeting.AvailabilitySlotId == slotId);
             _context.RemoveRange(members);
+            _context.RemoveRange(meetings);
             _context.Remove(slot);
 
             await _context.SaveChangesAsync();
