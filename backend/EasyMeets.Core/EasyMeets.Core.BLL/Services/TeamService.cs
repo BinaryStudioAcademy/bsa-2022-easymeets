@@ -180,10 +180,10 @@ public class TeamService : BaseService, ITeamService
     public async Task<ICollection<NewMeetingMemberDto>> GetTeamMembersOfCurrentUserAsync(long? teamId)
     {
         var teamMembers = await _context.TeamMembers
-            .Where(x => x.TeamId == teamId)
-            .Include(x => x.User)
-            .Select(a => _mapper.Map<NewMeetingMemberDto>(a))
-            .ToListAsync();
+                .Where(x => x.TeamId == teamId)
+                .Include(x => x.User)
+                .Select(a => _mapper.Map<NewMeetingMemberDto>(a))
+                .ToListAsync();
 
         foreach (var teamMember in teamMembers)
         {
@@ -207,7 +207,7 @@ public class TeamService : BaseService, ITeamService
     private async Task<List<UnavailabilityItemDto>> GetMemberUnavailability(long teamMemberId)
     {
         var member = await _context.TeamMembers
-            .FirstOrDefaultAsync(m => m.Id == teamMemberId) ?? throw new KeyNotFoundException("Invalid team member id");
+            .FirstOrDefaultAsync(m => m.UserId == teamMemberId) ?? throw new KeyNotFoundException("Invalid team member id");
 
         var meetings = await _context.Meetings
             .Include(m => m.MeetingMembers)
