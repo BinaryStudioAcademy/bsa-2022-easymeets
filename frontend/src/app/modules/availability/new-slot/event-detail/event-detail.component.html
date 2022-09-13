@@ -6,7 +6,7 @@
                 <div class="inputStartBlock">
                     <p class="productName">{{ appDomain }}/</p>
                 </div>
-                <input formControlName="link" class="inputItem" (change)="onLinkChange()" />
+                <input #link formControlName="link" class="inputItem" (change)="onLinkChange(link.value)" />
             </div>
         </div>
         <div *ngIf="slotLinkControl.invalid && slotLinkControl.dirty" class="validation">

@@ -7,7 +7,6 @@ import {
     ValidationErrors,
     Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IImagePath } from '@core/models/IImagePath';
@@ -16,8 +15,9 @@ import { ConfirmationWindowService } from '@core/services/confirmation-window.se
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
 import { textFieldRegex } from '@shared/constants/model-validation';
+import { debounceIntervalMedium } from '@shared/constants/rxjs-constants';
 import { invalidCharactersMessage } from '@shared/constants/shared-messages';
-import { map, Observable } from 'rxjs';
+import { debounceTime, delay, finalize, map, Observable, of, switchMap, tap } from 'rxjs';
 
 @Component({
     selector: 'app-team-preferences',
@@ -57,9 +57,9 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
 
     invalidCharactersMessage = invalidCharactersMessage;
 
+    public formValueUpdating = false;
+
     constructor(
-        private route: ActivatedRoute,
-        private router: Router,
         private teamService: TeamService,
         public notificationService: NotificationService,
         private confirmationWindowService: ConfirmationWindowService,
@@ -75,12 +75,26 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
             timeZone: new FormControl(),
             description: this.descriptionControl,
         });
+
+        this.subscribeToFormUpdates();
     }
 
-    public generateNewPageLink(formGroup: FormGroup) {
-        if (formGroup.value.name.length) {
-            this.getUniquePageLink(formGroup.value.name);
-        }
+    public subscribeToFormUpdates() {
+        this.formGroup.get('name')?.valueChanges
+            .pipe(
+                this.untilThis,
+                tap(() => {
+                    this.formValueUpdating = true;
+                }),
+                debounceTime(debounceIntervalMedium),
+                switchMap((newTeamName: string) =>
+                    this.getUniquePageLink(newTeamName).pipe(
+                        finalize(() => {
+                            this.formValueUpdating = false;
+                        }),
+                    )),
+            )
+            .subscribe((newLink) => this.formGroup.patchValue({ pageLink: newLink }));
     }
 
     public loadImage(event: Event) {
@@ -112,6 +126,10 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         });
     }
 
+    public markTimeZoneDirty() {
+        this.formGroup.get('timeZone')?.markAsDirty();
+    }
+
     public trimInputValue(control: FormControl) {
         control.patchValue(removeExcessiveSpaces(control.value));
     }
@@ -131,24 +149,17 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
     }
 
     private getUniquePageLink(teamName: string) {
-        this.teamService
-            .getNewPageLink(this.team ? this.team.id : 0, teamName.replace(/\s/g, ''))
-            .pipe(this.untilThis)
-            .subscribe((res) => {
-                this.formGroup.patchValue({
-                    pageLink: res,
-                });
-            });
+        return this.teamService.getNewPageLink(this.team ? this.team.id : 0, teamName.replace(/\s/g, ''));
     }
 
     private teamLinkValidator(): AsyncValidatorFn {
         return (control: AbstractControl): Observable<ValidationErrors | null> =>
-            this.validateTeamLink(control.value)
-                .pipe(this.untilThis)
-                .pipe(map((response) => (response ? null : { teamLinkUniq: true })));
-    }
-
-    private validateTeamLink(teamLink: string): Observable<boolean> {
-        return this.teamService.validatePageLink(teamLink, this.team?.id);
+            of(control.value).pipe(
+                delay(debounceIntervalMedium),
+                switchMap((value) =>
+                    this.teamService
+                        .validatePageLink(value, this.team?.id)
+                        .pipe(map((isValidLink) => (isValidLink ? null : { teamLinkUniq: true })))),
+            );
     }
 }

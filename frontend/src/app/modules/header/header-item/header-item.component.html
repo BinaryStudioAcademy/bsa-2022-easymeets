@@ -39,8 +39,8 @@
         <button class="avatar-btn" mat-icon-button [matMenuTriggerFor]="menuAvatar" disableRipple="true">
             <div class="avatar">
                 <div class="avatar-container">
-                    <ng-container *ngIf="currentUser && currentUser.image; else noCurrentUserImage">
-                        <img src="{{ currentUser.image }}" />
+                    <ng-container *ngIf="currentUserImage; else noCurrentUserImage">
+                        <img src="{{ currentUserImage }}" />
                     </ng-container>
                     <ng-template #noCurrentUserImage>
                         <img src="assets/header/avatar-icon.png" />
@@ -53,7 +53,7 @@
                 <i class="fa-solid fa-user"></i>
                 <span>Account</span>
             </button>
-            <button mat-menu-item routerLink="#">
+            <button mat-menu-item routerLink="/settings/integrations/calendars">
                 <i class="fa-solid fa-screwdriver-wrench"></i>
                 <span>Integrations</span>
             </button>
