@@ -63,12 +63,8 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         this.teamService.currentTeamEmitted$
             .subscribe(teamId => {
                 this.teamId = teamId;
-                const meetingMemberRequest: IMeetingMembersRequest = {
-                    teamId: this.teamId,
-                    numberOfMembersToDisplay: this.numberOfMembersToDisplay,
-                };
 
-                this.loadMeetings(meetingMemberRequest);
+                this.loadMeetings();
             });
     }
 
@@ -125,7 +121,13 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         window.open(link);
     }
 
-    private loadMeetings(meetingMemberRequest: IMeetingMembersRequest) {
+    private loadMeetings() {
+        const meetingMemberRequest: IMeetingMembersRequest = {
+            teamId: this.teamId,
+            numberOfMembersToDisplay: this.numberOfMembersToDisplay,
+            date: this.currentDate,
+        };
+
         this.meetingService
             .getMeetings(meetingMemberRequest)
             .pipe(this.untilThis)
@@ -145,8 +147,9 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         return getDefaultTimeZone().timeValue;
     }
 
-    public currentDateToday() {
-        return this.currentDate.getDate() === new Date().getDate();
+    public currentDateChange() {
+        this.currentDate.setMinutes(this.currentDate.getMinutes() - this.currentDate.getTimezoneOffset());
+        this.loadMeetings();
     }
 
     private getNumberOfItemsToDisplay(width: number) {

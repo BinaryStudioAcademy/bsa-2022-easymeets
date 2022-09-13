@@ -25,8 +25,9 @@ namespace EasyMeets.Core.BLL.Services
             _googleMeetService = googleMeetService;
         }
 
-        public async Task<List<MeetingSlotDTO>> GetMeetingMembersByNumberOfMembersToDisplayAsync(long? teamId, int numberOfMembers)
+        public async Task<List<MeetingSlotDTO>> GetMeetingMembersByNumberOfMembersToDisplayAsync(MeetingMemberRequestDto meetingMemberRequestDto)
         {
+            var teamId = meetingMemberRequestDto.TeamId;
             if (teamId is null)
             {
                 return new List<MeetingSlotDTO>();
@@ -34,13 +35,15 @@ namespace EasyMeets.Core.BLL.Services
 
             var team = await _context.Teams.FirstOrDefaultAsync(team => team.Id == teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
 
-            var meetings = await _context.Meetings
+            var meetings = _context.Meetings
                 .Where(meeting => meeting.TeamId == team.Id)
                 .Include(m => m.AvailabilitySlot)
                 .Include(s => s!.ExternalAttendees)
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
+                .AsEnumerable()
+                .Where(meeting => meeting.StartTime.Date == meetingMemberRequestDto.Date.Date)
                 .Select(x =>
                     new MeetingSlotDTO
                     {
@@ -53,9 +56,9 @@ namespace EasyMeets.Core.BLL.Services
                         MeetingDuration = x.Duration,
                         MeetingTime = x.StartTime,
                         MeetingLink = x.MeetingLink,
-                        MeetingMembers = GetAllParticipants(x, numberOfMembers)
+                        MeetingMembers = GetAllParticipants(x, meetingMemberRequestDto.NumberOfMembersToDisplay)
                     })
-            .ToListAsync();
+            .ToList();
 
             return meetings;
         }

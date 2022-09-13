@@ -4,5 +4,6 @@
     {
         public long? TeamId { get; set; }
         public int NumberOfMembersToDisplay { get; set; }
+        public DateTime Date { get; set; }
     }
 }
