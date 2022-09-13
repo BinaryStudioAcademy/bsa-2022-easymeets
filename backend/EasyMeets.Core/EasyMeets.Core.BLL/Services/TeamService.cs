@@ -113,15 +113,15 @@ public class TeamService : BaseService, ITeamService
         _context.TeamMembers.Update(teamMember);
         await _context.SaveChangesAsync();
     }
-
-
+    
     public async Task DeleteTeamAsync(long teamId)
     {
-        var teamEntity = await GetTeamByIdAsync(teamId);
-        var slots = await _context.AvailabilitySlots.Where(el => el.TeamId == teamId).ToListAsync();
-        var slotMembers = slots.SelectMany(_ => _.SlotMembers).ToList();
-        _context.RemoveRange(slotMembers);
-        _context.RemoveRange(slots);
+        var teamEntity = await _context.Teams
+            .Include(t => t.AvailabilitySlots)
+                .ThenInclude(s => s.SlotMembers)
+            .Include(t => t.VisibleCalendars)
+            .FirstOrDefaultAsync(el => el.Id == teamId) ?? throw new KeyNotFoundException("Invalid team member id");
+        
         _context.Teams.Remove(teamEntity);
         await _context.SaveChangesAsync();
     }
