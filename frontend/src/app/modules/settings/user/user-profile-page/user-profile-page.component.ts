@@ -156,7 +156,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         formData.append('file', fileToUpload, fileToUpload.name);
 
         this.userService
-            .uploadImage(formData)
+            .uploadImage(this.user, formData)
             .pipe(this.untilThis)
             .subscribe({
                 next: (resp: IImagePath) => {

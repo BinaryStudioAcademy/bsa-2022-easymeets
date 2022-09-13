@@ -29,7 +29,7 @@ export class HeaderItemComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.userService.localUserChangedEvent$.pipe(this.untilThis).subscribe({
+        this.userService.userChangedEvent$.pipe(this.untilThis).subscribe({
             next: (user) => {
                 this.currentUserImage = user?.image;
             },

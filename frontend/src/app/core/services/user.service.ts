@@ -5,7 +5,7 @@ import { IUpdateUser } from '@core/models/IUpdateUser';
 import { ILocalUser, IUser } from '@core/models/IUser';
 import { failedGettingUserMessage } from '@shared/constants/shared-messages';
 import { LocationType } from '@shared/enums/locationType';
-import { BehaviorSubject, first, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 import { HttpInternalService } from './http-internal.service';
 import { NotificationService } from './notification.service';
@@ -16,13 +16,9 @@ import { NotificationService } from './notification.service';
 export class UserService {
     public routePrefix = '/user';
 
-    private onUserChanged = new BehaviorSubject<IUser | undefined>(undefined);
+    private onUserChanged = new BehaviorSubject<ILocalUser | undefined>(this.getLocalUser());
 
     public userChangedEvent$ = this.onUserChanged.asObservable();
-
-    private onLocalUserChanged = new BehaviorSubject<ILocalUser | undefined>(this.getLocalUser());
-
-    public localUserChangedEvent$ = this.onLocalUserChanged.asObservable();
 
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService, private notificationService: NotificationService) {}
@@ -83,16 +79,14 @@ export class UserService {
         return this.httpService.getRequest<LocationType[]>(`${this.routePrefix}/meet-integrations`);
     }
 
-    public uploadImage(data: FormData): Observable<IImagePath> {
+    public uploadImage(user: IUser | undefined, data: FormData): Observable<IImagePath> {
         return this.httpService.putRequest<IImagePath>(`${this.routePrefix}/uploadimage`, data).pipe(
             tap({
                 next: (image) => {
-                    this.userChangedEvent$.pipe(first()).subscribe((user) => {
-                        if (user) {
-                            user.image = image.path;
-                            this.updateUser(user);
-                        }
-                    });
+                    if (user) {
+                        user.image = image.path;
+                        this.updateUser(user);
+                    }
                 },
                 error: () => this.notificationService.showErrorMessage('Something went wrong. Failed to upload image.'),
             }),
@@ -103,7 +97,6 @@ export class UserService {
     public removeUser(): void {
         this.removeUserFromLocalStorage();
         this.onUserChanged.next(undefined);
-        this.onLocalUserChanged.next(undefined);
     }
 
     private getLocalUser() {
@@ -128,8 +121,7 @@ export class UserService {
             };
 
             this.updateUserInLocalStorage(localUser);
-            this.onUserChanged.next(user);
-            this.onLocalUserChanged.next(localUser);
+            this.onUserChanged.next(localUser);
         }
     }
 
