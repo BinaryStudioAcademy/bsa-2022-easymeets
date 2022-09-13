@@ -179,25 +179,18 @@ public class TeamService : BaseService, ITeamService
     }
     public async Task<ICollection<NewMeetingMemberDto>> GetTeamMembersOfCurrentUserAsync(long? teamId)
     {
-        try
-        {
-            var teamMembers = await _context.TeamMembers
+        var teamMembers = await _context.TeamMembers
                 .Where(x => x.TeamId == teamId)
                 .Include(x => x.User)
                 .Select(a => _mapper.Map<NewMeetingMemberDto>(a))
                 .ToListAsync();
 
-            foreach (var teamMember in teamMembers)
-            {
-                teamMember.UnavailabilityItems = await GetMemberUnavailability(teamMember.Id);
-            }
-
-            return teamMembers;
-        }
-        catch (KeyNotFoundException ex)
+        foreach (var teamMember in teamMembers)
         {
-            throw ex;
+            teamMember.UnavailabilityItems = await GetMemberUnavailability(teamMember.Id);
         }
+
+        return teamMembers;
     }
 
     public async Task<List<TeamDto>> GetCurrentUserAdminAndOwnerTeams()
