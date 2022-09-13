@@ -157,24 +157,19 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             .getTeamMembersOfCurrentUser(teamId)
             .pipe(this.untilThis)
             .subscribe((resp) => {
-                this.addTeamMemberToMemberList(resp);
+                this.addCurrentTeamMemberToList(resp);
                 this.teamMembers = resp;
             });
     }
 
-    private addTeamMemberToMemberList(meetingMembers: INewMeetingMember[]) {
-        this.userService
-            .getCurrentUser()
-            .subscribe((userResponse) => {
-                const currentTeamMember = meetingMembers.filter(member => member.id === Number(userResponse.id))[0];
+    private addCurrentTeamMemberToList(meetingMembers: INewMeetingMember[]) {
+        this.userService.userChangedEvent$.subscribe((resp) => {
+            const [first] = meetingMembers.filter(member => member.id === Number(resp?.id));
 
-                this.currentUser = currentTeamMember;
-
-                this.addedMembers.push(currentTeamMember);
-                this.memberUnavailability = this.memberUnavailability.concat(currentTeamMember.unavailabilityItems);
-
-                this.getFilteredOptions();
-            });
+            this.currentUser = first;
+            this.addMemberToList(this.currentUser);
+            this.getFilteredOptions();
+        });
     }
 
     displayMemberName(teamMember: INewMeetingMember): string {
@@ -279,12 +274,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         control.patchValue(removeExcessiveSpaces(control.value));
     }
 
-    override ngOnDestroy(): void {
-        super.ngOnDestroy();
-
-        this.redirectEventSubscription.unsubscribe();
-    }
-
     private initLocations() {
         this.userService.getUserMeetIntegrations()
             .pipe(this.untilThis)
@@ -309,5 +298,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                     teamMember.id !== this.currentUser.id && teamMember.name.toLowerCase().includes(this.filterValue));
             }),
         );
+    }
+
+    override ngOnDestroy(): void {
+        super.ngOnDestroy();
+
+        this.redirectEventSubscription.unsubscribe();
     }
 }
