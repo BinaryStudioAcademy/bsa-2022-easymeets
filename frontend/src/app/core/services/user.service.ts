@@ -20,6 +20,10 @@ export class UserService {
 
     public userChangedEvent$ = this.onUserChanged.asObservable();
 
+    private onLocalUserChanged = new BehaviorSubject<ILocalUser | undefined>(this.getLocalUser());
+
+    public localUserChangedEvent$ = this.onLocalUserChanged.asObservable();
+
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService, private notificationService: NotificationService) {}
 
@@ -96,7 +100,13 @@ export class UserService {
     }
 
     /* Local storage */
-    public getLocalUser() {
+    public removeUser(): void {
+        this.removeUserFromLocalStorage();
+        this.onUserChanged.next(undefined);
+        this.onLocalUserChanged.next(undefined);
+    }
+
+    private getLocalUser() {
         const user = localStorage.getItem('user');
 
         if (!user) {
@@ -104,11 +114,6 @@ export class UserService {
         }
 
         return JSON.parse(user) as ILocalUser;
-    }
-
-    public removeUser(): void {
-        this.removeUserFromLocalStorage();
-        this.onUserChanged.next(undefined);
     }
 
     private updateUser(user: IUser): void {
@@ -124,6 +129,7 @@ export class UserService {
 
             this.updateUserInLocalStorage(localUser);
             this.onUserChanged.next(user);
+            this.onLocalUserChanged.next(localUser);
         }
     }
 
