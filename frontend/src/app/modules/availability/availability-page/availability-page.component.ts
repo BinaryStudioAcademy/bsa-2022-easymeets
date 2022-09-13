@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IUser } from '@core/models/IUser';
@@ -13,7 +13,7 @@ import { UserService } from '@core/services/user.service';
     templateUrl: './availability-page.component.html',
     styleUrls: ['./availability-page.component.sass'],
 })
-export class AvailabilityPageComponent extends BaseComponent {
+export class AvailabilityPageComponent extends BaseComponent implements OnInit {
     userPersonalAndTeamSlots: IUserPersonalAndTeamSlots;
 
     currentUser: IUser;
@@ -27,6 +27,9 @@ export class AvailabilityPageComponent extends BaseComponent {
         private teamService: TeamService,
     ) {
         super();
+    }
+
+    ngOnInit(): void {
         this.getCurrentUser();
     }
 

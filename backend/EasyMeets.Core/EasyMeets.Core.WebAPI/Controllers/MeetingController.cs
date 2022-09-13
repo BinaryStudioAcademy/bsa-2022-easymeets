@@ -36,7 +36,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
             var teamMembers = await _teamService.GetTeamMembersOfCurrentUserAsync(teamId);
             return Ok(teamMembers);
         }
-        
+
         [HttpGet("ordered-times/{slotId}")]
         [AllowAnonymous]
         public async Task<ActionResult<List<OrderedMeetingTimesDto>>> GetOrderedMeetingTimes(long slotId)
