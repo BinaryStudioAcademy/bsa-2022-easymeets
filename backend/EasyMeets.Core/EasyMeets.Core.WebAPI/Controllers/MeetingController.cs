@@ -33,8 +33,15 @@ namespace EasyMeets.Core.WebAPI.Controllers
         [Route("getTeamMembersOfCurrentUser/{teamId?}")]
         public async Task<ActionResult<ICollection<NewMeetingMemberDto>>> GetTeamMembersOfCurrentUser(long? teamId)
         {
-            var teamMembers = await _teamService.GetTeamMembersOfCurrentUserAsync(teamId);
-            return Ok(teamMembers);
+            try
+            {
+                var teamMembers = await _teamService.GetTeamMembersOfCurrentUserAsync(teamId);
+                return Ok(teamMembers);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         
         [HttpGet("ordered-times/{slotId}")]
