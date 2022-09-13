@@ -5,7 +5,7 @@ import { BaseComponent } from '@core/base/base.component';
 import { MinimalTimeValidator, TimeRangeValidator } from '@core/helpers/time-helper';
 import { getDateWithoutLocalOffset } from '@core/helpers/time-zone-helper';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
-import { switchMap, timer } from "rxjs";
+import { timer } from 'rxjs';
 
 @Component({
     selector: 'app-exclusion-dates-picker',
