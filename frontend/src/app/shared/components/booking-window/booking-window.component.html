@@ -18,7 +18,7 @@
             </div>
             <div class="option">
                 <div class="option-name">Time</div>
-                <div class="option-value">{{ data.dateTime | date: 'HH:mm' }}</div>
+                <div class="option-value">{{ data.dateTime | date: 'shortTime':getTimeZoneValue() }}</div>
             </div>
             <div class="option">
                 <div class="option-name">Duration</div>
