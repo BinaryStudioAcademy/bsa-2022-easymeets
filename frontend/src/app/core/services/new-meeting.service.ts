@@ -14,8 +14,10 @@ export class NewMeetingService {
     // eslint-disable-next-line no-empty-function
     constructor(private httpService: HttpInternalService) {}
 
-    public getTeamMembersOfCurrentUser(teamId?: number) {
-        return this.httpService.getRequest<INewMeetingMember[]>(`${this.routePrefix}/getTeamMembersOfCurrentUser/${teamId ?? ''}`);
+    public getTeamMembersOfCurrentUserByName(name: string, teamId?: number) {
+        return this.httpService.getRequest<INewMeetingMember[]>(
+            `${this.routePrefix}/getTeamMembersOfCurrentUser/${name}/${teamId ?? ''}`,
+        );
     }
 
     public saveNewMeeting(data: INewMeeting) {

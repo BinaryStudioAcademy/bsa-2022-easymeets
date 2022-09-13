@@ -16,10 +16,11 @@ import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
 import { UserService } from '@core/services/user.service';
 import { naturalNumberRegex, textFieldRegex } from '@shared/constants/model-validation';
+import { debounceIntervalMedium } from '@shared/constants/rxjs-constants';
 import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
-import { map, Observable, startWith, Subscription } from 'rxjs';
+import { debounceTime, map, Observable, startWith, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-new-meeting',
@@ -116,7 +117,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
         this.teamService.currentTeamEmitted$.subscribe((teamId) => {
             this.currentTeamId = teamId;
-            this.getTeamMembersOfCurrentUser(teamId);
+            this.subscribeToSearchTeamMembers();
         });
         [this.duration] = this.durations;
         this.initLocations();
@@ -150,14 +151,21 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         }
     }
 
-    getTeamMembersOfCurrentUser(teamId?: number) {
-        this.newMeetingService
-            .getTeamMembersOfCurrentUser(teamId)
-            .pipe(this.untilThis)
-            .subscribe((resp) => {
-                this.teamMembers = resp;
+    subscribeToSearchTeamMembers() {
+        this.memberFilterCtrl?.valueChanges.pipe(this.untilThis, debounceTime(debounceIntervalMedium)).subscribe(() => {
+            if (this.memberFilterCtrl.getRawValue()) {
+                this.newMeetingService
+                    .getTeamMembersOfCurrentUserByName(this.memberFilterCtrl.getRawValue(), this.currentTeamId)
+                    .pipe(this.untilThis)
+                    .subscribe((resp) => {
+                        this.teamMembers = [...resp.filter((u) => !this.addedMembers.some((el) => el.id === u.id))];
+                        this.getFilteredOptions();
+                    });
+            } else {
+                this.teamMembers = [];
                 this.getFilteredOptions();
-            });
+            }
+        });
     }
 
     displayMemberName(teamMember: INewMeetingMember): string {
@@ -221,7 +229,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     removeMemberToList(memberToRemove: INewMeetingMember) {
         this.addedMembers = this.addedMembers.filter((member) => member.id !== memberToRemove.id);
-        this.memberUnavailability = this.memberUnavailability.filter(u => !memberToRemove.unavailabilityItems.includes(u));
+        this.memberUnavailability = this.memberUnavailability.filter((u) => !memberToRemove.unavailabilityItems.includes(u));
     }
 
     reset() {
@@ -269,9 +277,10 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     }
 
     private initLocations() {
-        this.userService.getUserMeetIntegrations()
+        this.userService
+            .getUserMeetIntegrations()
             .pipe(this.untilThis)
-            .subscribe(locations => {
+            .subscribe((locations) => {
                 this.locations = locations.concat(LocationType.Office);
             });
     }
@@ -286,7 +295,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
             startWith(''),
             map((value) => {
-                this.filterValue = (typeof value === 'string') ? value.toLowerCase() : value.name;
+                this.filterValue = typeof value === 'string' ? value.toLowerCase() : value.name;
 
                 return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(this.filterValue));
             }),
