@@ -70,10 +70,7 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
             .pipe(this.untilThis)
             .subscribe(
                 (user) => {
-                    console.log(this.teamMembers);
-                    console.log(user.id);
                     this.currentUserIsMember = this.teamMembers.find((p) => p.userId === user.id)?.role === Role.Member;
-                    console.log(this.currentUserIsMember);
                 },
                 (error) => {
                     this.notificationService.showErrorMessage(error);
