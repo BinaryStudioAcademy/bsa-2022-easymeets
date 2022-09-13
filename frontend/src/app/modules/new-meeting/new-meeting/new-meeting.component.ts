@@ -162,15 +162,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             });
     }
 
-    private addCurrentTeamMemberToList(meetingMembers: INewMeetingMember[]) {
-        this.userService.userChangedEvent$.subscribe((resp) => {
-            this.currentUser = meetingMembers.find(member => member.id === Number(resp?.id)) as INewMeetingMember;
-
-            this.addMemberToList(this.currentUser);
-            this.getFilteredOptions();
-        });
-    }
-
     displayMemberName(teamMember: INewMeetingMember): string {
         return teamMember?.name ?? '';
     }
@@ -271,6 +262,17 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     trimInputValue(control: FormControl) {
         control.patchValue(removeExcessiveSpaces(control.value));
+    }
+
+    private addCurrentTeamMemberToList(meetingMembers: INewMeetingMember[]) {
+        this.userService
+            .userChangedEvent$
+            .subscribe((resp) => {
+                this.currentUser = meetingMembers.find(member => member.id === Number(resp?.id)) as INewMeetingMember;
+
+                this.addMemberToList(this.currentUser);
+                this.getFilteredOptions();
+            });
     }
 
     private initLocations() {
