@@ -20,7 +20,7 @@
                 <div class="item itemInfo">
                     <div class="itemTextInfo">
                         <div class="title-menu-row">
-                            <span class="timeTitle">{{ item.meetingTime | date: 'hh:mm':getTimeZoneValue() }} - {{ getEndMeetingDate(item.meetingTime, item.meetingDuration) | date: 'hh:mm':getTimeZoneValue() }}</span>
+                            <span class="timeTitle">{{ item.meetingTime | date: 'HH:mm':getTimeZoneValue() }} - {{ getEndMeetingDate(item.meetingTime, item.meetingDuration) | date: 'HH:mm':getTimeZoneValue() }}</span>
                             <button class="fas fa-ellipsis fa-xl menu-icon"  [matMenuTriggerFor]="menu"></button>
                             <mat-menu #menu="matMenu" class="drop-down-menu">
                                 <button mat-menu-item class="btn edit">
@@ -36,6 +36,11 @@
                         <p class="itemText">
                             {{ item.meetingDuration }} min, {{ item.membersTitle }}, {{item.locationType}}
                         </p>
+                        <div class="avatar-list">
+                            <div *ngFor="let member of item.meetingMembers">
+                                <img *ngIf="member.image" [src]="member.image" class="avatar"/>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="buttonRow">
