@@ -2,7 +2,6 @@ import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { ITeamMember } from '@core/models/ITeamMember';
-import { IUser } from '@core/models/IUser';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
@@ -21,7 +20,7 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
 
     displayedColumns: string[] = ['name-email', 'role', 'page', 'calendar-connected', 'action'];
 
-    teamMemberRoleValues = Object.values(Role);
+    teamMemberRoleValues = Object.values(Role).filter((o) => o !== Role.Owner);
 
     teamMemberStatusValues = Object.values(Status);
 
@@ -161,11 +160,11 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
             );
     }
 
-    changeTeamMemberRole(user: IUser, newRole: Role) {
+    changeTeamMemberRole(user: ITeamMember, newRole: Role) {
         const teamMember: ITeamMember = {
             id: user.id,
             image: user.image,
-            name: user.userName,
+            name: user.name,
             email: user.email,
             pageLink: '',
             role: newRole,
