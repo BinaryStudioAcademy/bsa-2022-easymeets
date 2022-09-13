@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
+import { TimeFormat } from '@shared/enums/timeFormat';
 
 @Component({
     selector: 'app-schedule-list-item',
@@ -13,6 +14,8 @@ export class ScheduleListItemComponent extends BaseComponent implements OnInit {
     @Input() item: IScheduleItem;
 
     @Input() displayDay: string;
+
+    @Input() timeFormat?: TimeFormat;
 
     @Input() itemChange: EventEmitter<void> = new EventEmitter();
 
@@ -54,12 +57,14 @@ export class ScheduleListItemComponent extends BaseComponent implements OnInit {
         this.itemChange.emit();
     }
 
+    isTwelveHoursFormat() {
+        return this.timeFormat && this.timeFormat === TimeFormat.TwelveHour;
+    }
+
     ngOnInit(): void {
-        this.itemChange
-            .pipe(this.untilThis)
-            .subscribe(() => {
-                this.updateTime();
-            });
+        this.itemChange.pipe(this.untilThis).subscribe(() => {
+            this.updateTime();
+        });
         this.updateTime();
     }
 
