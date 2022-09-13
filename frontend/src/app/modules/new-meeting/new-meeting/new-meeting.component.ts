@@ -157,19 +157,23 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             .getTeamMembersOfCurrentUser(teamId)
             .pipe(this.untilThis)
             .subscribe((resp) => {
-                this.userService
-                    .getCurrentUser()
-                    .subscribe((userResponse) => {
-                        const currentTeamMember = resp.filter(member => member.id === Number(userResponse.id))[0];
-
-                        this.currentUser = currentTeamMember;
-
-                        this.addedMembers.push(currentTeamMember);
-                        this.memberUnavailability = this.memberUnavailability.concat(currentTeamMember.unavailabilityItems);
-
-                        this.getFilteredOptions();
-                    });
+                this.addTeamMemberToMemberList(resp);
                 this.teamMembers = resp;
+            });
+    }
+
+    private addTeamMemberToMemberList(meetingMembers: INewMeetingMember[]) {
+        this.userService
+            .getCurrentUser()
+            .subscribe((userResponse) => {
+                const currentTeamMember = meetingMembers.filter(member => member.id === Number(userResponse.id))[0];
+
+                this.currentUser = currentTeamMember;
+
+                this.addedMembers.push(currentTeamMember);
+                this.memberUnavailability = this.memberUnavailability.concat(currentTeamMember.unavailabilityItems);
+
+                this.getFilteredOptions();
             });
     }
 
