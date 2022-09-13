@@ -47,10 +47,9 @@ export class ScheduleDefinitionComponent extends BaseComponent implements OnInit
     }
 
     deleteExclusionDate(index: number) {
-        this.scheduleValue.exclusionDates = [
-            ...this.scheduleValue.exclusionDates.slice(0, index),
-            ...this.scheduleValue.exclusionDates.slice(index + 1),
-        ];
+        this.scheduleValue.exclusionDates = this.scheduleValue.exclusionDates.filter(
+            (date, dateIndex) => dateIndex !== index,
+        );
     }
 
     showExclusionDatesWindow() {
