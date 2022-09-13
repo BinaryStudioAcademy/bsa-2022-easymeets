@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
 import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
@@ -8,14 +8,16 @@ import { TimeRangesMergeHelper } from '@core/helpers/time-ranges-merge-helper';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 import { ISchedule } from '@core/models/schedule/ISchedule';
+import { UserService } from '@core/services/user.service';
 import { ExclusionDatesPickerComponent } from '@modules/exclusion-dates/exclusion-dates-picker/exclusion-dates-picker.component';
+import { TimeFormat } from '@shared/enums/timeFormat';
 
 @Component({
     selector: 'app-schedule-definition',
     templateUrl: './schedule-definition.component.html',
     styleUrls: ['./schedule-definition.component.sass'],
 })
-export class ScheduleDefinitionComponent extends BaseComponent {
+export class ScheduleDefinitionComponent extends BaseComponent implements OnInit {
     @Input() changeEvent: EventEmitter<any> = new EventEmitter();
 
     @Input() set schedule(value: ISchedule | undefined) {
@@ -28,12 +30,20 @@ export class ScheduleDefinitionComponent extends BaseComponent {
 
     displayDays: string[] = getDisplayDays();
 
+    timeFormat?: TimeFormat;
+
     public checkZone(): boolean {
         return !this.scheduleValue.timeZone.nameValue;
     }
 
-    constructor(private dialog: MatDialog) {
+    constructor(private dialog: MatDialog, private userService: UserService) {
         super();
+    }
+
+    ngOnInit(): void {
+        this.userService.userChangedEvent$.pipe(this.untilThis).subscribe((user) => {
+            this.timeFormat = user?.timeFormat;
+        });
     }
 
     deleteExclusionDate(index: number) {

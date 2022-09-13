@@ -1,17 +1,60 @@
 <div class="container">
     <div class="weekday-container">
-        <mat-slide-toggle [(ngModel)]="item.isEnabled" (change)="onItemChange()" [disabled]="disabledValue"></mat-slide-toggle>
+        <mat-slide-toggle
+            [(ngModel)]="item.isEnabled"
+            (change)="onItemChange()"
+            [disabled]="disabledValue"></mat-slide-toggle>
         <p>{{ displayDay }}</p>
     </div>
     <form class="formDate" [formGroup]="scheduleForm">
         <div class="dates-container">
-            <div class="time-container">
-                <input type="time" class="date-input" formControlName="startTime" [value]="startValue" (change)="onDateChange($event, true)">
-                <p class="centerline">-</p>
-                <input type="time" class="date-input" formControlName="endTime" [value]="endValue" (change)="onDateChange($event, false)">
-            </div>
+            <ng-container *ngIf="isTwelveHoursFormat(); else twentyFourFormat">
+                <div class="time-container">
+                    <input
+                        matInput
+                        type="time"
+                        class="date-input"
+                        formControlName="startTime"
+                        [value]="startValue"
+                        (change)="onDateChange($event, true)"
+                        required />
+                    <p class="centerline">-</p>
+                    <input
+                        matInput
+                        type="time"
+                        class="date-input"
+                        formControlName="endTime"
+                        [value]="endValue"
+                        (change)="onDateChange($event, false)"
+                        required />
+                </div>
+            </ng-container>
+            <ng-template #twentyFourFormat>
+                <div class="time-container">
+                    <input
+                        matInput
+                        type="time-24"
+                        class="date-input"
+                        formControlName="startTime"
+                        [value]="startValue"
+                        (change)="onDateChange($event, true)"
+                        required />
+                    <p class="centerline">-</p>
+                    <input
+                        matInput
+                        type="time-24"
+                        class="date-input"
+                        formControlName="endTime"
+                        [value]="endValue"
+                        (change)="onDateChange($event, false)"
+                        required />
+                </div>
+            </ng-template>
+
             <div class="error-container">
-                <span *ngIf="endTime && endTime.invalid || startTime && startTime.invalid" ><p class="validText">Input filed is not valid. Correct format is hh:mm.</p></span>
+                <span *ngIf="(endTime && endTime.invalid) || (startTime && startTime.invalid)">
+                    <p class="validText">Input filed is not valid. Correct format is hh:mm.</p>
+                </span>
             </div>
         </div>
     </form>
