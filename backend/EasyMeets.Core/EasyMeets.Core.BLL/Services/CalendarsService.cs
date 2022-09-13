@@ -208,7 +208,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             var calendars = await _context.Calendars.Where(x => x.ConnectedCalendar == email).ToListAsync();
 
-            if (calendars is null)
+            if (!calendars.Any())
             {
                 return false;
             }
