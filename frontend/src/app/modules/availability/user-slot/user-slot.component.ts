@@ -5,7 +5,6 @@ import { BaseComponent } from '@core/base/base.component';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IUser } from '@core/models/IUser';
 import { NotificationService } from '@core/services/notification.service';
-import { SpinnerService } from '@core/services/spinner.service';
 import { environment } from '@env/environment';
 
 @Component({
@@ -23,7 +22,6 @@ export class UserSlotComponent extends BaseComponent {
     @Output() isReload = new EventEmitter<boolean>();
 
     constructor(
-        public spinnerService: SpinnerService,
         private router: Router,
         private clipboard: Clipboard,
         private notificationService: NotificationService,
