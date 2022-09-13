@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { addQuestionPlaceholder } from '@core/helpers/add-questions-placeholder';
 import { getLocalMandatoryQuestions } from '@core/helpers/questions-mandatory-helper';
 import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
@@ -15,7 +16,13 @@ import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 })
 export class QuestionsComponent {
     @Input() set newSlot(slot: IAvailabilitySlot | undefined) {
-        this.questions = slot?.questions ?? getLocalMandatoryQuestions();
+        if (slot?.questions) {
+            this.questions = slot.questions;
+            this.questions = [...this.questions.map((el) => addQuestionPlaceholder(el))];
+        } else {
+            this.questions = getLocalMandatoryQuestions();
+        }
+
         this.mandatoryQuestions = this.questions.filter((q) => q.isMandatory);
         const biggestOrderInQuestions = Math.max(...this.questions.map((q) => q.order));
 
