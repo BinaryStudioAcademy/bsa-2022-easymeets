@@ -268,7 +268,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.userService
             .userChangedEvent$
             .subscribe((resp) => {
-                this.currentUser = meetingMembers.find(member => member.id === Number(resp?.id)) as INewMeetingMember;
+                this.currentUser = meetingMembers.find(member => member.id === resp?.id) as INewMeetingMember;
 
                 this.addMemberToList(this.currentUser);
                 this.getFilteredOptions();
