@@ -43,6 +43,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     date: Date = new Date();
 
+    currentUser: INewMeetingMember;
+
     teamMembers: INewMeetingMember[];
 
     addedMembers: INewMeetingMember[] = [];
@@ -155,8 +157,19 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             .getTeamMembersOfCurrentUser(teamId)
             .pipe(this.untilThis)
             .subscribe((resp) => {
+                this.userService
+                    .getCurrentUser()
+                    .subscribe((userResponse) => {
+                        const currentTeamMember = resp.filter(member => member.id === Number(userResponse.id))[0];
+
+                        this.currentUser = currentTeamMember;
+
+                        this.addedMembers.push(currentTeamMember);
+                        this.memberUnavailability = this.memberUnavailability.concat(currentTeamMember.unavailabilityItems);
+
+                        this.getFilteredOptions();
+                    });
                 this.teamMembers = resp;
-                this.getFilteredOptions();
             });
     }
 
@@ -288,7 +301,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             map((value) => {
                 this.filterValue = (typeof value === 'string') ? value.toLowerCase() : value.name;
 
-                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(this.filterValue));
+                return this.teamMembers.filter((teamMember) =>
+                    teamMember.id !== this.currentUser.id && teamMember.name.toLowerCase().includes(this.filterValue));
             }),
         );
     }
