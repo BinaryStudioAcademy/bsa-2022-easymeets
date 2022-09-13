@@ -35,7 +35,7 @@ namespace EasyMeets.Core.BLL.Services
 
             var connectedEmail = response.Id;
 
-            if (await _context.Calendars.Where(el => el.ConnectedCalendar == connectedEmail).AnyAsync(el => el.UserId == currentUser.Id))
+            if (await _context.Calendars.AnyAsync(el => el.ConnectedCalendar == connectedEmail && el.UserId == currentUser.Id))
             {
                 throw new ArgumentException($"Calendar {connectedEmail} is already connected!");
             }
