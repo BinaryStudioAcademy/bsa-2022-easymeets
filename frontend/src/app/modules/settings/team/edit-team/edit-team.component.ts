@@ -53,8 +53,6 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
                 .pipe(this.untilThis)
                 .subscribe({
                     next: (team) => {
-                        this.teamPreferencesComponent.formGroup.reset();
-
                         this.team = team;
                         this.teamPreferencesComponent.team = team;
 
@@ -65,6 +63,7 @@ export class EditTeamComponent extends BaseComponent implements OnDestroy {
                             timeZone: team.timeZone,
                             description: team.description,
                         });
+                        this.teamPreferencesComponent.formGroup.markAsPristine();
                         this.teamPreferencesComponent.imageUrl = team.image;
                         this.spinnerService.hide();
                     },
