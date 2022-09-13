@@ -12,7 +12,7 @@
                     </mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </div>
-
+                <button mat-flat-button color="primary"> + Add Filter </button>
             </div>
         </div>
         <div *ngFor="let item of meetings">
@@ -31,20 +31,21 @@
                                 </button>
                             </mat-menu>
                         </div>
+                        <p class="meeting-title">{{ item.meetingTitle }}</p>
 
                         <p class="itemText">
-                            {{ item.meetingTitle }}<br />{{ item.meetingDuration }} min, {{ item.membersTitle }}
+                            {{ item.meetingDuration }} min, {{ item.membersTitle }}, {{item.locationType}}
                         </p>
                     </div>
 
                     <div class="buttonRow">
-                        <button *ngIf="item.locationType !== locationTypeOffice"  class="buttonZoom" (click)="followMeetingLink(item.meetingLink)">Open {{ item.locationType }} Link</button>
-                        <h3 *ngIf="item.locationType === locationTypeOffice" class="itemText"> {{ item.locationType }} {{ item.meetingRoom }} </h3>
+                        <button mat-flat-button color="primary" *ngIf="item.locationType !== locationTypeOffice"  class="buttonZoom" (click)="followMeetingLink(item.meetingLink)">Open {{ item.locationType }} Link</button>
+                        <h3 *ngIf="item.locationType === locationTypeOffice" class="timeTitle"> {{ item.locationType }}, {{ item.meetingRoom }} </h3>
                    </div>
                 </div>
 
                 <div class="listScrollBlock">
-                    <div *ngFor="let user of item.meetingMembers">
+                    <div class="bookers-container" *ngFor="let user of item.meetingMembers">
                         <app-booker [booker]="user"></app-booker>
                     </div>
                 </div>

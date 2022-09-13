@@ -1,25 +1,36 @@
 @import 'src/styles/color-variables'
 
-.bold
-    font-weight: 600
-
-.underlined
-    text-decoration-line: underline
-
 .booker-card
-    color: $pale-sky
     background: white
-    padding: 1.43em 2.07em
+    padding: 20px 29px
+    height: 100%
     display: flex
     flex-direction: column
     gap: 10px
-    border-right: 1px solid rgba($pale-sky, .4)
     span
         white-space: nowrap
 
 .title
-    font-size: 1.15em
     white-space: nowrap
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 900
+    font-size: 22px
+    line-height: 146%
+
+.itemText
+    color: rgba($black, 0.5)
+    margin: 0
+    overflow: hidden
+    text-overflow: ellipsis
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
+    font-size: 12px
+    line-height: 136%
+
+.answers-button
+    border-radius: 32px
 
 @media only screen and (max-width: 600px)
     .booker-card

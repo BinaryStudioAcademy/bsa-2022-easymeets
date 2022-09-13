@@ -5,7 +5,7 @@
 
 .bookings-container
     height: 100%
-    padding: 100px 100px
+    padding: 32px 100px
     display: flex
     flex-direction: column
     gap: 24px
@@ -17,11 +17,18 @@ p, span
     box-sizing: border-box
 
 .timeTitle
+    font-family: 'Inter'
     font-style: normal
-    font-weight: 600
-    font-size: 16px
-    line-height: 24px
-    color: $pale-sky
+    font-weight: 900
+    font-size: 22px
+    line-height: 146%
+
+.meeting-title
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 700
+    font-size: 14px
+    line-height: 146%
 
 .item
     width: 20em
@@ -59,17 +66,8 @@ p, span
 .buttonZoom
     width: 14em
     height: 2.4em
-    color: $white-color
     cursor: pointer
-    border: 2px solid $royal-blue
-    background-color: $royal-blue
-    border-radius: 4px
     font-weight: 600
-
-    &:hover
-        border: 2px solid $pale-sky
-        color: $pale-sky
-        background: $white-color
 
 .buttonRow
     width: 100%
@@ -84,9 +82,15 @@ p, span
     margin: 0
     overflow: hidden
     text-overflow: ellipsis
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
+    font-size: 12px
+    line-height: 136%
 
 .listScrollBlock
     overflow-x: hidden
+    height: 100%
     display: flex
     flex-direction: row
     align-items: center
@@ -135,8 +139,22 @@ p, span
         font-style: normal
         font-weight: 900
         font-size: 22px
+        line-height: 40px
     .buttons-container
         display: flex
+
+.header-buttons
+    display: flex
+    align-items: center
+
+::ng-deep .header-buttons, .buttonRow
+    .mat-flat-button.mat-primary
+        background-color: $logo-color
+        border-radius: 32px
+        height: 40px
+
+.bookers-container
+    height: 100%
 
 .day-input-wrapper
     display: flex
