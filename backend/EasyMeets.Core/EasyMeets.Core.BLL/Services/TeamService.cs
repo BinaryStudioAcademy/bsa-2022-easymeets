@@ -67,6 +67,7 @@ public class TeamService : BaseService, ITeamService
                     Role = y.Role,
                     ConnectedCalendars = y.User.Calendars.Where(x => x.VisibleForTeams.Any(y => y.TeamId == teamId)).Select(x => x.ConnectedCalendar),
                     PageLink = y.User.PersonalUrl,
+                    UserId = y.User.Id,
                 }
            ).ToListAsync();
 
@@ -191,17 +192,6 @@ public class TeamService : BaseService, ITeamService
         }
 
         return teamMembers;
-    }
-
-    public async Task<List<TeamDto>> GetCurrentUserAdminAndOwnerTeams()
-    {
-        var currentUser = await _userService.GetCurrentUserAsync();
-        var teams = await _context.TeamMembers.Where(el => el.UserId == currentUser.Id && (el.Role == Role.Admin || el.Role == Role.Owner))
-            .Include(el => el.Team)
-            .Select(el => el.Team)
-            .ToListAsync();
-
-        return _mapper.Map<List<TeamDto>>(teams);
     }
 
     private async Task<List<UnavailabilityItemDto>> GetMemberUnavailability(long teamMemberId)

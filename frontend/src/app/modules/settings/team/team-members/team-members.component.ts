@@ -5,6 +5,7 @@ import { ITeamMember } from '@core/models/ITeamMember';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
+import { UserService } from '@core/services/user.service';
 import { deletingTheOnlyMemberOfTeamMessage } from '@shared/constants/shared-messages';
 import { Role } from '@shared/enums/role';
 import { Status } from '@shared/enums/status';
@@ -28,6 +29,8 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
 
     ownerIdToDeleteWithTeam: bigint;
 
+    currentUserIsMember: boolean;
+
     Role = Role;
 
     private reloadEventEmitter = new EventEmitter<void>();
@@ -42,6 +45,7 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
         private teamService: TeamService,
         private confirmationWindowService: ConfirmationWindowService,
         private notificationService: NotificationService,
+        private userService: UserService,
         private route: ActivatedRoute,
         private router: Router,
     ) {
@@ -55,7 +59,26 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
             this.teamId = params['id'];
         });
 
+        this.isCurrentUserHasMemberRole();
+    }
+
+    isCurrentUserHasMemberRole() {
         this.getTeamMembers();
+
+        this.userService
+            .getCurrentUser()
+            .pipe(this.untilThis)
+            .subscribe(
+                (user) => {
+                    console.log(this.teamMembers);
+                    console.log(user.id);
+                    this.currentUserIsMember = this.teamMembers.find((p) => p.userId === user.id)?.role === Role.Member;
+                    console.log(this.currentUserIsMember);
+                },
+                (error) => {
+                    this.notificationService.showErrorMessage(error);
+                },
+            );
     }
 
     getTeamMembers() {
