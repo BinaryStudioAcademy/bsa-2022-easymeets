@@ -56,7 +56,7 @@ public class AvailabilitySlotConfig : IEntityTypeConfiguration<AvailabilitySlot>
         builder.HasOne(s => s.Team)
             .WithMany(t => t.AvailabilitySlots)
             .HasForeignKey(s => s.TeamId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(s => s.AdvancedSlotSettings)
             .WithOne(ad => ad.AvailabilitySlot)

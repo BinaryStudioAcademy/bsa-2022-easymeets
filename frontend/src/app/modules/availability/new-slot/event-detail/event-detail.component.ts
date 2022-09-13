@@ -8,7 +8,7 @@ import {
     Validators,
 } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
-import { removeExcessiveSpaces } from '@core/helpers/string-helper';
+import { removeAllSpaces, removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveEventDetails } from '@core/models/save-availability-slot/ISaveEventDetails';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
@@ -89,8 +89,11 @@ export class EventDetailComponent extends BaseComponent implements OnInit {
         };
     }
 
-    onLinkChange() {
-        this.settings.link = this.slotLinkControl.value ?? '';
+    onLinkChange(value: string) {
+        const link = removeAllSpaces(value);
+
+        this.slotLinkControl.patchValue(link);
+        this.settings.link = link ?? '';
         this.linkChange.emit(this.settings.link);
     }
 

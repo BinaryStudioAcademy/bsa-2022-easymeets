@@ -122,6 +122,9 @@ i
     display: flex
     justify-content: flex-start
     align-items: center
+    .member-role-owner
+        padding-left: 5px
+
     .team-members-role-form-field
         max-width: 100px
 
@@ -155,3 +158,12 @@ i
         overflow: hidden
         white-space: nowrap
         text-overflow: ellipsis
+
+::ng-deep .team-member-mat-menu.mat-menu-panel
+    min-height: 32px !important
+    @media screen and (max-width: 1700px)
+        left: -95%
+
+::ng-deep .team-member-mat-menu.mat-menu-content
+    padding-bottom: 2px !important
+    padding-top: 2px !important
