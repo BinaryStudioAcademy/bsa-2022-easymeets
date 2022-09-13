@@ -59,23 +59,18 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
             this.teamId = params['id'];
         });
 
-        this.isCurrentUserHasMemberRole();
+        this.getTeamMembers();
     }
 
     isCurrentUserHasMemberRole() {
-        this.getTeamMembers();
-
-        this.userService
-            .getCurrentUser()
-            .pipe(this.untilThis)
-            .subscribe(
-                (user) => {
-                    this.currentUserIsMember = this.teamMembers.find((p) => p.userId === user.id)?.role === Role.Member;
-                },
-                (error) => {
-                    this.notificationService.showErrorMessage(error);
-                },
-            );
+        this.userService.userChangedEvent$.subscribe(
+            (user) => {
+                this.currentUserIsMember = this.teamMembers.find((p) => p.userId === user?.id)?.role === Role.Member;
+            },
+            (error) => {
+                this.notificationService.showErrorMessage(error);
+            },
+        );
     }
 
     getTeamMembers() {
@@ -84,6 +79,7 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
             .pipe(this.untilThis)
             .subscribe((members) => {
                 this.teamMembers = members;
+                this.isCurrentUserHasMemberRole();
             });
     }
 
