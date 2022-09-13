@@ -16,12 +16,9 @@ import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 })
 export class QuestionsComponent {
     @Input() set newSlot(slot: IAvailabilitySlot | undefined) {
-        if (slot?.questions) {
-            this.questions = slot.questions;
-            this.questions = [...this.questions.map((el) => addQuestionPlaceholder(el))];
-        } else {
-            this.questions = getLocalMandatoryQuestions();
-        }
+        this.questions = slot?.questions
+            ? [...slot.questions.map((el) => addQuestionPlaceholder(el))]
+            : getLocalMandatoryQuestions();
 
         this.mandatoryQuestions = this.questions.filter((q) => q.isMandatory);
         const biggestOrderInQuestions = Math.max(...this.questions.map((q) => q.order));
