@@ -5,6 +5,7 @@ import { BaseComponent } from '@core/base/base.component';
 import { MinimalTimeValidator, TimeRangeValidator } from '@core/helpers/time-helper';
 import { getDateWithoutLocalOffset } from '@core/helpers/time-zone-helper';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
+import { switchMap, timer } from "rxjs";
 
 @Component({
     selector: 'app-exclusion-dates-picker',
@@ -30,6 +31,12 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
 
     ngOnInit() {
         this.formGroup = this.getDefaultFormGroup();
+        const startDelayMilliseconds = (60 - new Date().getSeconds()) * 1000;
+        const minuteMilliseconds = 60000;
+
+        timer(startDelayMilliseconds, minuteMilliseconds)
+            .pipe(this.untilThis)
+            .subscribe(() => this.updateStartRangeValidators());
     }
 
     addTimeItem() {
