@@ -35,6 +35,6 @@ public class CalendarConfig : IEntityTypeConfiguration<Calendar>
         builder.HasOne(c => c.ImportEventsFromTeam)
             .WithMany(t => t.ExportEventsToCalendars)
             .HasForeignKey(c => c.AddEventsFromTeamId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }
