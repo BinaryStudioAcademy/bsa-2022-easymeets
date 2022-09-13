@@ -1,8 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { addQuestionPlaceholder } from '@core/helpers/add-questions-placeholder';
-import { getLocalMandatoryQuestions } from '@core/helpers/questions-mandatory-helper';
+import { addQuestionPlaceholder, getLocalMandatoryQuestions } from '@core/helpers/questions-mandatory-helper';
 import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IQuestion } from '@core/models/IQuestion';
