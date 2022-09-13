@@ -2,6 +2,7 @@ import { Component, EventEmitter, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
 
 @Component({
@@ -24,5 +25,9 @@ export class BookingWindowComponent extends BaseComponent {
     onClick(event: EventEmitter<void>) {
         event?.next();
         this.dialogRef.close();
+    }
+
+    getTimeZoneValue() {
+        return getDefaultTimeZone().timeValue;
     }
 }
