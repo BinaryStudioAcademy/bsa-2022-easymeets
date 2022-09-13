@@ -134,11 +134,11 @@ namespace EasyMeets.Core.BLL.Services
             if (!slotDto.Schedule.WithTeamMembers)
             {
                 var schedule = _mapper.Map<Schedule>(slotDto.Schedule);
-                _context.Schedules.Add(schedule);
+                await _context.Schedules.AddAsync(schedule);
                 author.Schedule = schedule;
             }
             entity.SlotMembers.Add(author);
-            _context.SlotMembers.Add(author);
+            await _context.SlotMembers.AddAsync(author);
 
             await _context.SaveChangesAsync();
         }
@@ -168,7 +168,6 @@ namespace EasyMeets.Core.BLL.Services
         public async Task<AvailabilitySlotDto> UpdateAvailabilitySlot(long id,
             SaveAvailabilitySlotDto updateAvailabilityDto)
         {
-            var currentUser = await _userService.GetCurrentUserAsync();
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
                 .Include(slot => slot.Questions)
@@ -176,20 +175,24 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(slot => slot.Schedule)
                         .ThenInclude(s => s.ScheduleItems)
                 .Include(slot => slot.EmailTemplates)
-                .FirstOrDefaultAsync(slot => slot.Id == id);
-
-            if (availabilitySlot is null)
-            {
-                throw new KeyNotFoundException("Availability slot doesn't exist");
-            }
-
-            if (updateAvailabilityDto is null)
-            {
-                throw new ArgumentNullException(nameof(updateAvailabilityDto), "Updated slot cannot be null.");
-            }
+                .FirstOrDefaultAsync(slot => slot.Id == id) ?? throw new KeyNotFoundException("Availability slot doesn't exist");
 
             _mapper.Map(updateAvailabilityDto, availabilitySlot);
 
+            await UpdateAdvancedSlotSettings(updateAvailabilityDto, availabilitySlot);
+            await UpdateTemplateSettings(updateAvailabilityDto, availabilitySlot);
+            UpdateQuestions(updateAvailabilityDto, availabilitySlot);
+            await UpdateSchedule(updateAvailabilityDto, availabilitySlot);
+
+            availabilitySlot.LocationType = updateAvailabilityDto.GeneralDetails!.LocationType;
+
+            await _context.SaveChangesAsync();
+            return _mapper.Map<AvailabilitySlotDto>(
+                await _context.AvailabilitySlots.FirstOrDefaultAsync(slot => slot.Id == id));
+        }
+
+        private async Task UpdateAdvancedSlotSettings(SaveAvailabilitySlotDto updateAvailabilityDto, AvailabilitySlot availabilitySlot)
+        {
             if (updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is not null)
             {
                 _mapper.Map(updateAvailabilityDto.AdvancedSettings, availabilitySlot.AdvancedSlotSettings);
@@ -198,18 +201,22 @@ namespace EasyMeets.Core.BLL.Services
             {
                 var newAdvancedSlotSettings = _mapper.Map<AdvancedSlotSettings>(updateAvailabilityDto.AdvancedSettings);
                 newAdvancedSlotSettings.AvailabilitySlotId = availabilitySlot.Id;
-                _context.AdvancedSlotSettings.Add(newAdvancedSlotSettings);
+                await _context.AdvancedSlotSettings.AddAsync(newAdvancedSlotSettings);
             }
 
             else if (!updateAvailabilityDto.HasAdvancedSettings && availabilitySlot.AdvancedSlotSettings is not null)
             {
                 _context.Remove(availabilitySlot.AdvancedSlotSettings);
             }
+        }
 
+        private async Task UpdateTemplateSettings(SaveAvailabilitySlotDto updateAvailabilityDto,
+            AvailabilitySlot availabilitySlot)
+        {
             if (updateAvailabilityDto.TemplateSettings is not null)
             {
                 var oldTemplate = await _context.EmailTemplates.FirstOrDefaultAsync(t => t.TemplateType == updateAvailabilityDto.TemplateSettings.Type
-                && t.AvailabilitySlotId == availabilitySlot.Id);
+                    && t.AvailabilitySlotId == availabilitySlot.Id);
 
                 if (oldTemplate is not null)
                 {
@@ -221,24 +228,30 @@ namespace EasyMeets.Core.BLL.Services
                     await SaveEmailTemplateConfig(updateAvailabilityDto.TemplateSettings, availabilitySlot);
                 }
             }
+        }
 
-            if (updateAvailabilityDto.Questions is not null)
+        private void UpdateQuestions(SaveAvailabilitySlotDto updateAvailabilityDto, AvailabilitySlot availabilitySlot)
+        {
+            if (updateAvailabilityDto.Questions is null) return;
+
+            availabilitySlot.Questions.Clear();
+
+            var notEmptyQuestions = updateAvailabilityDto.Questions.Where(q => !string.IsNullOrWhiteSpace(q.QuestionText));
+            var questions = _mapper.Map<ICollection<Question>>(notEmptyQuestions);
+            var i = 0;
+            foreach (var question in questions)
             {
-                availabilitySlot.Questions.Clear();
-
-                var notEmptyQuestions = updateAvailabilityDto.Questions.Where(q => !string.IsNullOrWhiteSpace(q.QuestionText));
-                var questions = _mapper.Map<ICollection<Question>>(notEmptyQuestions);
-                var i = 0;
-                foreach (var question in questions)
-                {
-                    question.Id = 0;
-                    question.Order = i++;
-                    availabilitySlot.Questions.Add(question);
-                }
-
-                _context.Update(availabilitySlot);
+                question.Id = 0;
+                question.Order = i++;
+                availabilitySlot.Questions.Add(question);
             }
 
+            _context.Update(availabilitySlot);
+        }
+
+        private async Task UpdateSchedule(SaveAvailabilitySlotDto updateAvailabilityDto, AvailabilitySlot availabilitySlot)
+        {
+            var currentUser = await _userService.GetCurrentUserAsync();
             if (!updateAvailabilityDto.Schedule.WithTeamMembers)
             {
                 var scheduleId = availabilitySlot.SlotMembers.First(member => member.MemberId == currentUser.Id)
@@ -260,12 +273,6 @@ namespace EasyMeets.Core.BLL.Services
                 _mapper.Map(updateAvailabilityDto.Schedule,
                     availabilitySlot.SlotMembers.First(member => member.MemberId == currentUser.Id).Schedule);
             }
-
-            availabilitySlot.LocationType = updateAvailabilityDto.GeneralDetails!.LocationType;
-
-            await _context.SaveChangesAsync();
-            return _mapper.Map<AvailabilitySlotDto>(
-                await _context.AvailabilitySlots.FirstOrDefaultAsync(slot => slot.Id == id));
         }
 
         public async Task<bool> UpdateAvailabilitySlotEnablingAsync(long id)
