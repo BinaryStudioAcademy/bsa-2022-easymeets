@@ -113,15 +113,15 @@ public class TeamService : BaseService, ITeamService
         _context.TeamMembers.Update(teamMember);
         await _context.SaveChangesAsync();
     }
-
-
+    
     public async Task DeleteTeamAsync(long teamId)
     {
-        var teamEntity = await GetTeamByIdAsync(teamId);
-        var slots = await _context.AvailabilitySlots.Where(el => el.TeamId == teamId).ToListAsync();
-        var slotMembers = slots.SelectMany(_ => _.SlotMembers).ToList();
-        _context.RemoveRange(slotMembers);
-        _context.RemoveRange(slots);
+        var teamEntity = await _context.Teams
+            .Include(t => t.AvailabilitySlots)
+                .ThenInclude(s => s.SlotMembers)
+            .Include(t => t.VisibleCalendars)
+            .FirstOrDefaultAsync(el => el.Id == teamId) ?? throw new KeyNotFoundException("Invalid team member id");
+        
         _context.Teams.Remove(teamEntity);
         await _context.SaveChangesAsync();
     }
@@ -180,10 +180,10 @@ public class TeamService : BaseService, ITeamService
     public async Task<ICollection<NewMeetingMemberDto>> GetTeamMembersOfCurrentUserAsync(long? teamId)
     {
         var teamMembers = await _context.TeamMembers
-            .Where(x => x.TeamId == teamId)
-            .Include(x => x.User)
-            .Select(a => _mapper.Map<NewMeetingMemberDto>(a))
-            .ToListAsync();
+                .Where(x => x.TeamId == teamId)
+                .Include(x => x.User)
+                .Select(a => _mapper.Map<NewMeetingMemberDto>(a))
+                .ToListAsync();
 
         foreach (var teamMember in teamMembers)
         {
@@ -207,7 +207,7 @@ public class TeamService : BaseService, ITeamService
     private async Task<List<UnavailabilityItemDto>> GetMemberUnavailability(long teamMemberId)
     {
         var member = await _context.TeamMembers
-            .FirstOrDefaultAsync(m => m.Id == teamMemberId) ?? throw new KeyNotFoundException("Invalid team member id");
+            .FirstOrDefaultAsync(m => m.UserId == teamMemberId) ?? throw new KeyNotFoundException("Invalid team member id");
 
         var meetings = await _context.Meetings
             .Include(m => m.MeetingMembers)

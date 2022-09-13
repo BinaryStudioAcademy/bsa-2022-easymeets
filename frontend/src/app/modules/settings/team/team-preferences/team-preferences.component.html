@@ -5,13 +5,7 @@
                 <div class="logo">
                     <img *ngIf="imageUrl" src="{{ imageUrl }}" />
                 </div>
-                <input
-                    enctype="multipart/form-data"
-                    method="put"
-                    hidden
-                    #file
-                    accept="image/png,.gif,.jpg"
-                    type="file"
+                <input enctype="multipart/form-data" method="put" hidden #file accept="image/png,.gif,.jpg" type="file"
                     (change)="loadImage($event)" />
                 <button type="button" class="white-button" mat-flat-button (click)="file.click()">Upload Logo</button>
             </div>
@@ -21,10 +15,7 @@
                 <div>Team Name</div>
             </label>
             <div>
-                <input
-                    type="text"
-                    formControlName="name"
-                    (input)="generateNewPageLink(formGroup)"
+                <input #teamNameInput type="text" formControlName="name"
                     (change)="trimInputValue(nameControl)" />
             </div>
             <div *ngIf="nameControl.invalid && nameControl.touched" class="validation">
@@ -46,10 +37,8 @@
         </div>
         <div class="item">
             <label>Time Zone</label>
-            <ng-moment-timezone-picker
-                [formControlName]="'timeZone'"
-                customPlaceholderText=""
-                [getUserZone]="!team?.timeZone">
+            <ng-moment-timezone-picker (change)="markTimeZoneDirty()" [formControlName]="'timeZone'"
+                customPlaceholderText="" [getUserZone]="!team?.timeZone">
             </ng-moment-timezone-picker>
         </div>
         <div class="item">
@@ -73,16 +62,13 @@
         </div>
         <div class="item">
             <div class="buttons-block">
-                <button
-                    mat-flat-button
-                    class="white-button"
-                    type="button"
-                    (click)="deleteClick.emit(formGroup)"
+                <button mat-flat-button class="white-button" type="button" (click)="deleteClick.emit(formGroup)"
                     *ngIf="showDeleteButton">
                     <mat-icon class="icon">delete_outline</mat-icon>
                     Delete Team
                 </button>
-                <button mat-flat-button type="submit" [disabled]="formGroup.invalid || !formGroup.touched">
+                <button mat-flat-button type="submit"
+                    [disabled]="formGroup.invalid || formGroup.pending || !formGroup.dirty || formValueUpdating">
                     {{ submitButtonText }}
                 </button>
             </div>
