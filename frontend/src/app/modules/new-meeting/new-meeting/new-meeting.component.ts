@@ -20,7 +20,7 @@ import { debounceIntervalMedium } from '@shared/constants/rxjs-constants';
 import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
-import { debounceTime, map, Observable, of, startWith, Subscription } from 'rxjs';
+import { debounceTime, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-new-meeting',
@@ -46,13 +46,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     currentMemberId: bigint | undefined;
 
-    teamMembers: INewMeetingMember[];
-
     addedMembers: INewMeetingMember[] = [];
 
     memberUnavailability: IUnavailability[] = [];
 
-    filteredOptions: Observable<INewMeetingMember[]>;
+    filteredOptions: INewMeetingMember[];
 
     durations: IDuration[] = getDisplayDuration();
 
@@ -163,8 +161,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             if (this.memberFilterCtrl.getRawValue()) {
                 this.searchMembersByName();
             } else {
-                this.teamMembers = [];
-                this.filteredOptions = of([]);
+                this.filteredOptions = [];
             }
         });
     }
@@ -174,8 +171,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             .getTeamMembersByName(this.memberFilterCtrl.getRawValue(), this.currentTeamId)
             .pipe(this.untilThis)
             .subscribe((resp) => {
-                this.teamMembers = resp?.filter((u) => !this.addedMembers.some((el) => el.id === u.id));
-                this.getFilteredOptions();
+                this.filteredOptions = resp?.filter((u) => !this.addedMembers.some((el) => el.id === u.id));
             });
     }
 
@@ -240,7 +236,9 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     removeMemberToList(memberToRemove: INewMeetingMember) {
         this.addedMembers = this.addedMembers.filter((member) => member.id !== memberToRemove.id);
-        this.memberUnavailability = this.memberUnavailability.filter((u) => !memberToRemove.unavailabilityItems.includes(u));
+        this.memberUnavailability = this.memberUnavailability.filter(
+            (u) => !memberToRemove.unavailabilityItems.includes(u),
+        );
     }
 
     reset() {
@@ -305,17 +303,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         const isDateInPast = new Date(control.value).getTime() < Date.now();
 
         return isDateInPast ? { invalid: true } : null;
-    }
-
-    private getFilteredOptions() {
-        this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
-            startWith(''),
-            map((value) => {
-                this.filterValue = typeof value === 'string' ? value.toLowerCase() : value.name;
-
-                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(this.filterValue));
-            }),
-        );
     }
 
     override ngOnDestroy(): void {
