@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { AuthFormService } from '@core/services/auth-form.service';
+import { AuthService } from '@core/services/auth.service';
+import { EmailValidator } from '@modules/auth/validators/email-validator';
 
 @Component({
     selector: 'app-forgot-form',
@@ -17,17 +18,17 @@ export class ForgotFormComponent extends BaseComponent {
             email: new FormControl(
                 '',
                 [Validators.required, Validators.email],
+                [EmailValidator.loginEmailValidator(this.authService)],
             ),
         },
     );
 
-    constructor(private authFormService: AuthFormService, private router: Router) {
+    constructor(private router: Router, private authService: AuthService) {
         super();
     }
 
     sendRecoveryCode() {
         this.goToRecoveryCodeComponent();
-        //this.authFormService.sendRecoveryCode('kozak.olena11@gmail.com');
     }
 
     goToRecoveryCodeComponent() {

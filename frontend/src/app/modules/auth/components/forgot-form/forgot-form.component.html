@@ -1,8 +1,12 @@
-<form class="forgot-form form" (ngSubmit)="sendRecoveryCode()">
+<form class="forgot-form form" [formGroup]="forgotPasswordForm" (ngSubmit)="sendRecoveryCode()">
     <div class="form-inputs flex-col">
         <mat-label class="outside-label bold" for="email">Email</mat-label>
         <mat-form-field appearance="outline">
-            <input matInput id="email" type="email" placeholder="email@email.com" />
+            <input matInput id="email" type="email" formControlName="email" placeholder="email@email.com" />
+            <mat-error *ngIf="forgotPasswordForm.controls['email'].hasError('email')">Email format is invalid</mat-error>
+            <mat-error *ngIf="forgotPasswordForm.controls['email'].hasError('required')">Email is required field</mat-error>
+            <mat-error *ngIf="forgotPasswordForm.controls['email'].hasError('userInNotExist')"
+                >User with entered email address doesn't exist</mat-error>
         </mat-form-field>
     </div>
     <div class="form-actions flex-col h-align-center">
