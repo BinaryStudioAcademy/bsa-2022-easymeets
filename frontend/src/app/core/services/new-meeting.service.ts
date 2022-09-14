@@ -15,9 +15,7 @@ export class NewMeetingService {
     constructor(private httpService: HttpInternalService) {}
 
     public getTeamMembersByName(name: string, teamId?: number) {
-        return this.httpService.getRequest<INewMeetingMember[]>(
-            `${this.routePrefix}/getTeamMembersOfCurrentUser/${name}/${teamId ?? ''}`,
-        );
+        return this.httpService.getRequest<INewMeetingMember[]>(`${this.routePrefix}/getTeamMembersByName/${name}/${teamId ?? ''}`);
     }
 
     public saveNewMeeting(data: INewMeeting) {
