@@ -10,4 +10,5 @@ export interface ITeamMember {
     role: Role;
     status: Status;
     connectedCalendars?: string[];
+    userId?: bigint;
 }
