@@ -283,7 +283,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     private addCurrentTeamMemberToList(userId?: bigint) {
         this.newMeetingService
-            .getCurrentUserAsTeamMember(userId, this.currentTeamId)
+            .getTeamMembersById(userId, this.currentTeamId)
             .pipe(this.untilThis)
             .subscribe((resp) => {
                 this.addMemberToList(resp);

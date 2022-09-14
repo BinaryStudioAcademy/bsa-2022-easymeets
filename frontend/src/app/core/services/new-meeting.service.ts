@@ -20,9 +20,9 @@ export class NewMeetingService {
         );
     }
 
-    public getCurrentUserAsTeamMember(userId?: bigint, teamId?: number) {
+    public getTeamMembersById(userId?: bigint, teamId?: number) {
         return this.httpService.getRequest<INewMeetingMember>(
-            `${this.routePrefix}/getCurrentUserAsTeamMember/${userId ?? ''}/${teamId ?? ''}`,
+            `${this.routePrefix}/getTeamMembersById/${userId ?? ''}/${teamId ?? ''}`,
         );
     }
 

@@ -194,7 +194,7 @@ public class TeamService : BaseService, ITeamService
         return teamMembers;
     }
     
-    public async Task<NewMeetingMemberDto> GetCurrentUserAsTeamMemberAsync(long userId, long teamId)
+    public async Task<NewMeetingMemberDto> GetTeamMembersByIdAsync(long userId, long teamId)
     {
         var teamMember = await _context.TeamMembers
             .Include(x => x.User)
