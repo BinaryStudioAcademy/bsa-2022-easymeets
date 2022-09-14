@@ -15,7 +15,8 @@
             [disablePagination]="true"
             [disableRipple]="true"
             (selectedTabChange)="changeEvent.emit()"
-            animationDuration="0ms">
+            animationDuration="0ms"
+            class="custom-mat-group">
             <mat-tab label="List View">
                 <app-schedule-list-item
                     *ngFor="let item of scheduleValue.scheduleItems; index as i"
@@ -30,39 +31,33 @@
                 <app-schedule-week [items]="scheduleValue.scheduleItems" [itemChange]="changeEvent">
                 </app-schedule-week>
             </mat-tab>
-            <mat-tab label="Month View" *ngIf="!disabled"> Month View </mat-tab>
+            <mat-tab label="Month View" *ngIf="!disabled"></mat-tab>
         </mat-tab-group>
     </div>
     <div class="override-container">
         <div class="override-heading-container">
-            <span>
-                Exclusion Dates
-            </span>
-            <mat-icon matTooltip="Specify exclusion dates for availability slot">
-                help_outline
-            </mat-icon>
+            <span> Exclusion Dates </span>
+            <mat-icon matTooltip="Specify exclusion dates for availability slot"> help_outline </mat-icon>
         </div>
-        <button
-            mat-flat-button
-            [disabled]="disabled"
-            (click)="showExclusionDatesWindow()"
-        >
+        <button mat-flat-button [disabled]="disabled" (click)="showExclusionDatesWindow()">
             <i class="fa-regular fa-plus"></i>
-             Add Exclusion Date(s)
+            Add Exclusion Date(s)
         </button>
-        <hr>
+        <hr />
         <div class="exclusion-dates-container">
-            <div class="exclusion-date-container" *ngFor="let exclusionDate of scheduleValue.exclusionDates; index as i">
+            <div
+                class="exclusion-date-container"
+                *ngFor="let exclusionDate of scheduleValue.exclusionDates; index as i">
                 <div class="date-wrapper">
-                    {{exclusionDate.selectedDate | date:'d MMM y'}}
+                    {{ exclusionDate.selectedDate | date: 'd MMM y' }}
                 </div>
                 <div class="times-wrapper">
                     <div class="time-wrapper" *ngFor="let dayTimeRange of exclusionDate.dayTimeRanges">
-                        {{formatTime(dayTimeRange.start)}}-{{formatTime(dayTimeRange.end)}}
+                        {{ formatTime(dayTimeRange.start) }}-{{ formatTime(dayTimeRange.end) }}
                     </div>
                 </div>
                 <i class="fa-regular fa-circle-xmark xmark fa-xl" (click)="deleteExclusionDate(i)"></i>
-                <hr>
+                <hr />
             </div>
         </div>
     </div>

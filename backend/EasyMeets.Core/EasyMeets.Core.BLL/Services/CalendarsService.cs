@@ -35,7 +35,7 @@ namespace EasyMeets.Core.BLL.Services
 
             var connectedEmail = response.Id;
 
-            if (await _context.Calendars.AnyAsync(el => el.ConnectedCalendar == connectedEmail))
+            if (await _context.Calendars.AnyAsync(el => el.ConnectedCalendar == connectedEmail && el.UserId == currentUser.Id))
             {
                 throw new ArgumentException($"Calendar {connectedEmail} is already connected!");
             }
@@ -58,15 +58,21 @@ namespace EasyMeets.Core.BLL.Services
             
             await _googleMeetService.CreateDefaultCredentials(currentUser.Uid);
 
-            var synced = await _context.SyncGoogleCalendar.AnyAsync(x => x.Email == connectedEmail);
+            var synced = await _context.SyncGoogleCalendar.FirstOrDefaultAsync(x => x.Email == connectedEmail);
 
-            if (!synced)
+            if (synced is not null)
             {
-                return true;
+                if (DateTime.Now < synced.ExpiredDate)
+                {
+                    return true;
+                }
+
+                _context.SyncGoogleCalendar.Remove(synced);
+                await _context.SaveChangesAsync();
             }
 
             await SubscribeOnCalendarChanges(tokenResultDto, connectedEmail);
-            await _context.SyncGoogleCalendar.AddAsync(new SyncGoogleCalendar { Email = connectedEmail });
+            await _context.SyncGoogleCalendar.AddAsync(new SyncGoogleCalendar { Email = connectedEmail, ExpiredDate = DateTime.Now.AddDays(7) });
             await _context.SaveChangesAsync();
 
             return true;
@@ -200,17 +206,20 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<bool> SyncChangesFromGoogleCalendar(string email)
         {
-            var calendar = await _context.Calendars.FirstOrDefaultAsync(x => x.ConnectedCalendar == email);
+            var calendars = await _context.Calendars.Where(x => x.ConnectedCalendar == email).ToListAsync();
 
-            if (calendar is null)
+            if (!calendars.Any())
             {
                 return false;
             }
 
-            var visibleCalendar = await _context.CalendarVisibleForTeams.Where(x => x.CalendarId == calendar.Id).ToListAsync();
+            foreach (var calendar in calendars)
+            {
+                var visibleCalendar = await _context.CalendarVisibleForTeams.Where(x => x.CalendarId == calendar.Id).ToListAsync();
 
-            await RemoveCalendarMeetings(visibleCalendar, calendar.Id);
-            await AddMeetingsFromCalendar(email, calendar.VisibleForTeams, calendar.Id);
+                await RemoveCalendarMeetings(visibleCalendar, calendar.Id);
+                await AddMeetingsFromCalendar(email, calendar.VisibleForTeams, calendar.Id);
+            }
 
             return true;
         }
