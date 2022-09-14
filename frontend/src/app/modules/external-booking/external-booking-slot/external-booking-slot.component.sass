@@ -1,0 +1,41 @@
+@import '../../../../styles/color-variables'
+@import '../../../../styles/screen-variables'
+
+.card.mat-card
+    width: calc(100% - 54px)
+    border-radius: 32px
+    border: 1px solid $solitude
+    box-shadow: 0 10px 20px 1px var(--slotShadowColor)
+    padding: 24px
+
+.card
+    display: flex
+    align-items: center
+
+.color-line
+    height: 60%
+    max-width: 4px
+    position: absolute
+    border-radius: 5px
+    border-left: 4px solid var(--slotLineColor)
+
+.card-body
+    padding-left: 16px
+    overflow: hidden
+
+    h1
+        font-weight: 900
+        font-size: 22px
+        overflow: hidden
+        text-overflow: ellipsis
+
+    h3
+        font-size: 14px
+        font-weight: 400
+        overflow: hidden
+        text-overflow: ellipsis
+
+
+.card.mat-card:hover
+    box-shadow: 0 4px 4px var(--slotShadowColor)
+    cursor: pointer
