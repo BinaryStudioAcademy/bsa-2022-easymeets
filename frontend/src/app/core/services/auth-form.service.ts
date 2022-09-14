@@ -46,6 +46,18 @@ export class AuthFormService {
         );
     }
 
+    public sendRecoveryCode(email: string) {
+        // eslint-disable-next-line no-debugger
+        debugger;
+        this.authService
+            .resetPassword(email)
+            .subscribe((resp) => {
+                // eslint-disable-next-line no-debugger
+                debugger;
+                console.log(resp);
+            });
+    }
+
     private authenticate(authMethod: Observable<firebase.auth.UserCredential>, userName?: string): Observable<IUser> {
         this.spinnerService.show();
 
