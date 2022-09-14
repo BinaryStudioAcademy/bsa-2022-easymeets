@@ -1,18 +1,15 @@
-<div class="wrapper">
-    <div [ngSwitch]="view">
-        <mwl-calendar-week-view
-            [scrollTop]="0"
-            [dayStartHour]="0"
-            [dayEndHour]="23"
-            [viewDate]="viewDate"
-            [events]="events"
-            [hourSegments]="4"
-            [hourSegmentHeight]="12"
-            [refresh]="refresh"
-            [eventSnapSize]="4"
-            [minimumEventHeight]="4"
-            [validateEventTimesChanged]="validateEventTimesChanged "
-            (eventTimesChanged)="eventTimesChanged($event)">
-        </mwl-calendar-week-view>
-    </div>
+<div class="schedule-calendar-wrapper">
+    <mwl-calendar-week-view
+        [dayStartHour]="8"
+        [dayEndHour]="23"
+        [viewDate]="viewDate"
+        [events]="events"
+        [hourSegments]="4"
+        [hourSegmentHeight]="12"
+        [refresh]="refresh"
+        [eventSnapSize]="4"
+        [minimumEventHeight]="4"
+        [validateEventTimesChanged]="validateEventTimesChanged"
+        (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-week-view>
 </div>

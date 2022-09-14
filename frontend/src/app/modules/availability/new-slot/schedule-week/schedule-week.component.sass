@@ -1,2 +1,25 @@
-.wrapper
+@import 'src/styles/color-variables.sass'
+@import 'src/styles/screen-variables.sass'
+
+.schedule-calendar-wrapper
     max-height: 60vh
+    .cal-week-view .cal-time-events .cal-event
+        width: calc(100% - 60px)
+        margin-left: 30px
+    .cal-week-view .cal-time-events .cal-resize-handle
+        width: calc(100% - 50px)
+        margin-left: 25px
+        border-radius: 4px
+        background-color: $raven
+        height: 5px
+    .cal-event
+        background-color: $white-color
+        border-color: $button-border
+    @media screen and (max-width: $desktop-min-width)
+        .cal-week-view .cal-time-events .cal-event
+            width: calc(100% - 40px)
+            margin-left: 20px
+        .cal-week-view .cal-time-events .cal-resize-handle
+            width: calc(100% - 28px)
+            margin-left: 14px
+            height: 3px
