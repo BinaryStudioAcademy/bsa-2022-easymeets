@@ -35,7 +35,7 @@ export class NewMeetingCalendarComponent extends BaseComponent {
     @Input() viewDate: Date;
 
     @Input() set unavailability(value: IUnavailability[]) {
-        this.unavailablePeriods = value;
+        this.unavailablePeriods = this.filterEvents(value);
         this.refreshEvents();
     }
 
@@ -108,17 +108,70 @@ export class NewMeetingCalendarComponent extends BaseComponent {
         return true;
     }
 
-    private isUnavailable(date: Date, unavailability: IUnavailability) {
-        const start = new Date(unavailability.start);
-        const end = new Date(unavailability.end);
-        const dateEnd = addMinutes(date, this.duration.minutes!);
+    private filterEvents(events: IUnavailability[]) {
+        const converted = this.convertDates(events);
 
-        return this.containsDate(date, start, end) ||
-            this.containsDate(dateEnd, start, end) ||
-            (this.containsDate(start, date, dateEnd) && this.containsDate(end, date, dateEnd));
+        const unfinished = this.removeFinished(converted);
+
+        const trimmed = this.shortenStarted(unfinished);
+
+        return this.mergeUnavailabilities(trimmed);
     }
 
-    private containsDate(date: Date, start: Date, end: Date) {
+    private convertDates(events: IUnavailability[]): IUnavailability[] {
+        return events.map(e => ({ start: new Date(e.start), end: new Date(e.end) }));
+    }
+
+    private removeFinished(events: IUnavailability[]) {
+        return events.filter(e => e.end > new Date());
+    }
+
+    private shortenStarted(events: IUnavailability[]) {
+        return events.map(e => {
+            if (e.start < new Date()) {
+                return { ...e, start: addMinutes(new Date(), 1) };
+            }
+
+            return e;
+        });
+    }
+
+    private mergeUnavailabilities(events: IUnavailability[]) {
+        const merged: IUnavailability[] = [];
+
+        events.map((value, index, array) => {
+            const currentIntercepting = array.filter(e => this.isUnavailable(e.start, value, true) ||
+                this.isUnavailable(new Date(e.end), value, true));
+
+            const mergedEvent: IUnavailability = {
+                start: currentIntercepting.reduce((p, c) => (p.start < c.start ? p : c)).start,
+                end: currentIntercepting.reduce((p, c) => (p.end > c.end ? p : c)).end,
+            };
+
+            if (!merged.find(e => e.start === mergedEvent.start && e.end === mergedEvent.end)) {
+                merged.push(mergedEvent);
+            }
+
+            return value;
+        });
+
+        return merged;
+    }
+
+    private isUnavailable(date: Date, unavailability: IUnavailability, unstrict?: boolean) {
+        const dateEnd = addMinutes(date, this.duration.minutes!);
+
+        return this.containsDate(date, unavailability.start, unavailability.end, unstrict) ||
+            this.containsDate(dateEnd, unavailability.start, unavailability.end, unstrict) ||
+            (this.containsDate(unavailability.start, date, dateEnd, true) &&
+                this.containsDate(unavailability.end, date, dateEnd, true));
+    }
+
+    private containsDate(date: Date, start: Date, end: Date, unstrict?: boolean) {
+        if (unstrict === true) {
+            return date >= start && date <= end;
+        }
+
         return date > start && date < end;
     }
 }
