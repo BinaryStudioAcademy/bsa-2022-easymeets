@@ -54,7 +54,7 @@ export class TeamService {
     }
 
     public getCurrentUserAdminAndOwnerTeams(): Observable<ITeam[]> {
-        return this.httpService.getRequest<ITeam[]>(`${this.routePrefix}/user-teams-admin-owner`);
+        return this.httpService.getRequest<ITeam[]>(`${this.routePrefix}/user-teams`);
     }
 
     public getTeamMembers(teamId?: number) {
