@@ -12,5 +12,6 @@ public class TeamMemberDto : EntityDto<long>
     public string PageLink { get; set; } = string.Empty;
     public Role Role { get; set; }
     public Status Status { get; set; }
+    public long UserId { get; set; }
     public IEnumerable<string>? ConnectedCalendars { get; set; } = new List<string>();
 }
