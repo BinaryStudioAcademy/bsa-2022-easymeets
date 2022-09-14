@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
-import { MinimalTimeValidator, TimeRangeValidator } from '@core/helpers/time-helper';
+import { TimeRangeValidator } from '@core/helpers/time-helper';
 import { getDateWithoutLocalOffset } from '@core/helpers/time-zone-helper';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
 
@@ -71,11 +71,6 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
             }))
             .filter((range) => range.start && range.end);
 
-    updateStartRangeValidators() {
-        this.timeControlsIdentifiers
-            .forEach((number) => this.formGroup.get(number.toString() + this.startRangeIdentifier)?.updateValueAndValidity());
-    }
-
     private getDefaultFormGroup = () => {
         const [firstTimeControl, secondTimeControl] = this.getTimeFormControls();
 
@@ -87,7 +82,7 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
 
     private getTimeFormControls = () => {
         const firstControl = new FormControl(null, {
-            validators: [Validators.pattern(hourMinutesRegex), MinimalTimeValidator(() => this.selected)],
+            validators: [Validators.pattern(hourMinutesRegex)],
             updateOn: 'change',
         });
 
