@@ -3,6 +3,7 @@ import { BaseComponent } from '@core/base/base.component';
 import { CustomCalendarDateFormatter } from '@core/helpers/custom-calendar-date-formatter.provider';
 import { IDuration } from '@core/models/IDuration';
 import { IUnavailability } from '@core/models/IUnavailability';
+import { isBetweenDates } from '@core/services/dates-interception-helper';
 import { NotificationService } from '@core/services/notification.service';
 import { CalendarDateFormatter, CalendarEvent } from 'angular-calendar';
 import { addMinutes } from 'date-fns';
@@ -24,8 +25,8 @@ export class NewMeetingCalendarComponent extends BaseComponent {
     private _duration: IDuration;
 
     @Input() set duration(value: IDuration) {
-        this.refreshEvents();
         this._duration = value;
+        this.refreshEvents();
     }
 
     get duration() {
@@ -96,10 +97,10 @@ export class NewMeetingCalendarComponent extends BaseComponent {
         if (date < new Date()) {
             this.notificationsService.showInfoMessage('You cannot select time period that starts in the past');
 
-            return;
+            return false;
         }
 
-        if (this.unavailablePeriods.some(u => this.isUnavailable(date, u))) {
+        if (this.unavailablePeriods.some(u => this.isUnavailable(date, addMinutes(date, this.duration.minutes!), u))) {
             this.notificationsService.showInfoMessage('At least one selected team member is unavailable in this time period, try again');
 
             return false;
@@ -137,41 +138,44 @@ export class NewMeetingCalendarComponent extends BaseComponent {
     }
 
     private mergeUnavailabilities(events: IUnavailability[]) {
-        const merged: IUnavailability[] = [];
+        let merged: IUnavailability[] = [];
 
-        events.map((value, index, array) => {
-            const currentIntercepting = array.filter(e => this.isUnavailable(e.start, value, true) ||
-                this.isUnavailable(new Date(e.end), value, true));
+        for (let i = 0; i < events.length; i++) {
+            const currentIntercepting = this.getInterceptingEvents(events, events[i]);
 
-            const mergedEvent: IUnavailability = {
-                start: currentIntercepting.reduce((p, c) => (p.start < c.start ? p : c)).start,
-                end: currentIntercepting.reduce((p, c) => (p.end > c.end ? p : c)).end,
-            };
+            const mergedEvent = this.mergeEvents(currentIntercepting);
 
-            if (!merged.find(e => e.start === mergedEvent.start && e.end === mergedEvent.end)) {
-                merged.push(mergedEvent);
-            }
+            const conflicts = this.getInterceptingEvents(merged, mergedEvent);
 
-            return value;
-        });
+            merged = merged.filter(e => !conflicts.some(c => c.start === e.start && c.end === e.end));
+
+            merged = [...merged, this.mergeEvents([...conflicts, mergedEvent])];
+        }
 
         return merged;
     }
 
-    private isUnavailable(date: Date, unavailability: IUnavailability, unstrict?: boolean) {
-        const dateEnd = addMinutes(date, this.duration.minutes!);
-
-        return this.containsDate(date, unavailability.start, unavailability.end, unstrict) ||
-            this.containsDate(dateEnd, unavailability.start, unavailability.end, unstrict) ||
-            (this.containsDate(unavailability.start, date, dateEnd, true) &&
-                this.containsDate(unavailability.end, date, dateEnd, true));
+    public mergeEvents(events: IUnavailability[]): IUnavailability {
+        return {
+            start: this.getEarliestStart(events),
+            end: this.getLatestEnd(events),
+        };
     }
 
-    private containsDate(date: Date, start: Date, end: Date, unstrict?: boolean) {
-        if (unstrict === true) {
-            return date >= start && date <= end;
-        }
+    public getInterceptingEvents(events: IUnavailability[], unavailability: IUnavailability) {
+        return events.filter(e => this.isUnavailable(e.start, e.end, unavailability, false));
+    }
 
-        return date > start && date < end;
+    private getEarliestStart(events: IUnavailability[]) {
+        return events.reduce((p, c) => (p.start < c.start ? p : c)).start;
+    }
+
+    private getLatestEnd(events: IUnavailability[]) {
+        return events.reduce((p, c) => (p.end > c.end ? p : c)).end;
+    }
+
+    private isUnavailable(periodStart: Date, periodEnd: Date, unavailability: IUnavailability, restrictTouch: boolean = true) {
+        return isBetweenDates(periodEnd, unavailability.start, unavailability.end, restrictTouch) ||
+                isBetweenDates(unavailability.end, periodStart, periodEnd, restrictTouch);
     }
 }
