@@ -20,7 +20,7 @@ import { debounceIntervalMedium } from '@shared/constants/rxjs-constants';
 import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
-import { debounceTime, map, Observable, startWith, Subscription } from 'rxjs';
+import { debounceTime, map, Observable, of, startWith, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-new-meeting',
@@ -157,7 +157,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 this.searchMembersByName();
             } else {
                 this.teamMembers = [];
-                this.getFilteredOptions();
+                this.filteredOptions = of([]);
             }
         });
     }
