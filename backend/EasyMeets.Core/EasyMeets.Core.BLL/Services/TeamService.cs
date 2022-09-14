@@ -6,8 +6,7 @@ using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore; 
 
 namespace EasyMeets.Core.BLL.Services;
 
@@ -197,7 +196,7 @@ public class TeamService : BaseService, ITeamService
     private async Task<List<UnavailabilityItemDto>> GetMemberUnavailability(long teamMemberId)
     {
         var member = await _context.TeamMembers
-            .FirstOrDefaultAsync(m => m.UserId == teamMemberId) ?? throw new KeyNotFoundException("Invalid team member id");
+            .FirstOrDefaultAsync(m => m.Id == teamMemberId) ?? throw new KeyNotFoundException("Invalid team member id");
 
         var meetings = await _context.Meetings
             .Include(m => m.MeetingMembers)
