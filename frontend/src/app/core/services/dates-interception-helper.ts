@@ -3,5 +3,5 @@ export const isBetweenDates = (moment: Date, periodStart: Date, periodEnd: Date,
         return moment >= periodStart && moment <= periodEnd;
     }
 
-    return moment > periodStart && moment < periodEnd;
+    return moment > periodStart && moment <= periodEnd;
 };
