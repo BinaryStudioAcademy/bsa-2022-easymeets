@@ -186,4 +186,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     public userNameChanged(value: string) {
         this.userForm.patchValue({ userName: removeExcessiveSpaces(value) });
     }
+
+    public defineZone() {
+        return !this.user?.timeZone || (this.user.timeZone.nameValue === '' && this.user.timeZone.timeValue === '');
+    }
 }
