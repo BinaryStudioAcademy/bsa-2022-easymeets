@@ -154,18 +154,22 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     subscribeToSearchTeamMembers() {
         this.memberFilterCtrl?.valueChanges.pipe(this.untilThis, debounceTime(debounceIntervalMedium)).subscribe(() => {
             if (this.memberFilterCtrl.getRawValue()) {
-                this.newMeetingService
-                    .getTeamMembersOfCurrentUserByName(this.memberFilterCtrl.getRawValue(), this.currentTeamId)
-                    .pipe(this.untilThis)
-                    .subscribe((resp) => {
-                        this.teamMembers = [...resp.filter((u) => !this.addedMembers.some((el) => el.id === u.id))];
-                        this.getFilteredOptions();
-                    });
+                this.searchMembersByName();
             } else {
                 this.teamMembers = [];
                 this.getFilteredOptions();
             }
         });
+    }
+
+    searchMembersByName() {
+        this.newMeetingService
+            .getTeamMembersByName(this.memberFilterCtrl.getRawValue(), this.currentTeamId)
+            .pipe(this.untilThis)
+            .subscribe((resp) => {
+                this.teamMembers = resp?.filter((u) => !this.addedMembers.some((el) => el.id === u.id));
+                this.getFilteredOptions();
+            });
     }
 
     displayMemberName(teamMember: INewMeetingMember): string {

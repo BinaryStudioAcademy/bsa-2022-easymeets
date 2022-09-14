@@ -7,7 +7,6 @@ using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace EasyMeets.Core.BLL.Services;
 
@@ -178,11 +177,11 @@ public class TeamService : BaseService, ITeamService
         return _mapper.Map<List<TeamDto>>(teams);
     }
     
-    public async Task<ICollection<NewMeetingMemberDto>> GetTeamMembersOfCurrentUserByNameAsync(string searchName, long? teamId)
+    public async Task<ICollection<NewMeetingMemberDto>> GetTeamMembersByNameAsync(string searchName, long? teamId)
     {
         var teamMembers = await _context.TeamMembers
                 .Include(x => x.User)
-                .Where(x => x.TeamId == teamId && x.User.Name.Contains(searchName))
+                .Where(x => x.TeamId == teamId && x.User.Name.ToLower().Contains(searchName.ToLower()))
                 .Select(a => _mapper.Map<NewMeetingMemberDto>(a))
                 .ToListAsync();
 
