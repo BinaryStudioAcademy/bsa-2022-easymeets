@@ -75,7 +75,11 @@
         </div>
         <div class="input-description-tooltip-container">
             <p class="input-description">Password to Booking Page</p>
-            <mat-icon matTooltip="This password will be required to book this slot">help_outline</mat-icon>
+            <mat-icon
+                matTooltip="This password will be required to book this slot. Password must include
+                minimum 3 characters, maximum 8 characters.">
+                help_outline
+            </mat-icon>
         </div>
         <div class="password-input-container">
             <input
@@ -83,7 +87,9 @@
                 [disabled]="!settings.passwordProtectionIsUsed"
                 [(ngModel)]="settings.passwordProtection"
                 [type]="hidePassword ? 'password' : 'text'"
-                [formControl]="passwordControl" />
+                [formControl]="passwordControl"
+                #passwordField
+                (change)="onPasswordChange(passwordField.value)" />
             <button
                 mat-icon-button
                 matSuffix

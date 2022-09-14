@@ -108,6 +108,10 @@ export class EventDetailComponent extends BaseComponent implements OnInit {
         this.welcomeMessageControl.patchValue(removeExcessiveSpaces(message));
     }
 
+    onPasswordChange(message: string) {
+        this.passwordControl.patchValue(removeExcessiveSpaces(message));
+    }
+
     private slotLinkValidator(): AsyncValidatorFn {
         return (control: AbstractControl): Observable<ValidationErrors | null> =>
             this.validateSlotLink(control.value)
