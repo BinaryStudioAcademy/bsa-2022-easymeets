@@ -1,9 +1,9 @@
-import {Component, EventEmitter, HostBinding, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import { ColorShadowMapping } from '@core/helpers/color-shadow-mapping';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { IColorHex } from '@core/models/IColorHex';
 import { IExternalAvailabilitySlot } from '@core/models/IExternalAvailabilitySlot';
 import { LocationType } from '@shared/enums/locationType';
-import {IColorHex} from "@core/models/IColorHex";
-import {ColorShadowMapping} from "@core/helpers/color-shadow-mapping";
 
 @Component({
     selector: 'app-external-booking-slot',
