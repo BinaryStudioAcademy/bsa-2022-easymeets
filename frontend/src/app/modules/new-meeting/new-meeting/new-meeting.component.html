@@ -7,7 +7,7 @@
             type="submit"
             mat-flat-button
             class="new-meeting-header-button"
-            [disabled]="meetingForm.invalid || !meetingForm.touched">
+            [disabled]="meetingForm.invalid || !meetingForm.touched || !addedMembers.length">
             Create
         </button>
     </div>
@@ -130,6 +130,7 @@
                             <div class="member-info">
                                 <p>{{ member.name }}</p>
                                 <i class="fa-solid fa-xmark fa-lg cancel-icon"
+                                *ngIf="currentUser.id !== member.id"
                                 (click)="removeMemberToList(member)"></i>
                             </div>
                             <mat-divider></mat-divider>

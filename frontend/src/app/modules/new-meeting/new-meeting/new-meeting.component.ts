@@ -43,6 +43,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     date: Date = new Date();
 
+    currentUser: INewMeetingMember;
+
     teamMembers: INewMeetingMember[];
 
     addedMembers: INewMeetingMember[] = [];
@@ -155,8 +157,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             .getTeamMembersOfCurrentUser(teamId)
             .pipe(this.untilThis)
             .subscribe((resp) => {
+                this.addCurrentTeamMemberToList(resp);
                 this.teamMembers = resp;
-                this.getFilteredOptions();
             });
     }
 
@@ -262,10 +264,15 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         control.patchValue(removeExcessiveSpaces(control.value));
     }
 
-    override ngOnDestroy(): void {
-        super.ngOnDestroy();
+    private addCurrentTeamMemberToList(meetingMembers: INewMeetingMember[]) {
+        this.userService
+            .userChangedEvent$
+            .subscribe((resp) => {
+                this.currentUser = meetingMembers.find(member => member.id === resp?.id) as INewMeetingMember;
 
-        this.redirectEventSubscription.unsubscribe();
+                this.addMemberToList(this.currentUser);
+                this.getFilteredOptions();
+            });
     }
 
     private initLocations() {
@@ -288,8 +295,15 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             map((value) => {
                 this.filterValue = (typeof value === 'string') ? value.toLowerCase() : value.name;
 
-                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(this.filterValue));
+                return this.teamMembers.filter((teamMember) =>
+                    teamMember.id !== this.currentUser.id && teamMember.name.toLowerCase().includes(this.filterValue));
             }),
         );
+    }
+
+    override ngOnDestroy(): void {
+        super.ngOnDestroy();
+
+        this.redirectEventSubscription.unsubscribe();
     }
 }

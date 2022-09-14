@@ -44,20 +44,13 @@ public class EmailQueueListener : IHostedService
             return;
         }
 
-        var isSent = false;
         try
         {
             await _emailService.SendEmailAsync(emailDto.Recipient, emailDto.Body, emailDto.Subject);
-
-            isSent = true;
-        }
-        catch (Exception)
-        {
-            isSent = false;
         }
         finally
         {
-            _consumerService.SetAcknowledge(args.DeliveryTag, isSent);
+            _consumerService.SetAcknowledge(args.DeliveryTag, true);
         }
     }
 
