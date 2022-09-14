@@ -19,6 +19,10 @@
             <mat-slide-toggle class="form-switch" [(ngModel)]="settings.allowToSend"></mat-slide-toggle>
             <p class="input-field">Send</p>
         </div>
+        <div *ngIf="activeTab === navLinks[2].path || activeTab === navLinks[3].path" class="input-time-notify">
+            <p class="input-field">Time(HH:MM)</p>
+            <input type="time" class="input-message timeBody" [(ngModel)]="settings.timeValue">
+        </div>
     </div>
     <div id="container-emailSubject">
         <p class="input-description">
