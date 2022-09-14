@@ -13,7 +13,7 @@
             class="full-width"
             mat-flat-button
             color="primary"
-            type="button">Send
+            type="submit">Send
         </button>
         <button
             mat-raised-button
@@ -30,7 +30,7 @@
             <div class="btn-icon">
                 <mat-icon>chevron_left</mat-icon>
             </div>
-            <div class="btn-content">Back</div>
+            <div class="btn-content" (click)="goBackToForgotPage()">Back</div>
         </button>
     </div>
 </form>

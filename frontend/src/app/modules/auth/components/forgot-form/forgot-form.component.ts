@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { AuthFormService } from '@core/services/auth-form.service';
 
@@ -20,13 +21,16 @@ export class ForgotFormComponent extends BaseComponent {
         },
     );
 
-    constructor(private authFormService: AuthFormService) {
+    constructor(private authFormService: AuthFormService, private router: Router) {
         super();
     }
 
     sendRecoveryCode() {
-        // eslint-disable-next-line no-debugger
-        debugger;
-        this.authFormService.sendRecoveryCode('kozak.olena11@gmail.com');
+        this.goToRecoveryCodeComponent();
+        //this.authFormService.sendRecoveryCode('kozak.olena11@gmail.com');
+    }
+
+    goToRecoveryCodeComponent() {
+        this.router.navigate(['auth/recovery-code']);
     }
 }

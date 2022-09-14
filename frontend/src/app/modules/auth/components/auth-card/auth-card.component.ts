@@ -9,8 +9,7 @@ export class AuthCardComponent {
     public navLinks = [
         { path: 'signin', label: 'Sign In' },
         { path: 'signup', label: 'Registration' },
-        //{ path: 'forgot', label: 'Forgot' },
-        { path: 'recovery-code', label: 'Forgot' },
+        { path: 'forgot', label: 'Forgot' },
     ];
 
     public activeTab = this.navLinks[0].label;
