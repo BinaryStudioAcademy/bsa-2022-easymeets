@@ -243,7 +243,14 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         );
     }
 
-    addSlotInfo(slotId: bigint, teamId: bigint | undefined, duration: number, location: LocationType, name: string, meetingRoom?: string) {
+    addSlotInfo(
+        slotId: bigint,
+        teamId: bigint | undefined,
+        duration: number,
+        location: LocationType,
+        name: string,
+        meetingRoom?: string,
+    ) {
         this.selectedDurationAndLocationEvent.emit({ slotId, teamId, duration, location, name, meetingRoom });
     }
 
