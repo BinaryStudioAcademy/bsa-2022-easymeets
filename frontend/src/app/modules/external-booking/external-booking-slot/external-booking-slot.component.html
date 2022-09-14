@@ -9,7 +9,7 @@
             {{ slot.size }} Min, {{ locationTypeMapping(slot.locationType) }}
         </h3>
         <h3 *ngIf="slot.locationType === locationTypeOffice">
-            {{ slot.size }}&nbsp;Min,&nbsp;{{ locationTypeMapping(slot.locationType) }}&nbsp;{{ slot.meetingRoom }}
+            {{ slot.size }} Min, {{ locationTypeMapping(slot.locationType) }} {{ slot.meetingRoom }}
         </h3>
     </div>
 </mat-card>
