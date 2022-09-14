@@ -188,6 +188,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
     }
 
     public defineZone() {
-        return !this.user?.timeZone || (this.user.timeZone.nameValue === '' && this.user.timeZone.timeValue === '');
+        return !this.user?.timeZone || (!this.user.timeZone.nameValue && !this.user.timeZone.timeValue);
     }
 }
