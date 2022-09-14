@@ -33,10 +33,10 @@ export class HeaderDatePickerComponent<D> extends BaseComponent {
     }
 
     previousClicked() {
-        this.dateAdapter.addCalendarMonths(this.calendar.activeDate, -1);
+        this.calendar.activeDate = this.dateAdapter.addCalendarMonths(this.calendar.activeDate, -1);
     }
 
     nextClicked() {
-        this.dateAdapter.addCalendarMonths(this.calendar.activeDate, 1);
+        this.calendar.activeDate = this.dateAdapter.addCalendarMonths(this.calendar.activeDate, 1);
     }
 }
