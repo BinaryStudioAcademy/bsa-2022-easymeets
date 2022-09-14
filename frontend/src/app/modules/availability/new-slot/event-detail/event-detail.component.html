@@ -82,7 +82,8 @@
                 matInput
                 [disabled]="!settings.passwordProtectionIsUsed"
                 [(ngModel)]="settings.passwordProtection"
-                [type]="hidePassword ? 'password' : 'text'" />
+                [type]="hidePassword ? 'password' : 'text'"
+                [formControl]="passwordControl" />
             <button
                 mat-icon-button
                 matSuffix
@@ -93,6 +94,11 @@
                 [disabled]="!settings.passwordProtectionIsUsed">
                 <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
+        </div>
+        <div *ngIf="passwordControl.invalid && passwordControl.dirty" class="validation">
+            <small *ngIf="passwordControl.errors?.['pattern']">{{ invalidCharactersMessage }}</small>
+            <small *ngIf="passwordControl.errors?.['minlength']">Length must be more than 3 characters.</small>
+            <small *ngIf="passwordControl.errors?.['maxlength']">Length must be less than 8 characters.</small>
         </div>
     </div>
 </div>
