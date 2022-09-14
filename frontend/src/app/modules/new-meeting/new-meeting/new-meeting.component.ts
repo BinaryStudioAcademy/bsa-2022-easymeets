@@ -44,7 +44,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     date: Date = new Date();
 
-    currentUser: INewMeetingMember;
+    currentMemberId: bigint | undefined;
 
     teamMembers: INewMeetingMember[];
 
@@ -117,10 +117,15 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.patchFormValues();
         this.setValidation();
 
-        this.teamService.currentTeamEmitted$.subscribe((teamId) => {
+        this.teamService.currentTeamEmitted$.pipe(this.untilThis).subscribe((teamId) => {
             this.currentTeamId = teamId;
             this.subscribeToSearchTeamMembers();
+
+            this.userService.userChangedEvent$.pipe(this.untilThis).subscribe((resp) => {
+                this.addCurrentTeamMemberToList(resp?.id);
+            });
         });
+
         [this.duration] = this.durations;
         this.initLocations();
     }
@@ -276,14 +281,14 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         control.patchValue(removeExcessiveSpaces(control.value));
     }
 
-    private addCurrentTeamMemberToList(meetingMembers: INewMeetingMember[]) {
-        this.userService
-            .userChangedEvent$
+    private addCurrentTeamMemberToList(userId?: bigint) {
+        this.newMeetingService
+            .getCurrentUserAsTeamMember(userId, this.currentTeamId)
+            .pipe(this.untilThis)
             .subscribe((resp) => {
-                this.currentUser = meetingMembers.find(member => member.id === resp?.id) as INewMeetingMember;
+                this.addMemberToList(resp);
 
-                this.addMemberToList(this.currentUser);
-                this.getFilteredOptions();
+                this.currentMemberId = resp.id;
             });
     }
 
@@ -308,8 +313,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             map((value) => {
                 this.filterValue = typeof value === 'string' ? value.toLowerCase() : value.name;
 
-                return this.teamMembers.filter((teamMember) =>
-                    teamMember.id !== this.currentUser.id && teamMember.name.toLowerCase().includes(this.filterValue));
+                return this.teamMembers.filter((teamMembers) => teamMembers.name.toLowerCase().includes(this.filterValue));
             }),
         );
     }
