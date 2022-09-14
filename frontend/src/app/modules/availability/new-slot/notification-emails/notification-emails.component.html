@@ -1,13 +1,15 @@
 <div class="container">
     <div id="container-tabs">
         <mat-card-content>
-            <nav class="email-tab-panel tab-panel-custom" mat-tab-nav-bar>
+            <nav class="email-tab-panel" mat-tab-nav-bar>
                 <a
                     mat-tab-link
                     *ngFor="let link of navLinks"
                     [active]="link.path === activeTab"
                     (click)="changeTemplate(link.path)">
-                    {{ link.label }}
+                    <span class="link-text">
+                        {{ link.label }}
+                    </span>
                 </a>
             </nav>
         </mat-card-content>

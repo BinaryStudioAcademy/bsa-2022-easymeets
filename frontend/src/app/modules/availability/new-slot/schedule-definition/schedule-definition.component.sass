@@ -1,6 +1,7 @@
 @import '../../../../../styles/color-variables'
 @import '../../../../../styles/screen-variables'
 @import "src/styles/time-zone-picker"
+@import 'src/styles/material'
 
 .container
     box-sizing: border-box
@@ -139,3 +140,11 @@ hr
     height: 1px
     background-color: $line-color
     width: 100%
+
+::ng-deep .custom-mat-group .mat-tab-label .mat-tab-label-content
+    padding: 5px 4px
+    border-radius: 2px
+    margin-bottom: -4px
+
+::ng-deep .custom-mat-group .mat-tab-label .mat-tab-label-content:hover
+    background-color: $solitude
