@@ -21,7 +21,8 @@
                             [(ngModel)]="element.visibleForTeams"
                             (ngModelChange)="(element.visibleForTeams)"
                             name="selectedTeams"
-                            multiple>
+                            multiple
+                            class="events-from-select">
                             <mat-select-trigger
                                 *ngIf="
                                     element.visibleForTeams?.length >= 2 &&
@@ -46,7 +47,8 @@
                         <mat-label *ngIf="!element.importEventsFromTeam">None</mat-label>
                         <mat-select
                             [(ngModel)]="element.importEventsFromTeam"
-                            (ngModelChange)="(element.importEventsFromTeam)">
+                            (ngModelChange)="(element.importEventsFromTeam)"
+                            class="events-from-select">
                             <mat-option *ngFor="let team of allTeams" [value]="team">
                                 {{ team.name }}
                             </mat-option>

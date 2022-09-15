@@ -8,7 +8,6 @@ using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace EasyMeets.Core.BLL.Services
 {
     public class MeetingService : BaseService, IMeetingService
@@ -133,7 +132,7 @@ namespace EasyMeets.Core.BLL.Services
 
             await AddMeetingLink(meeting);
 
-            await SendConfirmationEmailsAsync(meeting.Id);
+            await SendEmailsAsync(meeting.Id, TemplateType.Confirmation);
 
             return _mapper.Map<SaveMeetingDto>(GetByIdInternal(meeting.Id));
         }
@@ -158,7 +157,7 @@ namespace EasyMeets.Core.BLL.Services
                 .ToListAsync();
         }
 
-        public async Task SendConfirmationEmailsAsync(long meetingId)
+        public async Task SendEmailsAsync(long meetingId, TemplateType type)
         {
             var meeting = await _context.Meetings
                 .Include(m => m.MeetingMembers)
@@ -172,7 +171,7 @@ namespace EasyMeets.Core.BLL.Services
             var emailTemplate = meeting?
                 .AvailabilitySlot?
                 .EmailTemplates
-                .FirstOrDefault(template => template.TemplateType == TemplateType.Confirmation);
+                .FirstOrDefault(template => template.TemplateType == type && template.IsSend);
 
             var recipients = meeting?
                 .MeetingMembers
@@ -234,6 +233,8 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task DeleteMeeting(long meetingId)
         {
+            await SendEmailsAsync(meetingId, TemplateType.Cancellation);
+            
             var meeting = await _context.Meetings.FirstAsync(meeting => meeting.Id == meetingId);
             var members = _context.MeetingMembers.Where(member => member.MeetingId == meetingId);
             _context.RemoveRange(members);

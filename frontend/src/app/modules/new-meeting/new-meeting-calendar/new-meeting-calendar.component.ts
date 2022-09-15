@@ -1,6 +1,13 @@
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { CustomCalendarDateFormatter } from '@core/helpers/custom-calendar-date-formatter.provider';
+import {
+    convertDates,
+    isUnavailable,
+    mergeUnavailabilities,
+    removeFinished,
+    shortenStarted,
+} from '@core/helpers/unavailability-helper';
 import { IDuration } from '@core/models/IDuration';
 import { IUnavailability } from '@core/models/IUnavailability';
 import { NotificationService } from '@core/services/notification.service';
@@ -24,8 +31,8 @@ export class NewMeetingCalendarComponent extends BaseComponent {
     private _duration: IDuration;
 
     @Input() set duration(value: IDuration) {
-        this.refreshEvents();
         this._duration = value;
+        this.refreshEvents();
     }
 
     get duration() {
@@ -35,7 +42,7 @@ export class NewMeetingCalendarComponent extends BaseComponent {
     @Input() viewDate: Date;
 
     @Input() set unavailability(value: IUnavailability[]) {
-        this.unavailablePeriods = value;
+        this.unavailablePeriods = this.filterEvents(value);
         this.refreshEvents();
     }
 
@@ -96,10 +103,10 @@ export class NewMeetingCalendarComponent extends BaseComponent {
         if (date < new Date()) {
             this.notificationsService.showInfoMessage('You cannot select time period that starts in the past');
 
-            return;
+            return false;
         }
 
-        if (this.unavailablePeriods.some(u => this.isUnavailable(date, u))) {
+        if (this.unavailablePeriods.some(u => isUnavailable(date, addMinutes(date, this.duration.minutes!), u))) {
             this.notificationsService.showInfoMessage('At least one selected team member is unavailable in this time period, try again');
 
             return false;
@@ -108,17 +115,13 @@ export class NewMeetingCalendarComponent extends BaseComponent {
         return true;
     }
 
-    private isUnavailable(date: Date, unavailability: IUnavailability) {
-        const start = new Date(unavailability.start);
-        const end = new Date(unavailability.end);
-        const dateEnd = addMinutes(date, this.duration.minutes!);
+    private filterEvents(events: IUnavailability[]) {
+        const converted = convertDates(events);
 
-        return this.containsDate(date, start, end) ||
-            this.containsDate(dateEnd, start, end) ||
-            (this.containsDate(start, date, dateEnd) && this.containsDate(end, date, dateEnd));
-    }
+        const unfinished = removeFinished(converted);
 
-    private containsDate(date: Date, start: Date, end: Date) {
-        return date > start && date < end;
+        const trimmed = shortenStarted(unfinished);
+
+        return mergeUnavailabilities(trimmed);
     }
 }
