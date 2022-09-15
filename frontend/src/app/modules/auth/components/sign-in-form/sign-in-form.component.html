@@ -7,8 +7,7 @@
             <mat-error *ngIf="signInForm.controls['email'].hasError('email')">Email format is invalid</mat-error>
             <mat-error *ngIf="signInForm.controls['email'].hasError('required')">Email is required field</mat-error>
             <mat-error *ngIf="signInForm.controls['email'].hasError('userInNotExist')"
-                >User with entered email address doesn't exist</mat-error
-            >
+                >User with entered email address doesn't exist</mat-error>
         </mat-form-field>
         <mat-label class="outside-label bold">Password</mat-label>
         <mat-form-field appearance="outline">
