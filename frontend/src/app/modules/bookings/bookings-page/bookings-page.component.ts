@@ -14,7 +14,7 @@ import { phoneMaxWidth } from '@shared/constants/screen-variables';
 import { deletionMessage } from '@shared/constants/shared-messages';
 import { DateFilterValue } from '@shared/enums/dateFilterValue';
 import { LocationType } from '@shared/enums/locationType';
-import { addDays, addMinutes } from 'date-fns';
+import { endOfDay, startOfDay } from 'date-fns';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -168,45 +168,39 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
     }
 
     private getMeetingRequest(): IMeetingMembersRequest {
-        let start: Date | undefined;
-        let end: Date | undefined;
+        const range = this.getMeetingsRange();
 
+        return { teamId: this.teamId, start: range?.start, end: range?.end };
+    }
+
+    private getMeetingsRange() {
         switch (this.selectedDateFilter) {
             case DateFilterValue.Today: {
-                start = moveByTimezone(new Date(
-                    this.currentDate.getFullYear(),
-                    this.currentDate.getMonth(),
-                    this.currentDate.getDate(),
-                ));
-                end = moveByTimezone(new Date(
-                    this.currentDate.getFullYear(),
-                    this.currentDate.getMonth(),
-                    this.currentDate.getDate() + 1,
-                ));
-                break;
+                return {
+                    start: moveByTimezone(startOfDay(this.currentDate)),
+                    end: moveByTimezone(endOfDay(this.currentDate)),
+                };
             }
             case DateFilterValue.Past: {
-                end = moveByTimezone(new Date());
-                break;
+                return {
+                    end: moveByTimezone(this.currentDate),
+                };
             }
             case DateFilterValue.Pending: {
-                start = moveByTimezone(new Date());
-                break;
+                return {
+                    start: moveByTimezone(this.currentDate),
+                };
             }
             case DateFilterValue.Range: {
-                if (!this.currentEnd || this.currentStart.getTime() === this.currentEnd.getTime()) {
-                    this.currentEnd = addMinutes(addDays(this.currentStart, 1), -1);
-                }
-                start = moveByTimezone(this.currentStart);
-                end = moveByTimezone(this.currentEnd);
-                break;
+                return {
+                    start: moveByTimezone(this.currentStart),
+                    end: moveByTimezone(endOfDay(this.currentEnd ?? this.currentStart)),
+                };
             }
             default: {
-                break;
+                return undefined;
             }
         }
-
-        return { teamId: this.teamId, start, end };
     }
 
     private getNumberOfItemsToDisplay(width: number) {
