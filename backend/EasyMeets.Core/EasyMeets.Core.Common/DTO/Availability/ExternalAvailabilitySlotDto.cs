@@ -11,4 +11,5 @@ public class ExternalAvailabilitySlotDto : EntityDto<long>
     public LocationType LocationType { get; set; }
     public string? MeetingRoom { get; set; }
     public string Link { get; set; } = string.Empty;
+    public Color Color { get; set; }
 }

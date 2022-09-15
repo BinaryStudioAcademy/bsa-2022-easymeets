@@ -10,6 +10,7 @@ import { ExternalBookingTimeComponent } from './external-booking-choose-time-pag
 import { ExternalBookingConfirmPageComponent } from './external-booking-confirm-page/external-booking-confirm-page.component';
 import { ExternalBookingConfirmedComponent } from './external-booking-confirmed-page/external-booking-confirmed-page.component';
 import { ExternalBookingPageComponent } from './external-booking-page/external-booking-page.component';
+import { ExternalBookingSlotComponent } from './external-booking-slot/external-booking-slot.component';
 import { ExternalBookingRoutingModule } from './external-booking-routing.module';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ExternalBookingRoutingModule } from './external-booking-routing.module'
         ExternalBookingConfirmPageComponent,
         ExternalBookingMembersComponent,
         ExternalBookingConfirmedComponent,
+        ExternalBookingSlotComponent,
     ],
     imports: [SharedModule, ExternalBookingRoutingModule, CommonModule, MaterialModule, MomentTimezonePickerModule],
 })
