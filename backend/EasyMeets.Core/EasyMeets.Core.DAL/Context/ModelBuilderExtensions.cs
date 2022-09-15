@@ -46,7 +46,6 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.Entity<ScheduleItem>().HasData(GenerateScheduleItems());
             modelBuilder.Entity<ExclusionDate>().HasData(exclusionDates);
             modelBuilder.Entity<DayTimeRange>().HasData(GenerateDateTimeRanges(exclusionDates));
-            modelBuilder.Entity<SyncGoogleCalendar>().HasNoKey();
         }
 
         private static IList<User> GenerateUsers(int count = 10)

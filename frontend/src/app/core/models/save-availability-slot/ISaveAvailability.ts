@@ -13,7 +13,7 @@ export interface ISaveAvailability {
     generalDetails: ISaveGeneralSettings;
     advancedSettings: ISaveAdvancedSettings | null;
     eventDetails: ISaveEventDetails;
-    questions: IQuestion[]
+    questions: IQuestion[];
     schedule: ISchedule;
-    templateSettings: ISaveConfirmationEmailDetails;
+    templateSettings: ISaveConfirmationEmailDetails[];
 }
