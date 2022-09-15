@@ -1,9 +1,15 @@
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { CustomCalendarDateFormatter } from '@core/helpers/custom-calendar-date-formatter.provider';
+import {
+    convertDates,
+    isUnavailable,
+    mergeUnavailabilities,
+    removeFinished,
+    shortenStarted,
+} from '@core/helpers/unavailability-helper';
 import { IDuration } from '@core/models/IDuration';
 import { IUnavailability } from '@core/models/IUnavailability';
-import { isBetweenDates } from '@core/services/dates-interception-helper';
 import { NotificationService } from '@core/services/notification.service';
 import { CalendarDateFormatter, CalendarEvent } from 'angular-calendar';
 import { addMinutes } from 'date-fns';
@@ -100,7 +106,7 @@ export class NewMeetingCalendarComponent extends BaseComponent {
             return false;
         }
 
-        if (this.unavailablePeriods.some(u => this.isUnavailable(date, addMinutes(date, this.duration.minutes!), u))) {
+        if (this.unavailablePeriods.some(u => isUnavailable(date, addMinutes(date, this.duration.minutes!), u))) {
             this.notificationsService.showInfoMessage('At least one selected team member is unavailable in this time period, try again');
 
             return false;
@@ -110,72 +116,12 @@ export class NewMeetingCalendarComponent extends BaseComponent {
     }
 
     private filterEvents(events: IUnavailability[]) {
-        const converted = this.convertDates(events);
+        const converted = convertDates(events);
 
-        const unfinished = this.removeFinished(converted);
+        const unfinished = removeFinished(converted);
 
-        const trimmed = this.shortenStarted(unfinished);
+        const trimmed = shortenStarted(unfinished);
 
-        return this.mergeUnavailabilities(trimmed);
-    }
-
-    private convertDates(events: IUnavailability[]): IUnavailability[] {
-        return events.map(e => ({ start: new Date(e.start), end: new Date(e.end) }));
-    }
-
-    private removeFinished(events: IUnavailability[]) {
-        return events.filter(e => e.end > new Date());
-    }
-
-    private shortenStarted(events: IUnavailability[]) {
-        return events.map(e => {
-            if (e.start < new Date()) {
-                return { ...e, start: addMinutes(new Date(), 1) };
-            }
-
-            return e;
-        });
-    }
-
-    private mergeUnavailabilities(events: IUnavailability[]) {
-        let merged: IUnavailability[] = [];
-
-        for (let i = 0; i < events.length; i++) {
-            const currentIntercepting = this.getInterceptingEvents(events, events[i]);
-
-            const mergedEvent = this.mergeEvents(currentIntercepting);
-
-            const conflicts = this.getInterceptingEvents(merged, mergedEvent);
-
-            merged = merged.filter(e => !conflicts.some(c => c.start === e.start && c.end === e.end));
-
-            merged = [...merged, this.mergeEvents([...conflicts, mergedEvent])];
-        }
-
-        return merged;
-    }
-
-    public mergeEvents(events: IUnavailability[]): IUnavailability {
-        return {
-            start: this.getEarliestStart(events),
-            end: this.getLatestEnd(events),
-        };
-    }
-
-    public getInterceptingEvents(events: IUnavailability[], unavailability: IUnavailability) {
-        return events.filter(e => this.isUnavailable(e.start, e.end, unavailability, false));
-    }
-
-    private getEarliestStart(events: IUnavailability[]) {
-        return events.reduce((p, c) => (p.start < c.start ? p : c)).start;
-    }
-
-    private getLatestEnd(events: IUnavailability[]) {
-        return events.reduce((p, c) => (p.end > c.end ? p : c)).end;
-    }
-
-    private isUnavailable(periodStart: Date, periodEnd: Date, unavailability: IUnavailability, restrictTouch: boolean = true) {
-        return isBetweenDates(periodEnd, unavailability.start, unavailability.end, restrictTouch) ||
-                isBetweenDates(unavailability.end, periodStart, periodEnd, restrictTouch);
+        return mergeUnavailabilities(trimmed);
     }
 }
