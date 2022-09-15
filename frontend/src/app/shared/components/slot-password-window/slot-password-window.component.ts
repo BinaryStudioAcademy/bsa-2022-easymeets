@@ -1,9 +1,11 @@
-import { Component, EventEmitter, Inject } from '@angular/core';
+import { Component, EventEmitter, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { AvailabilitySlotService } from '@core/services/availability-slot.service';
+import { NotificationService } from '@core/services/notification.service';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
-import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
+import { ISlotPasswordData } from '@shared/models/confirmWindow/ISlotPasswordData';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -11,7 +13,7 @@ import { Subscription } from 'rxjs';
     templateUrl: './slot-password-window.component.html',
     styleUrls: ['./slot-password-window.component.sass'],
 })
-export class SlotPasswordWindowComponent {
+export class SlotPasswordWindowComponent implements OnDestroy {
     title: string;
 
     message?: string;
@@ -22,6 +24,8 @@ export class SlotPasswordWindowComponent {
 
     enteredPassword: string;
 
+    private slotLink: string;
+
     private enterPasswordEventEmitter = new EventEmitter<void>();
 
     private enterPasswordEventSubscription: Subscription;
@@ -31,13 +35,16 @@ export class SlotPasswordWindowComponent {
     private leaveEventSubscription: Subscription;
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData,
+        @Inject(MAT_DIALOG_DATA) public data: ISlotPasswordData,
         private dialogRef: MatDialogRef<SlotPasswordWindowComponent>,
         private router: Router,
+        private availabilitySlotService: AvailabilitySlotService,
+        private notificationService: NotificationService,
     ) {
         this.title = data.title;
         this.message = data.message;
         this.buttonsOptions = data.buttonsOptions;
+        this.slotLink = data.slotLink;
 
         this.addEventsSubscription();
     }
@@ -65,15 +72,23 @@ export class SlotPasswordWindowComponent {
     }
 
     private enterPassword() {
-        /*if (this.enteredPassword === this.slot?.passwordProtection) {
-            console.log('successfully');
-        } else {
-            this.notificationService.showErrorMessage('Incorrect slot password');
-        }*/
+        this.availabilitySlotService.validateSlotPassword(this.slotLink, this.enteredPassword).subscribe((resp) => {
+            if (resp) {
+                this.notificationService.showSuccessMessage('Entered slot password is correct');
+                this.dialogRef.close();
+            } else {
+                this.notificationService.showErrorMessage('Entered slot password is incorrect');
+            }
+        });
     }
 
     private leaveSlotPasswordWindow() {
         this.router.navigateByUrl('');
         this.dialogRef.close();
+    }
+
+    ngOnDestroy(): void {
+        this.enterPasswordEventSubscription.unsubscribe();
+        this.leaveEventSubscription.unsubscribe();
     }
 }

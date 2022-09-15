@@ -15,7 +15,6 @@ import { SpinnerService } from '@core/services/spinner.service';
 import { LocationType } from '@shared/enums/locationType';
 import { addDays, addMinutes, subDays } from 'date-fns';
 import { TZone } from 'moment-timezone-picker';
-import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-external-booking-choose-time-page',
@@ -112,6 +111,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         if (this.slot?.passwordProtectionIsUsed) {
             this.confirmationWindowService.openSlotPasswordDialog({
                 title: 'Enter Slot Password',
+                slotLink: this.slot.link,
             });
         }
     }
