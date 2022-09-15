@@ -56,14 +56,14 @@ namespace EasyMeets.Core.BLL.Services
                         MeetingDuration = x.Duration,
                         MeetingTime = x.StartTime,
                         MeetingLink = x.MeetingLink,
-                        MeetingMembers = GetAllParticipants(x, meetingMemberRequestDto.NumberOfMembersToDisplay)
+                        MeetingMembers = GetAllParticipants(x)
                     })
             .ToList();
 
             return meetings;
         }
 
-        private static List<UserMeetingDTO> GetAllParticipants(Meeting meeting, int numberOfMembers)
+        private static List<UserMeetingDTO> GetAllParticipants(Meeting meeting)
         {
             var slotMembers = meeting.MeetingMembers
                 .Select(x => new UserMeetingDTO
@@ -84,7 +84,7 @@ namespace EasyMeets.Core.BLL.Services
                     Booked = meeting.CreatedAt
                 });
 
-            return slotMembers.Union(external).Take(numberOfMembers).ToList();
+            return slotMembers.Union(external).ToList();
         }
 
         private static string CreateMemberTitle(Meeting meeting)

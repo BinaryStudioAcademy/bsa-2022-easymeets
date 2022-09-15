@@ -36,27 +36,39 @@
                         <p class="itemText">
                             {{ item.meetingDuration }} min, {{ item.membersTitle }}, {{item.locationType}}
                         </p>
-                        <div class="avatar-list">
-                            <div *ngFor="let member of item.meetingMembers">
-                                <img *ngIf="member.image" [src]="member.image" class="avatar"/>
-                            </div>
+                        <div class="participants-avatars">
+                            <ng-container *ngFor="let participant of item.meetingMembers">
+                                <ng-container *ngIf="participant.image; else noImageParticipant">
+                                    <img class="avatar" src="{{ participant.image }}" alt="member" />
+                                </ng-container>
+                                <ng-template #noImageParticipant>
+                                    <img class="avatar" src="assets/header/avatar-icon.png" alt="member" />
+                                </ng-template>
+                            </ng-container>
+                            <span class="avatar" *ngIf="item.meetingMembers.length > 10">
+                                <div class="left-participants">
+                                    <p>+{{ item.meetingMembers.length - 10 }}</p>
+                                </div>
+                            </span>
                         </div>
                     </div>
 
                     <div class="buttonRow">
                         <button mat-flat-button color="primary" *ngIf="item.locationType !== locationTypeOffice"  class="buttonZoom" (click)="followMeetingLink(item.meetingLink)">Open {{ item.locationType }} Link</button>
-                        <h3 *ngIf="item.locationType === locationTypeOffice" class="timeTitle"> {{ item.locationType }}, {{ item.meetingRoom }} </h3>
+                        <h3 *ngIf="item.locationType === locationTypeOffice" class="timeTitle"> {{ item.meetingRoom }} </h3>
                    </div>
                 </div>
 
-                <div class="listScrollBlock">
-                    <div class="bookers-container" *ngFor="let user of item.meetingMembers">
-                        <app-booker [booker]="user"></app-booker>
+                <div class="bookers-wrapper">
+                    <div class="listScrollBlock">
+                        <div class="bookers-container" *ngFor="let user of item.meetingMembers">
+                            <app-booker [booker]="user"></app-booker>
+                        </div>
                     </div>
-                </div>
-
-                <div *ngIf="item.meetingCount > numberOfMembersToDisplay">
-                    <div class="moreBlock" (click)="goToPage('/bookings/bookers/'+item.id)">{{ item.meetingCount - numberOfMembersToDisplay }}+ Booker</div>
+                    <div *ngIf="item.meetingMembers.length > numberOfMembersToDisplay">
+                        <div class="gradient"></div>
+                        <p class="bookers-number">Bookers: {{item.meetingMembers.length}}</p>
+                    </div>
                 </div>
             </div>
         </div>
