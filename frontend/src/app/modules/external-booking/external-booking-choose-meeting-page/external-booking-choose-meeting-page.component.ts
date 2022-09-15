@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { IExternalBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
 import { IExternalAvailabilitySlot } from '@core/models/IExternalAvailabilitySlot';
-import { LocationType } from '@shared/enums/locationType';
 
 @Component({
     selector: 'app-external-booking-choose-meeting-page',
@@ -9,11 +8,9 @@ import { LocationType } from '@shared/enums/locationType';
     styleUrls: ['./external-booking-choose-meeting-page.component.sass'],
 })
 export class ExternalBookingMeetingComponent {
-    @Input() personalSlots?: IExternalAvailabilitySlot[];
+    @Input() menu: IExternalBookingSideMenu;
+
+    @Input() slots?: IExternalAvailabilitySlot[];
 
     @Output() setTeamId = new EventEmitter<bigint>();
-
-    locationTypeOffice = LocationType.Office;
-
-    locationTypeMapping = LocationTypeMapping;
 }

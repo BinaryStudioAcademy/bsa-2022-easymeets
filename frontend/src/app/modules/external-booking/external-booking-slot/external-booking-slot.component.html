@@ -1,0 +1,15 @@
+<mat-card
+    class="card"
+    (click)="setTeamId.emit(slot.teamId)"
+    [routerLink]="['/external-booking/choose-time/' + slot.link]">
+    <div class="color-line"></div>
+    <div class="card-body">
+        <h1 class="title">{{ slot.name }}</h1>
+        <h3 *ngIf="slot.locationType !== locationTypeOffice">
+            {{ slot.size }} Min, {{ locationTypeMapping(slot.locationType) }}
+        </h3>
+        <h3 *ngIf="slot.locationType === locationTypeOffice">
+            {{ slot.size }} Min, {{ locationTypeMapping(slot.locationType) }} {{ slot.meetingRoom }}
+        </h3>
+    </div>
+</mat-card>
