@@ -3,7 +3,7 @@
     public class MeetingMemberRequestDto
     {
         public long? TeamId { get; set; }
-        public int NumberOfMembersToDisplay { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Start { get; set; }
+        public DateTime? End { get; set; }
     }
 }

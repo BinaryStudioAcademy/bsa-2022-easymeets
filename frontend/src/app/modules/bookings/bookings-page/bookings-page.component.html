@@ -2,15 +2,25 @@
 <div class="container">
     <div class="bookings-container">
         <div class="bookings-header">
-            <p class="date-label">{{currentDate | date:'EEEE, d LLLL y'}}</p>
+            <div class="date-wrapper">
+                <div *ngIf="selectedDateFilter === 'Date Range'">
+                    <mat-date-range-input class="range-input" [rangePicker]="picker">
+                        <input matStartDate [(ngModel)]="currentStart">
+                        <input matEndDate [(ngModel)]="currentEnd">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker (closed)="currentDateChange()" #picker></mat-date-range-picker>
+                </div>
+                <p *ngIf="selectedDateFilter === 'Today'" class="date-label">{{currentDate | date:'EEEE, d LLLL y'}}</p>
+                <p *ngIf="selectedDateFilter === 'Past'" class="date-label">Past meetings</p>
+                <p *ngIf="selectedDateFilter === 'Pending'" class="date-label">Future Meetings</p>
+                <p *ngIf="selectedDateFilter === 'Date Range'" class="date-label">{{currentStart | date:'d LLLL'}} - {{currentEnd | date:'d LLLL y'}}</p>
+            </div>
             <div class="header-buttons">
-                <div class="day-input-wrapper">
-                    <mat-icon matPrefix>calendar_today</mat-icon>
-                    <input class="day-input" [matDatepicker]="picker" [(ngModel)]="currentDate" (dateChange)="currentDateChange()">
-                    <mat-datepicker-toggle matSuffix [for]="picker">
-                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
+                <div class="date-filter-wrapper">
+                    <mat-select [(ngModel)]="selectedDateFilter" (ngModelChange)="currentDateChange()">
+                        <mat-option *ngFor="let filter of possibleDateFilters" [value]="filter">{{filter}}</mat-option>
+                    </mat-select>
                 </div>
                 <button mat-flat-button color="primary"> + Add Filter </button>
             </div>
@@ -20,7 +30,8 @@
                 <div class="item itemInfo">
                     <div class="itemTextInfo">
                         <div class="title-menu-row">
-                            <span class="timeTitle">{{ item.meetingTime | date: 'HH:mm':getTimeZoneValue() }} - {{ getEndMeetingDate(item.meetingTime, item.meetingDuration) | date: 'HH:mm':getTimeZoneValue() }}</span>
+                            <span *ngIf="selectedDateFilter === 'Today'" class="timeTitle">{{ item.meetingTime | date: 'HH:mm':getTimeZoneValue() }} - {{ getEndMeetingDate(item.meetingTime, item.meetingDuration) | date: 'HH:mm':getTimeZoneValue() }}</span>
+                            <span *ngIf="selectedDateFilter !== 'Today'" class="timeTitle">{{ item.meetingTime | date:'d LLLL'}}, {{ item.meetingTime | date: 'HH:mm':getTimeZoneValue() }}</span>
                             <button class="fas fa-ellipsis fa-xl menu-icon"  [matMenuTriggerFor]="menu"></button>
                             <mat-menu #menu="matMenu" class="drop-down-menu">
                                 <button mat-menu-item class="btn edit">
