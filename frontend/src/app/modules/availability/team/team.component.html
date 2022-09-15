@@ -1,8 +1,8 @@
 <div class="container">
     <div class="team-info">
-        <div class="avatar-container" (click)="goToPage('settings/account/personal')">
-            <ng-container *ngIf="currentUser.image; else noAvatarAvailabilityPage">
-                <img class="avatar" src="{{ currentUser.image }}" />
+        <div class="avatar-container" (click)="goToPage(teamSlot.id)">
+            <ng-container *ngIf="teamSlot.image; else noAvatarAvailabilityPage">
+                <img class="avatar" src="{{ teamSlot.image }}" />
             </ng-container>
             <ng-template #noAvatarAvailabilityPage>
                 <img class="avatar" src="assets/header/avatar-icon.png" />
