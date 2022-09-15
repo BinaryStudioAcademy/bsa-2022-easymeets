@@ -85,8 +85,8 @@
         </div>
         <div
             class="password-input-container"
-            [class.ng-invalid]="passwordControl.invalid"
-            [class.input-field-enabled]="!settings.passwordProtectionIsUsed">
+            [class.input-field-enabled]="!settings.passwordProtectionIsUsed"
+            [class.invalid-password]="passwordControl.invalid">
             <input
                 matInput
                 [formControl]="passwordControl"
@@ -96,7 +96,8 @@
                 class="input-field"
                 [readonly]="!settings.passwordProtectionIsUsed"
                 #passwordField
-                (change)="onPasswordChange(passwordField.value)" />
+                (change)="onPasswordChange(passwordField.value)"
+                [required]="settings.passwordProtectionIsUsed" />
             <button
                 mat-icon-button
                 matSuffix
@@ -109,10 +110,11 @@
             </button>
         </div>
         <div class="validation-errors">
-            <div *ngIf="passwordControl.invalid && passwordControl.dirty" class="validation">
+            <div *ngIf="passwordControl.invalid" class="validation">
                 <small *ngIf="passwordControl.errors?.['pattern']">{{ invalidCharactersMessage }}</small>
                 <small *ngIf="passwordControl.errors?.['minlength']">Length must be more than 3 characters.</small>
                 <small *ngIf="passwordControl.errors?.['maxlength']">Length must be less than 8 characters.</small>
+                <small *ngIf="passwordControl.errors?.['required']">This field is required.</small>
             </div>
         </div>
     </div>
