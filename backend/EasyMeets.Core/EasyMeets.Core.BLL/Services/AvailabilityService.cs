@@ -131,7 +131,7 @@ namespace EasyMeets.Core.BLL.Services
                 Priority = 3
             };
 
-            if (slotDto.Schedule is not null && !slotDto.Schedule.WithTeamMembers)
+            if (!slotDto.Schedule.WithTeamMembers)
             {
                 var schedule = _mapper.Map<Schedule>(slotDto.Schedule);
                 await _context.Schedules.AddAsync(schedule);
@@ -249,7 +249,7 @@ namespace EasyMeets.Core.BLL.Services
         private async Task UpdateSchedule(SaveAvailabilitySlotDto updateAvailabilityDto, AvailabilitySlot availabilitySlot)
         {
             var currentUser = await _userService.GetCurrentUserAsync();
-            if (updateAvailabilityDto.Schedule is not null && !updateAvailabilityDto.Schedule.WithTeamMembers)
+            if (!updateAvailabilityDto.Schedule.WithTeamMembers)
             {
                 var scheduleId = availabilitySlot.SlotMembers.First(member => member.MemberId == currentUser.Id)
                     .ScheduleId;
