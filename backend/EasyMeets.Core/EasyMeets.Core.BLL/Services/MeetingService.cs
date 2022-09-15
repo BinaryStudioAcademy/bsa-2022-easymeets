@@ -25,7 +25,7 @@ namespace EasyMeets.Core.BLL.Services
             _googleMeetService = googleMeetService;
         }
 
-        public async Task<List<MeetingSlotDTO>> GetMeetingMembersByNumberOfMembersToDisplayAsync(MeetingMemberRequestDto meetingMemberRequestDto)
+        public async Task<List<MeetingSlotDTO>> GetMeetingsAsync(MeetingMemberRequestDto meetingMemberRequestDto)
         {
             var teamId = meetingMemberRequestDto.TeamId;
             if (teamId is null)
@@ -39,14 +39,15 @@ namespace EasyMeets.Core.BLL.Services
             var endRestriction = meetingMemberRequestDto.End ?? DateTime.MaxValue;
 
             var meetings = _context.Meetings
-                .Where(meeting => meeting.TeamId == team.Id)
                 .Include(m => m.AvailabilitySlot)
                 .Include(s => s!.ExternalAttendees)
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
                 .AsEnumerable()
-                .Where(meeting => meeting.StartTime.DateTime >= startRestriction && meeting.StartTime.DateTime.AddMinutes(meeting.Duration) <= endRestriction)
+                .Where(meeting => meeting.TeamId == team.Id &&
+                                  meeting.StartTime.DateTime >= startRestriction &&
+                                  meeting.StartTime.DateTime.AddMinutes(meeting.Duration) <= endRestriction)
                 .OrderBy(m => m.StartTime)
                 .Select(x =>
                     new MeetingSlotDTO

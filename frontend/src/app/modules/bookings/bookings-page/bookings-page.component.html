@@ -13,7 +13,7 @@
                 </div>
                 <p *ngIf="selectedDateFilter === 'Today'" class="date-label">{{currentDate | date:'EEEE, d LLLL y'}}</p>
                 <p *ngIf="selectedDateFilter === 'Past'" class="date-label">Past meetings</p>
-                <p *ngIf="selectedDateFilter === 'Pending'" class="date-label">Future Meetings</p>
+                <p *ngIf="selectedDateFilter === 'Pending'" class="date-label">Pending meetings</p>
                 <p *ngIf="selectedDateFilter === 'Date Range'" class="date-label">{{currentStart | date:'d LLLL'}} - {{currentEnd | date:'d LLLL y'}}</p>
             </div>
             <div class="header-buttons">
@@ -30,8 +30,11 @@
                 <div class="item itemInfo">
                     <div class="itemTextInfo">
                         <div class="title-menu-row">
-                            <span *ngIf="selectedDateFilter === 'Today'" class="timeTitle">{{ item.meetingTime | date: 'HH:mm':getTimeZoneValue() }} - {{ getEndMeetingDate(item.meetingTime, item.meetingDuration) | date: 'HH:mm':getTimeZoneValue() }}</span>
-                            <span *ngIf="selectedDateFilter !== 'Today'" class="timeTitle">{{ item.meetingTime | date:'d LLLL'}}, {{ item.meetingTime | date: 'HH:mm':getTimeZoneValue() }}</span>
+                            <p class="timeTitle">
+                                <span *ngIf="selectedDateFilter !== 'Today'" >{{ item.meetingTime | date:'d LLLL'}}, </span>
+                                <span>{{ item.meetingTime | date: 'HH:mm':getTimeZoneValue() }}</span>
+                                <span *ngIf="selectedDateFilter === 'Today'"> - {{ getEndMeetingDate(item.meetingTime, item.meetingDuration) | date: 'HH:mm':getTimeZoneValue() }}</span>
+                            </p>
                             <button class="fas fa-ellipsis fa-xl menu-icon"  [matMenuTriggerFor]="menu"></button>
                             <mat-menu #menu="matMenu" class="drop-down-menu">
                                 <button mat-menu-item class="btn edit">
@@ -56,9 +59,9 @@
                                     <img class="avatar" src="assets/header/avatar-icon.png" alt="member" />
                                 </ng-template>
                             </ng-container>
-                            <span class="avatar" *ngIf="item.meetingMembers.length > 10">
+                            <span class="avatar" *ngIf="item.meetingMembers.length > maxAvatarNumber">
                                 <div class="left-participants">
-                                    <p>+{{ item.meetingMembers.length - 10 }}</p>
+                                    <p>+{{ item.meetingMembers.length - maxAvatarNumber }}</p>
                                 </div>
                             </span>
                         </div>

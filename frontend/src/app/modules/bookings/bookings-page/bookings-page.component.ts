@@ -10,19 +10,11 @@ import { ConfirmationWindowService } from '@core/services/confirmation-window.se
 import { MeetingBookingsService } from '@core/services/meeting-bookings.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import {
-    desktopWidthToContainFourItems,
-    desktopWidthToContainTwoItems,
-    phoneMaxWidth,
-    tabletMaxWidth,
-    widthToContainFiveItems,
-    widthToContainThreeItems,
-    widthToContainZeroItemUpperLimit,
-} from '@shared/constants/screen-variables';
+import { phoneMaxWidth } from '@shared/constants/screen-variables';
 import { deletionMessage } from '@shared/constants/shared-messages';
 import { DateFilterValue } from '@shared/enums/dateFilterValue';
 import { LocationType } from '@shared/enums/locationType';
-import { addDays } from 'date-fns';
+import { addDays, addMinutes } from 'date-fns';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -56,6 +48,14 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
     public selectedDateFilter: DateFilterValue = DateFilterValue.Today;
 
     public possibleDateFilters = getDateFilters();
+
+    public maxAvatarNumber: number = 10;
+
+    public slotWidth = 250;
+
+    public infoWidth = 280;
+
+    public containerPadding = 100;
 
     constructor(
         private el: ElementRef,
@@ -167,69 +167,52 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         this.loadMeetings(meetingRequest);
     }
 
-    private getMeetingRequest() {
-        let meetingRequest: IMeetingMembersRequest = { teamId: this.teamId };
+    private getMeetingRequest(): IMeetingMembersRequest {
+        let start: Date | undefined;
+        let end: Date | undefined;
 
-        if (this.selectedDateFilter === DateFilterValue.Today) {
-            meetingRequest = {
-                ...meetingRequest,
-                start: moveByTimezone(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate())),
-                end: moveByTimezone(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() + 1)),
-            };
-        }
-
-        if (this.selectedDateFilter === DateFilterValue.Past) {
-            meetingRequest = {
-                ...meetingRequest,
-                end: moveByTimezone(new Date()),
-            };
-        }
-
-        if (this.selectedDateFilter === DateFilterValue.Pending) {
-            meetingRequest = {
-                ...meetingRequest,
-                start: moveByTimezone(new Date()),
-            };
-        }
-
-        if (this.selectedDateFilter === DateFilterValue.Range) {
-            if (!this.currentEnd || this.currentStart.getTime() === this.currentEnd.getTime()) {
-                this.currentEnd = addDays(this.currentStart, 1);
+        switch (this.selectedDateFilter) {
+            case DateFilterValue.Today: {
+                start = moveByTimezone(new Date(
+                    this.currentDate.getFullYear(),
+                    this.currentDate.getMonth(),
+                    this.currentDate.getDate(),
+                ));
+                end = moveByTimezone(new Date(
+                    this.currentDate.getFullYear(),
+                    this.currentDate.getMonth(),
+                    this.currentDate.getDate() + 1,
+                ));
+                break;
             }
-            meetingRequest = {
-                ...meetingRequest,
-                start: moveByTimezone(this.currentStart),
-                end: moveByTimezone(this.currentEnd),
-            };
+            case DateFilterValue.Past: {
+                end = moveByTimezone(new Date());
+                break;
+            }
+            case DateFilterValue.Pending: {
+                start = moveByTimezone(new Date());
+                break;
+            }
+            case DateFilterValue.Range: {
+                if (!this.currentEnd || this.currentStart.getTime() === this.currentEnd.getTime()) {
+                    this.currentEnd = addMinutes(addDays(this.currentStart, 1), -1);
+                }
+                start = moveByTimezone(this.currentStart);
+                end = moveByTimezone(this.currentEnd);
+                break;
+            }
+            default: {
+                break;
+            }
         }
 
-        return meetingRequest;
+        return { teamId: this.teamId, start, end };
     }
 
     private getNumberOfItemsToDisplay(width: number) {
-        if (width > widthToContainFiveItems) {
-            this.numberOfMembersToDisplay = 5;
-
-            return;
-        }
-        if (width > desktopWidthToContainFourItems) {
-            this.numberOfMembersToDisplay = 4;
-        }
-        if (width < widthToContainThreeItems) {
-            this.numberOfMembersToDisplay = 3;
-        }
-        if (width < desktopWidthToContainTwoItems) {
-            this.numberOfMembersToDisplay = 2;
-        }
-        if (width < tabletMaxWidth) {
-            this.numberOfMembersToDisplay = 1;
-        }
-        if (width < widthToContainZeroItemUpperLimit) {
-            this.numberOfMembersToDisplay = 0;
-        }
-        if (width < phoneMaxWidth) {
-            this.numberOfMembersToDisplay = 1;
-        }
+        this.numberOfMembersToDisplay = width > phoneMaxWidth
+            ? Math.floor((width - 2 * this.containerPadding - this.infoWidth) / this.slotWidth)
+            : 1;
     }
 
     private getPageSize(): number {
