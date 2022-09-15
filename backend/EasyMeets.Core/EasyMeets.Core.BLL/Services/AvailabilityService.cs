@@ -68,13 +68,13 @@ namespace EasyMeets.Core.BLL.Services
             var userSlots = availabilitySlots.Where(x => x.Type == SlotType.Personal).ToList();
             var availabilitySlotsGroupByTeams = availabilitySlots
                 .Where(x => x.Type == SlotType.Team)
-                .GroupBy(x => x.TeamId)
+                .GroupBy(x => new { x.TeamId, x.TeamName, x.TeamLogoPath })
                 .Select(x =>
                     new AvailabilitySlotsGroupByTeamsDto
                     {
-                        Id = x.Key,
-                        Name = x.First().TeamName,
-                        Image = x.First().TeamLogoPath,
+                        Id = x.Key.TeamId,
+                        Name = x.Key.TeamName,
+                        Image = x.Key.TeamLogoPath,
                         AvailabilitySlots = x.ToList()
                     })
                 .ToList();
