@@ -1,22 +1,25 @@
-<h1>Please, choose meeting</h1>
-<div class="meeting-cards" *ngIf="personalSlots">
-    <ng-template *ngIf="personalSlots.length; else noUserSlots" ngFor let-item [ngForOf]="personalSlots">
-        <mat-card
-            class="card"
-            (click)="setTeamId.emit(item.teamId)"
-            [routerLink]="['/external-booking/choose-time/' + item.link]">
-            <mat-card-title>
-                <p class="title">{{ item.name }}</p>
-            </mat-card-title>
-            <mat-card-subtitle *ngIf="item.locationType !== locationTypeOffice">
-                {{ item.size }} Min, {{ locationTypeMapping(item.locationType) }}
-            </mat-card-subtitle>
-            <mat-card-subtitle *ngIf="item.locationType === locationTypeOffice">
-                {{ item.size }} Min, {{ locationTypeMapping(item.locationType) }} {{ item.meetingRoom }}
-            </mat-card-subtitle>
-        </mat-card>
-    </ng-template>
-    <ng-template #noUserSlots>
-        <h1>No user slots</h1>
-    </ng-template>
+<div class="wrapper">
+    <div class="sidebar">
+        <div class="user-info">
+            <div class="avatar" >
+                <img *ngIf="menu.user.image; else defaultImage" src="{{ menu.user.image }}"/>
+                <ng-template #defaultImage>
+                    <img src="assets/header/avatar-icon.png"/>
+                </ng-template>
+            </div>
+            <h1> {{ menu.user.userName }}</h1>
+            <h3>Hello! Welcome to my booking page, please choose a time that works for you.</h3>
+        </div>
+    </div>
+    <div class="content">
+        <app-external-booking-slot
+            *ngFor="let slot of slots"
+            (setTeamId)="setTeamId.emit(slot.teamId)"
+            [slot]="slot">
+        </app-external-booking-slot>
+    </div>
+</div>
+<div class="logo-wrapper">
+    <img src="../../../../assets/logo_icon.png" class="meets-logo" alt="EasyMeets Logo" />
+    <h2 class="product-name">EasyMeets</h2>
 </div>
