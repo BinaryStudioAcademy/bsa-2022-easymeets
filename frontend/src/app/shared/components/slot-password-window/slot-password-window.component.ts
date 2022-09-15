@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
@@ -6,14 +6,13 @@ import { AvailabilitySlotService } from '@core/services/availability-slot.servic
 import { NotificationService } from '@core/services/notification.service';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
 import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
-import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-slot-password-window',
     templateUrl: './slot-password-window.component.html',
     styleUrls: ['./slot-password-window.component.sass'],
 })
-export class SlotPasswordWindowComponent implements OnDestroy {
+export class SlotPasswordWindowComponent {
     title: string;
 
     message?: string;
@@ -28,11 +27,7 @@ export class SlotPasswordWindowComponent implements OnDestroy {
 
     private enterPasswordEventEmitter = new EventEmitter<void>();
 
-    private enterPasswordEventSubscription: Subscription;
-
     private leaveEventEmitter = new EventEmitter<void>();
-
-    private leaveEventSubscription: Subscription;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData,
@@ -46,8 +41,8 @@ export class SlotPasswordWindowComponent implements OnDestroy {
         this.buttonsOptions = data.buttonsOptions;
         this.slotLink = data.slotLink;
 
-        this.leaveEventSubscription = this.leaveEventEmitter.subscribe(() => this.leaveSlotPasswordWindow());
-        this.enterPasswordEventSubscription = this.enterPasswordEventEmitter.subscribe(() => this.enterPassword());
+        this.leaveEventEmitter.subscribe(() => this.leaveSlotPasswordWindow());
+        this.enterPasswordEventEmitter.subscribe(() => this.enterPassword());
 
         this.addButtonsInWindow();
     }
@@ -85,10 +80,5 @@ export class SlotPasswordWindowComponent implements OnDestroy {
     private leaveSlotPasswordWindow() {
         this.router.navigateByUrl('');
         this.dialogRef.close();
-    }
-
-    ngOnDestroy(): void {
-        this.enterPasswordEventSubscription.unsubscribe();
-        this.leaveEventSubscription.unsubscribe();
     }
 }
