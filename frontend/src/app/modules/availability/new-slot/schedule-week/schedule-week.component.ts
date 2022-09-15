@@ -1,9 +1,10 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
+import { CustomCalendarDateFormatter } from '@core/helpers/custom-calendar-date-formatter.provider';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 import { WeekDay } from '@shared/enums/weekDay';
-import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
+import { CalendarDateFormatter, CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { addHours, addMinutes, isSameDay, setDay, startOfDay } from 'date-fns';
 import { Subject } from 'rxjs';
 
@@ -12,6 +13,13 @@ import { Subject } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './schedule-week.component.html',
     styleUrls: ['./schedule-week.component.sass'],
+    providers: [
+        {
+            provide: CalendarDateFormatter,
+            useClass: CustomCalendarDateFormatter,
+        },
+    ],
+    encapsulation: ViewEncapsulation.None,
 })
 export class ScheduleWeekComponent extends BaseComponent implements OnInit {
     constructor(private datePipe: DatePipe) {
