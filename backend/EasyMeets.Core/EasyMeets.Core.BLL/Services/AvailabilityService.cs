@@ -223,6 +223,15 @@ namespace EasyMeets.Core.BLL.Services
                          var newTemplate = _mapper.Map(template, oldTemplate);
                          _context.EmailTemplates.Update(newTemplate);
                      }
+                     else
+                     {
+                         var newTemplate = _mapper.Map<EmailTemplate>(template, opts => opts.AfterMap((_, dest) =>
+                         {
+                             dest.AvailabilitySlot = availabilitySlot;
+                         }));
+
+                         await _context.EmailTemplates.AddAsync(newTemplate);
+                     }
                  }
              }
         }
