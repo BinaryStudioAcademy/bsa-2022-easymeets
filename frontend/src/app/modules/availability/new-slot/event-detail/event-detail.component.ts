@@ -76,7 +76,7 @@ export class EventDetailComponent extends BaseComponent implements OnInit {
 
     public allowedBooking: number[] = [1, 2, 3];
 
-    public hidePassword: boolean = true;
+    public hidePassword: boolean = false;
 
     public invalidCharactersMessage = invalidCharactersMessage;
 
