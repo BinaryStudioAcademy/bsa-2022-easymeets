@@ -1,5 +1,5 @@
 import { WeekDay } from '@angular/common';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { changeScheduleItemsDate } from '@core/helpers/schedule-items-helper';
@@ -21,7 +21,7 @@ import { TZone } from 'moment-timezone-picker';
     templateUrl: './external-booking-choose-time-page.component.html',
     styleUrls: ['./external-booking-choose-time-page.component.sass'],
 })
-export class ExternalBookingTimeComponent extends BaseComponent implements OnInit, OnDestroy {
+export class ExternalBookingTimeComponent extends BaseComponent implements OnInit {
     link: string;
 
     slot: IAvailabilitySlot | null;
@@ -274,9 +274,5 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     redirectToChooseMeeting() {
         this.reloadData.emit(this.userLink);
         this.router.navigateByUrl(`/external-booking/choose-meeting/${this.userLink}`);
-    }
-
-    override ngOnDestroy(): void {
-        super.ngOnDestroy();
     }
 }
