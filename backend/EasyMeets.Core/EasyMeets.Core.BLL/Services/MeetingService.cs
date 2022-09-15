@@ -35,8 +35,8 @@ namespace EasyMeets.Core.BLL.Services
 
             var team = await _context.Teams.FirstOrDefaultAsync(team => team.Id == teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
 
-            var startRestriction = meetingMemberRequestDto.Start ?? DateTime.MinValue;
-            var endRestriction = meetingMemberRequestDto.End ?? DateTime.MaxValue;
+            var startRestriction = meetingMemberRequestDto.Start ?? DateTimeOffset.MinValue;
+            var endRestriction = meetingMemberRequestDto.End ?? DateTimeOffset.MaxValue;
 
             var meetings = _context.Meetings
                 .Include(m => m.AvailabilitySlot)
@@ -44,10 +44,9 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
-                .AsEnumerable()
                 .Where(meeting => meeting.TeamId == team.Id &&
-                                  meeting.StartTime.DateTime >= startRestriction &&
-                                  meeting.StartTime.DateTime.AddMinutes(meeting.Duration) <= endRestriction)
+                                  meeting.StartTime >= startRestriction &&
+                                  meeting.StartTime.AddMinutes(meeting.Duration) <= endRestriction)
                 .OrderBy(m => m.StartTime)
                 .Select(x =>
                     new MeetingSlotDTO
