@@ -71,8 +71,8 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
     }
 
     public ngOnInit(): void {
-        this.currentStart = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate());
-        this.currentEnd = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() + 1);
+        this.currentStart = startOfDay(this.currentDate);
+        this.currentEnd = endOfDay(this.currentDate);
         this.getBookings();
     }
 

@@ -37,7 +37,7 @@ namespace EasyMeets.Core.BLL.Services
             var startRestriction = meetingMemberRequestDto.Start ?? DateTimeOffset.MinValue;
             var endRestriction = meetingMemberRequestDto.End ?? DateTimeOffset.MaxValue;
 
-            var meetings = _context.Meetings
+            var meetings = await _context.Meetings
                 .Include(m => m.AvailabilitySlot)
                 .Include(s => s!.ExternalAttendees)
                 .Include(meeting => meeting.MeetingMembers)
@@ -61,7 +61,7 @@ namespace EasyMeets.Core.BLL.Services
                         MeetingLink = x.MeetingLink,
                         MeetingMembers = GetAllParticipants(x)
                     })
-            .ToList();
+            .ToListAsync();
 
             return meetings;
         }
