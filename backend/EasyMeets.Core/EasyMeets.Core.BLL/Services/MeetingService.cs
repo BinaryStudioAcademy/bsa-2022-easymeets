@@ -67,7 +67,6 @@ namespace EasyMeets.Core.BLL.Services
                 {
                     Name = x.TeamMember.User.Name,
                     Email = x.TeamMember.User.Email,
-                    TimeZone = new() { NameValue = x.TeamMember.User.TimeZoneName, TimeValue = x.TeamMember.User.TimeZoneValue },
                     Booked = meeting.CreatedAt
                 });
 

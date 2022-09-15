@@ -12,6 +12,7 @@ import { IUpdateUser } from '@core/models/IUpdateUser';
 import { IUser } from '@core/models/IUser';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
+import { SettingPageService } from '@core/services/setting-page.service';
 import { UserService } from '@core/services/user.service';
 import { userNameRegex } from '@shared/constants/model-validation';
 import { invalidCharactersMessage } from '@shared/constants/shared-messages';
@@ -31,6 +32,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         private userService: UserService,
         public notificationService: NotificationService,
         private confirmationWindowService: ConfirmationWindowService,
+        private settingPageService: SettingPageService,
     ) {
         super();
     }
@@ -84,7 +86,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             dateFormat: new FormControl(),
             timeFormat: new FormControl(),
             language: new FormControl(),
-            timeZone: new FormControl(),
             image: new FormControl(),
         });
 
@@ -100,7 +101,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                     dateFormat: user.dateFormat,
                     timeFormat: user.timeFormat,
                     language: user.language,
-                    timeZone: user.timeZone,
                     image: user.image,
                 });
                 this.userForm.markAsPristine();
@@ -111,20 +111,28 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                     this.changeCountryCode(this.userForm);
                 }
             });
+
+        this.settingPageService.updateButtonClickEvent$.pipe(this.untilThis).subscribe(() => {
+            this.OnSubmit();
+        });
+
+        this.userForm.statusChanges.pipe(this.untilThis).subscribe(() => {
+            this.settingPageService.updateButtonActive(!this.userForm.invalid && !this.userForm.pending && this.userForm.dirty);
+        });
     }
 
-    public OnSubmit(form: FormGroup) {
+    public OnSubmit() {
         if (this.user) {
+            this.userForm.reset(this.userForm.value);
             const editedUser: IUpdateUser = {
                 id: this.user.id,
-                phoneCode: this.countryCodeValues[form.value.country as Country],
-                phone: form.value.phone,
-                userName: form.value.userName,
-                country: form.value.country,
-                dateFormat: form.value.dateFormat,
-                language: form.value.language,
-                timeFormat: form.value.timeFormat,
-                timeZone: form.value.timeZone,
+                phoneCode: this.countryCodeValues[this.userForm.value.country as Country],
+                phone: this.userForm.value.phone,
+                userName: this.userForm.value.userName,
+                country: this.userForm.value.country,
+                dateFormat: this.userForm.value.dateFormat,
+                language: this.userForm.value.language,
+                timeFormat: this.userForm.value.timeFormat,
             };
 
             this.userService
@@ -133,7 +141,8 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                 .pipe(finalize(() => this.userForm.markAsPristine()))
                 .subscribe({
                     next: () =>
-                        this.notificationService.showSuccessMessage('Personal information was updated successfully.'),
+                        this.notificationService.showSuccessMessage('Personal information was updated successfully.')
+                    ,
                 });
         }
     }
@@ -177,10 +186,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             title: 'Oops...',
             message: "Image can't be heavier than 5MB!",
         });
-    }
-
-    public markTimeZoneDirty() {
-        this.userForm.get('timeZone')?.markAsDirty();
     }
 
     public userNameChanged(value: string) {

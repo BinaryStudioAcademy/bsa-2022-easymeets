@@ -1,9 +1,9 @@
 <div class="wrapper" *ngIf="user">
-    <form class="form-container" [formGroup]="userForm" (ngSubmit)="OnSubmit(userForm)">
+    <form class="form-container" [formGroup]="userForm" (ngSubmit)="OnSubmit()">
         <div class="item">
             <div class="user-avatar-block">
                 <div class="user-avatar">
-                    <img *ngIf="imageUrl" src="{{ imageUrl }}" />
+                    <img *ngIf="imageUrl" src="{{ imageUrl }}"/>
                 </div>
                 <input
                     enctype="multipart/form-data"
@@ -12,10 +12,15 @@
                     #file
                     accept="image/png,.gif,.jpg"
                     type="file"
-                    (change)="loadImage($event)" />
-                <button type="button" class="upload-picture-button" mat-flat-button (click)="file.click()">
-                    Upload Picture
-                </button>
+                    (change)="loadImage($event)"/>
+                <div class="avatar-buttons">
+                    <button type="button" class="upload-picture-button" mat-flat-button (click)="file.click()">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i> Upload
+                    </button>
+                    <button type="button" class="delete-picture-button" mat-flat-button>
+                        <i class="fa-regular fa-trash-can"></i> Delete Picture
+                    </button>
+                </div>
             </div>
         </div>
         <div class="item">
@@ -38,13 +43,15 @@
         </div>
         <div class="item">
             <label>
-                <div>Language</div>
+                <div>Phone Number</div>
             </label>
-            <mat-select formControlName="language">
-                <mat-option *ngFor="let language of languageValues" [value]="language">
-                    {{ languageLabelMapping[language] }}
-                </mat-option>
-            </mat-select>
+            <div>
+                <input formControlName="phone" mask="00000000000" prefix="+{{ countryCode }} " [validation]="false" />
+            </div>
+            <div *ngIf="phoneControl.invalid && phoneControl.touched" class="validation">
+                <small *ngIf="phoneControl.errors?.['required']">This field is required.</small>
+                <small *ngIf="phoneControl.errors?.['minlength']">Invalid phone.</small>
+            </div>
         </div>
         <div class="item">
             <div class="input-block">
@@ -82,29 +89,18 @@
         </div>
         <div class="item">
             <label>
-                <div>Phone Number</div>
+                <div>Language</div>
             </label>
-            <div>
-                <input formControlName="phone" mask="00000000000" prefix="+{{ countryCode }} " [validation]="false" />
-            </div>
-            <div *ngIf="phoneControl.invalid && phoneControl.touched" class="validation">
-                <small *ngIf="phoneControl.errors?.['required']">This field is required.</small>
-                <small *ngIf="phoneControl.errors?.['minlength']">Invalid phone.</small>
-            </div>
+            <mat-select formControlName="language">
+                <mat-option *ngFor="let language of languageValues" [value]="language">
+                    {{ languageLabelMapping[language] }}
+                </mat-option>
+            </mat-select>
         </div>
         <div class="item">
-            <label>Time Zone</label>
-            <ng-moment-timezone-picker
-                (change)="markTimeZoneDirty()"
-                formControlName="timeZone"
-                customPlaceholderText=""
-                [getUserZone]="!user.timeZone">
-            </ng-moment-timezone-picker>
-        </div>
-        <div class="item">
-            <div class="update-preferences-button">
-                <button mat-flat-button type="submit" [disabled]="userForm.invalid || userForm.pending || !userForm.dirty">
-                    Update Preferences
+            <div class="delete-button-container">
+                <button type="button" mat-flat-button >
+                    <i class="fa-regular fa-trash-can"></i> Delete account
                 </button>
             </div>
         </div>

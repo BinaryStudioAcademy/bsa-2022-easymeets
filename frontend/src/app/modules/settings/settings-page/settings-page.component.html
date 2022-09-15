@@ -4,7 +4,7 @@
         <div class="user-settings-header">
             <p class="user-settings-header-label">Settings</p>
             <div class="slot-button-container">
-                <button mat-flat-button color="primary" class="save-activate-button" disabled="false">
+                <button mat-flat-button type="button" color="primary" class="save-activate-button" [disabled]="!isUpdateButtonActive" (click)="settingPageService.updateButtonClick()">
                     Update Preferences
                 </button>
             </div>
@@ -13,12 +13,6 @@
             <div class="sidebar">
                 <div class="side-menu-wrapper">
                     <app-side-menu [groups]="sideMenuGroups"></app-side-menu>
-                </div>
-                <div class="delete-account-wrapper">
-                    <div class="delete-account-container">
-                        <mat-icon class="icon">delete_outline</mat-icon>
-                        <p class="delete-account-label">Delete account</p>
-                    </div>
                 </div>
             </div>
             <div class="menu-item-container">
