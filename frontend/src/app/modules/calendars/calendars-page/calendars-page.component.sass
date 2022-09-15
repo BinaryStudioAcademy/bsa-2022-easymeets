@@ -67,7 +67,7 @@ button
     padding-left: 24px
 
 .table-container
-    overflow: auto
+    overflow-y: hidden
     width: 100%
 
 .mat-form-field-appearance-fill .mat-form-field-flex
@@ -81,8 +81,9 @@ mat-label
     font-size: 14px
     margin-top: 20px
 
-.table-container
-    overflow-y: hidden
+::ng-deep .table-container
+    .mat-form-field-infix
+        width: 80px
 
 ::ng-deep .mat-select-form .mat-select-value-text
     display: block
