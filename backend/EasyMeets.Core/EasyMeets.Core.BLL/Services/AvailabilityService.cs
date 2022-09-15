@@ -41,7 +41,7 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(x => x.Author)
                 .Include(x => x.Team)
                 .Include(x => x.EmailTemplates)
-                .Where(x => x.CreatedBy == id || x.SlotMembers.Any(x => x.MemberId == id))
+                .Where(x => x.CreatedBy == id || x.SlotMembers.Any(m => m.MemberId == id))
                 .Where(slot => userTeam != null && slot.Team.Id == userTeam.Id)
                 .Select(y =>
                     new AvailabilitySlotDto
@@ -131,7 +131,7 @@ namespace EasyMeets.Core.BLL.Services
                 Priority = 3
             };
 
-            if (!slotDto.Schedule.WithTeamMembers)
+            if (slotDto.Schedule is not null && !slotDto.Schedule.WithTeamMembers)
             {
                 var schedule = _mapper.Map<Schedule>(slotDto.Schedule);
                 await _context.Schedules.AddAsync(schedule);
@@ -165,8 +165,7 @@ namespace EasyMeets.Core.BLL.Services
             return _mapper.Map<AvailabilitySlotDto>(availabilitySlot);
         }
 
-        public async Task<AvailabilitySlotDto> UpdateAvailabilitySlot(long id,
-            SaveAvailabilitySlotDto updateAvailabilityDto)
+        public async Task<AvailabilitySlotDto> UpdateAvailabilitySlot(long id, SaveAvailabilitySlotDto updateAvailabilityDto)
         {
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
@@ -210,24 +209,22 @@ namespace EasyMeets.Core.BLL.Services
             }
         }
 
-        private async Task UpdateTemplateSettings(SaveAvailabilitySlotDto updateAvailabilityDto,
-            AvailabilitySlot availabilitySlot)
-        {
-            if (updateAvailabilityDto.TemplateSettings is not null)
-            {
-                var oldTemplate = await _context.EmailTemplates.FirstOrDefaultAsync(t => t.TemplateType == updateAvailabilityDto.TemplateSettings.Type
-                    && t.AvailabilitySlotId == availabilitySlot.Id);
-
-                if (oldTemplate is not null)
-                {
-                    var newTemplate = _mapper.Map(updateAvailabilityDto.TemplateSettings, oldTemplate);
-                    _context.EmailTemplates.Update(oldTemplate);
-                }
-                else
-                {
-                    await SaveEmailTemplateConfig(updateAvailabilityDto.TemplateSettings, availabilitySlot);
-                }
-            }
+         private async Task UpdateTemplateSettings(SaveAvailabilitySlotDto updateAvailabilityDto, AvailabilitySlot availabilitySlot)
+         {
+             if (updateAvailabilityDto.TemplateSettings is not null)
+             {
+                 foreach (var template in updateAvailabilityDto.TemplateSettings)
+                 {
+                     var oldTemplate = await _context.EmailTemplates.FirstOrDefaultAsync(t => t.TemplateType == template.Type
+                         && t.AvailabilitySlotId == availabilitySlot.Id);
+        
+                     if (oldTemplate is not null)
+                     {
+                         var newTemplate = _mapper.Map(template, oldTemplate);
+                         _context.EmailTemplates.Update(newTemplate);
+                     }
+                 }
+             }
         }
 
         private void UpdateQuestions(SaveAvailabilitySlotDto updateAvailabilityDto, AvailabilitySlot availabilitySlot)
@@ -252,7 +249,7 @@ namespace EasyMeets.Core.BLL.Services
         private async Task UpdateSchedule(SaveAvailabilitySlotDto updateAvailabilityDto, AvailabilitySlot availabilitySlot)
         {
             var currentUser = await _userService.GetCurrentUserAsync();
-            if (!updateAvailabilityDto.Schedule.WithTeamMembers)
+            if (updateAvailabilityDto.Schedule is not null && !updateAvailabilityDto.Schedule.WithTeamMembers)
             {
                 var scheduleId = availabilitySlot.SlotMembers.First(member => member.MemberId == currentUser.Id)
                     .ScheduleId;
@@ -328,15 +325,20 @@ namespace EasyMeets.Core.BLL.Services
                 .FirstOrDefaultAsync(s => s.Link == link);
         }
 
-        private async Task SaveEmailTemplateConfig(EmailTemplatesSettingsDto settingsDto, AvailabilitySlot slot)
+        private async Task SaveEmailTemplateConfig(ICollection<EmailTemplatesSettingsDto> settingsDto, AvailabilitySlot slot)
         {
-            var emailTemplate = _mapper.Map<EmailTemplate>(settingsDto,
-                    opts => opts.AfterMap((_, dest) =>
-                    {
-                        dest.AvailabilitySlot = slot;
-                    }));
-            await _context.EmailTemplates.AddAsync(emailTemplate);
-            slot.EmailTemplates.Add(emailTemplate);
+            var emailTemplates = settingsDto.Select(s => _mapper.Map<EmailTemplate>(s,
+                opts => opts.AfterMap((_, dest) =>
+                {
+                    dest.AvailabilitySlot = slot;
+                }))).ToList();
+            
+            await _context.EmailTemplates.AddRangeAsync(emailTemplates);
+            
+            foreach (var el in emailTemplates)
+            {
+                slot.EmailTemplates.Add(el);
+            }
         }
     }
 }
