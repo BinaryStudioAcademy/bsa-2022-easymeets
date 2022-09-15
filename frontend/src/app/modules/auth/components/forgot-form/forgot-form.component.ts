@@ -28,11 +28,14 @@ export class ForgotFormComponent extends BaseComponent {
         super();
     }
 
-    sendRecoveryCode(form: FormGroup) {
+    resetPassword(form: FormGroup) {
         const { email } = form.value;
 
-        this.authFormService.resetPassword(email);
-        this.goToSignInPage();
+        this.authFormService
+            .resetPassword(email)
+            .subscribe(
+                { next: () => this.goToSignInPage() },
+            );
     }
 
     goToSignInPage() {
