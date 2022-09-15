@@ -3,6 +3,7 @@ using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.ExternalAttendee;
 using EasyMeets.Core.Common.DTO.User;
+using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,7 @@ public class ExternalAttendeeService : BaseService, IExternalAttendeeService
         await _context.ExternalAttendees.AddAsync(attendee);
         await _context.SaveChangesAsync();
 
-        await _meetingService.SendConfirmationEmailsAsync(meetingId);
+        await _meetingService.SendEmailsAsync(meetingId, TemplateType.Confirmation);
     }
 
     public async Task<ExternalAttendeeBookingInfoDto> GetOrganizerAndPersonalSlotsAsync(string personalUrl)

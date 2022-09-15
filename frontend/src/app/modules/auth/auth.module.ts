@@ -11,7 +11,18 @@ import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.comp
 import { AuthRoutingModule } from './auth-routing.module';
 
 @NgModule({
-    declarations: [AuthPageComponent, SignInFormComponent, SignUpFormComponent, ForgotFormComponent, AuthCardComponent],
-    imports: [CommonModule, AuthRoutingModule, SharedModule, MaterialModule],
+    declarations: [
+        AuthPageComponent,
+        SignInFormComponent,
+        SignUpFormComponent,
+        ForgotFormComponent,
+        AuthCardComponent,
+    ],
+    imports: [
+        CommonModule,
+        AuthRoutingModule,
+        SharedModule,
+        MaterialModule,
+    ],
 })
 export class AuthModule {}

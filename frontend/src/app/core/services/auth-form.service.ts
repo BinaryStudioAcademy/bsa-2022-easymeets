@@ -46,6 +46,14 @@ export class AuthFormService {
         );
     }
 
+    public resetPassword(email: string): Observable<void> {
+        return this.authService
+            .resetPassword(email).pipe(
+                tap(() =>
+                    this.notificationService.showSuccessMessage(`Link for resseting password was send to this ${email} email`)),
+            );
+    }
+
     private authenticate(authMethod: Observable<firebase.auth.UserCredential>, userName?: string): Observable<IUser> {
         this.spinnerService.show();
 
