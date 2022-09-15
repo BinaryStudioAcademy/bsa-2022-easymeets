@@ -111,6 +111,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         if (this.slot?.passwordProtectionIsUsed) {
             this.confirmationWindowService.openSlotPasswordDialog({
                 title: 'Enter Slot Password',
+                message: 'The slot you selected is password protected',
                 slotLink: this.slot.link,
             });
         }

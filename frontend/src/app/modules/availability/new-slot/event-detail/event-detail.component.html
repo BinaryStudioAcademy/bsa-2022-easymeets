@@ -81,15 +81,16 @@
                 help_outline
             </mat-icon>
         </div>
-        <div class="password-input-container">
+        <div class="password-input-container" [class.ng-invalid]="passwordControl.invalid">
             <input
                 matInput
-                [disabled]="!settings.passwordProtectionIsUsed"
+                class="input-field"
                 [(ngModel)]="settings.passwordProtection"
                 [type]="hidePassword ? 'password' : 'text'"
                 [formControl]="passwordControl"
                 #passwordField
-                (change)="onPasswordChange(passwordField.value)" />
+                (change)="onPasswordChange(passwordField.value)"
+                [class.input-field-enabled]="!settings.passwordProtectionIsUsed" />
             <button
                 mat-icon-button
                 matSuffix
