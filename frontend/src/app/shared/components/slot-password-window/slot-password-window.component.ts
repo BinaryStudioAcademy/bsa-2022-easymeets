@@ -5,7 +5,7 @@ import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { NotificationService } from '@core/services/notification.service';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
-import { ISlotPasswordData } from '@shared/models/confirmWindow/ISlotPasswordData';
+import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -24,7 +24,7 @@ export class SlotPasswordWindowComponent implements OnDestroy {
 
     enteredPassword: string;
 
-    private slotLink: string;
+    private slotLink?: string;
 
     private enterPasswordEventEmitter = new EventEmitter<void>();
 
@@ -35,7 +35,7 @@ export class SlotPasswordWindowComponent implements OnDestroy {
     private leaveEventSubscription: Subscription;
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) public data: ISlotPasswordData,
+        @Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData,
         private dialogRef: MatDialogRef<SlotPasswordWindowComponent>,
         private router: Router,
         private availabilitySlotService: AvailabilitySlotService,
@@ -46,17 +46,17 @@ export class SlotPasswordWindowComponent implements OnDestroy {
         this.buttonsOptions = data.buttonsOptions;
         this.slotLink = data.slotLink;
 
-        this.addEventsSubscription();
+        this.leaveEventSubscription = this.leaveEventEmitter.subscribe(() => this.leaveSlotPasswordWindow());
+        this.enterPasswordEventSubscription = this.enterPasswordEventEmitter.subscribe(() => this.enterPassword());
+
+        this.addButtonsInWindow();
     }
 
     onClick(event: EventEmitter<void>) {
         event?.next();
     }
 
-    private addEventsSubscription() {
-        this.leaveEventSubscription = this.leaveEventEmitter.subscribe(() => this.leaveSlotPasswordWindow());
-        this.enterPasswordEventSubscription = this.enterPasswordEventEmitter.subscribe(() => this.enterPassword());
-
+    private addButtonsInWindow() {
         this.buttonsOptions = [
             {
                 class: 'confirm-accept-button',
@@ -72,7 +72,7 @@ export class SlotPasswordWindowComponent implements OnDestroy {
     }
 
     private enterPassword() {
-        this.availabilitySlotService.validateSlotPassword(this.slotLink, this.enteredPassword).subscribe((resp) => {
+        this.availabilitySlotService.validateSlotPassword(this.enteredPassword, this.slotLink).subscribe((resp) => {
             if (resp) {
                 this.notificationService.showSuccessMessage('Entered slot password is correct');
                 this.dialogRef.close();

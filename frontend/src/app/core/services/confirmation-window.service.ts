@@ -8,7 +8,6 @@ import { TeamMembersWindowComponent } from '@shared/components/team-members-wind
 import { UnsavedChangesComponent } from '@shared/components/unsaved-changes/unsaved-changes.component';
 import { confirmLeaveTitle, leavePageMessage } from '@shared/constants/shared-messages';
 import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
-import { ISlotPasswordData } from '@shared/models/confirmWindow/ISlotPasswordData';
 import { ITeamMembersDialogData } from '@shared/models/ITeamMembersDialogData';
 import { Observable } from 'rxjs';
 
@@ -60,7 +59,7 @@ export class ConfirmationWindowService {
             .afterClosed();
     }
 
-    openSlotPasswordDialog(data: ISlotPasswordData) {
+    openSlotPasswordDialog(data: IConfirmDialogData) {
         return this.dialog
             .open(SlotPasswordWindowComponent, {
                 data,
