@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { NotificationService } from '@core/services/notification.service';
-import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
 import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
 
 @Component({
@@ -13,17 +12,9 @@ import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogD
     styleUrls: ['./slot-password-window.component.sass'],
 })
 export class SlotPasswordWindowComponent {
-    title: string;
-
-    message?: string;
-
-    buttonsOptions?: IConfirmButtonOptions[];
-
     locationTypeMapping = LocationTypeMapping;
 
     enteredPassword: string;
-
-    private slotLink?: string;
 
     private enterPasswordEventEmitter = new EventEmitter<void>();
 
@@ -36,11 +27,6 @@ export class SlotPasswordWindowComponent {
         private availabilitySlotService: AvailabilitySlotService,
         private notificationService: NotificationService,
     ) {
-        this.title = data.title;
-        this.message = data.message;
-        this.buttonsOptions = data.buttonsOptions;
-        this.slotLink = data.slotLink;
-
         this.leaveEventEmitter.subscribe(() => this.leaveSlotPasswordWindow());
         this.enterPasswordEventEmitter.subscribe(() => this.enterPassword());
 
@@ -52,7 +38,7 @@ export class SlotPasswordWindowComponent {
     }
 
     private addButtonsInWindow() {
-        this.buttonsOptions = [
+        this.data.buttonsOptions = [
             {
                 class: 'confirm-accept-button',
                 label: 'Ok',
@@ -67,14 +53,16 @@ export class SlotPasswordWindowComponent {
     }
 
     private enterPassword() {
-        this.availabilitySlotService.validateSlotPassword(this.enteredPassword, this.slotLink).subscribe((resp) => {
-            if (resp) {
-                this.notificationService.showSuccessMessage('Entered slot password is correct');
-                this.dialogRef.close();
-            } else {
-                this.notificationService.showErrorMessage('Entered slot password is incorrect');
-            }
-        });
+        this.availabilitySlotService
+            .validateSlotPassword(this.enteredPassword, this.data.slotLink)
+            .subscribe((resp) => {
+                if (resp) {
+                    this.notificationService.showSuccessMessage('Entered slot password is correct');
+                    this.dialogRef.close();
+                } else {
+                    this.notificationService.showErrorMessage('Entered slot password is incorrect');
+                }
+            });
     }
 
     private leaveSlotPasswordWindow() {
