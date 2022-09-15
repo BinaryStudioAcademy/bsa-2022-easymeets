@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PasswordSlotGuard } from '@core/guards/password-slot.guard';
 
 import { ExternalBookingMeetingComponent } from './external-booking-choose-meeting-page/external-booking-choose-meeting-page.component';
 import { ExternalBookingMembersComponent } from './external-booking-choose-members-page/external-booking-choose-members-page.component';
@@ -21,7 +20,6 @@ const routes: Routes = [
             {
                 path: 'choose-time/:slotLink',
                 component: ExternalBookingTimeComponent,
-                canActivate: [PasswordSlotGuard],
             },
             {
                 path: 'confirm-booking',

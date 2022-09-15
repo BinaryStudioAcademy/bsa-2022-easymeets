@@ -1,5 +1,5 @@
 import { WeekDay } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { changeScheduleItemsDate } from '@core/helpers/schedule-items-helper';
@@ -8,18 +8,21 @@ import { ICalendarWeek } from '@core/models/ICalendarWeek';
 import { IOrderedMeetingTimes } from '@core/models/IOrderedMeetingTimes';
 import { IScheduleItemReceive } from '@core/models/schedule/IScheduleItemsReceive';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
+import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NewMeetingService } from '@core/services/new-meeting.service';
+import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { LocationType } from '@shared/enums/locationType';
 import { addDays, addMinutes, subDays } from 'date-fns';
 import { TZone } from 'moment-timezone-picker';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-external-booking-choose-time-page',
     templateUrl: './external-booking-choose-time-page.component.html',
     styleUrls: ['./external-booking-choose-time-page.component.sass'],
 })
-export class ExternalBookingTimeComponent extends BaseComponent implements OnInit {
+export class ExternalBookingTimeComponent extends BaseComponent implements OnInit, OnDestroy {
     link: string;
 
     slot: IAvailabilitySlot | null;
@@ -41,30 +44,34 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     @Output() selectedTimeAndDateEvent = new EventEmitter<{ date: Date; timeFinish: Date; timeZone: TZone }>();
 
-    public slotsCount: Array<object>;
+    slotsCount: Array<object>;
 
-    public disabledDays: number[];
+    disabledDays: number[];
 
-    public orderedTimes: IOrderedMeetingTimes[];
+    orderedTimes: IOrderedMeetingTimes[];
 
-    public currentDay: Date;
+    currentDay: Date;
 
-    public scheduleItems: IScheduleItemReceive[];
+    scheduleItems: IScheduleItemReceive[];
 
-    public theLatestFinishOfTimeRanges: Date;
+    theLatestFinishOfTimeRanges: Date;
 
-    public theEarliestStartOfTimeRanges: Date;
+    theEarliestStartOfTimeRanges: Date;
 
-    public pickedTimeZone: TZone;
+    pickedTimeZone: TZone;
 
-    public calendarWeek: ICalendarWeek;
+    calendarWeek: ICalendarWeek;
 
-    public nowDate: Date = new Date(Date.now());
+    nowDate: Date = new Date(Date.now());
+
+    enteredPassword: string;
 
     constructor(
         public spinnerService: SpinnerService,
         private availabilitySlotService: AvailabilitySlotService,
         private meetingService: NewMeetingService,
+        private confirmationWindowService: ConfirmationWindowService,
+        private notificationService: NotificationService,
         private route: ActivatedRoute,
         private router: Router,
     ) {
@@ -82,6 +89,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
             .pipe(this.untilThis)
             .subscribe((resp) => {
                 this.slot = resp;
+                this.showSlotPasswordDialog();
                 this.addSlotInfo(
                     this.slot!.id,
                     this.slot!.teamId,
@@ -98,6 +106,14 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
                     .map((el) => WeekDay[el.weekDay]);
                 this.slotsCount = this.slotsCounter();
             });
+    }
+
+    showSlotPasswordDialog() {
+        if (this.slot?.passwordProtectionIsUsed) {
+            this.confirmationWindowService.openSlotPasswordDialog({
+                title: 'Enter Slot Password',
+            });
+        }
     }
 
     private getOrderedTimes(slotId: bigint) {
@@ -257,5 +273,9 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     redirectToChooseMeeting() {
         this.reloadData.emit(this.userLink);
         this.router.navigateByUrl(`/external-booking/choose-meeting/${this.userLink}`);
+    }
+
+    override ngOnDestroy(): void {
+        super.ngOnDestroy();
     }
 }
