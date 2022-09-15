@@ -29,9 +29,9 @@ export class ForgotFormComponent extends BaseComponent {
     }
 
     sendRecoveryCode(form: FormGroup) {
-        const email = form.value.email();
+        const { email } = form.value;
 
-        this.authFormService.sendRecoveryCode(email);
+        this.authFormService.resetPassword(email);
         this.goToSignInPage();
     }
 

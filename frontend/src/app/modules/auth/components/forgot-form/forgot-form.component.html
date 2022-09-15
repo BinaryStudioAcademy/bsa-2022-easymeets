@@ -3,19 +3,17 @@
         <mat-label class="outside-label bold" for="email">Email</mat-label>
         <mat-form-field appearance="outline">
             <input matInput id="email" type="email" formControlName="email" placeholder="email@email.com" />
-            <mat-error *ngIf="forgotPasswordForm.controls['email'].hasError('email')">Email format is invalid</mat-error>
-            <mat-error *ngIf="forgotPasswordForm.controls['email'].hasError('required')">Email is required field</mat-error>
-            <mat-error *ngIf="forgotPasswordForm.controls['email'].hasError('userInNotExist')"
-                >This email is not registered on the system</mat-error>
+            <mat-error *ngIf="forgotPasswordForm.controls['email'].hasError('email')">Email format is invalid
+            </mat-error>
+            <mat-error *ngIf="forgotPasswordForm.controls['email'].hasError('required')">Email is required field
+            </mat-error>
+            <mat-error *ngIf="forgotPasswordForm.controls['email'].hasError('userInNotExist')">This email is not
+                registered on the system</mat-error>
         </mat-form-field>
     </div>
     <div class="form-actions flex-col h-align-center">
-        <button
-            class="full-width"
-            mat-flat-button
-            color="primary"
-            type="submit">
-            Send Recovery Code
+        <button class="full-width" mat-flat-button color="primary" type="submit">
+            Send
         </button>
     </div>
 </form>

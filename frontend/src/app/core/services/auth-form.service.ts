@@ -46,11 +46,11 @@ export class AuthFormService {
         );
     }
 
-    public sendRecoveryCode(email: string) {
+    public resetPassword(email: string) {
         this.authService
             .resetPassword(email)
-            .subscribe((resp) => {
-                console.log(resp);
+            .subscribe(() => {
+                this.notificationService.showSuccessMessage(`Link for resseting password was send to this ${email} email`);
             });
     }
 
