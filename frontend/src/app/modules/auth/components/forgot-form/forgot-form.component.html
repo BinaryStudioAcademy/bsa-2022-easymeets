@@ -1,4 +1,4 @@
-<form class="forgot-form form" [formGroup]="forgotPasswordForm" (ngSubmit)="sendRecoveryCode()">
+<form class="forgot-form form" [formGroup]="forgotPasswordForm" (ngSubmit)="sendRecoveryCode(forgotPasswordForm)">
     <div class="form-inputs flex-col">
         <mat-label class="outside-label bold" for="email">Email</mat-label>
         <mat-form-field appearance="outline">

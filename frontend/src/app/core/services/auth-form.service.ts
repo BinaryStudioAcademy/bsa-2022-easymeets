@@ -10,14 +10,12 @@ import { SpinnerService } from '@core/services/spinner.service';
 import { UserService } from '@core/services/user.service';
 import { DateFormat } from '@shared/enums/dateFormat';
 import firebase from 'firebase/compat';
-import { BehaviorSubject, finalize, Observable, switchMap, tap } from 'rxjs';
+import { finalize, Observable, switchMap, tap } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthFormService {
-    email: BehaviorSubject<string>;
-
     constructor(
         private authService: AuthService,
         private spinnerService: SpinnerService,
@@ -48,17 +46,12 @@ export class AuthFormService {
         );
     }
 
-    public sendRecoveryCode() {
-        // eslint-disable-next-line no-debugger
-        debugger;
-        this.authService.sendVerificationEmail();
-        // this.authService
-        //     .resetPassword(email)
-        //     .subscribe((resp) => {
-        //         // eslint-disable-next-line no-debugger
-        //         debugger;
-        //         console.log(resp);
-        //     });
+    public sendRecoveryCode(email: string) {
+        this.authService
+            .resetPassword(email)
+            .subscribe((resp) => {
+                console.log(resp);
+            });
     }
 
     private authenticate(authMethod: Observable<firebase.auth.UserCredential>, userName?: string): Observable<IUser> {

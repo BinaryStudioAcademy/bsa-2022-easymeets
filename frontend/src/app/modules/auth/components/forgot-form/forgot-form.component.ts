@@ -28,10 +28,10 @@ export class ForgotFormComponent extends BaseComponent {
         super();
     }
 
-    sendRecoveryCode() {
-        // eslint-disable-next-line no-debugger
-        debugger;
-        this.authFormService.sendRecoveryCode();
+    sendRecoveryCode(form: FormGroup) {
+        const email = form.value.email();
+
+        this.authFormService.sendRecoveryCode(email);
         this.goToSignInPage();
     }
 
