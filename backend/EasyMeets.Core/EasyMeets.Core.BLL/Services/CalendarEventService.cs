@@ -3,6 +3,7 @@ using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Calendar;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace EasyMeets.Core.BLL.Services;
 
@@ -12,12 +13,10 @@ public class CalendarEventService : BaseService, ICalendarEventService
     {
     }
 
-    public Task RemoveCalendarEvents(long calendarId)
+    public async Task RemoveCalendarEvents(long calendarId)
     {
-        var events = _context.CalendarEvents.Where(e => e.CalendarId == calendarId);
-        
+        var events = await _context.CalendarEvents.Where(e => e.CalendarId == calendarId).ToListAsync();
         _context.CalendarEvents.RemoveRange(events);
-        return _context.SaveChangesAsync();
     }
 
     public async Task AddCalendarEvents(List<EventItemDTO> eventItemDtos, long calendarId)
@@ -28,7 +27,5 @@ public class CalendarEventService : BaseService, ICalendarEventService
                 opts.AfterMap((_, dest) => dest.CalendarId = calendarId));
             await _context.CalendarEvents.AddAsync(calendarEvent);
         }
-
-        await _context.SaveChangesAsync();
     }
 }

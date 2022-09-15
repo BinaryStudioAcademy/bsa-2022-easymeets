@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 import { Component, Input } from '@angular/core';
 import { TemplateType } from '@core/enums/template-type.enum';
-import { getNotificationTemplate } from '@core/helpers/notification-templates';
+import { getDefaultNotificationTemplates, getPathLabel } from '@core/helpers/default-email-templates-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveConfirmationEmailDetails } from '@core/models/save-availability-slot/ISaveConfirmationEmailDetails';
 
@@ -13,29 +13,20 @@ import { ISaveConfirmationEmailDetails } from '@core/models/save-availability-sl
 export class NotificationEmailsComponent {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
-        this.settings =
-            this.slot?.emailTemplateSettings?.find((obj) => obj.type === TemplateType.Confirmation) ??
-            this._defaultSettings;
+        this.settings = this.slot?.emailTemplateSettings ?? getDefaultNotificationTemplates();
     }
 
-    private _defaultSettings: ISaveConfirmationEmailDetails = {
-        allowToSend: false,
-        type: TemplateType.Confirmation,
-        emailBody: getNotificationTemplate(TemplateType.Confirmation)?.body,
-        emailSubject: getNotificationTemplate(TemplateType.Confirmation)?.label,
-    };
+    public templateIndex: number = 0;
 
     public slot?: IAvailabilitySlot;
 
-    public currentSetting?: ISaveConfirmationEmailDetails;
-
-    public settings: ISaveConfirmationEmailDetails;
+    public settings: ISaveConfirmationEmailDetails[];
 
     public navLinks = [
-        { path: 'confirmation', label: getNotificationTemplate(TemplateType.Confirmation)?.label },
-        { path: 'cancellation', label: getNotificationTemplate(TemplateType.Cancellation)?.label },
-        { path: 'reminders', label: getNotificationTemplate(TemplateType.Reminders)?.label },
-        { path: 'follow-up', label: getNotificationTemplate(TemplateType.FollowUp)?.label },
+        { path: 'confirmation', label: getPathLabel(TemplateType.Confirmation) },
+        { path: 'cancellation', label: getPathLabel(TemplateType.Cancellation) },
+        { path: 'reminders', label: getPathLabel(TemplateType.Reminders) },
+        { path: 'follow-up', label: getPathLabel(TemplateType.FollowUp) },
     ];
 
     public activeTab = this.navLinks[0].path;
@@ -58,13 +49,13 @@ export class NotificationEmailsComponent {
                 break;
         }
         this.activeTab = path;
-        this.currentSetting = this.slot?.emailTemplateSettings?.find((obj) => obj.type === this.settings.type);
-        this.settings = this.currentSetting ?? this._defaultSettings;
     }
 
     private changeTemplateType(type: TemplateType) {
-        this.settings.type = type;
-        this.settings.emailSubject = getNotificationTemplate(type)?.label;
-        this.settings.emailBody = getNotificationTemplate(type)?.body;
+        const template = this.settings.find((el) => el.type === type);
+
+        if (template) {
+            this.templateIndex = this.settings.indexOf(template);
+        }
     }
 }
