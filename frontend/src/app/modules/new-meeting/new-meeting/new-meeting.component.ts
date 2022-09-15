@@ -20,7 +20,7 @@ import { debounceIntervalMedium } from '@shared/constants/rxjs-constants';
 import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
-import { debounceTime, Subscription } from 'rxjs';
+import { debounceTime, map, mergeMap, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-new-meeting',
@@ -115,14 +115,18 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.patchFormValues();
         this.setValidation();
 
-        this.teamService.currentTeamEmitted$.pipe(this.untilThis).subscribe((teamId) => {
-            this.currentTeamId = teamId;
-            this.subscribeToSearchTeamMembers();
-
-            this.userService.userChangedEvent$.pipe(this.untilThis).subscribe((resp) => {
-                this.addCurrentTeamMemberToList(resp?.id);
+        this.teamService.currentTeamEmitted$
+            .pipe(
+                this.untilThis,
+                map((teamId) => {
+                    this.currentTeamId = teamId;
+                    this.subscribeToSearchTeamMembers();
+                }),
+                mergeMap(() => this.userService.userChangedEvent$),
+            )
+            .subscribe((result) => {
+                this.addCurrentTeamMemberToList(result?.id);
             });
-        });
 
         [this.duration] = this.durations;
         this.initLocations();
