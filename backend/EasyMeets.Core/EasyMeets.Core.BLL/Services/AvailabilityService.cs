@@ -334,11 +334,8 @@ namespace EasyMeets.Core.BLL.Services
                 }))).ToList();
             
             await _context.EmailTemplates.AddRangeAsync(emailTemplates);
-            
-            foreach (var el in emailTemplates)
-            {
-                slot.EmailTemplates.Add(el);
-            }
+
+            slot.EmailTemplates = emailTemplates;
         }
     }
 }

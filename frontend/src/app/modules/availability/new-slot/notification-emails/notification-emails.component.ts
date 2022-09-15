@@ -52,6 +52,10 @@ export class NotificationEmailsComponent {
     }
 
     private changeTemplateType(type: TemplateType) {
-        this.templateIndex = this.settings.indexOf(this.settings.find((el) => el.type === type)!);
+        const template = this.settings.find((el) => el.type === type);
+
+        if (template) {
+            this.templateIndex = this.settings.indexOf(template);
+        }
     }
 }
