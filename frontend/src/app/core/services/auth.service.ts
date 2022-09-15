@@ -31,6 +31,10 @@ export class AuthService {
         });
     }
 
+    getAuth() {
+        return this.afAuth;
+    }
+
     public signUp(email: string, password: string): Observable<firebase.auth.UserCredential> {
         return defer(() => this.afAuth.createUserWithEmailAndPassword(email, password)).pipe(
             first(),
@@ -69,6 +73,12 @@ export class AuthService {
                 error: (e) => this.notificationService.showErrorMessage(e.message),
             }),
         );
+    }
+
+    actionCode = '1234';
+
+    public sendVerificationEmail() {
+
     }
 
     public loginWithGoogle(): Observable<firebase.auth.UserCredential> {

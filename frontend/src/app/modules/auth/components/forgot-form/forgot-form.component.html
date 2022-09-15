@@ -6,7 +6,7 @@
             <mat-error *ngIf="forgotPasswordForm.controls['email'].hasError('email')">Email format is invalid</mat-error>
             <mat-error *ngIf="forgotPasswordForm.controls['email'].hasError('required')">Email is required field</mat-error>
             <mat-error *ngIf="forgotPasswordForm.controls['email'].hasError('userInNotExist')"
-                >User with entered email address doesn't exist</mat-error>
+                >This email is not registered on the system</mat-error>
         </mat-form-field>
     </div>
     <div class="form-actions flex-col h-align-center">

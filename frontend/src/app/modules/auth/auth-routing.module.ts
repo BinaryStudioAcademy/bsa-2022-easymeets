@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthPageComponent } from './components/auth-page/auth-page.component';
 import { ForgotFormComponent } from './components/forgot-form/forgot-form.component';
-import { RecoveryCodeFormComponent } from './components/recovery-code-form/recovery-code-form.component';
 import { SignInFormComponent } from './components/sign-in-form/sign-in-form.component';
 import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.component';
 
@@ -28,10 +27,6 @@ const routes: Routes = [
             {
                 path: 'forgot',
                 component: ForgotFormComponent,
-            },
-            {
-                path: 'recovery-code',
-                component: RecoveryCodeFormComponent,
             },
         ],
     },
