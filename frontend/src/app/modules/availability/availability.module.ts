@@ -20,6 +20,7 @@ import { NewAvailabilityPageComponent } from './new-slot/new-availability-page/n
 import { NotificationEmailsComponent } from './new-slot/notification-emails/notification-emails.component';
 import { QuestionsComponent } from './new-slot/questions/questions.component';
 import { ScheduleComponent } from './new-slot/schedule/schedule.component';
+import { ExclusionDateComponent } from './new-slot/schedule-definition/exclusion-date/exclusion-date.component';
 import { ScheduleDefinitionComponent } from './new-slot/schedule-definition/schedule-definition.component';
 import { ScheduleExternalComponent } from './new-slot/schedule-external/schedule-external.component';
 import { ScheduleListItemComponent } from './new-slot/schedule-list-item/schedule-list-item.component';
@@ -47,6 +48,7 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         QuestionsComponent,
         ScheduleDefinitionComponent,
         ScheduleExternalComponent,
+        ExclusionDateComponent,
     ],
     providers: [PendingChangesGuard],
     imports: [

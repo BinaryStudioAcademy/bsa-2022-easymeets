@@ -1,4 +1,5 @@
 export interface IMeetingMembersRequest {
     teamId?: number,
-    numberOfMembersToDisplay: number
+    start?: Date;
+    end?: Date;
 }

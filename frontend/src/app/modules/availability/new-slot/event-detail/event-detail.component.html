@@ -73,16 +73,31 @@
             </mat-slide-toggle>
             <p class="input-field">Password protection</p>
         </div>
-        <div class="input-description-tooltip-container">
+        <div
+            class="input-description-tooltip-container"
+            [class.input-field-enabled]="!settings.passwordProtectionIsUsed">
             <p class="input-description">Password to Booking Page</p>
-            <mat-icon matTooltip="This password will be required to book this slot">help_outline</mat-icon>
+            <mat-icon
+                matTooltip="This password will be required to book this slot. Password must include
+                minimum 3 characters, maximum 8 characters.">
+                help_outline
+            </mat-icon>
         </div>
-        <div class="password-input-container">
+        <div
+            class="password-input-container"
+            [class.input-field-enabled]="!settings.passwordProtectionIsUsed"
+            [class.invalid-password]="passwordControl.invalid">
             <input
                 matInput
+                [formControl]="passwordControl"
                 [disabled]="!settings.passwordProtectionIsUsed"
                 [(ngModel)]="settings.passwordProtection"
-                [type]="hidePassword ? 'password' : 'text'" />
+                [type]="hidePassword ? 'password' : 'text'"
+                class="input-field"
+                [readonly]="!settings.passwordProtectionIsUsed"
+                #passwordField
+                (change)="onPasswordChange(passwordField.value)"
+                [required]="settings.passwordProtectionIsUsed" />
             <button
                 mat-icon-button
                 matSuffix
@@ -93,6 +108,14 @@
                 [disabled]="!settings.passwordProtectionIsUsed">
                 <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
+        </div>
+        <div class="validation-errors">
+            <div *ngIf="passwordControl.invalid" class="validation">
+                <small *ngIf="passwordControl.errors?.['pattern']">{{ invalidCharactersMessage }}</small>
+                <small *ngIf="passwordControl.errors?.['minlength']">Length must be more than 3 characters.</small>
+                <small *ngIf="passwordControl.errors?.['maxlength']">Length must be less than 8 characters.</small>
+                <small *ngIf="passwordControl.errors?.['required']">This field is required.</small>
+            </div>
         </div>
     </div>
 </div>
