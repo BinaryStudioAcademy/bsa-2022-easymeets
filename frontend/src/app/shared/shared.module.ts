@@ -16,6 +16,7 @@ import { OwnerRightsWindowComponent } from './components/owner-rights-window/own
 import { TeamMembersWindowComponent } from './components/team-members-window/team-members-window.component';
 import { UnsavedChangesComponent } from './components/unsaved-changes/unsaved-changes.component';
 import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive';
+import { SlotMembersWindowComponent } from './components/slot-members-window/slot-members-window.component';
 
 @NgModule({
     imports: [
@@ -37,6 +38,7 @@ import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive
         BookingWindowComponent,
         TeamMembersWindowComponent,
         OwnerRightsWindowComponent,
+        SlotMembersWindowComponent,
     ],
     exports: [
         CommonModule,

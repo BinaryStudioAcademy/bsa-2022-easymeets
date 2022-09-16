@@ -124,21 +124,19 @@ namespace EasyMeets.Core.BLL.Services
             {
                 await SaveEmailTemplateConfig(slotDto.TemplateSettings, entity);
             }
+            
+            var schedule = _mapper.Map<Schedule>(slotDto.Schedule);
+            await _context.Schedules.AddAsync(schedule);
 
-            var author = new SlotMember
-            {
-                MemberId = currentUser.Id,
-                Priority = 3
-            };
+            var members = _mapper.Map<List<SlotMember>>(slotDto.SlotMembers);
 
-            if (!slotDto.Schedule.WithTeamMembers)
+            foreach (var member in members)
             {
-                var schedule = _mapper.Map<Schedule>(slotDto.Schedule);
-                await _context.Schedules.AddAsync(schedule);
-                author.Schedule = schedule;
+                member.Schedule = schedule;
             }
-            entity.SlotMembers.Add(author);
-            await _context.SlotMembers.AddAsync(author);
+
+            entity.SlotMembers = members;
+            _context.SlotMembers.AddRange(members);
 
             await _context.SaveChangesAsync();
         }
@@ -181,7 +179,7 @@ namespace EasyMeets.Core.BLL.Services
             await UpdateAdvancedSlotSettings(updateAvailabilityDto, availabilitySlot);
             await UpdateTemplateSettings(updateAvailabilityDto, availabilitySlot);
             UpdateQuestions(updateAvailabilityDto, availabilitySlot);
-            await UpdateSchedule(updateAvailabilityDto, availabilitySlot);
+            UpdateSchedule(updateAvailabilityDto, availabilitySlot);
 
             availabilitySlot.LocationType = updateAvailabilityDto.GeneralDetails!.LocationType;
 
@@ -255,29 +253,27 @@ namespace EasyMeets.Core.BLL.Services
             _context.Update(availabilitySlot);
         }
 
-        private async Task UpdateSchedule(SaveAvailabilitySlotDto updateAvailabilityDto, AvailabilitySlot availabilitySlot)
+        private void UpdateSchedule(SaveAvailabilitySlotDto updateAvailabilityDto, AvailabilitySlot availabilitySlot)
         {
-            var currentUser = await _userService.GetCurrentUserAsync();
-            if (!updateAvailabilityDto.Schedule.WithTeamMembers)
+            var scheduleId = availabilitySlot.SlotMembers.First(member => member.MemberId == availabilitySlot.CreatedBy)
+                .ScheduleId;
+            var updatedExclusionDateIds = updateAvailabilityDto.Schedule.ExclusionDates.Select(date => date.Id);
+            var updatedDayTimeRangeIds =
+                updateAvailabilityDto.Schedule.ExclusionDates.SelectMany(dto => dto.DayTimeRanges)
+                    .Select(dto => dto.Id);
+            var deletedExclusionDates = _context.ExclusionDates.Where(date =>
+                date.ScheduleId == scheduleId &&
+                updatedExclusionDateIds.All(updatedDateId => updatedDateId != date.Id));
+            var deletedDayTimeRanges = _context.DayTimeRanges
+                .Where(range =>
+                    updatedExclusionDateIds.Any(updatedExclusionDateId => 
+                        updatedExclusionDateId == range.ExclusionDateId) && 
+                    updatedDayTimeRangeIds.All(updatedDayTimeRangeId => updatedDayTimeRangeId != range.Id));
+            _context.ExclusionDates.RemoveRange(deletedExclusionDates);
+            _context.DayTimeRanges.RemoveRange(deletedDayTimeRanges);
+            foreach (var member in availabilitySlot.SlotMembers)
             {
-                var scheduleId = availabilitySlot.SlotMembers.First(member => member.MemberId == currentUser.Id)
-                    .ScheduleId;
-                var updatedExclusionDateIds = updateAvailabilityDto.Schedule.ExclusionDates.Select(date => date.Id);
-                var updatedDayTimeRangeIds =
-                    updateAvailabilityDto.Schedule.ExclusionDates.SelectMany(dto => dto.DayTimeRanges)
-                        .Select(dto => dto.Id);
-                var deletedExclusionDates = _context.ExclusionDates.Where(date =>
-                    date.ScheduleId == scheduleId &&
-                    updatedExclusionDateIds.All(updatedDateId => updatedDateId != date.Id));
-                var deletedDayTimeRanges = _context.DayTimeRanges
-                    .Where(range =>
-                        updatedExclusionDateIds.Any(updatedExclusionDateId =>
-                            updatedExclusionDateId == range.ExclusionDateId) &&
-                            updatedDayTimeRangeIds.All(updatedDayTimeRangeId => updatedDayTimeRangeId != range.Id));
-                _context.ExclusionDates.RemoveRange(deletedExclusionDates);
-                _context.DayTimeRanges.RemoveRange(deletedDayTimeRanges);
-                _mapper.Map(updateAvailabilityDto.Schedule,
-                    availabilitySlot.SlotMembers.First(member => member.MemberId == currentUser.Id).Schedule);
+                _mapper.Map(updateAvailabilityDto.Schedule, member.Schedule);
             }
         }
 
