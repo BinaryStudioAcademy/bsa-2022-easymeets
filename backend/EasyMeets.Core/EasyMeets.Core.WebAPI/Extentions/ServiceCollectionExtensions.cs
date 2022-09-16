@@ -174,7 +174,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
 
             services.AddSingleton(new JobSchedule(
                 jobType: typeof(EmailDelayJob),
-                cronExpression: "0/60 * * * * ?"));
+                cronExpression: "0/59 * * * * ?"));
 
             services.AddHostedService<QuartzHostedService>();
         }
