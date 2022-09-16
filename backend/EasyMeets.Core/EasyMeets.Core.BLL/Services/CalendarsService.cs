@@ -105,7 +105,7 @@ namespace EasyMeets.Core.BLL.Services
                 { "calendarId", email }
             };
 
-            var refreshToken = _context.Calendars.FirstOrDefault(x => x.ConnectedCalendar == email) ?? throw new Exception("Connected email don't have refresh token.");
+            var refreshToken = await _context.Calendars.FirstOrDefaultAsync(x => x.ConnectedCalendar == email) ?? throw new Exception("Connected email don't have refresh token.");
 
             var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken.RefreshToken);
 
@@ -142,8 +142,9 @@ namespace EasyMeets.Core.BLL.Services
                 }
 
                 _context.Calendars.Update(calendar);
-                await _context.SaveChangesAsync();
             }
+
+            await _context.SaveChangesAsync();
 
             return true;
         }
@@ -221,6 +222,8 @@ namespace EasyMeets.Core.BLL.Services
                 await AddMeetingsFromCalendar(email, calendar.VisibleForTeams, calendar.Id);
             }
 
+            await _context.SaveChangesAsync();
+
             return true;
         }
 
@@ -245,7 +248,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             var meetings = await _context.Meetings.Where(x => x.TeamId == teamId).ToListAsync();
 
-            var refreshToken = _context.Calendars.FirstOrDefault(x => x.ConnectedCalendar == email) ?? throw new Exception("Connected email don't have refresh token.");
+            var refreshToken = await _context.Calendars.FirstOrDefaultAsync(x => x.ConnectedCalendar == email) ?? throw new Exception("Connected email doesn't have refresh token.");
 
             var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken.RefreshToken);
 

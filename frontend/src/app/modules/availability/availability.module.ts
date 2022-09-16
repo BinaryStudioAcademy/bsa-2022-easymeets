@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { PendingChangesGuard } from '@core/guards/pending-changes.guard';
+import { CustomDateAdapter } from '@modules/exclusion-dates/custom-date-adapter';
 import { ExclusionDatesModule } from '@modules/exclusion-dates/exclusion-dates.module';
 import { HeaderModule } from '@modules/header/header.module';
 import { SideMenuModule } from '@modules/side-menu/side-menu.module';
 import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { CalendarModule } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MomentTimezonePickerModule } from 'moment-timezone-picker';
 
@@ -20,6 +22,7 @@ import { NewAvailabilityPageComponent } from './new-slot/new-availability-page/n
 import { NotificationEmailsComponent } from './new-slot/notification-emails/notification-emails.component';
 import { QuestionsComponent } from './new-slot/questions/questions.component';
 import { ScheduleComponent } from './new-slot/schedule/schedule.component';
+import { ExclusionDateComponent } from './new-slot/schedule-definition/exclusion-date/exclusion-date.component';
 import { ScheduleDefinitionComponent } from './new-slot/schedule-definition/schedule-definition.component';
 import { ScheduleExternalComponent } from './new-slot/schedule-external/schedule-external.component';
 import { ScheduleListItemComponent } from './new-slot/schedule-list-item/schedule-list-item.component';
@@ -47,8 +50,9 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         QuestionsComponent,
         ScheduleDefinitionComponent,
         ScheduleExternalComponent,
+        ExclusionDateComponent,
     ],
-    providers: [PendingChangesGuard],
+    providers: [PendingChangesGuard, { provide: DateAdapter, useClass: CustomDateAdapter, deps: [MAT_DATE_LOCALE] }],
     imports: [
         CommonModule,
         SharedModule,

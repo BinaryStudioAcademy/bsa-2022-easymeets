@@ -1,20 +1,18 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapter } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
 import { convertExclusionDateToOffset } from '@core/helpers/exclusion-date-helper';
 import { changeOffsetSign, TimeRangeValidator } from '@core/helpers/time-helper';
 import { getDateWithoutLocalOffset } from '@core/helpers/time-zone-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
-import { CustomDateAdapter } from '@modules/exclusion-dates/custom-date-adapter';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
 
 @Component({
     selector: 'app-exclusion-dates-picker',
     templateUrl: './exclusion-dates-picker.component.html',
     styleUrls: ['./exclusion-dates-picker.component.sass'],
-    providers: [{ provide: DateAdapter, useClass: CustomDateAdapter, deps: [MAT_DATE_LOCALE] }],
 })
 export class ExclusionDatesPickerComponent extends BaseComponent implements OnInit {
     selected: Date | null;
