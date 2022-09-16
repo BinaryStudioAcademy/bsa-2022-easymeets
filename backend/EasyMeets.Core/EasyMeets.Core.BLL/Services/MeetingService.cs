@@ -8,7 +8,6 @@ using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace EasyMeets.Core.BLL.Services
 {
     public class MeetingService : BaseService, IMeetingService
@@ -25,8 +24,9 @@ namespace EasyMeets.Core.BLL.Services
             _googleMeetService = googleMeetService;
         }
 
-        public async Task<List<MeetingSlotDTO>> GetMeetingMembersByNumberOfMembersToDisplayAsync(long? teamId, int numberOfMembers)
+        public async Task<List<MeetingSlotDTO>> GetMeetingsAsync(MeetingMemberRequestDto meetingMemberRequestDto)
         {
+            var teamId = meetingMemberRequestDto.TeamId;
             if (teamId is null)
             {
                 return new List<MeetingSlotDTO>();
@@ -34,13 +34,19 @@ namespace EasyMeets.Core.BLL.Services
 
             var team = await _context.Teams.FirstOrDefaultAsync(team => team.Id == teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
 
+            var startRestriction = meetingMemberRequestDto.Start ?? DateTimeOffset.MinValue;
+            var endRestriction = meetingMemberRequestDto.End ?? DateTimeOffset.MaxValue;
+
             var meetings = await _context.Meetings
-                .Where(meeting => meeting.TeamId == team.Id)
                 .Include(m => m.AvailabilitySlot)
                 .Include(s => s!.ExternalAttendees)
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
+                .Where(meeting => meeting.TeamId == team.Id &&
+                                  meeting.StartTime >= startRestriction &&
+                                  meeting.StartTime.AddMinutes(meeting.Duration) <= endRestriction)
+                .OrderBy(m => m.StartTime)
                 .Select(x =>
                     new MeetingSlotDTO
                     {
@@ -53,20 +59,21 @@ namespace EasyMeets.Core.BLL.Services
                         MeetingDuration = x.Duration,
                         MeetingTime = x.StartTime,
                         MeetingLink = x.MeetingLink,
-                        MeetingMembers = GetAllParticipants(x, numberOfMembers)
+                        MeetingMembers = GetAllParticipants(x)
                     })
             .ToListAsync();
 
             return meetings;
         }
 
-        private static List<UserMeetingDTO> GetAllParticipants(Meeting meeting, int numberOfMembers)
+        private static List<UserMeetingDTO> GetAllParticipants(Meeting meeting)
         {
             var slotMembers = meeting.MeetingMembers
                 .Select(x => new UserMeetingDTO
                 {
                     Name = x.TeamMember.User.Name,
                     Email = x.TeamMember.User.Email,
+                    Image = x.TeamMember.User.ImagePath,
                     TimeZone = new() { NameValue = x.TeamMember.User.TimeZoneName, TimeValue = x.TeamMember.User.TimeZoneValue },
                     Booked = meeting.CreatedAt
                 });
@@ -80,7 +87,7 @@ namespace EasyMeets.Core.BLL.Services
                     Booked = meeting.CreatedAt
                 });
 
-            return slotMembers.Union(external).Take(numberOfMembers).ToList();
+            return slotMembers.Union(external).ToList();
         }
 
         private static string CreateMemberTitle(Meeting meeting)
@@ -133,7 +140,7 @@ namespace EasyMeets.Core.BLL.Services
 
             await AddMeetingLink(meeting);
 
-            await SendConfirmationEmailsAsync(meeting.Id);
+            await SendEmailsAsync(meeting.Id, TemplateType.Confirmation);
 
             return _mapper.Map<SaveMeetingDto>(GetByIdInternal(meeting.Id));
         }
@@ -158,7 +165,7 @@ namespace EasyMeets.Core.BLL.Services
                 .ToListAsync();
         }
 
-        public async Task SendConfirmationEmailsAsync(long meetingId)
+        public async Task SendEmailsAsync(long meetingId, TemplateType type)
         {
             var meeting = await _context.Meetings
                 .Include(m => m.MeetingMembers)
@@ -172,7 +179,7 @@ namespace EasyMeets.Core.BLL.Services
             var emailTemplate = meeting?
                 .AvailabilitySlot?
                 .EmailTemplates
-                .FirstOrDefault(template => template.TemplateType == TemplateType.Confirmation);
+                .FirstOrDefault(template => template.TemplateType == type && template.IsSend);
 
             var recipients = meeting?
                 .MeetingMembers
@@ -199,7 +206,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             var usersIds = meetingMembers.Select(x => x.Id);
             var teamMembers = await _context.TeamMembers
-                .Where(x => usersIds.Contains(x.UserId) && x.TeamId == teamId)
+                .Where(x => usersIds.Contains(x.Id) && x.TeamId == teamId)
                 .Select(x => new MeetingMember { TeamMemberId = x.Id })
                 .ToListAsync();
 
@@ -234,6 +241,8 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task DeleteMeeting(long meetingId)
         {
+            await SendEmailsAsync(meetingId, TemplateType.Cancellation);
+            
             var meeting = await _context.Meetings.FirstAsync(meeting => meeting.Id == meetingId);
             var members = _context.MeetingMembers.Where(member => member.MeetingId == meetingId);
             _context.RemoveRange(members);

@@ -47,7 +47,8 @@
                         "inlineStyleLanguage": "sass",
                         "assets": ["src/favicon.ico", "src/assets"],
                         "styles": ["src/styles/index.sass", "src/app/shared/styles/common-page-styles.sass"],
-                        "scripts": []
+                        "scripts": [],
+                        "allowedCommonJsDependencies": ["moment-timezone"]
                     },
                     "configurations": {
                         "production": {

@@ -67,26 +67,15 @@ button
     padding-left: 24px
 
 .table-container
-    overflow: auto
+    overflow-y: hidden
     width: 100%
 
 .mat-form-field-appearance-fill .mat-form-field-flex
     padding: 0
 
-mat-form-field
-    display: block
-    margin-top: 5px
-
-mat-label
-    font-size: 14px
-    margin-top: 20px
-
-.table-container
-    overflow-y: hidden
-
-::ng-deep .mat-select-form .mat-select-value-text
-    display: block
-    margin-bottom: 20px
+::ng-deep .table-container
+    .mat-form-field-infix
+        max-width: 80px
 
 i
     color: $silver-chalice
@@ -129,3 +118,12 @@ i
             color: $midnight
         .no-check-text
             color: $bright-grey
+
+::ng-deep .events-from-select.mat-select
+    width: auto !important
+    min-width: 50px
+
+::ng-deep .events-from-select
+    .mat-select-arrow-wrapper
+        margin-top: 10px
+        margin-left: 5px

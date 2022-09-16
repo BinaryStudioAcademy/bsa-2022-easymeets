@@ -1,20 +1,22 @@
 <div class="container">
     <div id="container-tabs">
         <mat-card-content>
-            <nav class="email-tab-panel tab-panel-custom" mat-tab-nav-bar>
+            <nav class="email-tab-panel" mat-tab-nav-bar>
                 <a
                     mat-tab-link
                     *ngFor="let link of navLinks"
                     [active]="link.path === activeTab"
                     (click)="changeTemplate(link.path)">
-                    {{ link.label }}
+                    <span class="link-text">
+                        {{ link.label }}
+                    </span>
                 </a>
             </nav>
         </mat-card-content>
     </div>
     <div id="container-toggle">
         <div class="input-send-email">
-            <mat-slide-toggle class="form-switch" [(ngModel)]="settings.allowToSend"></mat-slide-toggle>
+            <mat-slide-toggle class="form-switch" [(ngModel)]="settings[templateIndex].allowToSend"></mat-slide-toggle>
             <p class="input-field">Send</p>
         </div>
     </div>
@@ -24,7 +26,7 @@
                 class="fa-solid fa-circle-question input-description-icon"
                 data-title="Some Text About Email Subject"></i>
         </p>
-        <textarea id="emailSubject" class="input-message" [(ngModel)]="settings.emailSubject"></textarea>
+        <textarea id="emailSubject" class="input-message" [(ngModel)]="settings[templateIndex].emailSubject"></textarea>
     </div>
     <div id="container-emailBody">
         <p class="input-description">
@@ -32,6 +34,6 @@
                 class="fa-solid fa-circle-question input-description-icon"
                 data-title="Some Text About Email Body"></i>
         </p>
-        <textarea id="emailBody" class="input-message" [(ngModel)]="settings.emailBody"></textarea>
+        <textarea id="emailBody" class="input-message" [(ngModel)]="settings[templateIndex].emailBody"></textarea>
     </div>
 </div>

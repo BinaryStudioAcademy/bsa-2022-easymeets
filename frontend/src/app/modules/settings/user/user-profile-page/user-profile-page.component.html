@@ -98,12 +98,15 @@
                 (change)="markTimeZoneDirty()"
                 formControlName="timeZone"
                 customPlaceholderText=""
-                [getUserZone]="!user.timeZone">
+                [getUserZone]="defineZone()">
             </ng-moment-timezone-picker>
         </div>
         <div class="item">
             <div class="update-preferences-button">
-                <button mat-flat-button type="submit" [disabled]="userForm.invalid || userForm.pending || !userForm.dirty">
+                <button
+                    mat-flat-button
+                    type="submit"
+                    [disabled]="userForm.invalid || userForm.pending || !userForm.dirty">
                     Update Preferences
                 </button>
             </div>
