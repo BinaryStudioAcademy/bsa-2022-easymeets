@@ -1,10 +1,17 @@
 import { Component } from '@angular/core';
-import { CalendarEvent, CalendarMonthViewDay } from 'angular-calendar';
+import { CustomCalendarDateFormatter } from '@core/helpers/custom-calendar-date-formatter.provider';
+import { CalendarDateFormatter, CalendarEvent, CalendarMonthViewDay } from 'angular-calendar';
 
 @Component({
     selector: 'app-schedule-month',
     templateUrl: './schedule-month.component.html',
     styleUrls: ['./schedule-month.component.sass'],
+    providers: [
+        {
+            provide: CalendarDateFormatter,
+            useClass: CustomCalendarDateFormatter,
+        },
+    ],
 })
 export class ScheduleMonthComponent {
     viewDate: Date = new Date();

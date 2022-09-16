@@ -1,8 +1,16 @@
 <ng-template #customCellTemplate let-day="day" let-locale="locale">
     <div class="cal-cell-top">
-        <span class="cal-day-number">1</span><i class="fa-solid fa-repeat"></i>
+        <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span><i class="fa-solid fa-repeat"></i>
     </div>
-    <small style="margin: 5px">There are {{ day.events.length }} events on this day</small>
+    <div class="cal-content">
+        <div>
+            <p>07:30-08:30</p>
+            <p>07:30-08:30</p>
+        </div>
+        <div class="more-button">
+            + 3more...
+        </div>
+    </div>
 </ng-template>
 
 <mwl-calendar-month-view
