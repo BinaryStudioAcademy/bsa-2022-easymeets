@@ -23,6 +23,51 @@ export const getExclusionDate = (
     ],
 });
 
+export function getExclusionDateWithDayOffset(
+    exclusionDate: IExclusionDate,
+    dateAdapter: DateAdapter<Date>,
+    startHours: number,
+    startMinutes: string,
+    endHours: number,
+    endMinutes: string,
+    dayAction: DayAction,
+) {
+    let convertedDate: Date;
+
+    if (dayAction === DayAction.AddDay) {
+        convertedDate = dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), 1);
+    } else if (dayAction === DayAction.SubtractDay) {
+        convertedDate = dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), -1);
+    } else {
+        convertedDate = new Date(exclusionDate.selectedDate);
+    }
+
+    return [
+        getExclusionDate(
+            getDateWithoutLocalOffset(convertedDate).toJSON(),
+            startHours,
+            startMinutes,
+            endHours,
+            endMinutes,
+        ),
+    ];
+}
+
+export const getConvertedDatesForExclusionDate = (
+    exclusionDate: IExclusionDate,
+    dateAdapter: DateAdapter<Date>,
+    startHoursDayAction: DayAction,
+): [string, string] =>
+    (startHoursDayAction === DayAction.SubtractDay
+        ? [
+            getDateWithoutLocalOffset(dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), -1)).toJSON(),
+            exclusionDate.selectedDate,
+        ]
+        : [
+            exclusionDate.selectedDate,
+            getDateWithoutLocalOffset(dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), 1)).toJSON(),
+        ]);
+
 export const convertExclusionDateToOffset = (
     exclusionDate: IExclusionDate,
     timeZoneValue: string,
@@ -30,48 +75,32 @@ export const convertExclusionDateToOffset = (
 ): IExclusionDate[] =>
     exclusionDate.dayTimeRanges
         .map((dayTimeRange) => {
-            const [startHours, startMinutes, startHoursDayAction] = convertTimeToOffset(dayTimeRange.start, timeZoneValue);
+            const [startHours, startMinutes, startHoursDayAction] = convertTimeToOffset(
+                dayTimeRange.start,
+                timeZoneValue,
+            );
             const [endHours, endMinutes, endHoursDayAction] = convertTimeToOffset(
                 dayTimeRange.end === '23:59' && !timeZoneValue.includes('00:00') ? '24:00' : dayTimeRange.end,
                 timeZoneValue,
             );
 
-            let convertedDate: Date;
-
             if (startHoursDayAction === endHoursDayAction) {
-                if (startHoursDayAction === DayAction.AddDay) {
-                    convertedDate = dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), 1);
-                } else if (startHoursDayAction === DayAction.SubtractDay) {
-                    convertedDate = dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), -1);
-                } else {
-                    convertedDate = new Date(exclusionDate.selectedDate);
-                }
-
-                return [
-                    getExclusionDate(
-                        getDateWithoutLocalOffset(convertedDate).toJSON(),
-                        startHours,
-                        startMinutes,
-                        endHours,
-                        endMinutes,
-                    ),
-                ];
+                return getExclusionDateWithDayOffset(
+                    exclusionDate,
+                    dateAdapter,
+                    startHours,
+                    startMinutes,
+                    endHours,
+                    endMinutes,
+                    startHoursDayAction,
+                );
             }
 
-            const [startRangeDate, endRangeDate] =
-                startHoursDayAction === DayAction.SubtractDay
-                    ? [
-                        getDateWithoutLocalOffset(
-                            dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), -1),
-                        ).toJSON(),
-                        exclusionDate.selectedDate,
-                    ]
-                    : [
-                        exclusionDate.selectedDate,
-                        getDateWithoutLocalOffset(
-                            dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), 1),
-                        ).toJSON(),
-                    ];
+            const [startRangeDate, endRangeDate] = getConvertedDatesForExclusionDate(
+                exclusionDate,
+                dateAdapter,
+                startHoursDayAction,
+            );
 
             if (endHours === 0 && endMinutes === '00') {
                 return [getExclusionDate(startRangeDate, startHours, startMinutes, 23, '59')];

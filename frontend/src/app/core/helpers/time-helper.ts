@@ -23,7 +23,7 @@ export const getTimeString = (hours: number, minutes: string) =>
 export function convertTimeToOffset(time: string, offsetValue: string): [number, string, DayAction] {
     const offsetHours = Number(offsetValue.substring(0, 3));
     const hours = Number(time.substring(0, 2));
-    const minutes = time.substring(3);
+    const minutes = time.substring(3, 5);
     const hoursConverted = hours + offsetHours;
 
     const [correctHours, hoursDayAction] = normalizeHours(hoursConverted);
