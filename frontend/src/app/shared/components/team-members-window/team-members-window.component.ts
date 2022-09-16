@@ -1,4 +1,6 @@
+import { ENTER, SPACE } from '@angular/cdk/keycodes';
 import { Component, EventEmitter, Inject } from '@angular/core';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
 import { ITeamMember } from '@core/models/ITeamMember';
@@ -33,6 +35,8 @@ export class TeamMembersWindowComponent extends BaseComponent {
 
     usersToAdd: IUser[] = [];
 
+    readonly separatorKeysCodes = [ENTER, SPACE] as const;
+
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: ITeamMembersDialogData,
         private dialogRef: MatDialogRef<TeamMembersWindowComponent>,
@@ -51,6 +55,27 @@ export class TeamMembersWindowComponent extends BaseComponent {
     onClick(event: EventEmitter<void>) {
         event?.next();
         this.dialogRef.close();
+    }
+
+    addOnBlur = true;
+
+    teamMembersEmails: string[] = [];
+
+    add(event: MatChipInputEvent): void {
+        const value = (event.value || '').trim();
+
+        if (value) {
+            this.teamMembersEmails.push(value);
+        }
+        event.chipInput!.clear();
+    }
+
+    remove(email: string): void {
+        const index = this.teamMembersEmails.indexOf(email);
+
+        if (index >= 0) {
+            this.teamMembersEmails.splice(index, 1);
+        }
     }
 
     getUsersByEmailOrName(searchData: string) {

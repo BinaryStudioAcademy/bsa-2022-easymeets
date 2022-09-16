@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconRegistry } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
@@ -27,6 +29,9 @@ import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive
         MatDialogModule,
         MatButtonModule,
         NgxMaskModule,
+        MatChipsModule,
+        MatFormFieldModule,
+        MatIconModule,
     ],
     declarations: [
         LoadingSpinnerComponent,
@@ -50,6 +55,9 @@ import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive
         UnsavedChangesComponent,
         NgxMaskModule,
         HeaderLessTabsDirective,
+        MatChipsModule,
+        MatFormFieldModule,
+        MatIconModule,
     ],
 })
 export class SharedModule {
