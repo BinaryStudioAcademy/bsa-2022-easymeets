@@ -1,12 +1,40 @@
 <app-header-item></app-header-item>
 <div class="container">
     <div class="bookings-container">
+        <div class="bookings-header">
+            <div class="date-wrapper">
+                <div *ngIf="selectedDateFilter === 'Date Range'">
+                    <mat-date-range-input class="range-input" [rangePicker]="picker">
+                        <input matStartDate [(ngModel)]="currentStart">
+                        <input matEndDate [(ngModel)]="currentEnd">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker (closed)="currentDateChange()" #picker></mat-date-range-picker>
+                </div>
+                <p *ngIf="selectedDateFilter === 'Today'" class="date-label">{{currentDate | date:'EEEE, d LLLL y'}}</p>
+                <p *ngIf="selectedDateFilter === 'Past'" class="date-label">Past meetings</p>
+                <p *ngIf="selectedDateFilter === 'Pending'" class="date-label">Pending meetings</p>
+                <p *ngIf="selectedDateFilter === 'Date Range'" class="date-label">{{currentStart | date:'d LLLL'}} - {{currentEnd | date:'d LLLL y'}}</p>
+            </div>
+            <div class="header-buttons">
+                <div class="date-filter-wrapper">
+                    <mat-select [(ngModel)]="selectedDateFilter" (ngModelChange)="currentDateChange()">
+                        <mat-option *ngFor="let filter of possibleDateFilters" [value]="filter">{{filter}}</mat-option>
+                    </mat-select>
+                </div>
+                <button mat-flat-button color="primary"> + Add Filter </button>
+            </div>
+        </div>
         <div *ngFor="let item of meetings">
             <div class="infoRow">
                 <div class="item itemInfo">
                     <div class="itemTextInfo">
                         <div class="title-menu-row">
-                            <span class="timeTitle">{{ item.meetingTime | date: 'hh:mm':getTimeZoneValue() }} - {{ getEndMeetingDate(item.meetingTime, item.meetingDuration) | date: 'hh:mm':getTimeZoneValue() }}</span>
+                            <p class="timeTitle">
+                                <span *ngIf="selectedDateFilter !== 'Today'" >{{ item.meetingTime | date:'d LLLL'}}, </span>
+                                <span>{{ item.meetingTime | date: 'HH:mm':getTimeZoneValue() }}</span>
+                                <span *ngIf="selectedDateFilter === 'Today'"> - {{ getEndMeetingDate(item.meetingTime, item.meetingDuration) | date: 'HH:mm':getTimeZoneValue() }}</span>
+                            </p>
                             <button class="fas fa-ellipsis fa-xl menu-icon"  [matMenuTriggerFor]="menu"></button>
                             <mat-menu #menu="matMenu" class="drop-down-menu">
                                 <button mat-menu-item class="btn edit">
@@ -17,26 +45,44 @@
                                 </button>
                             </mat-menu>
                         </div>
+                        <p class="meeting-title">{{ item.meetingTitle }}</p>
 
                         <p class="itemText">
-                            {{ item.meetingTitle }}<br />{{ item.meetingDuration }} min, {{ item.membersTitle }}
+                            {{ item.meetingDuration }} min, {{ item.membersTitle }}, {{item.locationType}}
                         </p>
+                        <div class="participants-avatars">
+                            <ng-container *ngFor="let participant of item.meetingMembers">
+                                <ng-container *ngIf="participant.image; else noImageParticipant">
+                                    <img class="avatar" src="{{ participant.image }}" alt="member" />
+                                </ng-container>
+                                <ng-template #noImageParticipant>
+                                    <img class="avatar" src="assets/header/avatar-icon.png" alt="member" />
+                                </ng-template>
+                            </ng-container>
+                            <span class="avatar" *ngIf="item.meetingMembers.length > maxAvatarNumber">
+                                <div class="left-participants">
+                                    <p>+{{ item.meetingMembers.length - maxAvatarNumber }}</p>
+                                </div>
+                            </span>
+                        </div>
                     </div>
 
                     <div class="buttonRow">
-                        <button *ngIf="item.locationType !== locationTypeOffice"  class="buttonZoom" (click)="followMeetingLink(item.meetingLink)">Open {{ item.locationType }} Link</button>
-                        <h3 *ngIf="item.locationType === locationTypeOffice" class="itemText"> {{ item.locationType }} {{ item.meetingRoom }} </h3>
+                        <button mat-flat-button color="primary" *ngIf="item.locationType !== locationTypeOffice"  class="buttonZoom" (click)="followMeetingLink(item.meetingLink)">Open {{ item.locationType }} Link</button>
+                        <h3 *ngIf="item.locationType === locationTypeOffice" class="timeTitle"> {{ item.meetingRoom }} </h3>
                    </div>
                 </div>
 
-                <div class="listScrollBlock">
-                    <div *ngFor="let user of item.meetingMembers">
-                        <app-booker [booker]="user"></app-booker>
+                <div class="bookers-wrapper">
+                    <div class="listScrollBlock">
+                        <div class="bookers-container" *ngFor="let user of item.meetingMembers">
+                            <app-booker [booker]="user"></app-booker>
+                        </div>
                     </div>
-                </div>
-
-                <div *ngIf="item.meetingCount > numberOfMembersToDisplay">
-                    <div class="moreBlock" (click)="goToPage('/bookings/bookers/'+item.id)">{{ item.meetingCount - numberOfMembersToDisplay }}+ Booker</div>
+                    <div *ngIf="item.meetingMembers.length > numberOfMembersToDisplay">
+                        <div class="gradient"></div>
+                        <p class="bookers-number">Bookers: {{item.meetingMembers.length}}</p>
+                    </div>
                 </div>
             </div>
         </div>
