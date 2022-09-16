@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
-import { TimeRangeValidator } from '@core/helpers/time-helper';
+import { convertExclusionDateToOffset } from '@core/helpers/exclusion-date-helper';
+import { changeOffsetSign, TimeRangeValidator } from '@core/helpers/time-helper';
 import { getDateWithoutLocalOffset } from '@core/helpers/time-zone-helper';
+import { ITimeZone } from '@core/models/ITimeZone';
+import { CustomDateAdapter } from '@modules/exclusion-dates/custom-date-adapter';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
 
 @Component({
     selector: 'app-exclusion-dates-picker',
     templateUrl: './exclusion-dates-picker.component.html',
     styleUrls: ['./exclusion-dates-picker.component.sass'],
+    providers: [{ provide: DateAdapter, useClass: CustomDateAdapter, deps: [MAT_DATE_LOCALE] }],
 })
 export class ExclusionDatesPickerComponent extends BaseComponent implements OnInit {
     selected: Date | null;
@@ -24,7 +29,11 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
 
     readonly endRangeIdentifier = 'endRange';
 
-    constructor(private dialogRef: MatDialogRef<ExclusionDatesPickerComponent>) {
+    constructor(
+        private dialogRef: MatDialogRef<ExclusionDatesPickerComponent>,
+        @Inject(MAT_DIALOG_DATA) private scheduleTimeZone: ITimeZone,
+        private dateAdapter: DateAdapter<Date>,
+    ) {
         super();
     }
 
@@ -44,7 +53,9 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
     removeTimeItem(controlsIdentifier: number) {
         this.formGroup.removeControl(controlsIdentifier.toString() + this.startRangeIdentifier);
         this.formGroup.removeControl(controlsIdentifier.toString() + this.endRangeIdentifier);
-        this.timeControlsIdentifiers = this.timeControlsIdentifiers.filter(identifier => identifier !== controlsIdentifier);
+        this.timeControlsIdentifiers = this.timeControlsIdentifiers.filter(
+            (identifier) => identifier !== controlsIdentifier,
+        );
     }
 
     clickApply() {
@@ -53,10 +64,16 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
 
             return;
         }
-        this.dialogRef.close({
-            selectedDate: getDateWithoutLocalOffset(this.selected).toJSON(),
-            dayTimeRanges: this.getValidDayTimeRanges(),
-        });
+        this.dialogRef.close(
+            convertExclusionDateToOffset(
+                {
+                    selectedDate: getDateWithoutLocalOffset(this.selected).toJSON(),
+                    dayTimeRanges: this.getValidDayTimeRanges(),
+                },
+                changeOffsetSign(this.scheduleTimeZone.timeValue),
+                this.dateAdapter,
+            ),
+        );
     }
 
     clickCancel() {
@@ -69,7 +86,11 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
                 start: this.formGroup.get(number.toString() + this.startRangeIdentifier)?.value as string | null,
                 end: this.formGroup.get(number.toString() + this.endRangeIdentifier)?.value as string | null,
             }))
-            .filter((range) => range.start && range.end);
+            .filter((range) => range.start && range.end)
+            .map((range) => ({
+                start: range.start as string,
+                end: range.end as string,
+            }));
 
     private getDefaultFormGroup = () => {
         const [firstTimeControl, secondTimeControl] = this.getTimeFormControls();

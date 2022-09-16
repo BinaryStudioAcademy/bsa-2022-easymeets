@@ -5,6 +5,7 @@
             <div class="input">
                 <ng-moment-timezone-picker
                     [(ngModel)]="scheduleValue.timeZone"
+                    (ngModelChange)="updateExclusionDatesDisplay()"
                     customPlaceholderText=""
                     [disabled]="disabled"
                     [getUserZone]="checkZone()">
@@ -47,7 +48,7 @@
         <div class="exclusion-dates-container">
             <div
                 class="exclusion-date-container"
-                *ngFor="let exclusionDate of scheduleValue.exclusionDates; index as i">
+                *ngFor="let exclusionDate of exclusionDatesDisplay; index as i">
                 <div class="date-wrapper">
                     {{ exclusionDate.selectedDate | date: 'd MMM y' }}
                 </div>
