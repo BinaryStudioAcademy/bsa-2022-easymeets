@@ -113,18 +113,18 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             });
     }
 
-    public OnSubmit(form: FormGroup) {
+    public onSubmit(): void {
         if (this.user) {
             const editedUser: IUpdateUser = {
                 id: this.user.id,
-                phoneCode: this.countryCodeValues[form.value.country as Country],
-                phone: form.value.phone,
-                userName: form.value.userName,
-                country: form.value.country,
-                dateFormat: form.value.dateFormat,
-                language: form.value.language,
-                timeFormat: form.value.timeFormat,
-                timeZone: form.value.timeZone,
+                phoneCode: this.countryCodeValues[this.userForm.value.country as Country],
+                phone: this.userForm.value.phone,
+                userName: this.userForm.value.userName,
+                country: this.userForm.value.country,
+                dateFormat: this.userForm.value.dateFormat,
+                language: this.userForm.value.language,
+                timeFormat: this.userForm.value.timeFormat,
+                timeZone: this.userForm.value.timeZone,
             };
 
             this.userService
