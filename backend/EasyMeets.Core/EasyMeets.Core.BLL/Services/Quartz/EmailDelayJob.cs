@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using EasyMeets.Core.BLL.Interfaces;
-using EasyMeets.Core.DAL.Context;
-using EasyMeets.Core.DAL.Entities;
+﻿using EasyMeets.Core.BLL.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
@@ -22,7 +19,7 @@ namespace EasyMeets.Core.BLL.Services.Quartz
             using var scope = _provider.CreateScope();
             var emailDelayService = scope.ServiceProvider.GetRequiredService<IEmailDelayService>();
 
-            emailDelayService.FillSyncGoogleCalendars();
+            Task.Run(() => emailDelayService.CheckForNotify()).Wait();
 
             return Task.CompletedTask;
         }

@@ -2,6 +2,6 @@
 {
     public interface IEmailDelayService
     {
-        public void FillSyncGoogleCalendars();
+        public Task CheckForNotify();
     }
 }
