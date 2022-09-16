@@ -38,7 +38,7 @@ i
     color: $dark-gray
 
 .cal-content
-    height: 100%
+    height: calc(100% - 50px)
     display: flex
     align-items: center
     flex-direction: column
@@ -63,3 +63,10 @@ i
 
 .more-button:active, i:active
     background-color: $nepal
+
+.menu-trigger
+    height: 100%
+    width: 100%
+
+::ng-deep.mat-menu-panel, mat-menu
+    margin-top: -100px
