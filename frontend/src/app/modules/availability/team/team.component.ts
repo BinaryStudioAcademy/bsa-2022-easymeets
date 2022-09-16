@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { BaseComponent } from '@core/base/base.component';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IAvailabilitySlotsGroupByTeamsDto } from '@core/models/IAvailabilitySlotsGroupByTeam';
 
@@ -7,7 +9,7 @@ import { IAvailabilitySlotsGroupByTeamsDto } from '@core/models/IAvailabilitySlo
     templateUrl: './team.component.html',
     styleUrls: ['./team.component.sass'],
 })
-export class TeamComponent implements OnInit {
+export class TeamComponent extends BaseComponent implements OnInit {
     @Input() public teamSlot: IAvailabilitySlotsGroupByTeamsDto;
 
     @Output() isReload = new EventEmitter<boolean>();
@@ -15,6 +17,10 @@ export class TeamComponent implements OnInit {
     public slots: Array<IAvailabilitySlot>;
 
     public teamName: string;
+
+    constructor(private router: Router) {
+        super();
+    }
 
     ngOnInit(): void {
         this.slots = this.teamSlot.availabilitySlots;
@@ -27,5 +33,9 @@ export class TeamComponent implements OnInit {
 
     isChangedActivity(isChanged: boolean) {
         this.isReload.emit(isChanged);
+    }
+
+    goToPage(teamId: bigint) {
+        this.router.navigate([`settings/teams/edit/${teamId}`]);
     }
 }
