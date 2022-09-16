@@ -1,7 +1,7 @@
 import { DateAdapter } from '@angular/material/core';
 import { DayAction } from '@core/enums/day-action.enum';
 import { FindSameExclusionDateHelper } from '@core/helpers/find-same-exclusion-date-helper';
-import { convertTimeToOffset, getTimeString, normalizeHours } from '@core/helpers/time-helper';
+import { convertTimeToOffset, getTimeString } from '@core/helpers/time-helper';
 import { TimeRangesMergeHelper } from '@core/helpers/time-ranges-merge-helper';
 import { getDateWithoutLocalOffset } from '@core/helpers/time-zone-helper';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
@@ -30,32 +30,29 @@ export const convertExclusionDateToOffset = (
 ): IExclusionDate[] =>
     exclusionDate.dayTimeRanges
         .map((dayTimeRange) => {
-            const [startHours, startMinutes] = convertTimeToOffset(dayTimeRange.start, timeZoneValue);
-            const [endHours, endMinutes] = convertTimeToOffset(
+            const [startHours, startMinutes, startHoursDayAction] = convertTimeToOffset(dayTimeRange.start, timeZoneValue);
+            const [endHours, endMinutes, endHoursDayAction] = convertTimeToOffset(
                 dayTimeRange.end === '23:59' && !timeZoneValue.includes('00:00') ? '24:00' : dayTimeRange.end,
                 timeZoneValue,
             );
 
-            const [normalizedStartHours, startHoursDayAction] = normalizeHours(startHours);
-            const [normalizedEndHours, endHoursDayAction] = normalizeHours(endHours);
-
-            let correctDate: Date;
+            let convertedDate: Date;
 
             if (startHoursDayAction === endHoursDayAction) {
                 if (startHoursDayAction === DayAction.AddDay) {
-                    correctDate = dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), 1);
+                    convertedDate = dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), 1);
                 } else if (startHoursDayAction === DayAction.SubtractDay) {
-                    correctDate = dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), -1);
+                    convertedDate = dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), -1);
                 } else {
-                    correctDate = new Date(exclusionDate.selectedDate);
+                    convertedDate = new Date(exclusionDate.selectedDate);
                 }
 
                 return [
                     getExclusionDate(
-                        getDateWithoutLocalOffset(correctDate).toJSON(),
-                        normalizedStartHours,
+                        getDateWithoutLocalOffset(convertedDate).toJSON(),
+                        startHours,
                         startMinutes,
-                        normalizedEndHours,
+                        endHours,
                         endMinutes,
                     ),
                 ];
@@ -76,13 +73,13 @@ export const convertExclusionDateToOffset = (
                         ).toJSON(),
                     ];
 
-            if (normalizedEndHours === 0 && endMinutes === '00') {
-                return [getExclusionDate(startRangeDate, normalizedStartHours, startMinutes, 23, '59')];
+            if (endHours === 0 && endMinutes === '00') {
+                return [getExclusionDate(startRangeDate, startHours, startMinutes, 23, '59')];
             }
 
             return [
-                getExclusionDate(startRangeDate, normalizedStartHours, startMinutes, 23, '59'),
-                getExclusionDate(endRangeDate, 0, '00', normalizedEndHours, endMinutes),
+                getExclusionDate(startRangeDate, startHours, startMinutes, 23, '59'),
+                getExclusionDate(endRangeDate, 0, '00', endHours, endMinutes),
             ];
         })
         .flat();

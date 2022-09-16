@@ -20,13 +20,15 @@ export function normalizeHours(hours: number): [number, DayAction] {
 export const getTimeString = (hours: number, minutes: string) =>
     `${hours.toString().length < 2 ? '0' : ''}${hours}:${minutes}`;
 
-export function convertTimeToOffset(time: string, offsetValue: string): [number, string] {
+export function convertTimeToOffset(time: string, offsetValue: string): [number, string, DayAction] {
     const offsetHours = Number(offsetValue.substring(0, 3));
     const hours = Number(time.substring(0, 2));
     const minutes = time.substring(3);
     const hoursConverted = hours + offsetHours;
 
-    return [hoursConverted, minutes];
+    const [correctHours, hoursDayAction] = normalizeHours(hoursConverted);
+
+    return [correctHours, minutes, hoursDayAction];
 }
 
 export const changeOffsetSign = (offset: string) =>
