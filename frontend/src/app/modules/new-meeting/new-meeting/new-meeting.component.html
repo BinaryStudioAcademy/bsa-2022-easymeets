@@ -108,7 +108,7 @@
                                 #memberSearch="matAutocomplete"
                                 [displayWith]="displayMemberName"
                                 (optionSelected)="addMemberToList($event.option.value)">
-                                <ng-container *ngFor="let member of filteredOptions">
+                                <ng-container *ngFor="let member of filteredOptions | async">
                                     <mat-option *ngIf="!addedMembers.includes(member)" [value]="member">
                                         {{ member.name }}
                                     </mat-option>

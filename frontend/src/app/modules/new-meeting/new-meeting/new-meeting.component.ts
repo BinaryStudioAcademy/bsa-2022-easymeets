@@ -20,7 +20,7 @@ import { debounceIntervalMedium } from '@shared/constants/rxjs-constants';
 import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
-import { debounceTime, map, mergeMap, Subscription } from 'rxjs';
+import { debounceTime, map, Observable, of, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-new-meeting',
@@ -38,11 +38,21 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     ) {
         super();
         this.redirectEventSubscription = this.redirectEventEmitter.subscribe(() => this.goToBookingsPage());
+
+        this.teamService.currentTeamEmitted$.pipe(this.untilThis).subscribe((resp) => {
+            this.currentTeamId = resp;
+        });
+
+        this.userService.userChangedEvent$.pipe(this.untilThis).subscribe((resp) => {
+            this.userId = resp?.id;
+        });
     }
 
     currentTeamId?: number;
 
     date: Date = new Date();
+
+    userId: bigint | undefined;
 
     currentMemberId: bigint | undefined;
 
@@ -50,7 +60,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     memberUnavailability: IUnavailability[] = [];
 
-    filteredOptions: INewMeetingMember[];
+    filteredOptions: Observable<INewMeetingMember[]>;
 
     durations: IDuration[] = getDisplayDuration();
 
@@ -115,18 +125,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.patchFormValues();
         this.setValidation();
 
-        this.teamService.currentTeamEmitted$
-            .pipe(
-                this.untilThis,
-                map((teamId) => {
-                    this.currentTeamId = teamId;
-                    this.subscribeToSearchTeamMembers();
-                }),
-                mergeMap(() => this.userService.userChangedEvent$),
-            )
-            .subscribe((result) => {
-                this.addCurrentTeamMemberToList(result?.id);
-            });
+        this.subscribeToSearchTeamMembers();
+        this.addCurrentTeamMemberToList(this.userId);
 
         [this.duration] = this.durations;
         this.initLocations();
@@ -162,21 +162,14 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     subscribeToSearchTeamMembers() {
         this.memberFilterCtrl?.valueChanges.pipe(this.untilThis, debounceTime(debounceIntervalMedium)).subscribe(() => {
-            if (this.memberFilterCtrl.getRawValue()) {
-                this.searchMembersByName();
-            } else {
-                this.filteredOptions = [];
-            }
+            this.filteredOptions = this.memberFilterCtrl.getRawValue() ? this.searchMembersByName() : of([]);
         });
     }
 
     searchMembersByName() {
-        this.newMeetingService
+        return this.newMeetingService
             .getTeamMembersByName(this.memberFilterCtrl.getRawValue(), this.currentTeamId)
-            .pipe(this.untilThis)
-            .subscribe((resp) => {
-                this.filteredOptions = resp?.filter((u) => !this.addedMembers.some((el) => el.id === u.id));
-            });
+            .pipe(map((resp) => resp?.filter((u) => !this.addedMembers.some((el) => el.id === u.id))));
     }
 
     displayMemberName(teamMember: INewMeetingMember): string {
