@@ -1,7 +1,8 @@
 import { Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
-import { addMinutesHelper } from '@core/helpers/date-helper';
+import { getDateFilters } from '@core/helpers/date-filter-helper';
+import { addMinutesHelper, moveByTimezone } from '@core/helpers/date-helper';
 import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IMeetingBooking } from '@core/models/IMeetingBooking';
 import { IMeetingMembersRequest } from '@core/models/IMeetingMemberRequest';
@@ -9,10 +10,11 @@ import { ConfirmationWindowService } from '@core/services/confirmation-window.se
 import { MeetingBookingsService } from '@core/services/meeting-bookings.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { desktopWidthToContainFourItems, desktopWidthToContainTwoItems, phoneMaxWidth, tabletMaxWidth,
-    widthToContainThreeItems, widthToContainZeroItemUpperLimit } from '@shared/constants/screen-variables';
+import { phoneMaxWidth } from '@shared/constants/screen-variables';
 import { deletionMessage } from '@shared/constants/shared-messages';
+import { DateFilterValue } from '@shared/enums/dateFilterValue';
 import { LocationType } from '@shared/enums/locationType';
+import { endOfDay, startOfDay } from 'date-fns';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -37,6 +39,24 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
 
     public locationTypeOffice = LocationType.Office;
 
+    public currentDate = new Date();
+
+    public currentStart: Date;
+
+    public currentEnd: Date;
+
+    public selectedDateFilter: DateFilterValue = DateFilterValue.Today;
+
+    public possibleDateFilters = getDateFilters();
+
+    public maxAvatarNumber: number = 10;
+
+    public slotWidth = 250;
+
+    public infoWidth = 280;
+
+    public containerPadding = 100;
+
     constructor(
         private el: ElementRef,
         private meetingService: MeetingBookingsService,
@@ -51,6 +71,8 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
     }
 
     public ngOnInit(): void {
+        this.currentStart = startOfDay(this.currentDate);
+        this.currentEnd = endOfDay(this.currentDate);
         this.getBookings();
     }
 
@@ -61,12 +83,8 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         this.teamService.currentTeamEmitted$
             .subscribe(teamId => {
                 this.teamId = teamId;
-                const meetingMemberRequest: IMeetingMembersRequest = {
-                    teamId: this.teamId,
-                    numberOfMembersToDisplay: this.numberOfMembersToDisplay,
-                };
 
-                this.loadMeetings(meetingMemberRequest);
+                this.loadMeetings(this.getMeetingRequest());
             });
     }
 
@@ -143,25 +161,52 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         return getDefaultTimeZone().timeValue;
     }
 
+    public currentDateChange() {
+        const meetingRequest = this.getMeetingRequest();
+
+        this.loadMeetings(meetingRequest);
+    }
+
+    private getMeetingRequest(): IMeetingMembersRequest {
+        const range = this.getMeetingsRange();
+
+        return { teamId: this.teamId, start: range?.start, end: range?.end };
+    }
+
+    private getMeetingsRange() {
+        switch (this.selectedDateFilter) {
+            case DateFilterValue.Today: {
+                return {
+                    start: moveByTimezone(startOfDay(this.currentDate)),
+                    end: moveByTimezone(endOfDay(this.currentDate)),
+                };
+            }
+            case DateFilterValue.Past: {
+                return {
+                    end: moveByTimezone(this.currentDate),
+                };
+            }
+            case DateFilterValue.Pending: {
+                return {
+                    start: moveByTimezone(this.currentDate),
+                };
+            }
+            case DateFilterValue.Range: {
+                return {
+                    start: moveByTimezone(this.currentStart),
+                    end: moveByTimezone(endOfDay(this.currentEnd ?? this.currentStart)),
+                };
+            }
+            default: {
+                return undefined;
+            }
+        }
+    }
+
     private getNumberOfItemsToDisplay(width: number) {
-        if (width > desktopWidthToContainFourItems) {
-            this.numberOfMembersToDisplay = 4;
-        }
-        if (width < widthToContainThreeItems) {
-            this.numberOfMembersToDisplay = 3;
-        }
-        if (width < desktopWidthToContainTwoItems) {
-            this.numberOfMembersToDisplay = 2;
-        }
-        if (width < tabletMaxWidth) {
-            this.numberOfMembersToDisplay = 1;
-        }
-        if (width < widthToContainZeroItemUpperLimit) {
-            this.numberOfMembersToDisplay = 0;
-        }
-        if (width < phoneMaxWidth) {
-            this.numberOfMembersToDisplay = 1;
-        }
+        this.numberOfMembersToDisplay = width > phoneMaxWidth
+            ? Math.floor((width - 2 * this.containerPadding - this.infoWidth) / this.slotWidth)
+            : 1;
     }
 
     private getPageSize(): number {
