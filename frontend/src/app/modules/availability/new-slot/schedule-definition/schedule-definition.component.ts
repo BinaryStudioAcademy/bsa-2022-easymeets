@@ -35,7 +35,7 @@ export class ScheduleDefinitionComponent extends BaseComponent implements OnInit
 
     timeFormat?: TimeFormat;
 
-    constructor(private dialog: MatDialog, private userService: UserService) {
+    constructor(private userService: UserService) {
         super();
     }
 
@@ -46,31 +46,4 @@ export class ScheduleDefinitionComponent extends BaseComponent implements OnInit
     }
 
     checkZone = () => !this.scheduleValue.timeZone.nameValue;
-
-    showExclusionDatesWindow() {
-        const dialogConfig = new MatDialogConfig();
-
-        dialogConfig.data = this.scheduleValue.timeZone;
-        this.dialog.open<ExclusionDatesPickerComponent, ITimeZone, IExclusionDate[] | undefined>(
-            ExclusionDatesPickerComponent,
-            dialogConfig,
-        )
-            .afterClosed()
-            .subscribe((newExclusionDates) => {
-                if (newExclusionDates) {
-                    newExclusionDates.forEach((newExclusionDate) => {
-                        sortDayTimeRanges(newExclusionDate.dayTimeRanges);
-                        newExclusionDate.dayTimeRanges = TimeRangesMergeHelper(newExclusionDate.dayTimeRanges);
-
-                        if (!mergeExistingExclusionDates(newExclusionDate, this.scheduleValue.exclusionDates)) {
-                            this.scheduleValue.exclusionDates = [
-                                ...this.scheduleValue.exclusionDates,
-                                newExclusionDate,
-                            ];
-                        }
-                    });
-                    this.exclusionDateComponent.updateExclusionDatesDisplay();
-                }
-            });
-    }
 }

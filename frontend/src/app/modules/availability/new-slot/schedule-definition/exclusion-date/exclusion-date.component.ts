@@ -2,11 +2,21 @@ import { Component, Input } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { BaseComponent } from '@core/base/base.component';
 import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
-import { convertExclusionDateToOffset, getUpdatedExclusionDatesDisplay } from '@core/helpers/exclusion-date-helper';
+import {
+    convertExclusionDateToOffset,
+    getUpdatedExclusionDatesDisplay, mergeExistingExclusionDates,
+    sortDayTimeRanges
+} from '@core/helpers/exclusion-date-helper';
 import { FindSameExclusionDateHelper } from '@core/helpers/find-same-exclusion-date-helper';
 import { changeOffsetSign } from '@core/helpers/time-helper';
 import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 import { ISchedule } from '@core/models/schedule/ISchedule';
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import {
+    ExclusionDatesPickerComponent
+} from "@modules/exclusion-dates/exclusion-dates-picker/exclusion-dates-picker.component";
+import { ITimeZone } from "@core/models/ITimeZone";
+import { TimeRangesMergeHelper } from "@core/helpers/time-ranges-merge-helper";
 
 @Component({
     selector: 'app-exclusion-date',
@@ -18,7 +28,9 @@ export class ExclusionDateComponent extends BaseComponent {
 
     exclusionDatesDisplay: IExclusionDate[] = [];
 
-    constructor(private dateAdapter: DateAdapter<Date>) {
+    @Input() disabled: boolean;
+
+    constructor(private dialog: MatDialog, private dateAdapter: DateAdapter<Date>) {
         super();
     }
 
@@ -72,7 +84,35 @@ export class ExclusionDateComponent extends BaseComponent {
             }
         });
 
+        this.scheduleValue.exclusionDates = this.scheduleValue.exclusionDates.filter(date => date.dayTimeRanges.length);
         this.updateExclusionDatesDisplay();
+    }
+
+    showExclusionDatesWindow() {
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.data = this.scheduleValue.timeZone;
+        this.dialog.open<ExclusionDatesPickerComponent, ITimeZone, IExclusionDate[] | undefined>(
+            ExclusionDatesPickerComponent,
+            dialogConfig,
+        )
+            .afterClosed()
+            .subscribe((newExclusionDates) => {
+                if (newExclusionDates) {
+                    newExclusionDates.forEach((newExclusionDate) => {
+                        sortDayTimeRanges(newExclusionDate.dayTimeRanges);
+                        newExclusionDate.dayTimeRanges = TimeRangesMergeHelper(newExclusionDate.dayTimeRanges);
+
+                        if (!mergeExistingExclusionDates(newExclusionDate, this.scheduleValue.exclusionDates)) {
+                            this.scheduleValue.exclusionDates = [
+                                ...this.scheduleValue.exclusionDates,
+                                newExclusionDate,
+                            ];
+                        }
+                    });
+                    this.updateExclusionDatesDisplay();
+                }
+            });
     }
 
     formatTime = (time: string) => time.substring(0, 5);

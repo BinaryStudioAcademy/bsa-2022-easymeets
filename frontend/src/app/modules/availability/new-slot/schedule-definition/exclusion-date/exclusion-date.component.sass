@@ -1,6 +1,60 @@
 @import '../../../../../../styles/color-variables'
 @import '../../../../../../styles/screen-variables'
 
+
+.override-container
+    display: flex
+    align-items: center
+    justify-content: flex-start
+    flex-direction: column
+    padding: 0 32px
+    @media (max-width: $desktop-max-width-exclusion-item)
+        padding: 4px
+    .override-heading-container
+        width: 100%
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: flex-start
+        span
+            font-family: 'Inter', serif
+            font-style: normal
+            font-weight: 700
+            font-size: 14px
+            line-height: 146%
+        mat-icon
+            color: $icon-color
+            font-size: 16px
+            vertical-align: middle
+            margin-left: 14px
+            display: flex
+            justify-content: center
+            align-items: center
+            &:hover
+                cursor: pointer
+                color: $black
+    button
+        border: 1px solid $raven
+        border-radius: 24px
+        padding: 4px 16px
+        background: $white-color
+        height: 32px
+        width: 100%
+        margin-top: 24px
+        display: flex
+        align-items: center
+        justify-content: center
+        margin-bottom: 13px
+        color: $raven
+        max-width: 248px
+        &:hover
+            box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1)
+            color: $black
+            i
+                color: $raven
+    @media (max-width: 1300px)
+        width: 100%
+
 .exclusion-dates-container
     width: 100%
     display: flex
@@ -42,3 +96,9 @@
             margin-left: 25px
             @media (max-width: $phone-min-width)
                 margin-left: 3px
+
+hr
+    border: none
+    height: 1px
+    background-color: $line-color
+    width: 100%

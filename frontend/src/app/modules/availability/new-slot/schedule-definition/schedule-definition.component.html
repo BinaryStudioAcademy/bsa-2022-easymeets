@@ -48,16 +48,5 @@
             </mat-tab>
         </mat-tab-group>
     </div>
-    <div class="override-container">
-        <div class="override-heading-container">
-            <span> Exclusion Dates </span>
-            <mat-icon matTooltip="Specify exclusion dates for availability slot"> help_outline </mat-icon>
-        </div>
-        <button mat-flat-button [disabled]="disabled" (click)="showExclusionDatesWindow()">
-            <i class="fa-regular fa-plus"></i>
-            Add Exclusion Date(s)
-        </button>
-        <hr />
-        <app-exclusion-date [schedule]="scheduleValue"></app-exclusion-date>
-    </div>
+    <app-exclusion-date [schedule]="scheduleValue" [disabled]="disabled"></app-exclusion-date>
 </div>

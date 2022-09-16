@@ -66,7 +66,7 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
             convertExclusionDateToOffset(
                 {
                     selectedDate: getDateWithoutLocalOffset(this.selected).toJSON(),
-                    dayTimeRanges: this.getValidDayTimeRanges(),
+                    dayTimeRanges: this.getTimeRanges(),
                 },
                 changeOffsetSign(this.scheduleTimeZone.timeValue),
                 this.dateAdapter,
@@ -89,6 +89,12 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
                 start: range.start as string,
                 end: range.end as string,
             }));
+
+    getTimeRanges() {
+        const validTimeRanges = this.getValidDayTimeRanges();
+
+        return validTimeRanges.length ? validTimeRanges : [{ start: '00:00', end: '23:59' }];
+    }
 
     private getDefaultFormGroup = () => {
         const [firstTimeControl, secondTimeControl] = this.getTimeFormControls();
