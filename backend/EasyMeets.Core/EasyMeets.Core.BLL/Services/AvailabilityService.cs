@@ -147,6 +147,8 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(slot => slot.AdvancedSlotSettings)
                 .Include(slot => slot.Questions.OrderBy(q => q.Order))
                 .Include(slot => slot.SlotMembers)
+                    .ThenInclude(member => member.User)
+                .Include(slot => slot.SlotMembers)
                     .ThenInclude(slot => slot.Schedule)
                         .ThenInclude(s => s.ScheduleItems)
                 .Include(slot => slot.SlotMembers)
@@ -173,6 +175,11 @@ namespace EasyMeets.Core.BLL.Services
                         .ThenInclude(s => s.ScheduleItems)
                 .Include(slot => slot.EmailTemplates)
                 .FirstOrDefaultAsync(slot => slot.Id == id) ?? throw new KeyNotFoundException("Availability slot doesn't exist");
+
+            foreach (var member in updateAvailabilityDto.SlotMembers)
+            {
+                member.ScheduleId = availabilitySlot.SlotMembers.First().ScheduleId;
+            }
 
             _mapper.Map(updateAvailabilityDto, availabilitySlot);
 

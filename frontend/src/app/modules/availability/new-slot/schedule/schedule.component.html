@@ -1,18 +1,42 @@
 <div class="container">
-    <div class="external-definition-toggle-container">
-        <mat-slide-toggle [checked]="schedule.definedExternally" (change)="externalDefinitionToggle($event)"></mat-slide-toggle>
-        <p>Another person defines Availability Slots</p>
+
+    <div class="definition-container">
+        <div *ngIf="withTeamMembers" class="team-members-section">
+            <mat-select [value]="'One for all'" [disabled]="true"></mat-select>
+            <div class="team-members-header">
+                <p>Team members: {{slotMembers.length}}</p>
+            </div>
+            <div class="team-members-wrapper">
+                <div class="member-wrapper" *ngFor="let member of slotMembers">
+                    <p class="user-name">{{member.name}}</p>
+                    <button mat-icon-button *ngIf="member.memberId !== defaultMember.memberId" (click)="removeMember(member)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <button mat-flat-button (click)="openAddMembers()">+ Add Team Member (s)</button>
+        </div>
+        <app-schedule-definition *ngIf="!schedule.definedExternally" [schedule]="schedule" [changeEvent]="changeEvent"></app-schedule-definition>
+        <div *ngIf="schedule.definedExternally" class="external-definition-container">
+            <p class="description">Link for defining Shedule and  Availability Slots</p>
+            <div class="link-container">
+                <img src="assets/copy_icon.png" class="copy-button" (click)="saveLink()">
+                <p class="definition-link">{{getDefinitionLink()}}</p>
+            </div>
+            <div class="placeholder" *ngIf="!schedule.definedBy">
+                <p>Schedule and Availability Slots will appear here after defining</p>
+            </div>
+            <app-schedule-definition *ngIf="schedule.definedBy" [schedule]="schedule" [changeEvent]="changeEvent" [disabled]="true"></app-schedule-definition>
+        </div>
     </div>
-    <app-schedule-definition *ngIf="!schedule.definedExternally" [schedule]="schedule" [changeEvent]="changeEvent"></app-schedule-definition>
-    <div *ngIf="schedule.definedExternally" class="external-definition-container">
-        <p class="description">Link for defining Shedule and  Availability Slots</p>
-        <div class="link-container">
-            <img src="assets/copy_icon.png" class="copy-button" (click)="saveLink()">
-            <p class="definition-link">{{getDefinitionLink()}}</p>
+    <div class="buttons-container">
+        <div class="with-members-toggle-container">
+            <mat-slide-toggle [(ngModel)]="withTeamMembers"></mat-slide-toggle>
+            <p>Add Team Members</p>
         </div>
-        <div class="placeholder" *ngIf="!schedule.definedBy">
-            <p>Schedule and Availability Slots will appear here after defining</p>
+        <div class="external-definition-toggle-container">
+            <mat-slide-toggle [checked]="schedule.definedExternally" (change)="externalDefinitionToggle($event)"></mat-slide-toggle>
+            <p>Another person defines Availability Slots</p>
         </div>
-        <app-schedule-definition *ngIf="schedule.definedBy" [schedule]="schedule" [changeEvent]="changeEvent" [disabled]="true"></app-schedule-definition>
     </div>
 </div>

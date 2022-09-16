@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { SlotType } from '@core/enums/slot-type.enum';
 import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -54,6 +55,7 @@ export class NewAvailabilityPageComponent extends BaseComponent {
         const general = this.newAvailabilityComponent.generalComponent.settings;
 
         general.isEnabled = this.newAvailabilityComponent.isActive;
+        general.type = this.newAvailabilityComponent.scheduleComponent.withTeamMembers ? SlotType.Team : SlotType.Personal;
         const advancedSettings = this.newAvailabilityComponent.generalComponent.addAdvanced
             ? this.newAvailabilityComponent.generalComponent.advancedSettings!
             : null;
@@ -63,6 +65,7 @@ export class NewAvailabilityPageComponent extends BaseComponent {
             eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
             questions: this.newAvailabilityComponent.questionsComponent.questions,
             schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
+            slotMembers: this.newAvailabilityComponent.scheduleComponent.slotMembers,
             templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
             teamId: this.currentTeamId,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,

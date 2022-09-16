@@ -57,7 +57,7 @@ export class SlotMembersWindowComponent extends BaseComponent {
     }
 
     public getFilteredMembers() {
-        return this.filteredMembers.filter(m => this.passesFilter(m.name) || this.passesFilter(m.email));
+        return this.filteredMembers.filter(m => this.passesFilter(m.name ?? '') || this.passesFilter(m.email ?? ''));
     }
 
     public passesFilter(value: string) {
