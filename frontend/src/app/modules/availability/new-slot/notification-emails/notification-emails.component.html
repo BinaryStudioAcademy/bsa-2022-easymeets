@@ -21,7 +21,7 @@
         </div>
         <div *ngIf="activeTab === navLinks[2].path || activeTab === navLinks[3].path" class="input-time-notify">
             <p class="input-field">Time(HH:MM)</p>
-            <input type="time" class="input-message timeBody" [(ngModel)]="settings.timeValue">
+            <input type="time" class="input-message timeBody" [(ngModel)]="settings[templateIndex].timeValue">
         </div>
     </div>
     <div id="container-emailSubject">
