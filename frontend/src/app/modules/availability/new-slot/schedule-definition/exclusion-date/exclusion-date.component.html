@@ -1,0 +1,14 @@
+<div class="exclusion-dates-container">
+    <div class="exclusion-date-container" *ngFor="let exclusionDate of scheduleValue.exclusionDates; index as i">
+        <div class="date-wrapper">
+            {{ exclusionDate.selectedDate | date: 'd MMM y' }}
+        </div>
+        <div class="times-wrapper">
+            <div class="time-wrapper" *ngFor="let dayTimeRange of exclusionDate.dayTimeRanges">
+                {{ formatTime(dayTimeRange.start) }}-{{ formatTime(dayTimeRange.end) }}
+            </div>
+        </div>
+        <i class="fa-regular fa-circle-xmark xmark fa-xl" (click)="deleteExclusionDate(i)"></i>
+        <hr />
+    </div>
+</div>
