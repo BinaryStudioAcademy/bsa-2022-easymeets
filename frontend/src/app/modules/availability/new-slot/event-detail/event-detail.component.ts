@@ -49,9 +49,16 @@ export class EventDetailComponent extends BaseComponent implements OnInit {
 
     public welcomeMessageControl = new FormControl('', [Validators.pattern(textFieldRegex)]);
 
+    public passwordControl = new FormControl('', [
+        Validators.pattern(textFieldRegex),
+        Validators.minLength(3),
+        Validators.maxLength(8),
+    ]);
+
     public formGroup: FormGroup = new FormGroup({
         link: this.slotLinkControl,
         welcomeMessage: this.welcomeMessageControl,
+        password: this.passwordControl,
     });
 
     public timeZoneChoices: { text: string; value: boolean }[] = [
@@ -99,6 +106,10 @@ export class EventDetailComponent extends BaseComponent implements OnInit {
 
     onWelcomeMessageChange(message: string) {
         this.welcomeMessageControl.patchValue(removeExcessiveSpaces(message));
+    }
+
+    onPasswordChange(message: string) {
+        this.passwordControl.patchValue(removeExcessiveSpaces(message));
     }
 
     private slotLinkValidator(): AsyncValidatorFn {

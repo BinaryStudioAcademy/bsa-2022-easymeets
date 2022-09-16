@@ -329,6 +329,11 @@ namespace EasyMeets.Core.BLL.Services
             return !await _context.AvailabilitySlots.AnyAsync(s => s.Id != slotId && s.Link == slotLink);
         }
 
+        public Task<bool> ValidateSlotPasswordAsync(string slotLink, string password)
+        {
+            return _context.AvailabilitySlots.AnyAsync(el => el.Link == slotLink && el.PasswordProtection == password);
+        }
+
         private async Task<AvailabilitySlot?> GetByLinkInternal(string link)
         {
             return await _context.AvailabilitySlots
