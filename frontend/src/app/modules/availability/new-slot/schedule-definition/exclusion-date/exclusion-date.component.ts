@@ -58,8 +58,6 @@ export class ExclusionDateComponent extends BaseComponent {
             const sameDate = FindSameExclusionDateHelper(this.scheduleValue.exclusionDates, date);
 
             if (sameDate) {
-                const initialDayTimeRangesLength = sameDate.dayTimeRanges.length;
-
                 sameDate.dayTimeRanges = sameDate.dayTimeRanges.filter(
                     (range) =>
                         !date.dayTimeRanges.some(
@@ -76,10 +74,6 @@ export class ExclusionDateComponent extends BaseComponent {
                         }
                     });
                 });
-
-                if (initialDayTimeRangesLength && !sameDate.dayTimeRanges.length) {
-                    this.scheduleValue.exclusionDates.filter((d) => d !== sameDate);
-                }
             }
         });
 
