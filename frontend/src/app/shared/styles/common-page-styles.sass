@@ -55,7 +55,6 @@ body
 
         input
             &:checked
-                +
                 i
                     &::after
                         transform: translate3d(16px, 2px, 0)
@@ -63,7 +62,6 @@ body
     input
         display: none
         &:checked
-            +
             i
                 background-color: $royal-blue
                 &::before
@@ -218,9 +216,9 @@ input[type="radio"]
         background-color: white
 
 .confirm-accept-button
-    background-color: $royal-blue
+    background-color: $midnight
     color: $white
 
 .confirm-cancel-button
     background-color: $athens-gray
-    color: $dark-gray
+    color: $midnight

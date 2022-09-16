@@ -6,7 +6,7 @@ import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButt
 export interface IConfirmDialogData {
     title: string;
     message?: string;
-    buttonsOptions: IConfirmButtonOptions[];
+    buttonsOptions?: IConfirmButtonOptions[];
     titleImagePath?: string;
     dateTime?: Date;
     duration?: number;
@@ -16,4 +16,5 @@ export interface IConfirmDialogData {
     link?: string;
     teamMembers?: ITeamMember[];
     teamId?: number;
+    slotLink?: string;
 }

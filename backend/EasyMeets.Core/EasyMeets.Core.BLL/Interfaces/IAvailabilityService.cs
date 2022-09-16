@@ -15,5 +15,6 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task<AvailabilitySlotDto?> GetByLink(string link);
         Task UpdateScheduleExternally(string link, ScheduleDto scheduleDto);
         Task<bool> ValidateLinkAsync(long? slotId, string slotLink);
+        Task<bool> ValidateSlotPasswordAsync(string slotLink, string password);
     }
 }

@@ -57,4 +57,8 @@ export class AvailabilitySlotService {
     public validateSlotLink(slotLink: string, id?: bigint) {
         return this.httpService.getRequest<boolean>(`${this.routePrefix}/validateLink`, { id: id ?? '', slotLink });
     }
+
+    public validateSlotPassword(password: string, slotLink?: string) {
+        return this.httpService.getRequest<boolean>(`${this.routePrefix}/slotPassword`, { slotLink, password });
+    }
 }
