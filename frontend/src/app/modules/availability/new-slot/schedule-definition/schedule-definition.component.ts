@@ -46,12 +46,6 @@ export class ScheduleDefinitionComponent extends BaseComponent implements OnInit
         });
     }
 
-    deleteExclusionDate(index: number) {
-        this.scheduleValue.exclusionDates = this.scheduleValue.exclusionDates.filter(
-            (date, dateIndex) => dateIndex !== index,
-        );
-    }
-
     showExclusionDatesWindow() {
         this.dialog
             .open<ExclusionDatesPickerComponent, IExclusionDate, IExclusionDate | undefined>(ExclusionDatesPickerComponent)
@@ -67,8 +61,6 @@ export class ScheduleDefinitionComponent extends BaseComponent implements OnInit
                 }
             });
     }
-
-    formatTime = (time: string) => time.substring(0, 5);
 
     private sortDayTimeRanges(ranges: IDayTimeRange[]) {
         return ranges.sort((firstRange, secondRange) => firstRange.start.localeCompare(secondRange.start));
