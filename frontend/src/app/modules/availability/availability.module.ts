@@ -24,6 +24,7 @@ import { ExclusionDateComponent } from './new-slot/schedule-definition/exclusion
 import { ScheduleDefinitionComponent } from './new-slot/schedule-definition/schedule-definition.component';
 import { ScheduleExternalComponent } from './new-slot/schedule-external/schedule-external.component';
 import { ScheduleListItemComponent } from './new-slot/schedule-list-item/schedule-list-item.component';
+import { ScheduleMonthComponent } from './new-slot/schedule-month/schedule-month.component';
 import { ScheduleWeekComponent } from './new-slot/schedule-week/schedule-week.component';
 import { SlotComponent } from './slot/slot.component';
 import { TeamComponent } from './team/team.component';
@@ -49,6 +50,7 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         ScheduleDefinitionComponent,
         ScheduleExternalComponent,
         ExclusionDateComponent,
+        ScheduleMonthComponent,
     ],
     providers: [PendingChangesGuard],
     imports: [
