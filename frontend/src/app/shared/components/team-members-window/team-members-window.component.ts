@@ -19,6 +19,8 @@ import { ITeamMembersDialogData } from '@shared/models/ITeamMembersDialogData';
     styleUrls: ['./team-members-window.component.sass'],
 })
 export class TeamMembersWindowComponent extends BaseComponent {
+    readonly separatorKeysCodes = [ENTER, SPACE] as const;
+
     title: string;
 
     message?: string;
@@ -35,7 +37,9 @@ export class TeamMembersWindowComponent extends BaseComponent {
 
     usersToAdd: IUser[] = [];
 
-    readonly separatorKeysCodes = [ENTER, SPACE] as const;
+    addOnBlur = true;
+
+    teamMembersEmails: string[] = [];
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: ITeamMembersDialogData,
@@ -56,10 +60,6 @@ export class TeamMembersWindowComponent extends BaseComponent {
         event?.next();
         this.dialogRef.close();
     }
-
-    addOnBlur = true;
-
-    teamMembersEmails: string[] = [];
 
     add(event: MatChipInputEvent): void {
         const value = (event.value || '').trim();
