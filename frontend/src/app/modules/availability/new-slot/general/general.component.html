@@ -25,36 +25,11 @@
                     </mat-option>
                 </mat-select>
             </div>
-            <div class="input-container" *ngIf="customTimeShown">
-                <p class="input-description">Custom time</p>
-                <div class="custom-time">
-                    <input
-                        matInput
-                        [(ngModel)]="inputCustomTime"
-                        class="select-input time"
-                        name="customTime"
-                        #customTime="ngModel"
-                        type="text"
-                        placeholder="Custom time"
-                        required
-                        [pattern]="naturalNumberInputPattern"
-                        (change)="customDurationChanged()" />
-                    <mat-select
-                        class="select-input unit-of-time"
-                        name="selectedUnit"
-                        #customTime="ngModel"
-                        [(ngModel)]="selectedUnit"
-                        (selectionChange)="customDurationChanged()">
-                        <mat-option *ngFor="let unit of unitOfTime" [value]="unit">
-                            {{ unit }}
-                        </mat-option>
-                    </mat-select>
-                </div>
-                <div *ngIf="customTime.invalid && customTime.touched">
-                    <small *ngIf="customTimeShown && customTime.errors?.['required']">Field is required</small>
-                    <small *ngIf="customTime.errors?.['pattern']">Input field accepts only numbers</small>
-                </div>
-            </div>
+            <!-- custom duration for duration -->
+            <app-custom-time
+                *ngIf="customTimeShown"
+                [inputCustomTime]="inputCustomTime"
+                (changeValueEmitter)="customDurationChanged($event)"></app-custom-time>
             <div class="input-container">
                 <p class="input-description">Location</p>
                 <mat-select [(ngModel)]="settings.locationType" name="meetingLocation">
@@ -119,43 +94,72 @@
                         >{{ this.slotActivityOptions[i] }}
                     </mat-radio-button>
                 </mat-radio-group>
-                <input
-                    [(ngModel)]="advancedSettings.days"
-                    name="slotActivityTime"
-                    #days="ngModel"
-                    type="text"
-                    [pattern]="naturalNumberInputPattern"
-                    maxlength="3"
-                    [disabled]="!addAdvanced || advancedSettings.activityType === ActivityType.Indefinitely" />
-                <div *ngIf="days.invalid && !days.pristine" class="error">
-                    <div *ngIf="days.errors?.['pattern']">Input field accepts only natural numbers</div>
-                </div>
+                <ng-container *ngIf="advancedSettings.activityType !== ActivityType.Range; else range">
+                    <input
+                        [(ngModel)]="advancedSettings.days"
+                        (ngModelChange)="changeFinishDate()"
+                        name="slotActivityTime"
+                        #days="ngModel"
+                        type="text"
+                        [pattern]="naturalNumberInputPattern"
+                        maxlength="3"
+                        [disabled]="!addAdvanced || advancedSettings.activityType === ActivityType.Indefinitely" />
+                    <div *ngIf="days.invalid && !days.pristine" class="error">
+                        <div *ngIf="days.errors?.['pattern']">Input field accepts only natural numbers</div>
+                    </div>
+                </ng-container>
+                <ng-template #range>
+                    <div class="range-wrapper">
+                        <mat-date-range-input class="range-input" [rangePicker]="picker">
+                            <input matStartDate [ngModelOptions]="{ standalone: true }" [(ngModel)]="startDate" />
+                            <input matEndDate [ngModelOptions]="{ standalone: true }" [(ngModel)]="finishDate" />
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker (closed)="saveRange()" #picker></mat-date-range-picker>
+                        <p class="date-label">{{ startDate | date: 'd MMM' }} - {{ finishDate | date: 'd MMM y' }}</p>
+                    </div>
+                </ng-template>
             </div>
             <div class="input-container">
                 <div class="label-container">
                     <p class="input-description">Frequency of Available Slots</p>
                     <i class="fa-solid fa-circle-question input-description-icon"></i>
                 </div>
-                <mat-select [(ngModel)]="advancedSettings.frequency" name="slotFrequency" [disabled]="!addAdvanced">
-                    <mat-option *ngFor="let slotFrequency of slotsFrequencies" [value]="slotFrequency">
-                        {{ slotFrequency }} hours
+                <mat-select
+                    [(ngModel)]="frequency"
+                    [disabled]="!addAdvanced"
+                    name="slotFrequency"
+                    (selectionChange)="onFrequencyChange()">
+                    <mat-option *ngFor="let _duration of durations" [value]="_duration">
+                        {{ _duration.time }} {{ _duration.unitOfTime }}
                     </mat-option>
                 </mat-select>
             </div>
+            <!-- custom duration for frequency -->
+            <app-custom-time
+                *ngIf="customFrequencyShown"
+                [inputCustomTime]="inputCustomFrequency"
+                (changeValueEmitter)="customFrequencyChanged($event)"></app-custom-time>
             <div class="input-container">
                 <div class="label-container">
                     <p class="input-description">Paddings Before & After Meeting</p>
                     <i class="fa-solid fa-circle-question input-description-icon"></i>
                 </div>
                 <mat-select
-                    [(ngModel)]="advancedSettings.paddingMeeting"
+                    [(ngModel)]="paddings"
+                    [disabled]="!addAdvanced"
                     name="meetingPadding"
-                    [disabled]="!addAdvanced">
-                    <mat-option *ngFor="let meetingPadding of meetingPaddings" [value]="meetingPadding">
-                        {{ meetingPadding }} min
+                    (selectionChange)="onPaddingsChange()">
+                    <mat-option *ngFor="let _duration of durations" [value]="_duration">
+                        {{ _duration.time }} {{ _duration.unitOfTime }}
                     </mat-option>
                 </mat-select>
             </div>
+            <!-- custom duration for paddings -->
+            <app-custom-time
+                *ngIf="customPaddingsShown"
+                [inputCustomTime]="inputCustomPadding"
+                (changeValueEmitter)="customPaddingChanged($event)"></app-custom-time>
         </div>
         <div class="inputs-right-container down">
             <div class="input-container">
@@ -182,16 +186,20 @@
                     <i class="fa-solid fa-circle-question input-description-icon"></i>
                 </div>
                 <mat-select
-                    [(ngModel)]="advancedSettings.minBookingMeetingDifference"
+                    [(ngModel)]="bookingDifference"
+                    [disabled]="!addAdvanced"
                     name="bookingMeetingDifference"
-                    [disabled]="!addAdvanced">
-                    <mat-option
-                        *ngFor="let bookingMeetingDifference of minBookingMeetingDifferences"
-                        [value]="bookingMeetingDifference">
-                        {{ bookingMeetingDifference }} hours
+                    (selectionChange)="onBookingDifferenceChange()">
+                    <mat-option *ngFor="let _duration of durations" [value]="_duration">
+                        {{ _duration.time }} {{ _duration.unitOfTime }}
                     </mat-option>
                 </mat-select>
             </div>
+            <!-- custom duration for booking difference -->
+            <app-custom-time
+                *ngIf="customBookingDifferenceShown"
+                [inputCustomTime]="inputBookingDifference"
+                (changeValueEmitter)="customBookingDifferenceChanged($event)"></app-custom-time>
         </div>
     </div>
 </form>

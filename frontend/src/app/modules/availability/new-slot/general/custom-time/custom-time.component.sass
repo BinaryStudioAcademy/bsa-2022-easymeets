@@ -1,0 +1,63 @@
+@import 'src/styles/color-variables'
+@import 'src/styles/screen-variables'
+
+*
+    box-sizing: border-box
+    font-size: 14px
+    font-weight: 400
+    color: $regent-gray
+
+.input-container
+    width: 100%
+
+    p
+        font-weight: bold
+        margin-bottom: 5px
+
+    .custom-time
+        display: flex
+        align-items: flex-start
+        justify-content: space-between
+        max-width: 18.5em
+        width: 18.5em
+        .time
+            width: 60%
+            margin-right: 10px
+
+        .unit-of-time
+            width: 40%
+    small
+        font-size: 10px
+        color: $red
+
+input[type=text]
+    font-size: 14px
+    padding-left: 5px
+    border: 2px solid $pattens-blue
+    border-radius: 8px
+    height: 36px
+
+.ng-invalid.ng-touched:not(.ng-pristine)
+    border-color: $red
+
+::ng-deep .input-container
+    .mat-select
+        align-items: center
+        display: flex
+
+.mat-select
+    font-size: 14px
+    padding-left: 5px
+    border: 2px solid $pattens-blue
+    border-radius: 8px
+    height: 36px
+
+.select-input
+    &:focus
+        &.ng-valid.ng-touched
+            border-color: 2px solid $cinnabar
+            outline: $cinnabar
+
+        &.ng-invalid.ng-touched
+            border: 2px solid $cinnabar
+            outline: $cinnabar

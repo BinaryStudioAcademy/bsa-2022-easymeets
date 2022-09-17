@@ -58,7 +58,7 @@
     @media ( max-width: $desktop-min-width)
         margin-top: 0
 
-input[type=text], .mat-select, .label-container, .error
+input[type=text], .mat-select, .label-container, .error, .range-wrapper
     max-width: calc(280px - 9px)
     width: calc(100% - 9px)
     @media ( max-width: $desktop-min-width)
@@ -144,7 +144,20 @@ input[type=text]
             border: 2px solid $cinnabar
             outline: $cinnabar
 
+.range-wrapper
+    height: 36px
+    display: flex
+    align-items: center
+    border: 2px solid $loblolly
+    border-radius: 10px
+    p
+        margin-left: 10px
+        font-weight: bold
+        color: $black
 
 ::ng-deep .checkbox-container
     .mat-checkbox-checked.mat-primary .mat-checkbox-background
         background-color: black !important
+
+::ng-deep .range-wrapper .mat-date-range-input-container, .mat-date-range-input
+    display: none

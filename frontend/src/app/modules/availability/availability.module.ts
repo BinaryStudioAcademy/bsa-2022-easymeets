@@ -29,6 +29,7 @@ import { SlotComponent } from './slot/slot.component';
 import { TeamComponent } from './team/team.component';
 import { UserSlotComponent } from './user-slot/user-slot.component';
 import { AvailabilityRoutingModule } from './availability-routing.module';
+import { CustomTimeComponent } from './new-slot/general/custom-time/custom-time.component';
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         ScheduleDefinitionComponent,
         ScheduleExternalComponent,
         ExclusionDateComponent,
+        CustomTimeComponent,
     ],
     providers: [PendingChangesGuard],
     imports: [
