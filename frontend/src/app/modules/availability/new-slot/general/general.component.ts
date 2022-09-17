@@ -46,7 +46,7 @@ export class GeneralComponent extends BaseComponent implements OnInit {
             activityType: this.slot?.advancedSlotSettings?.activityType ?? this.slotActivityOptionsEnums[0],
             minBookingMeetingDifference:
                 this.slot?.advancedSlotSettings?.minBookingMeetingDifference ?? this.durations[0].minutes!,
-            startDate: this.slot?.advancedSlotSettings?.startDate ?? new Date(),
+            startDate: this.slot?.advancedSlotSettings?.startDate ?? new Date(new Date().setHours(0, 0, 0, 0)),
         };
         this.startDate = new Date(this.advancedSettings.startDate);
         this.finishDate = addDays(this.startDate, this.advancedSettings.days);
@@ -198,7 +198,7 @@ export class GeneralComponent extends BaseComponent implements OnInit {
     saveRange() {
         this.advancedSettings = {
             ...this.advancedSettings,
-            startDate: this.startDate,
+            startDate: new Date(this.startDate.setHours(0, 0, 0, 0)),
             days: differenceInDays(this.finishDate, this.startDate),
         };
     }

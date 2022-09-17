@@ -26,10 +26,11 @@
                 </mat-select>
             </div>
             <!-- custom duration for duration -->
-            <app-custom-time
-                *ngIf="customTimeShown"
-                [inputCustomTime]="inputCustomTime"
-                (changeValueEmitter)="customDurationChanged($event)"></app-custom-time>
+            <div class="input-container" *ngIf="customTimeShown">
+                <app-custom-time
+                    [inputCustomTime]="inputCustomTime"
+                    (changeValueEmitter)="customDurationChanged($event)"></app-custom-time>
+            </div>
             <div class="input-container">
                 <p class="input-description">Location</p>
                 <mat-select [(ngModel)]="settings.locationType" name="meetingLocation">
@@ -95,18 +96,23 @@
                     </mat-radio-button>
                 </mat-radio-group>
                 <ng-container *ngIf="advancedSettings.activityType !== ActivityType.Range; else range">
-                    <input
-                        [(ngModel)]="advancedSettings.days"
-                        (ngModelChange)="changeFinishDate()"
-                        name="slotActivityTime"
-                        #days="ngModel"
-                        type="text"
-                        [pattern]="naturalNumberInputPattern"
-                        maxlength="3"
-                        [disabled]="!addAdvanced || advancedSettings.activityType === ActivityType.Indefinitely" />
-                    <div *ngIf="days.invalid && !days.pristine" class="error">
-                        <div *ngIf="days.errors?.['pattern']">Input field accepts only natural numbers</div>
-                    </div>
+                    <ng-container *ngIf="advancedSettings.activityType === ActivityType.Days; else indefinitely">
+                        <input
+                            [(ngModel)]="advancedSettings.days"
+                            (ngModelChange)="changeFinishDate()"
+                            name="slotActivityTime"
+                            #days="ngModel"
+                            type="text"
+                            [pattern]="naturalNumberInputPattern"
+                            maxlength="3"
+                            [disabled]="!addAdvanced" />
+                        <div *ngIf="days.invalid && !days.pristine" class="error">
+                            <div *ngIf="days.errors?.['pattern']">Input field accepts only natural numbers</div>
+                        </div>
+                    </ng-container>
+                    <ng-template #indefinitely>
+                        <input class="input-indefinitely" type="text" placeholder="Indefinitely" disabled />
+                    </ng-template>
                 </ng-container>
                 <ng-template #range>
                     <div class="range-wrapper">
@@ -136,10 +142,11 @@
                 </mat-select>
             </div>
             <!-- custom duration for frequency -->
-            <app-custom-time
-                *ngIf="customFrequencyShown"
-                [inputCustomTime]="inputCustomFrequency"
-                (changeValueEmitter)="customFrequencyChanged($event)"></app-custom-time>
+            <div class="input-container" *ngIf="customFrequencyShown">
+                <app-custom-time
+                    [inputCustomTime]="inputCustomFrequency"
+                    (changeValueEmitter)="customFrequencyChanged($event)"></app-custom-time>
+            </div>
             <div class="input-container">
                 <div class="label-container">
                     <p class="input-description">Paddings Before & After Meeting</p>
@@ -156,10 +163,11 @@
                 </mat-select>
             </div>
             <!-- custom duration for paddings -->
-            <app-custom-time
-                *ngIf="customPaddingsShown"
-                [inputCustomTime]="inputCustomPadding"
-                (changeValueEmitter)="customPaddingChanged($event)"></app-custom-time>
+            <div class="input-container" *ngIf="customPaddingsShown">
+                <app-custom-time
+                    [inputCustomTime]="inputCustomPadding"
+                    (changeValueEmitter)="customPaddingChanged($event)"></app-custom-time>
+            </div>
         </div>
         <div class="inputs-right-container down">
             <div class="input-container">
@@ -196,10 +204,11 @@
                 </mat-select>
             </div>
             <!-- custom duration for booking difference -->
-            <app-custom-time
-                *ngIf="customBookingDifferenceShown"
-                [inputCustomTime]="inputBookingDifference"
-                (changeValueEmitter)="customBookingDifferenceChanged($event)"></app-custom-time>
+            <div class="input-container" *ngIf="customBookingDifferenceShown">
+                <app-custom-time
+                    [inputCustomTime]="inputBookingDifference"
+                    (changeValueEmitter)="customBookingDifferenceChanged($event)"></app-custom-time>
+            </div>
         </div>
     </div>
 </form>

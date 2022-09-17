@@ -18,8 +18,10 @@
         display: flex
         align-items: flex-start
         justify-content: space-between
-        max-width: 18.5em
-        width: 18.5em
+        max-width: calc(280px - 9px)
+        width: calc(100% - 9px)
+        @media ( max-width: $desktop-min-width)
+            max-width: calc(100% - 9px)
         .time
             width: 60%
             margin-right: 10px
