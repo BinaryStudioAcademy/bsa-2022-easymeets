@@ -177,11 +177,11 @@ public class TeamService : BaseService, ITeamService
 
         return _mapper.Map<List<TeamDto>>(teams);
     }
-    public async Task<ICollection<NewMeetingMemberDto>> GetTeamMembersOfCurrentUserAsync(long? teamId)
+    public async Task<ICollection<NewMeetingMemberDto>> GetTeamMembersByNameAsync(string searchName, long? teamId)
     {
         var teamMembers = await _context.TeamMembers
-                .Where(x => x.TeamId == teamId)
                 .Include(x => x.User)
+                .Where(x => x.TeamId == teamId && x.User.Name.ToLower().Contains(searchName.ToLower()))
                 .Select(a => _mapper.Map<NewMeetingMemberDto>(a))
                 .ToListAsync();
 
@@ -191,6 +191,19 @@ public class TeamService : BaseService, ITeamService
         }
 
         return teamMembers;
+    }
+
+    public async Task<NewMeetingMemberDto> GetTeamMembersByIdAsync(long userId, long teamId)
+    {
+        var teamMember = await _context.TeamMembers
+            .Include(x => x.User)
+            .FirstOrDefaultAsync(x => x.TeamId == teamId && x.UserId == userId) ?? throw new KeyNotFoundException("Invalid team or member id");
+
+        var memberDto = _mapper.Map<NewMeetingMemberDto>(teamMember);
+
+        memberDto.UnavailabilityItems = await GetMemberUnavailability(teamMember.Id);
+
+        return memberDto;
     }
 
     private async Task<List<UnavailabilityItemDto>> GetMemberUnavailability(long teamMemberId)

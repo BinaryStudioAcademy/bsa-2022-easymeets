@@ -167,6 +167,8 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task SendEmailsAsync(long meetingId, TemplateType type)
         {
+            var emailDto = new EmailDto();
+
             var meeting = await _context.Meetings
                 .Include(m => m.MeetingMembers)
                     .ThenInclude(member => member.TeamMember)
@@ -187,15 +189,23 @@ namespace EasyMeets.Core.BLL.Services
                 .Concat(meeting.ExternalAttendees.Select(attendee => attendee.Email))
                 .ToList();
 
-            if (emailTemplate is null || recipients is null || !recipients.Any())
+            if (recipients is null || !recipients.Any() || meeting is null)
             {
                 return;
             }
 
-            var emailDto = _mapper.Map<EmailDto>(emailTemplate);
+            if (emailTemplate is not null)
+            {
+                emailDto = _mapper.Map<EmailDto>(emailTemplate);
+            }
 
             foreach (var recipient in recipients)
             {
+                if (emailTemplate is null)
+                {
+                    emailDto = GenerateNewMeetingEmailTemplate(meeting, recipient);
+                }
+
                 emailDto.Recipient = recipient;
 
                 _emailSender.Send(emailDto);
@@ -249,6 +259,21 @@ namespace EasyMeets.Core.BLL.Services
             _context.Remove(meeting);
 
             await _context.SaveChangesAsync();
+        }
+
+        private EmailDto GenerateNewMeetingEmailTemplate(Meeting meeting, string member)
+        {
+            return new EmailDto()
+            {
+                Subject = $"New Event: {meeting.Name} - {meeting.StartTime} - {meeting.LocationType}",
+                Body = $"Hi {member}\n" +
+                $"A new event has been scheduled.\n" +
+                $"Event Type: {meeting.LocationType}\n" +
+                $"Invitee: {meeting.Author.Name}\n" +
+                $"Invitee Email: {meeting.Author.Email}\n" +
+                $"Event Date/Time: {meeting.StartTime.Hour} - {meeting.StartTime.DayOfYear} {meeting.StartTime.Day}\n" +
+                $"View event in Easymeets: {meeting.MeetingLink}"
+            };
         }
     }
 }
