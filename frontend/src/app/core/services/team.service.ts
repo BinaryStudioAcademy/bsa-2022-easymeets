@@ -103,4 +103,8 @@ export class TeamService {
     public uploadLogo(data: FormData, id?: number) {
         return this.httpService.putRequest<IImagePath>(`${this.routePrefix}/uploadlogo/${id ?? ''}`, data);
     }
+
+    public sendInvitaionToMembers(teamMembersEmails: string[], teamId: number) {
+        return this.httpService.postRequest(`${this.routePrefix}/invitation/${teamId}`, teamMembersEmails);
+    }
 }

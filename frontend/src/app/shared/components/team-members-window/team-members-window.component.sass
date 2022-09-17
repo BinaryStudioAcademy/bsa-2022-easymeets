@@ -24,26 +24,29 @@
         padding-bottom: 20px
         text-align: center
         max-width: 400px
+        color: $raven
     .mat-dialog-buttons
         padding-top: 20px
 
 .mat-flat-button
     height: 40px
-    width: 27em
+    width: 15em
     margin: 5px
-    background: $midnight
     border-radius: 24px
     font-family: 'Inter'
     font-style: normal
     font-weight: 400
     font-size: 14px
     line-height: 146%
-    color: $white
 
-hr
-    width: 100%
-    border: 1px solid $line-color
-    background-color: $line-color
+.mat-flat-button:first-of-type
+    border: 2px solid $line-color
+    color: $midnight
+    background-color: $white
+
+.mat-flat-button:last-of-type
+    background: $midnight
+    color: $white
 
 .emails-input
     width: 99%

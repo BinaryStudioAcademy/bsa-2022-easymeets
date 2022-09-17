@@ -23,7 +23,7 @@
     </div>
     <div mat-dialog-actions class="mat-dialog-buttons">
         <button *ngFor="let buttonOptions of buttonsOptions" [ngClass]="buttonOptions.class" mat-flat-button
-            (click)="onClick(buttonOptions.onClickEvent)" [disabled]="!usersToAdd.length">
+            (click)="onClick(buttonOptions.onClickEvent)">
             {{ buttonOptions.label }}
         </button>
     </div>

@@ -67,6 +67,13 @@ public class TeamController : ControllerBase
         return Ok();
     }
 
+    [HttpPost("invitation/{teamId}")]
+    public async Task<IActionResult> SendInvitationToTeamMembersAsync([FromBody] string [] teamMembersEmails, long teamId)
+    {
+        await _teamService.SendInvitationToTeamMembersAsync(teamMembersEmails, teamId);
+        return Ok();
+    }
+
     [HttpPut("members")]
     public async Task<IActionResult> UpdateTeamMemberRoleAsync([FromBody] TeamMemberDto teamMemberDto)
     {

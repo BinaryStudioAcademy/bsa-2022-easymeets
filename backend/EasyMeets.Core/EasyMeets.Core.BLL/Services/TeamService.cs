@@ -6,7 +6,7 @@ using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
 
 namespace EasyMeets.Core.BLL.Services;
 
@@ -14,10 +14,12 @@ public class TeamService : BaseService, ITeamService
 {
     private readonly IUserService _userService;
     private readonly IUploadFileService _uploadFileService;
-    public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IUploadFileService uploadFileService) : base(context, mapper)
+    private readonly IEmailSenderService _emailSenderService;
+    public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IUploadFileService uploadFileService, IEmailSenderService emailSenderService) : base(context, mapper)
     {
         _userService = userService;
         _uploadFileService = uploadFileService;
+        _emailSenderService = emailSenderService;
     }
 
     public async Task<TeamDto?> GetTeamAsync(long teamId)
@@ -90,6 +92,19 @@ public class TeamService : BaseService, ITeamService
         }
     }
 
+    public async Task SendInvitationToTeamMembersAsync(string[] teamMembersEmails, long teamId)
+    {
+        var user = await _userService.GetCurrentUserAsync();
+        var teamEntity = await GetTeamByIdAsync(teamId);
+        var usersToSendInvivation = await _context.Users.Where(x => teamMembersEmails.Contains(x.Email)).ToListAsync();
+
+        foreach (User userToSendInvivation in usersToSendInvivation)
+        {
+            var emailData = _emailSenderService.CreateInvitationsSubjectAndBody(user, userToSendInvivation, teamEntity);
+            _emailSenderService.Send(emailData);
+        }
+    }
+
     public async Task CreateTeamMemberAsync(TeamMemberDto teamMemberDto, long teamId)
     {
         var team = await GetTeamByIdAsync(teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
@@ -113,7 +128,7 @@ public class TeamService : BaseService, ITeamService
         _context.TeamMembers.Update(teamMember);
         await _context.SaveChangesAsync();
     }
-    
+
     public async Task DeleteTeamAsync(long teamId)
     {
         var teamEntity = await _context.Teams
@@ -121,7 +136,7 @@ public class TeamService : BaseService, ITeamService
                 .ThenInclude(s => s.SlotMembers)
             .Include(t => t.VisibleCalendars)
             .FirstOrDefaultAsync(el => el.Id == teamId) ?? throw new KeyNotFoundException("Invalid team member id");
-        
+
         _context.Teams.Remove(teamEntity);
         await _context.SaveChangesAsync();
     }
