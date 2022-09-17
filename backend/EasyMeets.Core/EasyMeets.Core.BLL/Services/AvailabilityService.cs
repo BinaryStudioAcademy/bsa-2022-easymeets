@@ -52,7 +52,9 @@ namespace EasyMeets.Core.BLL.Services
                         Size = y.Size,
                         IsEnabled = y.IsEnabled,
                         AuthorName = y.Author.Name,
+                        TeamId = y.Team.Id,
                         TeamName = y.Team.Name,
+                        TeamLogoPath = y.Team.LogoPath,
                         LocationType = y.LocationType,
                         MeetingRoom = y.MeetingRoom,
                         Link = y.Link,
@@ -66,11 +68,13 @@ namespace EasyMeets.Core.BLL.Services
             var userSlots = availabilitySlots.Where(x => x.Type == SlotType.Personal).ToList();
             var availabilitySlotsGroupByTeams = availabilitySlots
                 .Where(x => x.Type == SlotType.Team)
-                .GroupBy(x => x.TeamName)
+                .GroupBy(x => new { x.TeamId, x.TeamName, x.TeamLogoPath })
                 .Select(x =>
                     new AvailabilitySlotsGroupByTeamsDto
                     {
-                        Name = x.Key,
+                        Id = x.Key.TeamId,
+                        Name = x.Key.TeamName,
+                        Image = x.Key.TeamLogoPath,
                         AvailabilitySlots = x.ToList()
                     })
                 .ToList();
@@ -323,6 +327,11 @@ namespace EasyMeets.Core.BLL.Services
         public async Task<bool> ValidateLinkAsync(long? slotId, string slotLink)
         {
             return !await _context.AvailabilitySlots.AnyAsync(s => s.Id != slotId && s.Link == slotLink);
+        }
+
+        public Task<bool> ValidateSlotPasswordAsync(string slotLink, string password)
+        {
+            return _context.AvailabilitySlots.AnyAsync(el => el.Link == slotLink && el.PasswordProtection == password);
         }
 
         private async Task<AvailabilitySlot?> GetByLinkInternal(string link)
