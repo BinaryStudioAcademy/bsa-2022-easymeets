@@ -19,10 +19,15 @@
             <mat-slide-toggle class="form-switch" [(ngModel)]="settings[templateIndex].allowToSend"></mat-slide-toggle>
             <p class="input-field">Send</p>
         </div>
+        <form class="formDate" [formGroup]="scheduleForm">
         <div *ngIf="activeTab === navLinks[2].path || activeTab === navLinks[3].path" class="input-time-notify">
             <p class="input-field">Time(HH:MM)</p>
-            <input type="time" class="input-message timeBody" [(ngModel)]="settings[templateIndex].timeValue">
+            <input type="time" class="input-message timeBody" formControlName="startTime" [value]="settings[templateIndex].timeValue">
         </div>
+            <span *ngIf="startTime && startTime.invalid">
+                <p class="validText">Correct format is hh:mm.</p>
+            </span>
+    </form>
     </div>
     <div id="container-emailSubject">
         <p class="input-description">

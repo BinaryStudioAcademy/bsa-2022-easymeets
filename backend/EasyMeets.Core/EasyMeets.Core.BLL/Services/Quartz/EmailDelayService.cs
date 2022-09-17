@@ -4,6 +4,7 @@ using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace EasyMeets.Core.BLL.Services.Quartz
 {
@@ -20,15 +21,15 @@ namespace EasyMeets.Core.BLL.Services.Quartz
         {
             var avslots = _context.AvailabilitySlots.ToList();
 
-            var t1 = NotifyFollowUp(avslots);
-            var t2 = NotifyReminders(avslots);
+            await NotifyFollowUp(avslots);
+            await NotifyReminders(avslots);
 
-            await Task.WhenAll(t1, t2);
+            await Task.CompletedTask;
         }
 
         public async Task NotifyReminders(List<AvailabilitySlot> slots)
         {
-            var notifiers = await _context.EmailTemplates.Where(x => x.Subject == "Reminders Email").ToListAsync();
+            var notifiers = await _context.EmailTemplates.Where(x => x.Subject == "Reminders Email" && x.IsSend == true && x.TimeValue != string.Empty).ToListAsync();
 
             foreach (var emailTemplate in notifiers)
             {
@@ -53,7 +54,7 @@ namespace EasyMeets.Core.BLL.Services.Quartz
 
         public async Task NotifyFollowUp(List<AvailabilitySlot> slots)
         {
-            var followUps = await _context.EmailTemplates.Where(x => x.Subject == "Follow-Up Email").ToListAsync();
+            var followUps = await _context.EmailTemplates.Where(x => x.Subject == "Follow-Up Email" && x.IsSend == true && x.TimeValue != string.Empty).ToListAsync();
 
             foreach (var emailTemplate in followUps)
             {
