@@ -1,6 +1,6 @@
-export enum CustomEnum {
+export enum InputFieldType {
     Duration = 'Duration',
     Frequency = 'Frequency',
     Padding = 'Padding',
-    Book = 'Book',
+    MinBookTime = 'MinBookTime',
 }

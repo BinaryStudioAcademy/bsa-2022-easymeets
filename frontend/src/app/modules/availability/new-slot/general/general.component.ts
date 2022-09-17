@@ -4,18 +4,19 @@ import { BaseComponent } from '@core/base/base.component';
 import { ActivityType } from '@core/enums/activity-type.enum';
 import { Color } from '@core/enums/color.enum';
 import { SlotType } from '@core/enums/slot-type.enum';
-import { getDisplayDuration } from '@core/helpers/display-duration-helper';
+import { getDefaultInputSettings, getDisplayDuration } from '@core/helpers/display-duration-helper';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { colorInputs } from '@core/helpers/slot-shadow-helper';
 import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { IDuration } from '@core/models/IDuration';
+import { IInputSettings } from '@core/models/save-availability-slot/IInputSettings';
 import { ISaveAdvancedSettings } from '@core/models/save-availability-slot/ISaveAdvancedSettings';
 import { ISaveGeneralSettings } from '@core/models/save-availability-slot/ISaveGeneralSettings';
 import { UserService } from '@core/services/user.service';
 import { naturalNumberRegex, textFieldRegex } from '@shared/constants/model-validation';
 import { invalidCharactersMessage } from '@shared/constants/shared-messages';
-import { CustomEnum } from '@shared/enums/custom-field';
+import { InputFieldType } from '@shared/enums/custom-field';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
 import { addDays, differenceInDays } from 'date-fns';
@@ -51,12 +52,20 @@ export class GeneralComponent extends BaseComponent implements OnInit {
         this.startDate = new Date(this.advancedSettings.startDate);
         this.finishDate = addDays(this.startDate, this.advancedSettings.days);
 
+        this.defineCurrentInputValues();
+
+        this.defineDuration();
+
         this.addAdvanced = Boolean(this.slot?.advancedSlotSettingsId);
-        this.defineCurrentDuration(this.settings.size);
-        this.defineFrequency(this.advancedSettings.frequency);
-        this.definePaddings(this.advancedSettings.paddingMeeting);
-        this.defineBookingDifference(this.advancedSettings.minBookingMeetingDifference);
     }
+
+    public durationKey: number;
+
+    public frequencyKey: number;
+
+    public paddingKey: number;
+
+    public minBookingKey: number;
 
     public startDate: Date;
 
@@ -90,33 +99,13 @@ export class GeneralComponent extends BaseComponent implements OnInit {
 
     public naturalNumberInputPattern = naturalNumberRegex;
 
+    public inputSettings: IInputSettings[];
+
+    public inputValues: { [type: string]: number } = {};
+
     public durations: IDuration[] = getDisplayDuration();
 
-    public duration: IDuration = this.durations[0];
-
-    public frequency: IDuration = this.durations[0];
-
-    public paddings: IDuration = this.durations[0];
-
-    public bookingDifference: IDuration = this.durations[0];
-
-    public customTimeShown: boolean = false;
-
-    public customFrequencyShown: boolean = false;
-
-    public customPaddingsShown: boolean = false;
-
-    public customBookingDifferenceShown: boolean = false;
-
     public unitOfTime = Object.keys(UnitOfTime);
-
-    public inputCustomTime: string;
-
-    public inputCustomFrequency: string;
-
-    public inputCustomPadding: string;
-
-    public inputBookingDifference: string;
 
     @ViewChild(NgForm) public generalForm: NgForm;
 
@@ -147,6 +136,8 @@ export class GeneralComponent extends BaseComponent implements OnInit {
         };
 
         this.initLocations();
+        this.inputSettings = getDefaultInputSettings();
+        this.defineInputKeys();
     }
 
     colorInputs = colorInputs;
@@ -159,40 +150,25 @@ export class GeneralComponent extends BaseComponent implements OnInit {
         this.settings.name = removeExcessiveSpaces(value);
     }
 
-    onDurationChange() {
-        this.customTimeShown = this.duration.time === 'Custom';
-        this.updateSettings(this.duration.minutes!, CustomEnum.Duration);
-    }
-
-    onFrequencyChange() {
-        this.customFrequencyShown = this.frequency.time === 'Custom';
-        this.updateSettings(this.frequency.minutes!, CustomEnum.Frequency);
-    }
-
-    onPaddingsChange() {
-        this.customPaddingsShown = this.paddings.time === 'Custom';
-        this.updateSettings(this.paddings.minutes!, CustomEnum.Padding);
-    }
-
-    onBookingDifferenceChange() {
-        this.customBookingDifferenceShown = this.bookingDifference.time === 'Custom';
-        this.updateSettings(this.bookingDifference.minutes!, CustomEnum.Book);
+    onValueChange(index: number) {
+        this.inputSettings[index].isCustom = this.inputSettings[index].durationValue?.time === 'Custom';
+        this.updateSettings(this.inputSettings[index].durationValue?.minutes!, this.inputSettings[index].inputType);
     }
 
     customDurationChanged(value: number) {
-        this.updateSettings(value, CustomEnum.Duration);
+        this.updateSettings(value, InputFieldType.Duration);
     }
 
     customFrequencyChanged(value: number) {
-        this.updateSettings(value, CustomEnum.Frequency);
+        this.updateSettings(value, InputFieldType.Frequency);
     }
 
     customPaddingChanged(value: number) {
-        this.updateSettings(value, CustomEnum.Padding);
+        this.updateSettings(value, InputFieldType.Padding);
     }
 
     customBookingDifferenceChanged(value: number) {
-        this.updateSettings(value, CustomEnum.Book);
+        this.updateSettings(value, InputFieldType.MinBookTime);
     }
 
     saveRange() {
@@ -216,67 +192,58 @@ export class GeneralComponent extends BaseComponent implements OnInit {
             });
     }
 
-    private defineCurrentDuration(slotDuration: number) {
-        this.duration =
-            this.durations.find((x) => x.minutes === slotDuration) ?? this.durations.find((x) => x.time === 'Custom')!;
-
-        if (this.duration.time === 'Custom') {
-            this.customTimeShown = true;
-            this.inputCustomTime = String(slotDuration);
-        }
+    private defineInputKeys() {
+        this.durationKey = this.inputSettings.indexOf(this.inputSettings.find((el) => el.inputType === InputFieldType.Duration)!);
+        this.frequencyKey = this.inputSettings.indexOf(this.inputSettings.find((el) => el.inputType === InputFieldType.Frequency)!);
+        this.paddingKey = this.inputSettings.indexOf(this.inputSettings.find((el) => el.inputType === InputFieldType.Padding)!);
+        this.minBookingKey = this.inputSettings.indexOf(this.inputSettings.find((el) => el.inputType === InputFieldType.MinBookTime)!);
     }
 
-    private defineFrequency(frequency: number) {
-        this.frequency =
-            this.durations.find((x) => x.minutes === frequency) ?? this.durations.find((x) => x.time === 'Custom')!;
-
-        if (this.frequency.time === 'Custom') {
-            this.customFrequencyShown = true;
-            this.inputCustomFrequency = String(frequency);
-        }
+    private defineCurrentInputValues() {
+        this.inputValues[InputFieldType.Duration] = this.settings.size;
+        this.inputValues[InputFieldType.Frequency] = this.advancedSettings.frequency;
+        this.inputValues[InputFieldType.Padding] = this.advancedSettings.paddingMeeting;
+        this.inputValues[InputFieldType.MinBookTime] = this.advancedSettings.minBookingMeetingDifference;
     }
 
-    private definePaddings(paddings: number) {
-        this.paddings =
-            this.durations.find((x) => x.minutes === paddings) ?? this.durations.find((x) => x.time === 'Custom')!;
+    private defineDuration() {
+        this.inputSettings = [
+            ...this.inputSettings.map((val) => {
+                val.durationValue =
+                    this.durations.find((x) => x.minutes === this.inputValues[val.inputType]) ??
+                    this.durations.find((x) => x.time === 'Custom')!;
 
-        if (this.paddings.time === 'Custom') {
-            this.customPaddingsShown = true;
-            this.inputCustomPadding = String(paddings);
-        }
+                if (val.durationValue?.time === 'Custom') {
+                    val.isCustom = true;
+                    val.inputValue = String(this.inputValues[val.inputType]);
+                }
+
+                return val;
+            }),
+        ];
     }
 
-    private defineBookingDifference(difference: number) {
-        this.bookingDifference =
-            this.durations.find((x) => x.minutes === difference) ?? this.durations.find((x) => x.time === 'Custom')!;
-
-        if (this.bookingDifference.time === 'Custom') {
-            this.customBookingDifferenceShown = true;
-            this.inputBookingDifference = String(difference);
-        }
-    }
-
-    private updateSettings(value: number, type: CustomEnum) {
+    private updateSettings(value: number, type: InputFieldType) {
         switch (type) {
-            case CustomEnum.Duration:
+            case InputFieldType.Duration:
                 this.settings = {
                     ...this.settings,
                     size: value,
                 };
                 break;
-            case CustomEnum.Frequency:
+            case InputFieldType.Frequency:
                 this.advancedSettings = {
                     ...this.advancedSettings,
                     frequency: value,
                 };
                 break;
-            case CustomEnum.Padding:
+            case InputFieldType.Padding:
                 this.advancedSettings = {
                     ...this.advancedSettings,
                     paddingMeeting: value,
                 };
                 break;
-            case CustomEnum.Book:
+            case InputFieldType.MinBookTime:
                 this.advancedSettings = {
                     ...this.advancedSettings,
                     minBookingMeetingDifference: value,

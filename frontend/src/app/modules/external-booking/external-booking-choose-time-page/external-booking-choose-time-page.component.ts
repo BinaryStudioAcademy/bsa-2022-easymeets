@@ -115,9 +115,11 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
                 if (this.slot?.advancedSlotSettings) {
                     this.activityType = this.slot?.advancedSlotSettings.activityType;
 
+                    const days = this.slot?.advancedSlotSettings.days;
+
                     if (this.activityType !== ActivityType.Indefinitely) {
                         this.startDate = new Date(this.slot?.advancedSlotSettings.startDate);
-                        this.finishDate = addDays(this.startDate, this.slot?.advancedSlotSettings.days);
+                        this.finishDate = addDays(this.startDate, days + 1);
                     }
                 }
                 this.padding = this.slot?.advancedSlotSettings?.paddingMeeting ?? 0;
