@@ -79,7 +79,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     meetingNameControl: FormControl = new FormControl('', [
         Validators.required,
-        Validators.minLength(2),
+        Validators.minLength(1),
         Validators.maxLength(50),
         Validators.pattern(textFieldRegex),
     ]);
@@ -223,7 +223,9 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     removeMemberToList(memberToRemove: INewMeetingMember) {
         this.addedMembers = this.addedMembers.filter((member) => member.id !== memberToRemove.id);
-        this.memberUnavailability = this.memberUnavailability.filter(u => !memberToRemove.unavailabilityItems.includes(u));
+        this.memberUnavailability = this.memberUnavailability.filter(
+            (u) => !memberToRemove.unavailabilityItems.includes(u),
+        );
     }
 
     reset() {
@@ -265,20 +267,19 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     }
 
     private addCurrentTeamMemberToList(meetingMembers: INewMeetingMember[]) {
-        this.userService
-            .userChangedEvent$
-            .subscribe((resp) => {
-                this.currentUser = meetingMembers.find(member => member.id === resp?.id) as INewMeetingMember;
+        this.userService.userChangedEvent$.subscribe((resp) => {
+            this.currentUser = meetingMembers.find((member) => member.id === resp?.id) as INewMeetingMember;
 
-                this.addMemberToList(this.currentUser);
-                this.getFilteredOptions();
-            });
+            this.addMemberToList(this.currentUser);
+            this.getFilteredOptions();
+        });
     }
 
     private initLocations() {
-        this.userService.getUserMeetIntegrations()
+        this.userService
+            .getUserMeetIntegrations()
             .pipe(this.untilThis)
-            .subscribe(locations => {
+            .subscribe((locations) => {
                 this.locations = locations.concat(LocationType.Office);
             });
     }
@@ -293,10 +294,13 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.filteredOptions = this.memberFilterCtrl.valueChanges.pipe(
             startWith(''),
             map((value) => {
-                this.filterValue = (typeof value === 'string') ? value.toLowerCase() : value.name;
+                this.filterValue = typeof value === 'string' ? value.toLowerCase() : value.name;
 
-                return this.teamMembers.filter((teamMember) =>
-                    teamMember.id !== this.currentUser.id && teamMember.name.toLowerCase().includes(this.filterValue));
+                return this.teamMembers.filter(
+                    (teamMember) =>
+                        teamMember.id !== this.currentUser.id &&
+                        teamMember.name.toLowerCase().includes(this.filterValue),
+                );
             }),
         );
     }
