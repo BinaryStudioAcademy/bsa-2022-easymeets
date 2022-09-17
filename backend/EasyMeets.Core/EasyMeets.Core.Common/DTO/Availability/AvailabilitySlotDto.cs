@@ -1,4 +1,5 @@
 ﻿using EasyMeets.Core.Common.DTO.Availability.AdvancedSlotSettings;
+using EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
 using EasyMeets.Core.Common.DTO.Availability.Schedule;
 using EasyMeets.Core.Common.DTO.Common;
 using EasyMeets.Core.Common.Enums;
@@ -22,6 +23,7 @@ namespace EasyMeets.Core.Common.DTO.Availability
         public List<EmailTemplatesSettingsDto>? EmailTemplateSettings { get; set; }
         public ICollection<QuestionDto> Questions { get; set; } = null!;
         public ScheduleDto Schedule { get; set; } = null!;
+        public List<SlotMemberDto> SlotMembers { get; set; } = new();
         public string WelcomeMessage { get; set; } = string.Empty;
         public string Link { get; set; } = string.Empty;
         public Color Color { get; set; }

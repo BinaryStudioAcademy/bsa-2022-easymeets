@@ -4,6 +4,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { BaseComponent } from '@core/base/base.component';
 import { SlotType } from '@core/enums/slot-type.enum';
 import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
+import { getParticipationOptions, getScheduleModes } from '@core/helpers/schedule-mode-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISlotMember } from '@core/models/save-availability-slot/ISlotMember';
 import { ISchedule } from '@core/models/schedule/ISchedule';
@@ -12,6 +13,8 @@ import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
 import { UserService } from '@core/services/user.service';
 import { environment } from '@env/environment';
+import { SlotParticipationOption } from '@shared/enums/slotParticipationOption';
+import { SlotScheduleMode } from '@shared/enums/slotScheduleMode';
 import { filter, map, switchMap } from 'rxjs';
 
 @Component({
@@ -32,7 +35,13 @@ export class ScheduleComponent extends BaseComponent {
 
     teamId: number;
 
-    selectedScheduleMode = 'One for all';
+    selectedScheduleMode: SlotScheduleMode = SlotScheduleMode.OneForAll;
+
+    scheduleModes: SlotScheduleMode[] = getScheduleModes();
+
+    selectedParticipationOption: SlotParticipationOption = SlotParticipationOption.One;
+
+    participationOptions: SlotParticipationOption[] = getParticipationOptions();
 
     changeEvent: EventEmitter<any> = new EventEmitter();
 
