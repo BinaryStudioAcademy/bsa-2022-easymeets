@@ -16,6 +16,7 @@ namespace EasyMeets.Core.BLL.Services
         private readonly IZoomService _zoomService;
         private readonly IEmailSenderService _emailSender;
         private readonly IGoogleMeetService _googleMeetService;
+        private readonly string _applicationURL = "https://bsa-easymeets.westeurope.cloudapp.azure.com/";
         public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IZoomService zoomService, IEmailSenderService emailSender, IGoogleMeetService googleMeetService) : base(context, mapper)
         {
             _userService = userService;
@@ -266,13 +267,13 @@ namespace EasyMeets.Core.BLL.Services
             return new EmailDto()
             {
                 Subject = $"New Event: {meeting.Name} - {meeting.StartTime} - {meeting.LocationType}",
-                Body = $"Hi {member}\n" +
+                Body = $"Hi, {member} !\n\n" +
                 $"A new event has been scheduled.\n" +
                 $"Event Type: {meeting.LocationType}\n" +
                 $"Invitee: {meeting.Author.Name}\n" +
                 $"Invitee Email: {meeting.Author.Email}\n" +
-                $"Event Date/Time: {meeting.StartTime.Hour} - {meeting.StartTime.DayOfYear} {meeting.StartTime.Day}\n" +
-                $"View event in Easymeets: {meeting.MeetingLink}"
+                $"Event Date/Time: {meeting.StartTime}\n\n" +
+                $"View event in Easymeets: {_applicationURL}{meeting.MeetingLink}"
             };
         }
     }
