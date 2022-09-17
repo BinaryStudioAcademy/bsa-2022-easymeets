@@ -1,11 +1,18 @@
 <div class="container">
     <div class="team-info">
+        <div class="avatar-container" (click)="goToPage(teamSlot.id)">
+            <ng-container *ngIf="teamSlot.image; else noAvatarAvailabilityPage">
+                <img class="avatar" src="{{ teamSlot.image }}" />
+            </ng-container>
+            <ng-template #noAvatarAvailabilityPage>
+                <img class="avatar" src="assets/header/avatar-icon.png" />
+            </ng-template>
+        </div>
         <div class="team-name">
             <div>
                 <p>{{ teamName }}</p>
             </div>
         </div>
-        <img src="assets/copy_icon.png" class="copy-icon" />
     </div>
     <div class="availability-slot">
         <div *ngFor="let _slot of slots">

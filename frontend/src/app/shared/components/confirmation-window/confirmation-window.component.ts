@@ -14,7 +14,7 @@ export class ConfirmationWindowComponent {
 
     message?: string;
 
-    buttonsOptions: IConfirmButtonOptions[];
+    buttonsOptions?: IConfirmButtonOptions[];
 
     locationTypeMapping = LocationTypeMapping;
 

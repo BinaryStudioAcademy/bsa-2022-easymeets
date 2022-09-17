@@ -13,3 +13,5 @@ export const isBetweenDates = (moment: Date, periodStart: Date, periodEnd: Date,
 
     return moment > periodStart && moment <= periodEnd;
 };
+
+export const moveByTimezone = (date: Date) => new Date(date.getTime() - date.getTimezoneOffset() * 60000);

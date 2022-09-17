@@ -78,5 +78,12 @@ namespace EasyMeets.Core.WebAPI.Controllers
         {
             return Ok(await _availabilityService.ValidateLinkAsync(id, slotLink));
         }
+
+        [HttpGet("slotPassword")]
+        [AllowAnonymous]
+        public async Task<ActionResult<bool>> ValidateSlotPasswordAsync(string slotLink, string password)
+        {
+            return Ok(await _availabilityService.ValidateSlotPasswordAsync(slotLink, password));
+        }
     }
 }
