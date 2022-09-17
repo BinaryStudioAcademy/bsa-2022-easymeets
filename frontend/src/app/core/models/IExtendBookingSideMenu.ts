@@ -3,6 +3,7 @@ import { TZone } from 'moment-timezone-picker';
 
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
 import { IExternalUser } from './IExternalUser';
+import { IQuestion } from './IQuestion';
 import { ITeam } from './ITeam';
 
 export interface IExternalBookingSideMenu {
@@ -29,4 +30,6 @@ export interface IExternalBookingSideMenu {
     teamId?: bigint;
 
     timeZone?: TZone;
+
+    questions: IQuestion[];
 }

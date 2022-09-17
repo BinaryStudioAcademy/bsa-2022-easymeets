@@ -72,6 +72,7 @@
             </app-external-booking-choose-time-page>
             <app-external-booking-confirm-page
                 *ngIf="isConfirmBookingRoute()"
+                [questions]="menu.questions"
                 (confirmBooking)="confirmBookingByExternalAttendee($event)"
                 (cancelBooking)="removeDateAndTime($event)">
             </app-external-booking-confirm-page>

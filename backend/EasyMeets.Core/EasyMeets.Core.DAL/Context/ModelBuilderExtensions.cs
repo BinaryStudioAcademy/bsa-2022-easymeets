@@ -1,7 +1,6 @@
 ﻿using Bogus;
 using Bogus.Extensions;
 using EasyMeets.Core.Common.Enums;
-using EasyMeets.Core.DAL.Context.EntityConfigurations;
 using EasyMeets.Core.DAL.Entities;
 using EasyMeets.Core.DAL.Entities.Interface;
 using Microsoft.EntityFrameworkCore;

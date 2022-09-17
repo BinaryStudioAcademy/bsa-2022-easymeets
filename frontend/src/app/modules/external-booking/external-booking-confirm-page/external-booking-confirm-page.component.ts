@@ -1,68 +1,66 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { BaseComponent } from '@core/base/base.component';
+import {
+    userEmailPlaceHolder,
+    userEmailQuestionText,
+    userFullNamePlaceHolder,
+    userFullNameQuestionText,
+} from '@core/helpers/questions-mandatory-helper';
 import { removeExcessiveSpaces } from '@core/helpers/string-helper';
-import { IExternalAnswers } from '@core/models/IExternalAnswers';
-import { emailRegex, textFieldRegex, userNameRegex } from '@shared/constants/model-validation';
-import { invalidCharactersMessage } from '@shared/constants/shared-messages';
+import { IQuestion } from '@core/models/IQuestion';
+import { emailRegex, textFieldRegex } from '@shared/constants/model-validation';
 
 @Component({
     selector: 'app-external-booking-confirm-page',
     templateUrl: './external-booking-confirm-page.component.html',
     styleUrls: ['./external-booking-confirm-page.component.sass'],
 })
-export class ExternalBookingConfirmPageComponent implements OnInit {
-    @Output() confirmBooking = new EventEmitter<IExternalAnswers>();
+export class ExternalBookingConfirmPageComponent extends BaseComponent implements OnInit {
+    @Output() confirmBooking = new EventEmitter<IQuestion[]>();
 
     @Output() cancelBooking = new EventEmitter<boolean>();
 
+    @Input() questions: IQuestion[];
+
+    public textFieldRegex = textFieldRegex;
+
+    public emailPattern = emailRegex;
+
+    public fullNameText = userFullNameQuestionText;
+
+    public fullNamePlaceHolder = userFullNamePlaceHolder;
+
+    public emailText = userEmailQuestionText;
+
+    public emailPlaceHolder = userEmailPlaceHolder;
+
+    public additionalQuestions: IQuestion[];
+
     ngOnInit(): void {
-        this.externalAnswers = {
-            externalName: '',
-            externalEmail: '',
-            externalExtraInfo: '',
-        };
-    }
-
-    public confirmForm = new FormGroup({
-        characters: new FormControl('', [
-            Validators.pattern(userNameRegex),
-            Validators.minLength(2),
-            Validators.maxLength(50),
-            Validators.required,
-        ]),
-        email: new FormControl('', [Validators.email, Validators.required, Validators.pattern(emailRegex)]),
-        extraInfo: new FormControl('', [
-            Validators.minLength(3),
-            Validators.maxLength(80),
-            Validators.pattern(textFieldRegex),
-        ]),
-    });
-
-    get characters() {
-        return this.confirmForm.get('characters');
-    }
-
-    get email() {
-        return this.confirmForm.get('email');
-    }
-
-    get extraInfo() {
-        return this.confirmForm.get('extraInfo');
+        this.getAdditionalQuestion(this.questions);
     }
 
     OnConfirmBooking() {
-        this.confirmBooking.emit(this.externalAnswers);
+        this.addAnswers();
+        this.confirmBooking.emit(this.questions);
     }
 
-    public externalAnswers: IExternalAnswers;
-
-    invalidCharactersMessage = invalidCharactersMessage;
-
-    public userNameChanged(value: string) {
-        this.confirmForm.patchValue({ characters: removeExcessiveSpaces(value) });
+    public trimInputValue(control: FormControl) {
+        control.patchValue(removeExcessiveSpaces(control.value));
     }
 
-    public extraInfoChanged(value: string) {
-        this.confirmForm.patchValue({ extraInfo: removeExcessiveSpaces(value) });
+    private getAdditionalQuestion(questions: IQuestion[]) {
+        this.additionalQuestions = questions.filter((x) => !x.isMandatory);
+    }
+
+    private addAnswers() {
+        this.questions.forEach((question) => {
+            if (!question.isMandatory) {
+                question.answer = this.additionalQuestions.find(
+                    (x) => x.questionText === question.questionText,
+                )?.answer!;
+            }
+        });
     }
 }

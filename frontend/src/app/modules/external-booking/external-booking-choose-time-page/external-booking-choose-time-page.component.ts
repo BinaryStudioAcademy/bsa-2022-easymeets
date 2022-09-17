@@ -6,6 +6,7 @@ import { changeScheduleItemsDate } from '@core/helpers/schedule-items-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ICalendarWeek } from '@core/models/ICalendarWeek';
 import { IOrderedMeetingTimes } from '@core/models/IOrderedMeetingTimes';
+import { IQuestion } from '@core/models/IQuestion';
 import { IScheduleItemReceive } from '@core/models/schedule/IScheduleItemsReceive';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { NewMeetingService } from '@core/services/new-meeting.service';
@@ -30,6 +31,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         duration: number;
         location: LocationType;
         meetingRoom?: string;
+        questions: IQuestion[];
         name: string;
     }>();
 
@@ -88,6 +90,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
                     this.slot!.size,
                     this.slot!.locationType,
                     this.slot!.name,
+                    this.slot!.questions,
                     this.slot!.meetingRoom,
                 );
                 this.getOrderedTimes(this.slot!.id);
@@ -243,8 +246,24 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         );
     }
 
-    addSlotInfo(slotId: bigint, teamId: bigint | undefined, duration: number, location: LocationType, name: string, meetingRoom?: string) {
-        this.selectedDurationAndLocationEvent.emit({ slotId, teamId, duration, location, name, meetingRoom });
+    addSlotInfo(
+        slotId: bigint,
+        teamId: bigint | undefined,
+        duration: number,
+        location: LocationType,
+        name: string,
+        questions: IQuestion[],
+        meetingRoom?: string,
+    ) {
+        this.selectedDurationAndLocationEvent.emit({
+            slotId,
+            teamId,
+            duration,
+            location,
+            name,
+            questions,
+            meetingRoom,
+        });
     }
 
     redirectToChooseMeeting() {
