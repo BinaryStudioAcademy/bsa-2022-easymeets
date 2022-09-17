@@ -340,6 +340,7 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(slot => slot.SlotMembers)
                     .ThenInclude(slot => slot.Schedule)
                         .ThenInclude(s => s.ScheduleItems)
+                .Include(slot => slot.AdvancedSlotSettings)
                 .FirstOrDefaultAsync(s => s.Link == link);
         }
 
