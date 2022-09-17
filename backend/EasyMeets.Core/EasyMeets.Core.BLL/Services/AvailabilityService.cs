@@ -182,7 +182,7 @@ namespace EasyMeets.Core.BLL.Services
 
             foreach (var member in updateAvailabilityDto.SlotMembers)
             {
-                member.ScheduleId = availabilitySlot.SlotMembers.First().ScheduleId;
+                member.ScheduleId = availabilitySlot.SlotMembers.First(m => m.MemberId == availabilitySlot.CreatedBy).ScheduleId;
             }
 
             _mapper.Map(updateAvailabilityDto, availabilitySlot);
