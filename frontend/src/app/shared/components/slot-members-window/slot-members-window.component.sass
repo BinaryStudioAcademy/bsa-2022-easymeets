@@ -1,12 +1,38 @@
+@import "src/styles/color-variables"
+
+*
+    box-sizing: border-box
+
 .container
-    width: 480px
+    width: 400px
+
+.title-label
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 900
+    font-size: 22px
+    line-height: 146%
+    margin-bottom: 30px
 
 .selection-info, .buttons-block
     display: flex
     justify-content: space-between
 
+.selection-info
+    height: 52px
+    align-items: center
+
 .deselect-wrapper
     display: flex
+    align-items: center
+
+.member-wrapper
+    display: flex
+    justify-content: flex-start
+    align-items: center
+    gap: 10px
+    border-bottom: 1px solid $loblolly
+    padding: 12px
 
 .bookers-wrapper
     display: flex
@@ -14,6 +40,23 @@
 .selection-block
     height: 320px
     overflow-y: auto
+    display: flex
+    flex-direction: column
+    gap: 10px
+
+.filter-form-field
+    height: 33px
+    color: $dark-gray
+    font-size: 15px
+    background: $white
+    border: 2px solid $loblolly
+    border-radius: 8px
+    padding-left: 5px
+    align-items: center
+    width: 100%
+    margin: 0
+    .search-icon
+        margin-top: 3px
 
 .avatar
     width: 40px
@@ -23,3 +66,17 @@
 ::ng-deep .member-wrapper
     .mat-checkbox-checked.mat-primary .mat-checkbox-background
         background-color: black !important
+
+::ng-deep .buttons-block
+    padding-top: 20px
+    .mat-flat-button
+        border-radius: 24px
+        width: 180px
+        height: 48px
+    .cancel-button.mat-flat-button
+        background: $white
+        border: 1px solid $nepal
+        color: $midnight
+    .add-button.mat-flat-button
+        color: $white
+        background: $midnight

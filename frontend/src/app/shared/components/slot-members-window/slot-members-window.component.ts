@@ -67,4 +67,8 @@ export class SlotMembersWindowComponent extends BaseComponent {
     public deselect() {
         this.selectedMembers = [];
     }
+
+    public isSelected(member: ISlotMember) {
+        return this.selectedMembers.some(m => m.memberId === member.memberId);
+    }
 }

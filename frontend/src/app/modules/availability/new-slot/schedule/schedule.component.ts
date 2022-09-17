@@ -95,6 +95,12 @@ export class ScheduleComponent extends BaseComponent {
         this.slotMembers = this.slotMembers.filter(m => m.memberId !== member.memberId);
     }
 
+    withMembersChange() {
+        if (!this.withTeamMembers) {
+            this.slotMembers = [this.defaultMember];
+        }
+    }
+
     public openAddMembers() {
         this.confirmationService.openSlotMembersDialog({
             alreadySelected: this.slotMembers,

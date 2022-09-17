@@ -37,8 +37,8 @@
                 </mat-radio-group>
             </div>
         </div>
-        <app-schedule-definition *ngIf="!schedule.definedExternally" [schedule]="schedule" [changeEvent]="changeEvent"></app-schedule-definition>
-        <div *ngIf="schedule.definedExternally" class="external-definition-container">
+        <app-schedule-definition [ngClass]="{ 'full-size': !withTeamMembers}" *ngIf="!schedule.definedExternally" [schedule]="schedule" [changeEvent]="changeEvent"></app-schedule-definition>
+        <div [ngClass]="{ 'full-size': !withTeamMembers}" *ngIf="schedule.definedExternally" class="external-definition-container">
             <p class="description">Link for defining Shedule and  Availability Slots</p>
             <div class="link-container">
                 <img src="assets/copy_icon.png" class="copy-button" (click)="saveLink()">
@@ -52,7 +52,7 @@
     </div>
     <div class="buttons-container">
         <div class="toggle-container">
-            <mat-slide-toggle [(ngModel)]="withTeamMembers"></mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="withTeamMembers" (ngModelChange)="withMembersChange()"></mat-slide-toggle>
             <p>Add Team Members</p>
         </div>
         <div class="toggle-container">
