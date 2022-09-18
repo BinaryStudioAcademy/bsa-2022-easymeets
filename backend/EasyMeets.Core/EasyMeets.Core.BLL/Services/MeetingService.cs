@@ -267,7 +267,7 @@ namespace EasyMeets.Core.BLL.Services
             return new EmailDto()
             {
                 Subject = $"New Event: {meeting.Name} - {meeting.StartTime} - {meeting.LocationType}",
-                Body = $"Hi, {member} !\n\n" +
+                Body = $"Hi, {member}!\n\n" +
                 $"A new event has been scheduled.\n" +
                 $"Event Type: {meeting.LocationType}\n" +
                 $"Invitee: {meeting.Author.Name}\n" +
