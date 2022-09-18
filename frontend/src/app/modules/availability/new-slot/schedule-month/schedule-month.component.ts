@@ -1,23 +1,21 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
 import { CustomCalendarDateFormatter } from '@core/helpers/custom-calendar-date-formatter.provider';
+import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
+import { FindSameExclusionDateHelper } from '@core/helpers/find-same-exclusion-date-helper';
 import { TimeRangesMergeHelper } from '@core/helpers/time-ranges-merge-helper';
+import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
+import { ISchedule } from '@core/models/schedule/ISchedule';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 import {
     ExclusionDatesPickerComponent,
 } from '@modules/exclusion-dates/exclusion-dates-picker/exclusion-dates-picker.component';
-import { WeekDay } from '@shared/enums/weekDay';
 import {
     CalendarDateFormatter,
-    CalendarEvent,
-    CalendarEventTimesChangedEvent,
-    CalendarMonthViewDay,
 } from 'angular-calendar';
-import { addHours, addMinutes, isSameDay, setDay, startOfDay } from 'date-fns';
-import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-schedule-month',
@@ -30,10 +28,15 @@ import { Subject } from 'rxjs';
         },
     ],
 })
-export class ScheduleMonthComponent extends BaseComponent implements OnInit {
+
+export class ScheduleMonthComponent extends BaseComponent {
     @Input() items: IScheduleItem[];
 
-    @Input() itemChange: EventEmitter<void> = new EventEmitter();
+    @Input() set schedule(value: ISchedule | undefined) {
+        this.scheduleValue = value ?? getDefaultSchedule(false);
+    }
+
+    scheduleValue: ISchedule;
 
     viewDate: Date = new Date();
 
@@ -41,112 +44,27 @@ export class ScheduleMonthComponent extends BaseComponent implements OnInit {
         super();
     }
 
-    events: CalendarEvent[];
+    getWeekScheduleTime(date: string): string[] {
+        const weekDay = this.getWeekDay(new Date(date));
+        const scheduleItems = this.items.filter(item => item.weekDay === weekDay && item.isEnabled)
+            .map(item => `${item.start.substring(0, 5)}-${item.end.substring(0, 5)}`);
 
-    refresh = new Subject<void>();
-
-    ngOnInit(): void {
-        this.updateEvents();
-
-        this.itemChange
-            .pipe(this.untilThis)
-            .subscribe(() => {
-                this.updateEvents();
-            });
+        return scheduleItems;
     }
 
-    getWeekScheduleTime(date: Date): string | null {
-        const weekDay = this.getWeekDay(date);
-        const scheduleItems = this.items.filter(item => item.weekDay === weekDay && item.isEnabled);
+    getScheduleTime(date: string): string[] {
+        const scheduleItems = this.scheduleValue.exclusionDates
+            .filter(item => this.compareDate(item.selectedDate, new Date(date)))
+            .flatMap(a => a.dayTimeRanges)
+            .map(item => `${item.start.substring(0, 5)}-${item.end.substring(0, 5)}`);
 
-        if (scheduleItems.length === 0) {
-            return null;
-        }
-
-        return `${scheduleItems[0].start.substring(0, 5)}-${scheduleItems[0].end.substring(0, 5)}`;
+        return scheduleItems;
     }
 
-    eventTimesChanged(changedEvent: CalendarEventTimesChangedEvent): void {
-        changedEvent.event.start = this.dateTimeFloor(changedEvent.newStart);
-        changedEvent.event.end = this.dateTimeFloor(changedEvent.newEnd!);
-
-        const item = this.items.find(i => i.weekDay === changedEvent.event.id);
-
-        if (item) {
-            item.start = this.timeToString(changedEvent.event.start);
-            item.end = this.timeToString(changedEvent.event.end!);
-            this.itemChange.emit();
-            this.refresh.next();
-        }
-    }
-
-    validateEventTimesChanged = (changedEvent: CalendarEventTimesChangedEvent) => {
-        if (changedEvent.newEnd) {
-            delete changedEvent.event.cssClass;
-            const sameDay = isSameDay(changedEvent.newStart, changedEvent.newEnd);
-
-            if (!sameDay) {
-                return false;
-            }
-        }
-
-        return true;
-    };
-
-    private updateEvents() {
-        this.events = this.items
-            .filter(item => item.isEnabled)
-            .map((item) => ({
-                start: this.createDate(item.weekDay, item.start),
-                end: this.createDate(item.weekDay, item.end),
-                title: '',
-                resizable: {
-                    beforeStart: true,
-                    afterEnd: true,
-                },
-                id: item.weekDay,
-            }));
-        this.refresh.next();
-    }
-
-    private createDate(weekDay: WeekDay, hours: string): Date {
-        return addMinutes(addHours(
-            startOfDay(setDay(new Date(), Object.keys(WeekDay).indexOf(weekDay))),
-            this.parseTime(hours).getHours(),
-        ), this.parseTime(hours).getMinutes());
-    }
-
-    private parseTime(time: string): Date {
-        const d = new Date();
-        const [hours, minutes, seconds] = time.split(':');
-
-        d.setHours(+hours);
-        d.setMinutes(+minutes);
-        d.setSeconds(+seconds);
-
-        return d;
-    }
-
-    private dateTimeFloor(now: Date): Date {
-        const stepFloor = 300000;
-
-        return new Date(Math.floor(new Date(now).getTime() / stepFloor) * stepFloor);
-    }
-
-    private timeToString(date: Date): string {
-        return this.datePipe.transform(date, 'HH:mm:ss') ?? '';
-    }
-
-    private getWeekDay(date: Date): string {
-        return this.datePipe.transform(date, 'EEEE') ?? '';
-    }
-
-    beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
-        body.forEach((day) => {
-            day.badgeTotal = day.events.filter(
-                (event) => event.meta.incrementsBadgeTotal,
-            ).length;
-        });
+    resetToDefault(date: string) {
+        this.scheduleValue.exclusionDates = this.scheduleValue.exclusionDates.filter(
+            (value) => !this.compareDate(value.selectedDate, new Date(date)),
+        );
     }
 
     showExclusionDatesWindow() {
@@ -155,13 +73,44 @@ export class ScheduleMonthComponent extends BaseComponent implements OnInit {
             .afterClosed()
             .subscribe((newExclusionDate) => {
                 if (newExclusionDate) {
-                    // this.sortDayTimeRanges(newExclusionDate.dayTimeRanges);
+                    this.sortDayTimeRanges(newExclusionDate.dayTimeRanges);
                     newExclusionDate.dayTimeRanges = TimeRangesMergeHelper(newExclusionDate.dayTimeRanges);
 
-                    // if (!this.mergeExistingExclusionDates(newExclusionDate)) {
-                    //     this.scheduleValue.exclusionDates = [...this.scheduleValue.exclusionDates, newExclusionDate];
-                    // }
+                    if (!this.mergeExistingExclusionDates(newExclusionDate)) {
+                        this.scheduleValue.exclusionDates = [...this.scheduleValue.exclusionDates, newExclusionDate];
+                    }
                 }
             });
+    }
+
+    private mergeExistingExclusionDates(newExclusionDate: IExclusionDate) {
+        const sameDate = FindSameExclusionDateHelper(this.scheduleValue.exclusionDates, newExclusionDate);
+
+        if (sameDate) {
+            sameDate.dayTimeRanges = this.sortDayTimeRanges([
+                ...sameDate.dayTimeRanges,
+                ...newExclusionDate.dayTimeRanges,
+            ]);
+            sameDate.dayTimeRanges = TimeRangesMergeHelper(sameDate.dayTimeRanges);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private getWeekDay(date: Date): string {
+        return this.datePipe.transform(date, 'EEEE') ?? '';
+    }
+
+    private sortDayTimeRanges(ranges: IDayTimeRange[]) {
+        return ranges.sort((firstRange, secondRange) => firstRange.start.localeCompare(secondRange.start));
+    }
+
+    private compareDate(date1: Date, date2: Date): boolean {
+        date1 = new Date(date1);
+        date2 = new Date(date2);
+
+        return date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate();
     }
 }

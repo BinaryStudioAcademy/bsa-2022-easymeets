@@ -7,7 +7,6 @@
     margin: 0
     padding: 0
 
-
 .cal-cell-top
     margin: 0
     padding: 10px 8px 10px 8px
@@ -29,7 +28,7 @@
         text-underline-color: red !important
         font-weight: 700
 
-p, .more-button
+p, .more-text
     font-size: 12px
     font-weight: 700
     color: $dark-gray
@@ -38,13 +37,13 @@ i
     color: $dark-gray
 
 .cal-content
-    height: calc(100% - 50px)
+    height: 35px
     display: flex
-    align-items: center
+    align-items: flex-start
     flex-direction: column
     justify-content: flex-start
-    padding: 5px
-
+    padding: 5px 5px 5px 10px
+    overflow: clip
 
 ::ng-deep .cal-month-view
     .cal-header
@@ -52,19 +51,15 @@ i
             color: $dark-gray
             padding: 25px 0 10px 0
 
-.more-button
+.more-text
     display: flex
     align-items: center
     height: 100%
     width: 100%
+    padding-left: 10px
 
 .menu-trigger:hover
     height: 100%
     width: 100%
     cursor: pointer
-
-::ng-deep.mat-menu-panel
-    margin-top: -100px
-
-
 
