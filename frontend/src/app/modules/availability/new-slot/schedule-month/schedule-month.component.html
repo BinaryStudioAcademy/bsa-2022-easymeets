@@ -1,21 +1,22 @@
 <ng-template #customCellTemplate let-day="day">
     <div class="menu-trigger" [matMenuTriggerFor]="menu">
         <div class="cal-cell-top">
-            <span class="cal-day-number">{{ day.date | date :"d" }}{{ day.date | date :'EEEE'}}</span>
+            <span class="cal-day-number">{{ day.date | date :"d" }}</span>
             <i class="fa-solid fa-repeat"></i>
         </div>
         <div class="cal-content">
             <div>
+                <p *ngIf="!getWeekScheduleTime(day.date)">Unavailable</p>
                 <p *ngIf="getWeekScheduleTime(day.date)">{{getWeekScheduleTime(day.date)}}</p>
-                <p>07:30-08:30</p>
+                <!--                <p>07:30-08:30</p>-->
             </div>
-            <div class="more-button">
-                + 3more...
-            </div>
+<!--            <div class="more-button">-->
+<!--                + 3more...-->
+<!--            </div>-->
         </div>
         <div class="schedule-month-drop-down-menu">
             <mat-menu #menu="matMenu" class="schedule-month-drop-down-menu">
-                <button mat-menu-item class="btn edit">
+                <button mat-menu-item class="btn edit" (click)="showExclusionDatesWindow()">
                     <i class="fa-solid fa-pen"></i>Edit date(s)
                 </button>
                 <button mat-menu-item class="btn share">

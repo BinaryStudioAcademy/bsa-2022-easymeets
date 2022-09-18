@@ -1,8 +1,14 @@
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
 import { CustomCalendarDateFormatter } from '@core/helpers/custom-calendar-date-formatter.provider';
+import { TimeRangesMergeHelper } from '@core/helpers/time-ranges-merge-helper';
+import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
+import {
+    ExclusionDatesPickerComponent,
+} from '@modules/exclusion-dates/exclusion-dates-picker/exclusion-dates-picker.component';
 import { WeekDay } from '@shared/enums/weekDay';
 import {
     CalendarDateFormatter,
@@ -31,7 +37,7 @@ export class ScheduleMonthComponent extends BaseComponent implements OnInit {
 
     viewDate: Date = new Date();
 
-    constructor(private datePipe: DatePipe) {
+    constructor(private dialog: MatDialog, private datePipe: DatePipe) {
         super();
     }
 
@@ -141,5 +147,21 @@ export class ScheduleMonthComponent extends BaseComponent implements OnInit {
                 (event) => event.meta.incrementsBadgeTotal,
             ).length;
         });
+    }
+
+    showExclusionDatesWindow() {
+        this.dialog
+            .open<ExclusionDatesPickerComponent, IExclusionDate, IExclusionDate | undefined>(ExclusionDatesPickerComponent)
+            .afterClosed()
+            .subscribe((newExclusionDate) => {
+                if (newExclusionDate) {
+                    // this.sortDayTimeRanges(newExclusionDate.dayTimeRanges);
+                    newExclusionDate.dayTimeRanges = TimeRangesMergeHelper(newExclusionDate.dayTimeRanges);
+
+                    // if (!this.mergeExistingExclusionDates(newExclusionDate)) {
+                    //     this.scheduleValue.exclusionDates = [...this.scheduleValue.exclusionDates, newExclusionDate];
+                    // }
+                }
+            });
     }
 }
