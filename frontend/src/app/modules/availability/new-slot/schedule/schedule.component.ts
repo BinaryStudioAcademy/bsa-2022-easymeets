@@ -86,16 +86,16 @@ export class ScheduleComponent extends BaseComponent {
         return `${environment.appUrl}/slotdefining/${this.slotLink}`;
     }
 
-    saveLink() {
+    public saveLink() {
         this.clipboard.copy(this.getDefinitionLink());
         this.notificationsService.showSuccessMessage('Link copied to clipboard');
     }
 
-    removeMember(member: ISlotMember) {
+    public removeMember(member: ISlotMember) {
         this.slotMembers = this.slotMembers.filter(m => m.memberId !== member.memberId);
     }
 
-    withMembersChange() {
+    public withMembersChange() {
         if (!this.withTeamMembers) {
             this.slotMembers = [this.defaultMember];
         }

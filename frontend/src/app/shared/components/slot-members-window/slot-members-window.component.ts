@@ -1,17 +1,18 @@
-import { Component, Inject } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
 import { ISlotMember } from '@core/models/save-availability-slot/ISlotMember';
 import { TeamService } from '@core/services/team.service';
 import { ConfirmationWindowComponent } from '@shared/components/confirmation-window/confirmation-window.component';
 import { ISlotMemberDialogData } from '@shared/models/ISlotMemberDialogData';
+import {ITeamMember} from "@core/models/ITeamMember";
 
 @Component({
     selector: 'app-slot-members-window',
     templateUrl: './slot-members-window.component.html',
     styleUrls: ['./slot-members-window.component.sass'],
 })
-export class SlotMembersWindowComponent extends BaseComponent {
+export class SlotMembersWindowComponent extends BaseComponent implements OnInit {
     public filterValue = '';
 
     public selectedMembers: ISlotMember[] = [];
@@ -30,13 +31,6 @@ export class SlotMembersWindowComponent extends BaseComponent {
         super();
         this.alreadySelected = data.alreadySelected;
         this.teamId = data.teamId;
-        this.teamService.getTeamMembers(this.teamId)
-            .pipe(this.untilThis)
-            .subscribe(members => {
-                this.filteredMembers = members
-                    .map(member => ({ priority: 1, memberId: member.userId, name: member.name, email: member.email, image: member.image }))
-                    .filter(member => !this.alreadySelected.some(m => m.memberId === member.memberId));
-            });
     }
 
     public onAddClick() {
@@ -70,5 +64,25 @@ export class SlotMembersWindowComponent extends BaseComponent {
 
     public isSelected(member: ISlotMember) {
         return this.selectedMembers.some(m => m.memberId === member.memberId);
+    }
+
+    public ngOnInit(): void {
+        this.teamService.getTeamMembers(this.teamId)
+            .pipe(this.untilThis)
+            .subscribe(members => {
+                this.filteredMembers = this.getNotAdded(members);
+            });
+    }
+
+    private getNotAdded(members: ITeamMember[]) {
+        return members
+            .map(member => ({
+                priority: 1,
+                memberId: member.userId,
+                name: member.name,
+                email: member.email,
+                image: member.image,
+            }))
+            .filter(member => !this.alreadySelected.some(m => m.memberId === member.memberId));
     }
 }
