@@ -1,28 +1,28 @@
-<ng-template #customCellTemplate let-day="day" let-locale="locale">
-    <div class="menu-trigger" [matMenuTriggerFor]="menu" >
+<ng-template #customCellTemplate let-day="day">
+    <div class="menu-trigger" [matMenuTriggerFor]="menu">
         <div class="cal-cell-top">
-            <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span><i
-            class="fa-solid fa-repeat"></i>
+            <span class="cal-day-number">{{ day.date | date :"d" }}{{ day.date | date :'EEEE'}}</span>
+            <i class="fa-solid fa-repeat"></i>
         </div>
         <div class="cal-content">
             <div>
-                <p>07:30-08:30</p>
+                <p *ngIf="getWeekScheduleTime(day.date)">{{getWeekScheduleTime(day.date)}}</p>
                 <p>07:30-08:30</p>
             </div>
             <div class="more-button">
                 + 3more...
             </div>
         </div>
-        <div class="drop-down-menu">
-            <mat-menu  #menu="matMenu" class="drop-down-menu">
+        <div class="schedule-month-drop-down-menu">
+            <mat-menu #menu="matMenu" class="schedule-month-drop-down-menu">
                 <button mat-menu-item class="btn edit">
                     <i class="fa-solid fa-pen"></i>Edit date(s)
                 </button>
                 <button mat-menu-item class="btn share">
-                    <i class="fa-solid fa-arrow-up-from-bracket"></i>Edit all Sturdays
+                    <i class="fa-solid fa-repeat"></i>Edit all Sturdays
                 </button>
                 <button mat-menu-item class="btn delete">
-                    <i class="fa-solid fa-trash"></i>Reset to Default
+                    <i class="fa-solid fa-rotate-right"></i>Reset to Default
                 </button>
             </mat-menu>
         </div>

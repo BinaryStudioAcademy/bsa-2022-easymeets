@@ -1,6 +1,17 @@
-import { Component } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { BaseComponent } from '@core/base/base.component';
 import { CustomCalendarDateFormatter } from '@core/helpers/custom-calendar-date-formatter.provider';
-import { CalendarDateFormatter, CalendarEvent, CalendarMonthViewDay } from 'angular-calendar';
+import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
+import { WeekDay } from '@shared/enums/weekDay';
+import {
+    CalendarDateFormatter,
+    CalendarEvent,
+    CalendarEventTimesChangedEvent,
+    CalendarMonthViewDay,
+} from 'angular-calendar';
+import { addHours, addMinutes, isSameDay, setDay, startOfDay } from 'date-fns';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-schedule-month',
@@ -13,25 +24,116 @@ import { CalendarDateFormatter, CalendarEvent, CalendarMonthViewDay } from 'angu
         },
     ],
 })
-export class ScheduleMonthComponent {
+export class ScheduleMonthComponent extends BaseComponent implements OnInit {
+    @Input() items: IScheduleItem[];
+
+    @Input() itemChange: EventEmitter<void> = new EventEmitter();
+
     viewDate: Date = new Date();
 
-    events: CalendarEvent<{ incrementsBadgeTotal: boolean }>[] = [
-        {
-            title: 'Increments badge total on the day cell',
-            start: new Date(),
-            meta: {
-                incrementsBadgeTotal: true,
-            },
-        },
-        {
-            title: 'Does not increment the badge total on the day cell',
-            start: new Date(),
-            meta: {
-                incrementsBadgeTotal: false,
-            },
-        },
-    ];
+    constructor(private datePipe: DatePipe) {
+        super();
+    }
+
+    events: CalendarEvent[];
+
+    refresh = new Subject<void>();
+
+    ngOnInit(): void {
+        this.updateEvents();
+
+        this.itemChange
+            .pipe(this.untilThis)
+            .subscribe(() => {
+                this.updateEvents();
+            });
+    }
+
+    getWeekScheduleTime(date: Date): string | null {
+        const weekDay = this.getWeekDay(date);
+        const scheduleItems = this.items.filter(item => item.weekDay === weekDay && item.isEnabled);
+
+        if (scheduleItems.length === 0) {
+            return null;
+        }
+
+        return `${scheduleItems[0].start.substring(0, 5)}-${scheduleItems[0].end.substring(0, 5)}`;
+    }
+
+    eventTimesChanged(changedEvent: CalendarEventTimesChangedEvent): void {
+        changedEvent.event.start = this.dateTimeFloor(changedEvent.newStart);
+        changedEvent.event.end = this.dateTimeFloor(changedEvent.newEnd!);
+
+        const item = this.items.find(i => i.weekDay === changedEvent.event.id);
+
+        if (item) {
+            item.start = this.timeToString(changedEvent.event.start);
+            item.end = this.timeToString(changedEvent.event.end!);
+            this.itemChange.emit();
+            this.refresh.next();
+        }
+    }
+
+    validateEventTimesChanged = (changedEvent: CalendarEventTimesChangedEvent) => {
+        if (changedEvent.newEnd) {
+            delete changedEvent.event.cssClass;
+            const sameDay = isSameDay(changedEvent.newStart, changedEvent.newEnd);
+
+            if (!sameDay) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    private updateEvents() {
+        this.events = this.items
+            .filter(item => item.isEnabled)
+            .map((item) => ({
+                start: this.createDate(item.weekDay, item.start),
+                end: this.createDate(item.weekDay, item.end),
+                title: '',
+                resizable: {
+                    beforeStart: true,
+                    afterEnd: true,
+                },
+                id: item.weekDay,
+            }));
+        this.refresh.next();
+    }
+
+    private createDate(weekDay: WeekDay, hours: string): Date {
+        return addMinutes(addHours(
+            startOfDay(setDay(new Date(), Object.keys(WeekDay).indexOf(weekDay))),
+            this.parseTime(hours).getHours(),
+        ), this.parseTime(hours).getMinutes());
+    }
+
+    private parseTime(time: string): Date {
+        const d = new Date();
+        const [hours, minutes, seconds] = time.split(':');
+
+        d.setHours(+hours);
+        d.setMinutes(+minutes);
+        d.setSeconds(+seconds);
+
+        return d;
+    }
+
+    private dateTimeFloor(now: Date): Date {
+        const stepFloor = 300000;
+
+        return new Date(Math.floor(new Date(now).getTime() / stepFloor) * stepFloor);
+    }
+
+    private timeToString(date: Date): string {
+        return this.datePipe.transform(date, 'HH:mm:ss') ?? '';
+    }
+
+    private getWeekDay(date: Date): string {
+        return this.datePipe.transform(date, 'EEEE') ?? '';
+    }
 
     beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
         body.forEach((day) => {
