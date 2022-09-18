@@ -1,11 +1,11 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
+import { ITeamMember } from '@core/models/ITeamMember';
 import { ISlotMember } from '@core/models/save-availability-slot/ISlotMember';
 import { TeamService } from '@core/services/team.service';
 import { ConfirmationWindowComponent } from '@shared/components/confirmation-window/confirmation-window.component';
 import { ISlotMemberDialogData } from '@shared/models/ISlotMemberDialogData';
-import {ITeamMember} from "@core/models/ITeamMember";
 
 @Component({
     selector: 'app-slot-members-window',
