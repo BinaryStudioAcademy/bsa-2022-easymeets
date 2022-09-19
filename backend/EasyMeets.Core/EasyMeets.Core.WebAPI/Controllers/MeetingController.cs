@@ -35,7 +35,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         {
             return Ok(await _teamService.GetTeamMembersByNameAsync(searchName, teamId));
         }
-
+        
         [HttpGet]
         [Route("getTeamMembersById/{userId}/{teamId}")]
         public async Task<ActionResult<NewMeetingMemberDto>> GetTeamMembersByName(long userId, long teamId)

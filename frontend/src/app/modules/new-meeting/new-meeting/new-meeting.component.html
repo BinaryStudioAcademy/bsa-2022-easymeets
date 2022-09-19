@@ -129,10 +129,9 @@
                         <div *ngFor="let member of addedMembers">
                             <div class="member-info">
                                 <p>{{ member.name }}</p>
-                                <i
-                                    class="fa-solid fa-xmark fa-lg cancel-icon"
-                                    *ngIf="currentMemberId !== member.id"
-                                    (click)="removeMemberToList(member)"></i>
+                                <i class="fa-solid fa-xmark fa-lg cancel-icon"
+                                *ngIf="currentMemberId !== member.id"
+                                (click)="removeMemberToList(member)"></i>
                             </div>
                             <mat-divider></mat-divider>
                         </div>

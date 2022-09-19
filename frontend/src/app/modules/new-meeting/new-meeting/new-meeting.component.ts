@@ -282,6 +282,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             .pipe(this.untilThis)
             .subscribe((resp) => {
                 this.addMemberToList(resp);
+
                 this.currentMemberId = resp.id;
             });
     }
