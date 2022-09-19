@@ -11,29 +11,36 @@ export const getDisplayDuration = (): IDuration[] => [
     { time: 'Custom' },
 ];
 
-export const getDefaultInputSettings = (): IInputSettings[] => [
-    {
+export const getInputSettings = (): { [type: string]: IInputSettings } => {
+    const inputValues: { [type: string]: IInputSettings } = {};
+
+    inputValues[InputFieldType.Duration] = {
         durationValue: getDisplayDuration()[0],
         inputType: InputFieldType.Duration,
         isCustom: false,
         inputValue: '',
-    },
-    {
+    };
+
+    inputValues[InputFieldType.Frequency] = {
         durationValue: getDisplayDuration()[0],
         inputType: InputFieldType.Frequency,
         isCustom: false,
         inputValue: '',
-    },
-    {
+    };
+
+    inputValues[InputFieldType.Padding] = {
         durationValue: getDisplayDuration()[0],
         inputType: InputFieldType.Padding,
         isCustom: false,
         inputValue: '',
-    },
-    {
+    };
+
+    inputValues[InputFieldType.MinBookTime] = {
         durationValue: getDisplayDuration()[0],
         inputType: InputFieldType.MinBookTime,
         isCustom: false,
         inputValue: '',
-    },
-];
+    };
+
+    return inputValues;
+};

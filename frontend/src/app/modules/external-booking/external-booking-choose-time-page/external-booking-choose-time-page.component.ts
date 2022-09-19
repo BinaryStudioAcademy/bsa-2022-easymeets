@@ -104,33 +104,46 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
             .subscribe((resp) => {
                 this.slot = resp;
                 this.showSlotPasswordDialog();
-                this.addSlotInfo(
-                    this.slot!.id,
-                    this.slot!.teamId,
-                    this.slot!.size,
-                    this.slot!.locationType,
-                    this.slot!.name,
-                    this.slot!.meetingRoom,
-                );
-                if (this.slot?.advancedSlotSettings) {
-                    this.activityType = this.slot?.advancedSlotSettings.activityType;
+                if (this.slot) {
+                    this.addSlotInfo(
+                        this.slot.id,
+                        this.slot.teamId,
+                        this.slot.size,
+                        this.slot.locationType,
+                        this.slot.name,
+                        this.slot.meetingRoom,
+                    );
 
-                    const days = this.slot?.advancedSlotSettings.days;
-
-                    if (this.activityType !== ActivityType.Indefinitely) {
-                        this.startDate = new Date(this.slot?.advancedSlotSettings.startDate);
-                        this.finishDate = addDays(this.startDate, days + 1);
-                    }
+                    this.getOrderedTimes(this.slot.id);
+                    this.defineTimeRange();
+                    this.defineSettingsValues();
                 }
-                this.padding = this.slot?.advancedSlotSettings?.paddingMeeting ?? 0;
-                this.getOrderedTimes(this.slot!.id);
-                this.selectedMeetingDuration = this.slot!.size;
-                this.frequency = this.slot?.advancedSlotSettings?.frequency ?? this.selectedMeetingDuration;
-                this.minBookingDifference = this.slot?.advancedSlotSettings?.minBookingMeetingDifference ?? 0;
-                this.scheduleItems = changeScheduleItemsDate(resp!.schedule!.scheduleItems);
-                this.disabledDays = this.scheduleItems.filter((el) => !el.isEnabled).map((el) => WeekDay[el.weekDay]);
-                this.slotsCount = this.slotsCounter();
             });
+    }
+
+    defineTimeRange() {
+        if (this.slot?.advancedSlotSettings) {
+            this.activityType = this.slot?.advancedSlotSettings.activityType;
+
+            const days = this.slot?.advancedSlotSettings.days;
+
+            if (this.activityType !== ActivityType.Indefinitely) {
+                this.startDate = new Date(this.slot?.advancedSlotSettings.startDate);
+                this.finishDate = addDays(this.startDate, days + 1);
+            }
+        }
+    }
+
+    defineSettingsValues() {
+        if (this.slot) {
+            this.padding = this.slot?.advancedSlotSettings?.paddingMeeting ?? 0;
+            this.selectedMeetingDuration = this.slot.size;
+            this.frequency = this.slot.advancedSlotSettings?.frequency ?? this.selectedMeetingDuration;
+            this.minBookingDifference = this.slot?.advancedSlotSettings?.minBookingMeetingDifference ?? 0;
+            this.scheduleItems = changeScheduleItemsDate(this.slot.schedule.scheduleItems);
+            this.disabledDays = this.scheduleItems.filter((el) => !el.isEnabled).map((el) => WeekDay[el.weekDay]);
+            this.slotsCount = this.slotsCounter();
+        }
     }
 
     showSlotPasswordDialog() {
@@ -150,16 +163,20 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
             .subscribe((result) => {
                 this.orderedTimes = result;
 
-                const maxBookingsCount = this.slot?.advancedSlotSettings?.maxNumberOfBookings ?? 0;
-
-                this.isBookingsLimit = maxBookingsCount !== 0 && this.orderedTimes.length >= maxBookingsCount;
-
-                if (this.isBookingsLimit) {
-                    this.notificationService.showInfoMessage(
-                        "The limit on the number of bookings has been reached. You can't book meeting now.",
-                    );
-                }
+                this.checkLimits();
             });
+    }
+
+    private checkLimits() {
+        const maxBookingsCount = this.slot?.advancedSlotSettings?.maxNumberOfBookings ?? 0;
+
+        this.isBookingsLimit = !!maxBookingsCount && this.orderedTimes.length >= maxBookingsCount;
+
+        if (this.isBookingsLimit) {
+            this.notificationService.showInfoMessage(
+                "The limit on the number of bookings has been reached. You can't book meeting now.",
+            );
+        }
     }
 
     public getWeekDate(date: Date, daysToAdd: number) {
@@ -213,7 +230,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         const date = addDays(this.calendarWeek.firstDay, dayIndex);
         const time = addMinutes(
             this.theEarliestStartOfTimeRanges,
-            this.selectedMeetingDuration * timeIndex + this.padding * timeIndex,
+            this.frequency * timeIndex + this.padding * timeIndex,
         );
 
         date.setHours(time.getHours(), time.getMinutes(), time.getSeconds(), time.getMilliseconds());
@@ -282,21 +299,20 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         max.setDate(result.getDate());
         max.setMonth(result.getMonth());
 
-        if (this.activityType !== ActivityType.Indefinitely) {
-            return (
-                result.getTime() >= min.getTime() &&
-                result.getTime() <= max.getTime() &&
-                result.getTime() >= this.startDate?.getTime()! &&
-                result.getTime() <= this.finishDate?.getTime()! &&
-                differenceInMinutes(result, this.nowDate) > this.minBookingDifference
-            );
-        }
-
         return (
             result.getTime() >= min.getTime() &&
             result.getTime() <= max.getTime() &&
+            this.isDateInDefinedRange(result) &&
             differenceInMinutes(result, this.nowDate) > this.minBookingDifference
         );
+    }
+
+    private isDateInDefinedRange(result: Date): boolean {
+        if (this.startDate && this.finishDate) {
+            return result.getTime() >= this.startDate?.getTime() && result.getTime() <= this.finishDate?.getTime();
+        }
+
+        return true;
     }
 
     public isLastDate(date: Date, daysToAdd: number = 0): boolean {

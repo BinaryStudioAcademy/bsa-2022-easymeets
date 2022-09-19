@@ -4,7 +4,7 @@ import { BaseComponent } from '@core/base/base.component';
 import { ActivityType } from '@core/enums/activity-type.enum';
 import { Color } from '@core/enums/color.enum';
 import { SlotType } from '@core/enums/slot-type.enum';
-import { getDefaultInputSettings, getDisplayDuration } from '@core/helpers/display-duration-helper';
+import { getDisplayDuration, getInputSettings } from '@core/helpers/display-duration-helper';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { colorInputs } from '@core/helpers/slot-shadow-helper';
 import { removeExcessiveSpaces } from '@core/helpers/string-helper';
@@ -19,7 +19,7 @@ import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { InputFieldType } from '@shared/enums/custom-field';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
-import { addDays, differenceInDays } from 'date-fns';
+import { addDays, differenceInDays, startOfDay } from 'date-fns';
 
 @Component({
     selector: 'app-general',
@@ -29,8 +29,11 @@ import { addDays, differenceInDays } from 'date-fns';
 export class GeneralComponent extends BaseComponent implements OnInit {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
+
+        const defaultMinutes = this.durations[0].minutes ?? 0;
+
         this.settings = {
-            size: this.slot?.size ?? this.durations[0].minutes!,
+            size: this.slot?.size ?? defaultMinutes,
             isVisible: this.slot?.isVisible ?? false,
             color: this.slot?.color ?? Color.Cyan,
             name: this.slot?.name ?? '',
@@ -41,31 +44,32 @@ export class GeneralComponent extends BaseComponent implements OnInit {
         };
         this.advancedSettings = {
             maxNumberOfBookings: this.slot?.advancedSlotSettings?.maxNumberOfBookings ?? 1,
-            frequency: this.slot?.advancedSlotSettings?.frequency ?? this.durations[0].minutes!,
+            frequency: this.slot?.advancedSlotSettings?.frequency ?? defaultMinutes,
             days: this.slot?.advancedSlotSettings?.days ?? 1,
-            paddingMeeting: this.slot?.advancedSlotSettings?.paddingMeeting ?? this.durations[0].minutes!,
+            paddingMeeting: this.slot?.advancedSlotSettings?.paddingMeeting ?? defaultMinutes,
             activityType: this.slot?.advancedSlotSettings?.activityType ?? this.slotActivityOptionsEnums[0],
-            minBookingMeetingDifference:
-                this.slot?.advancedSlotSettings?.minBookingMeetingDifference ?? this.durations[0].minutes!,
-            startDate: this.slot?.advancedSlotSettings?.startDate ?? new Date(new Date().setHours(0, 0, 0, 0)),
+            minBookingMeetingDifference: this.slot?.advancedSlotSettings?.minBookingMeetingDifference ?? defaultMinutes,
+            startDate: this.slot?.advancedSlotSettings?.startDate ?? startOfDay(new Date()),
         };
+
         this.startDate = new Date(this.advancedSettings.startDate);
         this.finishDate = addDays(this.startDate, this.advancedSettings.days);
 
         this.defineCurrentInputValues();
-
         this.defineDuration();
 
         this.addAdvanced = Boolean(this.slot?.advancedSlotSettingsId);
     }
 
-    public durationKey: number;
+    public durationKey: InputFieldType = InputFieldType.Duration;
 
-    public frequencyKey: number;
+    public frequencyKey: InputFieldType = InputFieldType.Frequency;
 
-    public paddingKey: number;
+    public paddingKey: InputFieldType = InputFieldType.Padding;
 
-    public minBookingKey: number;
+    public minBookingKey: InputFieldType = InputFieldType.MinBookTime;
+
+    public keys = Object.keys(InputFieldType);
 
     public startDate: Date;
 
@@ -99,7 +103,7 @@ export class GeneralComponent extends BaseComponent implements OnInit {
 
     public naturalNumberInputPattern = naturalNumberRegex;
 
-    public inputSettings: IInputSettings[];
+    public inputSettings: { [type: string]: IInputSettings } = getInputSettings();
 
     public inputValues: { [type: string]: number } = {};
 
@@ -116,8 +120,10 @@ export class GeneralComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        const defaultMinutes = this.durations[0].minutes ?? 0;
+
         this.settings = {
-            size: this.durations[0].minutes!,
+            size: defaultMinutes,
             isVisible: false,
             color: Color.Cyan,
             name: '',
@@ -128,16 +134,14 @@ export class GeneralComponent extends BaseComponent implements OnInit {
         this.advancedSettings = {
             maxNumberOfBookings: 1,
             days: 1,
-            paddingMeeting: this.durations[0].minutes!,
+            paddingMeeting: defaultMinutes,
             activityType: this.slotActivityOptionsEnums[0],
-            minBookingMeetingDifference: this.durations[0].minutes!,
-            frequency: this.durations[0].minutes!,
+            minBookingMeetingDifference: defaultMinutes,
+            frequency: defaultMinutes,
             startDate: new Date(),
         };
 
         this.initLocations();
-        this.inputSettings = getDefaultInputSettings();
-        this.defineInputKeys();
     }
 
     colorInputs = colorInputs;
@@ -150,9 +154,9 @@ export class GeneralComponent extends BaseComponent implements OnInit {
         this.settings.name = removeExcessiveSpaces(value);
     }
 
-    onValueChange(index: number) {
-        this.inputSettings[index].isCustom = this.inputSettings[index].durationValue?.time === 'Custom';
-        this.updateSettings(this.inputSettings[index].durationValue?.minutes!, this.inputSettings[index].inputType);
+    onValueChange(key: InputFieldType) {
+        this.inputSettings[key].isCustom = this.inputSettings[key].durationValue?.time === 'Custom';
+        this.updateSettings(this.inputSettings[key].durationValue?.minutes ?? 0, this.inputSettings[key].inputType);
     }
 
     customDurationChanged(value: number) {
@@ -174,7 +178,7 @@ export class GeneralComponent extends BaseComponent implements OnInit {
     saveRange() {
         this.advancedSettings = {
             ...this.advancedSettings,
-            startDate: new Date(this.startDate.setHours(0, 0, 0, 0)),
+            startDate: startOfDay(this.startDate),
             days: differenceInDays(this.finishDate, this.startDate),
         };
     }
@@ -192,13 +196,6 @@ export class GeneralComponent extends BaseComponent implements OnInit {
             });
     }
 
-    private defineInputKeys() {
-        this.durationKey = this.inputSettings.indexOf(this.inputSettings.find((el) => el.inputType === InputFieldType.Duration)!);
-        this.frequencyKey = this.inputSettings.indexOf(this.inputSettings.find((el) => el.inputType === InputFieldType.Frequency)!);
-        this.paddingKey = this.inputSettings.indexOf(this.inputSettings.find((el) => el.inputType === InputFieldType.Padding)!);
-        this.minBookingKey = this.inputSettings.indexOf(this.inputSettings.find((el) => el.inputType === InputFieldType.MinBookTime)!);
-    }
-
     private defineCurrentInputValues() {
         this.inputValues[InputFieldType.Duration] = this.settings.size;
         this.inputValues[InputFieldType.Frequency] = this.advancedSettings.frequency;
@@ -207,20 +204,24 @@ export class GeneralComponent extends BaseComponent implements OnInit {
     }
 
     private defineDuration() {
-        this.inputSettings = [
-            ...this.inputSettings.map((val) => {
-                val.durationValue =
-                    this.durations.find((x) => x.minutes === this.inputValues[val.inputType]) ??
-                    this.durations.find((x) => x.time === 'Custom')!;
+        this.keys.forEach((el) => {
+            const duration =
+                this.durations.find((x) => x.minutes === this.inputValues[this.inputSettings[el].inputType]) ??
+                this.durations.find((x) => x.time === 'Custom');
 
-                if (val.durationValue?.time === 'Custom') {
-                    val.isCustom = true;
-                    val.inputValue = String(this.inputValues[val.inputType]);
-                }
+            this.inputSettings[el] = {
+                ...this.inputSettings[el],
+                durationValue: duration,
+            };
 
-                return val;
-            }),
-        ];
+            if (duration?.time === 'Custom') {
+                this.inputSettings[el] = {
+                    ...this.inputSettings[el],
+                    isCustom: true,
+                    inputValue: String(this.inputValues[this.inputSettings[el].inputType]),
+                };
+            }
+        });
     }
 
     private updateSettings(value: number, type: InputFieldType) {

@@ -28,11 +28,11 @@
                     </mat-option>
                 </mat-select>
             </div>
-            <!-- custom duration for duration -->
             <div class="input-container" *ngIf="inputSettings[durationKey].isCustom">
                 <app-custom-time
                     [inputCustomTime]="inputSettings[durationKey].inputValue"
-                    (changeValueEmitter)="customDurationChanged($event)"></app-custom-time>
+                    (changeValueEmitter)="customDurationChanged($event)">
+                </app-custom-time>
             </div>
             <div class="input-container">
                 <p class="input-description">Location</p>
@@ -144,11 +144,11 @@
                     </mat-option>
                 </mat-select>
             </div>
-            <!-- custom duration for frequency -->
             <div class="input-container" *ngIf="inputSettings[frequencyKey].isCustom">
                 <app-custom-time
                     [inputCustomTime]="inputSettings[frequencyKey].inputValue"
-                    (changeValueEmitter)="customFrequencyChanged($event)"></app-custom-time>
+                    (changeValueEmitter)="customFrequencyChanged($event)">
+                </app-custom-time>
             </div>
             <div class="input-container">
                 <div class="label-container">
@@ -165,11 +165,11 @@
                     </mat-option>
                 </mat-select>
             </div>
-            <!-- custom duration for paddings -->
             <div class="input-container" *ngIf="inputSettings[paddingKey].isCustom">
                 <app-custom-time
                     [inputCustomTime]="inputSettings[paddingKey].inputValue"
-                    (changeValueEmitter)="customPaddingChanged($event)"></app-custom-time>
+                    (changeValueEmitter)="customPaddingChanged($event)">
+                </app-custom-time>
             </div>
         </div>
         <div class="inputs-right-container down">
@@ -206,11 +206,11 @@
                     </mat-option>
                 </mat-select>
             </div>
-            <!-- custom duration for booking difference -->
             <div class="input-container" *ngIf="inputSettings[minBookingKey].isCustom">
                 <app-custom-time
                     [inputCustomTime]="inputSettings[minBookingKey].inputValue"
-                    (changeValueEmitter)="customBookingDifferenceChanged($event)"></app-custom-time>
+                    (changeValueEmitter)="customBookingDifferenceChanged($event)">
+                </app-custom-time>
             </div>
         </div>
     </div>
