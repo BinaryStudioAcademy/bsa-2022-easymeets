@@ -1,4 +1,5 @@
 import { Color } from '@core/enums/color.enum';
+import { SlotType } from '@core/enums/slot-type.enum';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { LocationType } from '@shared/enums/locationType';
 
@@ -11,6 +12,7 @@ export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
         id: 1n,
         name: 'name',
         authorName: 'authorName',
+        type: SlotType.Personal,
         size: 5,
         link: '',
         isEnabled: true,
@@ -47,6 +49,7 @@ export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
             withTeamMembers: true,
             definedExternally: false,
         },
+        slotMembers: [],
         welcomeMessage: 'welcomeMessage',
         language: 'language',
         bookingsPerDay: 5,
