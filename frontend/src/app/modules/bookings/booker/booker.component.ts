@@ -22,17 +22,8 @@ export class BookerComponent extends BaseComponent {
             return;
         }
         this.dialog
-            .open<ExternalAttendeeAnswersComponent, IUserMeeting, IUserMeeting | undefined>(
-                ExternalAttendeeAnswersComponent,
-                {
-                    data: this.booker,
-                },
-            )
+            .open(ExternalAttendeeAnswersComponent, { data: this.booker })
             .afterClosed()
-            .subscribe((newExclusionDate) => {
-                // eslint-disable-next-line no-empty
-                if (newExclusionDate) {
-                }
-            });
+            .subscribe(() => {});
     }
 }
