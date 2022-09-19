@@ -74,15 +74,14 @@ export class EditAvailabilityPageComponent extends BaseComponent implements OnDe
         const advancedSettings = this.newAvailabilityComponent.generalComponent.addAdvanced
             ? this.newAvailabilityComponent.generalComponent.advancedSettings!
             : null;
-        const slotMembers = this.newAvailabilityComponent.scheduleComponent.slotMembers
-            .map(member => ({ ...member, schedule: this.newAvailabilityComponent.scheduleComponent.schedule }));
         const updateAvailability: ISaveAvailability = {
             generalDetails: this.newAvailabilityComponent.generalComponent.settings,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
             advancedSettings,
-            slotMembers,
+            slotMembers: this.newAvailabilityComponent.scheduleComponent.slotMembers,
             eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
             questions: this.newAvailabilityComponent.questionsComponent.questions,
+            schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
         };
 

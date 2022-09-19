@@ -59,14 +59,13 @@ export class NewAvailabilityPageComponent extends BaseComponent {
         const advancedSettings = this.newAvailabilityComponent.generalComponent.addAdvanced
             ? this.newAvailabilityComponent.generalComponent.advancedSettings!
             : null;
-        const slotMembers = this.newAvailabilityComponent.scheduleComponent.slotMembers
-            .map(member => ({ ...member, schedule: this.newAvailabilityComponent.scheduleComponent.schedule }));
         const newAvailability: ISaveAvailability = {
             generalDetails: general,
             advancedSettings,
             eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
             questions: this.newAvailabilityComponent.questionsComponent.questions,
-            slotMembers,
+            schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
+            slotMembers: this.newAvailabilityComponent.scheduleComponent.slotMembers,
             templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
             teamId: this.currentTeamId,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
