@@ -1,9 +1,15 @@
+using Bogus.Bson;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.UploadImage;
-using EasyMeets.Core.Common.Enums;
+using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Specialized;
+using System.Text;
+
 namespace EasyMeets.Core.WebAPI.Controllers;
 
 [Authorize]
@@ -30,7 +36,7 @@ public class TeamController : ControllerBase
     {
         return Ok(await _sharedService.GenerateNewPageLinkAsync(id, teamname));
     }
-    
+
     [HttpGet("user-teams")]
     public async Task<ActionResult<List<TeamDto>>> GetCurrentUserTeams()
     {
@@ -56,7 +62,7 @@ public class TeamController : ControllerBase
         {
             return BadRequest();
         }
-        
+
         return Ok(await _teamService.CreateTeamAsync(newTeamDto));
     }
 
@@ -68,9 +74,9 @@ public class TeamController : ControllerBase
     }
 
     [HttpPost("invitation/{teamId}")]
-    public async Task<IActionResult> SendInvitationToTeamMembersAsync([FromBody] string [] teamMembersEmails, long teamId)
+    public async Task<IActionResult> SendInvitationToTeamMembersAsync([FromBody] string[] teamMembersEmails, long teamId)
     {
-        await _teamService.SendInvitationToTeamMembersAsync(teamMembersEmails, teamId);
+        await _teamService.SendInvitationToTeamMembersAsync(Url, teamMembersEmails, teamId);
         return Ok();
     }
 

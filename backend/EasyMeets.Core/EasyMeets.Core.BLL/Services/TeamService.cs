@@ -1,4 +1,5 @@
 using AutoMapper;
+using Azure.Core;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.UploadImage;
@@ -6,7 +7,11 @@ using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System;
+using System.Text;
 
 namespace EasyMeets.Core.BLL.Services;
 
@@ -92,17 +97,35 @@ public class TeamService : BaseService, ITeamService
         }
     }
 
-    public async Task SendInvitationToTeamMembersAsync(string[] teamMembersEmails, long teamId)
+    public async Task SendInvitationToTeamMembersAsync(IUrlHelper urlHelper, string[] teamMembersEmails, long teamId)
     {
         var user = await _userService.GetCurrentUserAsync();
-        var teamEntity = await GetTeamByIdAsync(teamId);
-        var usersToSendInvivation = await _context.Users.Where(x => teamMembersEmails.Contains(x.Email)).ToListAsync();
 
-        foreach (User userToSendInvivation in usersToSendInvivation)
+        var teamEntity = await GetTeamByIdAsync(teamId);
+
+        if (user != null)
         {
-            var emailData = _emailSenderService.CreateInvitationsSubjectAndBody(user, userToSendInvivation, teamEntity);
-            _emailSenderService.Send(emailData);
+
+            var usersToSendInvivation = await _context.Users.Where(x => teamMembersEmails.Contains(x.Email)).ToListAsync();
+
+            foreach (User userToSendInvivation in usersToSendInvivation)
+            {
+                var link = GenerateInvivationLink(urlHelper, userToSendInvivation.Id, teamId);
+
+                var emailData = _emailSenderService.CreateEmailSubjectAndBody(user, userToSendInvivation, teamEntity, link);
+                _emailSenderService.Send(emailData);
+            }
         }
+    }
+
+    private string GenerateInvivationLink(IUrlHelper Url, long teamMemberId, long teamId)
+    {
+        var teamDataJson = JsonConvert.SerializeObject(new { teamMemberId = teamMemberId, teamId = teamId });
+        string base64EncodedTeamData = Convert.ToBase64String(Encoding.UTF8.GetBytes(teamDataJson));
+
+        var url = Url.Link("AcceptInvitation", new { teamData = base64EncodedTeamData });
+
+        return url;
     }
 
     public async Task CreateTeamMemberAsync(TeamMemberDto teamMemberDto, long teamId)

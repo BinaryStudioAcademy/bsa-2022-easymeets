@@ -1,4 +1,4 @@
-using EasyMeets.Core.BLL.Interfaces; 
+using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.User;
 using EasyMeets.Core.DAL.Entities;
 using EasyMeets.RabbitMQ.Interface;
@@ -23,13 +23,13 @@ public class EmailSenderService : IEmailSenderService
         _producerService.Send(message, "application/json");
     }
 
-    public EmailDto CreateInvitationsSubjectAndBody(UserDto currentUser, User userToInvite, Team team)
+    public EmailDto CreateEmailSubjectAndBody(UserDto currentUser, User userToInvite, Team team, string link)
     {
         return new EmailDto
         {
             Subject = $"{currentUser.UserName} wants to add you to the team {team.Name} on Easymeets",
-            Body = $"Hi {userToInvite.Name}, User {currentUser.UserName} would like to add to the team {team.Name}." +
-                $"Please follow the link. [link].If this was a mistake please ignore this email.",
+            Body = $"Hi {userToInvite.Name},\r\nUser {currentUser.UserName} would like to add to the team {team.Name}.\r\n" +
+                   $"Please follow the link. {link}\r\nIf this was a mistake please ignore this email.",
             Recipient = userToInvite.Email
         };
     }
