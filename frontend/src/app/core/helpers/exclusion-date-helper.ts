@@ -3,7 +3,7 @@ import { DayAction } from '@core/enums/day-action.enum';
 import { FindSameExclusionDateHelper } from '@core/helpers/find-same-exclusion-date-helper';
 import { convertTimeToOffset, getTimeString } from '@core/helpers/time-helper';
 import { TimeRangesMergeHelper } from '@core/helpers/time-ranges-merge-helper';
-import { getDateWithoutLocalOffset } from '@core/helpers/time-zone-helper';
+import { getDateStringWithoutLocalOffset } from '@core/helpers/time-zone-helper';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 
@@ -34,17 +34,23 @@ export function getExclusionDateWithDayOffset(
 ) {
     let convertedDate: Date;
 
-    if (dayAction === DayAction.AddDay) {
-        convertedDate = dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), 1);
-    } else if (dayAction === DayAction.SubtractDay) {
-        convertedDate = dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), -1);
-    } else {
-        convertedDate = new Date(exclusionDate.selectedDate);
+    switch (dayAction) {
+        case DayAction.AddDay: {
+            convertedDate = dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), 1);
+            break;
+        }
+        case DayAction.SubtractDay: {
+            convertedDate = dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), -1);
+            break;
+        }
+        default: {
+            convertedDate = new Date(exclusionDate.selectedDate);
+        }
     }
 
     return [
         getExclusionDate(
-            getDateWithoutLocalOffset(convertedDate).toJSON(),
+            getDateStringWithoutLocalOffset(convertedDate),
             startHours,
             startMinutes,
             endHours,
@@ -60,12 +66,12 @@ export const getConvertedDatesForExclusionDate = (
 ): [string, string] =>
     (startHoursDayAction === DayAction.SubtractDay
         ? [
-            getDateWithoutLocalOffset(dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), -1)).toJSON(),
+            getDateStringWithoutLocalOffset(dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), -1)),
             exclusionDate.selectedDate,
         ]
         : [
             exclusionDate.selectedDate,
-            getDateWithoutLocalOffset(dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), 1)).toJSON(),
+            getDateStringWithoutLocalOffset(dateAdapter.addCalendarDays(new Date(exclusionDate.selectedDate), 1)),
         ]);
 
 export const convertExclusionDateToOffset = (

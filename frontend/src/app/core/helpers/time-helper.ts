@@ -6,15 +6,15 @@ export const TimeRangeValidator =
         (control: AbstractControl): ValidationErrors | null =>
             (firstControl?.value < control?.value ? null : { error: true });
 
-export function normalizeHours(hours: number): [number, DayAction] {
-    if (hours < 0) {
-        return [24 + hours, DayAction.SubtractDay];
+export function getDayAction(hours: number, offsetHours: number): DayAction {
+    if (hours + offsetHours < 0) {
+        return DayAction.SubtractDay;
     }
-    if (hours >= 24) {
-        return [hours - 24, DayAction.AddDay];
+    if (hours + offsetHours >= 24) {
+        return DayAction.AddDay;
     }
 
-    return [hours, DayAction.NoAction];
+    return DayAction.NoAction;
 }
 
 export const getTimeString = (hours: number, minutes: string) =>
@@ -24,11 +24,9 @@ export function convertTimeToOffset(time: string, offsetValue: string): [number,
     const offsetHours = Number(offsetValue.substring(0, 3));
     const hours = Number(time.substring(0, 2));
     const minutes = time.substring(3, 5);
-    const hoursConverted = hours + offsetHours;
+    const hoursConverted = (hours + offsetHours + 24) % 24;
 
-    const [correctHours, hoursDayAction] = normalizeHours(hoursConverted);
-
-    return [correctHours, minutes, hoursDayAction];
+    return [hoursConverted, minutes, getDayAction(hours, offsetHours)];
 }
 
 export const changeOffsetSign = (offset: string) =>

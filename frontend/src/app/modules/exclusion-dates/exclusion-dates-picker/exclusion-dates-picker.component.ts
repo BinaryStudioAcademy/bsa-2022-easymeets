@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
 import { convertExclusionDateToOffset } from '@core/helpers/exclusion-date-helper';
 import { changeOffsetSign, TimeRangeValidator } from '@core/helpers/time-helper';
-import { getDateWithoutLocalOffset } from '@core/helpers/time-zone-helper';
+import { getDateStringWithoutLocalOffset } from '@core/helpers/time-zone-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
 
@@ -65,7 +65,7 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
         this.dialogRef.close(
             convertExclusionDateToOffset(
                 {
-                    selectedDate: getDateWithoutLocalOffset(this.selected).toJSON(),
+                    selectedDate: getDateStringWithoutLocalOffset(this.selected),
                     dayTimeRanges: this.getTimeRanges(),
                 },
                 changeOffsetSign(this.scheduleTimeZone.timeValue),
