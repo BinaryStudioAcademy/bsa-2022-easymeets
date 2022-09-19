@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace EasyMeets.Core.WebAPI.Validators.Availability;
 
-public class SaveAvailabilitySlotDtoValidator : AbstractValidator<SaveAvailabilitySlotDto>
+public class SaveAvailabilitySlotDtoValidator : AbstractValidator<SlotMemberDto>
 {
     public SaveAvailabilitySlotDtoValidator()
     {
