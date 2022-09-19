@@ -3,11 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { BookingWindowComponent } from '@shared/components/booking-window/booking-window.component';
 import { ConfirmationWindowComponent } from '@shared/components/confirmation-window/confirmation-window.component';
 import { OwnerRightsWindowComponent } from '@shared/components/owner-rights-window/owner-rights-window.component';
+import { SlotMembersWindowComponent } from '@shared/components/slot-members-window/slot-members-window.component';
 import { SlotPasswordWindowComponent } from '@shared/components/slot-password-window/slot-password-window.component';
 import { TeamMembersWindowComponent } from '@shared/components/team-members-window/team-members-window.component';
 import { UnsavedChangesComponent } from '@shared/components/unsaved-changes/unsaved-changes.component';
 import { confirmLeaveTitle, leavePageMessage } from '@shared/constants/shared-messages';
 import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
+import { ISlotMemberDialogData } from '@shared/models/ISlotMemberDialogData';
 import { ITeamMembersDialogData } from '@shared/models/ITeamMembersDialogData';
 import { Observable } from 'rxjs';
 
@@ -54,6 +56,14 @@ export class ConfirmationWindowService {
     openOwnerRightsDialog(data: ITeamMembersDialogData) {
         return this.dialog
             .open(OwnerRightsWindowComponent, {
+                data,
+            })
+            .afterClosed();
+    }
+
+    openSlotMembersDialog(data: ISlotMemberDialogData) {
+        return this.dialog
+            .open(SlotMembersWindowComponent, {
                 data,
             })
             .afterClosed();
