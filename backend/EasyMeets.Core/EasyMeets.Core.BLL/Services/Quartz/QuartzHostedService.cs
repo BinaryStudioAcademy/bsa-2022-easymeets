@@ -41,7 +41,7 @@ namespace EasyMeets.Core.BLL.Services.Quartz
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            if(Scheduler is not null)
+            if (Scheduler is not null)
             {
                 await Scheduler.Shutdown(cancellationToken);
             }
