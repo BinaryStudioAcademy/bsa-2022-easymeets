@@ -5,7 +5,7 @@
 export const environment = {
     production: false,
     appUrl: 'http://localhost:4200',
-    coreUrl: 'https://localhost:5050',
+    coreUrl: 'http://localhost:5050',
     notifierUrl: 'http://localhost:5070',
     firebase: {
         apiKey: 'AIzaSyAF5LeybBJklic1uhIpenfDYoNvuH3mSqY',
