@@ -1,5 +1,5 @@
 import { Clipboard } from '@angular/cdk/clipboard';
-import { Component, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { BaseComponent } from '@core/base/base.component';
 import { SlotType } from '@core/enums/slot-type.enum';
@@ -22,7 +22,7 @@ import { filter, map, switchMap } from 'rxjs';
     templateUrl: './schedule.component.html',
     styleUrls: ['./schedule.component.sass'],
 })
-export class ScheduleComponent extends BaseComponent {
+export class ScheduleComponent extends BaseComponent implements OnInit {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
         this.schedule = this.slot?.schedule ?? getDefaultSchedule(false);
@@ -51,7 +51,7 @@ export class ScheduleComponent extends BaseComponent {
 
     schedule: ISchedule;
 
-    slotMembers: ISlotMember[];
+    slotMembers: ISlotMember[] = [];
 
     withTeamMembers: boolean = false;
 
@@ -65,6 +65,9 @@ export class ScheduleComponent extends BaseComponent {
         private confirmationService: ConfirmationWindowService,
     ) {
         super();
+    }
+
+    public ngOnInit() {
         this.getDefaultMember().pipe(switchMap(() => this.getCurrentTeamId())).subscribe();
         this.onAddEvent.pipe(this.untilThis).subscribe(members => this.addSlotMembers(members));
     }
@@ -123,6 +126,7 @@ export class ScheduleComponent extends BaseComponent {
                 this.untilThis,
                 map(resp => {
                     this.defaultMember = { priority: 1, memberId: resp?.id, name: resp.userName };
+                    this.refreshMembers();
                 }),
             );
     }
