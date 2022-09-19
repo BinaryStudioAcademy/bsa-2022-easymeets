@@ -61,15 +61,29 @@ export class ExclusionDateComponent extends BaseComponent {
                 sameDate.dayTimeRanges = sameDate.dayTimeRanges.filter(
                     (range) =>
                         !date.dayTimeRanges.some(
-                            (rangeToDelete) => rangeToDelete.start === range.start && rangeToDelete.end === range.end,
+                            (rangeToDelete) =>
+                                rangeToDelete.start.hour === range.start.hour &&
+                                rangeToDelete.start.minute === range.start.minute &&
+                                rangeToDelete.end.hour === range.end.hour &&
+                                rangeToDelete.end.minute === range.end.minute,
                         ),
                 );
 
                 sameDate.dayTimeRanges.forEach((range) => {
                     date.dayTimeRanges.forEach((rangeToDelete) => {
-                        if (rangeToDelete.start === range.start && rangeToDelete.end < range.end) {
+                        if (
+                            rangeToDelete.start.hour === range.start.hour &&
+                            rangeToDelete.start.minute === range.start.minute &&
+                            rangeToDelete.end.hour <= range.end.hour &&
+                            rangeToDelete.end.minute < range.end.minute
+                        ) {
                             range.start = rangeToDelete.end;
-                        } else if (rangeToDelete.end === range.end && rangeToDelete.start > range.start) {
+                        } else if (
+                            rangeToDelete.end.hour === range.end.hour &&
+                            rangeToDelete.end.minute === range.end.minute &&
+                            rangeToDelete.start.hour >= range.start.hour &&
+                            rangeToDelete.start.minute > range.start.minute
+                        ) {
                             range.end = rangeToDelete.start;
                         }
                     });
