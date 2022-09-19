@@ -1,7 +1,9 @@
-﻿namespace EasyMeets.Core.BLL.Interfaces
+﻿using EasyMeets.Core.Common.Enums;
+
+namespace EasyMeets.Core.BLL.Interfaces
 {
     public interface IEmailDelayService
     {
-        public Task CheckForNotify();
+        public Task CheckForNotify(TemplateType templateType);
     }
 }
