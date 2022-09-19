@@ -7,6 +7,7 @@ using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -18,10 +19,10 @@ namespace EasyMeets.Core.BLL.Services
         private readonly IGoogleMeetService _googleMeetService;
         private readonly IGoogleOAuthService _googleOAuthService;
         private readonly ICalendarsService _calendarsService;
-        private const string _applicationURL = "https://bsa-easymeets.westeurope.cloudapp.azure.com/";
+        private readonly IConfiguration _configuration;
         public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IZoomService zoomService,
             IEmailSenderService emailSender, IGoogleMeetService googleMeetService, IGoogleOAuthService googleOAuthService,
-            ICalendarsService calendarsService) : base(context, mapper)
+            ICalendarsService calendarsService, IConfiguration configuration) : base(context, mapper)
         {
             _userService = userService;
             _zoomService = zoomService;
@@ -29,6 +30,7 @@ namespace EasyMeets.Core.BLL.Services
             _googleMeetService = googleMeetService;
             _googleOAuthService = googleOAuthService;
             _calendarsService = calendarsService;
+            _configuration = configuration;
         }
 
         public async Task<List<MeetingSlotDTO>> GetMeetingsAsync(MeetingMemberRequestDto meetingMemberRequestDto)
@@ -149,19 +151,7 @@ namespace EasyMeets.Core.BLL.Services
 
             await SendEmailsAsync(meeting.Id, TemplateType.Confirmation);
 
-            var visibleCalendars = await _context.CalendarVisibleForTeams
-                .Include(g => g.Calendar)
-                .Where(x => x.TeamId == meeting.TeamId).ToListAsync();
-
-            foreach (var calendar in visibleCalendars)
-            {
-                var tokenResultDto = await _googleOAuthService.RefreshToken(calendar.Calendar.RefreshToken);
-
-                if (tokenResultDto != null)
-                {
-                    await _calendarsService.AddMeetingToCalendar(_mapper.Map<SaveMeetingDto>(meeting), tokenResultDto);
-                }
-            }
+            await AddMeetingToMembersCalendar(meetingDto);
 
             return _mapper.Map<SaveMeetingDto>(GetByIdInternal(meeting.Id));
         }
@@ -293,8 +283,25 @@ namespace EasyMeets.Core.BLL.Services
                 $"Invitee: {meeting.Author.Name}\n" +
                 $"Invitee Email: {meeting.Author.Email}\n" +
                 $"Event Date/Time: {meeting.StartTime}\n\n" +
-                $"View event in Easymeets: {_applicationURL}{meeting.MeetingLink}"
+                $"View event in Easymeets: {_configuration["ApplicationUri"]}{meeting.MeetingLink}"
             };
+        }
+
+        private async Task AddMeetingToMembersCalendar(SaveMeetingDto meeting)
+        {
+            var visibleCalendars = await _context.CalendarVisibleForTeams
+                .Include(g => g.Calendar)
+                .Where(x => x.TeamId == meeting.TeamId).ToListAsync();
+
+            foreach (var calendar in visibleCalendars)
+            {
+                var tokenResultDto = await _googleOAuthService.RefreshToken(calendar.Calendar.RefreshToken);
+
+                if (tokenResultDto != null)
+                {
+                    await _calendarsService.AddMeetingToCalendar(_mapper.Map<SaveMeetingDto>(meeting), tokenResultDto);
+                }
+            }
         }
     }
 }
