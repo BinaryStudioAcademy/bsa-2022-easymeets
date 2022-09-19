@@ -151,7 +151,7 @@ namespace EasyMeets.Core.BLL.Services
 
             await SendEmailsAsync(meeting.Id, TemplateType.Confirmation);
 
-            await AddMeetingToMembersCalendar(meetingDto);
+            await AddMeetingToMembersVisibleCalendars(meetingDto);
 
             return _mapper.Map<SaveMeetingDto>(GetByIdInternal(meeting.Id));
         }
@@ -189,11 +189,6 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(slot => slot!.EmailTemplates)
                 .FirstOrDefaultAsync(m => m.Id == meetingId);
 
-            var emailTemplate = meeting?
-                .AvailabilitySlot?
-                .EmailTemplates
-                .FirstOrDefault(template => template.TemplateType == type && template.IsSend);
-
             var recipients = meeting?
                 .MeetingMembers
                 .Select(meetingMember => meetingMember.TeamMember.User.Email)
@@ -205,17 +200,14 @@ namespace EasyMeets.Core.BLL.Services
                 return;
             }
 
-            if (emailTemplate is not null)
-            {
-                emailDto = _mapper.Map<EmailDto>(emailTemplate);
-            }
+            var emailTemplate = meeting?
+                .AvailabilitySlot?
+                .EmailTemplates
+                .FirstOrDefault(template => template.TemplateType == type && template.IsSend);
 
             foreach (var recipient in recipients)
             {
-                if (emailTemplate is null)
-                {
-                    emailDto = GenerateNewMeetingEmailTemplate(meeting, recipient);
-                }
+                emailDto = GenerateEmailTemplate(meeting, recipient, emailTemplate);
 
                 emailDto.Recipient = recipient;
 
@@ -272,12 +264,12 @@ namespace EasyMeets.Core.BLL.Services
             await _context.SaveChangesAsync();
         }
 
-        private EmailDto GenerateNewMeetingEmailTemplate(Meeting meeting, string member)
+        private EmailDto GenerateNewMeetingEmailTemplate(Meeting meeting, string invitee)
         {
             return new EmailDto()
             {
                 Subject = $"New Event: {meeting.Name} - {meeting.StartTime} - {meeting.LocationType}",
-                Body = $"Hi, {member}!\n\n" +
+                Body = $"Hi, {invitee}!\n\n" +
                 $"A new event has been scheduled.\n" +
                 $"Event Type: {meeting.LocationType}\n" +
                 $"Invitee: {meeting.Author.Name}\n" +
@@ -287,7 +279,19 @@ namespace EasyMeets.Core.BLL.Services
             };
         }
 
-        private async Task AddMeetingToMembersCalendar(SaveMeetingDto meeting)
+        private EmailDto GenerateEmailTemplate(Meeting meeting, string invitee, EmailTemplate emailTemplate)
+        {
+            if (emailTemplate is not null)
+            {
+                return _mapper.Map<EmailDto>(emailTemplate);
+            }
+            else
+            {
+                return GenerateNewMeetingEmailTemplate(meeting, invitee);
+            }
+        }
+
+        private async Task AddMeetingToMembersVisibleCalendars(SaveMeetingDto meeting)
         {
             var visibleCalendars = await _context.CalendarVisibleForTeams
                 .Include(g => g.Calendar)
