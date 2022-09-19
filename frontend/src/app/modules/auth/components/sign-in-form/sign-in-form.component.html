@@ -1,4 +1,3 @@
-<app-loading-spinner [overlay]="true"> </app-loading-spinner>
 <form class="signin-form form" [formGroup]="signInForm" (ngSubmit)="onSignIn()">
     <div class="form-inputs flex-col">
         <mat-label class="outside-label bold" for="email">Email</mat-label>
@@ -6,8 +5,7 @@
             <input matInput id="email" type="email" formControlName="email" placeholder="email@email.com" />
             <mat-error *ngIf="signInForm.controls['email'].hasError('email')">Email format is invalid</mat-error>
             <mat-error *ngIf="signInForm.controls['email'].hasError('required')">Email is required field</mat-error>
-            <mat-error *ngIf="signInForm.controls['email'].hasError('userInNotExist')"
-                >User with entered email address doesn't exist</mat-error>
+            <mat-error *ngIf="signInForm.controls['email'].hasError('userInNotExist')">User with entered email address doesn't exist</mat-error>
         </mat-form-field>
         <mat-label class="outside-label bold">Password</mat-label>
         <mat-form-field appearance="outline">
@@ -26,15 +24,9 @@
                 [attr.aria-pressed]="hidePassword">
                 <mat-icon color="primary">{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
-            <mat-error *ngIf="signInForm.controls['password'].hasError('required')"
-                >Password is required field</mat-error
-            >
-            <mat-error *ngIf="signInForm.controls['password'].hasError('incorrectCredentials')"
-                >Incorrect authentication credentials</mat-error
-            >
-            <mat-error *ngIf="signInForm.controls['password'].hasError('minlength')"
-                >Password must be longer than 8 characters</mat-error
-            >
+            <mat-error *ngIf="signInForm.controls['password'].hasError('required')">Password is required field</mat-error>
+            <mat-error *ngIf="signInForm.controls['password'].hasError('incorrectCredentials')">Incorrect authentication credentials</mat-error>
+            <mat-error *ngIf="signInForm.controls['password'].hasError('minlength')">Password must be longer than 8 characters</mat-error>
         </mat-form-field>
     </div>
     <div class="form-actions flex-col h-align-center">
