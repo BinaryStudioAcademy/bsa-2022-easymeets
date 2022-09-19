@@ -8,7 +8,7 @@ public class DayTimeRangeDtoValidator : AbstractValidator<DayTimeRangeDto>
     public DayTimeRangeDtoValidator()
     {
         RuleFor(d => d.Start)
-            .Must((d, t) => TimeSpan.Compare(d.Start, d.End) < 0)
+            .Must((d, t) => d.Start.Hour < d.End.Hour || (d.Start.Hour == d.End.Hour && d.Start.Minute < d.End.Minute))
             .WithMessage("Time start should be smaller than end");
     }
 }

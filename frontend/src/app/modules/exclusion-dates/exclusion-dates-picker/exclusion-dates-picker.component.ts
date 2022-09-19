@@ -7,6 +7,7 @@ import { convertExclusionDateToOffset } from '@core/helpers/exclusion-date-helpe
 import { changeOffsetSign, TimeRangeValidator } from '@core/helpers/time-helper';
 import { getDateStringWithoutLocalOffset } from '@core/helpers/time-zone-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
+import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
 
 @Component({
@@ -81,19 +82,27 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
     getValidDayTimeRanges = () =>
         this.timeControlsIdentifiers
             .map((number) => ({
-                start: this.formGroup.get(number.toString() + this.startRangeIdentifier)?.value as string | null,
-                end: this.formGroup.get(number.toString() + this.endRangeIdentifier)?.value as string | null,
+                start: this.formGroup.get(number.toString() + this.startRangeIdentifier)?.value ?? '' as string,
+                end: this.formGroup.get(number.toString() + this.endRangeIdentifier)?.value ?? '' as string,
             }))
             .filter((range) => range.start && range.end)
             .map((range) => ({
-                start: range.start as string,
-                end: range.end as string,
+                start: {
+                    hour: Number(range.start.substring(0, 2)),
+                    minute: Number(range.start.substring(3, 5)),
+                },
+                end: {
+                    hour: Number(range.end.substring(0, 2)),
+                    minute: Number(range.end.substring(3, 5)),
+                },
             }));
 
-    getTimeRanges() {
+    getTimeRanges(): IDayTimeRange[] {
         const validTimeRanges = this.getValidDayTimeRanges();
 
-        return validTimeRanges.length ? validTimeRanges : [{ start: '00:00', end: '23:59' }];
+        return validTimeRanges.length
+            ? validTimeRanges
+            : [{ start: { hour: 0, minute: 0 }, end: { hour: 23, minute: 59 } }];
     }
 
     private getDefaultFormGroup = () => {

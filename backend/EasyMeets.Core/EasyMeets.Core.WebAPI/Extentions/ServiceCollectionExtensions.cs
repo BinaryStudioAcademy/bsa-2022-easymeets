@@ -35,6 +35,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 {
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                    options.SerializerSettings.Converters.Add(new TimeOnlyConverter());
                 });
             services.AddTransient<ISampleService, SampleService>();
             services.AddTransient<IAvailabilityService, AvailabilityService>();

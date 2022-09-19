@@ -35,11 +35,6 @@ export class ExclusionDateComponent extends BaseComponent {
 
     @Input() set schedule(value: ISchedule | undefined) {
         this.scheduleValue = value ?? getDefaultSchedule(false);
-        this.scheduleValue.exclusionDates.forEach((date) =>
-            date.dayTimeRanges.forEach((range) => {
-                range.start = this.formatTime(range.start);
-                range.end = this.formatTime(range.end);
-            }));
         this.updateExclusionDatesDisplay();
     }
 
@@ -112,6 +107,4 @@ export class ExclusionDateComponent extends BaseComponent {
                 }
             });
     }
-
-    formatTime = (time: string) => time.substring(0, 5);
 }

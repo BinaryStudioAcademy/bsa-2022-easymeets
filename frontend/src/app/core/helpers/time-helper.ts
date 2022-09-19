@@ -1,5 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { DayAction } from '@core/enums/day-action.enum';
+import { ITimeOnly } from '@core/models/ITimeOnly';
 
 export const TimeRangeValidator =
     (firstControl: AbstractControl): ValidatorFn =>
@@ -17,16 +18,11 @@ export function getDayAction(hours: number, offsetHours: number): DayAction {
     return DayAction.NoAction;
 }
 
-export const getTimeString = (hours: number, minutes: string) =>
-    `${hours.toString().length < 2 ? '0' : ''}${hours}:${minutes}`;
-
-export function convertTimeToOffset(time: string, offsetValue: string): [number, string, DayAction] {
+export function convertTimeToOffset(time: ITimeOnly, offsetValue: string): [ITimeOnly, DayAction] {
     const offsetHours = Number(offsetValue.substring(0, 3));
-    const hours = Number(time.substring(0, 2));
-    const minutes = time.substring(3, 5);
-    const hoursConverted = (hours + offsetHours + 24) % 24;
+    const hoursConverted = (time.hour + offsetHours + 24) % 24;
 
-    return [hoursConverted, minutes, getDayAction(hours, offsetHours)];
+    return [{ hour: hoursConverted, minute: time.minute }, getDayAction(time.hour, offsetHours)];
 }
 
 export const changeOffsetSign = (offset: string) =>

@@ -1,24 +1,19 @@
 import { DateAdapter } from '@angular/material/core';
 import { DayAction } from '@core/enums/day-action.enum';
 import { FindSameExclusionDateHelper } from '@core/helpers/find-same-exclusion-date-helper';
-import { convertTimeToOffset, getTimeString } from '@core/helpers/time-helper';
+import { convertTimeToOffset } from '@core/helpers/time-helper';
 import { TimeRangesMergeHelper } from '@core/helpers/time-ranges-merge-helper';
 import { getDateStringWithoutLocalOffset } from '@core/helpers/time-zone-helper';
+import { ITimeOnly } from '@core/models/ITimeOnly';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 
-export const getExclusionDate = (
-    selected: string,
-    startHours: number,
-    startMinutes: string,
-    endHours: number,
-    endMinutes: string,
-): IExclusionDate => ({
+export const getExclusionDate = (selected: string, start: ITimeOnly, end: ITimeOnly): IExclusionDate => ({
     selectedDate: selected,
     dayTimeRanges: [
         {
-            start: getTimeString(startHours, startMinutes),
-            end: getTimeString(endHours, endMinutes),
+            start,
+            end,
         },
     ],
 });
@@ -26,10 +21,8 @@ export const getExclusionDate = (
 export function getExclusionDateWithDayOffset(
     exclusionDate: IExclusionDate,
     dateAdapter: DateAdapter<Date>,
-    startHours: number,
-    startMinutes: string,
-    endHours: number,
-    endMinutes: string,
+    start: ITimeOnly,
+    end: ITimeOnly,
     dayAction: DayAction,
 ) {
     let convertedDate: Date;
@@ -48,15 +41,7 @@ export function getExclusionDateWithDayOffset(
         }
     }
 
-    return [
-        getExclusionDate(
-            getDateStringWithoutLocalOffset(convertedDate),
-            startHours,
-            startMinutes,
-            endHours,
-            endMinutes,
-        ),
-    ];
+    return [getExclusionDate(getDateStringWithoutLocalOffset(convertedDate), start, end)];
 }
 
 export const getConvertedDatesForExclusionDate = (
@@ -81,25 +66,16 @@ export const convertExclusionDateToOffset = (
 ): IExclusionDate[] =>
     exclusionDate.dayTimeRanges
         .map((dayTimeRange) => {
-            const [startHours, startMinutes, startHoursDayAction] = convertTimeToOffset(
-                dayTimeRange.start,
-                timeZoneValue,
-            );
-            const [endHours, endMinutes, endHoursDayAction] = convertTimeToOffset(
-                dayTimeRange.end === '23:59' && !timeZoneValue.includes('00:00') ? '24:00' : dayTimeRange.end,
+            const [start, startHoursDayAction] = convertTimeToOffset(dayTimeRange.start, timeZoneValue);
+            const [end, endHoursDayAction] = convertTimeToOffset(
+                dayTimeRange.end.hour === 23 && dayTimeRange.end.minute === 59 && !timeZoneValue.includes('00:00')
+                    ? { hour: 24, minute: 0 }
+                    : dayTimeRange.end,
                 timeZoneValue,
             );
 
             if (startHoursDayAction === endHoursDayAction) {
-                return getExclusionDateWithDayOffset(
-                    exclusionDate,
-                    dateAdapter,
-                    startHours,
-                    startMinutes,
-                    endHours,
-                    endMinutes,
-                    startHoursDayAction,
-                );
+                return getExclusionDateWithDayOffset(exclusionDate, dateAdapter, start, end, startHoursDayAction);
             }
 
             const [startRangeDate, endRangeDate] = getConvertedDatesForExclusionDate(
@@ -108,19 +84,24 @@ export const convertExclusionDateToOffset = (
                 startHoursDayAction,
             );
 
-            if (endHours === 0 && endMinutes === '00') {
-                return [getExclusionDate(startRangeDate, startHours, startMinutes, 23, '59')];
+            if (end.hour === 0 && end.minute === 0) {
+                return [getExclusionDate(startRangeDate, start, { hour: 23, minute: 59 })];
             }
 
             return [
-                getExclusionDate(startRangeDate, startHours, startMinutes, 23, '59'),
-                getExclusionDate(endRangeDate, 0, '00', endHours, endMinutes),
+                getExclusionDate(startRangeDate, start, { hour: 23, minute: 59 }),
+                getExclusionDate(endRangeDate, { hour: 0, minute: 0 }, end),
             ];
         })
         .flat();
 
 export const sortDayTimeRanges = (ranges: IDayTimeRange[]) =>
-    ranges.sort((firstRange, secondRange) => firstRange.start.localeCompare(secondRange.start));
+    ranges.sort(
+        (firstRange, secondRange) =>
+            firstRange.start.hour * 60 +
+            firstRange.start.minute -
+            (secondRange.start.hour * 60 + secondRange.start.minute),
+    );
 
 export function mergeExistingExclusionDates(newExclusionDate: IExclusionDate, exclusionDates: IExclusionDate[]) {
     const sameDate = FindSameExclusionDateHelper(exclusionDates, newExclusionDate);

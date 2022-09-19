@@ -3,6 +3,6 @@
 public class DayTimeRangeDto
 {
     public long Id { get; set; }
-    public TimeSpan Start { get; set; }
-    public TimeSpan End { get; set; }
+    public TimeOnly Start { get; set; }
+    public TimeOnly End { get; set; }
 }

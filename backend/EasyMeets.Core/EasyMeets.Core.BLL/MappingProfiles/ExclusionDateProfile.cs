@@ -10,9 +10,13 @@ public class ExclusionDateProfile : Profile
     public ExclusionDateProfile()
     {
         CreateMap<ExclusionDateDto, ExclusionDate>();
-        CreateMap<DayTimeRangeDto, DayTimeRange>();
-        
+        CreateMap<DayTimeRangeDto, DayTimeRange>()
+            .ForMember(dest => dest.Start, opt => opt.MapFrom(src => src.Start.ToTimeSpan()))
+            .ForMember(dest => dest.End, opt => opt.MapFrom(src => src.End.ToTimeSpan()));
+
         CreateMap<ExclusionDate, ExclusionDateDto>();
-        CreateMap<DayTimeRange, DayTimeRangeDto>();
+        CreateMap<DayTimeRange, DayTimeRangeDto>()
+            .ForMember(dest => dest.Start, opt => opt.MapFrom(src => TimeOnly.FromTimeSpan(src.Start)))
+            .ForMember(dest => dest.End, opt => opt.MapFrom(src => TimeOnly.FromTimeSpan(src.End)));
     }
 }

@@ -15,7 +15,7 @@
             </div>
             <div class="times-wrapper">
                 <div class="time-wrapper" *ngFor="let dayTimeRange of exclusionDate.dayTimeRanges">
-                    {{ formatTime(dayTimeRange.start) }}-{{ formatTime(dayTimeRange.end) }}
+                    {{ dayTimeRange.start.hour | number }}:{{ dayTimeRange.start.minute | number }}-{{ dayTimeRange.end.hour | number }}:{{ dayTimeRange.end.minute | number }}
                 </div>
             </div>
             <i class="fa-regular fa-circle-xmark xmark fa-xl" (click)="deleteExclusionDate(i)"></i>
