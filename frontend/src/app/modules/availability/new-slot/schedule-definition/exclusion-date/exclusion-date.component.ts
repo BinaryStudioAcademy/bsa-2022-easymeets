@@ -10,7 +10,7 @@ import {
     sortDayTimeRanges,
 } from '@core/helpers/exclusion-date-helper';
 import { FindSameExclusionDateHelper } from '@core/helpers/find-same-exclusion-date-helper';
-import { changeOffsetSign } from '@core/helpers/time-helper';
+import { getTimeZoneHours } from '@core/helpers/time-helper';
 import { TimeRangesMergeHelper } from '@core/helpers/time-ranges-merge-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
 import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
@@ -41,7 +41,7 @@ export class ExclusionDateComponent extends BaseComponent {
     updateExclusionDatesDisplay() {
         this.exclusionDatesDisplay = getUpdatedExclusionDatesDisplay(
             this.scheduleValue.exclusionDates,
-            this.scheduleValue.timeZone.timeValue,
+            getTimeZoneHours(this.scheduleValue.timeZone.timeValue),
             this.dateAdapter,
         );
     }
@@ -50,7 +50,7 @@ export class ExclusionDateComponent extends BaseComponent {
         const exclusionDateDisplayToDelete = this.exclusionDatesDisplay[index];
         const exclusionDateDisplaysToDeleteUtc = convertExclusionDateToOffset(
             exclusionDateDisplayToDelete,
-            changeOffsetSign(this.scheduleValue.timeZone.timeValue),
+            -getTimeZoneHours(this.scheduleValue.timeZone.timeValue),
             this.dateAdapter,
         );
 

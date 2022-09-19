@@ -4,7 +4,7 @@ import { DateAdapter } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
 import { convertExclusionDateToOffset } from '@core/helpers/exclusion-date-helper';
-import { changeOffsetSign, TimeRangeValidator } from '@core/helpers/time-helper';
+import { getTimeZoneHours, TimeRangeValidator } from '@core/helpers/time-helper';
 import { getDateStringWithoutLocalOffset } from '@core/helpers/time-zone-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
@@ -69,7 +69,7 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
                     selectedDate: getDateStringWithoutLocalOffset(this.selected),
                     dayTimeRanges: this.getTimeRanges(),
                 },
-                changeOffsetSign(this.scheduleTimeZone.timeValue),
+                getTimeZoneHours(this.scheduleTimeZone.timeValue),
                 this.dateAdapter,
             ),
         );

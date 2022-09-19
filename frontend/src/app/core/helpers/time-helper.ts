@@ -18,12 +18,10 @@ export function getDayAction(hours: number, offsetHours: number): DayAction {
     return DayAction.NoAction;
 }
 
-export function convertTimeToOffset(time: ITimeOnly, offsetValue: string): [ITimeOnly, DayAction] {
-    const offsetHours = Number(offsetValue.substring(0, 3));
+export function convertTimeToOffset(time: ITimeOnly, offsetHours: number): [ITimeOnly, DayAction] {
     const hoursConverted = (time.hour + offsetHours + 24) % 24;
 
     return [{ hour: hoursConverted, minute: time.minute }, getDayAction(time.hour, offsetHours)];
 }
 
-export const changeOffsetSign = (offset: string) =>
-    (offset[0] === '+' ? offset.replace(/\+/g, '-') : offset.replace(/-/g, '+'));
+export const getTimeZoneHours = (timeZoneValue: string) => Number(timeZoneValue.substring(0, 3));

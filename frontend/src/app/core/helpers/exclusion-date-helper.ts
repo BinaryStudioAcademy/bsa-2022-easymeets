@@ -61,17 +61,17 @@ export const getConvertedDatesForExclusionDate = (
 
 export const convertExclusionDateToOffset = (
     exclusionDate: IExclusionDate,
-    timeZoneValue: string,
+    timeZoneHours: number,
     dateAdapter: DateAdapter<Date>,
 ): IExclusionDate[] =>
     exclusionDate.dayTimeRanges
         .map((dayTimeRange) => {
-            const [start, startHoursDayAction] = convertTimeToOffset(dayTimeRange.start, timeZoneValue);
+            const [start, startHoursDayAction] = convertTimeToOffset(dayTimeRange.start, timeZoneHours);
             const [end, endHoursDayAction] = convertTimeToOffset(
-                dayTimeRange.end.hour === 23 && dayTimeRange.end.minute === 59 && !timeZoneValue.includes('00:00')
+                dayTimeRange.end.hour === 23 && dayTimeRange.end.minute === 59 && timeZoneHours !== 0
                     ? { hour: 24, minute: 0 }
                     : dayTimeRange.end,
-                timeZoneValue,
+                timeZoneHours,
             );
 
             if (startHoursDayAction === endHoursDayAction) {
@@ -118,13 +118,13 @@ export function mergeExistingExclusionDates(newExclusionDate: IExclusionDate, ex
 
 export function getUpdatedExclusionDatesDisplay(
     exclusionDates: IExclusionDate[],
-    timeZoneValue: string,
+    timeZoneHours: number,
     dateAdapter: DateAdapter<Date>,
 ) {
     let updatedExclusionDatesDisplay: IExclusionDate[] = [];
 
     exclusionDates.forEach((exclusionDate) => {
-        const convertedExclusionDates = convertExclusionDateToOffset(exclusionDate, timeZoneValue, dateAdapter);
+        const convertedExclusionDates = convertExclusionDateToOffset(exclusionDate, timeZoneHours, dateAdapter);
 
         convertedExclusionDates.forEach((convertedExclusionDate) => {
             if (!mergeExistingExclusionDates(convertedExclusionDate, updatedExclusionDatesDisplay)) {
