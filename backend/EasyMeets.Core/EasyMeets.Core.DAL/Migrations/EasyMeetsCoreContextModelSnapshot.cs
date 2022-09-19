@@ -130,7 +130,6 @@ namespace EasyMeets.Core.DAL.Migrations
                             MinBookingMeetingDifference = 4,
                             PaddingMeeting = 1,
                             StartDate = new DateTimeOffset(new DateTime(2022, 9, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
-                            StartDate = new DateTimeOffset(new DateTime(2022, 9, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0))
                         },
                         new
                         {
