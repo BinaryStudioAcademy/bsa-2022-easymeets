@@ -173,8 +173,8 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
     }
 
     public confirmBookingByExternalAttendee(userAnswers: IQuestion[]) {
-        const userName = userAnswers.find((x) => x.questionText === userFullNameQuestionText)?.answer!;
-        const userEmail = userAnswers.find((x) => x.questionText === userEmailQuestionText)?.answer!;
+        const userName = (userAnswers.find((x) => x.questionText === userFullNameQuestionText) as IQuestion).answer;
+        const userEmail = (userAnswers.find((x) => x.questionText === userEmailQuestionText) as IQuestion).answer;
 
         const meeting: IExternalMeeting = {
             teamId: this.menu.teamId,

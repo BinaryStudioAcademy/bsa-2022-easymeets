@@ -80,11 +80,10 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         const containerWidth = this.getPageSize();
 
         this.getNumberOfItemsToDisplay(containerWidth);
-        this.teamService.currentTeamEmitted$.subscribe((teamId) => {
+        this.teamService.currentTeamEmitted$.pipe(this.untilThis).subscribe((teamId) => {
             this.teamId = teamId;
-
-            this.loadMeetings(this.getMeetingRequest());
         });
+        this.loadMeetings(this.getMeetingRequest());
     }
 
     deleteButtonClick(id: number) {

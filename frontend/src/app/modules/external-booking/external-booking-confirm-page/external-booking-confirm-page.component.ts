@@ -57,9 +57,8 @@ export class ExternalBookingConfirmPageComponent extends BaseComponent implement
     private addAnswers() {
         this.questions.forEach((question) => {
             if (!question.isMandatory) {
-                question.answer = this.additionalQuestions.find(
-                    (x) => x.questionText === question.questionText,
-                )?.answer!;
+                question.answer = this.additionalQuestions.find((x) => x.questionText === question.questionText)
+                    ?.answer as string;
             }
         });
     }
