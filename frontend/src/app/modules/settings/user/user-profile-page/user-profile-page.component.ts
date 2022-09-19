@@ -20,6 +20,7 @@ import { Country } from '@shared/enums/country';
 import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
+import { switchMap, throwError } from 'rxjs';
 
 @Component({
     selector: 'app-user-profile-page',
@@ -111,9 +112,15 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                 }
             });
 
-        this.settingPageService.updateButtonClickEvent$.pipe(this.untilThis).subscribe(() => {
-            this.OnSubmit();
-        });
+        this.settingPageService.updateButtonClickEvent$
+            .pipe(this.untilThis)
+            .pipe(switchMap(() => this.OnSubmit()))
+            .subscribe({
+                next: () =>
+                    this.notificationService.showSuccessMessage('Personal information was updated successfully.'),
+                error: () =>
+                    this.userForm.markAsDirty(),
+            });
 
         this.userForm.statusChanges.pipe(this.untilThis).subscribe(() => {
             this.settingPageService.updateButtonActive(!this.userForm.invalid && !this.userForm.pending && this.userForm.dirty);
@@ -122,7 +129,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
 
     public OnSubmit() {
         if (this.user) {
-            this.userForm.markAsPristine();
+            this.userForm.reset(this.userForm.value);
             const editedUser: IUpdateUser = {
                 id: this.user.id,
                 phoneCode: this.countryCodeValues[this.userForm.value.country as Country],
@@ -134,17 +141,11 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                 timeFormat: this.userForm.value.timeFormat,
             };
 
-            this.userService
-                .editUser(editedUser)
-                .pipe(this.untilThis)
-                .subscribe({
-                    next: () =>
-                        this.notificationService.showSuccessMessage('Personal information was updated successfully.'),
-                    error: () =>
-                        this.userForm.markAsDirty()
-                    ,
-                });
+            return this.userService
+                .editUser(editedUser);
         }
+
+        return throwError(() => new Error());
     }
 
     public changeCountryCode(form: FormGroup) {
