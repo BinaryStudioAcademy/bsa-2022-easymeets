@@ -4,7 +4,6 @@ using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
 
 namespace EasyMeets.Core.BLL.Services.Quartz
 {
@@ -19,19 +18,22 @@ namespace EasyMeets.Core.BLL.Services.Quartz
 
         public async Task CheckForNotify()
         {
-            var avslots = _context.AvailabilitySlots.ToList();
+            var slots = await _context.EmailTemplates
+                .Where(x => (x.TemplateType == TemplateType.Reminders && x.IsSend == true) || (x.TemplateType == TemplateType.FollowUp && x.IsSend == true))
+                .Include(x => x.AvailabilitySlot)
+                .Select(x => x.AvailabilitySlot).ToListAsync();
 
-            await NotifyFollowUp(avslots);
-            await NotifyReminders(avslots);
+            await Notify(slots, TemplateType.Reminders);
+            await Notify(slots, TemplateType.FollowUp);
 
             await Task.CompletedTask;
         }
 
-        public async Task NotifyReminders(List<AvailabilitySlot> slots)
+        public async Task Notify(List<AvailabilitySlot> slots, TemplateType templateType)
         {
-            var notifiers = await _context.EmailTemplates.Where(x => x.Subject == "Reminders Email" && x.IsSend == true && x.TimeValue != string.Empty).ToListAsync();
+            var templates = await _context.EmailTemplates.Where(x => x.TemplateType == templateType && x.IsSend == true && x.TimeValue != string.Empty).ToListAsync();
 
-            foreach (var emailTemplate in notifiers)
+            foreach (var emailTemplate in templates)
             {
                 var slot = slots.FirstOrDefault(x => x.Id == emailTemplate.AvailabilitySlotId);
 
@@ -40,40 +42,22 @@ namespace EasyMeets.Core.BLL.Services.Quartz
                     break;
                 }
 
-                foreach (var meeting in slot.Meetings)
-                {
-                    double minutes = TimeSpan.Parse(emailTemplate.TimeValue).TotalMinutes * -1;
+                double minutes = TimeSpan.Parse(emailTemplate.TimeValue).TotalMinutes;
 
-                    if (meeting.StartTime.AddMinutes(minutes) == DateTimeOffset.Now)
-                    {
-                        await _meetingService.SendEmailsAsync(meeting.Id, TemplateType.Reminders);
-                    }
+                if(templateType == TemplateType.Reminders)
+                {
+                    minutes *= -1;
                 }
+
+                _ = slot.Meetings.Select(async x => await CheckAndSend(minutes, x, templateType));
             }
         }
 
-        public async Task NotifyFollowUp(List<AvailabilitySlot> slots)
+        public async Task CheckAndSend(double minutes, Meeting meeting, TemplateType templateType)
         {
-            var followUps = await _context.EmailTemplates.Where(x => x.Subject == "Follow-Up Email" && x.IsSend == true && x.TimeValue != string.Empty).ToListAsync();
-
-            foreach (var emailTemplate in followUps)
+            if (meeting.StartTime.AddMinutes(minutes) == DateTimeOffset.Now)
             {
-                var slot = slots.FirstOrDefault(x => x.Id == emailTemplate.AvailabilitySlotId);
-
-                if (slot is null || slot.Meetings is null)
-                {
-                    break;
-                }
-
-                foreach (var meeting in slot.Meetings)
-                {
-                    double minutes = TimeSpan.Parse(emailTemplate.TimeValue).TotalMinutes;
-
-                    if (meeting.StartTime.AddMinutes(minutes) == DateTimeOffset.Now)
-                    {
-                        await _meetingService.SendEmailsAsync(meeting.Id, TemplateType.FollowUp);
-                    }
-                }
+                await _meetingService.SendEmailsAsync(meeting.Id, templateType);
             }
         }
     }

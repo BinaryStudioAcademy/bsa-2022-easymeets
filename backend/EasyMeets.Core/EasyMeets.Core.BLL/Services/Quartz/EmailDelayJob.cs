@@ -19,9 +19,7 @@ namespace EasyMeets.Core.BLL.Services.Quartz
             using var scope = _provider.CreateScope();
             var emailDelayService = scope.ServiceProvider.GetRequiredService<IEmailDelayService>();
 
-            Task.Run(() => emailDelayService.CheckForNotify()).Wait();
-
-            return Task.CompletedTask;
+            return emailDelayService.CheckForNotify();
         }
     }
 }
