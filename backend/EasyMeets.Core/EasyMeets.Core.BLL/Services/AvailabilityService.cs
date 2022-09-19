@@ -272,13 +272,12 @@ namespace EasyMeets.Core.BLL.Services
 
         private void UpdateSchedule(ScheduleDto scheduleDto, Schedule schedule)
         {
-            var scheduleId = schedule.Id;
             var updatedExclusionDateIds = scheduleDto.ExclusionDates.Select(date => date.Id);
             var updatedDayTimeRangeIds =
                 scheduleDto.ExclusionDates.SelectMany(dto => dto.DayTimeRanges)
                     .Select(dto => dto.Id);
             var deletedExclusionDates = _context.ExclusionDates.Where(date =>
-                date.ScheduleId == scheduleId &&
+                date.ScheduleId == schedule.Id &&
                 updatedExclusionDateIds.All(updatedDateId => updatedDateId != date.Id));
             var deletedDayTimeRanges = _context.DayTimeRanges
                 .Where(range =>
