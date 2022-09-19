@@ -43,11 +43,9 @@ export class SlotMembersWindowComponent extends BaseComponent implements OnInit 
     }
 
     public changeSelection(member: ISlotMember) {
-        if (this.selectedMembers.some(m => m.memberId === member.memberId)) {
-            this.selectedMembers = this.selectedMembers.filter(m => m.memberId !== member.memberId);
-        } else {
-            this.selectedMembers = [...this.selectedMembers, member];
-        }
+        this.selectedMembers = this.isSelected(member)
+            ? this.selectedMembers.filter(m => m.memberId !== member.memberId)
+            : [...this.selectedMembers, member];
     }
 
     public getFilteredMembers() {
