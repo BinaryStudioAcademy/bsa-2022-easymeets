@@ -207,19 +207,6 @@ public class TeamService : BaseService, ITeamService
         return memberDto;
     }
 
-    public async Task<NewMeetingMemberDto> GetTeamMembersByIdAsync(long userId, long teamId)
-    {
-        var teamMember = await _context.TeamMembers
-            .Include(x => x.User)
-            .FirstOrDefaultAsync(x => x.TeamId == teamId && x.UserId == userId) ?? throw new KeyNotFoundException("Invalid team or member id");
-
-        var memberDto = _mapper.Map<NewMeetingMemberDto>(teamMember);
-
-        memberDto.UnavailabilityItems = await GetMemberUnavailability(teamMember.Id);
-
-        return memberDto;
-    }
-
     private async Task<List<UnavailabilityItemDto>> GetMemberUnavailability(long teamMemberId)
     {
         var member = await _context.TeamMembers
