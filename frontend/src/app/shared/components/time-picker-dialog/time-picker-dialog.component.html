@@ -1,0 +1,21 @@
+<div class="time-picker-wrapper" >
+    <p class="title">
+        All {{scheduleItem.weekDay}}s Availability
+    </p>
+    <form class="input-container">
+        <div class="time-item">
+            <input class="time-input start-range" type="time" name="start-range" [(ngModel)]="start" (change)="compareTimes()">
+            -
+            <input class="time-input" type="time" name="end-range" [(ngModel)]="end" (change)="compareTimes()">
+        </div>
+        <hr>
+    </form>
+    <div class="buttons-wrapper">
+        <button class="cancel" (click)="onClickCancel()">
+            Cancel
+        </button>
+        <button class="apply" (click)="onClickApply()" [mat-dialog-close]="scheduleItem" [disabled]="!start || !end || !isApplyActive">
+            Apply
+        </button>
+    </div>
+</div>

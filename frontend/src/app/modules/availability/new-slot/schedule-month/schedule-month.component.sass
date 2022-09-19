@@ -39,10 +39,10 @@ i
 .cal-content
     height: 35px
     display: flex
-    align-items: flex-start
+    align-items: center
     flex-direction: column
-    justify-content: flex-start
-    padding: 5px 5px 5px 10px
+    justify-content: center
+    padding: 5px
     overflow: clip
 
 ::ng-deep .cal-month-view
@@ -51,15 +51,10 @@ i
             color: $dark-gray
             padding: 25px 0 10px 0
 
-.more-text
-    display: flex
-    align-items: center
-    height: 100%
-    width: 100%
-    padding-left: 10px
-
 .menu-trigger:hover
     height: 100%
     width: 100%
     cursor: pointer
 
+::ng-deep .mat-menu-panel
+    min-height: 0

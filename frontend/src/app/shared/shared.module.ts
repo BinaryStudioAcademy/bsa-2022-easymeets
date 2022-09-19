@@ -15,6 +15,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { OwnerRightsWindowComponent } from './components/owner-rights-window/owner-rights-window.component';
 import { SlotPasswordWindowComponent } from './components/slot-password-window/slot-password-window.component';
 import { TeamMembersWindowComponent } from './components/team-members-window/team-members-window.component';
+import { TimePickerDialogComponent } from './components/time-picker-dialog/time-picker-dialog.component';
 import { UnsavedChangesComponent } from './components/unsaved-changes/unsaved-changes.component';
 import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive';
 
@@ -39,6 +40,7 @@ import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive
         TeamMembersWindowComponent,
         OwnerRightsWindowComponent,
         SlotPasswordWindowComponent,
+        TimePickerDialogComponent,
     ],
     exports: [
         CommonModule,

@@ -1,0 +1,90 @@
+@import '../../../../styles/color-variables'
+@import '../../../../styles/screen-variables'
+
+*
+    font-family
+        font-family: 'Inter', serif !important
+
+.time-picker-wrapper
+    display: flex
+    flex-direction: column
+    justify-content: flex-start
+    align-items: center
+    width: 400px
+    padding: 10px
+
+    .title
+        font-style: normal
+        font-weight: 900
+        font-size: 22px
+        line-height: 146%
+        color: $midnight
+        align-self: flex-start
+
+
+.cancel, .apply
+    box-sizing: border-box
+    padding: 8px 24px
+    gap: 8px
+    width: 186px
+    height: 48px
+    border: 1px solid $button-border
+    border-radius: 24px
+    cursor: pointer
+
+.cancel
+    background: $white-color
+.apply
+    background: $midnight
+    color: $white-color
+    &:disabled
+        cursor: default
+        opacity: 0.3
+
+hr
+    border: 1px solid $line-color
+    width: 100%
+
+.time-input
+    border: 2px solid $icon-color
+    border-radius: 8px
+    width: 75px
+    height: 36px
+    font-style: normal
+    font-weight: 400
+    font-size: 14px
+    line-height: 146%
+    padding-left: 8px
+    margin-left: 12px
+    margin-right: 12px
+
+.start-range
+    margin-left: 0
+
+input[type="time"]::-webkit-calendar-picker-indicator
+    background: none
+
+.input-container
+    position: relative
+    width: 100%
+    min-height: 100px
+    hr
+        position: absolute
+        bottom: 0
+
+.buttons-wrapper
+    display: flex
+    flex-direction: row
+    width: 100%
+    justify-content: space-between
+    padding-top: 32px
+    @media (max-width: $phone-min-width)
+        flex-direction: column
+        align-items: center
+
+.time-item
+    display: flex
+    align-items: center
+    justify-content: flex-start
+    margin-top: 32px
+    margin-bottom: 32px
