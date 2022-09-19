@@ -7,7 +7,16 @@
                 </div>
                 <input enctype="multipart/form-data" method="put" hidden #file accept="image/png,.gif,.jpg" type="file"
                     (change)="loadImage($event)" />
-                <button type="button" class="white-button" mat-flat-button (click)="file.click()">Upload Logo</button>
+                <div class="buttons-column">
+                    <button type="button" class="white-button" mat-flat-button (click)="file.click()">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                        Upload
+                    </button>
+                    <button type="button" class="white-button" mat-flat-button (click)="deleteLogo()">
+                        <i class="fa-regular fa-trash-can"></i>
+                        Delete
+                    </button>
+                </div>
             </div>
         </div>
         <div class="item">
@@ -37,7 +46,7 @@
         </div>
         <div class="item">
             <label>Time Zone</label>
-            <ng-moment-timezone-picker (change)="markTimeZoneDirty()" [formControlName]="'timeZone'"
+            <ng-moment-timezone-picker class="timezone-picker" (change)="markTimeZoneDirty()" [formControlName]="'timeZone'"
                 customPlaceholderText="" [getUserZone]="!team?.timeZone">
             </ng-moment-timezone-picker>
         </div>
@@ -64,10 +73,10 @@
             <div class="buttons-block">
                 <button mat-flat-button class="white-button" type="button" (click)="deleteClick.emit(formGroup)"
                     *ngIf="showDeleteButton">
-                    <mat-icon class="icon">delete_outline</mat-icon>
+                    <i class="fa-regular fa-trash-can"></i>
                     Delete Team
                 </button>
-                <button mat-flat-button type="submit"
+                <button *ngIf="submitButtonText" mat-flat-button type="submit"
                     [disabled]="formGroup.invalid || formGroup.pending || !formGroup.dirty || formValueUpdating">
                     {{ submitButtonText }}
                 </button>

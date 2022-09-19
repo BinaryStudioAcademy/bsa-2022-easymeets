@@ -103,4 +103,8 @@ export class TeamService {
     public uploadLogo(data: FormData, id?: number) {
         return this.httpService.putRequest<IImagePath>(`${this.routePrefix}/uploadlogo/${id ?? ''}`, data);
     }
+
+    public deleteLogo(teamId: number) {
+        return this.httpService.deleteRequest(`${this.routePrefix}/${teamId}/logo`);
+    }
 }

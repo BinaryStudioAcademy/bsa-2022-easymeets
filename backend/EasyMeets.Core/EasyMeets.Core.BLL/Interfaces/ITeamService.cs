@@ -13,6 +13,7 @@ public interface ITeamService
     Task UpdateTeamAsync(UpdateTeamDto team);
     Task DeleteTeamAsync(long teamId);
     Task<ImagePathDto> UploadLogoAsync(IFormFile file, long? teamId);
+    Task DeleteLogo(long teamId);
     Task<ICollection<NewMeetingMemberDto>> GetTeamMembersByNameAsync(string searchName, long? teamId);
     Task<NewMeetingMemberDto> GetTeamMembersByIdAsync(long userId, long teamId);
     Task<List<TeamMemberDto>> GetTeamMembersAsync(long id);
