@@ -19,14 +19,12 @@ namespace EasyMeets.Core.BLL.Services.Quartz
         public async Task CheckForNotify()
         {
             var slots = await _context.EmailTemplates
-                .Where(x => (x.TemplateType == TemplateType.Reminders && x.IsSend == true) || (x.TemplateType == TemplateType.FollowUp && x.IsSend == true))
+                .Where(x => (x.TemplateType == TemplateType.Reminders && x.IsSend) || (x.TemplateType == TemplateType.FollowUp && x.IsSend))
                 .Include(x => x.AvailabilitySlot)
-                .Select(x => x.AvailabilitySlot).ToListAsync();
+                .Select(x => x.AvailabilitySlot)
+                .ToListAsync();
 
-            await Notify(slots, TemplateType.Reminders);
-            await Notify(slots, TemplateType.FollowUp);
-
-            await Task.CompletedTask;
+            await Task.WhenAll(Notify(slots, TemplateType.Reminders), Notify(slots, TemplateType.FollowUp));
         }
 
         public async Task Notify(List<AvailabilitySlot> slots, TemplateType templateType)
@@ -49,7 +47,7 @@ namespace EasyMeets.Core.BLL.Services.Quartz
                     minutes *= -1;
                 }
 
-                _ = slot.Meetings.Select(async x => await CheckAndSend(minutes, x, templateType));
+                _ = Task.WhenAll(slot.Meetings.Select(x => CheckAndSend(minutes, x, templateType)));
             }
         }
 
