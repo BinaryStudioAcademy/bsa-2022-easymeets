@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using EasyMeets.Core.Common.DTO;
 using EasyMeets.Core.Common.DTO.Availability;
-using EasyMeets.Core.Common.DTO.Email.EmailTemplate;
 using EasyMeets.Core.DAL.Entities;
 
 namespace EasyMeets.Core.BLL.MappingProfiles
