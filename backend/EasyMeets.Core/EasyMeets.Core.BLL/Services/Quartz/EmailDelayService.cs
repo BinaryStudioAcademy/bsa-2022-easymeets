@@ -9,7 +9,7 @@ namespace EasyMeets.Core.BLL.Services.Quartz
 {
     public class EmailDelayService : BaseService, IEmailDelayService
     {
-        private readonly IMeetingService _meetingService; 
+        private readonly IMeetingService _meetingService;
 
         public EmailDelayService(EasyMeetsCoreContext context, IMapper mapper, IMeetingService meetingService) : base(context, mapper)
         {
@@ -18,44 +18,53 @@ namespace EasyMeets.Core.BLL.Services.Quartz
 
         public async Task CheckForNotify(TemplateType templateType)
         {
-            var slots = await _context.EmailTemplates
+            var emailTemplates = await _context.EmailTemplates
                 .Where(x => x.TemplateType == templateType && x.IsSend && x.TimeValue != string.Empty)
                 .Include(x => x.AvailabilitySlot)
-                .Select(x => x.AvailabilitySlot)
                 .ToListAsync();
 
-            await Notify(slots, templateType);
+            await Notify(emailTemplates);
         }
 
-        public async Task Notify(List<AvailabilitySlot> slots, TemplateType templateType)
+        public async Task Notify(List<EmailTemplate> templates)
         {
-            var templates = await _context.EmailTemplates.Where(x => x.TemplateType == templateType && x.IsSend == true && x.TimeValue != string.Empty).ToListAsync();
-
             foreach (var emailTemplate in templates)
             {
-                var slot = slots.FirstOrDefault(x => x.Id == emailTemplate.AvailabilitySlotId);
+                var slot = emailTemplate.AvailabilitySlot;
 
-                if (slot is null || slot.Meetings is null)
+                if (slot.Meetings is null || !slot.Meetings.Any())
                 {
                     break;
                 }
 
                 double minutes = TimeSpan.Parse(emailTemplate.TimeValue).TotalMinutes;
 
-                if (templateType == TemplateType.Reminders)
+                if (emailTemplate.TemplateType == TemplateType.Reminders)
                 {
                     minutes *= -1;
                 }
 
-                await Task.WhenAll(slot.Meetings.Select(x => CheckAndSend(minutes, x, templateType)));
+                await Task.WhenAll(slot.Meetings.Select(x => CheckAndSend(minutes, x, emailTemplate)));
             }
         }
 
-        public async Task CheckAndSend(double minutes, Meeting meeting, TemplateType templateType)
+        public async Task CheckAndSend(double minutes, Meeting meeting, EmailTemplate emailTemplate)
         {
             if (meeting.StartTime.AddMinutes(minutes) == DateTimeOffset.Now)
             {
-                await _meetingService.SendEmailsAsync(meeting.Id, templateType);
+                try
+                {
+                    await _meetingService.SendEmailsAsync(meeting.Id, emailTemplate.TemplateType);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error in Quartz worker. Error : {ex.Message}");
+                }
+                finally
+                {
+                    _context.EmailTemplates.Remove(emailTemplate);
+                    await _context.SaveChangesAsync();
+                }
             }
         }
     }
