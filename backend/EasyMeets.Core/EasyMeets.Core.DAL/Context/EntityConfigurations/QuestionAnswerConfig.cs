@@ -18,7 +18,7 @@ namespace EasyMeets.Core.DAL.Context.EntityConfigurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(q => q.Meeting)
-                .WithMany()
+                .WithMany(m => m.QuestionAnswers)
                 .HasForeignKey(q => q.MeetingId)
                 .OnDelete(DeleteBehavior.Cascade);
         }

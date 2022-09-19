@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="exclusion-wrapper">
+        <p class="title">Answers of {{ booker.name }}</p>
+        <div class="flex bottom">
+            <div class="flex-col">
+                <p>Booking</p>
+                <span class="info">{{ booker.meetingName }}</span>
+            </div>
+            <div class="flex-col">
+                <p>Date</p>
+                <span class="info">{{ booker.meetingDate | date }}</span>
+            </div>
+            <div class="flex-col">
+                <p>Time</p>
+                <span class="info"
+                    >{{ booker.meetingDate | date: 'HH:mm' }} - {{ endMeetingTime | date: 'HH:mm' }}</span
+                >
+            </div>
+        </div>
+        <div class="flex questions-wrapper">
+            <form form #externalAnswers="ngForm">
+                <ng-container *ngFor="let question of booker.questions; let i = index">
+                    <div class="question-mandatory list-item-wrapper flex cross-axis-center">
+                        <mat-label class="question-index bold">{{ i + 1 }}.</mat-label>
+                        <mat-label class="bold">{{ question.questionText }}</mat-label>
+                    </div>
+                    <div class="question-mandatory list-item-wrapper flex cross-axis-center">
+                        <mat-form-field class="question-input no-padding max-input-width" appearance="outline">
+                            <input
+                                matInput
+                                type="text"
+                                name="questionAnswer{{ i }}"
+                                #questionField="ngModel"
+                                [(ngModel)]="question.answer"
+                                [pattern]="textFieldRegex"
+                                required
+                                (change)="trimInputValue(questionField.control)"
+                                disabled
+                                [placeholder]="question.placeHolderText" />
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="questionField.invalid && questionField.touched" class="validation-error">
+                        <div *ngIf="questionField.errors?.['required']">Field is required</div>
+                        <div *ngIf="questionField.errors?.['pattern']">
+                            Input field accepts only text, numbers, symbols -'
+                        </div>
+                    </div>
+                </ng-container>
+            </form>
+        </div>
+        <div class="buttons-wrapper">
+            <button class="cancel" (click)="clickCancel()">Cancel</button>
+            <button class="apply" (click)="clickApply()" [disabled]="!externalAnswers.valid">Apply</button>
+        </div>
+    </div>
+</div>

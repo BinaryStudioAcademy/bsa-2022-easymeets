@@ -1,6 +1,7 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO;
+using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.Enums;
@@ -43,6 +44,8 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
+                .Include(m => m.QuestionAnswers.Where(q => !q.Question.IsMandatory))
+                    .ThenInclude(ans => ans.Question)
                 .Where(meeting => meeting.TeamId == team.Id &&
                                   meeting.StartTime >= startRestriction &&
                                   meeting.StartTime.AddMinutes(meeting.Duration) <= endRestriction)
@@ -84,7 +87,19 @@ namespace EasyMeets.Core.BLL.Services
                     Name = x.Name,
                     Email = x.Email,
                     TimeZone = new() { NameValue = x.TimeZoneName, TimeValue = x.TimeZoneValue },
-                    Booked = meeting.CreatedAt
+                    Booked = meeting.CreatedAt,
+                    MeetingName = meeting.Name,
+                    MeetingDate = meeting.StartTime,
+                    MeetingDuration = meeting.Duration,
+                    Questions = meeting.QuestionAnswers.Select(x => new QuestionDto
+                    {
+                        Answer = x.Answer,
+                        Id = x.QuestionId,
+                        IsMandatory = x.Question.IsMandatory,
+                        Order = x.Question.Order,
+                        QuestionText = x.Question.QuestionText,
+                    })
+                    .ToList()
                 });
 
             return slotMembers.Union(external).ToList();
@@ -108,6 +123,8 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
+                .Include(m => m.QuestionAnswers)
+                    .ThenInclude(ans => ans.Question)
                 .FirstOrDefaultAsync(m => m.Id == id) ?? throw new KeyNotFoundException("No meeting found");
 
             var members = _mapper.Map<List<UserMeetingDTO>>(meeting.MeetingMembers.Select(s => s.TeamMember.User));

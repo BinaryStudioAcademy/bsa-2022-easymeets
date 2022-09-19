@@ -2,7 +2,7 @@
     <div id="container-back" class="back-container" (click)="cancelBooking.emit(true)" onclick="history.back()">
         <span class="back-text"> Enter details</span>
     </div>
-    <form #externalRegistration="ngForm" id="container-extrainfo" class="extrainfo-container">
+    <form #answers="ngForm" id="container-extrainfo" class="extrainfo-container">
         <div class="question-mandatory list-item-wrapper flex cross-axis-center bottom">
             <mat-label class="question-index bold">1.</mat-label>
             <mat-label class="bold">{{ fullNameText }}</mat-label>
@@ -78,7 +78,7 @@
             (click)="OnConfirmBooking()"
             mat-flat-button
             color="primary"
-            [disabled]="!externalRegistration.valid">
+            [disabled]="!answers.valid">
             Confirm booking
         </button>
     </div>
