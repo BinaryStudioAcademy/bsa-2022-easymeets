@@ -47,7 +47,7 @@ namespace EasyMeets.Core.BLL.Services.Quartz
                     minutes *= -1;
                 }
 
-                _ = Task.WhenAll(slot.Meetings.Select(x => CheckAndSend(minutes, x, templateType)));
+                await Task.WhenAll(slot.Meetings.Select(x => CheckAndSend(minutes, x, templateType)));
             }
         }
 
