@@ -16,13 +16,19 @@ namespace EasyMeets.Core.BLL.Services
         private readonly IZoomService _zoomService;
         private readonly IEmailSenderService _emailSender;
         private readonly IGoogleMeetService _googleMeetService;
-        private readonly string _applicationURL = "https://bsa-easymeets.westeurope.cloudapp.azure.com/";
-        public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IZoomService zoomService, IEmailSenderService emailSender, IGoogleMeetService googleMeetService) : base(context, mapper)
+        private readonly IGoogleOAuthService _googleOAuthService;
+        private readonly ICalendarsService _calendarsService;
+        private const string _applicationURL = "https://bsa-easymeets.westeurope.cloudapp.azure.com/";
+        public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IZoomService zoomService,
+            IEmailSenderService emailSender, IGoogleMeetService googleMeetService, IGoogleOAuthService googleOAuthService,
+            ICalendarsService calendarsService) : base(context, mapper)
         {
             _userService = userService;
             _zoomService = zoomService;
             _emailSender = emailSender;
             _googleMeetService = googleMeetService;
+            _googleOAuthService = googleOAuthService;
+            _calendarsService = calendarsService;
         }
 
         public async Task<List<MeetingSlotDTO>> GetMeetingsAsync(MeetingMemberRequestDto meetingMemberRequestDto)
@@ -142,6 +148,20 @@ namespace EasyMeets.Core.BLL.Services
             await AddMeetingLink(meeting);
 
             await SendEmailsAsync(meeting.Id, TemplateType.Confirmation);
+
+            var visibleCalendars = await _context.CalendarVisibleForTeams
+                .Include(g => g.Calendar)
+                .Where(x => x.TeamId == meeting.TeamId).ToListAsync();
+
+            foreach (var calendar in visibleCalendars)
+            {
+                var tokenResultDto = await _googleOAuthService.RefreshToken(calendar.Calendar.RefreshToken);
+
+                if (tokenResultDto != null)
+                {
+                    await _calendarsService.AddMeetingToCalendar(_mapper.Map<SaveMeetingDto>(meeting), tokenResultDto);
+                }
+            }
 
             return _mapper.Map<SaveMeetingDto>(GetByIdInternal(meeting.Id));
         }
