@@ -6,6 +6,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { MaterialModule } from '@shared/material/material.module';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { BookingWindowComponent } from './components/booking-window/booking-window.component';
@@ -13,6 +14,7 @@ import { ConfirmationWindowComponent } from './components/confirmation-window/co
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { OwnerRightsWindowComponent } from './components/owner-rights-window/owner-rights-window.component';
+import { SlotMembersWindowComponent } from './components/slot-members-window/slot-members-window.component';
 import { SlotPasswordWindowComponent } from './components/slot-password-window/slot-password-window.component';
 import { TeamMembersWindowComponent } from './components/team-members-window/team-members-window.component';
 import { UnsavedChangesComponent } from './components/unsaved-changes/unsaved-changes.component';
@@ -28,6 +30,7 @@ import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive
         MatDialogModule,
         MatButtonModule,
         NgxMaskModule,
+        MaterialModule,
     ],
     declarations: [
         LoadingSpinnerComponent,
@@ -38,6 +41,7 @@ import { HeaderLessTabsDirective } from './directives/header-less-tabs.directive
         BookingWindowComponent,
         TeamMembersWindowComponent,
         OwnerRightsWindowComponent,
+        SlotMembersWindowComponent,
         SlotPasswordWindowComponent,
     ],
     exports: [
