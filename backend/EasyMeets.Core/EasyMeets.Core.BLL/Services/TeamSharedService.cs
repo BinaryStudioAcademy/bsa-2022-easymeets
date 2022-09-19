@@ -22,20 +22,19 @@ public class TeamSharedService : BaseService, ITeamSharedService
         {
             Name = teamName,
             PageLink = await GenerateNewPageLinkAsync(0, teamName),
-            TimeZone = new TimeZoneDto() { NameValue = user.TimeZoneName, TimeValue = user.TimeZoneValue },
         };
-        
+
         var team = _mapper.Map<Team>(teamDto);
         var createdTeam = _context.Teams.Add(team).Entity;
         await _context.SaveChangesAsync();
-        
+
         var member = new TeamMember
         {
             Role = Role.Owner,
             TeamId = createdTeam.Id,
             UserId = user.Id,
         };
-        
+
         _context.TeamMembers.Add(member);
         await _context.SaveChangesAsync();
     }

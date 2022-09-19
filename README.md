@@ -51,7 +51,6 @@ erDiagram
       int Language
       int TimeFormat
       int DateFormat
-      int TimeZone
       boolean IsBanned
       boolean IsDeleted
   }

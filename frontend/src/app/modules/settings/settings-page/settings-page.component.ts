@@ -3,7 +3,9 @@ import { BaseComponent } from '@core/base/base.component';
 import { getUserSettingsMenuItems } from '@core/helpers/user-settings-menu-helper';
 import { SideMenuGroup } from '@core/interfaces/sideMenu/sideMenuGroup';
 import { ITeam } from '@core/models/ITeam';
+import { SettingPageService } from '@core/services/setting-page.service';
 import { TeamService } from '@core/services/team.service';
+import { switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-settings-page',
@@ -17,7 +19,9 @@ export class SettingsPageComponent extends BaseComponent implements OnInit {
 
     public teams: ITeam[] = [];
 
-    public isActive: boolean = true;
+    public isActive: boolean;
+
+    public isUpdateButtonActive: boolean;
 
     public teamsMenuGroup: SideMenuGroup = {
         header: 'Teams',
@@ -27,31 +31,41 @@ export class SettingsPageComponent extends BaseComponent implements OnInit {
         buttonRouterLink: '/settings/teams/new',
     };
 
-    constructor(private teamService: TeamService) {
+    constructor(private teamService: TeamService, public settingPageService: SettingPageService) {
         super();
     }
 
     ngOnInit(): void {
         this.displayUserAdminTeams();
         this.initializeSideMenu();
-        this.teamService.teamStateChangeEmitted$.subscribe(() => this.displayUserAdminTeams());
+        this.teamService.teamStateChangeEmitted$
+            .pipe(this.untilThis)
+            .pipe(switchMap(() => this.teamService
+                .getCurrentUserAdminAndOwnerTeams()))
+            .subscribe((teams) => this.refreshTeams(teams));
+
+        this.settingPageService.updateButtonActiveEvent$.pipe(this.untilThis).subscribe(isActive => {
+            this.isUpdateButtonActive = isActive;
+        });
     }
 
     private displayUserAdminTeams() {
         this.teamService
             .getCurrentUserAdminAndOwnerTeams()
             .pipe(this.untilThis)
-            .subscribe((teams) => {
-                this.teams = teams;
-                this.teamsMenuGroup.items = teams.map((team) => ({
-                    text: team.name,
-                    routerLink: this.teamEditBaseLink + team.id,
-                }));
-            });
+            .subscribe((teams) => this.refreshTeams(teams));
     }
 
     private initializeSideMenu() {
         this.sideMenuGroups = getUserSettingsMenuItems();
         this.sideMenuGroups.push(this.teamsMenuGroup);
+    }
+
+    private refreshTeams(teams: ITeam[]) {
+        this.teams = teams;
+        this.teamsMenuGroup.items = teams.map((team) => ({
+            text: team.name,
+            routerLink: this.teamEditBaseLink + team.id,
+        }));
     }
 }
