@@ -4,109 +4,45 @@
 h1, h3, h4
     font-family: 'Inter'
     font-style: normal
-    line-height: 20px
-    color: $pale-sky
 
-h3, h4
-    font-weight: 400
-    font-size: 14px
+.title
+    display: grid
+    align-items: center
+    justify-items: center
+    height: 100px
+    h1
+        font-weight: 900
+        font-size: 32px
+        line-height: 150%
 
-h1
-    font-weight: 700
-    font-size: 20px
-
-.member-cards-container
-    display: inline-block
-    width: 40%
-    margin-right: 10%
-    margin-bottom: 3%
-
-::ng-deep .team-member-card.mat-card
+.members-container
+    display: grid
+    grid-template-columns: 40% 40%
+    padding: 20px 5%
+    column-gap: 10%
+    row-gap: 20px
     width: 100%
-    height: 37px
-    margin: 5px 20px
-    padding-top: 20px
+    height: calc(100% - 100px)
+    overflow-y: auto
+
+.team-member-card
+    width: 100%
+    height: 96px
+    border: 1px solid rgb($loblolly, 0.20)
     padding-left: 20px
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.16)
-    border-radius: 4px
-    .mat-card-title
-        display: flex
-        align-content: flex-start
-        flex-direction: row
-        .team-member-img
-            width: 51px
-            height: 51px
-            margin-right: 5px
-            margin-top: -7px
-            clip-path: circle()
-        .team-member-name
-            margin-top: 5px
-        .team-member-checkbox
-            margin-left: auto
-            margin-top: 5px
-            input[type="checkbox"]
-                transform: scale(1.25)
-                cursor: pointer
-                accent-color: $royal-blue
+    border-radius: 32px
+    display: flex
+    justify-items: flex-start
+    gap: 20px
+    align-items: center
+    .team-member-name
+        font-weight: 900
+        font-size: 22px
+        line-height: 146%
+    .team-member-img
+        width: 56px
+        height: 56px
+        clip-path: circle()
 
 ::ng-deep .team-member-card.mat-card:hover
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25)
-
-.upper-bar
-    display: flex
-    align-content: flex-start
-    flex-direction: row
-    height: 40%
-    width: 100%
-    @media screen and (max-width: $desktop-min-width)
-        flex-direction: column
-    @media screen and (max-width: $desktop-min-width)
-        height: 60%
-    .upper-bar-icon
-        margin-left: 2%
-        margin-right: 5%
-        color: $pale-sky
-        line-height: 45px
-        cursor: pointer
-        @media screen and (max-width: $desktop-min-width)
-            margin-left: 0
-    .nav-text
-        margin-left: auto
-        width: 55%
-        h1
-            line-height: 45px
-        @media screen and (max-width: $desktop-min-width)
-            width: 100%
-    .nav-buttons
-        margin-left: auto
-        min-width: 260px
-        .cancel-btn-active
-            background-color: $white
-            color: $pale-sky
-            border: 2px solid $loblolly
-            border-radius: 4px
-            margin-bottom: 4px
-            margin-right: 4px
-            margin-left: 0
-        .cancel-btn-active:hover
-            background-color: $athens-gray
-            border-color: $pale-sky
-        .cancel-btn-inactive
-            background-color: $loblolly
-            color: $pale-sky
-            border: 2px solid $loblolly
-            border-radius: 4px
-            cursor: default
-            margin-bottom: 4px
-            margin-left: 0
-            margin-right: 4px
-        .next-btn
-            border: 2px solid $royal-blue
-            border-radius: 4px
-            margin-left: 0
-        .next-btn:hover
-            background-color: $dark-blue
-            border-color: $dark-blue
-
-::ng-deep .nav-button.mat-flat-button
-    margin-left: 20px

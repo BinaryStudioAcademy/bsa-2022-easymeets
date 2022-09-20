@@ -40,6 +40,8 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
 
     locationTypeMapping = LocationTypeMapping;
 
+    maxAvatarNumber: number = 10;
+
     constructor(
         public spinnerService: SpinnerService,
         private externalService: ExternalAttendeeService,
@@ -142,8 +144,9 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             data.slotMembers.length > 1 &&
             !this.slotDataLoaded) {
             this.router.navigate(['/external-booking/choose-team-members']);
+        } else {
+            this.slotDataLoaded = true;
         }
-        this.slotDataLoaded = true;
     }
 
     public addTimeAndDateInMenu(data: { date: Date; timeFinish: Date; timeZone: TZone }): void {
@@ -180,6 +183,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             ...this.menu,
             slotMembers: [member],
         };
+        this.slotDataLoaded = true;
         this.router.navigate([`/external-booking/choose-time/${this.link}`]);
     }
 

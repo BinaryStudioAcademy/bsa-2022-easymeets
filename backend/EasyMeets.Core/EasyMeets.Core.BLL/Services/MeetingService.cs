@@ -37,6 +37,7 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<List<MeetingSlotDTO>> GetMeetingsAsync(MeetingMemberRequestDto meetingMemberRequestDto)
         {
+            var currentUser = await _userService.GetCurrentUserAsync();
             var teamId = meetingMemberRequestDto.TeamId;
             if (teamId is null)
             {
@@ -55,6 +56,7 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
                 .Where(meeting => meeting.TeamId == team.Id &&
+                                  meeting.MeetingMembers.Any(member => member.TeamMember.UserId == currentUser.Id) &&
                                   meeting.StartTime >= startRestriction &&
                                   meeting.StartTime.AddMinutes(meeting.Duration) <= endRestriction)
                 .OrderBy(m => m.StartTime)

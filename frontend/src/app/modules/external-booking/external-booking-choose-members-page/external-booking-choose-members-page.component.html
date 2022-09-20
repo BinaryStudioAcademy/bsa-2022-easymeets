@@ -1,11 +1,9 @@
-<div class="upper-bar">
-    <div class="nav-text">
-        <h1>Please, choose Team member for meeting</h1>
-    </div>
+<div class="title">
+    <h1>Please, choose Team member for meeting</h1>
 </div>
-<div *ngFor="let member of slotMembers" class="member-cards-container">
-    <mat-card class="team-member-card" (click)="selectMember(member)">
-        <mat-card-title>
+<div class="members-container">
+    <div *ngFor="let member of slotMembers" class="member-cards-container">
+        <div class="team-member-card" (click)="selectMember(member)">
             <ng-container *ngIf="member.image; else noImageParticipant">
                 <img class="team-member-img" src="{{ member.image }}" alt="member" />
             </ng-container>
@@ -15,6 +13,6 @@
             <div class="team-member-name">
                 <h3>{{ member.name }}</h3>
             </div>
-        </mat-card-title>
-    </mat-card>
+        </div>
+    </div>
 </div>
