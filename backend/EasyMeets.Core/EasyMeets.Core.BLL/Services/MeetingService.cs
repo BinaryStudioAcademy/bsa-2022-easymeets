@@ -1,6 +1,7 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO;
+using EasyMeets.Core.Common.DTO.Email;
 using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.Enums;
@@ -205,13 +206,16 @@ namespace EasyMeets.Core.BLL.Services
                 .EmailTemplates
                 .FirstOrDefault(template => template.TemplateType == type && template.IsSend);
 
-            foreach (var recipient in recipients)
+            if (meeting is not null)
             {
-                emailDto = GenerateEmailTemplate(meeting, recipient, emailTemplate);
+                foreach (var recipient in recipients)
+                {
+                    emailDto = GenerateEmailTemplate(meeting, recipient, emailTemplate);
 
-                emailDto.Recipient = recipient;
+                    emailDto.Recipient = recipient;
 
-                _emailSender.Send(emailDto);
+                    _emailSender.Send(emailDto);
+                }
             }
         }
 
@@ -264,30 +268,46 @@ namespace EasyMeets.Core.BLL.Services
             await _context.SaveChangesAsync();
         }
 
-        private EmailDto GenerateNewMeetingEmailTemplate(Meeting meeting, string invitee)
+        private MeetingEmailTemplateDto GenerateEmailParameters(Meeting meeting, string invitee)
         {
-            return new EmailDto()
+            return new MeetingEmailTemplateDto()
             {
-                Subject = $"New Event: {meeting.Name} - {meeting.StartTime} - {meeting.LocationType}",
-                Body = $"Hi, {invitee}!\n\n" +
-                $"A new event has been scheduled.\n" +
-                $"Event Type: {meeting.LocationType}\n" +
-                $"Invitee: {meeting.Author.Name}\n" +
-                $"Invitee Email: {meeting.Author.Email}\n" +
-                $"Event Date/Time: {meeting.StartTime}\n\n" +
-                $"View event in Easymeets: {_configuration["ApplicationUri"]}{meeting.MeetingLink}"
+                MeetingName = meeting.Name,
+                StartTime = meeting.StartTime,
+                LocationType = meeting.LocationType,
+                AuthorName = meeting.Author.Name,
+                AuthorEmail = meeting.Author.Email,
+                MeetingLink = meeting.MeetingLink,
+                MemberName = invitee,
+                Uri = _configuration["ApplicationUri"],
             };
         }
 
-        private EmailDto GenerateEmailTemplate(Meeting meeting, string invitee, EmailTemplate emailTemplate)
+        private EmailDto GenerateNewMeetingEmailTemplate(MeetingEmailTemplateDto parameters)
         {
+            return new EmailDto()
+            {
+                Subject = $"New Event: {parameters.MeetingName} - {parameters.StartTime} - {parameters.LocationType}",
+                Body = $"Hi, {parameters.MemberName}!\n\n" +
+                $"A new event has been scheduled.\n" +
+                $"Event Type: {parameters.LocationType}\n" +
+                $"Invitee: {parameters.AuthorName}\n" +
+                $"Invitee Email: {parameters.AuthorEmail}\n" +
+                $"Event Date/Time: {parameters.StartTime}\n\n" +
+                $"View event in Easymeets: {parameters.Uri}{parameters.MeetingLink}"
+            };
+        }
+
+        private EmailDto GenerateEmailTemplate(Meeting meeting, string invitee, EmailTemplate? emailTemplate)
+        {
+            var emailParameters = GenerateEmailParameters(meeting, invitee);
             if (emailTemplate is not null)
             {
                 return _mapper.Map<EmailDto>(emailTemplate);
             }
             else
             {
-                return GenerateNewMeetingEmailTemplate(meeting, invitee);
+                return GenerateNewMeetingEmailTemplate(emailParameters);
             }
         }
 
