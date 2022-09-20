@@ -71,6 +71,7 @@ export class NewAvailabilityPageComponent extends BaseComponent {
             templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
             teamId: this.currentTeamId,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
+            participationRule: this.newAvailabilityComponent.scheduleComponent.selectedParticipationOption,
         };
 
         return newAvailability;
