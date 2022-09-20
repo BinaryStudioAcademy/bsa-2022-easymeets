@@ -23,8 +23,8 @@ namespace EasyMeets.Core.WebAPI.Controllers
         public async Task<List<MeetingSlotDTO>> GetMeetingMembersByCountAsync(MeetingMemberRequestDto meetingMemberRequestDto) =>
             await _meetingService.GetMeetingsAsync(meetingMemberRequestDto);
 
-        [HttpGet("{id:int}/members/all")]
-        public async Task<ActionResult<List<UserMeetingDTO>>> GetAllMembers(int id)
+        [HttpGet("{id:long}/members/all")]
+        public async Task<ActionResult<List<UserMeetingDTO>>> GetAllMembers(long id)
         {
             return Ok(await _meetingService.GetAllMembers(id));
         }
