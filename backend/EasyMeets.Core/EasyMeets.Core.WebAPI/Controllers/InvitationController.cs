@@ -1,6 +1,7 @@
 ﻿using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
@@ -25,6 +26,9 @@ namespace EasyMeets.Core.WebAPI.Controllers
             var urlDecodedTeamData = HttpUtility.UrlDecode(ecodedTeamData, Encoding.UTF8);
             var teamData = JsonConvert.DeserializeObject<TeamMemberInvitationDataDto>(urlDecodedTeamData);
 
+            var absUrl = "https://bsa-easymeets.westeurope.cloudapp.azure.com/auth/signin"; 
+            return Redirect(absUrl);
+
             if (teamData != null)
             {
                 if (teamData.UserId != null)
@@ -32,7 +36,8 @@ namespace EasyMeets.Core.WebAPI.Controllers
                     await _teamService.CreateTeamMemberAsync((long)teamData.UserId, teamData.TeamId);
                     return Ok();
                 }
-                else { };
+                else
+                {};
             }
             return BadRequest();
         }
