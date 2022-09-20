@@ -196,7 +196,7 @@ namespace EasyMeets.Core.BLL.Services
                 .Concat(meeting.ExternalAttendees.Select(attendee => attendee.Email))
                 .ToList();
 
-            if (recipients is null || !recipients.Any())
+            if (recipients is null || !recipients.Any() || meeting is null)
             {
                 return;
             }
@@ -206,16 +206,13 @@ namespace EasyMeets.Core.BLL.Services
                 .EmailTemplates
                 .FirstOrDefault(template => template.TemplateType == type && template.IsSend);
 
-            if (meeting is not null)
+            foreach (var recipient in recipients)
             {
-                foreach (var recipient in recipients)
-                {
-                    emailDto = GenerateEmailTemplate(meeting, recipient, emailTemplate);
+                emailDto = GenerateEmailTemplate(meeting, recipient, emailTemplate);
 
-                    emailDto.Recipient = recipient;
+                emailDto.Recipient = recipient;
 
-                    _emailSender.Send(emailDto);
-                }
+                _emailSender.Send(emailDto);
             }
         }
 
@@ -321,7 +318,7 @@ namespace EasyMeets.Core.BLL.Services
             {
                 var tokenResultDto = await _googleOAuthService.RefreshToken(calendar.Calendar.RefreshToken);
 
-                if (tokenResultDto != null)
+                if (tokenResultDto is not null)
                 {
                     await _calendarsService.AddMeetingToCalendar(_mapper.Map<SaveMeetingDto>(meeting), tokenResultDto);
                 }
