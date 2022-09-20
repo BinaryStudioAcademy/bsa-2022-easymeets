@@ -18,7 +18,6 @@ export interface IUser {
     country?: Country;
     phoneCode?: string;
     phone?: string;
-    timeZone: ITimeZone;
 }
 
 export interface ILocalUser {
