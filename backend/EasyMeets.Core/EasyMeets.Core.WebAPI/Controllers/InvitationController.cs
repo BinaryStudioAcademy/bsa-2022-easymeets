@@ -3,6 +3,7 @@ using EasyMeets.Core.Common.DTO.Team;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Text;
 using System.Web;
@@ -14,9 +15,11 @@ namespace EasyMeets.Core.WebAPI.Controllers
     public class InvitationController : ControllerBase
     {
         private readonly ITeamService _teamService;
-        public InvitationController(ITeamService teamService)
+        private readonly IConfiguration _config;
+        public InvitationController(ITeamService teamService, IConfiguration configuration)
         {
             _teamService = teamService;
+            _config = configuration;
         }
 
         [HttpGet("accept/{ecodedTeamData}", Name = "AcceptInvitation")]
@@ -24,7 +27,10 @@ namespace EasyMeets.Core.WebAPI.Controllers
         public async Task<ActionResult> AcceptInvitation(string ecodedTeamData)
         {
             var urlDecodedTeamData = HttpUtility.UrlDecode(ecodedTeamData, Encoding.UTF8);
+
             var teamData = JsonConvert.DeserializeObject<UserInvitationDataDto>(urlDecodedTeamData);
+
+            var applicationUri = _config["ApplicationUri"];
 
             if (teamData != null)
             {
@@ -32,12 +38,16 @@ namespace EasyMeets.Core.WebAPI.Controllers
                 {
                     await _teamService.CreateTeamMemberAsync((long)teamData.UserId, teamData.TeamId);
 
-                    var absUrl = $"http://localhost:4200/teams/members/{teamData.TeamId}";
-                    
-                    return Redirect(absUrl);
+                    var actionPath = $"settings/teams/members/{teamData.TeamId}";
+
+                    var redirectionLink = $"{applicationUri}{actionPath}";
+
+                    return Redirect(redirectionLink);
                 }
                 else
                 {
+                    var pagePath = "auth/signin";
+
                     var absUrl = "http://localhost:4200/auth/signin";
                     var uriBuilder = new UriBuilder(absUrl);
                     var query = HttpUtility.ParseQueryString(uriBuilder.Query);
