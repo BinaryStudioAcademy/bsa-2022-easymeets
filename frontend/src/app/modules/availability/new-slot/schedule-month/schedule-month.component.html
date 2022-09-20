@@ -2,11 +2,11 @@
     <div class="menu-trigger" [matMenuTriggerFor]="menu">
         <div class="cal-cell-top">
             <span class="cal-day-number">{{ day.date | date :"d" }}</span>
-            <i class="fa-solid fa-repeat" *ngIf="getWeekScheduleTime(day.date).length > 0"></i>
+            <i class="fa-solid fa-repeat" *ngIf="getWeekScheduleTime(day.date).length"></i>
         </div>
         <div>
             <div class="cal-content">
-                <p *ngIf="getWeekScheduleTime(day.date).length === 0">Unavailable</p>
+                <p *ngIf="!getWeekScheduleTime(day.date).length">Unavailable</p>
                 <p *ngFor="let time of getWeekScheduleTime(day.date)">{{time}}</p>
             </div>
         </div>
