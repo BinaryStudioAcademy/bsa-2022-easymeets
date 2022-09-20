@@ -129,8 +129,8 @@ public class GoogleMeetService : BaseService, IGoogleMeetService
             { "conferenceDataVersion", "1"}
         };
 
-        var start = meeting.StartTime.DateTime.ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00";
-        var end = meeting.StartTime.DateTime.AddMinutes(meeting.Duration).ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00";
+        var start = meeting.StartTime.DateTime.ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00Z";
+        var end = meeting.StartTime.DateTime.AddMinutes(meeting.Duration).ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00Z";
 
         var body = new EventWithMeetDto
         {
