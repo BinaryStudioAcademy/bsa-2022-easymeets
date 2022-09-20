@@ -196,7 +196,7 @@ namespace EasyMeets.Core.BLL.Services
                 .Concat(meeting.ExternalAttendees.Select(attendee => attendee.Email))
                 .ToList();
 
-            if (recipients is null || !recipients.Any() || meeting is null)
+            if (recipients is null || !recipients.Any())
             {
                 return;
             }
