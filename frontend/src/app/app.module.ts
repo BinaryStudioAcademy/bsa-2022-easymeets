@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@core/core.module';
 import { environment } from '@env/environment';
+import { EditMeetingModule } from '@modules/edit-meeting/edit-meeting.module';
 import { NewMeetingModule } from '@modules/new-meeting/new-meeting.module';
 import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
@@ -29,6 +30,7 @@ import { AppRoutingModule } from './app-routing.module';
         BrowserAnimationsModule,
         MomentTimezonePickerModule,
         NewMeetingModule,
+        EditMeetingModule,
     ],
     providers: [DatePipe],
     bootstrap: [AppComponent],

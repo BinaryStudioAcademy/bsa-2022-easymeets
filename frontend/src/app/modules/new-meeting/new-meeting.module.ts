@@ -26,5 +26,6 @@ import { NewMeetingRoutingModule } from './new-meeting-routing.module';
             useFactory: adapterFactory,
         }),
     ],
+    exports: [NewMeetingComponent],
 })
 export class NewMeetingModule {}

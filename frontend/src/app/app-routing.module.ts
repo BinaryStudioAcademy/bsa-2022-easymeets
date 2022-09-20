@@ -36,6 +36,10 @@ const routes: Routes = [
         path: 'new-meeting',
         loadChildren: () => import('./modules/new-meeting/new-meeting.module').then((m) => m.NewMeetingModule),
     },
+    {
+        path: 'edit-meeting',
+        loadChildren: () => import('./modules/edit-meeting/edit-meeting.module').then((m) => m.EditMeetingModule),
+    },
     { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
