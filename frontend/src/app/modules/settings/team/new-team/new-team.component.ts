@@ -6,7 +6,7 @@ import { INewTeam } from '@core/models/INewTeam';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
 import { TeamPreferencesComponent } from '@modules/settings/team/team-preferences/team-preferences.component';
-import { of, switchMap } from 'rxjs';
+import { concatMap, of } from 'rxjs';
 
 @Component({
     selector: 'app-new-team',
@@ -39,7 +39,7 @@ export class NewTeamComponent extends BaseComponent {
             .createTeam(newTeam)
             .pipe(
                 this.untilThis,
-                switchMap((team) => {
+                concatMap((team) => {
                     this.createdId = team.id;
                     if (this.teamPreferencesComponent.image) {
                         return this.teamService.uploadLogo(this.teamPreferencesComponent.image, this.createdId);
