@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EasyMeets.Core.BLL.Helpers;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Calendar;
@@ -129,19 +129,16 @@ public class GoogleMeetService : BaseService, IGoogleMeetService
             { "conferenceDataVersion", "1"}
         };
 
-        var start = meeting.StartTime.DateTime.ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00Z";
-        var end = meeting.StartTime.DateTime.AddMinutes(meeting.Duration).ToString("yyyy-MM-dd HH:mm").Replace(" ", "T") + ":00Z";
-
         var body = new EventWithMeetDto
         {
             Summary = meeting.Name,
             Start = new EventTimeDto
             {
-                DateTime = DateTime.Parse(start)
+                DateTime = meeting.StartTime.LocalDateTime
             },
             End = new EventTimeDto
             {
-                DateTime = DateTime.Parse(end)
+                DateTime = meeting.StartTime.LocalDateTime.AddMinutes(meeting.Duration)
             }
         };
 
