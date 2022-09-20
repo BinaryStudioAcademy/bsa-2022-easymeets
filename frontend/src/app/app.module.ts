@@ -6,8 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@core/core.module';
 import { environment } from '@env/environment';
-import { EditMeetingModule } from '@modules/edit-meeting/edit-meeting.module';
-import { NewMeetingModule } from '@modules/new-meeting/new-meeting.module';
+import { MeetingModule } from '@modules/new-meeting/meeting.module';
 import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
 import { MomentTimezonePickerModule } from 'moment-timezone-picker';
@@ -29,8 +28,7 @@ import { AppRoutingModule } from './app-routing.module';
         NgxMaskModule.forRoot(),
         BrowserAnimationsModule,
         MomentTimezonePickerModule,
-        NewMeetingModule,
-        EditMeetingModule,
+        MeetingModule,
     ],
     providers: [DatePipe],
     bootstrap: [AppComponent],

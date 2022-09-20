@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { IMeeting } from '@core/models/IMeeting';
@@ -10,7 +10,7 @@ import { SpinnerService } from '@core/services/spinner.service';
     templateUrl: './edit-meeting.component.html',
     styleUrls: ['./edit-meeting.component.sass'],
 })
-export class EditMeetingComponent extends BaseComponent {
+export class EditMeetingComponent extends BaseComponent implements OnInit {
     meeting: IMeeting;
 
     constructor(
@@ -19,16 +19,20 @@ export class EditMeetingComponent extends BaseComponent {
         private http: NewMeetingService,
     ) {
         super();
-        this.activateRoute.params.pipe(this.untilThis).subscribe((params) => {
-            this.spinnerService.show();
-            this.http
-                .getMeetingById(params['id'])
-                .pipe(this.untilThis)
-                .subscribe((meeting) => {
-                    this.meeting = meeting;
+    }
 
-                    this.spinnerService.hide();
-                });
-        });
+    ngOnInit(): void {
+        const meetingId = BigInt(this.activateRoute.snapshot.paramMap.get('id') ?? '');
+
+        this.spinnerService.show();
+
+        this.http
+            .getMeetingById(meetingId)
+            .pipe(this.untilThis)
+            .subscribe((meeting) => {
+                this.meeting = meeting;
+
+                this.spinnerService.hide();
+            });
     }
 }

@@ -372,28 +372,31 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             color: { primary: 'black', secondary: 'white' },
         };
 
-        this.userService
-            .getCurrentUser()
-            .pipe(this.untilThis)
-            .subscribe((currentUser) => {
-                this.meetingToEdit.meetingMembers
-                    .filter((member) => member.id !== currentUser.id)
-                    .forEach((member) => this.addMemberToList(member));
-            });
+        this.addMembersForEdit();
     }
 
     private setDuration(minutes: number) {
         const notCustomDuration = this.durations.find((duration) => duration.minutes === minutes);
 
         if (notCustomDuration) {
-            this.meetingForm.patchValue({
-                duration: notCustomDuration,
-            });
-
-            this.duration = notCustomDuration;
+            this.setPredefinedDuration(notCustomDuration);
 
             return;
         }
+
+        this.setCustomDuration(minutes);
+    }
+
+    private setPredefinedDuration(notCustomDuration: IDuration) {
+        this.meetingForm.patchValue({
+            duration: notCustomDuration,
+        });
+
+        this.duration = notCustomDuration;
+    }
+
+    private setCustomDuration(minutes: number) {
+        this.customTimeShown = true;
 
         this.duration = this.durations.find((duration) => duration.time === 'Custom') ?? { time: 'Custom' };
         this.duration.minutes = minutes;
@@ -406,13 +409,22 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             this.duration.time = `${minutes}`;
         }
 
-        this.customTimeShown = true;
-
         this.meetingForm.patchValue({
             duration: this.duration,
             customTime: this.duration.minutes,
             unitOfTime: this.duration.unitOfTime,
         });
+    }
+
+    private addMembersForEdit() {
+        this.userService
+            .getCurrentUser()
+            .pipe(this.untilThis)
+            .subscribe((currentUser) => {
+                this.meetingToEdit.meetingMembers
+                    .filter((member) => member.id !== currentUser.id)
+                    .forEach((member) => this.addMemberToList(member));
+            });
     }
 
     override ngOnDestroy(): void {
