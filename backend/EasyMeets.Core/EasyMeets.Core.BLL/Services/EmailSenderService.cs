@@ -23,7 +23,7 @@ public class EmailSenderService : IEmailSenderService
         _producerService.Send(message, "application/json");
     }
 
-    public EmailDto CreateEmailSubjectAndBodyForRegisteredUsers(UserDto currentUser, User userToInvite, Team team, string link)
+    public EmailDto CreateEmailSubjectAndBody(UserDto currentUser, User userToInvite, Team team, string link)
     {
         return new EmailDto
         {
@@ -34,7 +34,7 @@ public class EmailSenderService : IEmailSenderService
         };
     }
 
-    public EmailDto CreateEmailSubjectAndBodyForNonRegisteredUsers(UserDto currentUser, string email, Team team, string link)
+    public EmailDto CreateEmailSubjectAndBody(UserDto currentUser, string email, Team team, string link)
     {
         return new EmailDto
         {

@@ -1,5 +1,6 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.Common.DTO;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.UploadImage;
 using EasyMeets.Core.Common.Enums;
@@ -111,18 +112,13 @@ public class TeamService : BaseService, ITeamService
             {
                 var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == userEmailToSendInvivation);
 
-                var link = _sharedService.GenerateInvivationLink(urlHelper, user.Id, userEmailToSendInvivation, teamId);
+                var link = _sharedService.GenerateInvivationLink(urlHelper, user?.Id, userEmailToSendInvivation, teamId);
 
-                if (user != null)
-                {
-                    var emailData = _emailSenderService.CreateEmailSubjectAndBodyForRegisteredUsers(currentUser, user, teamEntity, link);
-                    _emailSenderService.Send(emailData);
-                }
-                else
-                {
-                    var emailData = _emailSenderService.CreateEmailSubjectAndBodyForNonRegisteredUsers(currentUser, userEmailToSendInvivation, teamEntity, link);
-                    _emailSenderService.Send(emailData);
-                }
+                var emailData = new EmailDto();
+                emailData = user == null ?
+                       _emailSenderService.CreateEmailSubjectAndBody(currentUser, user, teamEntity, link) :
+                       _emailSenderService.CreateEmailSubjectAndBody(currentUser, userEmailToSendInvivation, teamEntity, link);
+                _emailSenderService.Send(emailData);
             }
         }
     }
