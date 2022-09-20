@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TeamStateChangeActionEnum } from '@core/enums/team-state-change-action.enum';
+import { ICreateTeamMember } from '@core/models/ICreateTeamMember';
 import { IImagePath } from '@core/models/IImagePath';
 import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
@@ -92,8 +93,8 @@ export class TeamService {
         return this.httpService.putRequest<ITeam>(`${this.routePrefix}`, team);
     }
 
-    public createTeamMember(member: ITeamMember, teamId?: number) {
-        return this.httpService.postRequest<ITeamMember>(`${this.routePrefix}/members/${teamId}`, member);
+    public createTeamMember(member: ICreateTeamMember) {
+        return this.httpService.postRequest<ICreateTeamMember>(`${this.routePrefix}/members`, member);
     }
 
     public updateTeamMember(member: ITeamMember) {

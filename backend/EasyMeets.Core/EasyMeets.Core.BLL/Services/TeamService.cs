@@ -125,11 +125,12 @@ public class TeamService : BaseService, ITeamService
         }
     }
 
+    //to team shared service
     private string GenerateInvivationLink(IUrlHelper Url, long? userId, string userEmail, long teamId)
     {
         var teamDataJson = userId == null ?
-                JsonConvert.SerializeObject(new TeamMemberInvitationDataDto { UserEmail = userEmail, TeamId = teamId }) :
-                JsonConvert.SerializeObject(new TeamMemberInvitationDataDto { UserId = userId, UserEmail = userEmail, TeamId = teamId });
+                JsonConvert.SerializeObject(new UserInvitationDataDto { UserEmail = userEmail, TeamId = teamId }) :
+                JsonConvert.SerializeObject(new UserInvitationDataDto { UserId = userId, UserEmail = userEmail, TeamId = teamId });
 
         string urlEncodedTeamData = HttpUtility.UrlEncode(teamDataJson, Encoding.UTF8);
 

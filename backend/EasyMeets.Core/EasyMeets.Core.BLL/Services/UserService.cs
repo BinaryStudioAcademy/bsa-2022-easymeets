@@ -38,13 +38,12 @@ namespace EasyMeets.Core.BLL.Services
             return currentUserDto;
         }
 
-        public async Task<List<UserDto>> GetUsersByEmailOrNameAsync(string searchData)
+        public async Task<UserDto> GetUsersByEmailOrNameAsync(string searchData)
         {
             var users = await _context.Users
-                .Where(x => x.Name.Contains(searchData) || x.Email.Contains(searchData))
-                .ToListAsync();
+                .FirstOrDefaultAsync(x => x.Name.Contains(searchData) || x.Email.Contains(searchData));
 
-            var mappedUsers = _mapper.Map<List<UserDto>>(users);
+            var mappedUsers = _mapper.Map<UserDto>(users);
 
             return mappedUsers;
         }
@@ -161,7 +160,7 @@ namespace EasyMeets.Core.BLL.Services
                 .FirstOrDefaultAsync(u => u.Uid == GetCurrentUserId())
                 ?? throw new KeyNotFoundException("User doesn't exist");
 
-            return  user.Credentials.Select(c => c.Type).Distinct().ToList();
+            return user.Credentials.Select(c => c.Type).Distinct().ToList();
         }
 
         public string? GetCurrentUserId()

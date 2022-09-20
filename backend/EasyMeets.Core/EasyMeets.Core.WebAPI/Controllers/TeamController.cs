@@ -14,10 +14,12 @@ public class TeamController : ControllerBase
 {
     private readonly ITeamService _teamService;
     private readonly ITeamSharedService _sharedService;
-    public TeamController(ITeamService teamService, ITeamSharedService sharedService)
+    private readonly IUserService _userService;
+    public TeamController(ITeamService teamService, ITeamSharedService sharedService, IUserService userService)
     {
         _teamService = teamService;
         _sharedService = sharedService;
+        _userService = userService;
     }
 
     [HttpGet("{id}")]
@@ -61,11 +63,19 @@ public class TeamController : ControllerBase
         return Ok(await _teamService.CreateTeamAsync(newTeamDto));
     }
 
-    [HttpPost("members/{teamId?}")]
-    public async Task<IActionResult> UpdateTeamMembersAsync([FromBody] TeamMemberDto teamMemberDto, long teamId)
+    [HttpPost("members", Name = "Member")]
+    public async Task<IActionResult> CreateTeamMemberAsync([FromBody] CreateTeamMemberDto userInvitationData)
     {
-        await _teamService.CreateTeamMemberAsync(teamMemberDto, teamId);
-        return Ok();
+        if (userInvitationData != null)
+        {
+            var user = await _userService.GetUsersByEmailOrNameAsync(userInvitationData.UserEmail);
+
+            await _teamService.CreateTeamMemberAsync(user.Id, userInvitationData.TeamId);
+
+            return Ok();
+        }
+        else return BadRequest();
+
     }
 
     [HttpPost("invitation/{teamId}")]

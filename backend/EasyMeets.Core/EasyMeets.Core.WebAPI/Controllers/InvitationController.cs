@@ -9,9 +9,8 @@ using System.Web;
 
 namespace EasyMeets.Core.WebAPI.Controllers
 {
-    [AllowAnonymous]
-    [Route("[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class InvitationController : ControllerBase
     {
         private readonly ITeamService _teamService;
@@ -21,13 +20,11 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpGet("accept/{ecodedTeamData}", Name = "AcceptInvitation")]
-        public async Task<ActionResult<bool>> AcceptInvitation(string ecodedTeamData)
+        [AllowAnonymous]
+        public async Task<ActionResult> AcceptInvitation(string ecodedTeamData)
         {
             var urlDecodedTeamData = HttpUtility.UrlDecode(ecodedTeamData, Encoding.UTF8);
-            var teamData = JsonConvert.DeserializeObject<TeamMemberInvitationDataDto>(urlDecodedTeamData);
-
-            var absUrl = "https://bsa-easymeets.westeurope.cloudapp.azure.com/auth/signin"; 
-            return Redirect(absUrl);
+            var teamData = JsonConvert.DeserializeObject<UserInvitationDataDto>(urlDecodedTeamData);
 
             if (teamData != null)
             {
@@ -37,7 +34,16 @@ namespace EasyMeets.Core.WebAPI.Controllers
                     return Ok();
                 }
                 else
-                {};
+                {
+                    var absUrl = "http://localhost:4200/auth/signin";
+                    var uriBuilder = new UriBuilder(absUrl);
+                    var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+                    query["teamId"] = $"{teamData?.TeamId}";
+                    uriBuilder.Query = query.ToString();
+                    absUrl = uriBuilder.ToString();
+
+                    return Redirect(absUrl);
+                };
             }
             return BadRequest();
         }

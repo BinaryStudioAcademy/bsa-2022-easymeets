@@ -31,13 +31,6 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok(await _userService.GetUserByPersonalLink(link));
         }
 
-        [HttpGet("search/{searchData}")]
-        public async Task<List<UserDto>> GetUsersByEmailOrNameAsync(string searchData)
-        {
-            var users = await _userService.GetUsersByEmailOrNameAsync(searchData);
-            return users;
-        }
-
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult<UserDto>> CreateUserPreferences([FromBody] NewUserDto user)
@@ -53,7 +46,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
         }
 
         [HttpGet("meet-integrations")]
-        public async Task<ActionResult<List<CredentialsType>>>GetUserMeetIntegrations()
+        public async Task<ActionResult<List<CredentialsType>>> GetUserMeetIntegrations()
         {
             return Ok(await _userService.GetUserMeetIntegrations());
         }

@@ -42,10 +42,6 @@ export class UserService {
         );
     }
 
-    public getUsersByEmailOrName(searchData: string): Observable<IUser[]> {
-        return this.httpService.getRequest<IUser[]>(`${this.routePrefix}/search/${searchData}`);
-    }
-
     public createUser(newUser: INewUser): Observable<IUser> {
         return this.httpService.postRequest<IUser>(`${this.routePrefix}`, newUser).pipe(
             tap({

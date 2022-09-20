@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as languageHelper from '@core/helpers/language-helper';
 import * as timeHelper from '@core/helpers/time-format-label-mapping';
 import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
+import { ICreateTeamMember } from '@core/models/ICreateTeamMember';
 import { IUser } from '@core/models/IUser';
 import { AuthService } from '@core/services/auth.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -12,6 +13,8 @@ import { DateFormat } from '@shared/enums/dateFormat';
 import firebase from 'firebase/compat';
 import { finalize, Observable, switchMap, tap } from 'rxjs';
 
+import { TeamService } from './team.service';
+
 @Injectable({
     providedIn: 'root',
 })
@@ -20,15 +23,35 @@ export class AuthFormService {
         private authService: AuthService,
         private spinnerService: SpinnerService,
         private userService: UserService,
+        private teamService: TeamService,
         private notificationService: NotificationService,
         private router: Router,
+        private route: ActivatedRoute,
         // eslint-disable-next-line no-empty-function
-    ) {}
+    ) {
+        this.route.queryParams.subscribe(params => {
+            this.teamId = params['teamId'];
+        });
+    }
+
+    teamId: number;
 
     public signIn(email: string, password: string): Observable<IUser> {
         return this.authenticate(this.authService.signIn(email, password)).pipe(
             tap({
-                next: () => this.notificationService.showSuccessMessage('Authentication successful'),
+                next: () => {
+                    if (this.teamId) {
+                        const teamMember: ICreateTeamMember = { userEmail: email, teamId: this.teamId };
+
+                        this.teamService
+                            .createTeamMember(teamMember)
+                            .subscribe({
+                                next: () => this.notificationService.showInfoMessage('Current user was added to team'),
+                                error: (e) => this.notificationService.showErrorMessage(e),
+                            });
+                    }
+                    this.notificationService.showSuccessMessage('Authentication successful');
+                },
                 error: (e) => this.notificationService.showErrorMessage(e),
             }),
         );
