@@ -33,12 +33,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
                     await _teamService.CreateTeamMemberAsync((long)teamData.UserId, teamData.TeamId);
 
                     var absUrl = $"http://localhost:4200/teams/members/{teamData.TeamId}";
-
-                    var uriBuilder = new UriBuilder(absUrl); 
-                    var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-                    query["teamId"] = $"{teamData?.TeamId}";
-                    uriBuilder.Query = query.ToString();
-                    absUrl = uriBuilder.ToString();
+                    
                     return Redirect(absUrl);
                 }
                 else

@@ -3,8 +3,6 @@ import { Component, EventEmitter, Inject } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
-import { ITeamMember } from '@core/models/ITeamMember';
-import { IUser } from '@core/models/IUser';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
@@ -25,15 +23,7 @@ export class TeamMembersWindowComponent extends BaseComponent {
 
     buttonsOptions?: IConfirmButtonOptions[];
 
-    teamMembers?: ITeamMember[];
-
     teamId?: number;
-
-    searchedUsers: IUser[];
-
-    query: string;
-
-    usersToAdd: IUser[] = [];
 
     addOnBlur = true;
 
@@ -50,14 +40,23 @@ export class TeamMembersWindowComponent extends BaseComponent {
         private notificationService: NotificationService,
     ) {
         super();
-        this.sendInvitaitionEventSubscription = this.sendInvitaitionEventEmitter.subscribe(() => this.sendInvitaition());
-        this.title = data.title;
-        this.buttonsOptions = data.buttonsOptions;
-        if (this.buttonsOptions) {
-            this.buttonsOptions[1].onClickEvent = this.sendInvitaitionEventEmitter;
-        }
 
-        this.teamMembers = data.teamMembers;
+        this.sendInvitaitionEventSubscription = this.sendInvitaitionEventEmitter.subscribe(() => this.sendInvitaition());
+
+        this.title = data.title;
+        this.buttonsOptions = [
+            {
+                class: 'confirm-cancel-button',
+                label: 'Cancel',
+                onClickEvent: new EventEmitter<void>(),
+            },
+            {
+                class: 'confirm-accept-button',
+                label: 'Send invitation',
+                onClickEvent: this.sendInvitaitionEventEmitter,
+            },
+        ];
+
         this.teamId = data.teamId;
         this.message = data.message;
     }
@@ -86,16 +85,20 @@ export class TeamMembersWindowComponent extends BaseComponent {
 
     sendInvitaition() {
         if (this.teamId) {
-            this.teamService
-                .sendInvitaionToMembers(this.teamMembersEmails, this.teamId)
-                .subscribe(
-                    () => {
-                        this.notificationService.showSuccessMessage('Invitation email was sent to team members emails');
-                    },
-                    (error) => {
-                        this.notificationService.showErrorMessage(error);
-                    },
-                );
+            if (this.teamMembersEmails.length) {
+                this.teamService
+                    .sendInvitaionToMembers(this.teamMembersEmails, this.teamId)
+                    .subscribe(
+                        () => {
+                            this.notificationService.showSuccessMessage('Invitation email was sent to team members emails');
+                        },
+                        (error) => {
+                            this.notificationService.showErrorMessage(error);
+                        },
+                    );
+            } else {
+                this.notificationService.showErrorMessage('You should add at least one team member email!');
+            }
         } else {
             this.notificationService.showErrorMessage('Team was not found');
         }

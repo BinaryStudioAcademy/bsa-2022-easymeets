@@ -108,15 +108,15 @@ public class TeamService : BaseService, ITeamService
 
         if (currentUser != null)
         {
-            foreach (string userEmailToSendInvivation in teamMembersEmails)
+            foreach (string emailToSendInvivation in teamMembersEmails)
             {
-                var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == userEmailToSendInvivation);
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == emailToSendInvivation);
 
-                var link = _sharedService.GenerateInvivationLink(urlHelper, user?.Id, userEmailToSendInvivation, teamId);
+                var link = _sharedService.GenerateInvivationLink(urlHelper, user?.Id, emailToSendInvivation, teamId);
 
                 var emailData = new EmailDto();
                 emailData = user == null ?
-                       _emailSenderService.CreateEmailSubjectAndBody(currentUser, userEmailToSendInvivation, teamEntity, link) :
+                       _emailSenderService.CreateEmailSubjectAndBody(currentUser, emailToSendInvivation, teamEntity, link) :
                        _emailSenderService.CreateEmailSubjectAndBody(currentUser, user, teamEntity, link);
 
                 _emailSenderService.Send(emailData);
