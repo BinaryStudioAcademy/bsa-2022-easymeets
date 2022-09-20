@@ -9,9 +9,6 @@ using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System.Text;
-using System.Web;
 
 namespace EasyMeets.Core.BLL.Services;
 
@@ -20,14 +17,15 @@ public class TeamService : BaseService, ITeamService
     private readonly IUserService _userService;
     private readonly IUploadFileService _uploadFileService;
     private readonly IEmailSenderService _emailSenderService;
-    private readonly ITeamSharedService _sharedService;
+    private readonly ILinkService _linkService; 
+
     public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IUploadFileService uploadFileService,
-        IEmailSenderService emailSenderService, ITeamSharedService sharedService) : base(context, mapper)
+        IEmailSenderService emailSenderService, ILinkService sharedService) : base(context, mapper)
     {
         _userService = userService;
         _uploadFileService = uploadFileService;
         _emailSenderService = emailSenderService;
-        _sharedService = sharedService;
+        _linkService = sharedService;
     }
 
     public async Task<TeamDto?> GetTeamAsync(long teamId)
@@ -112,7 +110,7 @@ public class TeamService : BaseService, ITeamService
             {
                 var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == emailToSendInvivation);
 
-                var link = _sharedService.GenerateInvivationLink(urlHelper, user?.Id, emailToSendInvivation, teamId);
+                var link = _linkService.GenerateInvivationLink(urlHelper, user?.Id, emailToSendInvivation, teamId);
 
                 var emailData = new EmailDto();
                 emailData = user == null ?

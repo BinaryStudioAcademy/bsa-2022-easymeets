@@ -15,11 +15,14 @@ public class TeamController : ControllerBase
     private readonly ITeamService _teamService;
     private readonly ITeamSharedService _sharedService;
     private readonly IUserService _userService;
-    public TeamController(ITeamService teamService, ITeamSharedService sharedService, IUserService userService)
+    private readonly ILinkService _linkService;
+
+    public TeamController(ITeamService teamService, ITeamSharedService sharedService, IUserService userService, ILinkService linkService)
     {
         _teamService = teamService;
         _sharedService = sharedService;
         _userService = userService;
+        _linkService = linkService;
     }
 
     [HttpGet("{id}")]
@@ -31,7 +34,7 @@ public class TeamController : ControllerBase
     [HttpGet("newpagelink")]
     public async Task<ActionResult<string>> GenerateNewPageLinkAsync(long id, string teamname)
     {
-        return Ok(await _sharedService.GenerateNewPageLinkAsync(id, teamname));
+        return Ok(await _linkService.GenerateNewPageLinkAsync(id, teamname));
     }
 
     [HttpGet("user-teams")]

@@ -50,6 +50,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddHttpClient<IZoomService, ZoomService>();
             services.AddTransient<ICalendarEventService, CalendarEventService>();
             services.AddTransient<IGoogleMeetService, GoogleMeetService>();
+            services.AddTransient<ILinkService, LinkService>();
             services.AddRabbitMQ(configuration);
         }
 
@@ -80,7 +81,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 var rabbitConnection = new Uri(configuration.GetSection("RabbitMQConfiguration:Uri").Value);
 
                 var connectionFactory = new ConnectionFactory
-                    { Uri = rabbitConnection };
+                { Uri = rabbitConnection };
 
                 return connectionFactory.CreateConnection();
             });
@@ -95,7 +96,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 .GetSection("RabbitMQConfiguration:Queues:EmailProducer")
                 .Get<ProducerSettings>();
 
-            services.AddSingleton<IEmailSenderService>(provider => 
+            services.AddSingleton<IEmailSenderService>(provider =>
                 new EmailSenderService(new ProducerService(
                     provider.GetRequiredService<IConnection>(),
                     settings)));
@@ -150,7 +151,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
             {
                 ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }
             };
-            
+
             FirebaseApp.Create(new AppOptions
             {
                 Credential = GoogleCredential.FromJson(JsonConvert.SerializeObject(serviceAccount, jsonSerializerSettings)),
