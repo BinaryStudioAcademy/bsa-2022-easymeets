@@ -5,7 +5,7 @@ import { BaseComponent } from '@core/base/base.component';
 import { getDisplayDuration } from '@core/helpers/display-duration-helper';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { removeExcessiveSpaces } from '@core/helpers/string-helper';
-import { convertLocalDateToUTCWithUserSelectedTimeZone, getDefaultTimeZone } from '@core/helpers/time-zone-helper';
+import { convertDateToUTCUsingCustomTimeZone, getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IDuration } from '@core/models/IDuration';
 import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
@@ -132,7 +132,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 locationType: form.value.location,
                 meetingRoom: form.value.meetingRoom,
                 duration: this.duration.minutes!,
-                startTime: convertLocalDateToUTCWithUserSelectedTimeZone(form.value.date, getDefaultTimeZone()),
+                startTime: convertDateToUTCUsingCustomTimeZone(new Date(form.value.date), getDefaultTimeZone()),
                 meetingLink: form.value.meetingName.trim(),
                 meetingMembers: this.addedMembers,
                 createdAt: new Date(),

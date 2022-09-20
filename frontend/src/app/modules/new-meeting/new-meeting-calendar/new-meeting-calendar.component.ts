@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { CustomCalendarDateFormatter } from '@core/helpers/custom-calendar-date-formatter.provider';
+import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import {
-    convertDates,
+    applyDefaultTimeZone,
     isUnavailable,
     mergeUnavailabilities,
     removeFinished,
@@ -116,7 +117,7 @@ export class NewMeetingCalendarComponent extends BaseComponent {
     }
 
     private filterEvents(events: IUnavailability[]) {
-        const converted = convertDates(events);
+        const converted = applyDefaultTimeZone(events);
 
         const unfinished = removeFinished(converted);
 
