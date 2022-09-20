@@ -116,8 +116,9 @@ public class TeamService : BaseService, ITeamService
 
                 var emailData = new EmailDto();
                 emailData = user == null ?
-                       _emailSenderService.CreateEmailSubjectAndBody(currentUser, user, teamEntity, link) :
-                       _emailSenderService.CreateEmailSubjectAndBody(currentUser, userEmailToSendInvivation, teamEntity, link);
+                       _emailSenderService.CreateEmailSubjectAndBody(currentUser, userEmailToSendInvivation, teamEntity, link) :
+                       _emailSenderService.CreateEmailSubjectAndBody(currentUser, user, teamEntity, link);
+
                 _emailSenderService.Send(emailData);
             }
         }
