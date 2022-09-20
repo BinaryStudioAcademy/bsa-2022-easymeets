@@ -105,6 +105,13 @@ public class TeamController : ControllerBase
         return Ok(await _teamService.UploadLogoAsync(file, teamId));
     }
 
+    [HttpDelete("{teamId:long}/logo")]
+    public async Task<ActionResult> DeleteLogo(long teamId)
+    {
+        await _teamService.DeleteLogo(teamId);
+        return NoContent();
+    }
+
     [HttpDelete("{teamId}")]
     public async Task<ActionResult> DeleteAsync(int teamId)
     {

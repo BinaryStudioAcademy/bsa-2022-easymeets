@@ -5,7 +5,11 @@ using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Text;
+using System.Web;
 
 namespace EasyMeets.Core.BLL.Services;
 
@@ -22,20 +26,19 @@ public class TeamSharedService : BaseService, ITeamSharedService
         {
             Name = teamName,
             PageLink = await GenerateNewPageLinkAsync(0, teamName),
-            TimeZone = new TimeZoneDto() { NameValue = user.TimeZoneName, TimeValue = user.TimeZoneValue },
         };
-        
+
         var team = _mapper.Map<Team>(teamDto);
         var createdTeam = _context.Teams.Add(team).Entity;
         await _context.SaveChangesAsync();
-        
+
         var member = new TeamMember
         {
             Role = Role.Owner,
             TeamId = createdTeam.Id,
             UserId = user.Id,
         };
-        
+
         _context.TeamMembers.Add(member);
         await _context.SaveChangesAsync();
     }
@@ -55,5 +58,17 @@ public class TeamSharedService : BaseService, ITeamSharedService
         }
 
         return $"{teamName}{index}";
+    }
+    public string GenerateInvivationLink(IUrlHelper Url, long? userId, string userEmail, long teamId)
+    {
+        var teamDataJson = userId == null ?
+                JsonConvert.SerializeObject(new UserInvitationDataDto { UserEmail = userEmail, TeamId = teamId }) :
+                JsonConvert.SerializeObject(new UserInvitationDataDto { UserId = userId, UserEmail = userEmail, TeamId = teamId });
+
+        string urlEncodedTeamData = HttpUtility.UrlEncode(teamDataJson, Encoding.UTF8);
+
+        var url = Url.Link("AcceptInvitation", new { ecodedTeamData = urlEncodedTeamData });
+
+        return url;
     }
 }

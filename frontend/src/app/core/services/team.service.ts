@@ -108,4 +108,8 @@ export class TeamService {
     public sendInvitaionToMembers(teamMembersEmails: string[], teamId: number) {
         return this.httpService.postRequest(`${this.routePrefix}/invitation/${teamId}`, teamMembersEmails);
     }
+
+    public deleteLogo(teamId: number) {
+        return this.httpService.deleteRequest(`${this.routePrefix}/${teamId}/logo`);
+    }
 }

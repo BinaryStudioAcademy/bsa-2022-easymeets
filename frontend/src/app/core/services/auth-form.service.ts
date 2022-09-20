@@ -52,7 +52,8 @@ export class AuthFormService {
                     }
                     this.notificationService.showSuccessMessage('Authentication successful');
                 },
-                error: (e) => this.notificationService.showErrorMessage(e),
+                error: () =>
+                    this.notificationService.showErrorMessage("You've entered wrong password! Please try again or reset your password."),
             }),
         );
     }
@@ -73,7 +74,7 @@ export class AuthFormService {
         return this.authService
             .resetPassword(email).pipe(
                 tap(() =>
-                    this.notificationService.showSuccessMessage(`Link for resseting password was send to this ${email} email`)),
+                    this.notificationService.showSuccessMessage(`Link for resetting password was send to this ${email} email`)),
             );
     }
 
