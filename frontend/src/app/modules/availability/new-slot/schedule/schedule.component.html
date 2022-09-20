@@ -1,18 +1,66 @@
 <div class="container">
-    <div class="external-definition-toggle-container">
-        <mat-slide-toggle [checked]="schedule.definedExternally" (change)="externalDefinitionToggle($event)"></mat-slide-toggle>
-        <p>Another person defines Availability Slots</p>
+
+    <div class="definition-container">
+        <div *ngIf="withTeamMembers" class="team-members-section">
+            <mat-select [(ngModel)]="selectedScheduleMode" [disabled]="true">
+                <mat-option *ngFor="let mode of scheduleModes" [value]="mode">{{mode}}</mat-option>
+            </mat-select>
+            <div class="team-members-header">
+                <p>Team members: {{slotMembers.length}}</p>
+            </div>
+            <div class="team-members-wrapper">
+                <div *ngFor="let member of slotMembers">
+                    <div class="member-wrapper">
+                        <p class="user-name">{{member.name}}</p>
+                        <button mat-icon-button *ngIf="member.memberId !== defaultMember?.memberId" (click)="removeMember(member)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                    <mat-divider></mat-divider>
+                </div>
+            </div>
+            <button mat-flat-button (click)="openAddMembers()"><mat-icon>add</mat-icon> Add Team Member (s)</button>
+            <div class="participation-wrapper">
+                <div class="tooltip-container">
+                    <p class="participation-label">Participation rule</p>
+                    <mat-icon matTooltip="The 'All added members together' option allows to add by default all selected team members when creating a meeting.
+                    'The Booker Chooses One Member' option allows the booker, when creating a meeting, to be able to add only one team member.">
+                        help_outline
+                    </mat-icon>
+                </div>
+                <mat-radio-group
+                    class="participation-options"
+                    [(ngModel)]="selectedParticipationOption">
+                    <mat-radio-button
+                        disableRipple
+                        *ngFor="let option of participationOptions"
+                        [value]="option">
+                        {{ option }}
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+        <app-schedule-definition [ngClass]="{ 'full-size': !withTeamMembers}" *ngIf="!schedule.definedExternally" [schedule]="schedule" [changeEvent]="changeEvent"></app-schedule-definition>
+        <div [ngClass]="{ 'full-size': !withTeamMembers}" *ngIf="schedule.definedExternally" class="external-definition-container">
+            <p class="description">Link for defining Shedule and  Availability Slots</p>
+            <div class="link-container">
+                <img src="assets/copy_icon.png" class="copy-button" (click)="saveLink()">
+                <p class="definition-link">{{getDefinitionLink()}}</p>
+            </div>
+            <div class="placeholder" *ngIf="!schedule.definedBy">
+                <p>Schedule and Availability Slots will appear here after defining</p>
+            </div>
+            <app-schedule-definition *ngIf="schedule.definedBy" [schedule]="schedule" [changeEvent]="changeEvent" [disabled]="true"></app-schedule-definition>
+        </div>
     </div>
-    <app-schedule-definition *ngIf="!schedule.definedExternally" [schedule]="schedule" [changeEvent]="changeEvent"></app-schedule-definition>
-    <div *ngIf="schedule.definedExternally" class="external-definition-container">
-        <p class="description">Link for defining Shedule and  Availability Slots</p>
-        <div class="link-container">
-            <img src="assets/copy_icon.png" class="copy-button" (click)="saveLink()">
-            <p class="definition-link">{{getDefinitionLink()}}</p>
+    <div class="buttons-container">
+        <div class="toggle-container">
+            <mat-slide-toggle [(ngModel)]="withTeamMembers" (ngModelChange)="withMembersChange()"></mat-slide-toggle>
+            <p>Add Team Members</p>
         </div>
-        <div class="placeholder" *ngIf="!schedule.definedBy">
-            <p>Schedule and Availability Slots will appear here after defining</p>
+        <div class="toggle-container">
+            <mat-slide-toggle [checked]="schedule.definedExternally" (change)="externalDefinitionToggle($event)"></mat-slide-toggle>
+            <p>Another person defines Availability Slots</p>
         </div>
-        <app-schedule-definition *ngIf="schedule.definedBy" [schedule]="schedule" [changeEvent]="changeEvent" [disabled]="true"></app-schedule-definition>
     </div>
 </div>

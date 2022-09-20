@@ -1,6 +1,7 @@
 import { Component, EventEmitter, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { SlotType } from '@core/enums/slot-type.enum';
 import { ComponentCanDeactivate } from '@core/guards/pending-changes.guard';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveAvailability } from '@core/models/save-availability-slot/ISaveAvailability';
@@ -69,16 +70,20 @@ export class EditAvailabilityPageComponent extends BaseComponent implements OnDe
         const general = this.newAvailabilityComponent.generalComponent.settings;
 
         general.isEnabled = this.newAvailabilityComponent.slot?.isEnabled ?? true;
+        general.type = this.newAvailabilityComponent.scheduleComponent.withTeamMembers ? SlotType.Team : SlotType.Personal;
         const advancedSettings = this.newAvailabilityComponent.generalComponent.addAdvanced
             ? this.newAvailabilityComponent.generalComponent.advancedSettings!
             : null;
+        const slotMembers = this.newAvailabilityComponent.scheduleComponent.slotMembers
+            .map(member => ({ ...member, schedule: this.newAvailabilityComponent.scheduleComponent.schedule }));
         const updateAvailability: ISaveAvailability = {
             generalDetails: this.newAvailabilityComponent.generalComponent.settings,
             hasAdvancedSettings: this.newAvailabilityComponent.generalComponent.addAdvanced,
             advancedSettings,
+            slotMembers,
+            schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
             questions: this.newAvailabilityComponent.questionsComponent.questions,
-            schedule: this.newAvailabilityComponent.scheduleComponent.schedule,
             templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
         };
 
