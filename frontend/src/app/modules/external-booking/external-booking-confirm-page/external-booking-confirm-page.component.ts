@@ -42,7 +42,6 @@ export class ExternalBookingConfirmPageComponent extends BaseComponent implement
     }
 
     OnConfirmBooking() {
-        this.addAnswers();
         this.confirmBooking.emit(this.questions);
     }
 
@@ -52,17 +51,5 @@ export class ExternalBookingConfirmPageComponent extends BaseComponent implement
 
     private getAdditionalQuestion(questions: IQuestion[]) {
         this.additionalQuestions = questions.filter((x) => !x.isMandatory);
-    }
-
-    private addAnswers() {
-        this.questions.forEach((question) => {
-            if (!question.isMandatory) {
-                const questionWithAnswer = this.additionalQuestions.find(
-                    (x) => x.questionText === question.questionText,
-                );
-
-                question.answer = questionWithAnswer?.answer ?? '';
-            }
-        });
     }
 }

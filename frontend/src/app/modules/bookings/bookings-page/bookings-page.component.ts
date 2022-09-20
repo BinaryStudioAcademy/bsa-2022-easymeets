@@ -83,7 +83,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         this.teamService.currentTeamEmitted$.pipe(this.untilThis).subscribe((teamId) => {
             this.teamId = teamId;
         });
-        this.loadMeetings(this.getMeetingRequest());
+        this.loadMeetings();
     }
 
     deleteButtonClick(id: number) {
@@ -139,9 +139,9 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         window.open(link);
     }
 
-    private loadMeetings(meetingMemberRequest: IMeetingMembersRequest) {
+    private loadMeetings() {
         this.meetingService
-            .getMeetings(meetingMemberRequest)
+            .getMeetings(this.getMeetingRequest())
             .pipe(this.untilThis)
             .subscribe(
                 (resp: IMeetingBooking[]) => {
@@ -160,9 +160,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
     }
 
     public currentDateChange() {
-        const meetingRequest = this.getMeetingRequest();
-
-        this.loadMeetings(meetingRequest);
+        this.loadMeetings();
     }
 
     private getMeetingRequest(): IMeetingMembersRequest {

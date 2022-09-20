@@ -13,7 +13,7 @@
             <div class="flex-col">
                 <p>Time</p>
                 <span class="info">
-                    {{ booker.meetingDate | date: 'HH:mm' }} - {{endMeetingTime | date: 'HH:mm' }}
+                    {{ booker.meetingDate | date: 'HH:mm' }} - {{ endMeetingTime | date: 'HH:mm' }}
                 </span>
             </div>
         </div>
@@ -21,7 +21,7 @@
             <form form #externalAnswers="ngForm">
                 <ng-container *ngFor="let question of booker.questions; let i = index">
                     <div class="question-mandatory list-item-wrapper flex cross-axis-center">
-                        <mat-label class="question-index bold">{{ i + 1 }}.</mat-label>
+                        <mat-label class="question-order bold">{{ i + 1 }}.</mat-label>
                         <mat-label class="bold">{{ question.questionText }}</mat-label>
                     </div>
                     <div class="question-mandatory list-item-wrapper flex cross-axis-center">

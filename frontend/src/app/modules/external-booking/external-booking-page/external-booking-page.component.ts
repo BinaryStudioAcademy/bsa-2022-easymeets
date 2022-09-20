@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
-import { userEmailQuestionText, userFullNameQuestionText } from '@core/helpers/questions-mandatory-helper';
 import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IAvailabilitySlotMember } from '@core/models/IAvailabilitySlotMember';
 import { IExternalBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
@@ -173,16 +172,11 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
     }
 
     public confirmBookingByExternalAttendee(userAnswers: IQuestion[]) {
-        const usernameQuestion = userAnswers.find((x) => x.questionText === userFullNameQuestionText);
-        const userName = usernameQuestion?.answer ?? '';
-        const userEmailAnswer = userAnswers.find((x) => x.questionText === userEmailQuestionText);
-        const userEmail = userEmailAnswer?.answer ?? '';
-
         const meeting: IExternalMeeting = {
             teamId: this.menu.teamId,
             availabilitySlotId: this.menu.slotId,
             createdBy: this.menu.user.id,
-            name: `Meeting with ${userName}`,
+            name: `Meeting with ${userAnswers[0].answer}`,
             answers: userAnswers,
             locationType: this.menu.location,
             meetingRoom: this.menu.meetingRoom,
@@ -195,8 +189,8 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
 
         const attendee: IExternalAttendee = {
             availabilitySlotId: this.menu.slotId,
-            name: userName,
-            email: userEmail,
+            name: userAnswers[0].answer,
+            email: userAnswers[1].answer,
             timeZoneValue: this.menu.timeZone?.timeValue,
             timeZoneName: this.menu.timeZone?.nameValue,
         };

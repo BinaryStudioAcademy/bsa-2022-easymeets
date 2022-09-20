@@ -18,7 +18,7 @@ export class BookerComponent extends BaseComponent {
     }
 
     showAnswersWindow() {
-        if (this.booker.questions.length === 0) {
+        if (!this.booker.questions.length) {
             return;
         }
         this.dialog
