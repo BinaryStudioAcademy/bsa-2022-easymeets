@@ -14,7 +14,7 @@
         <button class="cancel" (click)="onClickCancel()">
             Cancel
         </button>
-        <button class="apply" (click)="onClickApply()" [mat-dialog-close]="scheduleItem" [disabled]="!start || !end || !isApplyActive">
+        <button class="apply" [mat-dialog-close]="getNewScheduleItem()" [disabled]="!start || !end || !isApplyActive">
             Apply
         </button>
     </div>

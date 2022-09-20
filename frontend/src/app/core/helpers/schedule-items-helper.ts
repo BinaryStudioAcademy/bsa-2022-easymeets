@@ -3,8 +3,12 @@ import { IScheduleItemReceive } from '@core/models/schedule/IScheduleItemsReceiv
 
 export const parseTimeSpan = (value: string): Date => {
     const arr = value.split(':');
+    const date = new Date();
 
-    return new Date(new Date().setHours(parseInt(arr[0], 10), parseInt(arr[1], 10), parseInt(arr[2], 10), 0));
+    date.setHours(Number(arr[0]));
+    date.setMinutes(Number(arr[1]));
+
+    return date;
 };
 
 export const changeScheduleItemsDate = (items: IScheduleItem[]): IScheduleItemReceive[] =>

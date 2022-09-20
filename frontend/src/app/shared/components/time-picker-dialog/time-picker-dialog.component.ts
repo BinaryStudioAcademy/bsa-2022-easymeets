@@ -1,5 +1,7 @@
+import { DatePipe } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { parseTimeSpan } from '@core/helpers/schedule-items-helper';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 
 @Component({
@@ -17,31 +19,32 @@ export class TimePickerDialogComponent {
     constructor(
         public dialogRef: MatDialogRef<TimePickerDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public scheduleItem: IScheduleItem,
+        private datePipe: DatePipe,
     ) {
-        this.start = scheduleItem.start.substring(0, 5);
-        this.end = scheduleItem.end.substring(0, 5);
+        this.start = this.formatTime(scheduleItem.start);
+        this.end = this.formatTime(scheduleItem.end);
     }
 
     onClickCancel() {
         this.dialogRef.close();
     }
 
-    onClickApply() {
-        this.scheduleItem.start = this.start;
-        this.scheduleItem.end = this.end;
+    getNewScheduleItem() {
+        const scheduleItem: IScheduleItem = {
+            ...this.scheduleItem,
+        };
+
+        scheduleItem.start = this.start;
+        scheduleItem.end = this.end;
+
+        return scheduleItem;
     }
 
     compareTimes() {
-        this.isApplyActive = this.timeToDate(this.start) < this.timeToDate(this.end);
+        this.isApplyActive = parseTimeSpan(this.start).getTime() < parseTimeSpan(this.end).getTime();
     }
 
-    timeToDate(time: string): Date {
-        const chunks = time.split(':');
-        const date = new Date();
-
-        date.setHours(Number(chunks[0]));
-        date.setMinutes(Number(chunks[1]));
-
-        return date;
+    private formatTime(date: string): string {
+        return this.datePipe.transform(parseTimeSpan(date), 'HH:mm') ?? '';
     }
 }
