@@ -15,7 +15,7 @@
                     <img src="assets/header/header-logo.png" class="team-img" />
                 </ng-template>
                 <h2>{{ menu.team.name }}</h2>
-                <h1>Meeting with Designers</h1>
+                <h1 class="slot-name" *ngIf="menu.slotName">{{ menu.slotName }}</h1>
             </ng-template>
             <div class="sidebar-list">
                 <div class="sidebar-list-item" *ngIf="menu.duration">
@@ -35,12 +35,12 @@
                     <h5>Date</h5>
                     <h3>{{ menu.date | date }}</h3>
                 </div>
-                <div class="sidebar-list-item" *ngIf="menu.teamSlotMembers">
-                    <h5>Team Members: {{ menu.teamSlotMembers.length }}</h5>
-                    <div class="selected-member" *ngFor="let member of menu.teamSlotMembers">
-                        <ng-container *ngIf="member.memberImage; else defaultImageSelectedMember">
+                <div class="sidebar-list-item" *ngIf="menu.slotMembers">
+                    <h5>Team Members: {{ menu.slotMembers.length }}</h5>
+                    <div class="selected-member" *ngFor="let member of menu.slotMembers">
+                        <ng-container *ngIf="member.image; else defaultImageSelectedMember">
                             <div class="selected-member-img">
-                                <img src="member.memberImage" />
+                                <img [src]="member.image" />
                             </div>
                             <div class="selected-member-name">
                                 <h4>{{ member.name }}</h4>
@@ -76,8 +76,9 @@
                 (cancelBooking)="removeDateAndTime($event)">
             </app-external-booking-confirm-page>
             <app-external-booking-choose-members-page
-                *ngIf="this.router.url === '/external-booking/team/choose-team-members'"
-                (selectedMembersEvent)="addMembersInMenu($event)">
+                *ngIf="isChooseMembersRoute()"
+                [slotMembers]="menu.slotMembers"
+                (selectedMemberEvent)="selectSLotMember($event)">
             </app-external-booking-choose-members-page>
             <app-external-booking-confirmed-page
                 *ngIf="isConfirmedRoute()"

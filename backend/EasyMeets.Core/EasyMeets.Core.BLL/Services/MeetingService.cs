@@ -1,6 +1,7 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO;
+using EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
 using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.Enums;
@@ -146,7 +147,12 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<long> CreateExternalAttendeeMeeting(ExternalAttendeeMeetingDto meetingDto)
         {
-            var meeting = _mapper.Map<Meeting>(meetingDto);
+            var members = await GetFromSlotMembers(meetingDto.Members, meetingDto.TeamId);
+            var meeting = _mapper.Map<Meeting>(meetingDto, opts => 
+                opts.AfterMap((_, dest) =>
+                {
+                    dest.MeetingMembers = members;
+                }));
 
             await _context.Meetings.AddAsync(meeting);
 
@@ -210,6 +216,15 @@ namespace EasyMeets.Core.BLL.Services
                 .ToListAsync();
 
             return teamMembers;
+        }
+
+        private Task<List<MeetingMember>> GetFromSlotMembers(List<SlotMemberDto> slotMembers, long teamId)
+        {
+            var memberIds = slotMembers.Select(x => x.MemberId);
+            return _context.TeamMembers
+                .Where(x => memberIds.Contains(x.UserId) && x.TeamId == teamId)
+                .Select(x => new MeetingMember { TeamMemberId = x.Id })
+                .ToListAsync();
         }
 
         private async Task AddMeetingLink(Meeting meeting)
