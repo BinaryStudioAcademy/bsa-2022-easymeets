@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { CustomCalendarDateFormatter } from '@core/helpers/custom-calendar-date-formatter.provider';
-import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import {
     applyDefaultTimeZone,
     isUnavailable,
