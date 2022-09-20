@@ -6,6 +6,7 @@ import { INewTeam } from '@core/models/INewTeam';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
 import { TeamPreferencesComponent } from '@modules/settings/team/team-preferences/team-preferences.component';
+import { of, switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-new-team',
@@ -23,10 +24,11 @@ export class NewTeamComponent extends BaseComponent {
 
     @ViewChild(TeamPreferencesComponent) teamPreferencesComponent: TeamPreferencesComponent;
 
+    private createdId: number;
+
     public createTeam() {
         const form = this.teamPreferencesComponent.formGroup;
         const newTeam: INewTeam = {
-            image: this.teamPreferencesComponent.imageUrl,
             name: form.value.name,
             pageLink: form.value.pageLink,
             timeZone: form.value.timeZone,
@@ -35,12 +37,22 @@ export class NewTeamComponent extends BaseComponent {
 
         this.teamService
             .createTeam(newTeam)
-            .pipe(this.untilThis)
+            .pipe(
+                this.untilThis,
+                switchMap((team) => {
+                    this.createdId = team.id;
+                    if (this.teamPreferencesComponent.image) {
+                        return this.teamService.uploadLogo(this.teamPreferencesComponent.image, this.createdId);
+                    }
+
+                    return of(null);
+                }),
+            )
             .subscribe(
-                (team) => {
-                    this.teamService.emitTeamStateChange(team.id, TeamStateChangeActionEnum.Created);
+                () => {
+                    this.teamService.emitTeamStateChange(this.createdId, TeamStateChangeActionEnum.Created);
                     this.notificationService.showSuccessMessage('Team was created successfully.');
-                    this.router.navigate(['settings', 'teams', 'edit', team.id.toString()]);
+                    this.router.navigate(['settings', 'teams', 'edit', this.createdId.toString()]);
                 },
                 () => {
                     this.notificationService.showErrorMessage('There was an error while creating.');

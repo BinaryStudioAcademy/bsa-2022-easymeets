@@ -38,6 +38,8 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
 
     public imageUrl?: string;
 
+    public image?: FormData;
+
     public clickEvent = new EventEmitter<void>();
 
     public formGroup: FormGroup;
@@ -115,6 +117,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
 
     public loadImage(event: Event) {
         const target = event.target as HTMLInputElement;
+
         const fileToUpload: File = (target.files as FileList)[0];
 
         if (fileToUpload.size / 1000000 > 5) {
@@ -125,6 +128,13 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         const formData = new FormData();
 
         formData.append('file', fileToUpload, fileToUpload.name);
+        this.getImagePreview(target);
+
+        if (this.submitButtonText) {
+            this.image = formData;
+
+            return;
+        }
         this.uploadLogo(formData);
     }
 
@@ -150,12 +160,13 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
         control.patchValue(removeExcessiveSpaces(control.value));
     }
 
-    public deleteLogo() {
+    public clearLogo() {
         if (this.team?.id && this.imageUrl) {
             this.teamService.deleteLogo(this.team.id)
                 .pipe(this.untilThis)
                 .subscribe();
         }
+        this.image = undefined;
         this.imageUrl = '';
     }
 
@@ -186,5 +197,20 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
                         .validatePageLink(value, this.team?.id)
                         .pipe(map((isValidLink) => (isValidLink ? null : { teamLinkUniq: true })))),
             );
+    }
+
+    private getImagePreview(target: HTMLInputElement) {
+        if (!target.files || !target.files[0]) {
+            return;
+        }
+        const file = target.files[0];
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            this.imageUrl = reader.result as string;
+        };
+
+        reader.readAsDataURL(file);
     }
 }
