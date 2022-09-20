@@ -151,7 +151,7 @@ export class TeamPreferencesComponent extends BaseComponent implements OnInit {
     }
 
     public deleteLogo() {
-        if (this.team?.id) {
+        if (this.team?.id && this.imageUrl) {
             this.teamService.deleteLogo(this.team.id)
                 .pipe(this.untilThis)
                 .subscribe();

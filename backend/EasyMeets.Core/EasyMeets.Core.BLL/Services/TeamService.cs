@@ -153,6 +153,7 @@ public class TeamService : BaseService, ITeamService
     public async Task DeleteLogo(long teamId)
     {
         var team = await GetTeamByIdAsync(teamId);
+        await _uploadFileService.DeleteFileBlobAsync(team.LogoPath);
         team.LogoPath = string.Empty;
         await _context.SaveChangesAsync();
     }
