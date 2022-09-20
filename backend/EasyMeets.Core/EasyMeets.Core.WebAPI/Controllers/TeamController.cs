@@ -2,13 +2,8 @@ using Bogus.Bson;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.UploadImage;
-using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Specialized;
-using System.Text;
 
 namespace EasyMeets.Core.WebAPI.Controllers;
 

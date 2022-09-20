@@ -7,5 +7,6 @@ namespace EasyMeets.Core.BLL.Interfaces;
 public interface IEmailSenderService
 {
     void Send(EmailDto email);
-    EmailDto CreateEmailSubjectAndBody(UserDto currentUser, User userToInvite, Team team, string link);
+    EmailDto CreateEmailSubjectAndBodyForRegisteredUsers(UserDto currentUser, User userToInvite, Team team, string link);
+    EmailDto CreateEmailSubjectAndBodyForNonRegisteredUsers(UserDto currentUser, string email, Team team, string link);
 }

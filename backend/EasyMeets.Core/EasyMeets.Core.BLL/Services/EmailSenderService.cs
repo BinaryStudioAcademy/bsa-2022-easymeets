@@ -23,7 +23,7 @@ public class EmailSenderService : IEmailSenderService
         _producerService.Send(message, "application/json");
     }
 
-    public EmailDto CreateEmailSubjectAndBody(UserDto currentUser, User userToInvite, Team team, string link)
+    public EmailDto CreateEmailSubjectAndBodyForRegisteredUsers(UserDto currentUser, User userToInvite, Team team, string link)
     {
         return new EmailDto
         {
@@ -31,6 +31,17 @@ public class EmailSenderService : IEmailSenderService
             Body = $"Hi {userToInvite.Name},\r\nUser {currentUser.UserName} would like to add to the team {team.Name}.\r\n" +
                    $"Please follow the link. {link}\r\nIf this was a mistake please ignore this email.",
             Recipient = userToInvite.Email
+        };
+    }
+
+    public EmailDto CreateEmailSubjectAndBodyForNonRegisteredUsers(UserDto currentUser, string email, Team team, string link)
+    {
+        return new EmailDto
+        {
+            Subject = $"{currentUser.UserName} wants to add you to the team {team.Name} on Easymeets",
+            Body = $"Hi {email},\r\nUser {currentUser.UserName} would like to add to the team {team.Name}.\r\n" +
+                   $"Please follow the link. {link}\r\nIf this was a mistake please ignore this email.",
+            Recipient = email
         };
     }
 }

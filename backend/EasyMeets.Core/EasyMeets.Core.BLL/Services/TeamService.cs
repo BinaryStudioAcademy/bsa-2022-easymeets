@@ -1,5 +1,4 @@
 using AutoMapper;
-using Azure.Core;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.UploadImage;
@@ -10,8 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System;
 using System.Text;
+using System.Web;
 
 namespace EasyMeets.Core.BLL.Services;
 
@@ -99,43 +98,54 @@ public class TeamService : BaseService, ITeamService
 
     public async Task SendInvitationToTeamMembersAsync(IUrlHelper urlHelper, string[] teamMembersEmails, long teamId)
     {
-        var user = await _userService.GetCurrentUserAsync();
+        var currentUser = await _userService.GetCurrentUserAsync();
 
         var teamEntity = await GetTeamByIdAsync(teamId);
 
-        if (user != null)
+        if (currentUser != null)
         {
-
-            var usersToSendInvivation = await _context.Users.Where(x => teamMembersEmails.Contains(x.Email)).ToListAsync();
-
-            foreach (User userToSendInvivation in usersToSendInvivation)
+            foreach (string userEmailToSendInvivation in teamMembersEmails)
             {
-                var link = GenerateInvivationLink(urlHelper, userToSendInvivation.Id, teamId);
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == userEmailToSendInvivation);
+                if (user != null)
+                {
+                    var link = GenerateInvivationLink(urlHelper, user.Id, user.Email, teamId);
 
-                var emailData = _emailSenderService.CreateEmailSubjectAndBody(user, userToSendInvivation, teamEntity, link);
-                _emailSenderService.Send(emailData);
+                    var emailData = _emailSenderService.CreateEmailSubjectAndBodyForRegisteredUsers(currentUser, user, teamEntity, link);
+                    _emailSenderService.Send(emailData);
+                }
+                else
+                {
+                    var link = GenerateInvivationLink(urlHelper, null, userEmailToSendInvivation, teamId);
+
+                    var emailData = _emailSenderService.CreateEmailSubjectAndBodyForNonRegisteredUsers(currentUser, userEmailToSendInvivation, teamEntity, link);
+                    _emailSenderService.Send(emailData);
+                }
             }
         }
     }
 
-    private string GenerateInvivationLink(IUrlHelper Url, long teamMemberId, long teamId)
+    private string GenerateInvivationLink(IUrlHelper Url, long? userId, string userEmail, long teamId)
     {
-        var teamDataJson = JsonConvert.SerializeObject(new { teamMemberId = teamMemberId, teamId = teamId });
-        string base64EncodedTeamData = Convert.ToBase64String(Encoding.UTF8.GetBytes(teamDataJson));
+        var teamDataJson = userId == null ?
+                JsonConvert.SerializeObject(new TeamMemberInvitationDataDto { UserEmail = userEmail, TeamId = teamId }) :
+                JsonConvert.SerializeObject(new TeamMemberInvitationDataDto { UserId = userId, UserEmail = userEmail, TeamId = teamId });
 
-        var url = Url.Link("AcceptInvitation", new { teamData = base64EncodedTeamData });
+        string urlEncodedTeamData = HttpUtility.UrlEncode(teamDataJson, Encoding.UTF8);
+
+        var url = Url.Link("AcceptInvitation", new { ecodedTeamData = urlEncodedTeamData });
 
         return url;
     }
 
-    public async Task CreateTeamMemberAsync(TeamMemberDto teamMemberDto, long teamId)
+    public async Task CreateTeamMemberAsync(long userId, long teamId)
     {
         var team = await GetTeamByIdAsync(teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
         var member = new TeamMember()
         {
             Role = Role.Member,
             TeamId = team.Id,
-            UserId = teamMemberDto.Id,
+            UserId = userId,
         };
 
         _context.TeamMembers.Add(member);

@@ -89,10 +89,8 @@ export class TeamMembersWindowComponent extends BaseComponent {
             this.teamService
                 .sendInvitaionToMembers(this.teamMembersEmails, this.teamId)
                 .subscribe(
-                    (resp) => {
-                        // eslint-disable-next-line no-debugger
-                        debugger;
-                        console.log(resp);
+                    () => {
+                        this.notificationService.showSuccessMessage('Invitation email was sent to team members emails');
                     },
                     (error) => {
                         this.notificationService.showErrorMessage(error);
