@@ -1,9 +1,4 @@
 ﻿using EasyMeets.Core.Common.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyMeets.Core.Common.DTO.Email
 {
@@ -17,6 +12,5 @@ namespace EasyMeets.Core.Common.DTO.Email
         public string MeetingLink { get; set; } = String.Empty;
         public string MemberName { get; set; } = String.Empty;
         public string Uri { get; set; } = String.Empty;
-
     }
 }

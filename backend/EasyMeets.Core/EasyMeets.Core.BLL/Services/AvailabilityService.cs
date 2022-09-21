@@ -342,8 +342,11 @@ namespace EasyMeets.Core.BLL.Services
         {
             return await _context.AvailabilitySlots
                 .Include(slot => slot.SlotMembers)
+                    .ThenInclude(member => member.User)
+                .Include(slot => slot.SlotMembers)
                     .ThenInclude(slot => slot.Schedule)
                         .ThenInclude(s => s.ScheduleItems)
+                .Include(slot => slot.AdvancedSlotSettings)
                 .FirstOrDefaultAsync(s => s.Link == link);
         }
 
