@@ -42,13 +42,8 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(m => m.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id) ?? throw new KeyNotFoundException($"Meeting with id {id} does not exist");
 
-            if (meeting is null)
-            {
-                throw new KeyNotFoundException($"Meeting with id {id} does not exist");
-            }
-            
             var meetingDto = _mapper.Map<MeetingSlotDTO>(meeting);
 
             meetingDto.MembersTitle = CreateMemberTitle(meetingDto);
@@ -58,13 +53,8 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<SaveMeetingDto> UpdateMeetingAsync(SaveUpdateMeetingDto updateMeetingDto)
         {
-            var meeting = GetByIdInternal(updateMeetingDto.Id);
+            var meeting = GetByIdInternal(updateMeetingDto.Id) ?? throw new KeyNotFoundException($"The meeting with {updateMeetingDto.Id} id not found");
 
-            if (meeting is null)
-            {
-                throw new KeyNotFoundException($"The meeting with {updateMeetingDto.Id} id not found");
-            }
-            
             var meetingMembers = await GetMeetingMembers(updateMeetingDto.MeetingMembers, updateMeetingDto.TeamId);
 
             _mapper.Map(updateMeetingDto, meeting, opts =>
