@@ -1,57 +1,116 @@
 <form class="container" #externalRegistration="ngForm">
-    <img class="logo" src="assets/header/header-logo.svg" alt="header-logo" />
     <div class="main-content">
         <div class="schedule-definition" *ngIf="state === 'SlotDefining'">
             <div class="info-header">
-                <p class="info-label">Please, define Availability Schedule for {{ slot?.name ?? '' }}</p>
-                <button mat-flat-button color="primary" class="next-page-button" (click)="nextClicked()">
-                    Next step
-                </button>
-            </div>
-            <app-schedule-definition [schedule]="schedule" [slot]="slot"></app-schedule-definition>
-        </div>
-        <div class="email-definition" *ngIf="state === 'EmailDefining'">
-            <div class="info-header">
-                <button mat-icon-button (click)="returnToSchedule()">
-                    <mat-icon>arrow_back</mat-icon>
-                </button>
-                <p class="info-label">Please, enter your Email</p>
-                <button
-                    mat-flat-button
-                    color="primary"
-                    class="next-page-button"
-                    [disabled]="!externalRegistration.valid"
-                    (click)="doneClicked()">
-                    Done
-                </button>
-            </div>
-            <div class="wrapper">
-                <div class="email-container">
-                    <p>System in future will send meeting invitations to this email.</p>
-                    <p class="description">Email</p>
-                    <input
-                        [(ngModel)]="schedule.definedBy"
-                        name="meetingName"
-                        #name="ngModel"
-                        type="text"
-                        matInput
-                        required
-                        maxlength="50"
-                        placeholder="Enter your email"
-                        [pattern]="emailPattern" />
-                    <div *ngIf="name.invalid && name.touched" class="error">
-                        <div *ngIf="name.errors?.['required']">Field is required</div>
-                        <div *ngIf="name.errors?.['pattern']">Invalid email address</div>
+                <div>
+                    <p class="info-label">Availability Slots Defining</p>
+                </div>
+                <div *ngIf="slot" class="slot-options">
+                    <div class="input-container">
+                        <p class="input-description">Meeting Name</p>
+                        <input
+                            [(ngModel)]="slot.name"
+                            name="meetingName"
+                            #name="ngModel"
+                            type="text"
+                            required
+                            maxlength="50"
+                            [pattern]="textFieldRegex"
+                            (change)="meetingNameChanged(name.value)" />
+                        <div *ngIf="name.invalid && name.touched" class="error">
+                            <div *ngIf="name.errors?.['required']">Field is required</div>
+                            <div *ngIf="name.errors?.['pattern']">{{ invalidCharactersMessage }}</div>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <p class="input-description">Duration</p>
+                        <mat-select [(ngModel)]="inputSettings[durationKey.inputType].durationValue" name="slotSize">
+                            <mat-option *ngFor="let _duration of durations" [value]="_duration">
+                                {{ _duration.time }} {{ _duration.unitOfTime }}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                    <div class="option">
+                        <div class="input-container">
+                            <p class="input-description">Location</p>
+                            <mat-select [(ngModel)]="slot.locationType" name="meetingLocation">
+                                <mat-option *ngFor="let meetingLocation of locations" [value]="meetingLocation">
+                                    {{ locationTypeMapping(meetingLocation) }}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                        <div *ngIf="slot.locationType === LocationType.Office" class="input-container">
+                            <p class="input-description sub-description">Meeting room</p>
+                            <input
+                                [(ngModel)]="slot.meetingRoom"
+                                name="meetingRoom"
+                                #name="ngModel"
+                                type="text"
+                                required
+                                maxlength="50"
+                                [pattern]="textFieldRegex" />
+                            <div *ngIf="name.invalid && name.touched" class="error">
+                                <div *ngIf="name.errors?.['required']">Field is required</div>
+                                <div *ngIf="name.errors?.['pattern']">
+                                    Input field accepts only text, numbers, symbols -'
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="done-window" *ngIf="state === 'Done'">
-            <div class="wrapper">
-                <div class="done-content">
-                    <p class="description">Thanks for defining schedule!</p>
-                    <p>System in future will send meeting invitations to {{ schedule.definedBy }}</p>
+        <app-schedule-definition [schedule]="schedule" [slot]="slot"></app-schedule-definition>
+        <div class="logo-btn-header">
+            <div class="logo-img">
+                <img class="logo" src="assets/header/header-logo.svg" alt="header-logo" />
+            </div>
+            <div class="next-page-button">
+                <button mat-flat-button color="primary" class="next-btn" (click)="nextClicked()">Next Step</button>
+            </div>
+        </div>
+    </div>
+    <div class="email-definition" *ngIf="state === 'EmailDefining'">
+        <div class="info-header">
+            <button mat-icon-button (click)="returnToSchedule()">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <p class="info-label">Please, enter your Email</p>
+            <button
+                mat-flat-button
+                color="primary"
+                class="next-page-button"
+                [disabled]="!externalRegistration.valid"
+                (click)="doneClicked()">
+                Done
+            </button>
+        </div>
+        <div class="wrapper">
+            <div class="email-container">
+                <p>System in future will send meeting invitations to this email.</p>
+                <p class="description">Email</p>
+                <input
+                    [(ngModel)]="schedule.definedBy"
+                    name="meetingName"
+                    #name="ngModel"
+                    type="text"
+                    matInput
+                    required
+                    maxlength="50"
+                    placeholder="Enter your email"
+                    [pattern]="emailPattern" />
+                <div *ngIf="name.invalid && name.touched" class="error">
+                    <div *ngIf="name.errors?.['required']">Field is required</div>
+                    <div *ngIf="name.errors?.['pattern']">Invalid email address</div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="done-window" *ngIf="state === 'Done'">
+        <div class="wrapper">
+            <div class="done-content">
+                <p class="description">Thanks for defining schedule!</p>
+                <p>System in future will send meeting invitations to {{ schedule.definedBy }}</p>
             </div>
         </div>
     </div>
