@@ -61,13 +61,11 @@
                         #questionField="ngModel"
                         [(ngModel)]="questions[i + 2].answer"
                         [pattern]="textFieldRegex"
-                        required
                         (change)="trimInputValue(questionField.control)"
                         [placeholder]="question.placeHolderText" />
                 </mat-form-field>
             </div>
             <div *ngIf="questionField.invalid && questionField.touched" class="validation-error">
-                <div *ngIf="questionField.errors?.['required']">Field is required</div>
                 <div *ngIf="questionField.errors?.['pattern']">Input field accepts only text, numbers, symbols -'</div>
             </div>
         </ng-container>

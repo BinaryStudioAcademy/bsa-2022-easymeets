@@ -61,6 +61,12 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 });
 
             CreateMap<QuestionAnswer, QuestionDto>()
+                .ForMember(u => u.QuestionText, opts => 
+                    opts.MapFrom(src => src.Question.QuestionText))
+                .ForMember(u => u.Order, opts => 
+                    opts.MapFrom(src => src.Question.Order))
+                .ForMember(u => u.IsMandatory, opts => 
+                    opts.MapFrom(src => src.Question.IsMandatory))
                 .ForMember(u => u.Id, opts =>
                     opts.MapFrom(src => src.QuestionId));
 

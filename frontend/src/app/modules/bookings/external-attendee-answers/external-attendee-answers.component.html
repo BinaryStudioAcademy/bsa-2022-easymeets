@@ -19,30 +19,14 @@
         </div>
         <div class="flex questions-wrapper">
             <form form #externalAnswers="ngForm">
-                <ng-container *ngFor="let question of booker.questions; let i = index">
-                    <div class="question-mandatory list-item-wrapper flex cross-axis-center">
+                <ng-container *ngFor="let question of data.questions; let i = index">
+                    <div class="question">
                         <mat-label class="question-order bold">{{ i + 1 }}.</mat-label>
-                        <mat-label class="bold">{{ question.questionText }}</mat-label>
-                    </div>
-                    <div class="question-mandatory list-item-wrapper flex cross-axis-center">
-                        <mat-form-field class="question-input no-padding max-input-width" appearance="outline">
-                            <input
-                                matInput
-                                type="text"
-                                name="questionAnswer{{ i }}"
-                                #questionField="ngModel"
-                                [(ngModel)]="question.answer"
-                                [pattern]="textFieldRegex"
-                                required
-                                (change)="trimInputValue(questionField.control)"
-                                disabled
-                                [placeholder]="question.placeHolderText" />
-                        </mat-form-field>
-                    </div>
-                    <div *ngIf="questionField.invalid && questionField.touched" class="validation-error">
-                        <div *ngIf="questionField.errors?.['required']">Field is required</div>
-                        <div *ngIf="questionField.errors?.['pattern']">
-                            Input field accepts only text, numbers, symbols -'
+                        <div class="question-answer">
+                            <mat-label class="bold">{{ question.questionText }}</mat-label>
+                            <div class="question-mandatory list-item-wrapper flex cross-axis-center">
+                                {{question.answer}}
+                            </div>
                         </div>
                     </div>
                 </ng-container>

@@ -18,12 +18,19 @@ export class BookerComponent extends BaseComponent {
     }
 
     showAnswersWindow() {
-        if (!this.booker.questions.length) {
+        if (!this.getAnsweredQuestions().length) {
             return;
         }
         this.dialog
-            .open(ExternalAttendeeAnswersComponent, { data: this.booker })
+            .open(ExternalAttendeeAnswersComponent, { data: {
+                booker: this.booker,
+                questions: this.getAnsweredQuestions(),
+            } })
             .afterClosed()
             .subscribe(() => {});
+    }
+
+    getAnsweredQuestions() {
+        return this.booker.questions.filter(q => q.answer);
     }
 }

@@ -5,7 +5,7 @@ import { addMinutesHelper } from '@core/helpers/date-helper';
 import { removeExcessiveSpaces } from '@core/helpers/string-helper';
 import { IUserMeeting } from '@core/models/IUserMeeting';
 import { textFieldRegex } from '@shared/constants/model-validation';
-import { IConfirmDialogData } from '@shared/models/confirmWindow/IConfirmDialogData';
+import { IQuestionsData } from '@shared/models/IQuestionsData';
 
 @Component({
     selector: 'app-external-attendee-answers',
@@ -20,10 +20,10 @@ export class ExternalAttendeeAnswersComponent {
     public endMeetingTime: Date;
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData,
+        @Inject(MAT_DIALOG_DATA) public data: IQuestionsData,
         private dialogRef: MatDialogRef<ExternalAttendeeAnswersComponent>,
     ) {
-        this.booker = data as unknown as IUserMeeting;
+        this.booker = data.booker;
         this.endMeetingTime = addMinutesHelper(this.booker.meetingDate, this.booker.meetingDuration);
     }
 

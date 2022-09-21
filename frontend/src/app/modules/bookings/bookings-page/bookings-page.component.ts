@@ -15,7 +15,7 @@ import { deletionMessage } from '@shared/constants/shared-messages';
 import { DateFilterValue } from '@shared/enums/dateFilterValue';
 import { LocationType } from '@shared/enums/locationType';
 import { endOfDay, startOfDay } from 'date-fns';
-import { Subscription } from 'rxjs';
+import { concatMap, map, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-bookings-page',
@@ -80,10 +80,14 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         const containerWidth = this.getPageSize();
 
         this.getNumberOfItemsToDisplay(containerWidth);
-        this.teamService.currentTeamEmitted$.pipe(this.untilThis).subscribe((teamId) => {
-            this.teamId = teamId;
-        });
-        this.loadMeetings();
+        this.teamService.currentTeamEmitted$.pipe(
+            this.untilThis,
+            concatMap((teamId) => {
+                this.teamId = teamId;
+
+                return this.loadMeetings();
+            }),
+        ).subscribe();
     }
 
     deleteButtonClick(id: number) {
@@ -140,14 +144,13 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
     }
 
     private loadMeetings() {
-        this.meetingService
+        return this.meetingService
             .getMeetings(this.getMeetingRequest())
-            .pipe(this.untilThis)
-            .subscribe(
-                (resp: IMeetingBooking[]) => {
+            .pipe(
+                this.untilThis,
+                map((resp: IMeetingBooking[]) => {
                     this.meetings = resp;
-                },
-                (error) => this.notifications.showErrorMessage(error),
+                }),
             );
     }
 
@@ -159,8 +162,8 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         return getDefaultTimeZone().timeValue;
     }
 
-    public currentDateChange() {
-        this.loadMeetings();
+    currentDateChange() {
+        this.loadMeetings().subscribe();
     }
 
     private getMeetingRequest(): IMeetingMembersRequest {
