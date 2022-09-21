@@ -77,7 +77,8 @@ public class TeamController : ControllerBase
 
             return Ok();
         }
-        else return BadRequest();
+
+        return BadRequest();
 
     }
 

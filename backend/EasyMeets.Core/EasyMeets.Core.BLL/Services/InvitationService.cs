@@ -24,16 +24,10 @@ namespace EasyMeets.Core.BLL.Services
             {
                 await _teamService.CreateTeamMemberAsync(teamData.UserId.Value, teamData.TeamId);
 
-                var redirectionLink = _linkService.GenerateRedirectLinkForResigteredUser(teamData.TeamId);
-
-                return redirectionLink;
+                return _linkService.GenerateRedirectLinkForResigteredUser(teamData.TeamId);
             }
-            else
-            {
-                var redirectionLink = _linkService.GenerateRedirectLinkForNewUser(teamData.TeamId);
 
-                return redirectionLink;
-            };
+            return _linkService.GenerateRedirectLinkForNewUser(teamData.TeamId);
         }
     }
 }

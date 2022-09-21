@@ -31,6 +31,7 @@ namespace EasyMeets.Core.WebAPI.Controllers
                 var redirectionLink = await _invitationService.AcceptInvitationAndReturRedirectionLink(teamData);
                 return Redirect(redirectionLink);
             }
+
             return BadRequest();
         }
     }

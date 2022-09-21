@@ -45,38 +45,24 @@ namespace EasyMeets.Core.BLL.Services
 
             string urlEncodedTeamData = HttpUtility.UrlEncode(teamDataJson, Encoding.UTF8);
 
-            var url = Url.Link("AcceptInvitation", new { ecodedTeamData = urlEncodedTeamData });
-
-            return url;
+            return Url.Link("AcceptInvitation", new { ecodedTeamData = urlEncodedTeamData });
         }
 
         public string GenerateRedirectLinkForResigteredUser(long teamId)
         {
-
-            var actionPath = $"settings/teams/members/{teamId}";
-
-            var redirectionLink = $"{_applicationUri}{actionPath}";
-
-            return redirectionLink;
+            return $"{_applicationUri}settings/teams/members/{teamId}";
         }
 
         public string GenerateRedirectLinkForNewUser(long teamId)
         {
-            var pagePath = "auth/signup";
-
-            var redirectionLink = $"{_applicationUri}{pagePath}";
-
-            var uriBuilder = new UriBuilder(redirectionLink);
+            var uriBuilder = new UriBuilder($"{_applicationUri}auth/signup");
 
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
             query["teamId"] = $"{teamId}";
 
             uriBuilder.Query = query.ToString();
 
-            redirectionLink = uriBuilder.ToString();
-
-
-            return redirectionLink;
+            return uriBuilder.ToString();
         }
     }
 }
