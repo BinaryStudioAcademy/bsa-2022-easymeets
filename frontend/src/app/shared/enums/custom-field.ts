@@ -4,3 +4,13 @@ export enum InputFieldType {
     Padding = 'Padding',
     MinBookTime = 'MinBookTime',
 }
+
+export enum AdvancedKeys {
+    frequency = 'frequency',
+    paddingMeeting = 'paddingMeeting',
+    minBookingMeetingDifference = 'minBookingMeetingDifference',
+}
+
+export enum GeneralKeys {
+    size = 'size',
+}

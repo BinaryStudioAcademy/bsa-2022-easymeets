@@ -16,7 +16,7 @@ import { ISaveGeneralSettings } from '@core/models/save-availability-slot/ISaveG
 import { UserService } from '@core/services/user.service';
 import { naturalNumberRegex, textFieldRegex } from '@shared/constants/model-validation';
 import { invalidCharactersMessage } from '@shared/constants/shared-messages';
-import { InputFieldType } from '@shared/enums/custom-field';
+import { AdvancedKeys, GeneralKeys, InputFieldType } from '@shared/enums/custom-field';
 import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
 import { addDays, differenceInDays, startOfDay } from 'date-fns';
@@ -61,13 +61,13 @@ export class GeneralComponent extends BaseComponent implements OnInit {
         this.addAdvanced = Boolean(this.slot?.advancedSlotSettingsId);
     }
 
-    public durationKey: InputFieldType = InputFieldType.Duration;
+    public durationKey = { inputType: InputFieldType.Duration, field: GeneralKeys.size };
 
-    public frequencyKey: InputFieldType = InputFieldType.Frequency;
+    public frequencyKey = { inputType: InputFieldType.Frequency, field: AdvancedKeys.frequency };
 
-    public paddingKey: InputFieldType = InputFieldType.Padding;
+    public paddingKey = { inputType: InputFieldType.Padding, field: AdvancedKeys.paddingMeeting };
 
-    public minBookingKey: InputFieldType = InputFieldType.MinBookTime;
+    public minBookingKey = { inputType: InputFieldType.MinBookTime, field: AdvancedKeys.minBookingMeetingDifference };
 
     public keys = Object.keys(InputFieldType);
 
@@ -154,25 +154,14 @@ export class GeneralComponent extends BaseComponent implements OnInit {
         this.settings.name = removeExcessiveSpaces(value);
     }
 
-    onValueChange(key: InputFieldType) {
+    onGeneralChange(key: InputFieldType, field: keyof typeof GeneralKeys) {
         this.inputSettings[key].isCustom = this.inputSettings[key].durationValue?.time === 'Custom';
-        this.updateSettings(this.inputSettings[key].durationValue?.minutes ?? 0, this.inputSettings[key].inputType);
+        this.updateGeneralSettings(field, this.inputSettings[key].durationValue?.minutes ?? 0);
     }
 
-    customDurationChanged(value: number) {
-        this.updateSettings(value, InputFieldType.Duration);
-    }
-
-    customFrequencyChanged(value: number) {
-        this.updateSettings(value, InputFieldType.Frequency);
-    }
-
-    customPaddingChanged(value: number) {
-        this.updateSettings(value, InputFieldType.Padding);
-    }
-
-    customBookingDifferenceChanged(value: number) {
-        this.updateSettings(value, InputFieldType.MinBookTime);
+    onAdvancedChange(key: InputFieldType, field: keyof typeof AdvancedKeys) {
+        this.inputSettings[key].isCustom = this.inputSettings[key].durationValue?.time === 'Custom';
+        this.updateAdvancedSettings(field, this.inputSettings[key].durationValue?.minutes ?? 0);
     }
 
     saveRange() {
@@ -185,6 +174,14 @@ export class GeneralComponent extends BaseComponent implements OnInit {
 
     changeFinishDate() {
         this.finishDate = addDays(this.startDate, this.advancedSettings.days);
+    }
+
+    updateAdvancedSettings(field: keyof typeof AdvancedKeys, value: number) {
+        this.advancedSettings[field] = value;
+    }
+
+    updateGeneralSettings(field: keyof typeof GeneralKeys, value: number) {
+        this.settings[field] = value;
     }
 
     private initLocations() {
@@ -222,36 +219,5 @@ export class GeneralComponent extends BaseComponent implements OnInit {
                 };
             }
         });
-    }
-
-    private updateSettings(value: number, type: InputFieldType) {
-        switch (type) {
-            case InputFieldType.Duration:
-                this.settings = {
-                    ...this.settings,
-                    size: value,
-                };
-                break;
-            case InputFieldType.Frequency:
-                this.advancedSettings = {
-                    ...this.advancedSettings,
-                    frequency: value,
-                };
-                break;
-            case InputFieldType.Padding:
-                this.advancedSettings = {
-                    ...this.advancedSettings,
-                    paddingMeeting: value,
-                };
-                break;
-            case InputFieldType.MinBookTime:
-                this.advancedSettings = {
-                    ...this.advancedSettings,
-                    minBookingMeetingDifference: value,
-                };
-                break;
-            default:
-                break;
-        }
     }
 }
