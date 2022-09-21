@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
     AbstractControl,
     AsyncValidatorFn,
@@ -22,7 +22,7 @@ import { map, Observable } from 'rxjs';
     templateUrl: './event-detail.component.html',
     styleUrls: ['./event-detail.component.sass'],
 })
-export class EventDetailComponent extends BaseComponent implements OnInit {
+export class EventDetailComponent extends BaseComponent implements OnInit, AfterViewInit {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
         this.settings = {
@@ -34,7 +34,6 @@ export class EventDetailComponent extends BaseComponent implements OnInit {
             passwordProtectionIsUsed: this.slot?.passwordProtectionIsUsed ?? false,
             passwordProtection: this.slot?.passwordProtection ?? '',
         };
-        this.slotLinkControl.patchValue(this.settings.link);
     }
 
     @Output() linkChange = new EventEmitter<string>();
@@ -87,13 +86,17 @@ export class EventDetailComponent extends BaseComponent implements OnInit {
     ngOnInit(): void {
         this.settings = {
             timeZoneVisibility: false,
-            link: '',
+            link: crypto.randomUUID(),
             welcomeMessage: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             language: 'English',
             bookingsPerDay: this.allowedBooking[1],
             passwordProtectionIsUsed: false,
             passwordProtection: '',
         };
+    }
+
+    ngAfterViewInit(): void {
+        this.slotLinkControl.patchValue(this.settings.link);
     }
 
     onLinkChange(value: string) {
