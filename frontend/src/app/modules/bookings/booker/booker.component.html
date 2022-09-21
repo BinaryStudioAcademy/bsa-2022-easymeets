@@ -3,5 +3,7 @@
     <span class="item-text">{{ booker.email }}</span>
     <span class="item-text">{{ booker.timeZone?.nameValue }} {{ booker.timeZone?.timeValue }}</span>
     <span class="item-text">Booked: {{ booker.booked | date }}</span>
-    <button mat-stroked-button class="answers-button">Answers: 2/3</button>
+    <button mat-stroked-button class="answers-button" (click)="showAnswersWindow()">
+        Answers: {{getAnsweredQuestions().length}}/{{ booker.questions.length }}
+    </button>
 </div>

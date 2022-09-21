@@ -1,7 +1,6 @@
 ﻿using Bogus;
 using Bogus.Extensions;
 using EasyMeets.Core.Common.Enums;
-using EasyMeets.Core.DAL.Context.EntityConfigurations;
 using EasyMeets.Core.DAL.Entities;
 using EasyMeets.Core.DAL.Entities.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -170,6 +169,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
                 .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
                 .RuleFor(u => u.IsDeleted, f => false)
+                .RuleFor(u => u.ParticipationRule, _ => ParticipationRule.One)
                 .Generate(count);
         }
 

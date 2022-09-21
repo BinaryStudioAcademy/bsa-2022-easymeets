@@ -4,4 +4,5 @@ export interface IQuestion {
     questionText: string;
     placeHolderText: string;
     isMandatory: boolean;
+    answer: string;
 }

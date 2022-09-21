@@ -1,43 +1,18 @@
-<div class="upper-bar">
-    <div class="upper-bar-icon">
-        <i class="fa-solid fa-arrow-left" routerLink=""></i>
-    </div>
-    <div class="nav-text">
-        <h1>Please, choose Team member(s) for meeting</h1>
-        <h3>{{ selectedTeamMembers.length }} selected</h3>
-    </div>
-    <div class="nav-buttons">
-        <ng-container *ngIf="this.selectedTeamMembers.length; else noSelectedMembers">
-            <button mat-flat-button class="cancel-btn-active nav-button" (click)="cancelSelection()">
-                Cancel Selection
-            </button>
-        </ng-container>
-        <ng-template #noSelectedMembers>
-            <button mat-flat-button class="cancel-btn-inactive nav-button">Cancel Selection</button>
-        </ng-template>
-        <button
-            mat-flat-button
-            color="primary"
-            class="next-btn nav-button"
-            (click)="addMembers(selectedTeamMembers)"
-            [routerLink]="['/external-booking/choose-time']"
-            [queryParams]="{ duration: 30 }">
-            Next Step
-        </button>
-    </div>
+<div class="title">
+    <h1>Please, choose Team member for meeting</h1>
 </div>
-<div *ngFor="let member of selectedAvailabilitySlot.members" class="member-cards-container">
-    <mat-card class="team-member-card">
-        <mat-card-title>
-            <div class="team-member-img">
-                <img src="assets/header/avatar-icon.png" />
-            </div>
+<div class="members-container">
+    <div *ngFor="let member of slotMembers" class="member-cards-container">
+        <div class="team-member-card" (click)="selectMember(member)">
+            <ng-container *ngIf="member.image; else noImageParticipant">
+                <img class="team-member-img" src="{{ member.image }}" alt="member" />
+            </ng-container>
+            <ng-template #noImageParticipant>
+                <img class="team-member-img" src="assets/header/avatar-icon.png" alt="member" />
+            </ng-template>
             <div class="team-member-name">
                 <h3>{{ member.name }}</h3>
             </div>
-            <div class="team-member-checkbox">
-                <input type="checkbox" [checked]="isAllTeamMembersChecked" (click)="selectMember(member)" />
-            </div>
-        </mat-card-title>
-    </mat-card>
+        </div>
+    </div>
 </div>

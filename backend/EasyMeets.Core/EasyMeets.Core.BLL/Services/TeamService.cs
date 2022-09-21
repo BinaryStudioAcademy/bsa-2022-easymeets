@@ -17,7 +17,7 @@ public class TeamService : BaseService, ITeamService
     private readonly IUserService _userService;
     private readonly IUploadFileService _uploadFileService;
     private readonly IEmailSenderService _emailSenderService;
-    private readonly ILinkService _linkService; 
+    private readonly ILinkService _linkService;
 
     public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IUploadFileService uploadFileService,
         IEmailSenderService emailSenderService, ILinkService sharedService) : base(context, mapper)
@@ -114,8 +114,8 @@ public class TeamService : BaseService, ITeamService
 
                 var emailData = new EmailDto();
                 emailData = user == null ?
-                       _emailSenderService.CreateEmailSubjectAndBody(currentUser, emailToSendInvivation, teamEntity, link) :
-                       _emailSenderService.CreateEmailSubjectAndBody(currentUser, user, teamEntity, link);
+                       _emailSenderService.CreateEmailSubjectAndBody(currentUser, emailToSendInvivation, emailToSendInvivation, teamEntity, link) :
+                       _emailSenderService.CreateEmailSubjectAndBody(currentUser, user.Name, user.Email, teamEntity, link);
 
                 _emailSenderService.Send(emailData);
             }
