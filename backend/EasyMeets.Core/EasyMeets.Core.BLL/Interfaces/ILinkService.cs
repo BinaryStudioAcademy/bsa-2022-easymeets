@@ -6,5 +6,7 @@ namespace EasyMeets.Core.BLL.Interfaces
     {
         Task<string> GenerateNewPageLinkAsync(long teamId, string teamName);
         string GenerateInvivationLink(IUrlHelper Url, long? userId, string userEmail, long teamId);
+        string GenerateRedirectLinkForResigteredUser(long teamId);
+        string GenerateRedirectLinkForNewUser(long teamId);
     }
 }

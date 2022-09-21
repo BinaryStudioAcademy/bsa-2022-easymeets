@@ -4,6 +4,7 @@ using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.DAL.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Text;
 using System.Web;
@@ -12,8 +13,13 @@ namespace EasyMeets.Core.BLL.Services
 {
     public class LinkService : BaseService, ILinkService
     {
-        public LinkService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper)
-        { }
+        private readonly IConfiguration _config;
+        private string _applicationUri;
+        public LinkService(EasyMeetsCoreContext context, IMapper mapper, IConfiguration configuration) : base(context, mapper)
+        {
+            _config = configuration;
+            _applicationUri = _config["ApplicationUri"];
+        }
 
         public async Task<string> GenerateNewPageLinkAsync(long teamId, string teamName)
         {
@@ -42,6 +48,35 @@ namespace EasyMeets.Core.BLL.Services
             var url = Url.Link("AcceptInvitation", new { ecodedTeamData = urlEncodedTeamData });
 
             return url;
+        }
+
+        public string GenerateRedirectLinkForResigteredUser(long teamId)
+        {
+
+            var actionPath = $"settings/teams/members/{teamId}";
+
+            var redirectionLink = $"{_applicationUri}{actionPath}";
+
+            return redirectionLink;
+        }
+
+        public string GenerateRedirectLinkForNewUser(long teamId)
+        {
+            var pagePath = "auth/signup";
+
+            var redirectionLink = $"{_applicationUri}{pagePath}";
+
+            var uriBuilder = new UriBuilder(redirectionLink);
+
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["teamId"] = $"{teamId}";
+
+            uriBuilder.Query = query.ToString();
+
+            redirectionLink = uriBuilder.ToString();
+
+
+            return redirectionLink;
         }
     }
 }
