@@ -13,6 +13,14 @@ public class ExternalAttendeeProfile : Profile
         CreateMap<ExternalAttendeeDto, ExternalAttendee>();
         
         CreateMap<ExternalAttendee, UserMeetingDTO>()
+            .ForMember(u => u.MeetingName, opts =>
+                opts.MapFrom(src => src.Meeting.Name))
+            .ForMember(u => u.MeetingDate, opts =>
+                opts.MapFrom(src => src.Meeting.StartTime))
+            .ForMember(u => u.MeetingDuration, opts =>
+                opts.MapFrom(src => src.Meeting.Duration))
+            .ForMember(u => u.Questions, opts =>
+                opts.MapFrom(src => src.Meeting.QuestionAnswers))
             .AfterMap((src, dest) =>
             {
                 dest.TimeZone = new TimeZoneDto

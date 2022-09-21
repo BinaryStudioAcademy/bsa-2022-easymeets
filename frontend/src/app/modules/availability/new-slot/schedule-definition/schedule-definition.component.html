@@ -36,7 +36,7 @@
                     <mat-icon class="week-icon">tune</mat-icon>
                     Week View
                 </ng-template>
-                <app-schedule-week [items]="scheduleValue.scheduleItems" [itemChange]="changeEvent">
+                <app-schedule-week [schedule]="scheduleValue" [itemChange]="changeEvent">
                 </app-schedule-week>
             </mat-tab>
             <mat-tab *ngIf="!disabled">
@@ -44,6 +44,7 @@
                     <mat-icon>calendar_today</mat-icon>
                     Month View
                 </ng-template>
+                <app-schedule-month [schedule]="scheduleValue"></app-schedule-month>
             </mat-tab>
         </mat-tab-group>
     </div>
