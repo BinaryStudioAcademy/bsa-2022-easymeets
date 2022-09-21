@@ -30,8 +30,7 @@ public class ExternalAttendeeService : BaseService, IExternalAttendeeService
                 Answer = ans.Answer,
                 MeetingId = meetingId,
                 QuestionId = ans.Id
-            })
-            .ToList();
+            });
         await _context.QuestionAnswers.AddRangeAsync(answers);
 
         var attendee = _mapper.Map<ExternalAttendee>(bookingDto.Attendee);
