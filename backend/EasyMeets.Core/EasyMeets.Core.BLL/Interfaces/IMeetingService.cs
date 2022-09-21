@@ -12,5 +12,7 @@ namespace EasyMeets.Core.BLL.Interfaces
         Task<long> CreateExternalAttendeeMeeting(ExternalAttendeeMeetingDto meetingDto);
         Task SendEmailsAsync(long meetingId, TemplateType type);
         Task DeleteMeeting(long meetingId);
+        Task<MeetingSlotDTO> GetMeetingByIdAsync(long id);
+        Task<SaveMeetingDto> UpdateMeetingAsync(SaveUpdateMeetingDto updateMeetingDto);
     }
 }
