@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import * as languageHelper from '@core/helpers/language-helper';
 import * as timeHelper from '@core/helpers/time-format-label-mapping';
 import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
@@ -11,45 +11,50 @@ import { SpinnerService } from '@core/services/spinner.service';
 import { UserService } from '@core/services/user.service';
 import { DateFormat } from '@shared/enums/dateFormat';
 import firebase from 'firebase/compat';
-import { finalize, Observable, switchMap, tap } from 'rxjs';
+import { finalize, Observable, Subject, switchMap, tap } from 'rxjs';
 
-import { TeamService } from './team.service';
+import { TeamMemberService } from './team-member.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthFormService {
+    teamId: number;
+
+    private emitTeamTeamMemberAddedSource = new Subject<ICreateTeamMember>();
+
+    public teamIdChangedEmitted$ = this.emitTeamTeamMemberAddedSource.asObservable();
+
     constructor(
         private authService: AuthService,
         private spinnerService: SpinnerService,
         private userService: UserService,
-        private teamService: TeamService,
         private notificationService: NotificationService,
         private router: Router,
-        private route: ActivatedRoute,
-        // eslint-disable-next-line no-empty-function
+        private teamService: TeamMemberService,
+    // eslint-disable-next-line no-empty-function
     ) {
-        this.route.queryParams.subscribe(params => {
-            this.teamId = params['teamId'];
+        this.teamService.teamIdChangedEmitted$.subscribe((resp) => {
+            this.teamId = resp;
         });
     }
 
-    teamId: number;
+    public emitTeamStateChange(teamMember: ICreateTeamMember) {
+        this.emitTeamTeamMemberAddedSource.next(teamMember);
+    }
 
     public signIn(email: string, password: string): Observable<IUser> {
+        // eslint-disable-next-line no-debugger
+        debugger;
+        if (this.teamId) {
+            const teamMember: ICreateTeamMember = { userEmail: email, teamId: this.teamId };
+
+            this.emitTeamStateChange(teamMember);
+        }
+
         return this.authenticate(this.authService.signIn(email, password)).pipe(
             tap({
                 next: () => {
-                    if (this.teamId) {
-                        const teamMember: ICreateTeamMember = { userEmail: email, teamId: this.teamId };
-
-                        this.teamService
-                            .createTeamMember(teamMember)
-                            .subscribe({
-                                next: () => this.notificationService.showInfoMessage('Current user was added to team'),
-                                error: (e) => this.notificationService.showErrorMessage(e),
-                            });
-                    }
                     this.notificationService.showSuccessMessage('Authentication successful');
                 },
                 error: () =>
