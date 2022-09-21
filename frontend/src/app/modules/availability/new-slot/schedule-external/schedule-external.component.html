@@ -30,30 +30,28 @@
                             </mat-option>
                         </mat-select>
                     </div>
-                    <div class="option">
-                        <div class="input-container">
-                            <p class="input-description">Location</p>
-                            <mat-select [(ngModel)]="slot.locationType" name="meetingLocation">
-                                <mat-option *ngFor="let meetingLocation of locations" [value]="meetingLocation">
-                                    {{ locationTypeMapping(meetingLocation) }}
-                                </mat-option>
-                            </mat-select>
-                        </div>
-                        <div *ngIf="slot.locationType === LocationType.Office" class="input-container">
-                            <p class="input-description sub-description">Meeting room</p>
-                            <input
-                                [(ngModel)]="slot.meetingRoom"
-                                name="meetingRoom"
-                                #name="ngModel"
-                                type="text"
-                                required
-                                maxlength="50"
-                                [pattern]="textFieldRegex" />
-                            <div *ngIf="name.invalid && name.touched" class="error">
-                                <div *ngIf="name.errors?.['required']">Field is required</div>
-                                <div *ngIf="name.errors?.['pattern']">
-                                    Input field accepts only text, numbers, symbols -'
-                                </div>
+                    <div class="input-container">
+                        <p class="input-description">Location</p>
+                        <mat-select [(ngModel)]="slot.locationType" name="meetingLocation">
+                            <mat-option *ngFor="let meetingLocation of locations" [value]="meetingLocation">
+                                {{ locationTypeMapping(meetingLocation) }}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                    <div *ngIf="slot.locationType === LocationType.Office" class="input-container">
+                        <p class="input-description sub-description">Meeting room</p>
+                        <input
+                            [(ngModel)]="slot.meetingRoom"
+                            name="meetingRoom"
+                            #name="ngModel"
+                            type="text"
+                            required
+                            maxlength="50"
+                            [pattern]="textFieldRegex" />
+                        <div *ngIf="name.invalid && name.touched" class="error">
+                            <div *ngIf="name.errors?.['required']">Field is required</div>
+                            <div *ngIf="name.errors?.['pattern']">
+                                Input field accepts only text, numbers, symbols -'
                             </div>
                         </div>
                     </div>
