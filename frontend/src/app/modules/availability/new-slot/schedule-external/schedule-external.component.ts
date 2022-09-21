@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { ExternalScheduleState } from '@core/enums/external-schedule-state.enum';
@@ -24,7 +24,7 @@ import { LocationType } from '@shared/enums/locationType';
     templateUrl: './schedule-external.component.html',
     styleUrls: ['./schedule-external.component.sass'],
 })
-export class ScheduleExternalComponent extends BaseComponent implements OnInit {
+export class ScheduleExternalComponent extends BaseComponent {
     state: ExternalScheduleState = ExternalScheduleState.ScheduleDefining;
 
     link: string;
@@ -67,11 +67,6 @@ export class ScheduleExternalComponent extends BaseComponent implements OnInit {
             this.link = params['link'];
             this.getSlotFromLink();
         });
-    }
-
-    ngOnInit(): void {
-        this.initLocations();
-        this.defineDuration();
     }
 
     nextClicked() {
@@ -128,6 +123,9 @@ export class ScheduleExternalComponent extends BaseComponent implements OnInit {
                     ...slot.schedule,
                     scheduleItems: getScheduleItems(),
                 };
+                this.initLocations();
+                this.defineCurrentInputValues();
+                this.defineDuration();
             });
     }
 

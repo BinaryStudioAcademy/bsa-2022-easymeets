@@ -30,6 +30,10 @@
                             </mat-option>
                         </mat-select>
                     </div>
+                    <div class="input-container" *ngIf="inputSettings[durationKey.inputType].isCustom">
+                        <app-custom-time [inputCustomTime]="inputSettings[durationKey.inputType].inputValue">
+                        </app-custom-time>
+                    </div>
                     <div class="input-container">
                         <p class="input-description">Location</p>
                         <mat-select [(ngModel)]="slot.locationType" name="meetingLocation">
