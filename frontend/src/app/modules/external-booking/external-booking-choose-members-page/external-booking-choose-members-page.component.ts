@@ -1,9 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
-import { getTeamForMultipleChoice } from '@core/helpers/slot-with-members-multiple-helper';
-import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
-import { IAvailabilitySlotMember } from '@core/models/IAvailabilitySlotMember';
-import { AvailabilitySlotService } from '@core/services/availability-slot.service';
+import { ISlotMember } from '@core/models/save-availability-slot/ISlotMember';
 
 @Component({
     selector: 'app-external-booking-choose-members-page',
@@ -11,32 +8,11 @@ import { AvailabilitySlotService } from '@core/services/availability-slot.servic
     styleUrls: ['./external-booking-choose-members-page.component.sass'],
 })
 export class ExternalBookingMembersComponent extends BaseComponent {
-    @Input() selectedAvailabilitySlot: IAvailabilitySlot = getTeamForMultipleChoice()[0];
+    @Input() public slotMembers?: ISlotMember[] = [];
 
-    public selectedTeamMembers: IAvailabilitySlotMember[] = [];
+    @Output() selectedMemberEvent = new EventEmitter<ISlotMember>();
 
-    public isAllTeamMembersChecked: boolean;
-
-    @Output() selectedMembersEvent = new EventEmitter<IAvailabilitySlotMember[]>();
-
-    constructor(private availabilitySlotService: AvailabilitySlotService) {
-        super();
-    }
-
-    public selectMember(member: IAvailabilitySlotMember): void {
-        if (this.selectedTeamMembers.includes(member)) {
-            this.selectedTeamMembers = this.selectedTeamMembers.filter((o) => o.id !== member.id);
-        } else {
-            this.selectedTeamMembers = [...this.selectedTeamMembers, member];
-        }
-    }
-
-    public cancelSelection(): void {
-        this.selectedTeamMembers = [];
-        this.isAllTeamMembersChecked = false;
-    }
-
-    public addMembers(selectedMembers: IAvailabilitySlotMember[]) {
-        this.selectedMembersEvent.emit(selectedMembers);
+    public selectMember(member: ISlotMember): void {
+        this.selectedMemberEvent.emit(member);
     }
 }

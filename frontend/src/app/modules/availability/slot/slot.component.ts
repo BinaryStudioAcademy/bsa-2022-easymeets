@@ -38,6 +38,8 @@ export class SlotComponent extends BaseComponent implements OnInit, OnDestroy {
 
     @HostBinding('style.--slotShadowColor') slotShadowColor = '';
 
+    maxVisibleMembers: number = 10;
+
     private deleteEventEmitter = new EventEmitter<void>();
 
     private deleteEventSubscription: Subscription;
