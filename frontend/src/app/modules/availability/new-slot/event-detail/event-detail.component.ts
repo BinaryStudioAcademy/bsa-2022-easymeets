@@ -34,6 +34,7 @@ export class EventDetailComponent extends BaseComponent implements OnInit, After
             passwordProtectionIsUsed: this.slot?.passwordProtectionIsUsed ?? false,
             passwordProtection: this.slot?.passwordProtection ?? '',
         };
+        this.slotLinkControl.patchValue(this.settings.link);
     }
 
     @Output() linkChange = new EventEmitter<string>();
