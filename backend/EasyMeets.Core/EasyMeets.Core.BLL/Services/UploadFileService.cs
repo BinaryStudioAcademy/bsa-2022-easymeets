@@ -1,5 +1,6 @@
 using AutoMapper;
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.DAL.Context;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,17 @@ namespace EasyMeets.Core.BLL.Services
             stream.Close();
 
             return blob.Uri.ToString() ?? throw new FileLoadException("File not loaded.");
+        }
+
+        public async Task DeleteFileBlobAsync(string uri)
+        {
+            var blob = _container.GetBlobClient(GetFileName(uri));
+            await blob.DeleteAsync(DeleteSnapshotsOption.IncludeSnapshots);
+        }
+
+        private string GetFileName(string blobUri)
+        {
+            return blobUri.Split("/").Last();
         }
     }
 }

@@ -94,7 +94,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     ]);
 
     meetingRoomControl: FormControl = new FormControl('', [
-        Validators.minLength(2),
+        Validators.minLength(1),
         Validators.maxLength(50),
         Validators.pattern(textFieldRegex),
     ]);

@@ -30,13 +30,8 @@ const routes: Routes = [
                 component: ExternalBookingConfirmedComponent,
             },
             {
-                path: 'team',
-                children: [
-                    {
-                        path: 'choose-team-members',
-                        component: ExternalBookingMembersComponent,
-                    },
-                ],
+                path: 'choose-team-members',
+                component: ExternalBookingMembersComponent,
             },
             {
                 path: '**',
