@@ -1,3 +1,4 @@
+import { ISlotMember } from '@core/models/save-availability-slot/ISlotMember';
 import { LocationType } from '@shared/enums/locationType';
 
 export interface IExternalMeeting {
@@ -12,4 +13,5 @@ export interface IExternalMeeting {
     meetingLink: string;
     createdAt: Date;
     updatedAt: Date;
+    members?: ISlotMember[];
 }
