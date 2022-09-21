@@ -6,12 +6,16 @@
     height: 100%
     display: grid
     grid-template-columns: 33% 67%
+    @media screen and (max-width: $tablet-min-width)
+        grid-template-columns: 100%
 
 .availability-slot
     display: grid
-    row-gap: 42px
-    column-gap: 32px
+    row-gap: 32px
+    column-gap: 22px
     padding-bottom: 1.2em
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))
+    margin-bottom: 3.125em
 
 @media (min-device-width: $phone-min-width)
     .team-name p
@@ -30,8 +34,6 @@
         grid-area: 1 / 1 / 1 / 3
 
 @media (min-device-width: $desktop-min-width)
-    .availability-slot
-        grid-template-columns: repeat(2, 1fr)
     .team-name p
         font-size: 32px
     .avatar
@@ -52,6 +54,8 @@
     flex-direction: column
     align-items: flex-start
     margin-top: 1em
+    @media screen and (max-width: $tablet-min-width)
+        display: block
     .avatar
         border-radius: 50%
         @media screen and (max-width: $tablet-min-width)

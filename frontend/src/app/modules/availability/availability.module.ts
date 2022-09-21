@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PendingChangesGuard } from '@core/guards/pending-changes.guard';
+import { CustomTimeComponent } from '@modules/availability/new-slot/general/custom-time/custom-time.component';
 import { ExclusionDatesModule } from '@modules/exclusion-dates/exclusion-dates.module';
 import { HeaderModule } from '@modules/header/header.module';
 import { SideMenuModule } from '@modules/side-menu/side-menu.module';
@@ -51,6 +52,7 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         ScheduleExternalComponent,
         ExclusionDateComponent,
         ScheduleMonthComponent,
+        CustomTimeComponent,
     ],
     providers: [PendingChangesGuard],
     imports: [

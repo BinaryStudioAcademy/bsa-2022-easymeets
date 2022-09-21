@@ -2,10 +2,13 @@ import { WeekDay } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { ActivityType } from '@core/enums/activity-type.enum';
+import { SlotType } from '@core/enums/slot-type.enum';
 import { changeScheduleItemsDate } from '@core/helpers/schedule-items-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ICalendarWeek } from '@core/models/ICalendarWeek';
 import { IOrderedMeetingTimes } from '@core/models/IOrderedMeetingTimes';
+import { ISlotMember } from '@core/models/save-availability-slot/ISlotMember';
 import { IScheduleItemReceive } from '@core/models/schedule/IScheduleItemsReceive';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
@@ -13,7 +16,8 @@ import { NewMeetingService } from '@core/services/new-meeting.service';
 import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { LocationType } from '@shared/enums/locationType';
-import { addDays, addMinutes, subDays } from 'date-fns';
+import { SlotParticipationOption } from '@shared/enums/slotParticipationOption';
+import { addDays, addMinutes, differenceInMinutes, subDays } from 'date-fns';
 import { TZone } from 'moment-timezone-picker';
 
 @Component({
@@ -33,6 +37,9 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         location: LocationType;
         meetingRoom?: string;
         name: string;
+        slotType?: SlotType;
+        participationRule?: SlotParticipationOption;
+        slotMembers: ISlotMember[];
     }>();
 
     @Output() reloadData = new EventEmitter<string>();
@@ -65,6 +72,20 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     enteredPassword: string;
 
+    padding: number;
+
+    isBookingsLimit: boolean;
+
+    frequency: number;
+
+    minBookingDifference: number;
+
+    activityType: ActivityType = ActivityType.Indefinitely;
+
+    startDate?: Date;
+
+    finishDate?: Date;
+
     constructor(
         public spinnerService: SpinnerService,
         private availabilitySlotService: AvailabilitySlotService,
@@ -89,22 +110,49 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
             .subscribe((resp) => {
                 this.slot = resp;
                 this.showSlotPasswordDialog();
-                this.addSlotInfo(
-                    this.slot!.id,
-                    this.slot!.teamId,
-                    this.slot!.size,
-                    this.slot!.locationType,
-                    this.slot!.name,
-                    this.slot!.meetingRoom,
-                );
-                this.getOrderedTimes(this.slot!.id);
-                this.selectedMeetingDuration = this.slot!.size;
-                this.scheduleItems = changeScheduleItemsDate(resp!.schedule!.scheduleItems);
-                this.disabledDays = resp!
-                    .schedule!.scheduleItems.filter((el) => !el.isEnabled)
-                    .map((el) => WeekDay[el.weekDay]);
-                this.slotsCount = this.slotsCounter();
+                if (this.slot) {
+                    this.addSlotInfo(
+                        this.slot.id,
+                        this.slot.teamId,
+                        this.slot.size,
+                        this.slot.locationType,
+                        this.slot.name,
+                        this.slot.slotMembers,
+                        this.slot.meetingRoom,
+                        this.slot.type,
+                        this.slot.participationRule,
+                    );
+
+                    this.getOrderedTimes(this.slot.id);
+                    this.defineTimeRange();
+                    this.defineSettingsValues();
+                }
             });
+    }
+
+    defineTimeRange() {
+        if (this.slot?.advancedSlotSettings) {
+            this.activityType = this.slot?.advancedSlotSettings.activityType;
+
+            const days = this.slot?.advancedSlotSettings.days;
+
+            if (this.activityType !== ActivityType.Indefinitely) {
+                this.startDate = new Date(this.slot?.advancedSlotSettings.startDate);
+                this.finishDate = addDays(this.startDate, days + 1);
+            }
+        }
+    }
+
+    defineSettingsValues() {
+        if (this.slot) {
+            this.padding = this.slot?.advancedSlotSettings?.paddingMeeting ?? 0;
+            this.selectedMeetingDuration = this.slot.size;
+            this.frequency = this.slot.advancedSlotSettings?.frequency ?? this.selectedMeetingDuration;
+            this.minBookingDifference = this.slot?.advancedSlotSettings?.minBookingMeetingDifference ?? 0;
+            this.scheduleItems = changeScheduleItemsDate(this.slot.schedule.scheduleItems);
+            this.disabledDays = this.scheduleItems.filter((el) => !el.isEnabled).map((el) => WeekDay[el.weekDay]);
+            this.slotsCount = this.slotsCounter();
+        }
     }
 
     showSlotPasswordDialog() {
@@ -123,7 +171,21 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
             .pipe(this.untilThis)
             .subscribe((result) => {
                 this.orderedTimes = result;
+
+                this.checkLimits();
             });
+    }
+
+    private checkLimits() {
+        const maxBookingsCount = this.slot?.advancedSlotSettings?.maxNumberOfBookings ?? 0;
+
+        this.isBookingsLimit = !!maxBookingsCount && this.orderedTimes.length >= maxBookingsCount;
+
+        if (this.isBookingsLimit) {
+            this.notificationService.showInfoMessage(
+                "The limit on the number of bookings has been reached. You can't book meeting now.",
+            );
+        }
     }
 
     public getWeekDate(date: Date, daysToAdd: number) {
@@ -131,7 +193,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     }
 
     public getTimeForItem(startTime: Date, duration: number, index: number) {
-        return addMinutes(startTime, duration * index);
+        return addMinutes(startTime, duration * index + this.padding * index);
     }
 
     private slotsCounter(): Array<object> {
@@ -150,7 +212,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         const theLongestHoursRange: number =
             this.theLatestFinishOfTimeRanges.getHours() - this.theEarliestStartOfTimeRanges.getHours();
 
-        return new Array(Math.ceil((theLongestHoursRange * 60) / this.selectedMeetingDuration + 1));
+        return new Array(Math.ceil((theLongestHoursRange * 60) / (this.frequency + this.padding)));
     }
 
     private getCurrentWeek(): ICalendarWeek {
@@ -175,7 +237,10 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
 
     public AddTimeAndDate(timeIndex: number, dayIndex: number, timeZone: TZone): void {
         const date = addDays(this.calendarWeek.firstDay, dayIndex);
-        const time = addMinutes(this.theEarliestStartOfTimeRanges, this.selectedMeetingDuration * timeIndex);
+        const time = addMinutes(
+            this.theEarliestStartOfTimeRanges,
+            this.frequency * timeIndex + this.padding * timeIndex,
+        );
 
         date.setHours(time.getHours(), time.getMinutes(), time.getSeconds(), time.getMilliseconds());
         const timeFinish = new Date(time.getTime() + this.selectedMeetingDuration * 60000);
@@ -207,7 +272,9 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         firstCalendarDay.setHours(date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
         const result = addDays(firstCalendarDay, daysToAdd);
 
-        result.setTime(result.getTime() + this.selectedMeetingDuration * timesToAdd * 60 * 1000);
+        result.setTime(
+            result.getTime() + this.frequency * timesToAdd * 60 * 1000 + this.padding * timesToAdd * 60 * 1000,
+        );
 
         return result;
     }
@@ -226,6 +293,9 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
     }
 
     public isDateInRange(date: Date, min: Date, max: Date, daysToAdd: number = 0, timesToAdd = 0): boolean {
+        if (this.isBookingsLimit) {
+            return false;
+        }
         const result = this.convertDate(date, daysToAdd, timesToAdd);
 
         if (this.disabledDays.includes(result.getDay()) || this.checkBookedDates(result)) {
@@ -241,8 +311,17 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         return (
             result.getTime() >= min.getTime() &&
             result.getTime() <= max.getTime() &&
-            result.getTime() > this.nowDate.getTime()
+            this.isDateInDefinedRange(result) &&
+            differenceInMinutes(result, this.nowDate) > this.minBookingDifference
         );
+    }
+
+    private isDateInDefinedRange(result: Date): boolean {
+        if (this.startDate && this.finishDate) {
+            return result.getTime() >= this.startDate?.getTime() && result.getTime() <= this.finishDate?.getTime();
+        }
+
+        return true;
     }
 
     public isLastDate(date: Date, daysToAdd: number = 0): boolean {
@@ -266,9 +345,22 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         duration: number,
         location: LocationType,
         name: string,
+        slotMembers: ISlotMember[],
         meetingRoom?: string,
+        slotType?: SlotType,
+        participationRule?: SlotParticipationOption,
     ) {
-        this.selectedDurationAndLocationEvent.emit({ slotId, teamId, duration, location, name, meetingRoom });
+        this.selectedDurationAndLocationEvent.emit({
+            slotId,
+            teamId,
+            duration,
+            location,
+            name,
+            meetingRoom,
+            slotType,
+            participationRule,
+            slotMembers,
+        });
     }
 
     redirectToChooseMeeting() {
