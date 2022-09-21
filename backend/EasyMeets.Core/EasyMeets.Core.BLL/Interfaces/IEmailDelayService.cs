@@ -4,6 +4,6 @@ namespace EasyMeets.Core.BLL.Interfaces
 {
     public interface IEmailDelayService
     {
-        public Task CheckForNotify(TemplateType templateType);
+        public Task CheckForNotify(TemplateType templateType, DateTime lastSentTime);
     }
 }

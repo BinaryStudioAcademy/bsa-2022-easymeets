@@ -15,18 +15,24 @@ namespace EasyMeets.Core.BLL.Services.Quartz
             _meetingService = meetingService;
         }
 
-        public async Task CheckForNotify(TemplateType templateType)
+        public async Task CheckForNotify(TemplateType templateType, DateTime lastSentTime)
         {
-            var meetings = await _context.Meetings.Where(x => x.AvailabilitySlot != null && x.AvailabilitySlot.EmailTemplates.Any(x => x.TemplateType == templateType && x.IsSend && x.TimeValue != string.Empty))
-                .Where(meeting => 
-                TimeSpan.Parse(meeting.StartTime.AddMinutes(TimeSpan.Parse(meeting.AvailabilitySlot!.EmailTemplates.FirstOrDefault(x => x.TemplateType == templateType)!.TimeValue).TotalMinutes).ToString("MM/dd/yyyy hh:mm")) 
-                == TimeSpan.Parse(DateTimeOffset.Now.ToString("MM/dd/yyyy hh:mm")))
-                .ToListAsync();
-
-            if (meetings.Any())
+            do
             {
-                await Task.WhenAll(meetings.Select(meeting => _meetingService.SendEmailsAsync(meeting.Id, templateType)));
+                var meetings = await _context.Meetings.Where(x => x.AvailabilitySlot != null && x.AvailabilitySlot.EmailTemplates.Any(x => x.TemplateType == templateType && x.IsSend && x.TimeValue != string.Empty))
+                    .Where(meeting =>
+                    meeting.StartTime.AddMinutes(TimeSpan.Parse(meeting.AvailabilitySlot!.EmailTemplates.FirstOrDefault(x => x.TemplateType == templateType)!.TimeValue).TotalMinutes).ToString("MM/dd/yyyy hh:mm")
+                    == lastSentTime.ToString("MM/dd/yyyy hh:mm"))
+                    .ToListAsync();
+
+                if (meetings.Any())
+                {
+                    await Task.WhenAll(meetings.Select(meeting => _meetingService.SendEmailsAsync(meeting.Id, templateType)));
+                }
+
+                lastSentTime.AddMinutes(1);
             }
+            while (TimeSpan.Parse(lastSentTime.ToString("MM/dd/yyyy hh:mm")) < TimeSpan.Parse(DateTime.Now.ToString("MM/dd/yyyy hh:mm")));
         }
     }
 }
