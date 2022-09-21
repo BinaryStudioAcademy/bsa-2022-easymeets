@@ -9,9 +9,6 @@ import { IUpdateTeam } from '@core/models/IUpdateTeam';
 import { HttpInternalService } from '@core/services/http-internal.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
-import { AuthFormService } from './auth-form.service';
-import { NotificationService } from './notification.service';
-
 @Injectable({
     providedIn: 'root',
 })
@@ -30,18 +27,8 @@ export class TeamService {
 
     constructor(
         private httpService: HttpInternalService,
-        private authService: AuthFormService,
-        private notificationService: NotificationService,
-    ) {
-        this.authService
-            .teamIdChangedEmitted$
-            .subscribe((resp) => {
-                // eslint-disable-next-line no-debugger
-                debugger;
-                this.createTeamMember(resp)
-                    .subscribe({ next: () => this.notificationService.showInfoMessage('Current user added to team') });
-            });
-    }
+    // eslint-disable-next-line no-empty-function
+    ) { }
 
     public emitTeamStateChange(teamId: number, teamStateChangeActionEnum: TeamStateChangeActionEnum) {
         this.emitTeamStateChangeSource.next({ teamId, action: teamStateChangeActionEnum });

@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AuthFormService } from '@core/services/auth-form.service';
+import { NotificationService } from '@core/services/notification.service';
+import { TeamService } from '@core/services/team.service';
 import { TeamMemberService } from '@core/services/team-member.service';
+import { switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-auth-card',
@@ -10,11 +14,26 @@ import { TeamMemberService } from '@core/services/team-member.service';
 export class AuthCardComponent {
     teamId: number = 0;
 
-    constructor(private route: ActivatedRoute, private teamService: TeamMemberService) {
+    constructor(
+        private route: ActivatedRoute,
+        private teamMemberService: TeamMemberService,
+        private authService: AuthFormService,
+        private teamService: TeamService,
+        private notificationService: NotificationService,
+    ) {
+        this.authService
+            .teamMemberAddedEmitted$
+            .pipe(
+                switchMap(resp => this.teamService.createTeamMember(resp)),
+            )
+            .subscribe({ next: () => {
+                this.notificationService.showInfoMessage('Current user was added to team');
+            } });
+
         this.route.queryParams.subscribe(params => {
             this.teamId = params['teamId'];
         });
-        this.teamService.addNode(this.teamId);
+        this.teamMemberService.setTeamId(this.teamId);
     }
 
     public navLinks = [

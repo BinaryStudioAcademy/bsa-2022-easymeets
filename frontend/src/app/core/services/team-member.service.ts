@@ -7,11 +7,11 @@ import { BehaviorSubject } from 'rxjs';
 export class TeamMemberService {
     teamId: number = 0;
 
-    private teamIds = new BehaviorSubject<number>(this.teamId);
+    private teamIdChangedSource = new BehaviorSubject<number>(this.teamId);
 
-    public teamIdChangedEmitted$ = this.teamIds.asObservable();
+    public teamIdChangedEmitted$ = this.teamIdChangedSource.asObservable();
 
-    addNode(data: number) {
-        this.teamIds.next(data);
+    setTeamId(data: number) {
+        this.teamIdChangedSource.next(data);
     }
 }

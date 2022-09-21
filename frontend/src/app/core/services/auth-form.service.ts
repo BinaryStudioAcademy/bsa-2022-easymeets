@@ -21,9 +21,9 @@ import { TeamMemberService } from './team-member.service';
 export class AuthFormService {
     teamId: number;
 
-    private emitTeamTeamMemberAddedSource = new Subject<ICreateTeamMember>();
+    private emitTeamMemberAddedSource = new Subject<ICreateTeamMember>();
 
-    public teamIdChangedEmitted$ = this.emitTeamTeamMemberAddedSource.asObservable();
+    public teamMemberAddedEmitted$ = this.emitTeamMemberAddedSource.asObservable();
 
     constructor(
         private authService: AuthService,
@@ -32,29 +32,21 @@ export class AuthFormService {
         private notificationService: NotificationService,
         private router: Router,
         private teamService: TeamMemberService,
-    // eslint-disable-next-line no-empty-function
     ) {
         this.teamService.teamIdChangedEmitted$.subscribe((resp) => {
             this.teamId = resp;
         });
     }
 
-    public emitTeamStateChange(teamMember: ICreateTeamMember) {
-        this.emitTeamTeamMemberAddedSource.next(teamMember);
-    }
-
     public signIn(email: string, password: string): Observable<IUser> {
-        // eslint-disable-next-line no-debugger
-        debugger;
-        if (this.teamId) {
-            const teamMember: ICreateTeamMember = { userEmail: email, teamId: this.teamId };
-
-            this.emitTeamStateChange(teamMember);
-        }
-
         return this.authenticate(this.authService.signIn(email, password)).pipe(
             tap({
                 next: () => {
+                    if (this.teamId) {
+                        const teamMember: ICreateTeamMember = { userEmail: email, teamId: this.teamId };
+
+                        this.emitTeamMemberAddedSource.next(teamMember);
+                    }
                     this.notificationService.showSuccessMessage('Authentication successful');
                 },
                 error: () =>
