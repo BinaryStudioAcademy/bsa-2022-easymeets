@@ -27,10 +27,6 @@ export class ExternalAttendeeAnswersComponent {
         this.endMeetingTime = addMinutesHelper(this.booker.meetingDate, this.booker.meetingDuration);
     }
 
-    clickApply() {
-        this.dialogRef.close();
-    }
-
     clickCancel() {
         this.dialogRef.close();
     }
