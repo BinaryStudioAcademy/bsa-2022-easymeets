@@ -1,6 +1,7 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO;
+using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
 using EasyMeets.Core.Common.DTO.Email;
 using EasyMeets.Core.Common.DTO.Meeting;
@@ -47,7 +48,7 @@ namespace EasyMeets.Core.BLL.Services
             var meetingDto = _mapper.Map<MeetingSlotDTO>(meeting);
 
             meetingDto.MembersTitle = CreateMemberTitle(meetingDto);
-            
+
             return meetingDto;
         }
 
@@ -90,7 +91,9 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(s => s.ExternalAttendees)
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
-                    .ThenInclude(teamMember => teamMember.User)
+                        .ThenInclude(teamMember => teamMember.User)
+                .Include(m => m.QuestionAnswers.Where(q => !q.Question.IsMandatory))
+                    .ThenInclude(ans => ans.Question)
                 .Where(meeting => meeting.TeamId == team.Id &&
                                   meeting.MeetingMembers.Any(member => member.TeamMember.UserId == currentUser.Id) &&
                                   meeting.StartTime >= startRestriction &&
@@ -102,7 +105,7 @@ namespace EasyMeets.Core.BLL.Services
                 .Select(dto =>
                 {
                     dto.MembersTitle = CreateMemberTitle(dto);
-                    
+
                     return dto;
                 })
                 .ToList();
@@ -128,6 +131,8 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
+                .Include(m => m.QuestionAnswers)
+                    .ThenInclude(ans => ans.Question)
                 .FirstOrDefaultAsync(m => m.Id == id) ?? throw new KeyNotFoundException("No meeting found");
 
             var members = _mapper.Map<List<UserMeetingDTO>>(meeting.MeetingMembers.Select(s => s.TeamMember.User));
@@ -178,13 +183,16 @@ namespace EasyMeets.Core.BLL.Services
 
             await _context.Meetings.AddAsync(meeting);
             await _context.SaveChangesAsync();
-            
-            var organizer = await _context.TeamMembers.FirstOrDefaultAsync(el => el.UserId == meeting.CreatedBy) 
+
+            var organizer = await _context.TeamMembers.FirstOrDefaultAsync(el => el.UserId == meeting.CreatedBy)
                             ?? throw new KeyNotFoundException("Team member not found");
 
-            await _context.MeetingMembers.AddAsync(new MeetingMember { TeamMemberId = organizer.Id, MeetingId = meeting.Id });
-            await _context.SaveChangesAsync();
-            
+            if (meeting.MeetingMembers.All(m => m.TeamMemberId != organizer.Id))
+            {
+                await _context.MeetingMembers.AddAsync(new MeetingMember { TeamMemberId = organizer.Id, MeetingId = meeting.Id });
+                await _context.SaveChangesAsync();
+            }
+
             var calendar = await _context.Calendars.FirstOrDefaultAsync(el => el.UserId == meeting.CreatedBy && el.AddEventsFromTeamId == meeting.TeamId);
 
             if (calendar is not null)
@@ -300,7 +308,7 @@ namespace EasyMeets.Core.BLL.Services
 
             await _context.SaveChangesAsync();
         }
-        
+
         private async Task CancelMeetingsInCalendars(Meeting meeting)
         {
             var recipients = meeting
@@ -310,7 +318,7 @@ namespace EasyMeets.Core.BLL.Services
             foreach (var recipient in recipients)
             {
                 var user = await _context.Users.FirstOrDefaultAsync(el => el.Email == recipient);
-                
+
                 if (user is not null)
                 {
                     var calendar = await _context.Calendars.FirstOrDefaultAsync(el => el.AddEventsFromTeamId == meeting.TeamId && el.UserId == user.Id);
@@ -351,7 +359,7 @@ namespace EasyMeets.Core.BLL.Services
                 $"View event in Easymeets: {parameters.Uri}{parameters.MeetingLink}"
             };
         }
-        
+
         private EmailDto GenerateCancelledMeetingTemplate(MeetingEmailTemplateDto parameters)
         {
             return new EmailDto

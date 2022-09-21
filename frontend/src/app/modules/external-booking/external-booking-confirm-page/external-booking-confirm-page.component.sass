@@ -1,4 +1,7 @@
 @import '../../../../styles/color-variables'
+@import '../../../../styles/screen-variables'
+
+$question-input-width: 337px
 
 .container
     display: grid
@@ -6,7 +9,7 @@
     height: 100%
     margin-left: 150px
     grid-template-rows: 1fr 0.5fr 1.4fr 1.4fr 1.6fr 1fr
-    grid-template-areas: "item0" "back" "name" "email" "extrainfo" "confirm"
+    grid-template-areas: "item0" "back" "extrainfo" "confirm"
     resize: none
     overflow: auto
 
@@ -14,49 +17,22 @@
     grid-area: back
     vertical-align: middle
 
-#container-name
-    grid-area: name
-
-#container-email
-    grid-area: email
-
 #container-extrainfo
     grid-area: extrainfo
 
 #container-confirm
     margin-top: 40px
     grid-area: confirm
-
-.input-message
-    background: $white-color
-    padding-top: 0
-    border: 2px solid $loblolly
-    border-radius: 4px
-    display: flex
-    align-items: flex-start
-    justify-content: flex-start
-    width: 337px
-    font-size: 14px
-    padding-left: 5px
-    height: 36px
-    line-height: normal
-
-.validationError
-    color: red
-
-.input-title
-    font-weight: 575
-    font-size: 14px
-    line-height: 20px
-    color: $pale-sky
-    margin-top: 20px
-    margin-bottom: 2px
+    justify-content: center
+    align-items: center
 
 .back-text
     font-weight: 575
     font-size: 29px
     line-height: 20px
-    color: $pale-sky
+    color: $black
+    font-family: 'Inter'
+    font-style: normal
 
 .arrow-back
     color: $pale-sky
@@ -64,17 +40,50 @@
 .back-container
     cursor: pointer
 
-textarea
-    padding-top: 5px
-    background: $white-color
-    border: 2px solid $loblolly
-    border-radius: 4px
-    resize: none
-    display: flex
-    align-items: flex-start
-    justify-content: flex-start
-    width: 337px
+.mat-label,
+.mat-input
     font-size: 14px
-    padding-left: 5px
-    height: 36px
-    line-height: normal
+
+.question-mandatory
+    .question-index
+        color: $black
+        margin-right: 5px
+
+.validation-error
+    color: $red
+
+.list-item-wrapper, .validation-error
+    margin-bottom: 5px
+
+.flex
+    display: flex
+
+.cross-axis-center
+    align-items: center
+
+.bottom
+    margin-top: 20px
+
+.question-input
+    width: 100%
+    min-width: 0
+    border-radius: 8px
+
+.max-input-width
+    max-width: $question-input-width
+
+.bold
+    font-weight: 700
+
+button
+    border-radius: 24px
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
+    font-size: 14px
+    align-items: center
+
+::ng-deep .confirm-button.mat-flat-button
+    background: $white
+    border: 1px solid $nepal
+    color: $midnight
