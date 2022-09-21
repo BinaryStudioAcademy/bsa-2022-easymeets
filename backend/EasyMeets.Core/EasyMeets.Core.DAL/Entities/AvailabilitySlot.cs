@@ -24,6 +24,7 @@ public class AvailabilitySlot : AuditEntity<long>, IValidatableObject
     public Color Color { get; set; }
     public bool IsEnabled { get; set; }
     public bool IsVisible { get; set; }
+    public ParticipationRule ParticipationRule { get; set; }
     public string Language { get; set; } = string.Empty;
     public int BookingsPerDay { get; set; }
     public bool PasswordProtectionIsUsed { get; set; }

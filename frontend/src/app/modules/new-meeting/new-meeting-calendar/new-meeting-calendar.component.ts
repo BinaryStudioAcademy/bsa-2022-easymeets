@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, ViewEncapsulation } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { CustomCalendarDateFormatter } from '@core/helpers/custom-calendar-date-formatter.provider';
 import {
@@ -27,7 +27,7 @@ import { Subject } from 'rxjs';
     ],
     encapsulation: ViewEncapsulation.None,
 })
-export class NewMeetingCalendarComponent extends BaseComponent {
+export class NewMeetingCalendarComponent extends BaseComponent implements OnChanges {
     private _duration: IDuration;
 
     @Input() set duration(value: IDuration) {
@@ -45,6 +45,8 @@ export class NewMeetingCalendarComponent extends BaseComponent {
         this.unavailablePeriods = this.filterEvents(value);
         this.refreshEvents();
     }
+
+    @Input() event: CalendarEvent;
 
     @Output() meetingStartTimeChange: EventEmitter<Date> = new EventEmitter<Date>();
 
@@ -64,6 +66,10 @@ export class NewMeetingCalendarComponent extends BaseComponent {
 
     constructor(private notificationsService: NotificationService) {
         super();
+    }
+
+    ngOnChanges(): void {
+        this.refreshEvents(this.event);
     }
 
     hourSegmentClicked(date: Date) {
