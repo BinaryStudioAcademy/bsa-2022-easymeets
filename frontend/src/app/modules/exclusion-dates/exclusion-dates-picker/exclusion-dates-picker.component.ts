@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
 import { getTimeZoneHours, TimeRangeValidator } from '@core/helpers/time-helper';
-import { getDateStringWithoutGivenOffset } from '@core/helpers/time-zone-helper';
+import { getDateStringWithoutLocalOffset } from '@core/helpers/time-zone-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
@@ -62,11 +62,11 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
         }
         this.dialogRef.close(
             this.getTimeRanges().map((range) => ({
-                start: getDateStringWithoutGivenOffset(
+                start: getDateStringWithoutLocalOffset(
                     new Date(this.selected!.setHours(range.start.hour, range.start.minute, 0, 0)),
                     getTimeZoneHours(this.scheduleTimeZone.timeValue),
                 ),
-                end: getDateStringWithoutGivenOffset(
+                end: getDateStringWithoutLocalOffset(
                     new Date(this.selected!.setHours(range.end.hour, range.end.minute, 0, 0)),
                     getTimeZoneHours(this.scheduleTimeZone.timeValue),
                 ),

@@ -1,15 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { PendingChangesGuard } from '@core/guards/pending-changes.guard';
-import { CustomDateAdapter } from '@modules/exclusion-dates/custom-date-adapter';
 import { ExclusionDatesModule } from '@modules/exclusion-dates/exclusion-dates.module';
 import { HeaderModule } from '@modules/header/header.module';
 import { SideMenuModule } from '@modules/side-menu/side-menu.module';
 import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
-import { CalendarModule } from 'angular-calendar';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MomentTimezonePickerModule } from 'moment-timezone-picker';
 
@@ -52,7 +50,7 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         ScheduleExternalComponent,
         ExclusionDateComponent,
     ],
-    providers: [PendingChangesGuard, { provide: DateAdapter, useClass: CustomDateAdapter, deps: [MAT_DATE_LOCALE] }],
+    providers: [PendingChangesGuard],
     imports: [
         CommonModule,
         SharedModule,
