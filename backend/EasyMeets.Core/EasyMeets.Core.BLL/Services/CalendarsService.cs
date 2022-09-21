@@ -186,7 +186,7 @@ namespace EasyMeets.Core.BLL.Services
         private async Task UpdateVisibleForTeamsTable(Calendar calendar, UserCalendarDto calendarDto)
         {
             _context.CalendarVisibleForTeams.RemoveRange(calendar.VisibleForTeams);
-            RemoveCalendarMeetings(calendar.Id);
+            await _calendarEventService.RemoveCalendarEvents(calendar.Id);
 
             calendar.VisibleForTeams = Array.Empty<CalendarVisibleForTeam>();
 
@@ -217,18 +217,13 @@ namespace EasyMeets.Core.BLL.Services
 
             foreach (var calendar in calendars)
             {
-                RemoveCalendarMeetings(calendar.Id);
+                await _calendarEventService.RemoveCalendarEvents(calendar.Id);
                 await AddMeetingsFromCalendar(email, calendar.Id);
             }
 
             await _context.SaveChangesAsync();
 
             return true;
-        }
-
-        private void RemoveCalendarMeetings(long calendarId)
-        {
-            _calendarEventService.RemoveCalendarEvents(calendarId);
         }
 
         public async Task CancelMeetingInGoogleCalendar(string meetingName, Calendar calendar)
