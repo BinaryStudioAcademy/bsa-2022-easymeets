@@ -59,7 +59,7 @@
                         type="text"
                         name="questionAnswer{{ i }}"
                         #questionField="ngModel"
-                        [(ngModel)]="questions[i + 2].answer"
+                        [(ngModel)]="question.answer"
                         [pattern]="textFieldRegex"
                         (change)="trimInputValue(questionField.control)"
                         [placeholder]="question.placeHolderText" />

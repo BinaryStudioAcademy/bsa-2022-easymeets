@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { SlotType } from '@core/enums/slot-type.enum';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { userEmailQuestionText, userFullNameQuestionText } from '@core/helpers/questions-mandatory-helper';
 import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IExternalBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
 import { IExternalAttendee } from '@core/models/IExternalAttendee';
@@ -201,7 +202,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             teamId: this.menu.teamId,
             availabilitySlotId: this.menu.slotId,
             createdBy: this.menu.user.id,
-            name: `Meeting with ${userAnswers[0].answer}`,
+            name: `Meeting with ${this.getAttendeeName(userAnswers)}`,
             answers: userAnswers,
             locationType: this.menu.location,
             meetingRoom: this.menu.meetingRoom,
@@ -215,8 +216,8 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
 
         const attendee: IExternalAttendee = {
             availabilitySlotId: this.menu.slotId,
-            name: userAnswers[0].answer,
-            email: userAnswers[1].answer,
+            name: this.getAttendeeName(userAnswers),
+            email: this.getAttendeeEmail(userAnswers),
             timeZoneValue: this.menu.timeZone?.timeValue,
             timeZoneName: this.menu.timeZone?.nameValue,
         };
@@ -305,5 +306,13 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             .subscribe(team => {
                 this.menu.team = team;
             });
+    }
+
+    private getAttendeeName(userAnswers: IQuestion[]) {
+        return userAnswers.find(a => a.questionText === userFullNameQuestionText)?.answer ?? '';
+    }
+
+    private getAttendeeEmail(userAnswers: IQuestion[]) {
+        return userAnswers.find(a => a.questionText === userEmailQuestionText)?.answer ?? '';
     }
 }
