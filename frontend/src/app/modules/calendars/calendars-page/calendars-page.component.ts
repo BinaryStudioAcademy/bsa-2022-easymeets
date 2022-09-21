@@ -52,7 +52,7 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
             .subscribe({
                 next: () => {
                     this.notificationService.showSuccessMessage('Calendars were successfully updated');
-                    this.settingPageService.updateButtonActive(true);
+                    this.loadData();
                 },
                 error: () =>
                     this.notificationService.showErrorMessage('Something went wrong. Calendars are not updated'),
@@ -77,6 +77,7 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
             .subscribe((response) => {
                 this.userCalendars = response;
                 this.updateSelectedItems();
+                this.settingPageService.updateButtonActive(true);
             });
     }
 
