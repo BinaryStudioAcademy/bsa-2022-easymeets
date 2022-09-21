@@ -4,6 +4,7 @@ using EasyMeets.Core.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyMeets.Core.DAL.Migrations
 {
     [DbContext(typeof(EasyMeetsCoreContext))]
-    partial class EasyMeetsCoreContextModelSnapshot : ModelSnapshot
+    [Migration("20220921105220_AddQuestionAnswers")]
+    partial class AddQuestionAnswers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1000,10 +1002,6 @@ namespace EasyMeets.Core.DAL.Migrations
                     b.Property<int>("TemplateType")
                         .HasColumnType("int");
 
-                    b.Property<string>("TimeValue")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AvailabilitySlotId");
@@ -1019,8 +1017,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsSend = true,
                             Subject = "doloremque",
-                            TemplateType = 2,
-                            TimeValue = ""
+                            TemplateType = 2
                         },
                         new
                         {
@@ -1030,8 +1027,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsSend = true,
                             Subject = "Vitae atque dolores tempore de",
-                            TemplateType = 2,
-                            TimeValue = ""
+                            TemplateType = 2
                         },
                         new
                         {
@@ -1041,8 +1037,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsSend = true,
                             Subject = "Ad et voluptate amet.",
-                            TemplateType = 0,
-                            TimeValue = ""
+                            TemplateType = 0
                         },
                         new
                         {
@@ -1052,8 +1047,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsSend = true,
                             Subject = "inventore",
-                            TemplateType = 1,
-                            TimeValue = ""
+                            TemplateType = 1
                         },
                         new
                         {
@@ -1063,8 +1057,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsSend = true,
                             Subject = "Dolore rerum reprehenderit rei",
-                            TemplateType = 3,
-                            TimeValue = ""
+                            TemplateType = 3
                         },
                         new
                         {
@@ -1074,8 +1067,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsSend = true,
                             Subject = "Qui nemo qui reprehenderit quo",
-                            TemplateType = 0,
-                            TimeValue = ""
+                            TemplateType = 0
                         },
                         new
                         {
@@ -1085,8 +1077,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsSend = true,
                             Subject = "etAAA",
-                            TemplateType = 0,
-                            TimeValue = ""
+                            TemplateType = 0
                         },
                         new
                         {
@@ -1096,8 +1087,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsSend = true,
                             Subject = "Fugit natus vel mollitia sint",
-                            TemplateType = 2,
-                            TimeValue = ""
+                            TemplateType = 2
                         },
                         new
                         {
@@ -1107,8 +1097,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsSend = true,
                             Subject = "Quia natus minima aut rerum ip",
-                            TemplateType = 3,
-                            TimeValue = ""
+                            TemplateType = 3
                         },
                         new
                         {
@@ -1118,8 +1107,7 @@ namespace EasyMeets.Core.DAL.Migrations
                             IsDeleted = false,
                             IsSend = true,
                             Subject = "illoA",
-                            TemplateType = 1,
-                            TimeValue = ""
+                            TemplateType = 1
                         });
                 });
 

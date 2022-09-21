@@ -3,14 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { SlotType } from '@core/enums/slot-type.enum';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { userEmailQuestionText, userFullNameQuestionText } from '@core/helpers/questions-mandatory-helper';
 import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IExternalBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
-import { IExternalAnswers } from '@core/models/IExternalAnswers';
 import { IExternalAttendee } from '@core/models/IExternalAttendee';
 import { IExternalAttendeeMeeting } from '@core/models/IExternalAttendeeMeeting';
 import { IExternalAvailabilitySlot } from '@core/models/IExternalAvailabilitySlot';
 import { IExternalMeeting } from '@core/models/IExternalMeeting';
 import { IExternalUser } from '@core/models/IExternalUser';
+import { IQuestion } from '@core/models/IQuestion';
 import { ISlotMember } from '@core/models/save-availability-slot/ISlotMember';
 import { ExternalAttendeeService } from '@core/services/external-attendee.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -120,6 +121,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         teamId?: bigint;
         duration: number;
         location: LocationType;
+        questions: IQuestion[];
         meetingRoom?: string;
         name: string;
         slotType?: SlotType;
@@ -134,6 +136,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             slotId: data.slotId,
             teamId: data.teamId,
             slotName: data.name,
+            questions: data.questions,
             slotType: data.slotType,
             participationRule: data.participationRule,
             slotMembers: this.slotDataLoaded ? this.menu.slotMembers : data.slotMembers,
@@ -194,12 +197,13 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         };
     }
 
-    public confirmBookingByExternalAttendee(answers: IExternalAnswers) {
+    public confirmBookingByExternalAttendee(userAnswers: IQuestion[]) {
         const meeting: IExternalMeeting = {
             teamId: this.menu.teamId,
             availabilitySlotId: this.menu.slotId,
             createdBy: this.menu.user.id,
-            name: `Meeting with ${answers.externalName}`,
+            name: `Meeting with ${this.getAttendeeName(userAnswers)}`,
+            answers: userAnswers,
             locationType: this.menu.location,
             meetingRoom: this.menu.meetingRoom,
             duration: this.menu.duration,
@@ -212,8 +216,8 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
 
         const attendee: IExternalAttendee = {
             availabilitySlotId: this.menu.slotId,
-            name: answers.externalName,
-            email: answers.externalEmail,
+            name: this.getAttendeeName(userAnswers),
+            email: this.getAttendeeEmail(userAnswers),
             timeZoneValue: this.menu.timeZone?.timeValue,
             timeZoneName: this.menu.timeZone?.nameValue,
         };
@@ -302,5 +306,13 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             .subscribe(team => {
                 this.menu.team = team;
             });
+    }
+
+    private getAttendeeName(userAnswers: IQuestion[]) {
+        return userAnswers.find(a => a.questionText === userFullNameQuestionText)?.answer ?? '';
+    }
+
+    private getAttendeeEmail(userAnswers: IQuestion[]) {
+        return userAnswers.find(a => a.questionText === userEmailQuestionText)?.answer ?? '';
     }
 }

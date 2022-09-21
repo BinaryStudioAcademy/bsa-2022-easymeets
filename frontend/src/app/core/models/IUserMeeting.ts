@@ -1,3 +1,4 @@
+import { IQuestion } from './IQuestion';
 import { ITimeZone } from './ITimeZone';
 
 export interface IUserMeeting {
@@ -6,4 +7,8 @@ export interface IUserMeeting {
     image?: string;
     timeZone?: ITimeZone;
     booked: string;
+    questions: IQuestion[];
+    meetingDate: Date;
+    meetingName: string;
+    meetingDuration: number;
 }

@@ -54,6 +54,7 @@ export class QuestionsComponent {
                 questionText: '',
                 placeHolderText: '',
                 isMandatory: false,
+                answer: '',
             },
         ];
         this.onQuestionsArrayChange();
