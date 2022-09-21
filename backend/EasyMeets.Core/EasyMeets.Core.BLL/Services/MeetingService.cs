@@ -91,7 +91,7 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(s => s.ExternalAttendees)
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
-                    .ThenInclude(teamMember => teamMember.User)
+                        .ThenInclude(teamMember => teamMember.User)
                 .Include(m => m.QuestionAnswers.Where(q => !q.Question.IsMandatory))
                     .ThenInclude(ans => ans.Question)
                 .Where(meeting => meeting.TeamId == team.Id &&

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.Common;
 using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.Common.DTO.Team;
@@ -58,6 +59,10 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                     
                     dest.MeetingCount = dest.MeetingMembers?.Count;
                 });
+
+            CreateMap<QuestionAnswer, QuestionDto>()
+                .ForMember(u => u.Id, opts =>
+                    opts.MapFrom(src => src.QuestionId));
 
             CreateMap<MeetingMember, UserMeetingDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.TeamMember.User.Id))
