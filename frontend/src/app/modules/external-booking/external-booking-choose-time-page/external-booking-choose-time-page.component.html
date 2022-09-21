@@ -1,6 +1,6 @@
 <div class="header-container">
     <span class="arrow-back" (click)="redirectToChooseMeeting()"><mat-icon>keyboard_backspace</mat-icon></span>
-    <h1 class="page-title">When You Want to Meet?</h1>
+    <h1 class="page-title">When Do You Want to Meet?</h1>
 </div>
 <div class="settings">
     <div class="date-navigation">
@@ -57,16 +57,11 @@
                             *ngIf="isLastDate(this.calendarWeek.firstDay, j); else defaultTimeSlotPreviousDate"
                             [routerLink]="['/external-booking/confirm-booking']"
                             (click)="AddTimeAndDate(i, j, pickedTimeZone)">
-                            {{
-                                getTimeForItem(theEarliestStartOfTimeRanges, selectedMeetingDuration, i) | date: 'HH:mm'
-                            }}
+                            {{ getTimeForItem(theEarliestStartOfTimeRanges, frequency, i) | date: 'HH:mm' }}
                         </span>
                         <ng-template #defaultTimeSlotPreviousDate>
                             <span class="previous-date-enabled">
-                                {{
-                                    getTimeForItem(theEarliestStartOfTimeRanges, selectedMeetingDuration, i)
-                                        | date: 'HH:mm'
-                                }}
+                                {{ getTimeForItem(theEarliestStartOfTimeRanges, frequency, i) | date: 'HH:mm' }}
                             </span>
                         </ng-template>
                     </ng-container>
@@ -74,16 +69,11 @@
                         <span
                             class="disabled"
                             *ngIf="isOrderedDate(theEarliestStartOfTimeRanges, j, i); else defaultTimeSlotPreviousDate">
-                            {{
-                                getTimeForItem(theEarliestStartOfTimeRanges, selectedMeetingDuration, i) | date: 'HH:mm'
-                            }}
+                            {{ getTimeForItem(theEarliestStartOfTimeRanges, frequency, i) | date: 'HH:mm' }}
                         </span>
                         <ng-template #defaultTimeSlotPreviousDate>
                             <span class="previous-date-disabled">
-                                {{
-                                    getTimeForItem(theEarliestStartOfTimeRanges, selectedMeetingDuration, i)
-                                        | date: 'HH:mm'
-                                }}
+                                {{ getTimeForItem(theEarliestStartOfTimeRanges, frequency, i) | date: 'HH:mm' }}
                             </span>
                         </ng-template>
                     </ng-template>
