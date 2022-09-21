@@ -150,6 +150,14 @@ public class TeamService : BaseService, ITeamService
         return new ImagePathDto() { Path = imagePath };
     }
 
+    public async Task DeleteLogo(long teamId)
+    {
+        var team = await GetTeamByIdAsync(teamId);
+        await _uploadFileService.DeleteFileBlobAsync(team.LogoPath);
+        team.LogoPath = string.Empty;
+        await _context.SaveChangesAsync();
+    }
+
     private async Task<bool> UserHasRole(long teamId, Role role)
     {
         var user = await _userService.GetCurrentUserAsync();

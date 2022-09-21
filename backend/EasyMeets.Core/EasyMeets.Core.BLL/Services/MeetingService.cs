@@ -1,12 +1,15 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO;
+using EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
+using EasyMeets.Core.Common.DTO.Email;
 using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace EasyMeets.Core.BLL.Services
 {
@@ -16,12 +19,20 @@ namespace EasyMeets.Core.BLL.Services
         private readonly IZoomService _zoomService;
         private readonly IEmailSenderService _emailSender;
         private readonly IGoogleMeetService _googleMeetService;
-        public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IZoomService zoomService, IEmailSenderService emailSender, IGoogleMeetService googleMeetService) : base(context, mapper)
+        private readonly IGoogleOAuthService _googleOAuthService;
+        private readonly ICalendarsService _calendarsService;
+        private readonly IConfiguration _configuration;
+        public MeetingService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IZoomService zoomService,
+            IEmailSenderService emailSender, IGoogleMeetService googleMeetService, IGoogleOAuthService googleOAuthService,
+            ICalendarsService calendarsService, IConfiguration configuration) : base(context, mapper)
         {
             _userService = userService;
             _zoomService = zoomService;
             _emailSender = emailSender;
             _googleMeetService = googleMeetService;
+            _googleOAuthService = googleOAuthService;
+            _calendarsService = calendarsService;
+            _configuration = configuration;
         }
 
         public async Task<MeetingSlotDTO> GetMeetingByIdAsync(long id)
@@ -72,6 +83,7 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task<List<MeetingSlotDTO>> GetMeetingsAsync(MeetingMemberRequestDto meetingMemberRequestDto)
         {
+            var currentUser = await _userService.GetCurrentUserAsync();
             var teamId = meetingMemberRequestDto.TeamId;
             if (teamId is null)
             {
@@ -90,6 +102,7 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
                 .Where(meeting => meeting.TeamId == team.Id &&
+                                  meeting.MeetingMembers.Any(member => member.TeamMember.UserId == currentUser.Id) &&
                                   meeting.StartTime >= startRestriction &&
                                   meeting.StartTime.AddMinutes(meeting.Duration) <= endRestriction)
                 .OrderBy(m => m.StartTime)
@@ -159,12 +172,19 @@ namespace EasyMeets.Core.BLL.Services
 
             await SendEmailsAsync(meeting.Id, TemplateType.Confirmation);
 
+            await AddMeetingToMembersVisibleCalendars(meetingDto);
+
             return _mapper.Map<SaveMeetingDto>(GetByIdInternal(meeting.Id));
         }
 
         public async Task<long> CreateExternalAttendeeMeeting(ExternalAttendeeMeetingDto meetingDto)
         {
-            var meeting = _mapper.Map<Meeting>(meetingDto);
+            var members = await GetFromSlotMembers(meetingDto.Members, meetingDto.TeamId);
+            var meeting = _mapper.Map<Meeting>(meetingDto, opts =>
+                opts.AfterMap((_, dest) =>
+                {
+                    dest.MeetingMembers = members;
+                }));
 
             await _context.Meetings.AddAsync(meeting);
 
@@ -184,6 +204,8 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task SendEmailsAsync(long meetingId, TemplateType type)
         {
+            var emailDto = new EmailDto();
+
             var meeting = await _context.Meetings
                 .Include(m => m.MeetingMembers)
                     .ThenInclude(member => member.TeamMember)
@@ -193,26 +215,26 @@ namespace EasyMeets.Core.BLL.Services
                     .ThenInclude(slot => slot!.EmailTemplates)
                 .FirstOrDefaultAsync(m => m.Id == meetingId);
 
-            var emailTemplate = meeting?
-                .AvailabilitySlot?
-                .EmailTemplates
-                .FirstOrDefault(template => template.TemplateType == type && template.IsSend);
-
             var recipients = meeting?
                 .MeetingMembers
                 .Select(meetingMember => meetingMember.TeamMember.User.Email)
                 .Concat(meeting.ExternalAttendees.Select(attendee => attendee.Email))
                 .ToList();
 
-            if (emailTemplate is null || recipients is null || !recipients.Any())
+            if (recipients is null || !recipients.Any() || meeting is null)
             {
                 return;
             }
 
-            var emailDto = _mapper.Map<EmailDto>(emailTemplate);
+            var emailTemplate = meeting?
+                .AvailabilitySlot?
+                .EmailTemplates
+                .FirstOrDefault(template => template.TemplateType == type && template.IsSend);
 
             foreach (var recipient in recipients)
             {
+                emailDto = GenerateEmailTemplate(meeting, recipient, emailTemplate);
+
                 emailDto.Recipient = recipient;
 
                 _emailSender.Send(emailDto);
@@ -228,6 +250,15 @@ namespace EasyMeets.Core.BLL.Services
                 .ToListAsync();
 
             return teamMembers;
+        }
+
+        private Task<List<MeetingMember>> GetFromSlotMembers(List<SlotMemberDto> slotMembers, long teamId)
+        {
+            var memberIds = slotMembers.Select(x => x.MemberId);
+            return _context.TeamMembers
+                .Where(x => memberIds.Contains(x.UserId) && x.TeamId == teamId)
+                .Select(x => new MeetingMember { TeamMemberId = x.Id })
+                .ToListAsync();
         }
 
         private async Task AddMeetingLink(Meeting meeting)
@@ -266,6 +297,66 @@ namespace EasyMeets.Core.BLL.Services
             _context.Remove(meeting);
 
             await _context.SaveChangesAsync();
+        }
+
+        private MeetingEmailTemplateDto GenerateEmailParameters(Meeting meeting, string invitee)
+        {
+            return new MeetingEmailTemplateDto()
+            {
+                MeetingName = meeting.Name,
+                StartTime = meeting.StartTime,
+                LocationType = meeting.LocationType,
+                AuthorName = meeting.Author.Name,
+                AuthorEmail = meeting.Author.Email,
+                MeetingLink = meeting.MeetingLink,
+                MemberName = invitee,
+                Uri = _configuration["ApplicationUri"],
+            };
+        }
+
+        private EmailDto GenerateNewMeetingEmailTemplate(MeetingEmailTemplateDto parameters)
+        {
+            return new EmailDto()
+            {
+                Subject = $"New Event: {parameters.MeetingName} - {parameters.StartTime} - {parameters.LocationType}",
+                Body = $"Hi, {parameters.MemberName}!\n\n" +
+                $"A new event has been scheduled.\n" +
+                $"Event Type: {parameters.LocationType}\n" +
+                $"Invitee: {parameters.AuthorName}\n" +
+                $"Invitee Email: {parameters.AuthorEmail}\n" +
+                $"Event Date/Time: {parameters.StartTime}\n\n" +
+                $"View event in Easymeets: {parameters.Uri}{parameters.MeetingLink}"
+            };
+        }
+
+        private EmailDto GenerateEmailTemplate(Meeting meeting, string invitee, EmailTemplate? emailTemplate)
+        {
+            var emailParameters = GenerateEmailParameters(meeting, invitee);
+            if (emailTemplate is not null)
+            {
+                return _mapper.Map<EmailDto>(emailTemplate);
+            }
+            else
+            {
+                return GenerateNewMeetingEmailTemplate(emailParameters);
+            }
+        }
+
+        private async Task AddMeetingToMembersVisibleCalendars(SaveMeetingDto meeting)
+        {
+            var visibleCalendars = await _context.CalendarVisibleForTeams
+                .Include(g => g.Calendar)
+                .Where(x => x.TeamId == meeting.TeamId).ToListAsync();
+
+            foreach (var calendar in visibleCalendars)
+            {
+                var tokenResultDto = await _googleOAuthService.RefreshToken(calendar.Calendar.RefreshToken);
+
+                if (tokenResultDto is not null)
+                {
+                    await _calendarsService.AddMeetingToCalendar(_mapper.Map<SaveMeetingDto>(meeting), tokenResultDto);
+                }
+            }
         }
     }
 }

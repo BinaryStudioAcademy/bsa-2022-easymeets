@@ -29,6 +29,7 @@ export class ScheduleComponent extends BaseComponent implements OnInit {
         this.refreshMembers();
         this.withTeamMembers = this.slot?.type === SlotType.Team;
         this.slotLink = this.slot?.link ?? '';
+        this.selectedParticipationOption = this.slot?.participationRule ?? SlotParticipationOption.All;
     }
 
     @Input() public slotLink: string;
@@ -39,7 +40,7 @@ export class ScheduleComponent extends BaseComponent implements OnInit {
 
     scheduleModes: SlotScheduleMode[] = getScheduleModes();
 
-    selectedParticipationOption: SlotParticipationOption = SlotParticipationOption.One;
+    selectedParticipationOption: SlotParticipationOption = SlotParticipationOption.All;
 
     participationOptions: SlotParticipationOption[] = getParticipationOptions();
 
@@ -114,6 +115,12 @@ export class ScheduleComponent extends BaseComponent implements OnInit {
 
     public addSlotMembers(members: ISlotMember[]) {
         this.slotMembers = [...this.slotMembers, ...members];
+    }
+
+    public getParticipationText(role: SlotParticipationOption) {
+        return role === SlotParticipationOption.All
+            ? 'All Added Members Together'
+            : 'Booker chooses one member';
     }
 
     private refreshMembers() {

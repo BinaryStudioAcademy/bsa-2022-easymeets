@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { SlotType } from '@core/enums/slot-type.enum';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
-import { IAvailabilitySlotMember } from '@core/models/IAvailabilitySlotMember';
 import { IExternalBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
 import { IExternalAnswers } from '@core/models/IExternalAnswers';
 import { IExternalAttendee } from '@core/models/IExternalAttendee';
@@ -11,10 +11,13 @@ import { IExternalAttendeeMeeting } from '@core/models/IExternalAttendeeMeeting'
 import { IExternalAvailabilitySlot } from '@core/models/IExternalAvailabilitySlot';
 import { IExternalMeeting } from '@core/models/IExternalMeeting';
 import { IExternalUser } from '@core/models/IExternalUser';
+import { ISlotMember } from '@core/models/save-availability-slot/ISlotMember';
 import { ExternalAttendeeService } from '@core/services/external-attendee.service';
 import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
+import { TeamService } from '@core/services/team.service';
 import { LocationType } from '@shared/enums/locationType';
+import { SlotParticipationOption } from '@shared/enums/slotParticipationOption';
 import { TZone } from 'moment-timezone-picker';
 
 @Component({
@@ -33,7 +36,11 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
 
     locationTypeOffice = LocationType.Office;
 
+    slotDataLoaded: boolean = false;
+
     locationTypeMapping = LocationTypeMapping;
+
+    maxAvatarNumber: number = 10;
 
     constructor(
         public spinnerService: SpinnerService,
@@ -41,6 +48,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         private notificationService: NotificationService,
         public router: Router,
         private route: ActivatedRoute,
+        private teamService: TeamService,
     ) {
         super();
     }
@@ -114,6 +122,9 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         location: LocationType;
         meetingRoom?: string;
         name: string;
+        slotType?: SlotType;
+        participationRule?: SlotParticipationOption;
+        slotMembers: ISlotMember[]
     }): void {
         this.menu = {
             ...this.menu,
@@ -123,7 +134,19 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             slotId: data.slotId,
             teamId: data.teamId,
             slotName: data.name,
+            slotType: data.slotType,
+            participationRule: data.participationRule,
+            slotMembers: this.slotDataLoaded ? this.menu.slotMembers : data.slotMembers,
         };
+        this.getTeam();
+        if (this.menu.slotType === SlotType.Team &&
+            this.menu.participationRule === SlotParticipationOption.One &&
+            data.slotMembers.length > 1 &&
+            !this.slotDataLoaded) {
+            this.router.navigate(['/external-booking/choose-team-members']);
+        } else {
+            this.slotDataLoaded = true;
+        }
     }
 
     public addTimeAndDateInMenu(data: { date: Date; timeFinish: Date; timeZone: TZone }): void {
@@ -155,11 +178,13 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         this.getUserAndSlots();
     }
 
-    public addMembersInMenu(selectedMembers: IAvailabilitySlotMember[]) {
+    public selectSLotMember(member: ISlotMember) {
         this.menu = {
             ...this.menu,
-            teamSlotMembers: selectedMembers,
+            slotMembers: [member],
         };
+        this.slotDataLoaded = true;
+        this.router.navigate([`/external-booking/choose-time/${this.link}`]);
     }
 
     public addTeamId(id: bigint) {
@@ -182,6 +207,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             startTime: this.menu.date,
             createdAt: new Date(),
             updatedAt: new Date(),
+            members: this.menu.slotMembers,
         };
 
         const attendee: IExternalAttendee = {
@@ -259,10 +285,22 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
     }
 
     isTeamBooking(): boolean {
-        return this.router.url.includes('/team/') || !!this.menu.team;
+        return this.menu.slotType === SlotType.Team && !!this.menu.team;
     }
 
     isConfirmedRoute(): boolean {
         return this.router.url.includes('/external-booking/confirmed-booking');
+    }
+
+    isChooseMembersRoute(): boolean {
+        return this.router.url.includes('/external-booking/choose-team-members');
+    }
+
+    private getTeam() {
+        this.teamService.getTeamById(Number(this.menu.teamId))
+            .pipe(this.untilThis)
+            .subscribe(team => {
+                this.menu.team = team;
+            });
     }
 }

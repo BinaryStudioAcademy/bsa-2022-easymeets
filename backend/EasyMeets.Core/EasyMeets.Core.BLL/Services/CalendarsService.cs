@@ -2,6 +2,7 @@ using AutoMapper;
 using EasyMeets.Core.BLL.Helpers;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Calendar;
+using EasyMeets.Core.Common.DTO.Meeting;
 using EasyMeets.Core.Common.DTO.User;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
@@ -256,12 +257,12 @@ namespace EasyMeets.Core.BLL.Services
             {
                 foreach (var item in meetings)
                 {
-                    await AddMeetingToCalendar(item, tokenResultDto);
+                    await AddMeetingToCalendar(_mapper.Map<SaveMeetingDto>(item), tokenResultDto);
                 }
             }
         }
 
-        private async Task AddMeetingToCalendar(Meeting meeting, TokenResultDto tokenResultDto)
+        public async Task AddMeetingToCalendar(SaveMeetingDto meeting, TokenResultDto tokenResultDto)
         {
             var queryParams = new Dictionary<string, string>
             {
