@@ -23,7 +23,8 @@
     </div>
     <div mat-dialog-actions class="mat-dialog-buttons">
         <button *ngFor="let buttonOptions of buttonsOptions" [ngClass]="buttonOptions.class" mat-flat-button
-            (click)="onClick(buttonOptions.onClickEvent)">
+            (click)="onClick(buttonOptions.onClickEvent)"
+            [disabled]="!this.teamMembersEmails.length && buttonOptions.label !=='Cancel'">
             {{ buttonOptions.label }}
         </button>
     </div>

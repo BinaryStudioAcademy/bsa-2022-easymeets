@@ -96,9 +96,6 @@ export class TeamService {
     }
 
     public createTeamMember(member: ICreateTeamMember) {
-        // eslint-disable-next-line no-debugger
-        debugger;
-
         return this.httpService.postRequest<ICreateTeamMember>(`${this.routePrefix}/members`, member);
     }
 

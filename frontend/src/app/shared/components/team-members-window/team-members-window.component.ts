@@ -85,22 +85,12 @@ export class TeamMembersWindowComponent extends BaseComponent {
 
     sendInvitaition() {
         if (this.teamId) {
-            if (this.teamMembersEmails.length) {
-                this.teamService
-                    .sendInvitaionToMembers(this.teamMembersEmails, this.teamId)
-                    .subscribe(
-                        () => {
-                            this.notificationService.showSuccessMessage('Invitation email was sent to team members emails');
-                        },
-                        (error) => {
-                            this.notificationService.showErrorMessage(error);
-                        },
-                    );
-            } else {
-                this.notificationService.showErrorMessage('You should add at least one team member email!');
-            }
-        } else {
-            this.notificationService.showErrorMessage('Team was not found');
-        }
+            this.teamService
+                .sendInvitaionToMembers(this.teamMembersEmails, this.teamId)
+                .subscribe({
+                    next: () => this.notificationService.showSuccessMessage('Invitation email was sent to team members emails'),
+                    error: (error) => this.notificationService.showErrorMessage(error),
+                });
+        } else { this.notificationService.showErrorMessage('Team was not found'); }
     }
 }

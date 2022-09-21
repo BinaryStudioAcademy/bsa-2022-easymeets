@@ -43,9 +43,7 @@ export class AuthFormService {
             tap({
                 next: () => {
                     if (this.teamId) {
-                        const teamMember: ICreateTeamMember = { userEmail: email, teamId: this.teamId };
-
-                        this.emitTeamMemberAddedSource.next(teamMember);
+                        this.emitTeamMemberAddedSource.next({ userEmail: email, teamId: this.teamId });
                     }
                     this.notificationService.showSuccessMessage('Authentication successful');
                 },
