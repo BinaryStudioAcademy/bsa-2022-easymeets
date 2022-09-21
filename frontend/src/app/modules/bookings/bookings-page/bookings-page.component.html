@@ -37,7 +37,7 @@
                             </p>
                             <button class="fas fa-ellipsis fa-xl menu-icon"  [matMenuTriggerFor]="menu"></button>
                             <mat-menu #menu="matMenu" class="drop-down-menu">
-                                <button mat-menu-item class="btn edit">
+                                <button mat-menu-item class="btn edit" (click)="goToPage('/edit-meeting/' + item.id)">
                                     <i class="fa-solid fa-pen"></i>Edit
                                 </button>
                                 <button mat-menu-item class="btn delete" (click)="deleteButtonClick(item.id)">

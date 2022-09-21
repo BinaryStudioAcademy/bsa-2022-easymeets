@@ -50,10 +50,23 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok(await _meetingService.GetOrderedMeetingTimesAsync(slotId));
         }
 
+        [HttpGet("{id:long}")]
+        public async Task<ActionResult<MeetingSlotDTO>> GetMeetingById(long id)
+        {
+            var result = await _meetingService.GetMeetingByIdAsync(id);
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<ActionResult<SaveMeetingDto>> SaveNewMeeting([FromBody] SaveMeetingDto newMeetingDto)
         {
             return Ok(await _meetingService.CreateMeeting(newMeetingDto));
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateMeeting([FromBody] SaveUpdateMeetingDto meeting)
+        {
+            return Ok(await _meetingService.UpdateMeetingAsync(meeting));
         }
 
         [HttpDelete]

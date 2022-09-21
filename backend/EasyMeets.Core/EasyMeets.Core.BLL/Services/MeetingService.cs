@@ -35,6 +35,42 @@ namespace EasyMeets.Core.BLL.Services
             _configuration = configuration;
         }
 
+        public async Task<MeetingSlotDTO> GetMeetingByIdAsync(long id)
+        {
+            var meeting = await _context.Meetings
+                .Include(m => m.ExternalAttendees)
+                .Include(m => m.MeetingMembers)
+                    .ThenInclude(meetingMember => meetingMember.TeamMember)
+                    .ThenInclude(teamMember => teamMember.User)
+                .FirstOrDefaultAsync(m => m.Id == id) ?? throw new KeyNotFoundException($"Meeting with id {id} does not exist");
+
+            var meetingDto = _mapper.Map<MeetingSlotDTO>(meeting);
+
+            meetingDto.MembersTitle = CreateMemberTitle(meetingDto);
+            
+            return meetingDto;
+        }
+
+        public async Task<SaveMeetingDto> UpdateMeetingAsync(SaveUpdateMeetingDto updateMeetingDto)
+        {
+            var meeting = GetByIdInternal(updateMeetingDto.Id) ?? throw new KeyNotFoundException($"The meeting with {updateMeetingDto.Id} id not found");
+
+            var meetingMembers = await GetMeetingMembers(updateMeetingDto.MeetingMembers, updateMeetingDto.TeamId);
+
+            _mapper.Map(updateMeetingDto, meeting, opts =>
+                opts.AfterMap((_, dest) =>
+                {
+                    dest.MeetingMembers = meetingMembers;
+                })
+            );
+
+            _context.Meetings.Update(meeting);
+
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<SaveMeetingDto>(meeting);
+        }
+
         public async Task<List<MeetingSlotDTO>> GetMeetingsAsync(MeetingMemberRequestDto meetingMemberRequestDto)
         {
             var currentUser = await _userService.GetCurrentUserAsync();
@@ -51,7 +87,7 @@ namespace EasyMeets.Core.BLL.Services
 
             var meetings = await _context.Meetings
                 .Include(m => m.AvailabilitySlot)
-                .Include(s => s!.ExternalAttendees)
+                .Include(s => s.ExternalAttendees)
                 .Include(meeting => meeting.MeetingMembers)
                     .ThenInclude(meetingMember => meetingMember.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
@@ -60,55 +96,27 @@ namespace EasyMeets.Core.BLL.Services
                                   meeting.StartTime >= startRestriction &&
                                   meeting.StartTime.AddMinutes(meeting.Duration) <= endRestriction)
                 .OrderBy(m => m.StartTime)
-                .Select(x =>
-                    new MeetingSlotDTO
-                    {
-                        Id = x.Id,
-                        LocationType = x.LocationType,
-                        MeetingCount = x.MeetingMembers.Count,
-                        MembersTitle = CreateMemberTitle(x),
-                        MeetingTitle = x.Name,
-                        MeetingRoom = x.MeetingRoom,
-                        MeetingDuration = x.Duration,
-                        MeetingTime = x.StartTime,
-                        MeetingLink = x.MeetingLink,
-                        MeetingMembers = GetAllParticipants(x)
-                    })
-            .ToListAsync();
+                .ToListAsync();
 
-            return meetings;
+            var meetingsDto = _mapper.Map<IEnumerable<MeetingSlotDTO>>(meetings)
+                .Select(dto =>
+                {
+                    dto.MembersTitle = CreateMemberTitle(dto);
+                    
+                    return dto;
+                })
+                .ToList();
+
+            return meetingsDto;
         }
 
-        private static List<UserMeetingDTO> GetAllParticipants(Meeting meeting)
+        private static string CreateMemberTitle(MeetingSlotDTO meeting)
         {
-            var slotMembers = meeting.MeetingMembers
-                .Select(x => new UserMeetingDTO
-                {
-                    Name = x.TeamMember.User.Name,
-                    Email = x.TeamMember.User.Email,
-                    Image = x.TeamMember.User.ImagePath,
-                    Booked = meeting.CreatedAt
-                });
-
-            var external = meeting.ExternalAttendees
-                .Select(x => new UserMeetingDTO
-                {
-                    Name = x.Name,
-                    Email = x.Email,
-                    TimeZone = new() { NameValue = x.TimeZoneName, TimeValue = x.TimeZoneValue },
-                    Booked = meeting.CreatedAt
-                });
-
-            return slotMembers.Union(external).ToList();
-        }
-
-        private static string CreateMemberTitle(Meeting meeting)
-        {
-            return meeting.MeetingMembers.Count() switch
+            return meeting.MeetingMembers?.Count switch
             {
                 0 => "Empty meeting.",
-                1 => meeting.MeetingMembers.First().TeamMember.User.Name,
-                _ => $"{meeting.MeetingMembers.Count()} Team Members"
+                1 => meeting.MeetingMembers.First().Name ?? string.Empty,
+                _ => $"{meeting.MeetingMembers?.Count} Team Members"
             };
         }
 
