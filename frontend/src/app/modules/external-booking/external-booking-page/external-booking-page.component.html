@@ -15,7 +15,7 @@
                     <img src="assets/header/header-logo.png" class="team-img" />
                 </ng-template>
                 <h2>{{ menu.team.name }}</h2>
-                <h1>Meeting with Designers</h1>
+                <h1 class="slot-name" *ngIf="menu.slotName">{{ menu.slotName }}</h1>
             </ng-template>
             <div class="sidebar-list">
                 <div class="sidebar-list-item" *ngIf="menu.duration">
@@ -35,25 +35,22 @@
                     <h5>Date</h5>
                     <h3>{{ menu.date | date }}</h3>
                 </div>
-                <div class="sidebar-list-item" *ngIf="menu.teamSlotMembers">
-                    <h5>Team Members: {{ menu.teamSlotMembers.length }}</h5>
-                    <div class="selected-member" *ngFor="let member of menu.teamSlotMembers">
-                        <ng-container *ngIf="member.memberImage; else defaultImageSelectedMember">
-                            <div class="selected-member-img">
-                                <img src="member.memberImage" />
-                            </div>
-                            <div class="selected-member-name">
-                                <h4>{{ member.name }}</h4>
-                            </div>
+                <div class="sidebar-list-item" *ngIf="isTeamBooking() && menu.slotMembers && slotDataLoaded">
+                    <h5>Members</h5>
+                    <div class="participants-avatars">
+                        <ng-container *ngFor="let member of menu.slotMembers">
+                            <ng-container *ngIf="member.image; else noImageParticipant">
+                                <img class="avatar" src="{{ member.image }}" alt="member" />
+                            </ng-container>
+                            <ng-template #noImageParticipant>
+                                <img class="avatar" src="assets/header/avatar-icon.png" alt="member" />
+                            </ng-template>
                         </ng-container>
-                        <ng-template #defaultImageSelectedMember>
-                            <div class="selected-member-img">
-                                <img src="assets/header/avatar-icon.png" />
-                            </div>
-                            <div class="selected-member-name">
-                                <h4>{{ member.name }}</h4>
-                            </div>
-                        </ng-template>
+                        <span class="avatar" *ngIf="menu.slotMembers.length > maxAvatarNumber">
+                        <div class="left-participants">
+                            <p>+{{ menu.slotMembers.length - maxAvatarNumber }}</p>
+                        </div>
+                    </span>
                     </div>
                 </div>
             </div>
@@ -77,8 +74,9 @@
                 (cancelBooking)="removeDateAndTime($event)">
             </app-external-booking-confirm-page>
             <app-external-booking-choose-members-page
-                *ngIf="this.router.url === '/external-booking/team/choose-team-members'"
-                (selectedMembersEvent)="addMembersInMenu($event)">
+                *ngIf="isChooseMembersRoute()"
+                [slotMembers]="menu.slotMembers"
+                (selectedMemberEvent)="selectSLotMember($event)">
             </app-external-booking-choose-members-page>
             <app-external-booking-confirmed-page
                 *ngIf="isConfirmedRoute()"

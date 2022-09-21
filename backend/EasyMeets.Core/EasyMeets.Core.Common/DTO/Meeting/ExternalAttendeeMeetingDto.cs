@@ -1,4 +1,5 @@
 using EasyMeets.Core.Common.DTO.Availability;
+using EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
 using EasyMeets.Core.Common.Enums;
 
 namespace EasyMeets.Core.Common.DTO.Meeting;
@@ -17,4 +18,5 @@ public class ExternalAttendeeMeetingDto
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public ICollection<QuestionDto> Answers { get; set; } = null!;
+    public List<SlotMemberDto> Members { get; set; } = new();
 }
