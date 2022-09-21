@@ -87,8 +87,8 @@ export class ExclusionDateComponent extends BaseComponent {
     updateExclusionTimeRangesDisplay() {
         const convertedExclusionTimeRanges: IExclusionTimeRange[] = this.scheduleValue.exclusionTimeRanges.map(
             (range) => ({
-                start: moment(range.start).tz(this.scheduleValue.timeZone.nameValue).format(),
-                end: moment(range.end).tz(this.scheduleValue.timeZone.nameValue).format(),
+                start: moment.utc(range.start).tz(this.scheduleValue.timeZone.nameValue).format(),
+                end: moment.utc(range.end).tz(this.scheduleValue.timeZone.nameValue).format(),
             }),
         );
 
@@ -113,7 +113,7 @@ export class ExclusionDateComponent extends BaseComponent {
                         startMomentDate === date ||
                         (endMomentDate === date &&
                             moment(convertedRange.end).tz(this.scheduleValue.timeZone.nameValue).toDate().getTime() -
-                                moment(date).tz(this.scheduleValue.timeZone.nameValue).toDate().getTime() >
+                                moment(date).tz(this.scheduleValue.timeZone.nameValue).toDate().getTime() !==
                                 0)
                     );
                 }),
