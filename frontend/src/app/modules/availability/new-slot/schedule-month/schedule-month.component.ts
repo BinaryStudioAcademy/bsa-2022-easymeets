@@ -3,8 +3,8 @@ import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
 import { CustomCalendarDateFormatter } from '@core/helpers/custom-calendar-date-formatter.provider';
-import { parseTimeSpan } from '@core/helpers/schedule-items-helper';
-import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
+import { timeSpanToString } from '@core/helpers/schedule-items-helper';
+import { ISchedule } from '@core/models/schedule/ISchedule';
 import { TimePickerDialogComponent } from '@shared/components/time-picker-dialog/time-picker-dialog.component';
 import { CalendarDateFormatter } from 'angular-calendar';
 
@@ -21,7 +21,7 @@ import { CalendarDateFormatter } from 'angular-calendar';
 })
 
 export class ScheduleMonthComponent extends BaseComponent {
-    @Input() items: IScheduleItem[];
+    @Input() schedule: ISchedule;
 
     viewDate: Date = new Date();
 
@@ -30,13 +30,13 @@ export class ScheduleMonthComponent extends BaseComponent {
     }
 
     openDialog(date: string): void {
-        const scheduleItem = this.items.filter(item => item.weekDay.toString() === this.getWeekDay(new Date(date)))[0];
+        const scheduleItem = this.schedule.scheduleItems.filter(item => item.weekDay.toString() === this.getWeekDay(new Date(date)))[0];
         const dialogRef = this.dialog.open(TimePickerDialogComponent, {
             data: scheduleItem,
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            this.items = this.items.map(item => {
+            this.schedule.scheduleItems = this.schedule.scheduleItems.map(item => {
                 if (item.weekDay === result.weekDay) {
                     return result;
                 }
@@ -49,15 +49,11 @@ export class ScheduleMonthComponent extends BaseComponent {
     getWeekScheduleTime(date: string): string[] {
         const weekDay = this.getWeekDay(new Date(date));
 
-        return this.items.filter(item => item.weekDay === weekDay && item.isEnabled)
-            .map(item => `${this.formatTime(item.start)}-${this.formatTime(item.end)}`);
+        return this.schedule.scheduleItems.filter(item => item.weekDay === weekDay && item.isEnabled)
+            .map(item => `${timeSpanToString(item.start)}-${timeSpanToString(item.end)}`);
     }
 
     private getWeekDay(date: Date): string {
         return this.datePipe.transform(date, 'EEEE') ?? '';
-    }
-
-    private formatTime(date: string): string {
-        return this.datePipe.transform(parseTimeSpan(date), 'HH:mm') ?? '';
     }
 }

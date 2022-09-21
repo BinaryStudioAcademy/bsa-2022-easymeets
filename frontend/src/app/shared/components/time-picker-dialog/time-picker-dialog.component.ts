@@ -1,7 +1,6 @@
-import { DatePipe } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { parseTimeSpan } from '@core/helpers/schedule-items-helper';
+import { compareTimeSpan, stringToTimeSpan, timeSpanToString } from '@core/helpers/schedule-items-helper';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 
 @Component({
@@ -19,10 +18,9 @@ export class TimePickerDialogComponent {
     constructor(
         public dialogRef: MatDialogRef<TimePickerDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public scheduleItem: IScheduleItem,
-        private datePipe: DatePipe,
     ) {
-        this.start = this.formatTime(scheduleItem.start);
-        this.end = this.formatTime(scheduleItem.end);
+        this.start = timeSpanToString(scheduleItem.start);
+        this.end = timeSpanToString(scheduleItem.end);
     }
 
     onClickCancel() {
@@ -34,17 +32,13 @@ export class TimePickerDialogComponent {
             ...this.scheduleItem,
         };
 
-        scheduleItem.start = this.start;
-        scheduleItem.end = this.end;
+        scheduleItem.start = stringToTimeSpan(this.start);
+        scheduleItem.end = stringToTimeSpan(this.end);
 
         return scheduleItem;
     }
 
     compareTimes() {
-        this.isApplyActive = parseTimeSpan(this.start).getTime() < parseTimeSpan(this.end).getTime();
-    }
-
-    private formatTime(date: string): string {
-        return this.datePipe.transform(parseTimeSpan(date), 'HH:mm') ?? '';
+        this.isApplyActive = compareTimeSpan(stringToTimeSpan(this.start), stringToTimeSpan(this.end));
     }
 }
