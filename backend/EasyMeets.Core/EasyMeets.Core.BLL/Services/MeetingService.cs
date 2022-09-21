@@ -120,7 +120,7 @@ namespace EasyMeets.Core.BLL.Services
             };
         }
 
-        public async Task<List<UserMeetingDTO>> GetAllMembers(int id)
+        public async Task<List<UserMeetingDTO>> GetAllMembers(long id)
         {
             var meeting = await _context.Meetings
                 .Include(m => m.AvailabilitySlot)
@@ -177,8 +177,20 @@ namespace EasyMeets.Core.BLL.Services
                 }));
 
             await _context.Meetings.AddAsync(meeting);
-
             await _context.SaveChangesAsync();
+            
+            var organizer = await _context.TeamMembers.FirstOrDefaultAsync(el => el.UserId == meeting.CreatedBy) 
+                            ?? throw new KeyNotFoundException("Team member not found");
+
+            await _context.MeetingMembers.AddAsync(new MeetingMember { TeamMemberId = organizer.Id, MeetingId = meeting.Id });
+            await _context.SaveChangesAsync();
+            
+            var calendar = await _context.Calendars.FirstOrDefaultAsync(el => el.UserId == meeting.CreatedBy && el.AddEventsFromTeamId == meeting.TeamId);
+
+            if (calendar is not null)
+            {
+                await _calendarsService.AddMeetingsToCalendar(meeting.TeamId, calendar.ConnectedCalendar);
+            }
 
             await AddMeetingLink(meeting);
 
@@ -194,9 +206,8 @@ namespace EasyMeets.Core.BLL.Services
 
         public async Task SendEmailsAsync(long meetingId, TemplateType type)
         {
-            var emailDto = new EmailDto();
-
             var meeting = await _context.Meetings
+                .Include(m => m.Author)
                 .Include(m => m.MeetingMembers)
                     .ThenInclude(member => member.TeamMember)
                     .ThenInclude(teamMember => teamMember.User)
@@ -216,14 +227,14 @@ namespace EasyMeets.Core.BLL.Services
                 return;
             }
 
-            var emailTemplate = meeting?
+            var emailTemplate = meeting
                 .AvailabilitySlot?
                 .EmailTemplates
                 .FirstOrDefault(template => template.TemplateType == type && template.IsSend);
 
             foreach (var recipient in recipients)
             {
-                emailDto = GenerateEmailTemplate(meeting, recipient, emailTemplate);
+                var emailDto = GenerateEmailTemplate(meeting, recipient, type, emailTemplate);
 
                 emailDto.Recipient = recipient;
 
@@ -282,16 +293,38 @@ namespace EasyMeets.Core.BLL.Services
             await SendEmailsAsync(meetingId, TemplateType.Cancellation);
             
             var meeting = await _context.Meetings.FirstAsync(meeting => meeting.Id == meetingId);
+            await CancelMeetingsInCalendars(meeting);
             var members = _context.MeetingMembers.Where(member => member.MeetingId == meetingId);
             _context.RemoveRange(members);
             _context.Remove(meeting);
 
             await _context.SaveChangesAsync();
         }
+        
+        private async Task CancelMeetingsInCalendars(Meeting meeting)
+        {
+            var recipients = meeting
+                .MeetingMembers
+                .Select(meetingMember => meetingMember.TeamMember.User.Email);
+
+            foreach (var recipient in recipients)
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(el => el.Email == recipient);
+                
+                if (user is not null)
+                {
+                    var calendar = await _context.Calendars.FirstOrDefaultAsync(el => el.AddEventsFromTeamId == meeting.TeamId && el.UserId == user.Id);
+                    if (calendar is not null)
+                    {
+                        await _calendarsService.CancelMeetingInGoogleCalendar(meeting.Name, calendar);
+                    }
+                }
+            }
+        }
 
         private MeetingEmailTemplateDto GenerateEmailParameters(Meeting meeting, string invitee)
         {
-            return new MeetingEmailTemplateDto()
+            return new MeetingEmailTemplateDto
             {
                 MeetingName = meeting.Name,
                 StartTime = meeting.StartTime,
@@ -306,11 +339,11 @@ namespace EasyMeets.Core.BLL.Services
 
         private EmailDto GenerateNewMeetingEmailTemplate(MeetingEmailTemplateDto parameters)
         {
-            return new EmailDto()
+            return new EmailDto
             {
                 Subject = $"New Event: {parameters.MeetingName} - {parameters.StartTime} - {parameters.LocationType}",
                 Body = $"Hi, {parameters.MemberName}!\n\n" +
-                $"A new event has been scheduled.\n" +
+                "A new event has been scheduled.\n" +
                 $"Event Type: {parameters.LocationType}\n" +
                 $"Invitee: {parameters.AuthorName}\n" +
                 $"Invitee Email: {parameters.AuthorEmail}\n" +
@@ -318,18 +351,35 @@ namespace EasyMeets.Core.BLL.Services
                 $"View event in Easymeets: {parameters.Uri}{parameters.MeetingLink}"
             };
         }
+        
+        private EmailDto GenerateCancelledMeetingTemplate(MeetingEmailTemplateDto parameters)
+        {
+            return new EmailDto
+            {
+                Subject = $"Cancelled: {parameters.LocationType} with {parameters.AuthorName} on {parameters.StartTime.Date}",
+                Body = $"Hi, {parameters.MemberName},\n\n" +
+                "The event below has been canceled.\n" +
+                $"Invitee: {parameters.AuthorName}\n" +
+                $"Invitee Email: {parameters.AuthorEmail}\n" +
+                $"Event Date/Time: {parameters.StartTime}\n\n" +
+                $"Cancelled by: {parameters.AuthorName}"
+            };
+        }
 
-        private EmailDto GenerateEmailTemplate(Meeting meeting, string invitee, EmailTemplate? emailTemplate)
+        private EmailDto GenerateEmailTemplate(Meeting meeting, string invitee, TemplateType type, EmailTemplate? emailTemplate)
         {
             var emailParameters = GenerateEmailParameters(meeting, invitee);
             if (emailTemplate is not null)
             {
                 return _mapper.Map<EmailDto>(emailTemplate);
             }
-            else
+
+            return type switch
             {
-                return GenerateNewMeetingEmailTemplate(emailParameters);
-            }
+                TemplateType.Confirmation => GenerateNewMeetingEmailTemplate(emailParameters),
+                TemplateType.Cancellation => GenerateCancelledMeetingTemplate(emailParameters),
+                _ => new EmailDto()
+            };
         }
 
         private async Task AddMeetingToMembersVisibleCalendars(SaveMeetingDto meeting)

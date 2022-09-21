@@ -126,13 +126,6 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
                     this.getOrderedTimes(this.slot.id);
                     this.defineTimeRange();
                     this.defineSettingsValues();
-
-                    this.selectedMeetingDuration = this.slot.size;
-                    this.scheduleItems = changeScheduleItemsDate(this.slot.schedule.scheduleItems);
-                    this.disabledDays = this.slot
-                        .schedule!.scheduleItems.filter((el) => !el.isEnabled)
-                        .map((el) => WeekDay[el.weekDay]);
-                    this.slotsCount = this.slotsCounter();
                 }
             });
     }
