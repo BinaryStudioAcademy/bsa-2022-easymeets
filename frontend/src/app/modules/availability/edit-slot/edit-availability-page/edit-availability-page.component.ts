@@ -85,6 +85,7 @@ export class EditAvailabilityPageComponent extends BaseComponent implements OnDe
             eventDetails: this.newAvailabilityComponent.eventDetailComponent.settings,
             questions: this.newAvailabilityComponent.questionsComponent.questions,
             templateSettings: this.newAvailabilityComponent.notificationEmailsComponent.settings,
+            participationRule: this.newAvailabilityComponent.scheduleComponent.selectedParticipationOption,
         };
 
         this.http

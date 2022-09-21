@@ -4,6 +4,7 @@ import { IAdvancedSlotSettings } from '@core/models/IAdvancedSlotSettings';
 import { ISlotMember } from '@core/models/save-availability-slot/ISlotMember';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 import { LocationType } from '@shared/enums/locationType';
+import { SlotParticipationOption } from '@shared/enums/slotParticipationOption';
 
 import { ISaveConfirmationEmailDetails } from './save-availability-slot/ISaveConfirmationEmailDetails';
 import { IAvailabilitySlotMember } from './IAvailabilitySlotMember';
@@ -35,4 +36,5 @@ export interface IAvailabilitySlot {
     passwordProtection?: string;
     timeZoneVisibility: boolean;
     emailTemplateSettings?: ISaveConfirmationEmailDetails[];
+    participationRule: SlotParticipationOption;
 }

@@ -3,10 +3,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { ActivityType } from '@core/enums/activity-type.enum';
+import { SlotType } from '@core/enums/slot-type.enum';
 import { changeScheduleItemsDate } from '@core/helpers/schedule-items-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ICalendarWeek } from '@core/models/ICalendarWeek';
 import { IOrderedMeetingTimes } from '@core/models/IOrderedMeetingTimes';
+import { ISlotMember } from '@core/models/save-availability-slot/ISlotMember';
 import { IScheduleItemReceive } from '@core/models/schedule/IScheduleItemsReceive';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
@@ -14,6 +16,7 @@ import { NewMeetingService } from '@core/services/new-meeting.service';
 import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
 import { LocationType } from '@shared/enums/locationType';
+import { SlotParticipationOption } from '@shared/enums/slotParticipationOption';
 import { addDays, addMinutes, differenceInMinutes, subDays } from 'date-fns';
 import { TZone } from 'moment-timezone-picker';
 
@@ -34,6 +37,9 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         location: LocationType;
         meetingRoom?: string;
         name: string;
+        slotType?: SlotType;
+        participationRule?: SlotParticipationOption;
+        slotMembers: ISlotMember[];
     }>();
 
     @Output() reloadData = new EventEmitter<string>();
@@ -111,12 +117,22 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
                         this.slot.size,
                         this.slot.locationType,
                         this.slot.name,
+                        this.slot.slotMembers,
                         this.slot.meetingRoom,
+                        this.slot.type,
+                        this.slot.participationRule,
                     );
 
                     this.getOrderedTimes(this.slot.id);
                     this.defineTimeRange();
                     this.defineSettingsValues();
+
+                    this.selectedMeetingDuration = this.slot.size;
+                    this.scheduleItems = changeScheduleItemsDate(this.slot.schedule.scheduleItems);
+                    this.disabledDays = this.slot
+                        .schedule!.scheduleItems.filter((el) => !el.isEnabled)
+                        .map((el) => WeekDay[el.weekDay]);
+                    this.slotsCount = this.slotsCounter();
                 }
             });
     }
@@ -336,9 +352,22 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         duration: number,
         location: LocationType,
         name: string,
+        slotMembers: ISlotMember[],
         meetingRoom?: string,
+        slotType?: SlotType,
+        participationRule?: SlotParticipationOption,
     ) {
-        this.selectedDurationAndLocationEvent.emit({ slotId, teamId, duration, location, name, meetingRoom });
+        this.selectedDurationAndLocationEvent.emit({
+            slotId,
+            teamId,
+            duration,
+            location,
+            name,
+            meetingRoom,
+            slotType,
+            participationRule,
+            slotMembers,
+        });
     }
 
     redirectToChooseMeeting() {

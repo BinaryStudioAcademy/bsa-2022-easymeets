@@ -34,5 +34,6 @@ namespace EasyMeets.Core.Common.DTO.Availability
         public bool PasswordProtectionIsUsed { get; set; }
         public string? PasswordProtection { get; set; }
         public bool TimeZoneVisibility { get; set; }
+        public ParticipationRule ParticipationRule { get; set; }
     }
 }
