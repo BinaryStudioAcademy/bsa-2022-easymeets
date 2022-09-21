@@ -1,9 +1,11 @@
 /* eslint-disable indent */
 import { Component, Input } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TemplateType } from '@core/enums/template-type.enum';
 import { getDefaultNotificationTemplates, getPathLabel } from '@core/helpers/default-email-templates-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ISaveConfirmationEmailDetails } from '@core/models/save-availability-slot/ISaveConfirmationEmailDetails';
+import { hourMinutesRegex } from '@shared/constants/model-validation';
 
 @Component({
     selector: 'app-notification-emails',
@@ -31,6 +33,10 @@ export class NotificationEmailsComponent {
 
     public activeTab = this.navLinks[0].path;
 
+    scheduleForm = new FormGroup({
+        startTime: new FormControl('00:05', [Validators.pattern(hourMinutesRegex), Validators.required]),
+    });
+
     public changeTemplate(path: string) {
         switch (path) {
             case 'confirmation':
@@ -57,5 +63,9 @@ export class NotificationEmailsComponent {
         if (template) {
             this.templateIndex = this.settings.indexOf(template);
         }
+    }
+
+    get startTime() {
+        return this.scheduleForm.get('startTime');
     }
 }

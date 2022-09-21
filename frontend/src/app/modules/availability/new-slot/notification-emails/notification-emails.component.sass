@@ -43,7 +43,10 @@
     grid-area: tabs
 
 #container-toggle
-    grid-area: toggle
+    display: flex
+    flex-flow: row
+    justify-content: space-between
+    width: 52.5%
 
 #container-emailSubject
     grid-area: emailSubject
@@ -108,3 +111,17 @@ p
     border-radius: 2px
 .link-text:hover
     background-color: $solitude
+
+.input-message.timeBody
+    width: 42px
+    margin-left: 15px
+    text-align: center
+
+input[type="time"]::-webkit-calendar-picker-indicator
+    display: none
+
+.formDate
+    flex-flow: nowrap
+
+.validText
+    color: red
