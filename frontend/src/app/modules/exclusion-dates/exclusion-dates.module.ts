@@ -7,15 +7,16 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { CustomDateAdapter } from '@modules/exclusion-dates/custom-date-adapter';
+import { ExclusionTimePipe } from '@modules/exclusion-dates/pipes/exclusion-time-pipe';
 
 import { CustomDatePickerComponent } from './custom-date-picker/custom-date-picker.component';
 import { ExclusionDatesPickerComponent } from './exclusion-dates-picker/exclusion-dates-picker.component';
 import { HeaderDatePickerComponent } from './header-date-picker/header-date-picker.component';
 
 @NgModule({
-    declarations: [ExclusionDatesPickerComponent, HeaderDatePickerComponent, CustomDatePickerComponent],
-    exports: [ExclusionDatesPickerComponent, HeaderDatePickerComponent, CustomDatePickerComponent],
+    declarations: [ExclusionDatesPickerComponent, HeaderDatePickerComponent, CustomDatePickerComponent, ExclusionTimePipe],
+    exports: [ExclusionDatesPickerComponent, HeaderDatePickerComponent, CustomDatePickerComponent, ExclusionTimePipe],
     imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, ReactiveFormsModule, MatDatepickerModule],
-    providers: [{ provide: DateAdapter, useClass: CustomDateAdapter, deps: [MAT_DATE_LOCALE] }],
+    providers: [{ provide: DateAdapter, useClass: CustomDateAdapter, deps: [MAT_DATE_LOCALE] }, ExclusionTimePipe],
 })
 export class ExclusionDatesModule {}

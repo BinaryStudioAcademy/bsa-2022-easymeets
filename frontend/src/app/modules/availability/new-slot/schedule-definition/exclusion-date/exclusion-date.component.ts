@@ -1,21 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
 import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
-import {
-    convertExclusionDateToOffset,
-    getUpdatedExclusionDatesDisplay,
-    mergeExistingExclusionDates,
-    sortDayTimeRanges,
-} from '@core/helpers/exclusion-date-helper';
-import { FindSameExclusionDateHelper } from '@core/helpers/find-same-exclusion-date-helper';
-import { getTimeZoneHours } from '@core/helpers/time-helper';
-import { TimeRangesMergeHelper } from '@core/helpers/time-ranges-merge-helper';
+import { sortExclusionTimeRanges } from '@core/helpers/exclusion-date-helper';
+import { ExclusionTimeRangesMergeHelper } from '@core/helpers/exclusion-time-ranges-merge-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
-import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
+import { IExclusionTimeRange } from '@core/models/schedule/exclusion-date/IExclusionTimeRange';
+import { IExclusionTimeRangesDisplay } from '@core/models/schedule/exclusion-date/IExclusionTimeRangesDisplay';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 import { ExclusionDatesPickerComponent } from '@modules/exclusion-dates/exclusion-dates-picker/exclusion-dates-picker.component';
+import * as moment from 'moment-timezone';
 
 @Component({
     selector: 'app-exclusion-date',
@@ -25,99 +19,122 @@ import { ExclusionDatesPickerComponent } from '@modules/exclusion-dates/exclusio
 export class ExclusionDateComponent extends BaseComponent {
     public scheduleValue: ISchedule;
 
-    exclusionDatesDisplay: IExclusionDate[] = [];
+    exclusionDatesDisplay: IExclusionTimeRangesDisplay[] = [];
 
     @Input() disabled: boolean;
 
-    constructor(private dialog: MatDialog, private dateAdapter: DateAdapter<Date>) {
+    constructor(private dialog: MatDialog) {
         super();
     }
 
     @Input() set schedule(value: ISchedule | undefined) {
         this.scheduleValue = value ?? getDefaultSchedule(false);
-        this.updateExclusionDatesDisplay();
+        this.updateExclusionTimeRangesDisplay();
     }
 
-    updateExclusionDatesDisplay() {
-        this.exclusionDatesDisplay = getUpdatedExclusionDatesDisplay(
-            this.scheduleValue.exclusionDates,
-            getTimeZoneHours(this.scheduleValue.timeZone.timeValue),
-            this.dateAdapter,
-        );
-    }
+    deleteExclusionTimeRange(exclusionTimeRangeToDelete: IExclusionTimeRangesDisplay) {
+        sortExclusionTimeRanges(exclusionTimeRangeToDelete.connectedExclusionTimeRanges);
+        const startRangeToDelete = exclusionTimeRangeToDelete.connectedExclusionTimeRanges[0];
 
-    deleteExclusionDate(index: number) {
-        const exclusionDateDisplayToDelete = this.exclusionDatesDisplay[index];
-        const exclusionDateDisplaysToDeleteUtc = convertExclusionDateToOffset(
-            exclusionDateDisplayToDelete,
-            -getTimeZoneHours(this.scheduleValue.timeZone.timeValue),
-            this.dateAdapter,
-        );
+        if (
+            moment(startRangeToDelete.start).tz(this.scheduleValue.timeZone.nameValue).startOf('day').toDate() <
+            moment(exclusionTimeRangeToDelete.date).tz(this.scheduleValue.timeZone.nameValue).toDate()
+        ) {
+            exclusionTimeRangeToDelete.connectedExclusionTimeRanges.filter((range) => range !== startRangeToDelete);
+            const exclusionDateToEdit = this.scheduleValue.exclusionTimeRanges.find((range) =>
+                moment(startRangeToDelete.start).utc().toDate().getTime() === moment(range.start).toDate().getTime());
 
-        exclusionDateDisplaysToDeleteUtc.forEach((date) => {
-            const sameDate = FindSameExclusionDateHelper(this.scheduleValue.exclusionDates, date);
-
-            if (sameDate) {
-                sameDate.dayTimeRanges = sameDate.dayTimeRanges.filter(
-                    (range) =>
-                        !date.dayTimeRanges.some(
-                            (rangeToDelete) =>
-                                rangeToDelete.start.hour === range.start.hour &&
-                                rangeToDelete.start.minute === range.start.minute &&
-                                rangeToDelete.end.hour === range.end.hour &&
-                                rangeToDelete.end.minute === range.end.minute,
-                        ),
-                );
-
-                sameDate.dayTimeRanges.forEach((range) => {
-                    date.dayTimeRanges.forEach((rangeToDelete) => {
-                        if (
-                            rangeToDelete.start.hour === range.start.hour &&
-                            rangeToDelete.start.minute === range.start.minute &&
-                            rangeToDelete.end.hour <= range.end.hour &&
-                            rangeToDelete.end.minute < range.end.minute
-                        ) {
-                            range.start = rangeToDelete.end;
-                        } else if (
-                            rangeToDelete.end.hour === range.end.hour &&
-                            rangeToDelete.end.minute === range.end.minute &&
-                            rangeToDelete.start.hour >= range.start.hour &&
-                            rangeToDelete.start.minute > range.start.minute
-                        ) {
-                            range.end = rangeToDelete.start;
-                        }
-                    });
-                });
+            if (exclusionDateToEdit) {
+                exclusionDateToEdit.end = moment(exclusionDateToEdit.start)
+                    .tz(this.scheduleValue.timeZone.nameValue)
+                    .endOf('day')
+                    .utc()
+                    .format();
             }
-        });
+        }
+        const endRangeToDelete =
+            exclusionTimeRangeToDelete.connectedExclusionTimeRanges[
+                exclusionTimeRangeToDelete.connectedExclusionTimeRanges.length - 1
+            ];
 
-        this.scheduleValue.exclusionDates = this.scheduleValue.exclusionDates.filter(
-            (date) => date.dayTimeRanges.length,
+        if (
+            moment(endRangeToDelete.end).tz(this.scheduleValue.timeZone.nameValue).startOf('day').toDate() >
+            moment(exclusionTimeRangeToDelete.date).tz(this.scheduleValue.timeZone.nameValue).toDate()
+        ) {
+            exclusionTimeRangeToDelete.connectedExclusionTimeRanges.filter((range) => range !== endRangeToDelete);
+            const exclusionDateToEdit = this.scheduleValue.exclusionTimeRanges.find((range) =>
+                moment(endRangeToDelete.end).utc().toDate().getTime() === moment(range.end).toDate().getTime());
+
+            if (exclusionDateToEdit) {
+                exclusionDateToEdit.start = moment(exclusionDateToEdit.end)
+                    .tz(this.scheduleValue.timeZone.nameValue)
+                    .startOf('day')
+                    .utc()
+                    .format();
+            }
+        }
+        this.scheduleValue.exclusionTimeRanges = this.scheduleValue.exclusionTimeRanges.filter(
+            (range) =>
+                exclusionTimeRangeToDelete.connectedExclusionTimeRanges.findIndex(
+                    (connectedRange) =>
+                        moment(range.start).utc().isSame(connectedRange.start) &&
+                        moment(range.end).utc().isSame(connectedRange.end),
+                ) === -1,
         );
-        this.updateExclusionDatesDisplay();
+        this.updateExclusionTimeRangesDisplay();
     }
 
-    showExclusionDatesWindow() {
+    updateExclusionTimeRangesDisplay() {
+        const convertedExclusionTimeRanges: IExclusionTimeRange[] = this.scheduleValue.exclusionTimeRanges.map(
+            (range) => ({
+                start: moment(range.start).tz(this.scheduleValue.timeZone.nameValue).format(),
+                end: moment(range.end).tz(this.scheduleValue.timeZone.nameValue).format(),
+            }),
+        );
+
+        this.exclusionDatesDisplay = convertedExclusionTimeRanges
+            .map((range) => [range.start, range.end])
+            .flat()
+            .map((date) => moment(date).tz(this.scheduleValue.timeZone.nameValue).startOf('day').format())
+            .filter((value, index, self) => self.indexOf(value) === index)
+            .map((date) => ({
+                date,
+                connectedExclusionTimeRanges: convertedExclusionTimeRanges.filter((convertedRange) => {
+                    const startMomentDate = moment(convertedRange.start)
+                        .tz(this.scheduleValue.timeZone.nameValue)
+                        .startOf('day')
+                        .format();
+                    const endMomentDate = moment(convertedRange.end)
+                        .tz(this.scheduleValue.timeZone.nameValue)
+                        .startOf('day')
+                        .format();
+
+                    return (
+                        startMomentDate === date ||
+                        (endMomentDate === date &&
+                            moment(convertedRange.end).tz(this.scheduleValue.timeZone.nameValue).toDate().getTime() -
+                                moment(date).tz(this.scheduleValue.timeZone.nameValue).toDate().getTime() >
+                                0)
+                    );
+                }),
+            }))
+            .filter((display) => display.connectedExclusionTimeRanges.length);
+    }
+
+    showExclusionTimeRangesWindow() {
         const dialogConfig = new MatDialogConfig();
 
         dialogConfig.data = this.scheduleValue.timeZone;
         this.dialog
-            .open<ExclusionDatesPickerComponent, ITimeZone, IExclusionDate[] | undefined>(ExclusionDatesPickerComponent, dialogConfig)
+            .open<ExclusionDatesPickerComponent, ITimeZone, IExclusionTimeRange[] | undefined>(ExclusionDatesPickerComponent, dialogConfig)
             .afterClosed()
-            .subscribe((newExclusionDates) => {
-                if (newExclusionDates) {
-                    newExclusionDates.forEach((newExclusionDate) => {
-                        sortDayTimeRanges(newExclusionDate.dayTimeRanges);
-                        newExclusionDate.dayTimeRanges = TimeRangesMergeHelper(newExclusionDate.dayTimeRanges);
-
-                        if (!mergeExistingExclusionDates(newExclusionDate, this.scheduleValue.exclusionDates)) {
-                            this.scheduleValue.exclusionDates = [
-                                ...this.scheduleValue.exclusionDates,
-                                newExclusionDate,
-                            ];
-                        }
-                    });
-                    this.updateExclusionDatesDisplay();
+            .subscribe((newExclusionTimeRanges) => {
+                if (newExclusionTimeRanges) {
+                    this.scheduleValue.exclusionTimeRanges = ExclusionTimeRangesMergeHelper([
+                        ...this.scheduleValue.exclusionTimeRanges,
+                        ...newExclusionTimeRanges,
+                    ]);
+                    this.updateExclusionTimeRangesDisplay();
                 }
             });
     }

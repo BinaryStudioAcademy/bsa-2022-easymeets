@@ -21,8 +21,7 @@ namespace EasyMeets.Core.DAL.Context
         public DbSet<User> Users { get; private set; } 
         public DbSet<Schedule> Schedules { get; private set; }
         public DbSet<ScheduleItem> ScheduleItems { get; private set; }
-        public DbSet<ExclusionDate> ExclusionDates { get; private set; }
-        public DbSet<DayTimeRange> DayTimeRanges { get; private set; }
+        public DbSet<ExclusionTimeRange> ExclusionTimeRanges { get; private set; }
         public DbSet<Credentials> Credentials { get; private set; }
         public DbSet<SyncGoogleCalendar> SyncGoogleCalendar { get; private set; }
         public DbSet<CalendarEvent> CalendarEvents { get; private set; }
@@ -45,8 +44,7 @@ namespace EasyMeets.Core.DAL.Context
             Users = Set<User>(); 
             Schedules = Set<Schedule>();
             ScheduleItems = Set<ScheduleItem>();
-            ExclusionDates = Set<ExclusionDate>();
-            DayTimeRanges = Set<DayTimeRange>();
+            ExclusionTimeRanges = Set<ExclusionTimeRange>();
             MeetingMembers = Set<MeetingMember>();
             Credentials = Set<Credentials>();
             SyncGoogleCalendar = Set<SyncGoogleCalendar>();

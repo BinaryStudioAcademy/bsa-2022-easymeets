@@ -3,24 +3,23 @@
         <span> Exclusion Dates </span>
         <mat-icon matTooltip="Specify exclusion dates for availability slot"> help_outline </mat-icon>
     </div>
-    <button mat-flat-button [disabled]="disabled" (click)="showExclusionDatesWindow()">
+    <button mat-flat-button [disabled]="disabled" (click)="showExclusionTimeRangesWindow()">
         <i class="fa-regular fa-plus"></i>
         Add Exclusion Date(s)
     </button>
     <hr />
     <div class="exclusion-dates-container">
-        <div class="exclusion-date-container" *ngFor="let exclusionDate of exclusionDatesDisplay; index as i">
+        <div class="exclusion-date-container" *ngFor="let exclusionTimeRangesDisplay of exclusionDatesDisplay">
             <div class="date-wrapper">
-                {{ exclusionDate.selectedDate | date: 'd MMM y' }}
+                {{ exclusionTimeRangesDisplay.date | date: 'd MMM y':scheduleValue.timeZone.timeValue }}
             </div>
             <div class="times-wrapper">
-                <div class="time-wrapper" *ngFor="let dayTimeRange of exclusionDate.dayTimeRanges">
-                    {{ dayTimeRange.start.hour | number: '2.0-0' }}:{{ dayTimeRange.start.minute | number: '2.0-0' }}-{{
-                        dayTimeRange.end.hour | number: '2.0-0'
-                    }}:{{ dayTimeRange.end.minute | number: '2.0-0' }}
+                <div class="time-wrapper" *ngFor="let dayTimeRange of exclusionTimeRangesDisplay.connectedExclusionTimeRanges">
+                    {{ dayTimeRange.start | exclusionTime: scheduleValue.timeZone:exclusionTimeRangesDisplay.date }}-{{
+                        dayTimeRange.end | exclusionTime: scheduleValue.timeZone:exclusionTimeRangesDisplay.date }}
                 </div>
             </div>
-            <i class="fa-regular fa-circle-xmark xmark fa-xl" (click)="deleteExclusionDate(i)"></i>
+            <i class="fa-regular fa-circle-xmark xmark fa-xl" (click)="deleteExclusionTimeRange(exclusionTimeRangesDisplay)"></i>
             <hr />
         </div>
     </div>

@@ -154,8 +154,7 @@ namespace EasyMeets.Core.BLL.Services
                         .ThenInclude(s => s.ScheduleItems)
                 .Include(slot => slot.SlotMembers)
                     .ThenInclude(slot => slot.Schedule)
-                        .ThenInclude(s => s.ExclusionDates)
-                            .ThenInclude(d => d.DayTimeRanges)
+                        .ThenInclude(s => s.ExclusionTimeRanges)
                 .Include(slot => slot.EmailTemplates)
                 .FirstOrDefaultAsync(slot => slot.Id == id);
             if (availabilitySlot is null)
@@ -272,20 +271,11 @@ namespace EasyMeets.Core.BLL.Services
 
         private void UpdateSchedule(ScheduleDto scheduleDto, Schedule schedule)
         {
-            var updatedExclusionDateIds = scheduleDto.ExclusionDates.Select(date => date.Id);
-            var updatedDayTimeRangeIds =
-                scheduleDto.ExclusionDates.SelectMany(dto => dto.DayTimeRanges)
-                    .Select(dto => dto.Id);
-            var deletedExclusionDates = _context.ExclusionDates.Where(date =>
+            var updatedExclusionTimeRangeIds = scheduleDto.ExclusionTimeRanges.Select(timeRange => timeRange.Id);
+            var deletedExclusionTimeRanges = _context.ExclusionTimeRanges.Where(date =>
                 date.ScheduleId == schedule.Id &&
-                updatedExclusionDateIds.All(updatedDateId => updatedDateId != date.Id));
-            var deletedDayTimeRanges = _context.DayTimeRanges
-                .Where(range =>
-                    updatedExclusionDateIds.Any(updatedExclusionDateId => 
-                        updatedExclusionDateId == range.ExclusionDateId) && 
-                    updatedDayTimeRangeIds.All(updatedDayTimeRangeId => updatedDayTimeRangeId != range.Id));
-            _context.ExclusionDates.RemoveRange(deletedExclusionDates);
-            _context.DayTimeRanges.RemoveRange(deletedDayTimeRanges);
+                updatedExclusionTimeRangeIds.All(updatedDateId => updatedDateId != date.Id));
+            _context.ExclusionTimeRanges.RemoveRange(deletedExclusionTimeRanges);
             _mapper.Map(scheduleDto, schedule);
         }
 

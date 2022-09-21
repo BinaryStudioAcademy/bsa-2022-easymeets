@@ -1,11 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DateAdapter } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
-import { convertExclusionDateToOffset } from '@core/helpers/exclusion-date-helper';
 import { getTimeZoneHours, TimeRangeValidator } from '@core/helpers/time-helper';
-import { getDateStringWithoutLocalOffset } from '@core/helpers/time-zone-helper';
+import { getDateStringWithoutGivenOffset } from '@core/helpers/time-zone-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
@@ -31,7 +29,6 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
     constructor(
         private dialogRef: MatDialogRef<ExclusionDatesPickerComponent>,
         @Inject(MAT_DIALOG_DATA) private scheduleTimeZone: ITimeZone,
-        private dateAdapter: DateAdapter<Date>,
     ) {
         super();
     }
@@ -64,14 +61,16 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
             return;
         }
         this.dialogRef.close(
-            convertExclusionDateToOffset(
-                {
-                    selectedDate: getDateStringWithoutLocalOffset(this.selected),
-                    dayTimeRanges: this.getTimeRanges(),
-                },
-                getTimeZoneHours(this.scheduleTimeZone.timeValue),
-                this.dateAdapter,
-            ),
+            this.getTimeRanges().map((range) => ({
+                start: getDateStringWithoutGivenOffset(
+                    new Date(this.selected!.setHours(range.start.hour, range.start.minute, 0, 0)),
+                    getTimeZoneHours(this.scheduleTimeZone.timeValue),
+                ),
+                end: getDateStringWithoutGivenOffset(
+                    new Date(this.selected!.setHours(range.end.hour, range.end.minute, 0, 0)),
+                    getTimeZoneHours(this.scheduleTimeZone.timeValue),
+                ),
+            })),
         );
     }
 
@@ -82,8 +81,8 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
     getValidDayTimeRanges = () =>
         this.timeControlsIdentifiers
             .map((number) => ({
-                start: this.formGroup.get(number.toString() + this.startRangeIdentifier)?.value ?? '' as string,
-                end: this.formGroup.get(number.toString() + this.endRangeIdentifier)?.value ?? '' as string,
+                start: this.formGroup.get(number.toString() + this.startRangeIdentifier)?.value ?? ('' as string),
+                end: this.formGroup.get(number.toString() + this.endRangeIdentifier)?.value ?? ('' as string),
             }))
             .filter((range) => range.start && range.end)
             .map((range) => ({

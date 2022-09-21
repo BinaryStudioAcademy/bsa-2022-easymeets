@@ -11,6 +11,9 @@ export const getDefaultTimeZone = (): ITimeZone => {
 export const getDateStringWithoutLocalOffset = (date: Date) =>
     new Date(date.getTime() - date.getTimezoneOffset() * 60000).toJSON();
 
+export const getDateStringWithoutGivenOffset = (date: Date, offsetHours: number) =>
+    new Date(date.getTime() - date.getTimezoneOffset() * 60000 - offsetHours * 60 * 60000).toJSON();
+
 export function convertLocalDateToUTCWithUserSelectedTimeZone(date: Date, timeZone: ITimeZone) {
     const dateWithoutLocalOffset = getDateStringWithoutLocalOffset(date);
 
