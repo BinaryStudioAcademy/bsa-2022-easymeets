@@ -7,4 +7,5 @@ export interface ISaveAdvancedSettings {
     paddingMeeting: number;
     minBookingMeetingDifference: number;
     frequency: number;
+    startDate: Date;
 }
