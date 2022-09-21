@@ -3,6 +3,7 @@ import { ISaveEventDetails } from '@core/models/save-availability-slot/ISaveEven
 import { ISaveGeneralSettings } from '@core/models/save-availability-slot/ISaveGeneralSettings';
 import { ISlotMember } from '@core/models/save-availability-slot/ISlotMember';
 import { ISchedule } from '@core/models/schedule/ISchedule';
+import { SlotParticipationOption } from '@shared/enums/slotParticipationOption';
 
 import { IQuestion } from '../IQuestion';
 
@@ -18,4 +19,5 @@ export interface ISaveAvailability {
     schedule?: ISchedule;
     slotMembers: ISlotMember[]
     templateSettings: ISaveConfirmationEmailDetails[];
+    participationRule: SlotParticipationOption
 }

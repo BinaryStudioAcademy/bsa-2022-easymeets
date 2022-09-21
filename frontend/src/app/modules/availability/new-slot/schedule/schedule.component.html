@@ -35,7 +35,7 @@
                         disableRipple
                         *ngFor="let option of participationOptions"
                         [value]="option">
-                        {{ option }}
+                        {{ getParticipationText(option) }}
                     </mat-radio-button>
                 </mat-radio-group>
             </div>

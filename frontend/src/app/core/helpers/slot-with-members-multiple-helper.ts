@@ -2,6 +2,7 @@ import { Color } from '@core/enums/color.enum';
 import { SlotType } from '@core/enums/slot-type.enum';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { LocationType } from '@shared/enums/locationType';
+import { SlotParticipationOption } from '@shared/enums/slotParticipationOption';
 
 import { getLocalMandatoryQuestions } from './questions-mandatory-helper';
 import { getScheduleItems } from './schedule-list-helper';
@@ -55,5 +56,6 @@ export const getTeamForMultipleChoice = (): IAvailabilitySlot[] => [
         bookingsPerDay: 5,
         passwordProtectionIsUsed: true,
         timeZoneVisibility: true,
+        participationRule: SlotParticipationOption.All,
     },
 ];
