@@ -7,7 +7,7 @@
     display: flex
     width: 100%
     flex-direction: row
-    @media (max-width: $desktop-max-width-exclusion-tab)
+    @media (max-width: $schedule-max-width)
         gap: 50px
         flex-direction: column
 
@@ -51,7 +51,7 @@
             font-size: 14px
             line-height: 146%
         mat-icon
-            color: $icon-color
+            color: $em-pattens-blue
             font-size: 16px
             vertical-align: middle
             margin-left: 14px
@@ -62,24 +62,23 @@
                 cursor: pointer
                 color: $black
     button
-        border: 1px solid $raven
+        border: 1px solid $em-raven
         border-radius: 24px
         padding: 4px 16px
         background: $white-color
         height: 32px
-        width: 100%
         margin-top: 24px
         display: flex
         align-items: center
         justify-content: center
         margin-bottom: 13px
-        color: $raven
+        color: $em-raven
         max-width: 248px
         &:hover
             box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1)
             color: $black
             i
-                color: $raven
+                color: $em-raven
     @media (max-width: 1300px)
         width: 100%
 
@@ -95,7 +94,7 @@ select
 hr
     border: none
     height: 1px
-    background-color: $line-color
+    background-color: $em-solitude-dark
     width: 100%
 
 ::ng-deep .custom-mat-group .mat-tab-label .mat-tab-label-content

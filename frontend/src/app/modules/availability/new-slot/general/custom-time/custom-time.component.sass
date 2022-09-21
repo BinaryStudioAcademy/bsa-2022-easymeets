@@ -1,0 +1,46 @@
+@import 'src/styles/color-variables'
+@import 'src/styles/screen-variables'
+
+*
+    box-sizing: border-box
+
+.input-container
+    width: 100%
+
+    p
+        font-weight: bold
+        margin-bottom: 5px
+
+    .custom-time
+        display: flex
+        max-width: 271px
+        width: 100%
+        margin-right: 9px
+        @media (max-width: $desktop-min-width)
+            max-width: 100%
+        .time
+            width: 60%
+            margin-right: 10px
+
+        .unit-of-time
+            width: 40%
+    small
+        font-size: 10px
+        color: $red
+
+input[type=text]
+    font-size: 14px
+    padding-left: 5px
+    border: 2px solid $pattens-blue
+    border-radius: 8px
+    height: 36px
+
+.ng-invalid.ng-touched:not(.ng-pristine)
+    border-color: $red
+
+.mat-select
+    font-size: 14px
+    padding-left: 5px
+    border: 2px solid $pattens-blue
+    border-radius: 8px
+    height: 36px

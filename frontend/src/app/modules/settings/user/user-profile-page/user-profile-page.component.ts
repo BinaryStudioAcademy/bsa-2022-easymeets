@@ -12,6 +12,7 @@ import { IUpdateUser } from '@core/models/IUpdateUser';
 import { IUser } from '@core/models/IUser';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { NotificationService } from '@core/services/notification.service';
+import { SettingPageService } from '@core/services/setting-page.service';
 import { UserService } from '@core/services/user.service';
 import { userNameRegex } from '@shared/constants/model-validation';
 import { invalidCharactersMessage } from '@shared/constants/shared-messages';
@@ -19,7 +20,7 @@ import { Country } from '@shared/enums/country';
 import { DateFormat } from '@shared/enums/dateFormat';
 import { Language } from '@shared/enums/language';
 import { TimeFormat } from '@shared/enums/timeFormat';
-import { finalize } from 'rxjs';
+import { switchMap, throwError } from 'rxjs';
 
 @Component({
     selector: 'app-user-profile-page',
@@ -31,6 +32,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         private userService: UserService,
         public notificationService: NotificationService,
         private confirmationWindowService: ConfirmationWindowService,
+        private settingPageService: SettingPageService,
     ) {
         super();
     }
@@ -84,7 +86,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
             dateFormat: new FormControl(),
             timeFormat: new FormControl(),
             language: new FormControl(),
-            timeZone: new FormControl(),
             image: new FormControl(),
         });
 
@@ -100,7 +101,6 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                     dateFormat: user.dateFormat,
                     timeFormat: user.timeFormat,
                     language: user.language,
-                    timeZone: user.timeZone,
                     image: user.image,
                 });
                 this.userForm.markAsPristine();
@@ -111,10 +111,25 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                     this.changeCountryCode(this.userForm);
                 }
             });
+
+        this.settingPageService.updateButtonClickEvent$
+            .pipe(this.untilThis)
+            .pipe(switchMap(() => this.OnSubmit()))
+            .subscribe({
+                next: () =>
+                    this.notificationService.showSuccessMessage('Personal information was updated successfully.'),
+                error: () =>
+                    this.userForm.markAsDirty(),
+            });
+
+        this.userForm.statusChanges.pipe(this.untilThis).subscribe(() => {
+            this.settingPageService.updateButtonActive(!this.userForm.invalid && !this.userForm.pending && this.userForm.dirty);
+        });
     }
 
-    public onSubmit(): void {
+    public OnSubmit() {
         if (this.user) {
+            this.userForm.reset(this.userForm.value);
             const editedUser: IUpdateUser = {
                 id: this.user.id,
                 phoneCode: this.countryCodeValues[this.userForm.value.country as Country],
@@ -124,18 +139,13 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
                 dateFormat: this.userForm.value.dateFormat,
                 language: this.userForm.value.language,
                 timeFormat: this.userForm.value.timeFormat,
-                timeZone: this.userForm.value.timeZone,
             };
 
-            this.userService
-                .editUser(editedUser)
-                .pipe(this.untilThis)
-                .pipe(finalize(() => this.userForm.markAsPristine()))
-                .subscribe({
-                    next: () =>
-                        this.notificationService.showSuccessMessage('Personal information was updated successfully.'),
-                });
+            return this.userService
+                .editUser(editedUser);
         }
+
+        return throwError(() => new Error());
     }
 
     public changeCountryCode(form: FormGroup) {
@@ -179,15 +189,7 @@ export class UserProfilePageComponent extends BaseComponent implements OnInit {
         });
     }
 
-    public markTimeZoneDirty() {
-        this.userForm.get('timeZone')?.markAsDirty();
-    }
-
     public userNameChanged(value: string) {
         this.userForm.patchValue({ userName: removeExcessiveSpaces(value) });
-    }
-
-    public defineZone() {
-        return !this.user?.timeZone || (!this.user.timeZone.nameValue && !this.user.timeZone.timeValue);
     }
 }

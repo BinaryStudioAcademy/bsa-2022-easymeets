@@ -1,0 +1,31 @@
+<div class="container">
+    <p class="title-label">Add team member(s)</p>
+    <mat-form-field  floatLabel="never" class="filter-form-field">
+        <mat-label>Type Email or Name</mat-label>
+        <input matInput type="text" [(ngModel)]="filterValue">
+        <mat-icon matSuffix class="search-icon">search</mat-icon>
+    </mat-form-field>
+    <div class="selection-info">
+        <p class="members-count">Team members: {{getFilteredMembers().length}}</p>
+        <div class="deselect-wrapper">
+            <button mat-icon-button (click)="deselect()">
+                <mat-icon>cancel</mat-icon>
+            </button>
+            <p class="members-count">Deselect: {{selectedMembers.length}}</p>
+        </div>
+    </div>
+    <div class="selection-block">
+        <div class="member-wrapper" *ngFor="let member of getFilteredMembers()">
+            <mat-checkbox color="primary" [checked]="isSelected(member)" (change)="changeSelection(member)"></mat-checkbox>
+            <img class="avatar" src="{{ member.image ?? 'assets/header/avatar-icon.png' }}" alt="member" />
+            <div class="member-info">
+                <p class="member-name">{{member.name}}</p>
+                <p class="member-email">{{member.email}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="buttons-block">
+        <button mat-flat-button class="cancel-button" (click)="onCancelClick()">Cancel</button>
+        <button mat-flat-button color="primary" class="add-button" (click)="onAddClick()">Add {{selectedMembers.length}} TeamMembers</button>
+    </div>
+</div>

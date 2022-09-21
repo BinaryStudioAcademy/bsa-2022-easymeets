@@ -128,21 +128,16 @@ namespace EasyMeets.Core.BLL.Services
             {
                 await SaveEmailTemplateConfig(slotDto.TemplateSettings, entity);
             }
+            
+            var members = _mapper.Map<List<SlotMember>>(slotDto.SlotMembers);
 
-            var author = new SlotMember
-            {
-                MemberId = currentUser.Id,
-                Priority = 3
-            };
+            entity.SlotMembers = members;
+            _context.SlotMembers.AddRange(members);
 
-            if (!slotDto.Schedule.WithTeamMembers)
+            if (slotDto.Schedule is not null)
             {
-                var schedule = _mapper.Map<Schedule>(slotDto.Schedule);
-                await _context.Schedules.AddAsync(schedule);
-                author.Schedule = schedule;
+                SetSingleSchedule(slotDto.Schedule, entity);
             }
-            entity.SlotMembers.Add(author);
-            await _context.SlotMembers.AddAsync(author);
 
             await _context.SaveChangesAsync();
         }
@@ -152,6 +147,8 @@ namespace EasyMeets.Core.BLL.Services
             var availabilitySlot = await _context.AvailabilitySlots
                 .Include(slot => slot.AdvancedSlotSettings)
                 .Include(slot => slot.Questions.OrderBy(q => q.Order))
+                .Include(slot => slot.SlotMembers)
+                    .ThenInclude(member => member.User)
                 .Include(slot => slot.SlotMembers)
                     .ThenInclude(slot => slot.Schedule)
                         .ThenInclude(s => s.ScheduleItems)
@@ -182,16 +179,30 @@ namespace EasyMeets.Core.BLL.Services
 
             _mapper.Map(updateAvailabilityDto, availabilitySlot);
 
+            if (updateAvailabilityDto.Schedule is not null)
+            {
+                SetSingleSchedule(updateAvailabilityDto.Schedule, availabilitySlot);
+            }
+
             await UpdateAdvancedSlotSettings(updateAvailabilityDto, availabilitySlot);
             await UpdateTemplateSettings(updateAvailabilityDto, availabilitySlot);
             UpdateQuestions(updateAvailabilityDto, availabilitySlot);
-            await UpdateSchedule(updateAvailabilityDto, availabilitySlot);
 
             availabilitySlot.LocationType = updateAvailabilityDto.GeneralDetails!.LocationType;
 
             await _context.SaveChangesAsync();
             return _mapper.Map<AvailabilitySlotDto>(
                 await _context.AvailabilitySlots.FirstOrDefaultAsync(slot => slot.Id == id));
+        }
+
+        private void SetSingleSchedule(ScheduleDto scheduleDto, AvailabilitySlot availabilitySlot)
+        {
+            var schedule = _mapper.Map<Schedule>(scheduleDto);
+            UpdateSchedule(scheduleDto, schedule);
+            foreach (var member in availabilitySlot.SlotMembers)
+            {
+                member.Schedule = schedule;
+            }
         }
 
         private async Task UpdateAdvancedSlotSettings(SaveAvailabilitySlotDto updateAvailabilityDto, AvailabilitySlot availabilitySlot)
@@ -259,30 +270,23 @@ namespace EasyMeets.Core.BLL.Services
             _context.Update(availabilitySlot);
         }
 
-        private async Task UpdateSchedule(SaveAvailabilitySlotDto updateAvailabilityDto, AvailabilitySlot availabilitySlot)
+        private void UpdateSchedule(ScheduleDto scheduleDto, Schedule schedule)
         {
-            var currentUser = await _userService.GetCurrentUserAsync();
-            if (!updateAvailabilityDto.Schedule.WithTeamMembers)
-            {
-                var scheduleId = availabilitySlot.SlotMembers.First(member => member.MemberId == currentUser.Id)
-                    .ScheduleId;
-                var updatedExclusionDateIds = updateAvailabilityDto.Schedule.ExclusionDates.Select(date => date.Id);
-                var updatedDayTimeRangeIds =
-                    updateAvailabilityDto.Schedule.ExclusionDates.SelectMany(dto => dto.DayTimeRanges)
-                        .Select(dto => dto.Id);
-                var deletedExclusionDates = _context.ExclusionDates.Where(date =>
-                    date.ScheduleId == scheduleId &&
-                    updatedExclusionDateIds.All(updatedDateId => updatedDateId != date.Id));
-                var deletedDayTimeRanges = _context.DayTimeRanges
-                    .Where(range =>
-                        updatedExclusionDateIds.Any(updatedExclusionDateId =>
-                            updatedExclusionDateId == range.ExclusionDateId) &&
-                            updatedDayTimeRangeIds.All(updatedDayTimeRangeId => updatedDayTimeRangeId != range.Id));
-                _context.ExclusionDates.RemoveRange(deletedExclusionDates);
-                _context.DayTimeRanges.RemoveRange(deletedDayTimeRanges);
-                _mapper.Map(updateAvailabilityDto.Schedule,
-                    availabilitySlot.SlotMembers.First(member => member.MemberId == currentUser.Id).Schedule);
-            }
+            var updatedExclusionDateIds = scheduleDto.ExclusionDates.Select(date => date.Id);
+            var updatedDayTimeRangeIds =
+                scheduleDto.ExclusionDates.SelectMany(dto => dto.DayTimeRanges)
+                    .Select(dto => dto.Id);
+            var deletedExclusionDates = _context.ExclusionDates.Where(date =>
+                date.ScheduleId == schedule.Id &&
+                updatedExclusionDateIds.All(updatedDateId => updatedDateId != date.Id));
+            var deletedDayTimeRanges = _context.DayTimeRanges
+                .Where(range =>
+                    updatedExclusionDateIds.Any(updatedExclusionDateId => 
+                        updatedExclusionDateId == range.ExclusionDateId) && 
+                    updatedDayTimeRangeIds.All(updatedDayTimeRangeId => updatedDayTimeRangeId != range.Id));
+            _context.ExclusionDates.RemoveRange(deletedExclusionDates);
+            _context.DayTimeRanges.RemoveRange(deletedDayTimeRanges);
+            _mapper.Map(scheduleDto, schedule);
         }
 
         public async Task<bool> UpdateAvailabilitySlotEnablingAsync(long id)
@@ -338,8 +342,11 @@ namespace EasyMeets.Core.BLL.Services
         {
             return await _context.AvailabilitySlots
                 .Include(slot => slot.SlotMembers)
+                    .ThenInclude(member => member.User)
+                .Include(slot => slot.SlotMembers)
                     .ThenInclude(slot => slot.Schedule)
                         .ThenInclude(s => s.ScheduleItems)
+                .Include(slot => slot.AdvancedSlotSettings)
                 .FirstOrDefaultAsync(s => s.Link == link);
         }
 

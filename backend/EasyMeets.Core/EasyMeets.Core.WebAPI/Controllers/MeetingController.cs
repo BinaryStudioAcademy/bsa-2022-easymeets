@@ -23,18 +23,24 @@ namespace EasyMeets.Core.WebAPI.Controllers
         public async Task<List<MeetingSlotDTO>> GetMeetingMembersByCountAsync(MeetingMemberRequestDto meetingMemberRequestDto) =>
             await _meetingService.GetMeetingsAsync(meetingMemberRequestDto);
 
-        [HttpGet("{id:int}/members/all")]
-        public async Task<ActionResult<List<UserMeetingDTO>>> GetAllMembers(int id)
+        [HttpGet("{id:long}/members/all")]
+        public async Task<ActionResult<List<UserMeetingDTO>>> GetAllMembers(long id)
         {
             return Ok(await _meetingService.GetAllMembers(id));
         }
 
         [HttpGet]
-        [Route("getTeamMembersOfCurrentUser/{teamId?}")]
-        public async Task<ActionResult<ICollection<NewMeetingMemberDto>>> GetTeamMembersOfCurrentUser(long? teamId)
+        [Route("getTeamMembersByName/{searchName}/{teamId?}")]
+        public async Task<ActionResult<ICollection<NewMeetingMemberDto>>> GetTeamMembersByName(string searchName, long? teamId)
         {
-            var teamMembers = await _teamService.GetTeamMembersOfCurrentUserAsync(teamId);
-            return Ok(teamMembers);
+            return Ok(await _teamService.GetTeamMembersByNameAsync(searchName, teamId));
+        }
+        
+        [HttpGet]
+        [Route("getTeamMembersById/{userId}/{teamId}")]
+        public async Task<ActionResult<NewMeetingMemberDto>> GetTeamMembersByName(long userId, long teamId)
+        {
+            return Ok(await _teamService.GetTeamMembersByIdAsync(userId, teamId));
         }
 
         [HttpGet("ordered-times/{slotId}")]
@@ -44,10 +50,23 @@ namespace EasyMeets.Core.WebAPI.Controllers
             return Ok(await _meetingService.GetOrderedMeetingTimesAsync(slotId));
         }
 
+        [HttpGet("{id:long}")]
+        public async Task<ActionResult<MeetingSlotDTO>> GetMeetingById(long id)
+        {
+            var result = await _meetingService.GetMeetingByIdAsync(id);
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<ActionResult<SaveMeetingDto>> SaveNewMeeting([FromBody] SaveMeetingDto newMeetingDto)
         {
             return Ok(await _meetingService.CreateMeeting(newMeetingDto));
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateMeeting([FromBody] SaveUpdateMeetingDto meeting)
+        {
+            return Ok(await _meetingService.UpdateMeetingAsync(meeting));
         }
 
         [HttpDelete]

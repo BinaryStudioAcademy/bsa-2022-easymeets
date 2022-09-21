@@ -63,8 +63,6 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.Language, f => Language.Pl)
                 .RuleFor(u => u.DateFormat, f => (DateFormat)f.Random.Int(0, 1))
                 .RuleFor(u => u.TimeFormat, f => (TimeFormat)f.Random.Int(0, 1))
-                .RuleFor(u => u.TimeZoneValue, f => string.Empty)
-                .RuleFor(u => u.TimeZoneName, f => string.Empty)
                 .RuleFor(u => u.Country, f => Country.Ukraine)
                 .RuleFor(u => u.IsBanned, f => false)
                 .RuleFor(u => u.IsDeleted, f => false)
@@ -172,6 +170,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(u => u.CreatedAt, f => f.Date.Past(2, new DateTime(2021, 7, 20)))
                 .RuleFor(u => u.UpdatedAt, f => DateTime.Today)
                 .RuleFor(u => u.IsDeleted, f => false)
+                .RuleFor(u => u.ParticipationRule, _ => ParticipationRule.One)
                 .Generate(count);
         }
 
@@ -317,7 +316,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(i => i.End, f => TimeSpan.FromHours(f.Random.Int(13, 18)))
                 .Generate(count);
         }
-        
+
         private static IList<ExclusionDate> GenerateExclusionDates(ICollection<Schedule> schedules, int count = 10)
         {
             var id = 1;
@@ -329,7 +328,7 @@ namespace EasyMeets.Core.DAL.Context
                 .RuleFor(i => i.SelectedDate, f => f.Date.Future())
                 .Generate(count);
         }
-        
+
         private static IList<DayTimeRange> GenerateDateTimeRanges(ICollection<ExclusionDate> exclusionDates, int count = 5)
         {
             var id = 1;
