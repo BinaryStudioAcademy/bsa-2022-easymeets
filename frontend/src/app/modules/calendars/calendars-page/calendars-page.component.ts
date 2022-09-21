@@ -1,5 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { getDefaultOptions } from '@core/helpers/options-helper';
 import { ICheckOption } from '@core/interfaces/check-option-interface';
@@ -9,7 +8,9 @@ import { CalendarsService } from '@core/services/calendars.service';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { GoogleOauthService } from '@core/services/google-oauth.service';
 import { NotificationService } from '@core/services/notification.service';
+import { SettingPageService } from '@core/services/setting-page.service';
 import { TeamService } from '@core/services/team.service';
+import { mergeMap, switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-calendars-page',
@@ -35,7 +36,8 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
         private dialog: ConfirmationWindowService,
         private calendarService: CalendarsService,
         private notificationService: NotificationService,
-        private router: Router,
+        private settingPageService: SettingPageService,
+        private changeDetector: ChangeDetectorRef,
     ) {
         super();
         this.connectGoogleCalendar.subscribe(() => {
@@ -44,25 +46,36 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.refreshData();
+        this.settingPageService.updateButtonClickEvent$
+            .pipe(this.untilThis)
+            .pipe(switchMap(() => this.updateCalendar()))
+            .subscribe({
+                next: () => {
+                    this.notificationService.showSuccessMessage('Calendars were successfully updated');
+                    this.settingPageService.updateButtonActive(true);
+                },
+                error: () =>
+                    this.notificationService.showErrorMessage('Something went wrong. Calendars are not updated'),
+            });
+
+        this.loadData();
 
         this.checkOptions = getDefaultOptions();
     }
 
-    refreshData() {
+    loadData() {
         this.teamService
             .getCurrentUserTeams()
-            .pipe(this.untilThis)
-            .subscribe((response) => {
-                this.allTeams = response;
-            });
+            .pipe(
+                this.untilThis,
+                mergeMap((value) => {
+                    this.allTeams = value;
 
-        this.calendarService
-            .getUserGoogleCalendars()
-            .pipe(this.untilThis)
+                    return this.calendarService.getUserGoogleCalendars();
+                }),
+            )
             .subscribe((response) => {
                 this.userCalendars = response;
-
                 this.updateSelectedItems();
             });
     }
@@ -93,30 +106,19 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
         this.calendarService
             .deleteGoogleCalendar(id)
             .pipe(this.untilThis)
-            .subscribe(
-                () => {
+            .subscribe({
+                next: () => {
                     this.notificationService.showSuccessMessage('Calendar was successfully deleted');
-                    this.refreshData();
+                    this.loadData();
                 },
-                (error) => {
+                error: (error) => {
                     this.notificationService.showErrorMessage(error);
                 },
-            );
+            });
     }
 
     updateCalendar() {
-        this.calendarService
-            .updateGoogleCalendar(this.userCalendars)
-            .pipe(this.untilThis)
-            .subscribe(
-                () => {
-                    this.notificationService.showSuccessMessage('Calendar was successfully updated');
-                    this.refreshData();
-                },
-                (error) => {
-                    this.notificationService.showErrorMessage(error);
-                },
-            );
+        return this.calendarService.updateGoogleCalendar(this.userCalendars);
     }
 
     confirmDialog() {
