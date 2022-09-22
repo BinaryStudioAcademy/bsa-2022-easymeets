@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getDateFilters } from '@core/helpers/date-filter-helper';
 import { addMinutesHelper, moveByTimezone } from '@core/helpers/date-helper';
+import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IMeetingBooking } from '@core/models/IMeetingBooking';
 import { IMeetingMembersRequest } from '@core/models/IMeetingMemberRequest';
@@ -165,6 +166,8 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
     currentDateChange() {
         this.loadMeetings().subscribe();
     }
+
+    locationTypeMapping = LocationTypeMapping;
 
     private getMeetingRequest(): IMeetingMembersRequest {
         const range = this.getMeetingsRange();
