@@ -20,3 +20,10 @@ export const getMillisecondsFromDateString = (date: string) => moment.utc(date).
 
 export const getDateStringWithTimeZone = (date: string, timeZoneNameValue: string) =>
     moment.utc(date).tz(timeZoneNameValue).format();
+
+export const getDayStartStringWithTimeZone = (date: string, timeZoneNameValue: string) =>
+    moment
+        .utc(date)
+        .tz(timeZoneNameValue)
+        .startOf('day')
+        .format();

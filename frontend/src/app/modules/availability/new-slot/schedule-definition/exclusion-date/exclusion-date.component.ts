@@ -4,7 +4,11 @@ import { BaseComponent } from '@core/base/base.component';
 import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
 import { findExclusionTimeRange, sortExclusionTimeRanges } from '@core/helpers/exclusion-date-helper';
 import { ExclusionTimeRangesMergeHelper } from '@core/helpers/exclusion-time-ranges-merge-helper';
-import { getDateStringWithTimeZone, getMillisecondsFromDateString } from '@core/helpers/time-helper';
+import {
+    getDateStringWithTimeZone,
+    getDayStartStringWithTimeZone,
+    getMillisecondsFromDateString,
+} from '@core/helpers/time-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
 import { IExclusionTimeRange } from '@core/models/schedule/exclusion-date/IExclusionTimeRange';
 import { IExclusionTimeRangesDisplay } from '@core/models/schedule/exclusion-date/IExclusionTimeRangesDisplay';
@@ -72,16 +76,14 @@ export class ExclusionDateComponent extends BaseComponent {
             .map((date) => ({
                 date,
                 connectedExclusionTimeRanges: convertedExclusionTimeRanges.filter((convertedRange) => {
-                    const startMomentDate = moment
-                        .utc(convertedRange.start)
-                        .tz(this.scheduleValue.timeZone.nameValue)
-                        .startOf('day')
-                        .format();
-                    const endMomentDate = moment
-                        .utc(convertedRange.end)
-                        .tz(this.scheduleValue.timeZone.nameValue)
-                        .startOf('day')
-                        .format();
+                    const startMomentDate = getDayStartStringWithTimeZone(
+                        convertedRange.start,
+                        this.scheduleValue.timeZone.nameValue,
+                    );
+                    const endMomentDate = getDayStartStringWithTimeZone(
+                        convertedRange.end,
+                        this.scheduleValue.timeZone.nameValue,
+                    );
 
                     return (
                         startMomentDate === date ||
