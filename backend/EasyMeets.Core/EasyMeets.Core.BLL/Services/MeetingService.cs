@@ -340,6 +340,7 @@ namespace EasyMeets.Core.BLL.Services
                 AuthorName = meeting.Author.Name,
                 AuthorEmail = meeting.Author.Email,
                 MeetingLink = meeting.MeetingLink,
+                MeetingRoom = meeting.MeetingRoom ?? "",
                 MemberName = invitee,
                 Uri = _configuration["ApplicationUri"],
             };
@@ -356,7 +357,8 @@ namespace EasyMeets.Core.BLL.Services
                 $"Invitee: {parameters.AuthorName}\n" +
                 $"Invitee Email: {parameters.AuthorEmail}\n" +
                 $"Event Date/Time: {parameters.StartTime}\n\n" +
-                $"View event in Easymeets: {parameters.Uri}{parameters.MeetingLink}"
+                $"View event in EasyMeets: {parameters.Uri}bookings\n" +
+                $"{(parameters.LocationType == LocationType.Office ? $"Meeting address: {parameters.MeetingRoom}" : $"Link for online meeting: {parameters.MeetingLink}")}"
             };
         }
 
