@@ -1,10 +1,10 @@
+import { getMillisecondsFromDateString } from '@core/helpers/time-helper';
 import { IExclusionTimeRange } from '@core/models/schedule/exclusion-date/IExclusionTimeRange';
-import * as moment from 'moment-timezone';
 
 export const sortExclusionTimeRanges = (ranges: IExclusionTimeRange[]) =>
     ranges.sort(
         (firstRange, secondRange) =>
-            moment.utc(firstRange.start).toDate().getTime() - moment.utc(secondRange.start).toDate().getTime(),
+            getMillisecondsFromDateString(firstRange.start) - getMillisecondsFromDateString(secondRange.start),
     );
 
 export const findExclusionTimeRange = (
@@ -13,7 +13,7 @@ export const findExclusionTimeRange = (
 ) =>
     exclusionTimeRanges.find(
         (range) =>
-            moment.utc(exclusionTimeRangeToFind.start).toDate().getTime() ===
-                moment.utc(range.start).toDate().getTime() &&
-            moment.utc(exclusionTimeRangeToFind.end).toDate().getTime() === moment.utc(range.end).toDate().getTime(),
+            getMillisecondsFromDateString(exclusionTimeRangeToFind.start) ===
+                getMillisecondsFromDateString(range.start) &&
+            getMillisecondsFromDateString(exclusionTimeRangeToFind.end) === getMillisecondsFromDateString(range.end),
     );

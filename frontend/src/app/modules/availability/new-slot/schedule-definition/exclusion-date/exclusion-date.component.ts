@@ -4,6 +4,7 @@ import { BaseComponent } from '@core/base/base.component';
 import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
 import { findExclusionTimeRange, sortExclusionTimeRanges } from '@core/helpers/exclusion-date-helper';
 import { ExclusionTimeRangesMergeHelper } from '@core/helpers/exclusion-time-ranges-merge-helper';
+import { getDateStringWithTimeZone, getMillisecondsFromDateString } from '@core/helpers/time-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
 import { IExclusionTimeRange } from '@core/models/schedule/exclusion-date/IExclusionTimeRange';
 import { IExclusionTimeRangesDisplay } from '@core/models/schedule/exclusion-date/IExclusionTimeRangesDisplay';
@@ -47,9 +48,9 @@ export class ExclusionDateComponent extends BaseComponent {
             (range) =>
                 !exclusionTimeRangesDisplayToDelete.connectedExclusionTimeRanges.some(
                     (connectedRange) =>
-                        moment.utc(range.start).toDate().getTime() ===
-                            moment.utc(connectedRange.start).toDate().getTime() &&
-                        moment.utc(range.end).toDate().getTime() === moment.utc(connectedRange.end).toDate().getTime(),
+                        getMillisecondsFromDateString(range.start) ===
+                            getMillisecondsFromDateString(connectedRange.start) &&
+                        getMillisecondsFromDateString(range.end) === getMillisecondsFromDateString(connectedRange.end),
                 ),
         );
         this.updateExclusionTimeRangesDisplay();
@@ -58,8 +59,8 @@ export class ExclusionDateComponent extends BaseComponent {
     updateExclusionTimeRangesDisplay() {
         const convertedExclusionTimeRanges: IExclusionTimeRange[] = this.scheduleValue.exclusionTimeRanges.map(
             (range) => ({
-                start: moment.utc(range.start).tz(this.scheduleValue.timeZone.nameValue).format(),
-                end: moment.utc(range.end).tz(this.scheduleValue.timeZone.nameValue).format(),
+                start: getDateStringWithTimeZone(range.start, this.scheduleValue.timeZone.nameValue),
+                end: getDateStringWithTimeZone(range.end, this.scheduleValue.timeZone.nameValue),
             }),
         );
 
@@ -103,10 +104,7 @@ export class ExclusionDateComponent extends BaseComponent {
 
         dialogConfig.data = this.scheduleValue.timeZone;
         this.dialog
-            .open<ExclusionDatesPickerComponent, ITimeZone, IExclusionTimeRange[] | undefined>(
-                ExclusionDatesPickerComponent,
-                dialogConfig,
-            )
+            .open<ExclusionDatesPickerComponent, ITimeZone, IExclusionTimeRange[] | undefined>(ExclusionDatesPickerComponent, dialogConfig)
             .afterClosed()
             .subscribe((newExclusionTimeRanges) => {
                 if (newExclusionTimeRanges) {
