@@ -50,8 +50,9 @@ button
     padding-left: 24px
 
 .table-container
-    overflow-y: hidden
-    width: 100%
+    overflow-y: auto
+    @media (max-width: $desktop-min-width)
+        max-width: 500px
 
 .mat-form-field-appearance-fill .mat-form-field-flex
     padding: 0
