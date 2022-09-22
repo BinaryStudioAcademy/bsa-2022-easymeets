@@ -197,7 +197,7 @@ namespace EasyMeets.Core.BLL.Services
 
             if (calendar is not null)
             {
-                await _calendarsService.AddMeetingsToCalendar(meeting.TeamId, calendar.ConnectedCalendar);
+                await _calendarsService.AddMeetingsToCalendar(meeting.TeamId, calendar.RefreshToken);
             }
 
             await AddMeetingLink(meeting);
