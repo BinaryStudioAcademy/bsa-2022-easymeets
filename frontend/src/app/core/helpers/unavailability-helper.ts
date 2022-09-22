@@ -2,7 +2,7 @@ import { isBetweenDates } from '@core/helpers/date-helper';
 import { IUnavailability } from '@core/models/IUnavailability';
 import { addMinutes } from 'date-fns';
 
-import { applyTimeZoneToDate, getDefaultTimeZone } from './time-zone-helper';
+import { applyTimeZoneToDate, getCurrentDate, getDefaultTimeZone } from './time-zone-helper';
 
 export const applyDefaultTimeZone = (events: IUnavailability[]) => {
     const defaultTimeZone = getDefaultTimeZone();
@@ -16,16 +16,10 @@ export const applyDefaultTimeZone = (events: IUnavailability[]) => {
     );
 };
 
-export const removeFinished = (events: IUnavailability[]) => events.filter((e) => e.end > new Date());
+export const removeFinished = (events: IUnavailability[]) => events.filter((e) => e.end > getCurrentDate());
 
 export const shortenStarted = (events: IUnavailability[]) =>
-    events.map((e) => {
-        if (e.start < new Date()) {
-            return { ...e, start: addMinutes(new Date(), 1) };
-        }
-
-        return e;
-    });
+    events.map((e) => (e.start < getCurrentDate() ? { ...e, start: addMinutes(getCurrentDate(), 1) } : e));
 
 export const isUnavailable = (
     periodStart: Date,

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getDateFilters } from '@core/helpers/date-filter-helper';
 import { addMinutesHelper, moveByTimezone } from '@core/helpers/date-helper';
-import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
+import { getCurrentDate, getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IMeetingBooking } from '@core/models/IMeetingBooking';
 import { IMeetingMembersRequest } from '@core/models/IMeetingMemberRequest';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
@@ -39,7 +39,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
 
     public locationTypeOffice = LocationType.Office;
 
-    public currentDate = new Date();
+    public currentDate = getCurrentDate();
 
     public currentStart: Date;
 

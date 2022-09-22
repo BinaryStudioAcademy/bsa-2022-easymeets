@@ -1,36 +1,53 @@
 import { ITimeZone } from '@core/models/ITimeZone';
-import { ILocalUser } from '@core/models/IUser';
 
 export const millisInHour = 3600 * 1000;
 export const millisInMinute = 60 * 1000;
 
-export const getDefaultTimeZone = (): ITimeZone => {
-    const user = JSON.parse(localStorage.getItem('user')!) as ILocalUser;
+export const setTimeZone = (timeZone: ITimeZone) => {
+    localStorage.setItem('timeZone', JSON.stringify({ nameValue: timeZone.nameValue, timeValue: timeZone.timeValue }));
+};
 
-    return user?.timeZone ?? { nameValue: '', timeValue: '' };
+export const getDeviceTimeZone = () => {
+    const matches = new Date().toString().match(new RegExp('(?<=GMT)[\\+-]\\d{4}'));
+
+    if (matches === null) {
+        throw new Error('Cannot pick up current time zone');
+    }
+
+    const hours = matches[0].substring(0, 3);
+    const minutes = matches[0].substring(3);
+
+    const timeZoneValue = `${hours}:${minutes}`;
+    const timeZoneName = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    const deviceTimeZone = { nameValue: timeZoneName, timeValue: timeZoneValue } as ITimeZone;
+
+    return deviceTimeZone;
+};
+
+export const getDefaultTimeZone = (): ITimeZone => {
+    const timeZone = JSON.parse(localStorage.getItem('timeZone')!) as ITimeZone;
+
+    if (!timeZone) {
+        const deviceTimeZone = getDeviceTimeZone();
+
+        setTimeZone(deviceTimeZone);
+
+        return deviceTimeZone;
+    }
+
+    return timeZone;
 };
 
 /**
- * Returns number of milliseconds in time zone
- *
  * @example
- * +01:00 -> 3600000
- * -02:30 -> -9000000
+ * '+01:00' -> 3600000
+ * '-02:30' -> -9000000
  */
 export const parseTimeZoneIntoMilliseconds = (timeZone: string): number => {
-    const match = timeZone.match(new RegExp('(?<sign>[\\+-])(?<hours>\\d{2}):(?<minutes>\\d{2})'));
-    const signStr = match?.groups?.['sign'];
-    const hoursStr = match?.groups?.['hours'];
-    const minutesStr = match?.groups?.['minutes'];
-
-    if (!signStr || !hoursStr || !minutesStr) {
-        return 0;
-    }
-
-    const base = 10;
-    const sign = signStr === '+' ? 1 : -1;
-    const hours = parseInt(hoursStr, base);
-    const minutes = parseInt(minutesStr, base);
+    const sign = timeZone.substring(0, 1) === '+' ? 1 : -1;
+    const hours = parseInt(timeZone.substring(1, 3), 10);
+    const minutes = parseInt(timeZone.substring(4, 6), 10);
 
     return sign * (millisInHour * hours + millisInMinute * minutes);
 };
@@ -48,11 +65,6 @@ export const applyTimeZoneOffsetToDate = (date: Date, minutesOffset: number, neg
 };
 
 export const convertDateToUTCUsingCustomTimeZone = (date: Date, customTimeZone: ITimeZone) => {
-    // Date object always contains local device time zone, which is applied to date itself automatically, when it is formatted in any way.
-    //      (Sat Sep 24 2022 18:00:00 GMT+0300).toUTCString() --->
-    //      Sat, 24 Sep 2022 15:00:00 GMT
-    //
-    // So we need to negate this device time zone before formatting, in order to get only custom time zone applied.
     const deviceTimeZoneNegated = applyTimeZoneOffsetToDate(date, date.getTimezoneOffset());
     const customTimeZoneApplied = applyTimeZoneOffsetToDate(
         deviceTimeZoneNegated,
@@ -60,4 +72,11 @@ export const convertDateToUTCUsingCustomTimeZone = (date: Date, customTimeZone: 
     );
 
     return customTimeZoneApplied.toUTCString();
+};
+
+export const getCurrentDate = () => {
+    const currentUTC = applyTimeZoneToDate(new Date(), getDeviceTimeZone());
+    const currentDate = applyTimeZoneToDate(currentUTC, getDefaultTimeZone(), true);
+
+    return currentDate;
 };
