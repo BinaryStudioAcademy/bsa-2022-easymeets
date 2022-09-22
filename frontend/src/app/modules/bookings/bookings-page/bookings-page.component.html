@@ -26,7 +26,7 @@
             </div>
         </div>
         <div *ngFor="let item of meetings">
-            <div class="infoRow" [ngStyle]="{'height': item.meetingMembers.length > numberOfMembersToDisplay ? '386px' : '270px'}">
+            <div class="infoRow" [ngClass]="{'infoRowFullHeight': item.meetingMembers.length > numberOfMembersToDisplay}">
                 <div class="item itemInfo">
                     <div class="itemTextInfo">
                         <div class="title-menu-row">
