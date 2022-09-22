@@ -6,15 +6,19 @@ export const ExclusionTimeRangesMergeHelper = (ranges: IExclusionTimeRange[]) =>
     sortExclusionTimeRanges(ranges);
     let currentTimeRange = ranges.shift();
     let mergedExclusionRanges: IExclusionTimeRange[] = [];
+
     while (currentTimeRange) {
         const rangeToMerge = ranges.shift();
 
-        if (!rangeToMerge || moment.utc(rangeToMerge.start).toDate() > moment.utc(currentTimeRange.end).toDate()) {
+        const currentStartDate = moment.utc(currentTimeRange.start).toDate();
+        const currentEndDate = moment.utc(currentTimeRange.end).toDate();
+
+        if (!rangeToMerge || moment.utc(rangeToMerge.start).toDate() > currentStartDate) {
             mergedExclusionRanges = [...mergedExclusionRanges, currentTimeRange];
             currentTimeRange = rangeToMerge;
         } else if (
-            moment.utc(rangeToMerge.start).toDate() <= moment.utc(currentTimeRange.end).toDate() &&
-            moment.utc(rangeToMerge.end).toDate() > moment.utc(currentTimeRange.end).toDate()
+            moment.utc(rangeToMerge.start).toDate() <= currentEndDate &&
+            moment.utc(rangeToMerge.end).toDate() > currentEndDate
         ) {
             currentTimeRange.end = rangeToMerge.end;
         }
