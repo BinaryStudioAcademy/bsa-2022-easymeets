@@ -20,9 +20,11 @@ export const dateToTimeSpan = (value: Date): ITimeSpan => ({ hour: value.getHour
 export const compareTimeSpan = (lessValue: ITimeSpan, biggerValue: ITimeSpan): boolean =>
     lessValue.hour * 60 + lessValue.minute < biggerValue.hour * 60 + biggerValue.minute;
 
+const createDate = (timeSpan: ITimeSpan) => new Date(new Date().setHours(timeSpan.hour, timeSpan.minute, 0, 0));
+
 export const changeScheduleItemsDate = (items: IScheduleItem[]): IScheduleItemReceive[] =>
     items.map((el) => ({
         ...el,
-        start: new Date(new Date().setHours(el.start.hour, el.start.minute, 0, 0)),
-        end: new Date(new Date().setHours(el.end.hour, el.end.minute, 0, 0)),
+        start: createDate(el.start),
+        end: createDate(el.end),
     }));
