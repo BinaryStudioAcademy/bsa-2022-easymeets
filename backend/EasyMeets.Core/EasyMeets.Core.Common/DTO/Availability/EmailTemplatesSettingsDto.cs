@@ -8,6 +8,6 @@ namespace EasyMeets.Core.Common.DTO.Availability
         public string? EmailSubject { get; set; }
         public string? EmailBody { get; set; }
         public TemplateType Type { get; set; }
-        public string? TimeValue { get; set; }
+        public string TimeValue { get; set; } = String.Empty;
     }
 }
