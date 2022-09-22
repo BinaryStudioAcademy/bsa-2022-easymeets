@@ -24,7 +24,7 @@ import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
 import { CalendarEvent } from 'angular-calendar';
 import addMinutes from 'date-fns/addMinutes';
-import { debounceTime, map, Observable, of, Subscription } from 'rxjs';
+import { debounceTime, map, Observable, of, Subscription, switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-new-meeting',
@@ -42,14 +42,6 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     ) {
         super();
         this.redirectEventSubscription = this.redirectEventEmitter.subscribe(() => this.goToBookingsPage());
-
-        this.teamService.currentTeamEmitted$.pipe(this.untilThis).subscribe((resp) => {
-            this.currentTeamId = resp;
-        });
-
-        this.userService.userChangedEvent$.pipe(this.untilThis).subscribe((resp) => {
-            this.userId = resp?.id;
-        });
     }
 
     @Input() isEditing: boolean = false;
@@ -69,6 +61,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     memberUnavailability: IUnavailability[] = [];
 
     filteredOptions: Observable<INewMeetingMember[]>;
+
+    defaultMembers: INewMeetingMember[];
 
     durations: IDuration[] = getDisplayDuration();
 
@@ -122,6 +116,9 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     private redirectEventSubscription: Subscription;
 
     ngOnInit(): void {
+        this.subscribeToTeamChange();
+        this.subscribeToCurrentUserChange();
+
         this.meetingForm = new FormGroup({
             meetingName: this.meetingNameControl,
             customTime: this.customTimeControl,
@@ -267,7 +264,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     addMemberToList(value: INewMeetingMember) {
         this.meetingForm.get('teamMember')?.setValue(value);
-        if (!this.addedMembers.includes(value)) {
+        if (!this.isMemberInList(value)) {
             this.addedMembers.push(value);
         }
         this.memberFilterCtrl.setValue('');
@@ -286,6 +283,10 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.memberUnavailability = this.memberUnavailability.filter(
             (u) => !memberToRemove.unavailabilityItems.includes(u),
         );
+    }
+
+    isMemberInList(member: INewMeetingMember) {
+        return this.addedMembers.map((m) => m.id).includes(member.id);
     }
 
     reset() {
@@ -326,6 +327,27 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         control.patchValue(removeExcessiveSpaces(control.value));
     }
 
+    private subscribeToTeamChange() {
+        this.teamService.currentTeamEmitted$
+            .pipe(
+                switchMap((teamId) => {
+                    this.currentTeamId = teamId;
+
+                    return this.getDefaultTeamMembers(teamId);
+                }),
+                this.untilThis,
+            )
+            .subscribe((members) => {
+                this.defaultMembers = members;
+            });
+    }
+
+    private subscribeToCurrentUserChange() {
+        this.userService.userChangedEvent$.pipe(this.untilThis).subscribe((resp) => {
+            this.userId = resp?.id;
+        });
+    }
+
     private addCurrentTeamMemberToList(userId?: bigint) {
         this.newMeetingService
             .getTeamMembersById(userId, this.currentTeamId)
@@ -335,6 +357,10 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
                 this.currentMemberId = resp.id;
             });
+    }
+
+    private getDefaultTeamMembers(currentTeamId: number | undefined, count: number = 10) {
+        return this.newMeetingService.getTeamMembers(currentTeamId, count);
     }
 
     private initLocations() {
