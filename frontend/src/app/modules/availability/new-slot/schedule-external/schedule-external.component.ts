@@ -104,6 +104,17 @@ export class ScheduleExternalComponent extends BaseComponent {
         }
     }
 
+    onDurationChange(key: InputFieldType, field: keyof typeof GeneralKeys) {
+        this.inputSettings[key].isCustom = this.inputSettings[key].durationValue?.time === 'Custom';
+        this.updateDuration(field, this.inputSettings[key].durationValue?.minutes ?? 0);
+    }
+
+    updateDuration(field: keyof typeof GeneralKeys, value: number) {
+        if (this.slot) {
+            this.slot[field] = value;
+        }
+    }
+
     private initLocations() {
         this.userService
             .getUserMeetIntegrations()

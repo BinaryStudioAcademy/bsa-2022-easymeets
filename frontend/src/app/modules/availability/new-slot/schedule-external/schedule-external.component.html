@@ -26,14 +26,19 @@
                     </div>
                     <div class="input-container sub-input">
                         <p class="input-description">Duration</p>
-                        <mat-select [(ngModel)]="inputSettings[durationKey.inputType].durationValue" name="slotSize">
+                        <mat-select
+                            [(ngModel)]="inputSettings[durationKey.inputType].durationValue"
+                            name="slotSize"
+                            (selectionChange)="onDurationChange(durationKey.inputType, durationKey.field)">
                             <mat-option *ngFor="let _duration of durations" [value]="_duration">
                                 {{ _duration.time }} {{ _duration.unitOfTime }}
                             </mat-option>
                         </mat-select>
                     </div>
                     <div class="input-container" *ngIf="inputSettings[durationKey.inputType].isCustom">
-                        <app-custom-time [inputCustomTime]="inputSettings[durationKey.inputType].inputValue">
+                        <app-custom-time
+                            [inputCustomTime]="inputSettings[durationKey.inputType].inputValue"
+                            (changeValueEmitter)="updateDuration(durationKey.field, $event)">
                         </app-custom-time>
                     </div>
                     <div class="input-container">
@@ -66,10 +71,10 @@
                 </div>
             </div>
         </div>
-        <app-schedule-definition
-            *ngIf="state === 'SlotDefining'"
-            [schedule]="schedule"
-            [slot]="slot"></app-schedule-definition>
+        <div class="schedule">
+            <app-schedule-definition *ngIf="state === 'SlotDefining'" [schedule]="schedule" [slot]="slot">
+            </app-schedule-definition>
+        </div>
         <div class="logo-btn-header" *ngIf="state === 'SlotDefining'">
             <div class="logo-img">
                 <img class="logo" src="assets/header/header-logo.svg" alt="header-logo" />
