@@ -1,4 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { ITimeOnly } from '@core/models/ITimeOnly';
 
 export const TimeRangeValidator =
     (firstControl: AbstractControl): ValidatorFn =>
@@ -6,3 +7,10 @@ export const TimeRangeValidator =
             (firstControl?.value < control?.value ? null : { error: true });
 
 export const getTimeZoneHours = (timeZoneValue: string) => Number(timeZoneValue.substring(0, 3));
+
+export const getTimeOnlyFromString = (time: string): ITimeOnly => ({
+    hour: Number(time.substring(0, 2)),
+    minute: Number(time.substring(3, 5)),
+});
+
+export const getFullDayTimeRange = () => ({ start: { hour: 0, minute: 0 }, end: { hour: 23, minute: 59 } });

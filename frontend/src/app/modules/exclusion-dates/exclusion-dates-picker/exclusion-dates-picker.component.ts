@@ -2,7 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
-import { getTimeZoneHours, TimeRangeValidator } from '@core/helpers/time-helper';
+import {
+    getFullDayTimeRange,
+    getTimeOnlyFromString,
+    getTimeZoneHours,
+    TimeRangeValidator
+} from '@core/helpers/time-helper';
 import { getDateStringWithoutLocalOffset } from '@core/helpers/time-zone-helper';
 import { ITimeZone } from '@core/models/ITimeZone';
 import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
@@ -86,14 +91,8 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
             }))
             .filter((range) => range.start && range.end)
             .map((range) => ({
-                start: {
-                    hour: Number(range.start.substring(0, 2)),
-                    minute: Number(range.start.substring(3, 5)),
-                },
-                end: {
-                    hour: Number(range.end.substring(0, 2)),
-                    minute: Number(range.end.substring(3, 5)),
-                },
+                start: getTimeOnlyFromString(range.start),
+                end: getTimeOnlyFromString(range.end),
             }));
 
     getTimeRanges(): IDayTimeRange[] {
@@ -101,7 +100,7 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
 
         return validTimeRanges.length
             ? validTimeRanges
-            : [{ start: { hour: 0, minute: 0 }, end: { hour: 23, minute: 59 } }];
+            : [getFullDayTimeRange()];
     }
 
     private getDefaultFormGroup = () => {
