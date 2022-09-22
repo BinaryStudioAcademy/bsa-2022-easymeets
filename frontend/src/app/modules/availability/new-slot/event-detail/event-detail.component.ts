@@ -115,6 +115,9 @@ export class EventDetailComponent extends BaseComponent implements OnInit, After
     }
 
     onPasswordChange() {
+        if (this.settings.passwordProtection !== removeExcessiveSpaces(this.settings.passwordProtection ?? '')) {
+            this.settings.passwordProtection = removeExcessiveSpaces(this.settings.passwordProtection ?? '');
+        }
         this.passwordErrors = this.passwordControl.errors;
         this.passwordControl.setErrors(this.getPasswordErrors());
     }
