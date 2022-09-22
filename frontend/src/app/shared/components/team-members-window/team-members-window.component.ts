@@ -110,6 +110,6 @@ export class TeamMembersWindowComponent extends BaseComponent {
     }
 
     private isMemberSelected(memberId: bigint) {
-        return this.usersToAdd.map((user) => user.id).includes(memberId);
+        return this.usersToAdd.some((user) => user.id === memberId);
     }
 }
