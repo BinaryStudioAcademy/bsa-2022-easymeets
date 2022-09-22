@@ -37,7 +37,7 @@
                             </p>
                             <button class="fas fa-ellipsis fa-xl menu-icon"  [matMenuTriggerFor]="menu"></button>
                             <mat-menu #menu="matMenu" class="drop-down-menu">
-                                <button mat-menu-item class="btn edit">
+                                <button mat-menu-item class="btn edit" (click)="goToPage('/meeting/edit/' + item.id)">
                                     <i class="fa-solid fa-pen"></i>Edit
                                 </button>
                                 <button mat-menu-item class="btn delete" (click)="deleteButtonClick(item.id)">
@@ -48,7 +48,7 @@
                         <p class="meeting-title">{{ item.meetingTitle }}</p>
 
                         <p class="itemText">
-                            {{ item.meetingDuration }} min, {{ item.membersTitle }}, {{item.locationType}}
+                            {{ item.meetingDuration }} min, {{ item.membersTitle }}, <br> {{ locationTypeMapping(item.locationType) }}
                         </p>
                         <div class="participants-avatars">
                             <ng-container *ngFor="let participant of item.meetingMembers">
@@ -65,13 +65,12 @@
                                 </div>
                             </span>
                         </div>
-                    </div>
-
                     <div class="buttonRow">
-                        <button mat-flat-button color="primary" *ngIf="item.locationType !== locationTypeOffice"  class="buttonZoom" (click)="followMeetingLink(item.meetingLink)">Open {{ item.locationType }} Link</button>
+                        <button mat-flat-button color="primary" *ngIf="item.locationType !== locationTypeOffice"  class="buttonZoom" (click)="followMeetingLink(item.meetingLink)">Open {{ locationTypeMapping(item.locationType) }} Link</button>
                         <h3 *ngIf="item.locationType === locationTypeOffice" class="timeTitle"> {{ item.meetingRoom }} </h3>
                    </div>
                 </div>
+            </div>
 
                 <div class="bookers-wrapper">
                     <div class="listScrollBlock">

@@ -7,11 +7,11 @@ public class ScheduleItemDto
     /// <summary>
     /// Represents time of the day
     /// </summary>
-    public TimeSpan Start { get; set; }
+    public TimeSpanDto Start { get; set; } = new();
     /// <summary>
     /// Represents time of the day
     /// </summary>
-    public TimeSpan End { get; set; }
+    public TimeSpanDto End { get; set; } = new();
     public WeekDay WeekDay { get; set; }
     public bool IsEnabled { get; set; }
 }

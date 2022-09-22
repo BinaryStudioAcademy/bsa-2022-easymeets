@@ -1,0 +1,31 @@
+<div class="input-container">
+    <p class="input-description">Custom value</p>
+    <div class="custom-time">
+        <input
+            matInput
+            [(ngModel)]="inputCustomTime"
+            class="select-input time"
+            name="customTime"
+            #customTime="ngModel"
+            type="text"
+            placeholder="Custom time"
+            required
+            maxlength="3"
+            [pattern]="naturalNumberInputPattern"
+            (change)="customDurationChanged()" />
+        <mat-select
+            class="select-input unit-of-time"
+            name="selectedUnit"
+            #customTime="ngModel"
+            [(ngModel)]="selectedUnit"
+            (selectionChange)="customDurationChanged()">
+            <mat-option *ngFor="let unit of unitOfTime" [value]="unit">
+                {{ unit }}
+            </mat-option>
+        </mat-select>
+    </div>
+    <div *ngIf="customTime.invalid && customTime.touched">
+        <small *ngIf="customTime.errors?.['required']">Field is required</small>
+        <small *ngIf="customTime.errors?.['pattern']">Input field accepts only numbers</small>
+    </div>
+</div>

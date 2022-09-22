@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { CustomCalendarDateFormatter } from '@core/helpers/custom-calendar-date-formatter.provider';
 import { getCurrentDate } from '@core/helpers/time-zone-helper';
@@ -29,7 +29,7 @@ import { interval, Subject } from 'rxjs';
     ],
     encapsulation: ViewEncapsulation.None,
 })
-export class NewMeetingCalendarComponent extends BaseComponent implements OnInit {
+export class NewMeetingCalendarComponent extends BaseComponent implements OnChanges, OnInit {
     private _duration: IDuration;
 
     private calendarRefreshFrequency = 30000;
@@ -51,6 +51,8 @@ export class NewMeetingCalendarComponent extends BaseComponent implements OnInit
         this.refreshEvents();
     }
 
+    @Input() event: CalendarEvent;
+
     @Output() meetingStartTimeChange: EventEmitter<Date> = new EventEmitter<Date>();
 
     events: CalendarEvent[] = [];
@@ -71,6 +73,10 @@ export class NewMeetingCalendarComponent extends BaseComponent implements OnInit
 
     constructor(private notificationsService: NotificationService, private timeZoneService: TimeZoneService) {
         super();
+    }
+
+    ngOnChanges(): void {
+        this.refreshEvents(this.event);
     }
 
     ngOnInit() {

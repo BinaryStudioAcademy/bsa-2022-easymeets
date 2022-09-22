@@ -5,4 +5,5 @@ export interface ISaveConfirmationEmailDetails {
     emailSubject?: string;
     emailBody?: string;
     type: TemplateType;
+    timeValue?: string;
 }

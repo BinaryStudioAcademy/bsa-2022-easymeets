@@ -9,15 +9,21 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MomentTimezonePickerModule } from 'moment-timezone-picker';
 
+import { EditMeetingComponent } from './edit-meeting/edit-meeting.component';
 import { NewMeetingComponent } from './new-meeting/new-meeting.component';
 import { NewMeetingCalendarComponent } from './new-meeting-calendar/new-meeting-calendar.component';
-import { NewMeetingRoutingModule } from './new-meeting-routing.module';
+import { MeetingRoutingModule } from './meeting-routing.module';
 
 @NgModule({
-    declarations: [NewMeetingComponent, NewMeetingCalendarComponent, NewMeetingCalendarHeaderComponent],
+    declarations: [
+        NewMeetingComponent,
+        NewMeetingCalendarComponent,
+        NewMeetingCalendarHeaderComponent,
+        EditMeetingComponent,
+    ],
     imports: [
         CommonModule,
-        NewMeetingRoutingModule,
+        MeetingRoutingModule,
         MaterialModule,
         HeaderModule,
         SideMenuModule,
@@ -29,4 +35,4 @@ import { NewMeetingRoutingModule } from './new-meeting-routing.module';
         }),
     ],
 })
-export class NewMeetingModule {}
+export class MeetingModule {}

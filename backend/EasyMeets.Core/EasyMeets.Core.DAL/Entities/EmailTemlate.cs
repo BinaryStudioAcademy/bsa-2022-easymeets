@@ -9,6 +9,7 @@ namespace EasyMeets.Core.DAL.Entities
         public bool IsSend { get; set; }
         public string Subject { get; set; } = string.Empty;
         public string Body { get; set; } = string.Empty;
+        public string TimeValue { get; set; } = string.Empty;
 
         public AvailabilitySlot AvailabilitySlot { get; set; } = null!;
     }
