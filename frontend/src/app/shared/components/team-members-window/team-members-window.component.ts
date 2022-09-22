@@ -76,6 +76,10 @@ export class TeamMembersWindowComponent extends BaseComponent {
     }
 
     selectUser(user: IUser) {
+        if (this.isMemberSelected(user.id)) {
+            return;
+        }
+
         this.usersToAdd = [...this.usersToAdd, user];
 
         const teamMember: ITeamMember = {
@@ -103,5 +107,9 @@ export class TeamMembersWindowComponent extends BaseComponent {
         const isSelected: boolean = this.usersToAdd.some((x) => x.id === id);
 
         return { 'window-selected-user': isSelected, 'not-added-user-info': !isSelected };
+    }
+
+    private isMemberSelected(memberId: bigint) {
+        return this.usersToAdd.some((user) => user.id === memberId);
     }
 }
