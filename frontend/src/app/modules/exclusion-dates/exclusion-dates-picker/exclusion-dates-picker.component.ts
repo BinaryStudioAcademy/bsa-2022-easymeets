@@ -6,7 +6,7 @@ import {
     getFullDayTimeRange,
     getTimeOnlyFromString,
     getTimeZoneHours,
-    TimeRangeValidator
+    TimeRangeValidator,
 } from '@core/helpers/time-helper';
 import { getDateStringWithoutLocalOffset } from '@core/helpers/time-zone-helper';
 import { ITimeZone } from '@core/models/ITimeZone';

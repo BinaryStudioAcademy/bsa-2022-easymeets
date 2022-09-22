@@ -41,13 +41,21 @@ export class ExclusionDateComponent extends BaseComponent {
         sortExclusionTimeRanges(exclusionTimeRangesDisplayToDelete.connectedExclusionTimeRanges);
         const startRangeToUpdate = exclusionTimeRangesDisplayToDelete.connectedExclusionTimeRanges[0];
 
-        this.updateRangeStart(startRangeToUpdate, exclusionTimeRangesDisplayToDelete);
+        this.updateRangeStart(
+            startRangeToUpdate,
+            this.scheduleValue.exclusionTimeRanges,
+            exclusionTimeRangesDisplayToDelete,
+        );
         const endRangeToUpdate =
             exclusionTimeRangesDisplayToDelete.connectedExclusionTimeRanges[
                 exclusionTimeRangesDisplayToDelete.connectedExclusionTimeRanges.length - 1
             ];
 
-        this.updateRangeEnd(endRangeToUpdate, exclusionTimeRangesDisplayToDelete);
+        this.updateRangeEnd(
+            endRangeToUpdate,
+            this.scheduleValue.exclusionTimeRanges,
+            exclusionTimeRangesDisplayToDelete,
+        );
         this.scheduleValue.exclusionTimeRanges = this.scheduleValue.exclusionTimeRanges.filter(
             (range) =>
                 !exclusionTimeRangesDisplayToDelete.connectedExclusionTimeRanges.some(
@@ -121,16 +129,14 @@ export class ExclusionDateComponent extends BaseComponent {
 
     private updateRangeStart(
         startRangeToUpdate: IExclusionTimeRange,
+        exclusionTimeRanges: IExclusionTimeRange[],
         exclusionTimeRangesDisplayToDelete: IExclusionTimeRangesDisplay,
     ) {
         if (
             moment.utc(startRangeToUpdate.start).tz(this.scheduleValue.timeZone.nameValue).startOf('day').toDate() <
             moment.utc(exclusionTimeRangesDisplayToDelete.date).tz(this.scheduleValue.timeZone.nameValue).toDate()
         ) {
-            const exclusionTimeRangeToUpdate = findExclusionTimeRange(
-                startRangeToUpdate,
-                exclusionTimeRangesDisplayToDelete.connectedExclusionTimeRanges,
-            );
+            const exclusionTimeRangeToUpdate = findExclusionTimeRange(startRangeToUpdate, exclusionTimeRanges);
 
             if (exclusionTimeRangeToUpdate) {
                 exclusionTimeRangeToUpdate.end = moment
@@ -145,16 +151,14 @@ export class ExclusionDateComponent extends BaseComponent {
 
     private updateRangeEnd(
         endRangeToUpdate: IExclusionTimeRange,
+        exclusionTimeRanges: IExclusionTimeRange[],
         exclusionTimeRangesDisplayToDelete: IExclusionTimeRangesDisplay,
     ) {
         if (
             moment.utc(endRangeToUpdate.end).tz(this.scheduleValue.timeZone.nameValue).startOf('day').toDate() >
             moment.utc(exclusionTimeRangesDisplayToDelete.date).tz(this.scheduleValue.timeZone.nameValue).toDate()
         ) {
-            const exclusionDateToEdit = findExclusionTimeRange(
-                endRangeToUpdate,
-                exclusionTimeRangesDisplayToDelete.connectedExclusionTimeRanges,
-            );
+            const exclusionDateToEdit = findExclusionTimeRange(endRangeToUpdate, exclusionTimeRanges);
 
             if (exclusionDateToEdit) {
                 exclusionDateToEdit.start = moment

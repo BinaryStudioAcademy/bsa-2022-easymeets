@@ -10,10 +10,9 @@ export const ExclusionTimeRangesMergeHelper = (ranges: IExclusionTimeRange[]) =>
     while (currentTimeRange) {
         const rangeToMerge = ranges.shift();
 
-        const currentStartDate = moment.utc(currentTimeRange.start).toDate();
         const currentEndDate = moment.utc(currentTimeRange.end).toDate();
 
-        if (!rangeToMerge || moment.utc(rangeToMerge.start).toDate() > currentStartDate) {
+        if (!rangeToMerge || moment.utc(rangeToMerge.start).toDate() > currentEndDate) {
             mergedExclusionRanges = [...mergedExclusionRanges, currentTimeRange];
             currentTimeRange = rangeToMerge;
         } else if (
