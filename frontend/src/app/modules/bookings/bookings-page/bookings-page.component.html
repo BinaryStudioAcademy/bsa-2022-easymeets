@@ -26,7 +26,7 @@
             </div>
         </div>
         <div *ngFor="let item of meetings">
-            <div class="infoRow">
+            <div class="infoRow" [ngStyle]="{'height': item.meetingMembers.length > numberOfMembersToDisplay ? '386px' : '270px'}">
                 <div class="item itemInfo">
                     <div class="itemTextInfo">
                         <div class="title-menu-row">
@@ -71,18 +71,17 @@
                    </div>
                 </div>
             </div>
-
-                <div class="bookers-wrapper">
-                    <div class="listScrollBlock">
-                        <div class="bookers-container" *ngFor="let user of item.meetingMembers">
-                            <app-booker [booker]="user"></app-booker>
-                        </div>
-                    </div>
-                    <div *ngIf="item.meetingMembers.length > numberOfMembersToDisplay">
-                        <div class="gradient"></div>
-                        <p class="bookers-number">Bookers: {{item.meetingMembers.length}}</p>
+            <div class="bookers-wrapper">
+                <div class="listScrollBlock">
+                    <div class="bookers-container" *ngFor="let user of item.meetingMembers">
+                        <app-booker [booker]="user"></app-booker>
                     </div>
                 </div>
+                <div *ngIf="item.meetingMembers.length > numberOfMembersToDisplay">
+                    <div class="gradient"></div>
+                    <p class="bookers-number">Bookers: {{item.meetingMembers.length}}</p>
+                </div>
+            </div>
             </div>
         </div>
     </div>
