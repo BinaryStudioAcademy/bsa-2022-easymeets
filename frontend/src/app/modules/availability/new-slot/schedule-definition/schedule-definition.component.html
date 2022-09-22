@@ -5,6 +5,7 @@
             <div class="input">
                 <ng-moment-timezone-picker
                     [(ngModel)]="scheduleValue.timeZone"
+                    (ngModelChange)="exclusionDateComponent.updateExclusionTimeRangesDisplay()"
                     customPlaceholderText=""
                     [disabled]="disabled"
                     [getUserZone]="checkZone()">
