@@ -29,6 +29,59 @@
         margin: 0
         font-weight: bold
 
+.override-container
+    display: flex
+    width: 20%
+    align-items: center
+    justify-content: flex-start
+    flex-direction: column
+    padding: 0 32px
+    @media (max-width: $tablet-min-width)
+        padding: 0
+    .override-heading-container
+        width: 100%
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: flex-start
+        span
+            font-family: 'Inter', serif
+            font-style: normal
+            font-weight: 700
+            font-size: 14px
+            line-height: 146%
+        mat-icon
+            color: $em-pattens-blue
+            font-size: 16px
+            vertical-align: middle
+            margin-left: 14px
+            display: flex
+            justify-content: center
+            align-items: center
+            &:hover
+                cursor: pointer
+                color: $black
+    button
+        border: 1px solid $em-raven
+        border-radius: 24px
+        padding: 4px 16px
+        background: $white-color
+        height: 32px
+        margin-top: 24px
+        display: flex
+        align-items: center
+        justify-content: center
+        margin-bottom: 13px
+        color: $em-raven
+        max-width: 248px
+        &:hover
+            box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1)
+            color: $black
+            i
+                color: $em-raven
+    @media (max-width: 1300px)
+        width: 100%
+
 .input
     height: 30px
     width: 200px
@@ -37,6 +90,12 @@ select
     width: 100%
     height: 100%
     border: 0
+
+hr
+    border: none
+    height: 1px
+    background-color: $em-solitude-dark
+    width: 100%
 
 ::ng-deep .custom-mat-group .mat-tab-label .mat-tab-label-content
     padding: 5px 4px
@@ -54,8 +113,3 @@ select
 
 .week-icon
     transform: rotate(90deg)
-
-app-exclusion-date
-    width: 20%
-    @media (max-width: $desktop-max-width-exclusion-tab)
-        width: 100%
