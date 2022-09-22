@@ -184,15 +184,6 @@ namespace EasyMeets.Core.BLL.Services
             await _context.Meetings.AddAsync(meeting);
             await _context.SaveChangesAsync();
 
-            var organizer = await _context.TeamMembers.FirstOrDefaultAsync(el => el.UserId == meeting.CreatedBy)
-                            ?? throw new KeyNotFoundException("Team member not found");
-
-            if (meeting.MeetingMembers.All(m => m.TeamMemberId != organizer.Id))
-            {
-                await _context.MeetingMembers.AddAsync(new MeetingMember { TeamMemberId = organizer.Id, MeetingId = meeting.Id });
-                await _context.SaveChangesAsync();
-            }
-
             var calendar = await _context.Calendars.FirstOrDefaultAsync(el => el.UserId == meeting.CreatedBy && el.AddEventsFromTeamId == meeting.TeamId);
 
             if (calendar is not null)
