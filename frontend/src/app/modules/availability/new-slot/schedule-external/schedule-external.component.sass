@@ -62,9 +62,14 @@
         .input-container
             width: 33%
 
-.error
-    position: absolute
-    color: $red
+.error-container
+    margin-top: 3px
+    min-height: 20px
+    .error
+        color: $red
+        font-family: 'Inter'
+        font-style: normal
+        font-size: 11px
 
 .description
     font-weight: bold
@@ -136,13 +141,13 @@ input[type=text]
         font-style: normal
         font-weight: 700
         font-size: 14px
-        color: $raven
+        color: $em-raven
         padding-bottom: 5px
     .sub-description
         margin-top: 5px
 
     app-custom-time
-        color: $raven !important
+        color: $em-raven !important
 
 ::ng-deep .input-container
     .mat-select
@@ -153,3 +158,6 @@ input[type=text]
 
 .sub-input
     max-width: 20%
+
+input.ng-dirty.ng-invalid
+    border-color: $red

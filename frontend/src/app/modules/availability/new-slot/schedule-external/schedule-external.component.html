@@ -17,9 +17,11 @@
                             maxlength="50"
                             [pattern]="textFieldRegex"
                             (change)="meetingNameChanged(name.value)" />
-                        <div *ngIf="name.invalid && name.touched" class="error">
-                            <div *ngIf="name.errors?.['required']">Field is required</div>
-                            <div *ngIf="name.errors?.['pattern']">{{ invalidCharactersMessage }}</div>
+                        <div class="error-container">
+                            <div *ngIf="name.invalid && name.touched" class="error">
+                                <div *ngIf="name.errors?.['required']">Field is required</div>
+                                <div *ngIf="name.errors?.['pattern']">{{ invalidCharactersMessage }}</div>
+                            </div>
                         </div>
                     </div>
                     <div class="input-container sub-input">
@@ -47,15 +49,17 @@
                         <input
                             [(ngModel)]="slot.meetingRoom"
                             name="meetingRoom"
-                            #name="ngModel"
+                            #meetingRoom="ngModel"
                             type="text"
                             required
                             maxlength="50"
                             [pattern]="textFieldRegex" />
-                        <div *ngIf="name.invalid && name.touched" class="error">
-                            <div *ngIf="name.errors?.['required']">Field is required</div>
-                            <div *ngIf="name.errors?.['pattern']">
-                                Input field accepts only text, numbers, symbols -'
+                        <div class="error-container">
+                            <div *ngIf="meetingRoom.invalid && meetingRoom.touched" class="error">
+                                <div *ngIf="meetingRoom.errors?.['required']">Field is required</div>
+                                <div *ngIf="meetingRoom.errors?.['pattern']">
+                                    Input field accepts only text, numbers, symbols -'
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -71,7 +75,14 @@
                 <img class="logo" src="assets/header/header-logo.svg" alt="header-logo" />
             </div>
             <div class="next-page-button">
-                <button mat-flat-button color="primary" class="next-btn" (click)="nextClicked()">Next Step</button>
+                <button
+                    mat-flat-button
+                    color="primary"
+                    class="next-btn"
+                    (click)="nextClicked()"
+                    [disabled]="externalRegistration.invalid">
+                    Next Step
+                </button>
             </div>
         </div>
         <div class="email-definition" *ngIf="state === 'EmailDefining'">
