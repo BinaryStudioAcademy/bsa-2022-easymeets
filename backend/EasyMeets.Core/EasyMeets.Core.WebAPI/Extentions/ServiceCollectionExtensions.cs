@@ -19,7 +19,6 @@ using EasyMeets.RabbitMQ.Settings;
 using EasyMeets.RabbitMQ.Service;
 using Newtonsoft.Json.Converters;
 using EasyMeets.Core.BLL.Services.Queue;
-using EasyMeets.Core.WebAPI.Converters;
 
 namespace EasyMeets.Core.WebAPI.Extentions
 {
@@ -33,7 +32,6 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
-                    options.SerializerSettings.Converters.Add(new TimeOnlyConverter());
                 });
             services.AddTransient<ISampleService, SampleService>();
             services.AddTransient<IAvailabilityService, AvailabilityService>();

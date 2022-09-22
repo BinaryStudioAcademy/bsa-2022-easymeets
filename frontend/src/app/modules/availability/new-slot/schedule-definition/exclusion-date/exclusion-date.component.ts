@@ -37,15 +37,18 @@ export class ExclusionDateComponent extends BaseComponent {
         const startRangeToDelete = exclusionTimeRangeToDelete.connectedExclusionTimeRanges[0];
 
         if (
-            moment(startRangeToDelete.start).tz(this.scheduleValue.timeZone.nameValue).startOf('day').toDate() <
-            moment(exclusionTimeRangeToDelete.date).tz(this.scheduleValue.timeZone.nameValue).toDate()
+            moment.utc(startRangeToDelete.start).tz(this.scheduleValue.timeZone.nameValue).startOf('day').toDate() <
+            moment.utc(exclusionTimeRangeToDelete.date).tz(this.scheduleValue.timeZone.nameValue).toDate()
         ) {
             exclusionTimeRangeToDelete.connectedExclusionTimeRanges.filter((range) => range !== startRangeToDelete);
-            const exclusionDateToEdit = this.scheduleValue.exclusionTimeRanges.find((range) =>
-                moment(startRangeToDelete.start).utc().toDate().getTime() === moment(range.start).toDate().getTime());
+            const exclusionDateToEdit = this.scheduleValue.exclusionTimeRanges.find(
+                (range) =>
+                    moment.utc(startRangeToDelete.start).toDate().getTime() ===
+                    moment.utc(range.start).toDate().getTime(),
+            );
 
             if (exclusionDateToEdit) {
-                exclusionDateToEdit.end = moment(exclusionDateToEdit.start)
+                exclusionDateToEdit.end = moment.utc(exclusionDateToEdit.start)
                     .tz(this.scheduleValue.timeZone.nameValue)
                     .endOf('day')
                     .utc()
@@ -58,15 +61,25 @@ export class ExclusionDateComponent extends BaseComponent {
             ];
 
         if (
-            moment(endRangeToDelete.end).tz(this.scheduleValue.timeZone.nameValue).startOf('day').toDate() >
-            moment(exclusionTimeRangeToDelete.date).tz(this.scheduleValue.timeZone.nameValue).toDate()
+            moment.utc(endRangeToDelete.end).tz(this.scheduleValue.timeZone.nameValue).startOf('day').toDate() >
+            moment.utc(exclusionTimeRangeToDelete.date).tz(this.scheduleValue.timeZone.nameValue).toDate()
         ) {
             exclusionTimeRangeToDelete.connectedExclusionTimeRanges.filter((range) => range !== endRangeToDelete);
-            const exclusionDateToEdit = this.scheduleValue.exclusionTimeRanges.find((range) =>
-                moment(endRangeToDelete.end).utc().toDate().getTime() === moment(range.end).toDate().getTime());
+            const exclusionDateToEdit = this.scheduleValue.exclusionTimeRanges.find(
+                (range) =>
+                    moment.utc(endRangeToDelete.end)
+                        .tz(this.scheduleValue.timeZone.nameValue)
+                        .utc()
+                        .toDate()
+                        .getTime() ===
+                    moment.utc(range.end)
+                        .tz(this.scheduleValue.timeZone.nameValue)
+                        .toDate()
+                        .getTime(),
+            );
 
             if (exclusionDateToEdit) {
-                exclusionDateToEdit.start = moment(exclusionDateToEdit.end)
+                exclusionDateToEdit.start = moment.utc(exclusionDateToEdit.end)
                     .tz(this.scheduleValue.timeZone.nameValue)
                     .startOf('day')
                     .utc()
@@ -75,11 +88,12 @@ export class ExclusionDateComponent extends BaseComponent {
         }
         this.scheduleValue.exclusionTimeRanges = this.scheduleValue.exclusionTimeRanges.filter(
             (range) =>
-                exclusionTimeRangeToDelete.connectedExclusionTimeRanges.findIndex(
+                !exclusionTimeRangeToDelete.connectedExclusionTimeRanges.some(
                     (connectedRange) =>
-                        moment(range.start).utc().isSame(connectedRange.start) &&
-                        moment(range.end).utc().isSame(connectedRange.end),
-                ) === -1,
+                        moment.utc(range.start).toDate().getTime() ===
+                            moment.utc(connectedRange.start).toDate().getTime() &&
+                        moment.utc(range.end).toDate().getTime() === moment.utc(connectedRange.end).toDate().getTime(),
+                ),
         );
         this.updateExclusionTimeRangesDisplay();
     }
@@ -100,11 +114,11 @@ export class ExclusionDateComponent extends BaseComponent {
             .map((date) => ({
                 date,
                 connectedExclusionTimeRanges: convertedExclusionTimeRanges.filter((convertedRange) => {
-                    const startMomentDate = moment(convertedRange.start)
+                    const startMomentDate = moment.utc(convertedRange.start)
                         .tz(this.scheduleValue.timeZone.nameValue)
                         .startOf('day')
                         .format();
-                    const endMomentDate = moment(convertedRange.end)
+                    const endMomentDate = moment.utc(convertedRange.end)
                         .tz(this.scheduleValue.timeZone.nameValue)
                         .startOf('day')
                         .format();
@@ -112,8 +126,8 @@ export class ExclusionDateComponent extends BaseComponent {
                     return (
                         startMomentDate === date ||
                         (endMomentDate === date &&
-                            moment(convertedRange.end).tz(this.scheduleValue.timeZone.nameValue).toDate().getTime() -
-                                moment(date).tz(this.scheduleValue.timeZone.nameValue).toDate().getTime() !==
+                            moment.utc(convertedRange.end).tz(this.scheduleValue.timeZone.nameValue).toDate().getTime() -
+                                moment.utc(date).tz(this.scheduleValue.timeZone.nameValue).toDate().getTime() !==
                                 0)
                     );
                 }),
@@ -126,7 +140,10 @@ export class ExclusionDateComponent extends BaseComponent {
 
         dialogConfig.data = this.scheduleValue.timeZone;
         this.dialog
-            .open<ExclusionDatesPickerComponent, ITimeZone, IExclusionTimeRange[] | undefined>(ExclusionDatesPickerComponent, dialogConfig)
+            .open<ExclusionDatesPickerComponent, ITimeZone, IExclusionTimeRange[] | undefined>(
+                ExclusionDatesPickerComponent,
+                dialogConfig,
+            )
             .afterClosed()
             .subscribe((newExclusionTimeRanges) => {
                 if (newExclusionTimeRanges) {

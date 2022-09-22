@@ -1,6 +1,7 @@
 import { IExclusionTimeRange } from '@core/models/schedule/exclusion-date/IExclusionTimeRange';
+import * as moment from 'moment-timezone';
 
 export const sortExclusionTimeRanges = (ranges: IExclusionTimeRange[]) =>
     ranges.sort(
-        (firstRange, secondRange) => new Date(firstRange.start).getTime() - new Date(secondRange.start).getTime(),
+        (firstRange, secondRange) => moment.utc(firstRange.start).toDate().getTime() - moment.utc(secondRange.start).toDate().getTime(),
     );
