@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
     AbstractControl,
     AsyncValidatorFn,
@@ -22,7 +22,7 @@ import { map, Observable } from 'rxjs';
     templateUrl: './event-detail.component.html',
     styleUrls: ['./event-detail.component.sass'],
 })
-export class EventDetailComponent extends BaseComponent implements OnInit {
+export class EventDetailComponent extends BaseComponent implements OnInit, AfterViewInit {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
         this.settings = {
@@ -80,6 +80,8 @@ export class EventDetailComponent extends BaseComponent implements OnInit {
 
     public invalidCharactersMessage = invalidCharactersMessage;
 
+    private passwordErrors: ValidationErrors | null;
+
     constructor(private slotService: AvailabilitySlotService) {
         super();
     }
@@ -87,13 +89,17 @@ export class EventDetailComponent extends BaseComponent implements OnInit {
     ngOnInit(): void {
         this.settings = {
             timeZoneVisibility: false,
-            link: '',
+            link: crypto.randomUUID(),
             welcomeMessage: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             language: 'English',
             bookingsPerDay: this.allowedBooking[1],
             passwordProtectionIsUsed: false,
             passwordProtection: '',
         };
+    }
+
+    ngAfterViewInit(): void {
+        this.slotLinkControl.patchValue(this.settings.link);
     }
 
     onLinkChange(value: string) {
@@ -108,8 +114,22 @@ export class EventDetailComponent extends BaseComponent implements OnInit {
         this.welcomeMessageControl.patchValue(removeExcessiveSpaces(message));
     }
 
-    onPasswordChange(message: string) {
-        this.passwordControl.patchValue(removeExcessiveSpaces(message));
+    onPasswordChange() {
+        if (this.settings.passwordProtection !== removeExcessiveSpaces(this.settings.passwordProtection ?? '')) {
+            this.settings.passwordProtection = removeExcessiveSpaces(this.settings.passwordProtection ?? '');
+        }
+        this.passwordErrors = this.passwordControl.errors;
+        this.passwordControl.setErrors(this.getPasswordErrors());
+    }
+
+    passwordUsageChanged() {
+        if (this.settings.passwordProtectionIsUsed) {
+            this.passwordControl.setErrors(this.getPasswordErrors());
+        } else {
+            this.passwordErrors = this.passwordControl.errors;
+            this.passwordControl.setErrors(null);
+            this.passwordControl.markAsUntouched();
+        }
     }
 
     private slotLinkValidator(): AsyncValidatorFn {
@@ -121,5 +141,11 @@ export class EventDetailComponent extends BaseComponent implements OnInit {
 
     private validateSlotLink(teamLink: string): Observable<boolean> {
         return this.slotService.validateSlotLink(teamLink, this.slot?.id);
+    }
+
+    private getPasswordErrors() {
+        return this.settings.passwordProtection
+            ? this.passwordErrors
+            : { ...this.passwordErrors, required: true };
     }
 }

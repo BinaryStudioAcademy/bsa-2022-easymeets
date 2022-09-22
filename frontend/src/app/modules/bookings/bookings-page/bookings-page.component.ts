@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
 import { getDateFilters } from '@core/helpers/date-filter-helper';
 import { addMinutesHelper, moveByTimezone } from '@core/helpers/date-helper';
+import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IMeetingBooking } from '@core/models/IMeetingBooking';
 import { IMeetingMembersRequest } from '@core/models/IMeetingMemberRequest';
@@ -15,7 +16,7 @@ import { deletionMessage } from '@shared/constants/shared-messages';
 import { DateFilterValue } from '@shared/enums/dateFilterValue';
 import { LocationType } from '@shared/enums/locationType';
 import { endOfDay, startOfDay } from 'date-fns';
-import { Subscription } from 'rxjs';
+import { concatMap, map, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-bookings-page',
@@ -80,12 +81,14 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         const containerWidth = this.getPageSize();
 
         this.getNumberOfItemsToDisplay(containerWidth);
-        this.teamService.currentTeamEmitted$
-            .subscribe(teamId => {
+        this.teamService.currentTeamEmitted$.pipe(
+            this.untilThis,
+            concatMap((teamId) => {
                 this.teamId = teamId;
 
-                this.loadMeetings(this.getMeetingRequest());
-            });
+                return this.loadMeetings();
+            }),
+        ).subscribe();
     }
 
     deleteButtonClick(id: number) {
@@ -141,15 +144,14 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         window.open(link);
     }
 
-    private loadMeetings(meetingMemberRequest: IMeetingMembersRequest) {
-        this.meetingService
-            .getMeetings(meetingMemberRequest)
-            .pipe(this.untilThis)
-            .subscribe(
-                (resp: IMeetingBooking[]) => {
+    private loadMeetings() {
+        return this.meetingService
+            .getMeetings(this.getMeetingRequest())
+            .pipe(
+                this.untilThis,
+                map((resp: IMeetingBooking[]) => {
                     this.meetings = resp;
-                },
-                (error) => this.notifications.showErrorMessage(error),
+                }),
             );
     }
 
@@ -161,11 +163,11 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         return getDefaultTimeZone().timeValue;
     }
 
-    public currentDateChange() {
-        const meetingRequest = this.getMeetingRequest();
-
-        this.loadMeetings(meetingRequest);
+    currentDateChange() {
+        this.loadMeetings().subscribe();
     }
+
+    locationTypeMapping = LocationTypeMapping;
 
     private getMeetingRequest(): IMeetingMembersRequest {
         const range = this.getMeetingsRange();
@@ -204,9 +206,10 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
     }
 
     private getNumberOfItemsToDisplay(width: number) {
-        this.numberOfMembersToDisplay = width > phoneMaxWidth
-            ? Math.floor((width - 2 * this.containerPadding - this.infoWidth) / this.slotWidth)
-            : 1;
+        this.numberOfMembersToDisplay =
+            width > phoneMaxWidth
+                ? Math.floor((width - 2 * this.containerPadding - this.infoWidth) / this.slotWidth)
+                : 1;
     }
 
     private getPageSize(): number {

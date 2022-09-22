@@ -23,11 +23,11 @@
                 font-weight: 400
                 font-size: 12px
                 line-height: 136%
-                color: $raven
+                color: $em-raven
             .drop-down-menu
                 margin-top: -10px
                 .menu-icon
-                    color: $raven
+                    color: $em-raven
                     outline: none
                     border: none
                     background-color: $white-color
@@ -92,9 +92,10 @@
             font-weight: 400
             font-size: 14px
             line-height: 20px
-            color: $raven
+            color: $em-raven
             overflow: hidden
             text-overflow: ellipsis
+            white-space: nowrap
         .icon
             cursor: pointer
             width: 18px
@@ -114,17 +115,27 @@
         font-weight: 400
         font-size: 14px
         line-height: 146%
-        color: $raven
-    .avatar
-        width: 30px
-        height: 30px
-        border-radius: 20px
-        margin-right: 0.8em
+        color: $em-raven
+    .participants-avatars
+        margin-top: 2%
+        .avatar img
+            width: 32px
+            height: 32px
+            border: 2px solid $white
+            border-radius: 200px
+            position: relative
+            margin-left: -12px
+            display: none
+    .participants-avatars .avatar:nth-child(-n+10) img
+        display: inline-flex
+        .participants-avatars .avatar:first-child img
+            margin-left: -2px
 
 .avatar-list
     display: flex
     align-items: center
     margin-left: -8%
+    max-width: 80%
 
 ::ng-deep .card-container.mat-card
     width: 80%
@@ -139,3 +150,21 @@
 
 a
     cursor: pointer
+
+.avatar .left-participants
+    background: $em-ghost-white
+    border: 2px solid $white
+    border-radius: 200px
+    width: 32px
+    height: 32px
+    display: inline-flex
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 500
+    font-size: 14px
+    line-height: 32px
+    color: $em-bright-grey
+    position: absolute
+    margin-left: -12px
+    h4
+        margin-left: 5px

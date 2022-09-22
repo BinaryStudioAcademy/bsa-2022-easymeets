@@ -1,23 +1,17 @@
-<div class="wrapper">
-    <app-header-item></app-header-item>
-    <div class="container">
-        <div class="user-settings-header">
-            <p class="user-settings-header-label">Settings</p>
-            <div class="slot-button-container">
-                <button mat-flat-button type="button" color="primary" class="save-activate-button" [disabled]="!isUpdateButtonActive" (click)="settingPageService.updateButtonClick()">
-                    Update Preferences
-                </button>
-            </div>
+<app-header-item></app-header-item>
+<div class="settings-container">
+    <div class="settings-header flex align-items-center justify-content-between">
+        <p class="title">Settings</p>
+        <button mat-flat-button type="button" class="update-btn" color="primary" [disabled]="!isUpdateButtonActive" (click)="settingPageService.updateButtonClick()">
+            Update Preferences
+        </button>
+    </div>
+    <div class="settings-content flex">
+        <div class="sidebar flex-col justify-content-between">
+            <app-side-menu class="sidebar-nav-list" [groups]="sideMenuGroups"></app-side-menu>
         </div>
-        <div class="main-content">
-            <div class="sidebar">
-                <div class="side-menu-wrapper">
-                    <app-side-menu [groups]="sideMenuGroups"></app-side-menu>
-                </div>
-            </div>
-            <div class="menu-item-container">
-                <router-outlet></router-outlet>
-            </div>
+        <div class="menu-item-container">
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>

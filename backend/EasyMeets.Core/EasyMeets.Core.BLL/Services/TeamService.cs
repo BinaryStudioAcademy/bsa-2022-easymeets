@@ -51,6 +51,24 @@ public class TeamService : BaseService, ITeamService
         return _mapper.Map<TeamDto>(createdTeam);
     }
 
+    public async Task<ICollection<NewMeetingMemberDto>> GetNewTeamMembersAsync(long teamId, int count)
+    {
+        var teamMembers = await _context.TeamMembers
+            .Include(member => member.User)
+            .Where(member => member.TeamId == teamId)
+            .Take(count)
+            .OrderBy(member => member.User.Name)
+            .Select(member => _mapper.Map<NewMeetingMemberDto>(member))
+            .ToListAsync();
+
+        foreach (var teamMember in teamMembers)
+        {
+            teamMember.UnavailabilityItems = await GetMemberUnavailability(teamMember.Id);
+        }
+
+        return teamMembers;
+    }
+
     public async Task<List<TeamMemberDto>> GetTeamMembersAsync(long teamId)
     {
         var members = await _context.TeamMembers
@@ -148,6 +166,14 @@ public class TeamService : BaseService, ITeamService
         await _context.SaveChangesAsync();
 
         return new ImagePathDto() { Path = imagePath };
+    }
+
+    public async Task DeleteLogo(long teamId)
+    {
+        var team = await GetTeamByIdAsync(teamId);
+        await _uploadFileService.DeleteFileBlobAsync(team.LogoPath);
+        team.LogoPath = string.Empty;
+        await _context.SaveChangesAsync();
     }
 
     private async Task<bool> UserHasRole(long teamId, Role role)

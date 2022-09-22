@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import { IMeeting } from '@core/models/IMeeting';
 import { INewMeeting } from '@core/models/INewMeeting';
 import { INewMeetingMember } from '@core/models/INewMeetingTeamMember';
 import { IOrderedMeetingTimes } from '@core/models/IOrderedMeetingTimes';
+import { IUpdateMeeting } from '@core/models/IUpdateMeeting';
 
 import { HttpInternalService } from './http-internal.service';
 
@@ -26,11 +28,25 @@ export class NewMeetingService {
         );
     }
 
+    public getTeamMembers(teamId?: number, count?: number) {
+        return this.httpService.getRequest<INewMeetingMember[]>(
+            `${this.routePrefix}/getTeamMembers/${teamId ?? ''}/${count ?? ''}`,
+        );
+    }
+
     public saveNewMeeting(data: INewMeeting) {
         return this.httpService.postRequest<INewMeeting>(`${this.routePrefix}`, data);
     }
 
     public getOrderedMeetingTimes(slotId: bigint) {
         return this.httpService.getRequest<IOrderedMeetingTimes[]>(`${this.routePrefix}/ordered-times/${slotId}`);
+    }
+
+    public getMeetingById(id: bigint) {
+        return this.httpService.getRequest<IMeeting>(`${this.routePrefix}/${id}`);
+    }
+
+    public updateMeeting(data: IUpdateMeeting) {
+        return this.httpService.putRequest<INewMeeting>(`${this.routePrefix}`, data);
     }
 }

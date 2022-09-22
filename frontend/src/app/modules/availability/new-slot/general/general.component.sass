@@ -7,11 +7,13 @@
     font-weight: 400
     color: $regent-gray
 
+
 .main-settings, .advanced-settings
     margin: 30px
     display: flex
     min-width: calc(100% - 64px)
-    @media ( max-width: $desktop-min-width)
+    gap: 30px
+    @media ( max-width: $desktop-higher-min-width)
         flex-direction: column
         gap: 30px
 
@@ -24,12 +26,16 @@
 .inputs-left-container
     justify-content: space-between
     width: 40%
-    @media ( max-width: $desktop-min-width)
+    @media ( max-width: $desktop-max-width-exclusion-tab)
+        width: 50%
+    @media ( max-width: $desktop-higher-min-width)
         width: 100%
 
 .inputs-right-container
     width: 60%
-    @media ( max-width: $desktop-min-width)
+    @media ( max-width: $desktop-max-width-exclusion-tab)
+        width: 50%
+    @media ( max-width: $desktop-higher-min-width)
         width: 100%
 
 .inputs-right-container.up
@@ -55,14 +61,15 @@
     margin-bottom: 10px
     .input-message
         margin-left: 5px
-    @media ( max-width: $desktop-min-width)
+    @media ( max-width: $desktop-higher-min-width)
         margin-top: 0
 
-input[type=text], .mat-select, .label-container, .error
-    max-width: calc(280px - 9px)
-    width: calc(100% - 9px)
-    @media ( max-width: $desktop-min-width)
-        max-width: calc(100% - 9px)
+input[type=text], .mat-select, .label-container, .error, .range-wrapper
+    max-width: 271px
+    width: 100%
+    margin-right: 9px
+    @media ( max-width: $desktop-higher-min-width)
+        max-width: 100%
 
 .input-container
     width: 100%
@@ -97,7 +104,7 @@ input[type=text], .mat-select, .label-container, .error
     max-width: calc(280px - 12px)
     width: calc(100% - 12px)
     margin-bottom: 5px
-    @media (max-width: $desktop-min-width)
+    @media (max-width: $desktop-higher-min-width)
         max-width: calc(100% - 12px)
 
 .advanced-settings-label
@@ -144,7 +151,20 @@ input[type=text]
             border: 2px solid $cinnabar
             outline: $cinnabar
 
+.range-wrapper
+    height: 36px
+    display: flex
+    align-items: center
+    border: 2px solid $loblolly
+    border-radius: 10px
+    p
+        margin-left: 10px
+        font-weight: bold
+        color: $black
 
 ::ng-deep .checkbox-container
     .mat-checkbox-checked.mat-primary .mat-checkbox-background
         background-color: black !important
+
+::ng-deep .range-wrapper .mat-date-range-input-container, .mat-date-range-input
+    display: none

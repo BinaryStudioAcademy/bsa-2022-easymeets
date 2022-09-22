@@ -1,8 +1,9 @@
-import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { CustomCalendarDateFormatter } from '@core/helpers/custom-calendar-date-formatter.provider';
-import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
+import { dateToTimeSpan } from '@core/helpers/schedule-items-helper';
+import { ISchedule } from '@core/models/schedule/ISchedule';
+import { ITimeSpan } from '@core/models/schedule/ITimeSpan';
 import { WeekDay } from '@shared/enums/weekDay';
 import { CalendarDateFormatter, CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { addHours, addMinutes, isSameDay, setDay, startOfDay } from 'date-fns';
@@ -22,11 +23,7 @@ import { Subject } from 'rxjs';
     encapsulation: ViewEncapsulation.None,
 })
 export class ScheduleWeekComponent extends BaseComponent implements OnInit {
-    constructor(private datePipe: DatePipe) {
-        super();
-    }
-
-    @Input() items: IScheduleItem[];
+    @Input() schedule: ISchedule;
 
     @Input() itemChange: EventEmitter<void> = new EventEmitter();
 
@@ -52,11 +49,11 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
         changedEvent.event.start = this.dateTimeFloor(changedEvent.newStart);
         changedEvent.event.end = this.dateTimeFloor(changedEvent.newEnd!);
 
-        const item = this.items.find(i => i.weekDay === changedEvent.event.id);
+        const item = this.schedule.scheduleItems.find(i => i.weekDay === changedEvent.event.id);
 
         if (item) {
-            item.start = this.timeToString(changedEvent.event.start);
-            item.end = this.timeToString(changedEvent.event.end!);
+            item.start = dateToTimeSpan(changedEvent.event.start);
+            item.end = dateToTimeSpan(changedEvent.event.end!);
             this.itemChange.emit();
             this.refresh.next();
         }
@@ -76,7 +73,7 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
     };
 
     private updateEvents() {
-        this.events = this.items
+        this.events = this.schedule.scheduleItems
             .filter(item => item.isEnabled)
             .map((item) => ({
                 start: this.createDate(item.weekDay, item.start),
@@ -91,31 +88,13 @@ export class ScheduleWeekComponent extends BaseComponent implements OnInit {
         this.refresh.next();
     }
 
-    private createDate(weekDay: WeekDay, hours: string): Date {
-        return addMinutes(addHours(
-            startOfDay(setDay(new Date(), Object.keys(WeekDay).indexOf(weekDay))),
-            this.parseTime(hours).getHours(),
-        ), this.parseTime(hours).getMinutes());
-    }
-
-    private parseTime(time: string): Date {
-        const d = new Date();
-        const [hours, minutes, seconds] = time.split(':');
-
-        d.setHours(+hours);
-        d.setMinutes(+minutes);
-        d.setSeconds(+seconds);
-
-        return d;
+    private createDate(weekDay: WeekDay, timeSpan: ITimeSpan): Date {
+        return addMinutes(addHours(startOfDay(setDay(new Date(), Object.keys(WeekDay).indexOf(weekDay))), timeSpan.hour), timeSpan.minute);
     }
 
     private dateTimeFloor(now: Date): Date {
         const stepFloor = 300000;
 
         return new Date(Math.floor(new Date(now).getTime() / stepFloor) * stepFloor);
-    }
-
-    private timeToString(date: Date): string {
-        return this.datePipe.transform(date, 'HH:mm:ss') ?? '';
     }
 }

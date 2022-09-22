@@ -1,14 +1,14 @@
 <app-header-item></app-header-item>
-<form class="container" [formGroup]="meetingForm" (ngSubmit)="create(meetingForm)">
+<form class="container" [formGroup]="meetingForm" (ngSubmit)="isEditing ? edit(meetingForm) : create(meetingForm)">
     <div class="new-meeting-header">
-        <p class="new-meeting-header-label">New meeting</p>
+        <p class="new-meeting-header-label">{{ isEditing ? 'Edit' : 'New' }} meeting</p>
         <button
             color="primary"
             type="submit"
             mat-flat-button
             class="new-meeting-header-button"
             [disabled]="meetingForm.invalid || !meetingForm.touched || !addedMembers.length">
-            Create
+            {{ isEditing ? 'Edit' : 'Create' }}
         </button>
     </div>
     <div class="main-content">
@@ -19,7 +19,7 @@
                     <input
                         matInput
                         type="text"
-                        placeholder="New meeting"
+                        [placeholder]="isEditing ? 'Edit meeting' : 'New meeting'"
                         formControlName="meetingName"
                         class="select-input"
                         (change)="trimInputValue(meetingNameControl)" />
@@ -89,8 +89,12 @@
                     <p class="name-label">Meeting room</p>
                     <input matInput type="text" formControlName="meetingRoom" class="select-input" />
                     <div *ngIf="meetingRoomControl.invalid && meetingRoomControl.touched">
-                        <small *ngIf="meetingNameControl.errors?.['minlength']">Length must be more than 2 characters.</small>
-                        <small *ngIf="meetingNameControl.errors?.['maxlength']">Length must be less than 50 characters.</small>
+                        <small *ngIf="meetingNameControl.errors?.['minlength']">
+                            Length must be more than 2 characters.
+                        </small>
+                        <small *ngIf="meetingNameControl.errors?.['maxlength']">
+                            Length must be less than 50 characters.
+                        </small>
                         <small *ngIf="meetingNameControl.errors?.['pattern']">Invalid characters.</small>
                     </div>
                 </div>
@@ -108,11 +112,20 @@
                                 #memberSearch="matAutocomplete"
                                 [displayWith]="displayMemberName"
                                 (optionSelected)="addMemberToList($event.option.value)">
-                                <ng-container *ngFor="let member of filteredOptions | async">
-                                    <mat-option *ngIf="!addedMembers.includes(member)" [value]="member">
-                                        {{ member.name }}
-                                    </mat-option>
+                                <ng-container *ngIf="!memberFilterCtrl.value.length; else foundMembers">
+                                    <ng-container *ngFor="let member of defaultMembers">
+                                        <mat-option *ngIf="!isMemberInList(member)" [value]="member">
+                                            {{ member.name }}
+                                        </mat-option>
+                                    </ng-container>
                                 </ng-container>
+                                <ng-template #foundMembers>
+                                    <ng-container *ngFor="let member of filteredOptions | async">
+                                        <mat-option *ngIf="!isMemberInList(member)" [value]="member">
+                                            {{ member.name }}
+                                        </mat-option>
+                                    </ng-container>
+                                </ng-template>
                             </mat-autocomplete>
                         </mat-form-field>
                     </div>
@@ -143,6 +156,7 @@
                 [unavailability]="memberUnavailability"
                 [viewDate]="date"
                 [duration]="duration"
+                [event]="event"
                 (meetingStartTimeChange)="onMeetingStartChange($event)">
             </app-new-meeting-calendar>
         </div>
