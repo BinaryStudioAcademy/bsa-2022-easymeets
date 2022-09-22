@@ -6,6 +6,7 @@
     height: 100%
     display: grid
     grid-template-columns: 33% 67%
+    margin-bottom: 4em
     @media screen and (max-width: $tablet-min-width)
         grid-template-columns: 100%
 
@@ -13,9 +14,7 @@
     display: grid
     row-gap: 32px
     column-gap: 22px
-    padding-bottom: 1.2em
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))
-    margin-bottom: 3.125em
 
 @media (min-device-width: $phone-min-width)
     .user-name p
@@ -52,6 +51,7 @@
     margin-top: 1em
     @media screen and (max-width: $tablet-min-width)
         display: block
+        margin-bottom: 20px
     .avatar
         border-radius: 50%
         @media screen and (max-width: $tablet-min-width)
@@ -87,7 +87,6 @@
     align-items: center
     @media screen and (max-width: $tablet-min-width)
         justify-content: center
-        margin-bottom: 20px
     a
         text-decoration-line: underline
         text-transform: lowercase

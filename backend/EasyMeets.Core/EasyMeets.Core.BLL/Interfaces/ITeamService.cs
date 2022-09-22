@@ -16,6 +16,7 @@ public interface ITeamService
     Task DeleteLogo(long teamId);
     Task<ICollection<NewMeetingMemberDto>> GetTeamMembersByNameAsync(string searchName, long? teamId);
     Task<NewMeetingMemberDto> GetTeamMembersByIdAsync(long userId, long teamId);
+    Task<ICollection<NewMeetingMemberDto>> GetNewTeamMembersAsync(long teamId, int count);
     Task<List<TeamMemberDto>> GetTeamMembersAsync(long id);
     Task CreateTeamMemberAsync(TeamMemberDto teamMemberDto, long teamId);
     Task UpdateTeamMemberRoleAsync(TeamMemberDto teamMemberDto);

@@ -130,16 +130,17 @@ namespace EasyMeets.Core.BLL.Services
                 var calendar = await _context.Calendars
                     .Include(c => c.ImportEventsFromTeam)
                     .Include(c => c.VisibleForTeams)
-                    .FirstOrDefaultAsync(el => el.Id == calendarDto.Id);
+                    .FirstOrDefaultAsync(el => el.Id == calendarDto.Id)
+                    ?? throw new KeyNotFoundException("Calendar not found");
 
-                await UpdateVisibleForTeamsTable(calendar!, calendarDto);
+                await UpdateVisibleForTeamsTable(calendar, calendarDto);
 
-                calendar!.CheckForConflicts = calendarDto.CheckForConflicts;
+                calendar.CheckForConflicts = calendarDto.CheckForConflicts;
                 calendar.AddEventsFromTeamId = calendarDto.ImportEventsFromTeam?.Id;
 
                 if (calendar.AddEventsFromTeamId is not null)
                 {
-                    await AddMeetingsToCalendar(calendar.AddEventsFromTeamId, calendar.ConnectedCalendar);
+                    await AddMeetingsToCalendar(calendar.AddEventsFromTeamId, calendar.RefreshToken);
                 }
 
                 _context.Calendars.Update(calendar);
@@ -156,7 +157,6 @@ namespace EasyMeets.Core.BLL.Services
 
             var calendarsList = await _context.Calendars
                 .Where(c => c.UserId == currentUser.Id)
-                .Include(c => c.User)
                 .Include(c => c.ImportEventsFromTeam)
                 .Include(c => c.VisibleForTeams)
                     .ThenInclude(v => v.Team)
@@ -204,6 +204,8 @@ namespace EasyMeets.Core.BLL.Services
                 await _context.CalendarVisibleForTeams.AddRangeAsync(newVisibleForList);
                 await AddMeetingsFromCalendar(calendar.ConnectedCalendar, calendar.Id);
             }
+            
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> SyncChangesFromGoogleCalendar(string email)
@@ -261,16 +263,14 @@ namespace EasyMeets.Core.BLL.Services
             await _calendarEventService.AddCalendarEvents(events, calendarId);
         }
         
-        public async Task AddMeetingsToCalendar(long? teamId, string email)
+        public async Task AddMeetingsToCalendar(long? teamId, string refreshToken)
         {
             var meetings = await _context.Meetings.Where(x => x.TeamId == teamId).ToListAsync();
 
-            var refreshToken = await _context.Calendars.FirstOrDefaultAsync(x => x.ConnectedCalendar == email) ?? throw new Exception("Connected email doesn't have refresh token.");
-
-            var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken.RefreshToken);
-
             if (meetings.Any())
             {
+                var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken);
+                
                 foreach (var item in meetings)
                 {
                     await AddMeetingToCalendar(_mapper.Map<SaveMeetingDto>(item), tokenResultDto);
