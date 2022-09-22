@@ -1,7 +1,6 @@
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 import { IScheduleItemReceive } from '@core/models/schedule/IScheduleItemsReceive';
 import { ITimeSpan } from '@core/models/schedule/ITimeSpan';
-import { addHours, addMinutes } from 'date-fns';
 
 export const timeSpanToString = (value: ITimeSpan): string => {
     const hour = value.hour < 10 ? `0${value.hour}` : value.hour.toString(10);
@@ -24,6 +23,6 @@ export const compareTimeSpan = (lessValue: ITimeSpan, biggerValue: ITimeSpan): b
 export const changeScheduleItemsDate = (items: IScheduleItem[]): IScheduleItemReceive[] =>
     items.map((el) => ({
         ...el,
-        start: addMinutes(addHours(new Date(), el.start.hour), el.start.minute),
-        end: addMinutes(addHours(new Date(), el.end.hour), el.end.minute),
+        start: new Date(new Date().setHours(el.start.hour, el.start.minute, 0, 0)),
+        end: new Date(new Date().setHours(el.end.hour, el.end.minute, 0, 0)),
     }));
