@@ -16,7 +16,7 @@ export class MeetingBookingsService {
     constructor(private httpService: HttpInternalService) {}
 
     public getMeetings(data: IMeetingMembersRequest): Observable<IMeetingBooking[]> {
-        return this.httpService.postRequest<IMeetingBooking[]>(`${this.routePrefix}/getThreeMeetingMembers`, data);
+        return this.httpService.postRequest<IMeetingBooking[]>(`${this.routePrefix}/getMeetingMembers`, data);
     }
 
     public getAllMembers(id: number) {

@@ -2,8 +2,7 @@
 @import '../../../../styles/screen-variables'
 
 .calendar-container
-    margin-top: 68px
-    width: 100%
+    margin-inline: 30px
 
 table
     width: 100%
@@ -15,7 +14,7 @@ table
         font-size: 14px
         line-height: 146%
         color: $midnight
-        border-bottom: 1px solid $line-color
+        border-bottom: 1px solid $em-solitude-dark
 
 .mat-header-cell
     height: 10px
@@ -24,7 +23,7 @@ table
     font-style: normal
     font-weight: 700
     font-size: 14px
-    color: $raven
+    color: $em-raven
     background-color: $athens-gray
     border-bottom: none
 
@@ -44,22 +43,6 @@ button
     opacity: 0.75
     font-size: 0.75em
 
-.update-references
-    display: block
-    margin: 0 auto
-    height: 40px
-    width: 200px
-    font-size: 16px
-    font-weight: bold
-    border: none
-    background-color: $athens-gray
-    margin-top: 50px
-    cursor: pointer
-    @media screen and ( max-width: $tablet-min-width )
-        height: 30px
-        font-size: 14px
-        margin-top: 25px
-
 .mat-select-trigger
     height: 30px
 
@@ -67,8 +50,9 @@ button
     padding-left: 24px
 
 .table-container
-    overflow-y: hidden
-    width: 100%
+    overflow-y: auto
+    @media (max-width: $desktop-min-width)
+        max-width: 500px
 
 .mat-form-field-appearance-fill .mat-form-field-flex
     padding: 0
@@ -86,6 +70,7 @@ i
 .add-calendar-container
     width: 30%
     margin-top: 5%
+    margin-inline: 30px
     .add-calendar-item-btn
         display: flex
         flex-direction: row
@@ -105,7 +90,7 @@ i
         line-height: 146%
         color: $midnight
     i
-        color: $raven
+        color: $em-raven
         height: 17px
         width: 17px
 
@@ -117,7 +102,7 @@ i
         .yes-check-text
             color: $midnight
         .no-check-text
-            color: $bright-grey
+            color: $em-bright-grey
 
 ::ng-deep .events-from-select.mat-select
     width: auto !important

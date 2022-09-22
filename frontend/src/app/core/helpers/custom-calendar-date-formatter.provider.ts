@@ -11,4 +11,8 @@ export class CustomCalendarDateFormatter extends CalendarDateFormatter {
     public override weekViewColumnSubHeader({ date, locale }: DateFormatterParams): string {
         return formatDate(date, 'd', locale!);
     }
+
+    public override monthViewColumnHeader({ date, locale }: DateFormatterParams): string {
+        return formatDate(date, 'EEE', locale!);
+    }
 }

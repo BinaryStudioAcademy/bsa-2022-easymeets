@@ -15,7 +15,7 @@
     display: grid
     grid-template-columns: min(300px, 40%) max(60%, calc(100% - 300px))
     .team-members-section
-        padding: 32px
+        padding: 0 32px 32px
         .mat-select
             font-size: 14px
             padding-left: 5px
@@ -33,7 +33,7 @@
         .team-members-wrapper
             max-height: 320px
             overflow-y: auto
-            padding-bottom: 20px
+            margin-bottom: 20px
             .member-wrapper
                 height: 44px
                 width: 100%
@@ -78,7 +78,7 @@
         filter: invert(94%) sepia(3%) saturate(1127%) hue-rotate(185deg) brightness(88%) contrast(86%)
     .definition-link
         text-decoration: underline
-        color: $raven
+        color: $em-raven
 
 .placeholder
     display: grid
@@ -89,7 +89,7 @@
     background-color: $light-gray
     flex-grow: 1
     p
-        color: $raven
+        color: $em-raven
         font-weight: bold
 
 button

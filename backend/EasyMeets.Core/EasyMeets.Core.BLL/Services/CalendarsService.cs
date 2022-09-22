@@ -130,16 +130,17 @@ namespace EasyMeets.Core.BLL.Services
                 var calendar = await _context.Calendars
                     .Include(c => c.ImportEventsFromTeam)
                     .Include(c => c.VisibleForTeams)
-                    .FirstOrDefaultAsync(el => el.Id == calendarDto.Id);
+                    .FirstOrDefaultAsync(el => el.Id == calendarDto.Id)
+                    ?? throw new KeyNotFoundException("Calendar not found");
 
-                await UpdateVisibleForTeamsTable(calendar!, calendarDto);
+                await UpdateVisibleForTeamsTable(calendar, calendarDto);
 
-                calendar!.CheckForConflicts = calendarDto.CheckForConflicts;
+                calendar.CheckForConflicts = calendarDto.CheckForConflicts;
                 calendar.AddEventsFromTeamId = calendarDto.ImportEventsFromTeam?.Id;
 
                 if (calendar.AddEventsFromTeamId is not null)
                 {
-                    await AddMeetingsToCalendar(calendar.AddEventsFromTeamId, calendar.ConnectedCalendar);
+                    await AddMeetingsToCalendar(calendar.AddEventsFromTeamId, calendar.RefreshToken);
                 }
 
                 _context.Calendars.Update(calendar);
@@ -156,7 +157,6 @@ namespace EasyMeets.Core.BLL.Services
 
             var calendarsList = await _context.Calendars
                 .Where(c => c.UserId == currentUser.Id)
-                .Include(c => c.User)
                 .Include(c => c.ImportEventsFromTeam)
                 .Include(c => c.VisibleForTeams)
                     .ThenInclude(v => v.Team)
@@ -186,7 +186,7 @@ namespace EasyMeets.Core.BLL.Services
         private async Task UpdateVisibleForTeamsTable(Calendar calendar, UserCalendarDto calendarDto)
         {
             _context.CalendarVisibleForTeams.RemoveRange(calendar.VisibleForTeams);
-            await RemoveCalendarMeetings(calendar.VisibleForTeams, calendar.Id);
+            await _calendarEventService.RemoveCalendarEvents(calendar.Id);
 
             calendar.VisibleForTeams = Array.Empty<CalendarVisibleForTeam>();
 
@@ -202,8 +202,10 @@ namespace EasyMeets.Core.BLL.Services
             {
                 calendar.VisibleForTeams = newVisibleForList;
                 await _context.CalendarVisibleForTeams.AddRangeAsync(newVisibleForList);
-                await AddMeetingsFromCalendar(calendar.ConnectedCalendar, calendar.VisibleForTeams, calendar.Id);
+                await AddMeetingsFromCalendar(calendar.ConnectedCalendar, calendar.Id);
             }
+            
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> SyncChangesFromGoogleCalendar(string email)
@@ -217,10 +219,8 @@ namespace EasyMeets.Core.BLL.Services
 
             foreach (var calendar in calendars)
             {
-                var visibleCalendar = await _context.CalendarVisibleForTeams.Where(x => x.CalendarId == calendar.Id).ToListAsync();
-
-                await RemoveCalendarMeetings(visibleCalendar, calendar.Id);
-                await AddMeetingsFromCalendar(email, calendar.VisibleForTeams, calendar.Id);
+                await _calendarEventService.RemoveCalendarEvents(calendar.Id);
+                await AddMeetingsFromCalendar(email, calendar.Id);
             }
 
             await _context.SaveChangesAsync();
@@ -228,33 +228,49 @@ namespace EasyMeets.Core.BLL.Services
             return true;
         }
 
-        private async Task RemoveCalendarMeetings(IEnumerable<CalendarVisibleForTeam> visibleCalendar, long calendarId)
+        public async Task CancelMeetingInGoogleCalendar(string meetingName, Calendar calendar)
         {
-            foreach (var item in visibleCalendar.ToList())
+            var events = await GetEventsFromGoogleCalendar(calendar.ConnectedCalendar);
+            var cancelledEvent = events.FirstOrDefault(el => el.Summary == meetingName);
+
+            if (cancelledEvent is null)
             {
-                await _calendarEventService.RemoveCalendarEvents(calendarId);
+                return;
             }
+            
+            var body = new
+            {
+                status = "cancelled",
+                end = cancelledEvent.End,
+                start = cancelledEvent.Start,
+            };
+
+            var queryParams = new Dictionary<string, string>
+            {
+                { "calendarId", "primary" },
+                { "eventId", cancelledEvent.EventId }
+            };
+            
+            var tokenResultDto = await _googleOAuthService.RefreshToken(calendar.RefreshToken);
+
+            await HttpClientHelper.SendPutRequest($"{_configuration["GoogleCalendar:UpdateEvent"]}", queryParams, body, tokenResultDto.AccessToken);
         }
 
-        private async Task AddMeetingsFromCalendar(string email, IEnumerable<CalendarVisibleForTeam> visibleCalendar, long calendarId)
+        private async Task AddMeetingsFromCalendar(string email, long calendarId)
         {
             var events = await GetEventsFromGoogleCalendar(email);
 
-            foreach (var item in visibleCalendar.ToList())
-            {
-                await _calendarEventService.AddCalendarEvents(events, calendarId);
-            }
+            await _calendarEventService.AddCalendarEvents(events, calendarId);
         }
-        private async Task AddMeetingsToCalendar(long? teamId, string email)
+        
+        public async Task AddMeetingsToCalendar(long? teamId, string refreshToken)
         {
             var meetings = await _context.Meetings.Where(x => x.TeamId == teamId).ToListAsync();
 
-            var refreshToken = await _context.Calendars.FirstOrDefaultAsync(x => x.ConnectedCalendar == email) ?? throw new Exception("Connected email doesn't have refresh token.");
-
-            var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken.RefreshToken);
-
             if (meetings.Any())
             {
+                var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken);
+                
                 foreach (var item in meetings)
                 {
                     await AddMeetingToCalendar(_mapper.Map<SaveMeetingDto>(item), tokenResultDto);

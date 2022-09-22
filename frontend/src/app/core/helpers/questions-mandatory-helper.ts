@@ -1,19 +1,26 @@
 import { IQuestion } from '@core/models/IQuestion';
 
+export const userFullNameQuestionText: string = 'Name and Surname *';
+export const userFullNamePlaceHolder: string = 'Name Surname';
+export const userEmailQuestionText: string = 'Your Email *';
+export const userEmailPlaceHolder: string = 'booker@email.com';
+
 export const getLocalMandatoryQuestions = (): IQuestion[] => [
     {
         id: 0,
         order: 0,
-        questionText: 'Name and Surname *',
-        placeHolderText: 'Name Surname',
+        questionText: userFullNameQuestionText,
+        placeHolderText: userFullNamePlaceHolder,
         isMandatory: true,
+        answer: '',
     },
     {
         id: 0,
-        order: 0,
-        questionText: 'Your Email *',
-        placeHolderText: 'booker@email.com',
+        order: 1,
+        questionText: userEmailQuestionText,
+        placeHolderText: userEmailPlaceHolder,
         isMandatory: true,
+        answer: '',
     },
 ];
 
@@ -22,12 +29,12 @@ export const addQuestionPlaceholder = (question: IQuestion): IQuestion => {
         case 0:
             return {
                 ...question,
-                placeHolderText: 'Name Surname',
+                placeHolderText: userFullNamePlaceHolder,
             };
         case 1:
             return {
                 ...question,
-                placeHolderText: 'booker@email.com',
+                placeHolderText: userEmailPlaceHolder,
             };
         default:
             return {

@@ -23,7 +23,16 @@ public class ExternalAttendeeService : BaseService, IExternalAttendeeService
     public async Task SaveExternalAttendeeAsync(ExternalAttendeeAndBookedMeetingDto bookingDto)
     {
         var meetingId = await _meetingService.CreateExternalAttendeeMeeting(bookingDto.Meeting);
-        
+
+        var answers = bookingDto.Meeting.Answers
+            .Select(ans => new QuestionAnswer
+            {
+                Answer = ans.Answer,
+                MeetingId = meetingId,
+                QuestionId = ans.Id
+            });
+        await _context.QuestionAnswers.AddRangeAsync(answers);
+
         var attendee = _mapper.Map<ExternalAttendee>(bookingDto.Attendee);
         attendee.MeetingId = meetingId;
         await _context.ExternalAttendees.AddAsync(attendee);

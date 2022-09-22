@@ -8,6 +8,7 @@ import { changeScheduleItemsDate } from '@core/helpers/schedule-items-helper';
 import { IAvailabilitySlot } from '@core/models/IAvailabilitySlot';
 import { ICalendarWeek } from '@core/models/ICalendarWeek';
 import { IOrderedMeetingTimes } from '@core/models/IOrderedMeetingTimes';
+import { IQuestion } from '@core/models/IQuestion';
 import { ISlotMember } from '@core/models/save-availability-slot/ISlotMember';
 import { IScheduleItemReceive } from '@core/models/schedule/IScheduleItemsReceive';
 import { AvailabilitySlotService } from '@core/services/availability-slot.service';
@@ -36,6 +37,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         duration: number;
         location: LocationType;
         meetingRoom?: string;
+        questions: IQuestion[];
         name: string;
         slotType?: SlotType;
         participationRule?: SlotParticipationOption;
@@ -118,6 +120,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
                         this.slot.locationType,
                         this.slot.name,
                         this.slot.slotMembers,
+                        this.slot!.questions,
                         this.slot.meetingRoom,
                         this.slot.type,
                         this.slot.participationRule,
@@ -126,13 +129,6 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
                     this.getOrderedTimes(this.slot.id);
                     this.defineTimeRange();
                     this.defineSettingsValues();
-
-                    this.selectedMeetingDuration = this.slot.size;
-                    this.scheduleItems = changeScheduleItemsDate(this.slot.schedule.scheduleItems);
-                    this.disabledDays = this.slot
-                        .schedule!.scheduleItems.filter((el) => !el.isEnabled)
-                        .map((el) => WeekDay[el.weekDay]);
-                    this.slotsCount = this.slotsCounter();
                 }
             });
     }
@@ -353,6 +349,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
         location: LocationType,
         name: string,
         slotMembers: ISlotMember[],
+        questions: IQuestion[],
         meetingRoom?: string,
         slotType?: SlotType,
         participationRule?: SlotParticipationOption,
@@ -363,6 +360,7 @@ export class ExternalBookingTimeComponent extends BaseComponent implements OnIni
             duration,
             location,
             name,
+            questions,
             meetingRoom,
             slotType,
             participationRule,

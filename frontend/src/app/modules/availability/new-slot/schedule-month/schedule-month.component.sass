@@ -1,0 +1,61 @@
+@import '../../../../../styles/color-variables'
+
+.cal-day-number
+    color: $dark-gray !important
+    font-size: 14px
+    font-weight: 700
+    margin: 0
+    padding: 0
+
+.cal-cell-top
+    margin: 0
+    padding: 10px 8px 10px 8px
+    min-height: 10px
+    max-height: 30px
+    color: $dark-gray
+    justify-content: space-between
+    align-items: center
+    display: flex
+
+::ng-deep .cal-today
+    background-color: $white !important
+
+    .cal-day-number
+        font-size: 14px !important
+        text-decoration: underline !important
+        text-decoration-thickness: 2px !important
+        opacity: 1 !important
+        text-underline-color: red !important
+        font-weight: 700
+
+p, .more-text
+    font-size: 12px
+    font-weight: 700
+    color: $dark-gray
+
+i
+    color: $dark-gray
+
+.cal-content
+    height: 35px
+    display: flex
+    align-items: center
+    flex-direction: column
+    justify-content: center
+    padding: 5px
+    overflow: clip
+
+::ng-deep .cal-month-view
+    .cal-header
+        .cal-cell
+            color: $dark-gray
+            padding: 25px 0 10px 0
+
+.menu-trigger:hover
+    height: 100%
+    width: 100%
+    cursor: pointer
+
+::ng-deep .schedule-month-drop-down-menu
+    .mat-menu-panel
+        min-height: 0
