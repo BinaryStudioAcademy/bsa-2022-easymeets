@@ -8,21 +8,17 @@ export const setTimeZone = (timeZone: ITimeZone) => {
 };
 
 export const getDeviceTimeZone = () => {
-    const matches = new Date().toString().match(new RegExp('(?<=GMT)[\\+-]\\d{4}'));
+    const offset = new Date().getTimezoneOffset();
+    const hours = Math.abs(Math.trunc(offset / 60));
+    const minutes = Math.abs(offset % 60);
 
-    if (matches === null) {
-        throw new Error('Cannot pick up current time zone');
-    }
+    const hoursStr = hours < 10 ? `0${hours}` : `${hours}`;
+    const minutesStr = minutes < 10 ? `0${minutes}` : `${minutes}`;
 
-    const hours = matches[0].substring(0, 3);
-    const minutes = matches[0].substring(3);
-
-    const timeZoneValue = `${hours}:${minutes}`;
+    const timeZoneValue = `${hoursStr}:${minutesStr}`;
     const timeZoneName = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    const deviceTimeZone = { nameValue: timeZoneName, timeValue: timeZoneValue } as ITimeZone;
-
-    return deviceTimeZone;
+    return { nameValue: timeZoneName, timeValue: timeZoneValue } as ITimeZone;
 };
 
 export const getDefaultTimeZone = (): ITimeZone => {
@@ -58,11 +54,8 @@ export const applyTimeZoneToDate = (date: Date, timeZone: ITimeZone, negateTimeZ
     return new Date(date.getTime() - sign * parseTimeZoneIntoMilliseconds(timeZone.timeValue));
 };
 
-export const applyTimeZoneOffsetToDate = (date: Date, minutesOffset: number, negateOffset: boolean = false) => {
-    const sign = negateOffset ? -1 : 1;
-
-    return new Date(date.getTime() - sign * minutesOffset * millisInMinute);
-};
+export const applyTimeZoneOffsetToDate = (date: Date, minutesOffset: number) =>
+    new Date(date.getTime() - minutesOffset * millisInMinute);
 
 export const convertDateToUTCUsingCustomTimeZone = (date: Date, customTimeZone: ITimeZone) => {
     const deviceTimeZoneNegated = applyTimeZoneOffsetToDate(date, date.getTimezoneOffset());
