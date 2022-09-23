@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import * as languageHelper from '@core/helpers/language-helper';
 import * as timeHelper from '@core/helpers/time-format-label-mapping';
 import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
+import { ICreateTeamMember } from '@core/models/ICreateTeamMember';
 import { IUser } from '@core/models/IUser';
 import { AuthService } from '@core/services/auth.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -10,25 +11,42 @@ import { SpinnerService } from '@core/services/spinner.service';
 import { UserService } from '@core/services/user.service';
 import { DateFormat } from '@shared/enums/dateFormat';
 import firebase from 'firebase/compat';
-import { finalize, Observable, switchMap, tap } from 'rxjs';
+import { finalize, Observable, Subject, switchMap, tap } from 'rxjs';
+
+import { TeamMemberService } from './team-member.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthFormService {
+    teamId: number;
+
+    private emitTeamMemberAddedSource = new Subject<ICreateTeamMember>();
+
+    public teamMemberAddedEmitted$ = this.emitTeamMemberAddedSource.asObservable();
+
     constructor(
         private authService: AuthService,
         private spinnerService: SpinnerService,
         private userService: UserService,
         private notificationService: NotificationService,
         private router: Router,
-        // eslint-disable-next-line no-empty-function
-    ) {}
+        private teamService: TeamMemberService,
+    ) {
+        this.teamService.teamIdChangedEmitted$.subscribe((resp) => {
+            this.teamId = resp;
+        });
+    }
 
     public signIn(email: string, password: string): Observable<IUser> {
         return this.authenticate(this.authService.signIn(email, password)).pipe(
             tap({
-                next: () => this.notificationService.showSuccessMessage('Authentication successful'),
+                next: () => {
+                    if (this.teamId) {
+                        this.emitTeamMemberAddedSource.next({ userEmail: email, teamId: this.teamId });
+                    }
+                    this.notificationService.showSuccessMessage('Authentication successful');
+                },
                 error: () =>
                     this.notificationService.showErrorMessage("You've entered wrong password! Please try again or reset your password."),
             }),

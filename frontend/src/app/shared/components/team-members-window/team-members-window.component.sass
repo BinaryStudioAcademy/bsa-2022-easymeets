@@ -22,14 +22,15 @@
         font-weight: 400
         font-size: 16px
         padding-bottom: 20px
-        text-align: center
+        text-align: flex-start
         max-width: 400px
+        color: $em-raven
     .mat-dialog-buttons
         padding-top: 20px
 
 .mat-flat-button
     height: 40px
-    width: 27em
+    width: 15em
     margin: 5px
     border-radius: 24px
     font-family: 'Inter'
@@ -38,101 +39,29 @@
     font-size: 14px
     line-height: 146%
 
+.mat-flat-button:first-of-type
+    border: 2px solid $em-raven
+    color: $midnight
+    background-color: $white
 hr
     width: 100%
     border: 1px solid $em-solitude-dark
     background-color: $em-solitude-dark
+
+.mat-flat-button:last-of-type
+    background: $midnight
+    color: $white
+
+.emails-input
+    width: 99%
+    height: 98%
+    overflow: hidden
+    border: 2px solid $em-raven
+    border-radius: 10px
 
 .user-info-container
     width: 100%
     margin-top: 15px
     margin-bottom: 15px
     height: 200px
-    overflow-y: auto
-    overflow-x: hidden
-    .user-info
-        display: flex
-        flex-direction: row
-        justify-content: flex-start
-        padding: 0 10px 0 10px
-        border-radius: 100px
-        margin-bottom: 5px
-        .user-avatar
-            padding: 8px 10px 10px 0
-            display: flex
-            max-width: 40px
-            img
-                border-radius: 200px
-                width: 40px
-                height: 40px
-        .user-name-email
-            display: flex
-            flex-direction: column
-            padding: 10px 0 10px 0
-            .name
-                font-weight: 700
-            .email
-                color: $em-raven
-    .not-added-user-info:hover
-        background-color: $solitude
-        cursor: pointer
-    .query-message
-        padding-top: 20px
-        text-align: center
-        font-family: 'Inter'
-        font-style: normal
-        font-weight: 400
-        font-size: 14px
-        line-height: 146%
-        color: $em-raven
-
-.search-input
-    background: $white
-    border: 1px solid $nepal
-    border-radius: 24px
-    font-family: 'Inter'
-    font-style: normal
-    font-weight: 400
-    font-size: 14px
-    line-height: 146%
-    color: $midnight
-    height: 30px
-    width: 90%
-    padding-left: 20px
-
-.added-user-info
-    background-color: $solitude
-
-.added-user
-    display: flex
-    justify-content: center
-    align-items: center
-    margin-left: auto
-    .added-user-text
-        text-align: center
-        border-radius: 100px
-        font-family: 'Inter'
-        font-style: normal
-        font-weight: 400
-        font-size: 14px
-        line-height: 146%
-        color: $solitude
-        height: 20px
-        width: 3em
-        background-color: $midnight
-        padding: 2px 5px 2px 5px
-
-.selected-text-container
-    min-height: 22px
-    .selected-text
-        text-align: center
-        font-family: 'Inter'
-        font-style: normal
-        font-weight: 700
-        font-size: 14px
-        line-height: 146%
-        color: $midnight
-
-.window-selected-user
-    color: $white
-    background-color: $midnight
+    overflow: hidden

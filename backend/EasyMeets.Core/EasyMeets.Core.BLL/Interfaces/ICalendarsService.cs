@@ -13,7 +13,7 @@ public interface ICalendarsService
     Task<bool> CreateGoogleCalendarConnection(TokenResultDto tokenResultDto, UserDto currentUser);
     Task SubscribeOnCalendarChanges(TokenResultDto tokenResultDto, string connectedEmail);
     Task<List<EventItemDTO>> GetEventsFromGoogleCalendar(string email);
-    Task AddMeetingsToCalendar(long? teamId, string refreshToken);
+    Task AddMeetingsToCalendar(long? teamId, string email);
     Task<bool> SyncChangesFromGoogleCalendar(string email);
     Task AddMeetingToCalendar(SaveMeetingDto meeting, TokenResultDto tokenResultDto);
     Task CancelMeetingInGoogleCalendar(string meetingName, Calendar calendar);

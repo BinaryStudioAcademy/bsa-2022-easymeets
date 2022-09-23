@@ -1,9 +1,10 @@
+using Bogus.Bson;
 using EasyMeets.Core.BLL.Interfaces;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.UploadImage;
-using EasyMeets.Core.Common.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 namespace EasyMeets.Core.WebAPI.Controllers;
 
 [Authorize]
@@ -13,10 +14,15 @@ public class TeamController : ControllerBase
 {
     private readonly ITeamService _teamService;
     private readonly ITeamSharedService _sharedService;
-    public TeamController(ITeamService teamService, ITeamSharedService sharedService)
+    private readonly IUserService _userService;
+    private readonly ILinkService _linkService;
+
+    public TeamController(ITeamService teamService, ITeamSharedService sharedService, IUserService userService, ILinkService linkService)
     {
         _teamService = teamService;
         _sharedService = sharedService;
+        _userService = userService;
+        _linkService = linkService;
     }
 
     [HttpGet("{id}")]
@@ -28,9 +34,9 @@ public class TeamController : ControllerBase
     [HttpGet("newpagelink")]
     public async Task<ActionResult<string>> GenerateNewPageLinkAsync(long id, string teamname)
     {
-        return Ok(await _sharedService.GenerateNewPageLinkAsync(id, teamname));
+        return Ok(await _linkService.GenerateNewPageLinkAsync(id, teamname));
     }
-    
+
     [HttpGet("user-teams")]
     public async Task<ActionResult<List<TeamDto>>> GetCurrentUserTeams()
     {
@@ -56,14 +62,30 @@ public class TeamController : ControllerBase
         {
             return BadRequest();
         }
-        
+
         return Ok(await _teamService.CreateTeamAsync(newTeamDto));
     }
 
-    [HttpPost("members/{teamId?}")]
-    public async Task<IActionResult> UpdateTeamMembersAsync([FromBody] TeamMemberDto teamMemberDto, long teamId)
+    [HttpPost("members", Name = "Member")]
+    public async Task<IActionResult> CreateTeamMemberAsync([FromBody] CreateTeamMemberDto userInvitationData)
     {
-        await _teamService.CreateTeamMemberAsync(teamMemberDto, teamId);
+        if (userInvitationData != null)
+        {
+            var user = await _userService.GetUsersByEmailOrNameAsync(userInvitationData.UserEmail);
+
+            await _teamService.CreateTeamMemberAsync(user.Id, userInvitationData.TeamId);
+
+            return Ok();
+        }
+
+        return BadRequest();
+
+    }
+
+    [HttpPost("invitation/{teamId}")]
+    public async Task<IActionResult> SendInvitationToTeamMembersAsync([FromBody] string[] teamMembersEmails, long teamId)
+    {
+        await _teamService.SendInvitationToTeamMembersAsync(Url, teamMembersEmails, teamId);
         return Ok();
     }
 

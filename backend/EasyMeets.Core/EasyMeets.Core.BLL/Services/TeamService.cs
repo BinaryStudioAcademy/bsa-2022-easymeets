@@ -1,11 +1,13 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.Common.DTO;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.UploadImage;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyMeets.Core.BLL.Services;
@@ -14,10 +16,16 @@ public class TeamService : BaseService, ITeamService
 {
     private readonly IUserService _userService;
     private readonly IUploadFileService _uploadFileService;
-    public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IUploadFileService uploadFileService) : base(context, mapper)
+    private readonly IEmailSenderService _emailSenderService;
+    private readonly ILinkService _linkService;
+
+    public TeamService(EasyMeetsCoreContext context, IMapper mapper, IUserService userService, IUploadFileService uploadFileService,
+        IEmailSenderService emailSenderService, ILinkService sharedService) : base(context, mapper)
     {
         _userService = userService;
         _uploadFileService = uploadFileService;
+        _emailSenderService = emailSenderService;
+        _linkService = sharedService;
     }
 
     public async Task<TeamDto?> GetTeamAsync(long teamId)
@@ -49,24 +57,6 @@ public class TeamService : BaseService, ITeamService
         await _context.SaveChangesAsync();
 
         return _mapper.Map<TeamDto>(createdTeam);
-    }
-
-    public async Task<ICollection<NewMeetingMemberDto>> GetNewTeamMembersAsync(long teamId, int count)
-    {
-        var teamMembers = await _context.TeamMembers
-            .Include(member => member.User)
-            .Where(member => member.TeamId == teamId)
-            .Take(count)
-            .OrderBy(member => member.User.Name)
-            .Select(member => _mapper.Map<NewMeetingMemberDto>(member))
-            .ToListAsync();
-
-        foreach (var teamMember in teamMembers)
-        {
-            teamMember.UnavailabilityItems = await GetMemberUnavailability(teamMember.Id);
-        }
-
-        return teamMembers;
     }
 
     public async Task<List<TeamMemberDto>> GetTeamMembersAsync(long teamId)
@@ -108,14 +98,39 @@ public class TeamService : BaseService, ITeamService
         }
     }
 
-    public async Task CreateTeamMemberAsync(TeamMemberDto teamMemberDto, long teamId)
+    public async Task SendInvitationToTeamMembersAsync(IUrlHelper urlHelper, string[] teamMembersEmails, long teamId)
+    {
+        var currentUser = await _userService.GetCurrentUserAsync();
+
+        if (currentUser != null)
+        {
+            var teamEntity = await GetTeamByIdAsync(teamId);
+
+            foreach (string emailToSendInvivation in teamMembersEmails)
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == emailToSendInvivation);
+
+                var link = _linkService.GenerateInvivationLink(urlHelper, user?.Id, emailToSendInvivation, teamId);
+
+                var emailData = new EmailDto();
+                emailData = user == null ?
+                       _emailSenderService.CreateEmailSubjectAndBody(currentUser, emailToSendInvivation, emailToSendInvivation, teamEntity, link) :
+                       _emailSenderService.CreateEmailSubjectAndBody(currentUser, user.Name, user.Email, teamEntity, link);
+
+                _emailSenderService.Send(emailData);
+            }
+        }
+    }
+
+    public async Task CreateTeamMemberAsync(long userId, long teamId)
     {
         var team = await GetTeamByIdAsync(teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
+
         var member = new TeamMember()
         {
             Role = Role.Member,
             TeamId = team.Id,
-            UserId = teamMemberDto.Id,
+            UserId = userId,
         };
 
         _context.TeamMembers.Add(member);
@@ -131,7 +146,7 @@ public class TeamService : BaseService, ITeamService
         _context.TeamMembers.Update(teamMember);
         await _context.SaveChangesAsync();
     }
-    
+
     public async Task DeleteTeamAsync(long teamId)
     {
         var teamEntity = await _context.Teams
@@ -139,7 +154,7 @@ public class TeamService : BaseService, ITeamService
                 .ThenInclude(s => s.SlotMembers)
             .Include(t => t.VisibleCalendars)
             .FirstOrDefaultAsync(el => el.Id == teamId) ?? throw new KeyNotFoundException("Invalid team member id");
-        
+
         _context.Teams.Remove(teamEntity);
         await _context.SaveChangesAsync();
     }
@@ -203,7 +218,7 @@ public class TeamService : BaseService, ITeamService
 
         return _mapper.Map<List<TeamDto>>(teams);
     }
-    
+
     public async Task<ICollection<NewMeetingMemberDto>> GetTeamMembersByNameAsync(string searchName, long? teamId)
     {
         var teamMembers = await _context.TeamMembers
@@ -219,7 +234,7 @@ public class TeamService : BaseService, ITeamService
 
         return teamMembers;
     }
-    
+
     public async Task<NewMeetingMemberDto> GetTeamMembersByIdAsync(long userId, long teamId)
     {
         var teamMember = await _context.TeamMembers

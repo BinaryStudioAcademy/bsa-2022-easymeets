@@ -112,20 +112,11 @@
                                 #memberSearch="matAutocomplete"
                                 [displayWith]="displayMemberName"
                                 (optionSelected)="addMemberToList($event.option.value)">
-                                <ng-container *ngIf="!memberFilterCtrl.value.length; else foundMembers">
-                                    <ng-container *ngFor="let member of defaultMembers">
-                                        <mat-option *ngIf="!isMemberInList(member)" [value]="member">
-                                            {{ member.name }}
-                                        </mat-option>
-                                    </ng-container>
+                                <ng-container *ngFor="let member of filteredOptions | async">
+                                    <mat-option *ngIf="!addedMembers.includes(member)" [value]="member">
+                                        {{ member.name }}
+                                    </mat-option>
                                 </ng-container>
-                                <ng-template #foundMembers>
-                                    <ng-container *ngFor="let member of filteredOptions | async">
-                                        <mat-option *ngIf="!isMemberInList(member)" [value]="member">
-                                            {{ member.name }}
-                                        </mat-option>
-                                    </ng-container>
-                                </ng-template>
                             </mat-autocomplete>
                         </mat-form-field>
                     </div>

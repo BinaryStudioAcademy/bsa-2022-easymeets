@@ -80,8 +80,6 @@ export class EventDetailComponent extends BaseComponent implements OnInit, After
 
     public invalidCharactersMessage = invalidCharactersMessage;
 
-    private passwordErrors: ValidationErrors | null;
-
     constructor(private slotService: AvailabilitySlotService) {
         super();
     }
@@ -114,22 +112,8 @@ export class EventDetailComponent extends BaseComponent implements OnInit, After
         this.welcomeMessageControl.patchValue(removeExcessiveSpaces(message));
     }
 
-    onPasswordChange() {
-        if (this.settings.passwordProtection !== removeExcessiveSpaces(this.settings.passwordProtection ?? '')) {
-            this.settings.passwordProtection = removeExcessiveSpaces(this.settings.passwordProtection ?? '');
-        }
-        this.passwordErrors = this.passwordControl.errors;
-        this.passwordControl.setErrors(this.getPasswordErrors());
-    }
-
-    passwordUsageChanged() {
-        if (this.settings.passwordProtectionIsUsed) {
-            this.passwordControl.setErrors(this.getPasswordErrors());
-        } else {
-            this.passwordErrors = this.passwordControl.errors;
-            this.passwordControl.setErrors(null);
-            this.passwordControl.markAsUntouched();
-        }
+    onPasswordChange(message: string) {
+        this.passwordControl.patchValue(removeExcessiveSpaces(message));
     }
 
     private slotLinkValidator(): AsyncValidatorFn {
@@ -141,11 +125,5 @@ export class EventDetailComponent extends BaseComponent implements OnInit, After
 
     private validateSlotLink(teamLink: string): Observable<boolean> {
         return this.slotService.validateSlotLink(teamLink, this.slot?.id);
-    }
-
-    private getPasswordErrors() {
-        return this.settings.passwordProtection
-            ? this.passwordErrors
-            : { ...this.passwordErrors, required: true };
     }
 }

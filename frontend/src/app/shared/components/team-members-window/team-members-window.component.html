@@ -7,66 +7,24 @@
     <div *ngIf="message" mat-dialog-content class="message">
         {{ message }}
     </div>
-    <input
-        [(ngModel)]="query"
-        (input)="getUsersByEmailOrName(query)"
-        class="search-input"
-        placeholder="Search by Name or Email" />
     <div class="user-info-container">
-        <div *ngIf="!query" class="query-message">Type some text for searching...</div>
-        <div *ngIf="query && !searchedUsers.length" class="query-message">No users found</div>
-        <div *ngFor="let user of searchedUsers">
-            <ng-container *ngIf="!isAddedMember(user); else notAddedMember">
-                <div
-                    class="user-info not-added-user-info"
-                    [ngClass]="isSelectedUserToAdd(user.id)"
-                    (click)="selectUser(user)">
-                    <div class="user-avatar">
-                        <ng-container *ngIf="user.image; else noMemberImage">
-                            <img src="{{ user.image }}" />
-                        </ng-container>
-                        <ng-template #noMemberImage>
-                            <img src="assets/header/avatar-icon.png" />
-                        </ng-template>
-                    </div>
-                    <div class="user-name-email">
-                        <div class="name">{{ user.userName }}</div>
-                        <div class="email">{{ user.email }}</div>
-                    </div>
-                </div>
-            </ng-container>
-            <ng-template #notAddedMember>
-                <div class="user-info added-user-info">
-                    <div class="user-avatar">
-                        <ng-container *ngIf="user.image; else noMemberImage">
-                            <img src="{{ user.image }}" />
-                        </ng-container>
-                        <ng-template #noMemberImage>
-                            <img src="assets/header/avatar-icon.png" />
-                        </ng-template>
-                    </div>
-                    <div class="user-name-email">
-                        <div class="name">{{ user.userName }}</div>
-                        <div class="email">{{ user.email }}</div>
-                    </div>
-                    <div class="added-user">
-                        <div class="added-user-text">Added</div>
-                    </div>
-                </div>
-            </ng-template>
-        </div>
+        <mat-form-field class="emails-input" appearance="fill">
+            <mat-chip-list #membersList>
+                <mat-chip *ngFor="let teamMemberEmail of teamMembersEmails" (removed)="remove(teamMemberEmail)">
+                    {{teamMemberEmail}}
+                    <button matChipRemove>
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </mat-chip>
+                <input [matChipInputFor]="membersList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+        </mat-form-field>
     </div>
-    <div class="selected-text-container">
-        <div class="selected-text" *ngIf="usersToAdd.length">Added {{ usersToAdd.length }} new member(s)</div>
-    </div>
-    <hr />
     <div mat-dialog-actions class="mat-dialog-buttons">
-        <button
-            *ngFor="let buttonOptions of buttonsOptions"
-            [ngClass]="buttonOptions.class"
-            mat-flat-button
+        <button *ngFor="let buttonOptions of buttonsOptions" [ngClass]="buttonOptions.class" mat-flat-button
             (click)="onClick(buttonOptions.onClickEvent)"
-            [disabled]="!usersToAdd.length">
+            [disabled]="!this.teamMembersEmails.length && buttonOptions.label !=='Cancel'">
             {{ buttonOptions.label }}
         </button>
     </div>

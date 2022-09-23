@@ -1,18 +1,17 @@
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
-using EasyMeets.Core.Common.DTO.Common;
 using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.Enums;
 using EasyMeets.Core.DAL.Context;
 using EasyMeets.Core.DAL.Entities;
-using Microsoft.EntityFrameworkCore;
-
 namespace EasyMeets.Core.BLL.Services;
 
 public class TeamSharedService : BaseService, ITeamSharedService
 {
-    public TeamSharedService(EasyMeetsCoreContext context, IMapper mapper) : base(context, mapper)
+    private readonly ILinkService _linkService;
+    public TeamSharedService(EasyMeetsCoreContext context, IMapper mapper, ILinkService linkService) : base(context, mapper)
     {
+        _linkService = linkService;
     }
 
     public async Task CreateDefaultUsersTeamAsync(User user)
@@ -21,7 +20,7 @@ public class TeamSharedService : BaseService, ITeamSharedService
         var teamDto = new TeamDto
         {
             Name = teamName,
-            PageLink = await GenerateNewPageLinkAsync(0, teamName),
+            PageLink = await _linkService.GenerateNewPageLinkAsync(0, teamName),
         };
 
         var team = _mapper.Map<Team>(teamDto);
@@ -37,22 +36,5 @@ public class TeamSharedService : BaseService, ITeamSharedService
 
         _context.TeamMembers.Add(member);
         await _context.SaveChangesAsync();
-    }
-
-    public async Task<string> GenerateNewPageLinkAsync(long teamId, string teamName)
-    {
-        if (!await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == teamName))
-        {
-            return teamName;
-        }
-
-        int index = 1;
-
-        while (await _context.Teams.AnyAsync(t => t.Id != teamId && t.PageLink == $"{teamName}{index}"))
-        {
-            index++;
-        }
-
-        return $"{teamName}{index}";
     }
 }

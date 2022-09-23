@@ -28,12 +28,6 @@ export class NewMeetingService {
         );
     }
 
-    public getTeamMembers(teamId?: number, count?: number) {
-        return this.httpService.getRequest<INewMeetingMember[]>(
-            `${this.routePrefix}/getTeamMembers/${teamId ?? ''}/${count ?? ''}`,
-        );
-    }
-
     public saveNewMeeting(data: INewMeeting) {
         return this.httpService.postRequest<INewMeeting>(`${this.routePrefix}`, data);
     }

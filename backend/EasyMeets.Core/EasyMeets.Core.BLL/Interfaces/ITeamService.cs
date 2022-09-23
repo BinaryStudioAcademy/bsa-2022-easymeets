@@ -2,6 +2,8 @@ using EasyMeets.Core.Common.DTO.Team;
 using EasyMeets.Core.Common.DTO.UploadImage;
 using EasyMeets.Core.Common.Enums;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
 namespace EasyMeets.Core.BLL.Interfaces;
 
 public interface ITeamService
@@ -16,9 +18,9 @@ public interface ITeamService
     Task DeleteLogo(long teamId);
     Task<ICollection<NewMeetingMemberDto>> GetTeamMembersByNameAsync(string searchName, long? teamId);
     Task<NewMeetingMemberDto> GetTeamMembersByIdAsync(long userId, long teamId);
-    Task<ICollection<NewMeetingMemberDto>> GetNewTeamMembersAsync(long teamId, int count);
     Task<List<TeamMemberDto>> GetTeamMembersAsync(long id);
-    Task CreateTeamMemberAsync(TeamMemberDto teamMemberDto, long teamId);
+    Task SendInvitationToTeamMembersAsync(IUrlHelper urlHelper, string[] teamMembersEmails, long teamId);
     Task UpdateTeamMemberRoleAsync(TeamMemberDto teamMemberDto);
     Task DeleteTeamMemberAsync(long teamMemberId);
+    Task CreateTeamMemberAsync(long userId, long teamId);
 }

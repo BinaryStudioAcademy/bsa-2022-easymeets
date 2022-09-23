@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TeamStateChangeActionEnum } from '@core/enums/team-state-change-action.enum';
+import { ICreateTeamMember } from '@core/models/ICreateTeamMember';
 import { IImagePath } from '@core/models/IImagePath';
 import { INewTeam } from '@core/models/INewTeam';
 import { ITeam } from '@core/models/ITeam';
@@ -24,8 +25,10 @@ export class TeamService {
 
     public currentTeamEmitted$ = this.currentTeamSource.asObservable();
 
+    constructor(
+        private httpService: HttpInternalService,
     // eslint-disable-next-line no-empty-function
-    constructor(private httpService: HttpInternalService) {}
+    ) { }
 
     public emitTeamStateChange(teamId: number, teamStateChangeActionEnum: TeamStateChangeActionEnum) {
         this.emitTeamStateChangeSource.next({ teamId, action: teamStateChangeActionEnum });
@@ -92,8 +95,8 @@ export class TeamService {
         return this.httpService.putRequest<ITeam>(`${this.routePrefix}`, team);
     }
 
-    public createTeamMember(member: ITeamMember, teamId?: number) {
-        return this.httpService.postRequest<ITeamMember>(`${this.routePrefix}/members/${teamId}`, member);
+    public createTeamMember(member: ICreateTeamMember) {
+        return this.httpService.postRequest<ICreateTeamMember>(`${this.routePrefix}/members`, member);
     }
 
     public updateTeamMember(member: ITeamMember) {
@@ -102,6 +105,10 @@ export class TeamService {
 
     public uploadLogo(data: FormData, id?: number) {
         return this.httpService.putRequest<IImagePath>(`${this.routePrefix}/uploadlogo/${id ?? ''}`, data);
+    }
+
+    public sendInvitaionToMembers(teamMembersEmails: string[], teamId: number) {
+        return this.httpService.postRequest(`${this.routePrefix}/invitation/${teamId}`, teamMembersEmails);
     }
 
     public deleteLogo(teamId: number) {

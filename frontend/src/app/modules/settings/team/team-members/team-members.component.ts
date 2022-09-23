@@ -85,14 +85,8 @@ export class TeamMembersComponent extends BaseComponent implements OnInit, OnDes
 
     showTeamMembersWindow() {
         this.confirmationWindowService.openTeamMembersDialog({
-            buttonsOptions: [
-                {
-                    class: 'confirm-accept-button',
-                    label: 'Done',
-                    onClickEvent: this.reloadEventEmitter,
-                },
-            ],
-            title: 'Add Member(s)',
+            title: 'Add Members',
+            message: 'Separate each email address with a space button.',
             teamMembers: this.teamMembers,
             teamId: this.teamId,
         });

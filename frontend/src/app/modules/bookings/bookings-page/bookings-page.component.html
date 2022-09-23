@@ -26,7 +26,7 @@
             </div>
         </div>
         <div *ngFor="let item of meetings">
-            <div class="infoRow" [ngClass]="{'infoRowFullHeight': item.meetingMembers.length > numberOfMembersToDisplay}">
+            <div class="infoRow">
                 <div class="item itemInfo">
                     <div class="itemTextInfo">
                         <div class="title-menu-row">
@@ -48,7 +48,7 @@
                         <p class="meeting-title">{{ item.meetingTitle }}</p>
 
                         <p class="itemText">
-                            {{ item.meetingDuration }} min, {{ item.membersTitle }}, <br> {{ locationTypeMapping(item.locationType) }}
+                            {{ item.meetingDuration }} min, {{ item.membersTitle }}, {{item.locationType}}
                         </p>
                         <div class="participants-avatars">
                             <ng-container *ngFor="let participant of item.meetingMembers">
@@ -65,23 +65,25 @@
                                 </div>
                             </span>
                         </div>
+                    </div>
+
                     <div class="buttonRow">
-                        <button mat-flat-button color="primary" *ngIf="item.locationType !== locationTypeOffice"  class="buttonZoom" (click)="followMeetingLink(item.meetingLink)">Open {{ locationTypeMapping(item.locationType) }} Link</button>
+                        <button mat-flat-button color="primary" *ngIf="item.locationType !== locationTypeOffice"  class="buttonZoom" (click)="followMeetingLink(item.meetingLink)">Open {{ item.locationType }} Link</button>
                         <h3 *ngIf="item.locationType === locationTypeOffice" class="timeTitle"> {{ item.meetingRoom }} </h3>
                    </div>
                 </div>
-            </div>
-            <div class="bookers-wrapper">
-                <div class="listScrollBlock">
-                    <div class="bookers-container" *ngFor="let user of item.meetingMembers">
-                        <app-booker [booker]="user"></app-booker>
+
+                <div class="bookers-wrapper">
+                    <div class="listScrollBlock">
+                        <div class="bookers-container" *ngFor="let user of item.meetingMembers">
+                            <app-booker [booker]="user"></app-booker>
+                        </div>
+                    </div>
+                    <div *ngIf="item.meetingMembers.length > numberOfMembersToDisplay">
+                        <div class="gradient"></div>
+                        <p class="bookers-number">Bookers: {{item.meetingMembers.length}}</p>
                     </div>
                 </div>
-                <div *ngIf="item.meetingMembers.length > numberOfMembersToDisplay">
-                    <div class="gradient"></div>
-                    <p class="bookers-number">Bookers: {{item.meetingMembers.length}}</p>
-                </div>
-            </div>
             </div>
         </div>
     </div>

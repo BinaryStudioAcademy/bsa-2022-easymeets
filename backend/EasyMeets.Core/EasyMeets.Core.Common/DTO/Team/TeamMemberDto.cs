@@ -1,5 +1,4 @@
-﻿using EasyMeets.Core.Common.DTO.Calendar;
-using EasyMeets.Core.Common.DTO.Common;
+﻿using EasyMeets.Core.Common.DTO.Common;
 using EasyMeets.Core.Common.Enums;
 
 namespace EasyMeets.Core.Common.DTO.Team;

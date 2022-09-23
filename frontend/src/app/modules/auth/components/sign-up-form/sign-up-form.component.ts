@@ -39,6 +39,8 @@ export class SignUpFormComponent extends BaseComponent {
         }),
     });
 
+    teamId: number;
+
     constructor(private authService: AuthService, private authFormService: AuthFormService) {
         super();
     }

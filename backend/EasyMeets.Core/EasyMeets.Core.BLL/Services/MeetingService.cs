@@ -184,11 +184,20 @@ namespace EasyMeets.Core.BLL.Services
             await _context.Meetings.AddAsync(meeting);
             await _context.SaveChangesAsync();
 
+            var organizer = await _context.TeamMembers.FirstOrDefaultAsync(el => el.UserId == meeting.CreatedBy)
+                            ?? throw new KeyNotFoundException("Team member not found");
+
+            if (meeting.MeetingMembers.All(m => m.TeamMemberId != organizer.Id))
+            {
+                await _context.MeetingMembers.AddAsync(new MeetingMember { TeamMemberId = organizer.Id, MeetingId = meeting.Id });
+                await _context.SaveChangesAsync();
+            }
+
             var calendar = await _context.Calendars.FirstOrDefaultAsync(el => el.UserId == meeting.CreatedBy && el.AddEventsFromTeamId == meeting.TeamId);
 
             if (calendar is not null)
             {
-                await _calendarsService.AddMeetingsToCalendar(meeting.TeamId, calendar.RefreshToken);
+                await _calendarsService.AddMeetingsToCalendar(meeting.TeamId, calendar.ConnectedCalendar);
             }
 
             await AddMeetingLink(meeting);
@@ -331,7 +340,6 @@ namespace EasyMeets.Core.BLL.Services
                 AuthorName = meeting.Author.Name,
                 AuthorEmail = meeting.Author.Email,
                 MeetingLink = meeting.MeetingLink,
-                MeetingRoom = meeting.MeetingRoom ?? "",
                 MemberName = invitee,
                 Uri = _configuration["ApplicationUri"],
             };
@@ -348,8 +356,7 @@ namespace EasyMeets.Core.BLL.Services
                 $"Invitee: {parameters.AuthorName}\n" +
                 $"Invitee Email: {parameters.AuthorEmail}\n" +
                 $"Event Date/Time: {parameters.StartTime}\n\n" +
-                $"View event in EasyMeets: {parameters.Uri}bookings\n" +
-                $"{(parameters.LocationType == LocationType.Office ? $"Meeting address: {parameters.MeetingRoom}" : $"Link for online meeting: {parameters.MeetingLink}")}"
+                $"View event in Easymeets: {parameters.Uri}{parameters.MeetingLink}"
             };
         }
 

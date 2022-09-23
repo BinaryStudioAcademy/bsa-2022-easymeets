@@ -1,15 +1,13 @@
+import { ENTER, SPACE } from '@angular/cdk/keycodes';
 import { Component, EventEmitter, Inject } from '@angular/core';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
-import { ITeamMember } from '@core/models/ITeamMember';
-import { IUser } from '@core/models/IUser';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
-import { UserService } from '@core/services/user.service';
-import { Role } from '@shared/enums/role';
-import { Status } from '@shared/enums/status';
 import { IConfirmButtonOptions } from '@shared/models/confirmWindow/IConfirmButtonOptions';
 import { ITeamMembersDialogData } from '@shared/models/ITeamMembersDialogData';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-team-members-window',
@@ -17,33 +15,48 @@ import { ITeamMembersDialogData } from '@shared/models/ITeamMembersDialogData';
     styleUrls: ['./team-members-window.component.sass'],
 })
 export class TeamMembersWindowComponent extends BaseComponent {
+    readonly separatorKeysCodes = [ENTER, SPACE] as const;
+
     title: string;
 
     message?: string;
 
     buttonsOptions?: IConfirmButtonOptions[];
 
-    teamMembers?: ITeamMember[];
-
     teamId?: number;
 
-    searchedUsers: IUser[];
+    addOnBlur = true;
 
-    query: string;
+    teamMembersEmails: string[] = [];
 
-    usersToAdd: IUser[] = [];
+    private sendInvitaitionEventEmitter = new EventEmitter<void>();
+
+    private sendInvitaitionEventSubscription: Subscription;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: ITeamMembersDialogData,
         private dialogRef: MatDialogRef<TeamMembersWindowComponent>,
-        private userService: UserService,
         private teamService: TeamService,
         private notificationService: NotificationService,
     ) {
         super();
+
+        this.sendInvitaitionEventSubscription = this.sendInvitaitionEventEmitter.subscribe(() => this.sendInvitaition());
+
         this.title = data.title;
-        this.buttonsOptions = data.buttonsOptions;
-        this.teamMembers = data.teamMembers;
+        this.buttonsOptions = [
+            {
+                class: 'confirm-cancel-button',
+                label: 'Cancel',
+                onClickEvent: new EventEmitter<void>(),
+            },
+            {
+                class: 'confirm-accept-button',
+                label: 'Send invitation',
+                onClickEvent: this.sendInvitaitionEventEmitter,
+            },
+        ];
+
         this.teamId = data.teamId;
         this.message = data.message;
     }
@@ -53,63 +66,31 @@ export class TeamMembersWindowComponent extends BaseComponent {
         this.dialogRef.close();
     }
 
-    getUsersByEmailOrName(searchData: string) {
-        if (searchData.length) {
-            this.userService
-                .getUsersByEmailOrName(searchData)
-                .pipe(this.untilThis)
-                .subscribe(
-                    (users) => {
-                        this.searchedUsers = users;
-                    },
-                    (error) => {
-                        this.notificationService.showErrorMessage(error);
-                    },
-                );
-        } else {
-            this.searchedUsers = [];
+    add(event: MatChipInputEvent): void {
+        const value = (event.value || '').trim();
+
+        if (value) {
+            this.teamMembersEmails = [...this.teamMembersEmails, value];
+        }
+        event.chipInput!.clear();
+    }
+
+    remove(email: string): void {
+        const index = this.teamMembersEmails.indexOf(email);
+
+        if (index >= 0) {
+            this.teamMembersEmails.splice(index, 1);
         }
     }
 
-    isAddedMember(user: IUser) {
-        return this.teamMembers?.some((p) => p.email === user.email);
-    }
-
-    selectUser(user: IUser) {
-        if (this.isMemberSelected(user.id)) {
-            return;
-        }
-
-        this.usersToAdd = [...this.usersToAdd, user];
-
-        const teamMember: ITeamMember = {
-            id: user.id,
-            image: user.image,
-            name: user.userName,
-            email: user.email,
-            pageLink: '',
-            role: Role.Member,
-            status: Status.Pending,
-        };
-
-        this.teamService
-            .createTeamMember(teamMember, this.teamId)
-            .pipe(this.untilThis)
-            .subscribe(
-                () => {},
-                (error) => {
-                    this.notificationService.showErrorMessage(error);
-                },
-            );
-    }
-
-    isSelectedUserToAdd(id: bigint) {
-        const isSelected: boolean = this.usersToAdd.some((x) => x.id === id);
-
-        return { 'window-selected-user': isSelected, 'not-added-user-info': !isSelected };
-    }
-
-    private isMemberSelected(memberId: bigint) {
-        return this.usersToAdd.some((user) => user.id === memberId);
+    sendInvitaition() {
+        if (this.teamId) {
+            this.teamService
+                .sendInvitaionToMembers(this.teamMembersEmails, this.teamId)
+                .subscribe({
+                    next: () => this.notificationService.showSuccessMessage('Invitation email was sent to team members emails'),
+                    error: (error) => this.notificationService.showErrorMessage(error),
+                });
+        } else { this.notificationService.showErrorMessage('Team was not found'); }
     }
 }
