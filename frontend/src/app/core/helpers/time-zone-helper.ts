@@ -12,10 +12,11 @@ export const getDeviceTimeZone = () => {
     const hours = Math.abs(Math.trunc(offset / 60));
     const minutes = Math.abs(offset % 60);
 
+    const sign = offset < 0 ? '+' : '-';
     const hoursStr = hours < 10 ? `0${hours}` : `${hours}`;
     const minutesStr = minutes < 10 ? `0${minutes}` : `${minutes}`;
 
-    const timeZoneValue = `${hoursStr}:${minutesStr}`;
+    const timeZoneValue = `${sign}${hoursStr}:${minutesStr}`;
     const timeZoneName = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     return { nameValue: timeZoneName, timeValue: timeZoneValue } as ITimeZone;
