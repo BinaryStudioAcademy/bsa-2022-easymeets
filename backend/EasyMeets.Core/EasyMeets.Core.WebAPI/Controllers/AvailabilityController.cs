@@ -72,7 +72,15 @@ namespace EasyMeets.Core.WebAPI.Controllers
             await _availabilityService.UpdateScheduleExternally(link, scheduleDto);
             return Ok();
         }
-        
+
+        [HttpPut("{link}/externalSlot")]
+        [AllowAnonymous]
+        public async Task<IActionResult> UpdateSlotExternally(string link, [FromBody] AvailabilitySlotDto slotDto)
+        {
+            await _availabilityService.UpdateSlotExternally(link, slotDto);
+            return Ok();
+        }
+
         [HttpGet("validateLink")]
         public async Task<ActionResult<bool>> ValidatePageLinkAsync(long? id, string slotLink)
         {

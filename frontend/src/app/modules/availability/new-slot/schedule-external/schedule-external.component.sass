@@ -1,25 +1,25 @@
 @import "src/styles/color-variables"
+@import "src/styles/screen-variables"
 
 .container
-    background-color: $athens-gray
+    background-color: $white
     box-sizing: border-box
     min-height: 100%
     width: 100%
-    padding: 0 12% 12% 12%
+    padding: 3% 12% 3% 12%
     display: flex
     flex-direction: column
     align-items: center
     gap: 30px
 
-    .logo
-        padding-top: 30px
-
     .main-content
         background-color: $white-color
+        border: 1px solid $solitude
+        box-shadow: 0px 0px 8px -2px rgba(16, 24, 40, 0.16), 0px 2px 4px -2px rgba(16, 24, 40, 0.06)
+        border-radius: 32px
         width: 100%
         height: 100%
         flex-grow: 1
-        padding: 15px 20px
 
         .schedule-definition
             height: 100%
@@ -39,21 +39,36 @@
     display: flex
     flex-direction: row
     align-items: center
-    margin-bottom: 15px
+    margin-bottom: 25px
+    border-bottom: 1px solid $em-solitude-dark
+    padding: 20px 30px
 
     .info-label
-        font-weight: 700
-        font-size: 20px
-
-    .next-page-button
-        margin-left: auto
+        font-family: 'Inter'
+        font-style: normal
+        font-weight: 900
+        font-size: 32px
+        line-height: 150%
 
     p
         margin: 0
 
-.error
-    position: absolute
-    color: $red
+    .slot-options
+        display: flex
+        flex-direction: row
+        min-width: 50%
+        margin-left: auto
+        .input-container
+            width: 90%
+
+.error-container
+    margin-top: 3px
+    min-height: 20px
+    .error
+        color: $red
+        font-family: 'Inter'
+        font-style: normal
+        font-size: 11px
 
 .description
     font-weight: bold
@@ -73,3 +88,84 @@
         display: flex
         flex-direction: column
         gap: 30px
+
+.logo-btn-header
+    width: 93%
+    display: flex
+    flex-direction: row
+    padding-top: 40px
+    padding-bottom: 30px
+    justify-items: center
+    align-items: center
+    padding-left: 30px
+    .logo-img
+        top: 0
+    .next-page-button
+        width: 100%
+        .next-btn
+            width: 50%
+            float: right
+            max-width: 270px
+            min-width: 100px
+        .next-btn:hover
+            cursor: pointer
+
+.mat-flat-button
+    background: $midnight
+    border-radius: 24px
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 700
+    font-size: 14px
+    width: 20%
+    margin-left: 5px
+
+input[type=text]
+    font-size: 14px
+    padding-left: 5px
+    border: 2px solid $pattens-blue
+    border-radius: 8px
+    height: 36px
+    width: 100%
+
+.input-container
+    width: 100%
+    margin-right: 5%
+    .mat-select
+        font-size: 14px
+        padding-left: 5px
+        border: 2px solid $pattens-blue
+        border-radius: 8px
+        height: 36px
+    .input-description
+        font-family: 'Inter'
+        font-style: normal
+        font-weight: 700
+        font-size: 14px
+        color: $em-raven
+        padding-bottom: 5px
+    .sub-description
+        margin-top: 5px
+
+    app-custom-time
+        color: $em-raven !important
+
+::ng-deep .input-container
+    .mat-select
+        align-items: center
+        display: flex
+        font-family: 'Inter'
+        font-style: normal
+
+input.ng-dirty.ng-invalid
+    border-color: $red
+
+.schedule
+    padding-left: 30px
+    padding-right: 30px
+
+.option
+    width: 100%
+
+.custom-time
+    margin-top: 5px

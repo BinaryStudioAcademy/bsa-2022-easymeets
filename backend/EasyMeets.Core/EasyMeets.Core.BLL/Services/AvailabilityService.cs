@@ -128,7 +128,7 @@ namespace EasyMeets.Core.BLL.Services
             {
                 await SaveEmailTemplateConfig(slotDto.TemplateSettings, entity);
             }
-            
+
             var members = _mapper.Map<List<SlotMember>>(slotDto.SlotMembers);
 
             entity.SlotMembers = members;
@@ -224,31 +224,31 @@ namespace EasyMeets.Core.BLL.Services
             }
         }
 
-         private async Task UpdateTemplateSettings(SaveAvailabilitySlotDto updateAvailabilityDto, AvailabilitySlot availabilitySlot)
-         {
-             if (updateAvailabilityDto.TemplateSettings is not null)
-             {
-                 foreach (var template in updateAvailabilityDto.TemplateSettings)
-                 {
-                     var oldTemplate = await _context.EmailTemplates.FirstOrDefaultAsync(t => t.TemplateType == template.Type
-                         && t.AvailabilitySlotId == availabilitySlot.Id);
-        
-                     if (oldTemplate is not null)
-                     {
-                         var newTemplate = _mapper.Map(template, oldTemplate);
-                         _context.EmailTemplates.Update(newTemplate);
-                     }
-                     else
-                     {
-                         var newTemplate = _mapper.Map<EmailTemplate>(template, opts => opts.AfterMap((_, dest) =>
-                         {
-                             dest.AvailabilitySlot = availabilitySlot;
-                         }));
+        private async Task UpdateTemplateSettings(SaveAvailabilitySlotDto updateAvailabilityDto, AvailabilitySlot availabilitySlot)
+        {
+            if (updateAvailabilityDto.TemplateSettings is not null)
+            {
+                foreach (var template in updateAvailabilityDto.TemplateSettings)
+                {
+                    var oldTemplate = await _context.EmailTemplates.FirstOrDefaultAsync(t => t.TemplateType == template.Type
+                        && t.AvailabilitySlotId == availabilitySlot.Id);
 
-                         await _context.EmailTemplates.AddAsync(newTemplate);
-                     }
-                 }
-             }
+                    if (oldTemplate is not null)
+                    {
+                        var newTemplate = _mapper.Map(template, oldTemplate);
+                        _context.EmailTemplates.Update(newTemplate);
+                    }
+                    else
+                    {
+                        var newTemplate = _mapper.Map<EmailTemplate>(template, opts => opts.AfterMap((_, dest) =>
+                        {
+                            dest.AvailabilitySlot = availabilitySlot;
+                        }));
+
+                        await _context.EmailTemplates.AddAsync(newTemplate);
+                    }
+                }
+            }
         }
 
         private void UpdateQuestions(SaveAvailabilitySlotDto updateAvailabilityDto, AvailabilitySlot availabilitySlot)
@@ -281,8 +281,8 @@ namespace EasyMeets.Core.BLL.Services
                 updatedExclusionDateIds.All(updatedDateId => updatedDateId != date.Id));
             var deletedDayTimeRanges = _context.DayTimeRanges
                 .Where(range =>
-                    updatedExclusionDateIds.Any(updatedExclusionDateId => 
-                        updatedExclusionDateId == range.ExclusionDateId) && 
+                    updatedExclusionDateIds.Any(updatedExclusionDateId =>
+                        updatedExclusionDateId == range.ExclusionDateId) &&
                     updatedDayTimeRangeIds.All(updatedDayTimeRangeId => updatedDayTimeRangeId != range.Id));
             _context.ExclusionDates.RemoveRange(deletedExclusionDates);
             _context.DayTimeRanges.RemoveRange(deletedDayTimeRanges);
@@ -324,6 +324,18 @@ namespace EasyMeets.Core.BLL.Services
             {
                 _mapper.Map(scheduleDto, member.Schedule);
             }
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateSlotExternally(string link, AvailabilitySlotDto slotDto)
+        {
+            var slot = await GetByLinkInternal(link) ?? throw new KeyNotFoundException("Availability slot doesn't exist");
+
+            slot.Name = slotDto.Name;
+            slot.Size = slotDto.Size;
+            slot.LocationType = slotDto.LocationType;
+            slot.MeetingRoom = slotDto.MeetingRoom;
 
             await _context.SaveChangesAsync();
         }
