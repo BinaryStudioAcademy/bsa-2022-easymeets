@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TemplateType } from '@core/enums/template-type.enum';
 import { getDefaultNotificationTemplates, getPathLabel } from '@core/helpers/default-email-templates-helper';
@@ -12,7 +12,7 @@ import { hourMinutesRegex } from '@shared/constants/model-validation';
     templateUrl: './notification-emails.component.html',
     styleUrls: ['./notification-emails.component.sass'],
 })
-export class NotificationEmailsComponent implements OnInit {
+export class NotificationEmailsComponent {
     @Input() set newSlot(value: IAvailabilitySlot | undefined) {
         this.slot = value;
         this.settings = this.slot?.emailTemplateSettings ?? getDefaultNotificationTemplates();
@@ -55,11 +55,6 @@ export class NotificationEmailsComponent implements OnInit {
                 break;
         }
         this.activeTab = path;
-    }
-
-    ngOnInit(): void {
-        this.settings[2].timeValue = '00:05';
-        this.settings[3].timeValue = '00:05';
     }
 
     private changeTemplateType(type: TemplateType) {
