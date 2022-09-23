@@ -55,10 +55,10 @@
                 <div class="option-value">{{ locationTypeMapping(data.location) }}</div>
             </div>
             <div class="option">
-                <div class="option-name">Link</div>
+                <div class="option-name">{{ data.location === 'Office' ? 'Room' : 'Link'}}</div>
                 <div class="option-value-link">
-                    <img src="assets/copy_icon.png" />
-                    <div class="option-value link-value">{{ data.link }}</div>
+                    <img *ngIf="data.location !== 'Office'" src="assets/copy_icon.png" />
+                    <div class="option-value" [ngClass]="{'link-value' : data.location !== 'Office'}">{{ data.link }}</div>
                 </div>
             </div>
         </div>
