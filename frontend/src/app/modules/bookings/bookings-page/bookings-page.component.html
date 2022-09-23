@@ -31,7 +31,7 @@
                     <div class="itemTextInfo">
                         <div class="title-menu-row">
                             <p class="timeTitle">
-                                <span *ngIf="selectedDateFilter !== 'Today'" >{{ item.meetingTime | date:'d LLLL'}}, </span>
+                                <span *ngIf="selectedDateFilter !== 'Today'" >{{ item.meetingTime | date:'d LLLL':getTimeZoneValue() }}, </span>
                                 <span>{{ item.meetingTime | date: 'HH:mm':getTimeZoneValue() }}</span>
                                 <span *ngIf="selectedDateFilter === 'Today'"> - {{ getEndMeetingDate(item.meetingTime, item.meetingDuration) | date: 'HH:mm':getTimeZoneValue() }}</span>
                             </p>
