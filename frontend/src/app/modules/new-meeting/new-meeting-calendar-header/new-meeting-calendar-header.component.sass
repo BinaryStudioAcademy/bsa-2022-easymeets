@@ -1,16 +1,23 @@
 @import 'src/styles/color-variables.sass'
+@import "src/styles/time-zone-picker"
 @import 'src/styles/screen-variables.sass'
 
 .calendar-header
     display: flex
-    justify-content: flex-start
+    justify-content: space-between
     align-items: center
     height: 80px
     @media (max-width: $tablet-min-width)
         width: 100%
-    .date-arrows
+    .week-changer
         display: flex
-        color: $em-raven
-    .week-range
-        color: $midnight
-        font-weight: 700
+        align-items: center
+        .date-arrows
+            display: flex
+            color: $em-raven
+        .week-range
+            color: $midnight
+            font-weight: 700
+
+.time-zone-picker
+    width: 300px
