@@ -3,33 +3,21 @@
         <div class="schedule-select-container">
             <p>Schedule</p>
             <div class="input">
-                <ng-moment-timezone-picker
-                    [(ngModel)]="scheduleValue.timeZone"
-                    customPlaceholderText=""
-                    [disabled]="disabled"
-                    [getUserZone]="checkZone()">
+                <ng-moment-timezone-picker [(ngModel)]="scheduleValue.timeZone" customPlaceholderText=""
+                    [disabled]="disabled" [getUserZone]="checkZone()">
                 </ng-moment-timezone-picker>
             </div>
         </div>
-        <mat-tab-group
-            [disablePagination]="true"
-            [disableRipple]="true"
-            (selectedTabChange)="changeEvent.emit()"
-            animationDuration="0ms"
-            class="custom-mat-group">
+        <mat-tab-group [disablePagination]="true" [disableRipple]="true" (selectedTabChange)="changeEvent.emit()"
+            animationDuration="0ms" class="custom-mat-group">
             <mat-tab>
                 <ng-template mat-tab-label>
                     <mat-icon>list</mat-icon>
                     List View
                 </ng-template>
-                <app-schedule-list-item
-                    *ngFor="let item of scheduleValue.scheduleItems; index as i"
-                    [disabled]="disabled"
-                    [timeFormat]="timeFormat"
-                    [item]="scheduleValue.scheduleItems[i]"
-                    [itemChange]="changeEvent"
-                    [displayDay]="displayDays[i]">
-                </app-schedule-list-item>
+                <app-schedule-list [disabled]="disabled" [timeFormat]="timeFormat"
+                    [scheduleItems]="scheduleValue.scheduleItems" [changeEvent]="changeEvent" [displayDays]="displayDays">
+                </app-schedule-list>
             </mat-tab>
             <mat-tab *ngIf="!disabled">
                 <ng-template mat-tab-label>
