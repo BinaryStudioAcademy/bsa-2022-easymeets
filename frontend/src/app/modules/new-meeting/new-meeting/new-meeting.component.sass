@@ -3,10 +3,9 @@
 
 .container
     display: flex
-    min-height: 100%
+    max-height: calc(100% - 68px)
     flex-direction: column
     justify-items: center
-    background-color: $athens-gray
     padding: 0 100px 90px 100px
     @media screen and ( max-width: $tablet-min-width)
         padding: 0 30px 40px 30px
@@ -19,21 +18,20 @@
         p
             margin: 0 25px 0 0
         .new-meeting-header-label
-            font-size: 20px
-            font-weight: bold
-            color: $regent-gray
-        .new-meeting-header-button
-            width: 12%
-            @media screen and ( max-width: $tablet-min-width)
-                width: 24%
+            font-family: 'Inter'
+            font-style: normal
+            font-weight: 900
+            font-size: 22px
+            line-height: 146%
 
     .main-content
-        background-color: $white
-        height: 100%
+        border: 2px solid $athens-gray
+        border-radius: 32px
+        max-height: calc(100% - 88px)
         display: flex
         flex-direction: row
         justify-content: center
-        padding: 0 0.5em
+        padding: 0 2em
         @media screen and ( max-width: $desktop-min-width  )
             flex-direction: column
         .sidebar
@@ -64,7 +62,7 @@
 
     .add-new-meeting-info-form
         width: 100%
-        margin: 2em 0
+        margin: 2em 0 0
         .add-team-member-label, .team-members-label
             font-size: 1.1em
             font-weight: bold
@@ -77,10 +75,10 @@
         font-size: 15px
         background: $white
         border: 2px solid $loblolly
-        border-radius: 4px
+        border-radius: 8px
         width: calc(100% - 3em)
         padding-left: 5px
-        margin: 0
+        margin: 0 0 20px
         @media screen and ( max-width: $desktop-min-width  )
             width: calc(100% - 5em)
 
@@ -116,8 +114,6 @@
         display: flex
         flex-direction: column
         justify-content: center
-        .team-members-label
-            margin-bottom: 1em
         .member-info-container
             width: 90%
             height: 20em
@@ -170,3 +166,43 @@
 .meeting-calendar.hide-current-date
     ::ng-deep .cal-week-view .cal-current-time-marker
         display: none
+
+::ng-deep .buttons-row
+    display: grid
+    grid-template-columns: calc(50% - 10px) calc(50% - 10px)
+    justify-content: space-between
+    gap: 10px
+    width: 350px
+    button
+        border-radius: 24px
+        font-family: 'Inter'
+        font-style: normal
+        font-weight: 400
+        font-size: 14px
+        align-items: center
+        height: 48px
+
+    .back-button.mat-flat-button
+        background: $white
+        color: $midnight
+
+    .new-meeting-header-button.mat-flat-button
+        color: $white
+        background: $midnight
+        &:disabled
+            color: white
+            background-color: $em-solitude-dark
+
+.team-members-header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding-right: 3em
+
+.deselect-wrapper
+    display: flex
+    align-items: center
+    color: $dark-gray
+
+.search-list
+    padding-top: 20px

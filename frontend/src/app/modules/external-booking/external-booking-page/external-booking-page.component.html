@@ -24,8 +24,8 @@
                 </div>
                 <div class="sidebar-list-item" *ngIf="menu.location">
                     <h5>Location</h5>
-                    <h3>{{ locationTypeMapping(menu.location) }}</h3>
-                    <h3 *ngIf="menu.location === locationTypeOffice">{{ menu.meetingRoom }}</h3>
+                    <h3 >{{ locationTypeMapping(menu.location) }}</h3>
+                    <h3 class="meeting-room-name" *ngIf="menu.location === locationTypeOffice">{{ menu.meetingRoom }}</h3>
                 </div>
                 <div class="sidebar-list-item" *ngIf="menu.timeFinish">
                     <h5>Time</h5>

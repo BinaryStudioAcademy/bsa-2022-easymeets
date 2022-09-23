@@ -54,6 +54,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     userId: bigint | undefined;
 
+    public currentMember?: INewMeetingMember;
+
     currentMemberId: bigint | undefined;
 
     addedMembers: INewMeetingMember[] = [];
@@ -285,6 +287,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         );
     }
 
+    removeAll() {
+        this.addedMembers = this.currentMember ? [this.currentMember] : [];
+        this.memberUnavailability = this.currentMember?.unavailabilityItems ?? [];
+    }
+
     isMemberInList(member: INewMeetingMember) {
         return this.addedMembers.map((m) => m.id).includes(member.id);
     }
@@ -323,6 +330,10 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.router.navigate(['/bookings']);
     }
 
+    goBack() {
+        this.router.navigate(['/availability']);
+    }
+
     trimInputValue(control: FormControl) {
         control.patchValue(removeExcessiveSpaces(control.value));
     }
@@ -355,6 +366,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             .subscribe((resp) => {
                 this.addMemberToList(resp);
 
+                this.currentMember = resp;
                 this.currentMemberId = resp.id;
             });
     }
