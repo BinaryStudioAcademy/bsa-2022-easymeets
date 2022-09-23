@@ -108,17 +108,19 @@ public class TeamService : BaseService, ITeamService
         }
     }
 
-    public async Task CreateTeamMemberAsync(TeamMemberDto teamMemberDto, long teamId)
+    public async Task CreateTeamMembersAsync(TeamMemberDto[] teamMembersDto, long teamId)
     {
         var team = await GetTeamByIdAsync(teamId) ?? throw new KeyNotFoundException("Team doesn't exist");
-        var member = new TeamMember()
-        {
-            Role = Role.Member,
-            TeamId = team.Id,
-            UserId = teamMemberDto.Id,
-        };
+        var members = teamMembersDto.Select(teamMemberDto =>
+            new TeamMember
+            {
+                Role = Role.Member,
+                TeamId = team.Id,
+                UserId = teamMemberDto.Id,
+            }
+        );
 
-        _context.TeamMembers.Add(member);
+        _context.TeamMembers.AddRange(members);
         await _context.SaveChangesAsync();
     }
 
@@ -131,7 +133,7 @@ public class TeamService : BaseService, ITeamService
         _context.TeamMembers.Update(teamMember);
         await _context.SaveChangesAsync();
     }
-    
+
     public async Task DeleteTeamAsync(long teamId)
     {
         var teamEntity = await _context.Teams
@@ -139,7 +141,7 @@ public class TeamService : BaseService, ITeamService
                 .ThenInclude(s => s.SlotMembers)
             .Include(t => t.VisibleCalendars)
             .FirstOrDefaultAsync(el => el.Id == teamId) ?? throw new KeyNotFoundException("Invalid team member id");
-        
+
         _context.Teams.Remove(teamEntity);
         await _context.SaveChangesAsync();
     }
@@ -203,7 +205,7 @@ public class TeamService : BaseService, ITeamService
 
         return _mapper.Map<List<TeamDto>>(teams);
     }
-    
+
     public async Task<ICollection<NewMeetingMemberDto>> GetTeamMembersByNameAsync(string searchName, long? teamId)
     {
         var teamMembers = await _context.TeamMembers
@@ -219,7 +221,7 @@ public class TeamService : BaseService, ITeamService
 
         return teamMembers;
     }
-    
+
     public async Task<NewMeetingMemberDto> GetTeamMembersByIdAsync(long userId, long teamId)
     {
         var teamMember = await _context.TeamMembers
