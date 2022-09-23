@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnChanges, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { CustomCalendarDateFormatter } from '@core/helpers/custom-calendar-date-formatter.provider';
+import { getCurrentDate } from '@core/helpers/time-zone-helper';
 import {
-    convertDates,
+    applyDefaultTimeZone,
     isUnavailable,
     mergeUnavailabilities,
     removeFinished,
@@ -11,9 +12,10 @@ import {
 import { IDuration } from '@core/models/IDuration';
 import { IUnavailability } from '@core/models/IUnavailability';
 import { NotificationService } from '@core/services/notification.service';
+import { TimeZoneService } from '@core/services/time-zone.service';
 import { CalendarDateFormatter, CalendarEvent } from 'angular-calendar';
 import { addMinutes } from 'date-fns';
-import { Subject } from 'rxjs';
+import { interval, Subject } from 'rxjs';
 
 @Component({
     selector: 'app-new-meeting-calendar',
@@ -27,8 +29,10 @@ import { Subject } from 'rxjs';
     ],
     encapsulation: ViewEncapsulation.None,
 })
-export class NewMeetingCalendarComponent extends BaseComponent implements OnChanges {
+export class NewMeetingCalendarComponent extends BaseComponent implements OnChanges, OnInit {
     private _duration: IDuration;
+
+    private calendarRefreshFrequency = 30000;
 
     @Input() set duration(value: IDuration) {
         this._duration = value;
@@ -42,6 +46,7 @@ export class NewMeetingCalendarComponent extends BaseComponent implements OnChan
     @Input() viewDate: Date;
 
     @Input() set unavailability(value: IUnavailability[]) {
+        this.unavailablePeriodsRaw = value;
         this.unavailablePeriods = this.filterEvents(value);
         this.refreshEvents();
     }
@@ -54,22 +59,44 @@ export class NewMeetingCalendarComponent extends BaseComponent implements OnChan
 
     past: CalendarEvent = {
         start: new Date(2000, 1),
-        end: new Date(),
+        end: getCurrentDate(),
         title: '',
         cssClass: 'calendar-event',
         color: { primary: 'lightgray', secondary: 'lightgray' },
     };
 
+    unavailablePeriodsRaw: IUnavailability[] = [];
+
     unavailablePeriods: IUnavailability[] = [];
 
     refresh: Subject<void> = new Subject<void>();
 
-    constructor(private notificationsService: NotificationService) {
+    constructor(private notificationsService: NotificationService, private timeZoneService: TimeZoneService) {
         super();
     }
 
     ngOnChanges(): void {
         this.refreshEvents(this.event);
+    }
+
+    ngOnInit() {
+        this.timeZoneService.timeZoneChangedEvent$.pipe(this.untilThis).subscribe({
+            next: () => this.updateCalendar(),
+        });
+
+        interval(this.calendarRefreshFrequency)
+            .pipe(this.untilThis)
+            .subscribe(() => {
+                this.updateCalendar();
+            });
+    }
+
+    updateCalendar() {
+        this.unavailablePeriods = this.filterEvents(this.unavailablePeriodsRaw);
+        this.past.end = getCurrentDate();
+
+        this.refreshEvents();
+        this.refresh.next();
     }
 
     hourSegmentClicked(date: Date) {
@@ -92,11 +119,13 @@ export class NewMeetingCalendarComponent extends BaseComponent implements OnChan
     }
 
     private refreshEvents(event?: CalendarEvent) {
-        this.events = this.getUnavailableEvents().concat(this.past).concat(event ?? []);
+        this.events = this.getUnavailableEvents()
+            .concat(this.past)
+            .concat(event ?? []);
     }
 
     private getUnavailableEvents(): CalendarEvent[] {
-        return this.unavailablePeriods.map(value => ({
+        return this.unavailablePeriods.map((value) => ({
             start: new Date(value.start),
             end: new Date(value.end),
             title: '',
@@ -106,14 +135,16 @@ export class NewMeetingCalendarComponent extends BaseComponent implements OnChan
     }
 
     private checkSelectedDate(date: Date) {
-        if (date < new Date()) {
+        if (date < getCurrentDate()) {
             this.notificationsService.showInfoMessage('You cannot select time period that starts in the past');
 
             return false;
         }
 
-        if (this.unavailablePeriods.some(u => isUnavailable(date, addMinutes(date, this.duration.minutes!), u))) {
-            this.notificationsService.showInfoMessage('At least one selected team member is unavailable in this time period, try again');
+        if (this.unavailablePeriods.some((u) => isUnavailable(date, addMinutes(date, this.duration.minutes!), u))) {
+            this.notificationsService.showInfoMessage(
+                'At least one selected team member is unavailable in this time period, try again',
+            );
 
             return false;
         }
@@ -122,7 +153,7 @@ export class NewMeetingCalendarComponent extends BaseComponent implements OnChan
     }
 
     private filterEvents(events: IUnavailability[]) {
-        const converted = convertDates(events);
+        const converted = applyDefaultTimeZone(events);
 
         const unfinished = removeFinished(converted);
 

@@ -126,7 +126,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         name: string;
         slotType?: SlotType;
         participationRule?: SlotParticipationOption;
-        slotMembers: ISlotMember[]
+        slotMembers: ISlotMember[];
     }): void {
         this.menu = {
             ...this.menu,
@@ -142,10 +142,12 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             slotMembers: this.slotDataLoaded ? this.menu.slotMembers : data.slotMembers,
         };
         this.getTeam();
-        if (this.menu.slotType === SlotType.Team &&
+        if (
+            this.menu.slotType === SlotType.Team &&
             this.menu.participationRule === SlotParticipationOption.One &&
             data.slotMembers.length > 1 &&
-            !this.slotDataLoaded) {
+            !this.slotDataLoaded
+        ) {
             this.router.navigate(['/external-booking/choose-team-members']);
         } else {
             this.slotDataLoaded = true;
@@ -198,6 +200,8 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
     }
 
     public confirmBookingByExternalAttendee(userAnswers: IQuestion[]) {
+        this.spinnerService.show();
+
         const meeting: IExternalMeeting = {
             teamId: this.menu.teamId,
             availabilitySlotId: this.menu.slotId,
@@ -230,15 +234,16 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         this.externalService
             .createExternalMeeting(attendeeMeeting)
             .pipe(this.untilThis)
-            .subscribe(
-                () => {
+            .subscribe({
+                next: () => {
+                    this.spinnerService.hide();
                     this.notificationService.showSuccessMessage('Meeting successfully created');
                     this.router.navigate(['/external-booking/confirmed-booking']);
                 },
-                (error) => {
+                error: (error) => {
                     this.notificationService.showErrorMessage(error);
                 },
-            );
+            });
     }
 
     loadDataByUserLink() {
@@ -301,18 +306,19 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
     }
 
     private getTeam() {
-        this.teamService.getTeamById(Number(this.menu.teamId))
+        this.teamService
+            .getTeamById(Number(this.menu.teamId))
             .pipe(this.untilThis)
-            .subscribe(team => {
+            .subscribe((team) => {
                 this.menu.team = team;
             });
     }
 
     private getAttendeeName(userAnswers: IQuestion[]) {
-        return userAnswers.find(a => a.questionText === userFullNameQuestionText)?.answer ?? '';
+        return userAnswers.find((a) => a.questionText === userFullNameQuestionText)?.answer ?? '';
     }
 
     private getAttendeeEmail(userAnswers: IQuestion[]) {
-        return userAnswers.find(a => a.questionText === userEmailQuestionText)?.answer ?? '';
+        return userAnswers.find((a) => a.questionText === userEmailQuestionText)?.answer ?? '';
     }
 }
