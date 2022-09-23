@@ -49,7 +49,7 @@ export class TeamMembersWindowComponent extends BaseComponent {
     }
 
     onClick(event: EventEmitter<void>) {
-        event?.next();
+        this.createTeamMembers(event);
         this.dialogRef.close();
     }
 
@@ -77,26 +77,36 @@ export class TeamMembersWindowComponent extends BaseComponent {
 
     selectUser(user: IUser) {
         if (this.isMemberSelected(user.id)) {
+            this.usersToAdd = this.usersToAdd.filter(u => u.id !== user.id);
+
             return;
         }
 
         this.usersToAdd = [...this.usersToAdd, user];
+    }
 
-        const teamMember: ITeamMember = {
-            id: user.id,
-            image: user.image,
-            name: user.userName,
-            email: user.email,
-            pageLink: '',
-            role: Role.Member,
-            status: Status.Pending,
-        };
+    createTeamMembers(event: EventEmitter<void>) {
+        const teamMembers = this.usersToAdd.map(user => {
+            const teamMember: ITeamMember = {
+                id: user.id,
+                image: user.image,
+                name: user.userName,
+                email: user.email,
+                pageLink: user.personalUrl,
+                role: Role.Member,
+                status: Status.Pending,
+            };
+
+            return teamMember;
+        });
 
         this.teamService
-            .createTeamMember(teamMember, this.teamId)
+            .createTeamMembers(teamMembers, this.teamId)
             .pipe(this.untilThis)
             .subscribe(
-                () => {},
+                () => {
+                    event?.next();
+                },
                 (error) => {
                     this.notificationService.showErrorMessage(error);
                 },

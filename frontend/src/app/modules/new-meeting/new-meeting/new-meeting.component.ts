@@ -153,6 +153,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 startTime: convertDateToUTCUsingCustomTimeZone(new Date(form.value.date), getDefaultTimeZone()),
                 meetingLink: form.value.meetingName.trim(),
                 meetingMembers: this.addedMembers,
+                timeZone: getDefaultTimeZone(),
                 createdAt: new Date(),
             };
 
