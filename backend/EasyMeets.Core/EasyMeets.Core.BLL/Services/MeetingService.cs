@@ -1,5 +1,7 @@
+using System.Text;
 using AutoMapper;
 using EasyMeets.Core.BLL.Interfaces;
+using EasyMeets.Core.Common.Constant;
 using EasyMeets.Core.Common.DTO;
 using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.Availability.SaveAvailability;
@@ -213,6 +215,8 @@ namespace EasyMeets.Core.BLL.Services
                 .Include(m => m.ExternalAttendees)
                 .Include(m => m.AvailabilitySlot)
                     .ThenInclude(slot => slot!.EmailTemplates)
+                .Include(el => el.QuestionAnswers)
+                    .ThenInclude(el => el.Question)
                 .FirstOrDefaultAsync(m => m.Id == meetingId);
 
             var recipients = meeting?
@@ -357,7 +361,7 @@ namespace EasyMeets.Core.BLL.Services
         {
             return new EmailDto
             {
-                Subject = $"Cancelled: {parameters.LocationType} with {parameters.AuthorName} on {parameters.StartTime.Date}",
+                Subject = $"Cancelled: {parameters.LocationType} with {parameters.AuthorName} on {parameters.StartTime.Date.ToShortDateString()}",
                 Body = $"Hi, {parameters.MemberName},\n\n" +
                 "The event below has been canceled.\n" +
                 $"Invitee: {parameters.AuthorName}\n" +
@@ -372,7 +376,8 @@ namespace EasyMeets.Core.BLL.Services
             var emailParameters = GenerateEmailParameters(meeting, invitee);
             if (emailTemplate is not null)
             {
-                return _mapper.Map<EmailDto>(emailTemplate);
+                var dto = _mapper.Map<EmailDto>(emailTemplate);
+                return SetRealData(dto, meeting, invitee);
             }
 
             return type switch
@@ -381,6 +386,46 @@ namespace EasyMeets.Core.BLL.Services
                 TemplateType.Cancellation => GenerateCancelledMeetingTemplate(emailParameters),
                 _ => new EmailDto()
             };
+        }
+
+        private EmailDto SetRealData(EmailDto emailDto, Meeting meeting, string invitee)
+        {
+            var variables = GenerateEmailVariables(meeting, invitee);
+            var body = new StringBuilder(emailDto.Body);
+            foreach (var variable in variables)
+            {
+                body.Replace(variable.Key, variable.Value);
+            }
+
+            emailDto.Body = body.ToString();
+            
+            return emailDto;
+        }
+
+        private Dictionary<string, string> GenerateEmailVariables(Meeting meeting, string invitee)
+        {
+            return new Dictionary<string, string>
+            {
+                { EmailVariables.InviteeFullName, invitee },
+                { EmailVariables.EventName, $"\"{meeting.Name}\"" },
+                { EmailVariables.MyName, meeting.Author.Name },
+                { EmailVariables.EventTime, meeting.StartTime.Date.ToShortTimeString() },
+                { EmailVariables.EventDate, meeting.StartTime.Date.ToShortDateString() },
+                { EmailVariables.EventDescription, meeting.MeetingLink },
+                { EmailVariables.Location, $"{meeting.LocationType}" },
+                { EmailVariables.QuestionsAndAnswers, GetQuestionsAndAnswers(meeting.QuestionAnswers.ToList()) }
+            };
+        }
+
+        private string GetQuestionsAndAnswers(List<QuestionAnswer> questionAnswers)
+        {
+            var result = new StringBuilder();
+            foreach (var quest in questionAnswers)
+            {
+                result.Append($"Question: {quest.Question.QuestionText}\nAnswer: {quest.Answer}\n\n");
+            }
+
+            return result.ToString();
         }
 
         private async Task AddMeetingToMembersVisibleCalendars(SaveMeetingDto meeting)
