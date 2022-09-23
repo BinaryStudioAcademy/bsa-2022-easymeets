@@ -36,7 +36,7 @@
                 {{ slot.size }} min, {{ slot.authorName }}, {{ locationTypeMapping(slot.locationType) }}
             </p>
             <p *ngIf="!hasOwner">
-                {{ slot.size }} min, 1 of {{ slot.members.length }} members,
+                {{ slot.size }} min, {{ slot.members.length }} Team Members,
                 {{ locationTypeMapping(slot.locationType) }}
             </p>
             <div class="participants-avatars">
