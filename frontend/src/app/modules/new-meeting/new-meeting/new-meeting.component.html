@@ -2,14 +2,23 @@
 <form class="container" [formGroup]="meetingForm" (ngSubmit)="isEditing ? edit(meetingForm) : create(meetingForm)">
     <div class="new-meeting-header">
         <p class="new-meeting-header-label">{{ isEditing ? 'Edit' : 'New' }} meeting</p>
-        <button
-            color="primary"
-            type="submit"
-            mat-flat-button
-            class="new-meeting-header-button"
-            [disabled]="meetingForm.invalid || !meetingForm.touched || !addedMembers.length">
-            {{ isEditing ? 'Edit' : 'Create' }}
-        </button>
+        <div class="buttons-row">
+            <button
+                mat-flat-button
+                class="back-button"
+                type="button"
+                (click)="goBack()">
+                Back to Dashboard
+            </button>
+            <button
+                color="primary"
+                type="submit"
+                mat-flat-button
+                class="new-meeting-header-button"
+                [disabled]="meetingForm.invalid || !meetingForm.touched || !addedMembers.length">
+                {{ isEditing ? 'Edit' : 'Create' }}
+            </button>
+        </div>
     </div>
     <div class="main-content">
         <div class="sidebar">
@@ -98,9 +107,9 @@
                         <small *ngIf="meetingNameControl.errors?.['pattern']">Invalid characters.</small>
                     </div>
                 </div>
+                <mat-divider></mat-divider>
                 <div class="item">
                     <div class="search-list">
-                        <p class="add-team-member-label">Add Team Member</p>
                         <mat-form-field floatLabel="never" class="select-input">
                             <mat-label>Type...</mat-label>
                             <input
@@ -133,7 +142,15 @@
             </div>
             <div class="item">
                 <div class="team-members-container">
-                    <p class="team-members-label">Team members {{ addedMembers.length }}:</p>
+                    <div class="team-members-header">
+                        <p class="team-members-label">Added: {{ addedMembers.length }}</p>
+                        <div class="deselect-wrapper">
+                            <button type="button" mat-icon-button (click)="removeAll()">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                            <p class="members-count">Remove all</p>
+                        </div>
+                    </div>
                     <div class="member-info-container">
                         <div *ngFor="let member of addedMembers">
                             <div class="member-info">
