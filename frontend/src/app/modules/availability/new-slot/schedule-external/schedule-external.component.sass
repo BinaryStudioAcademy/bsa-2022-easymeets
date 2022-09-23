@@ -56,10 +56,10 @@
     .slot-options
         display: flex
         flex-direction: row
-        width: 50%
+        min-width: 50%
         margin-left: auto
         .input-container
-            width: 33%
+            width: 90%
 
 .error-container
     margin-top: 3px
@@ -157,12 +157,15 @@ input[type=text]
         font-family: 'Inter'
         font-style: normal
 
-.sub-input
-    max-width: 20%
-
 input.ng-dirty.ng-invalid
     border-color: $red
 
 .schedule
     padding-left: 30px
     padding-right: 30px
+
+.option
+    width: 100%
+
+.custom-time
+    margin-top: 5px

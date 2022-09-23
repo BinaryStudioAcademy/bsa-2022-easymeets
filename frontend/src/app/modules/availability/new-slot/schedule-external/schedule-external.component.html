@@ -6,64 +6,72 @@
                     <p class="info-label">Availability Slots Defining</p>
                 </div>
                 <div *ngIf="slot" class="slot-options">
-                    <div class="input-container">
-                        <p class="input-description">Meeting Name</p>
-                        <input
-                            [(ngModel)]="slot.name"
-                            name="meetingName"
-                            #name="ngModel"
-                            type="text"
-                            required
-                            maxlength="50"
-                            [pattern]="textFieldRegex"
-                            (change)="meetingNameChanged(name.value)" />
-                        <div class="error-container">
-                            <div *ngIf="name.invalid && name.touched" class="error">
-                                <div *ngIf="name.errors?.['required']">Field is required</div>
-                                <div *ngIf="name.errors?.['pattern']">{{ invalidCharactersMessage }}</div>
+                    <div class="option">
+                        <div class="input-container">
+                            <p class="input-description">Meeting Name</p>
+                            <input
+                                [(ngModel)]="slot.name"
+                                name="meetingName"
+                                #name="ngModel"
+                                type="text"
+                                required
+                                maxlength="50"
+                                [pattern]="textFieldRegex"
+                                (change)="meetingNameChanged(name.value)" />
+                            <div class="error-container">
+                                <div *ngIf="name.invalid && name.touched" class="error">
+                                    <div *ngIf="name.errors?.['required']">Field is required</div>
+                                    <div *ngIf="name.errors?.['pattern']">{{ invalidCharactersMessage }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="input-container sub-input">
-                        <p class="input-description">Duration</p>
-                        <mat-select
-                            [(ngModel)]="inputSettings[durationKey.inputType].durationValue"
-                            name="slotSize"
-                            (selectionChange)="onDurationChange(durationKey.inputType, durationKey.field)">
-                            <mat-option *ngFor="let _duration of durations" [value]="_duration">
-                                {{ _duration.time }} {{ _duration.unitOfTime }}
-                            </mat-option>
-                        </mat-select>
+                    <div class="option">
+                        <div class="input-container">
+                            <p class="input-description">Duration</p>
+                            <mat-select
+                                [(ngModel)]="inputSettings[durationKey.inputType].durationValue"
+                                name="slotSize"
+                                (selectionChange)="onDurationChange(durationKey.inputType, durationKey.field)">
+                                <mat-option *ngFor="let _duration of durations" [value]="_duration">
+                                    {{ _duration.time }} {{ _duration.unitOfTime }}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                        <div class="input-container" *ngIf="inputSettings[durationKey.inputType].isCustom">
+                            <div class="custom-time">
+                                <app-custom-time
+                                    [inputCustomTime]="inputSettings[durationKey.inputType].inputValue"
+                                    (changeValueEmitter)="updateDuration(durationKey.field, $event)">
+                                </app-custom-time>
+                            </div>
+                        </div>
                     </div>
-                    <div class="input-container" *ngIf="inputSettings[durationKey.inputType].isCustom">
-                        <app-custom-time
-                            [inputCustomTime]="inputSettings[durationKey.inputType].inputValue"
-                            (changeValueEmitter)="updateDuration(durationKey.field, $event)">
-                        </app-custom-time>
-                    </div>
-                    <div class="input-container">
-                        <p class="input-description">Location</p>
-                        <mat-select [(ngModel)]="slot.locationType" name="meetingLocation">
-                            <mat-option *ngFor="let meetingLocation of locations" [value]="meetingLocation">
-                                {{ locationTypeMapping(meetingLocation) }}
-                            </mat-option>
-                        </mat-select>
-                    </div>
-                    <div *ngIf="slot.locationType === LocationType.Office" class="input-container">
-                        <p class="input-description sub-description">Meeting room</p>
-                        <input
-                            [(ngModel)]="slot.meetingRoom"
-                            name="meetingRoom"
-                            #meetingRoom="ngModel"
-                            type="text"
-                            required
-                            maxlength="50"
-                            [pattern]="textFieldRegex" />
-                        <div class="error-container">
-                            <div *ngIf="meetingRoom.invalid && meetingRoom.touched" class="error">
-                                <div *ngIf="meetingRoom.errors?.['required']">Field is required</div>
-                                <div *ngIf="meetingRoom.errors?.['pattern']">
-                                    Input field accepts only text, numbers, symbols -'
+                    <div class="option">
+                        <div class="input-container">
+                            <p class="input-description">Location</p>
+                            <mat-select [(ngModel)]="slot.locationType" name="meetingLocation">
+                                <mat-option *ngFor="let meetingLocation of locations" [value]="meetingLocation">
+                                    {{ locationTypeMapping(meetingLocation) }}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                        <div *ngIf="slot.locationType === LocationType.Office" class="input-container">
+                            <p class="input-description sub-description">Meeting room</p>
+                            <input
+                                [(ngModel)]="slot.meetingRoom"
+                                name="meetingRoom"
+                                #meetingRoom="ngModel"
+                                type="text"
+                                required
+                                maxlength="50"
+                                [pattern]="textFieldRegex" />
+                            <div class="error-container">
+                                <div *ngIf="meetingRoom.invalid && meetingRoom.touched" class="error">
+                                    <div *ngIf="meetingRoom.errors?.['required']">Field is required</div>
+                                    <div *ngIf="meetingRoom.errors?.['pattern']">
+                                        Input field accepts only text, numbers, symbols -'
+                                    </div>
                                 </div>
                             </div>
                         </div>
