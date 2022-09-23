@@ -25,6 +25,7 @@ import { ScheduleComponent } from './new-slot/schedule/schedule.component';
 import { ExclusionDateComponent } from './new-slot/schedule-definition/exclusion-date/exclusion-date.component';
 import { ScheduleDefinitionComponent } from './new-slot/schedule-definition/schedule-definition.component';
 import { ScheduleExternalComponent } from './new-slot/schedule-external/schedule-external.component';
+import { ScheduleListComponent } from './new-slot/schedule-list/schedule-list.component';
 import { ScheduleListItemComponent } from './new-slot/schedule-list-item/schedule-list-item.component';
 import { ScheduleMonthComponent } from './new-slot/schedule-month/schedule-month.component';
 import { ScheduleWeekComponent } from './new-slot/schedule-week/schedule-week.component';
@@ -55,6 +56,7 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         ScheduleMonthComponent,
         CustomTimeComponent,
         DebounceClickDirective,
+        ScheduleListComponent,
     ],
     providers: [PendingChangesGuard],
     imports: [

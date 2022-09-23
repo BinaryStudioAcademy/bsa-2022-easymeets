@@ -1,0 +1,7 @@
+<div class="schedule-list-wrapper">
+    <div class="schedule-item-container" *ngFor="let item of scheduleItems; index as i">
+        <app-schedule-list-item [disabled]="disabled"
+            [timeFormat]="timeFormat" [item]="item" [itemChange]="changeEvent" [displayDay]="displayDays[i]">
+        </app-schedule-list-item>
+    </div>
+</div>

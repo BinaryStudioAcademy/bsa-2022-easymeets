@@ -17,7 +17,7 @@ export interface ISaveAvailability {
     eventDetails: ISaveEventDetails;
     questions: IQuestion[];
     schedule?: ISchedule;
-    slotMembers: ISlotMember[]
+    slotMembers: ISlotMember[];
     templateSettings: ISaveConfirmationEmailDetails[];
-    participationRule: SlotParticipationOption
+    participationRule: SlotParticipationOption;
 }
