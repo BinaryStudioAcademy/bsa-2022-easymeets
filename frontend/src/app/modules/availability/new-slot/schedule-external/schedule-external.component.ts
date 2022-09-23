@@ -80,18 +80,19 @@ export class ScheduleExternalComponent extends BaseComponent {
             .subscribe(
                 () => {
                     this.state = ExternalScheduleState.Done;
-                    if (this.slot) {
-                        this.slotService
-                            .updateSlotExternally(this.link, this.slot)
-                            .pipe(this.untilThis)
-                            .subscribe(() => {});
-                    }
                 },
                 () => {
                     this.notificationsService.showErrorMessage('Something went wrong, try defining schedule again');
                     this.returnToSchedule();
                 },
             );
+
+        if (this.slot) {
+            this.slotService
+                .updateSlotExternally(this.link, this.slot)
+                .pipe(this.untilThis)
+                .subscribe(() => {});
+        }
     }
 
     returnToSchedule() {
