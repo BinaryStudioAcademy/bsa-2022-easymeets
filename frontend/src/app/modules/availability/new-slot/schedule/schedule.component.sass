@@ -1,9 +1,11 @@
 @import "src/styles/color-variables"
 @import "src/styles/screen-variables"
 
+$container-padding: 25px
+
 .container
     box-sizing: border-box
-    padding: 25px
+    padding: $container-padding
     height: 100%
     p
         margin: 0
@@ -14,34 +16,43 @@
 .definition-container
     display: grid
     grid-template-columns: min(300px, 40%) max(60%, calc(100% - 300px))
-    .team-members-section
-        padding: 0 32px 32px
-        .mat-select
-            font-size: 14px
-            padding-left: 5px
-            border: 2px solid $pattens-blue
-            border-radius: 8px
-            height: 36px
-            font-weight: bold
-        .team-members-header
-            margin-top: 24px
-            background-color: rgb($loblolly, 0.2)
-            height: 36px
-            display: flex
-            align-items: center
-            padding-left: 5px
-        .team-members-wrapper
-            max-height: 320px
-            overflow-y: auto
-            margin-bottom: 20px
-            .member-wrapper
-                height: 44px
-                width: 100%
+    .team-members-section-wrapper
+        display: flex
+        .team-members-section
+            margin-right: $container-padding
+            .mat-select
+                font-size: 14px
+                padding-left: 5px
+                border: 2px solid $pattens-blue
+                border-radius: 8px
+                height: 36px
+                font-weight: bold
+            .team-members-header
+                margin-top: 24px
+                background-color: rgb($loblolly, 0.2)
+                height: 36px
                 display: flex
-                justify-content: space-between
                 align-items: center
-    @media (max-width: $desktop-max-width-exclusion-tab)
-        flex-direction: column
+                padding-left: 5px
+            .team-members-wrapper
+                max-height: 320px
+                overflow-y: auto
+                margin-bottom: 20px
+                .member-wrapper
+                    height: 44px
+                    width: 100%
+                    display: flex
+                    justify-content: space-between
+                    align-items: center
+        @media (max-width: $desktop-max-width-exclusion-tab)
+            flex-direction: column
+    .divider-right
+        margin-top: -$container-padding
+        margin-bottom: -$container-padding
+
+.divider-bottom
+    margin-top: $container-padding
+    margin-inline: -$container-padding
 
 .buttons-container
     padding-top: 30px
