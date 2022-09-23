@@ -1,3 +1,4 @@
+import { ITimeZone } from '@core/models/ITimeZone';
 import { LocationType } from '@shared/enums/locationType';
 
 import { INewMeetingMember } from './INewMeetingTeamMember';
@@ -11,5 +12,6 @@ export interface INewMeeting {
     startTime: string;
     meetingLink: string;
     createdAt: Date;
+    timeZone?: ITimeZone;
     meetingMembers: INewMeetingMember[];
 }
