@@ -23,7 +23,6 @@
         margin-inline: 2%
 
 .settings-header
-    font-family: "Inter"
     margin-bottom: 20px
     .title
         font-weight: 900
@@ -39,18 +38,28 @@
         background-color: $em-solitude-dark
 
 .settings-content
+    display: flex
     border-radius: 32px
-    box-shadow: 0px 0px 8px -2px $em-pattens-blue, 0px 2px 4px -2px $em-pattens-blue
-    min-height: 800px
+    box-shadow: 0 0 8px -2px $em-pattens-blue, 0px 2px 4px -2px $em-pattens-blue
+    min-height: 740px
+    @media screen and ( max-width: $tablet-min-width  )
+        flex-direction: column
 
 .settings-container
-    padding: 40px 200px 80px 190px
+    height: 80%
+    padding: 40px 7% 80px 7%
+    @media screen and ( max-width: $tablet-min-width  )
+        height: 90%
 
 .menu-item-container
     flex-grow: 1
-    padding: 41px 0px
+    padding: 40px 0
 
 .sidebar
     max-width: 176px
     border-right: 1px solid $em-solitude-dark
     padding: 41px 0
+    @media screen and ( max-width: $tablet-min-width  )
+        border-bottom: 1px solid $em-solitude-dark
+        border-right: none
+        max-width: 100%
