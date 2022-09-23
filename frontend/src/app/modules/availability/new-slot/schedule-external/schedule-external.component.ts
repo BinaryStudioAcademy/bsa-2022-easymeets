@@ -18,6 +18,7 @@ import { emailRegex, textFieldRegex } from '@shared/constants/model-validation';
 import { invalidCharactersMessage } from '@shared/constants/shared-messages';
 import { GeneralKeys, InputFieldType } from '@shared/enums/custom-field';
 import { LocationType } from '@shared/enums/locationType';
+import { concatMap } from 'rxjs';
 
 @Component({
     selector: 'app-schedule-external',
@@ -77,6 +78,7 @@ export class ScheduleExternalComponent extends BaseComponent {
         this.slotService
             .updateScheduleExternally(this.link, this.schedule)
             .pipe(this.untilThis)
+            .pipe(concatMap(() => this.updateSlotExternally()))
             .subscribe(
                 () => {
                     this.state = ExternalScheduleState.Done;
@@ -86,13 +88,6 @@ export class ScheduleExternalComponent extends BaseComponent {
                     this.returnToSchedule();
                 },
             );
-
-        if (this.slot) {
-            this.slotService
-                .updateSlotExternally(this.link, this.slot)
-                .pipe(this.untilThis)
-                .subscribe(() => {});
-        }
     }
 
     returnToSchedule() {
@@ -171,6 +166,15 @@ export class ScheduleExternalComponent extends BaseComponent {
     private defineCurrentInputValues() {
         if (this.slot) {
             this.inputValues[InputFieldType.Duration] = this.slot.size;
+        }
+    }
+
+    private async updateSlotExternally() {
+        if (this.slot) {
+            this.slotService
+                .updateSlotExternally(this.link, this.slot)
+                .pipe(this.untilThis)
+                .subscribe(() => {});
         }
     }
 }
