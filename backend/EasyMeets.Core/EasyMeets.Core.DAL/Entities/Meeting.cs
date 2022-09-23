@@ -11,6 +11,8 @@ public class Meeting : AuditEntity<long>
     public string Name { get; set; } = string.Empty;
     public int Duration { get; set; }
     public DateTimeOffset StartTime { get; set; }
+    public string? TimeZoneValue { get; set; }
+    public string? TimeZoneName { get; set; }
     public string MeetingLink { get; set; } = string.Empty;
 
     public AvailabilitySlot? AvailabilitySlot { get; set; }
