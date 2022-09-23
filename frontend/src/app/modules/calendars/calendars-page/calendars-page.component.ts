@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { getDefaultOptions } from '@core/helpers/options-helper';
 import { ICheckOption } from '@core/interfaces/check-option-interface';
@@ -9,6 +9,7 @@ import { ConfirmationWindowService } from '@core/services/confirmation-window.se
 import { GoogleOauthService } from '@core/services/google-oauth.service';
 import { NotificationService } from '@core/services/notification.service';
 import { SettingPageService } from '@core/services/setting-page.service';
+import { SpinnerService } from '@core/services/spinner.service';
 import { TeamService } from '@core/services/team.service';
 import { mergeMap, switchMap } from 'rxjs';
 
@@ -37,7 +38,7 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
         private calendarService: CalendarsService,
         private notificationService: NotificationService,
         private settingPageService: SettingPageService,
-        private changeDetector: ChangeDetectorRef,
+        private spinnerService: SpinnerService,
     ) {
         super();
         this.connectGoogleCalendar.subscribe(() => {
@@ -64,6 +65,7 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
     }
 
     loadData() {
+        this.spinnerService.show();
         this.teamService
             .getCurrentUserTeams()
             .pipe(
@@ -78,6 +80,7 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
                 this.userCalendars = response;
                 this.updateSelectedItems();
                 this.settingPageService.updateButtonActive(true);
+                this.spinnerService.hide();
             });
     }
 

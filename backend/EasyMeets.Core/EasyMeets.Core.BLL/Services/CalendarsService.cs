@@ -267,11 +267,21 @@ namespace EasyMeets.Core.BLL.Services
         {
             var meetings = await _context.Meetings.Where(x => x.TeamId == teamId).ToListAsync();
 
-            if (meetings.Any())
+            if (!meetings.Any())
             {
-                var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken);
-                
-                foreach (var item in meetings)
+                return;
+            }
+            
+            var calendar = await _context.Calendars.FirstOrDefaultAsync(el => el.RefreshToken == refreshToken) 
+                           ?? throw new KeyNotFoundException("Calendar not found");
+            
+            var events = await GetEventsFromGoogleCalendar(calendar.ConnectedCalendar);
+            
+            var tokenResultDto = await _googleOAuthService.RefreshToken(refreshToken);
+            
+            foreach (var item in meetings)
+            {
+                if (!events.Any(el => el.Summary == item.Name && el.Start?.DateTime == item.StartTime))
                 {
                     await AddMeetingToCalendar(_mapper.Map<SaveMeetingDto>(item), tokenResultDto);
                 }
