@@ -66,6 +66,8 @@
         height: 78px
         width: 78px
         clip-path: circle()
+    @media screen and (max-width: $desktop-min-width)
+        padding: 10px 10px
     .sidebar-list
         display: flex
         flex-direction: column
@@ -93,6 +95,8 @@
         .product-name
             font-size: 24px
             color: $logo-color
+        @media screen and (max-width: $desktop-min-width)
+            position: initial
 
     .welcome-message
         @media screen and (max-width: $desktop-min-width)
