@@ -92,8 +92,8 @@ export class TeamService {
         return this.httpService.putRequest<ITeam>(`${this.routePrefix}`, team);
     }
 
-    public createTeamMember(member: ITeamMember, teamId?: number) {
-        return this.httpService.postRequest<ITeamMember>(`${this.routePrefix}/members/${teamId}`, member);
+    public createTeamMembers(members: ITeamMember[], teamId?: number) {
+        return this.httpService.postRequest<ITeamMember>(`${this.routePrefix}/members/${teamId}`, members);
     }
 
     public updateTeamMember(member: ITeamMember) {
