@@ -6,6 +6,7 @@ import { CustomTimeComponent } from '@modules/availability/new-slot/general/cust
 import { ExclusionDatesModule } from '@modules/exclusion-dates/exclusion-dates.module';
 import { HeaderModule } from '@modules/header/header.module';
 import { SideMenuModule } from '@modules/side-menu/side-menu.module';
+import { DebounceClickDirective } from '@shared/directives/debounce-click.directive';
 import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -53,6 +54,7 @@ import { AvailabilityRoutingModule } from './availability-routing.module';
         ExclusionDateComponent,
         ScheduleMonthComponent,
         CustomTimeComponent,
+        DebounceClickDirective,
     ],
     providers: [PendingChangesGuard],
     imports: [
