@@ -6,7 +6,7 @@
             [disabled]="disabledValue"></mat-slide-toggle>
         <p>{{ displayDay }}</p>
     </div>
-    <form class="formDate" [formGroup]="scheduleForm">
+    <form class="form-date" [formGroup]="scheduleForm">
         <div class="dates-container">
             <ng-container *ngIf="isTwelveHoursFormat(); else twentyFourFormat">
                 <div class="time-container">

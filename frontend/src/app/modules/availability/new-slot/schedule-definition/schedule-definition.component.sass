@@ -13,12 +13,12 @@
 
 .schedule-container
     width: 80%
-    border-right: 2px solid $loblolly
+    border-right: 1px solid $em-solitude
     padding-right: 25px
     @media (max-width: $desktop-min-width)
         width: 90%
         border-right: none
-        border-bottom: 2px solid $loblolly
+        border-bottom: 1px solid $em-solitude
 
 .schedule-select-container
     display: flex
@@ -96,6 +96,9 @@ hr
     height: 1px
     background-color: $em-solitude-dark
     width: 100%
+
+::ng-deep .custom-mat-group.mat-tab-group .mat-tab-body-wrapper
+    margin-top: 5px
 
 ::ng-deep .custom-mat-group .mat-tab-label .mat-tab-label-content
     padding: 5px 4px
