@@ -1,7 +1,7 @@
 @import '../../../../styles/color-variables'
 
 .confirmation-window-wrapper
-    width: 100%
+    width: 400px
     display: flex
     flex-direction: column
     align-items: center
@@ -11,13 +11,11 @@
         flex-direction: row
         .mat-title-text
             .mat-dialog-title
-                font-family: 'Inter'
                 font-style: normal
                 font-weight: 900
                 font-size: 22px
                 line-height: 146%
     .message
-        font-family: 'Inter'
         font-style: normal
         font-weight: 400
         font-size: 16px
@@ -32,7 +30,6 @@
     width: 27em
     margin: 5px
     border-radius: 24px
-    font-family: 'Inter'
     font-style: normal
     font-weight: 400
     font-size: 14px
@@ -66,6 +63,7 @@ hr
                 width: 40px
                 height: 40px
         .user-name-email
+            max-width: 250px
             display: flex
             flex-direction: column
             padding: 10px 0 10px 0
@@ -73,13 +71,18 @@ hr
                 font-weight: 700
             .email
                 color: $em-raven
+
+            .name, .email
+                text-overflow: ellipsis
+                white-space: nowrap
+                overflow: hidden
+
     .not-added-user-info:hover
         background-color: $solitude
         cursor: pointer
     .query-message
         padding-top: 20px
         text-align: center
-        font-family: 'Inter'
         font-style: normal
         font-weight: 400
         font-size: 14px
@@ -90,7 +93,6 @@ hr
     background: $white
     border: 1px solid $nepal
     border-radius: 24px
-    font-family: 'Inter'
     font-style: normal
     font-weight: 400
     font-size: 14px
@@ -111,7 +113,6 @@ hr
     .added-user-text
         text-align: center
         border-radius: 100px
-        font-family: 'Inter'
         font-style: normal
         font-weight: 400
         font-size: 14px
@@ -126,7 +127,6 @@ hr
     min-height: 22px
     .selected-text
         text-align: center
-        font-family: 'Inter'
         font-style: normal
         font-weight: 700
         font-size: 14px

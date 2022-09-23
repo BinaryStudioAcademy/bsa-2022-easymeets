@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EasyMeets.Core.Common.DTO.Availability;
 using EasyMeets.Core.Common.DTO.Common;
 using EasyMeets.Core.Common.DTO.Meeting;
@@ -14,9 +14,29 @@ namespace EasyMeets.Core.BLL.MappingProfiles
         {
             CreateMap<User, UserMeetingDTO>();
             
-            CreateMap<SaveMeetingDto, Meeting>();
+            CreateMap<SaveMeetingDto, Meeting>()
+                .AfterMap((src, dest) =>
+                {
+                    if (src.TimeZone is not null)
+                    {
+                        dest.TimeZoneName = src.TimeZone.NameValue;
+                        dest.TimeZoneValue = src.TimeZone.TimeValue;
+                    }
+                    
+                });
             CreateMap<Meeting, SaveMeetingDto>()
-                .ForMember(dest => dest.MeetingMembers, src => src.MapFrom(s => s.MeetingMembers));
+                .ForMember(dest => dest.MeetingMembers, src => src.MapFrom(s => s.MeetingMembers))
+                .AfterMap((src, dest) =>
+                {
+                    if (src.TimeZoneName is not null && src.TimeZoneValue is not null)
+                    {
+                        dest.TimeZone = new TimeZoneDto
+                        {
+                            NameValue = src.TimeZoneName,
+                            TimeValue = src.TimeZoneValue
+                        };
+                    }
+                });
 
             CreateMap<SaveUpdateMeetingDto, Meeting>().ReverseMap();
             
@@ -74,7 +94,18 @@ namespace EasyMeets.Core.BLL.MappingProfiles
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.TeamMember.User.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.TeamMember.User.Name))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.TeamMember.User.Email))
-                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.TeamMember.User.ImagePath));
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.TeamMember.User.ImagePath))
+                .AfterMap((src, dest) =>
+                {
+                    if (src.Meeting.TimeZoneName is not null && src.Meeting.TimeZoneValue is not null)
+                    {
+                        dest.TimeZone = new TimeZoneDto
+                        {
+                            NameValue = src.Meeting.TimeZoneName,
+                            TimeValue = src.Meeting.TimeZoneValue,
+                        };
+                    }
+                });
         }
     }
 }

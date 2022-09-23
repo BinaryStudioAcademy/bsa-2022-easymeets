@@ -30,7 +30,7 @@ public class TeamController : ControllerBase
     {
         return Ok(await _sharedService.GenerateNewPageLinkAsync(id, teamname));
     }
-    
+
     [HttpGet("user-teams")]
     public async Task<ActionResult<List<TeamDto>>> GetCurrentUserTeams()
     {
@@ -56,14 +56,14 @@ public class TeamController : ControllerBase
         {
             return BadRequest();
         }
-        
+
         return Ok(await _teamService.CreateTeamAsync(newTeamDto));
     }
 
     [HttpPost("members/{teamId?}")]
-    public async Task<IActionResult> UpdateTeamMembersAsync([FromBody] TeamMemberDto teamMemberDto, long teamId)
+    public async Task<IActionResult> UpdateTeamMembersAsync([FromBody] TeamMemberDto[] teamMembersDto, long teamId)
     {
-        await _teamService.CreateTeamMemberAsync(teamMemberDto, teamId);
+        await _teamService.CreateTeamMembersAsync(teamMembersDto, teamId);
         return Ok();
     }
 
