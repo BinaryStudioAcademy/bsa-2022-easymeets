@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '@core/base/base.component';
+import { stringToTimeSpan, timeSpanToString } from '@core/helpers/schedule-items-helper';
 import { IScheduleItem } from '@core/models/schedule/IScheduleItem';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
 import { TimeFormat } from '@shared/enums/timeFormat';
@@ -43,12 +44,11 @@ export class ScheduleListItemComponent extends BaseComponent implements OnInit {
 
     onDateChange($event: Event, isStart: boolean) {
         const target = $event.target as HTMLInputElement;
-        const dateValue = `${target.value}:00`;
 
         if (isStart) {
-            this.item.start = dateValue;
+            this.item.start = stringToTimeSpan(target.value);
         } else {
-            this.item.end = dateValue;
+            this.item.end = stringToTimeSpan(target.value);
         }
         this.onItemChange();
     }
@@ -78,10 +78,10 @@ export class ScheduleListItemComponent extends BaseComponent implements OnInit {
 
     private updateTime() {
         this.scheduleForm.patchValue({
-            startTime: this.item.start.substring(0, 5),
-            endTime: this.item.end.substring(0, 5),
+            startTime: timeSpanToString(this.item.start),
+            endTime: timeSpanToString(this.item.end),
         });
-        this.startValue = this.item.start.substring(0, 5);
-        this.endValue = this.item.end.substring(0, 5);
+        this.startValue = timeSpanToString(this.item.start);
+        this.endValue = timeSpanToString(this.item.end);
     }
 }

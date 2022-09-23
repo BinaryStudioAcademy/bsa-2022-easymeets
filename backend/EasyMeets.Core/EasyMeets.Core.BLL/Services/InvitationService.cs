@@ -23,7 +23,6 @@ namespace EasyMeets.Core.BLL.Services
             if (teamData.UserId != null)
             {
                 await _teamService.CreateTeamMemberAsync(teamData.UserId.Value, teamData.TeamId);
-
                 return _linkService.GenerateRedirectLinkForResigteredUser(teamData.TeamId);
             }
 

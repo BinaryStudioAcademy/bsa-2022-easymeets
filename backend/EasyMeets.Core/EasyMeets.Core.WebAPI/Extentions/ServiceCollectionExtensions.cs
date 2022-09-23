@@ -22,6 +22,10 @@ using EasyMeets.RabbitMQ.Service;
 using Newtonsoft.Json.Converters;
 using EasyMeets.RabbitMQ.Interface;
 using EasyMeets.Core.BLL.Services.Queue;
+using Quartz;
+using Quartz.Spi;
+using EasyMeets.Core.BLL.Services.Quartz;
+using Quartz.Impl;
 
 namespace EasyMeets.Core.WebAPI.Extentions
 {
@@ -52,7 +56,9 @@ namespace EasyMeets.Core.WebAPI.Extentions
             services.AddTransient<IGoogleMeetService, GoogleMeetService>();
             services.AddTransient<ILinkService, LinkService>();
             services.AddTransient<IInvitationService, InvitationService>();
+            services.AddTransient<IEmailDelayService, EmailDelayService>();
             services.AddRabbitMQ(configuration);
+            services.AddQuartzWorker();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)
@@ -159,6 +165,24 @@ namespace EasyMeets.Core.WebAPI.Extentions
             });
 
             services.AddTransient<FirebaseAuth>(_ => FirebaseAuth.DefaultInstance);
+        }
+
+        public static void AddQuartzWorker(this IServiceCollection services)
+        {
+            services.AddSingleton<IJobFactory, SingletonJobFactory>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+
+            services.AddSingleton<EmailFollowUpJob>();
+            services.AddSingleton(new JobSchedule(
+                jobType: typeof(EmailFollowUpJob),
+                cronExpression: "0/59 * * * * ?"));
+
+            services.AddSingleton<EmailReminderJob>();
+            services.AddSingleton(new JobSchedule(
+                jobType: typeof(EmailReminderJob),
+                cronExpression: "0/59 * * * * ?"));
+
+            services.AddHostedService<QuartzHostedService>();
         }
     }
 }

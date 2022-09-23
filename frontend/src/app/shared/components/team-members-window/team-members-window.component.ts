@@ -70,7 +70,7 @@ export class TeamMembersWindowComponent extends BaseComponent {
         const value = (event.value || '').trim();
 
         if (value) {
-            this.teamMembersEmails.push(value);
+            this.teamMembersEmails = [...this.teamMembersEmails, value];
         }
         event.chipInput!.clear();
     }
