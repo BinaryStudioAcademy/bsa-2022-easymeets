@@ -51,8 +51,14 @@ button
 
 .table-container
     overflow-y: auto
+    @media (max-width: $desktop-higher-min-width)
+        max-width: 475px
     @media (max-width: $desktop-min-width)
-        max-width: 500px
+        max-width: 330px
+    @media (max-width: $tablet-min-width)
+        max-width: 150px
+    @media (max-width: 700px)
+        display: none
 
 .mat-form-field-appearance-fill .mat-form-field-flex
     padding: 0
@@ -89,6 +95,15 @@ i
         font-size: 14px
         line-height: 146%
         color: $midnight
+        @media (max-width: $desktop-higher-min-width)
+            font-size: 11px
+        @media (max-width: $desktop-min-width)
+            font-size: 8px
+        @media (max-width: $tablet-min-width)
+            font-size: 4px
+            margin-right: 70px
+        @media (max-width: 700px)
+            display: none
     i
         color: $em-raven
         height: 17px

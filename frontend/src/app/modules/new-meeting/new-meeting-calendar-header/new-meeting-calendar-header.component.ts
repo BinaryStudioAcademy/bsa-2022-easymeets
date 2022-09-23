@@ -1,4 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { getDefaultTimeZone, setTimeZone } from '@core/helpers/time-zone-helper';
+import { ITimeZone } from '@core/models/ITimeZone';
+import { TimeZoneService } from '@core/services/time-zone.service';
 import { addWeeks, endOfWeek, format, startOfWeek } from 'date-fns';
 
 @Component({
@@ -13,8 +16,14 @@ export class NewMeetingCalendarHeaderComponent implements OnInit {
 
     weekRange: string = '';
 
+    timeZone: ITimeZone;
+
+    // eslint-disable-next-line no-empty-function
+    constructor(private timeZoneService: TimeZoneService) {}
+
     ngOnInit(): void {
         this.changeWeekRange();
+        this.timeZone = getDefaultTimeZone();
     }
 
     previousWeek() {
@@ -23,6 +32,15 @@ export class NewMeetingCalendarHeaderComponent implements OnInit {
 
     nextWeek() {
         this.changeDateToWeek(1);
+    }
+
+    checkZone(): boolean {
+        return !this.timeZone;
+    }
+
+    saveTimeZone() {
+        setTimeZone(this.timeZone);
+        this.timeZoneService.timeZoneChanged(this.timeZone);
     }
 
     private changeDateToWeek(number: number) {

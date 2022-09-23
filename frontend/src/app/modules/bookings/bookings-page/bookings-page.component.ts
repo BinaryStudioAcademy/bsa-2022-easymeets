@@ -4,12 +4,13 @@ import { BaseComponent } from '@core/base/base.component';
 import { getDateFilters } from '@core/helpers/date-filter-helper';
 import { addMinutesHelper, moveByTimezone } from '@core/helpers/date-helper';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
-import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
+import { getCurrentDate, getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IMeetingBooking } from '@core/models/IMeetingBooking';
 import { IMeetingMembersRequest } from '@core/models/IMeetingMemberRequest';
 import { ConfirmationWindowService } from '@core/services/confirmation-window.service';
 import { MeetingBookingsService } from '@core/services/meeting-bookings.service';
 import { NotificationService } from '@core/services/notification.service';
+import { SpinnerService } from '@core/services/spinner.service';
 import { TeamService } from '@core/services/team.service';
 import { phoneMaxWidth } from '@shared/constants/screen-variables';
 import { deletionMessage } from '@shared/constants/shared-messages';
@@ -40,7 +41,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
 
     public locationTypeOffice = LocationType.Office;
 
-    public currentDate = new Date();
+    public currentDate = getCurrentDate();
 
     public currentStart: Date;
 
@@ -65,6 +66,7 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
         private notifications: NotificationService,
         private teamService: TeamService,
         private confirmWindowService: ConfirmationWindowService,
+        private spinnerService: SpinnerService,
     ) {
         super();
         this.meetings = [];
@@ -78,17 +80,20 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
     }
 
     getBookings() {
+        this.spinnerService.show();
         const containerWidth = this.getPageSize();
 
         this.getNumberOfItemsToDisplay(containerWidth);
-        this.teamService.currentTeamEmitted$.pipe(
-            this.untilThis,
-            concatMap((teamId) => {
-                this.teamId = teamId;
+        this.teamService.currentTeamEmitted$
+            .pipe(
+                this.untilThis,
+                concatMap((teamId) => {
+                    this.teamId = teamId;
 
-                return this.loadMeetings();
-            }),
-        ).subscribe();
+                    return this.loadMeetings();
+                }),
+            )
+            .subscribe(() => this.spinnerService.hide());
     }
 
     deleteButtonClick(id: number) {
@@ -113,18 +118,20 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
     }
 
     deleteBooking() {
+        this.spinnerService.show();
         this.meetingService
             .deleteBooking(this.currentBookingId)
             .pipe(this.untilThis)
-            .subscribe(
-                () => {
+            .subscribe({
+                next: () => {
+                    this.spinnerService.hide();
                     this.notifications.showSuccessMessage('Meeting was successfully deleted');
                     this.getBookings();
                 },
-                (error) => {
+                error: (error) => {
                     this.notifications.showErrorMessage(error);
                 },
-            );
+            });
     }
 
     @HostListener('window:resize', ['$event'])
@@ -145,14 +152,12 @@ export class BookingsPageComponent extends BaseComponent implements OnInit, OnDe
     }
 
     private loadMeetings() {
-        return this.meetingService
-            .getMeetings(this.getMeetingRequest())
-            .pipe(
-                this.untilThis,
-                map((resp: IMeetingBooking[]) => {
-                    this.meetings = resp;
-                }),
-            );
+        return this.meetingService.getMeetings(this.getMeetingRequest()).pipe(
+            this.untilThis,
+            map((resp: IMeetingBooking[]) => {
+                this.meetings = resp;
+            }),
+        );
     }
 
     getEndMeetingDate(date: Date, duration: number) {
