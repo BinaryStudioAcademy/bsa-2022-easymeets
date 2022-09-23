@@ -22,6 +22,7 @@ export const getDefaultNotificationTemplates = (): ISaveConfirmationEmailDetails
         emailBody: `Hi {Invitee Full Name} \r\nThis is a friendly reminder that your {Event Name} with {My Name} is
         at {Event Time} on {Event Date}\r\n{Event Description}\r\n{Location}\r\n{Questions and Answers}`,
         type: TemplateType.Reminders,
+        timeValue: '00:05',
     },
     {
         allowToSend: true,
@@ -29,6 +30,7 @@ export const getDefaultNotificationTemplates = (): ISaveConfirmationEmailDetails
         emailBody: `Hi {Invitee Full Name} \r\nThank you for attending {Event Name} on {Event Date}
         \r\nPlease respond to this email with any feedback or additional requests.`,
         type: TemplateType.FollowUp,
+        timeValue: '00:05',
     },
 ];
 
