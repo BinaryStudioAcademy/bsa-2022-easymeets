@@ -1,14 +1,15 @@
 <div class="exclusion-dates-container">
-    <div class="exclusion-date-container" *ngFor="let exclusionDate of scheduleValue.exclusionDates; index as i">
+    <div class="exclusion-date-container" *ngFor="let exclusionTimeRangesDisplay of exclusionDatesDisplay">
         <div class="date-wrapper">
-            {{ exclusionDate.selectedDate | date: 'd MMM y' }}
+            {{ exclusionTimeRangesDisplay.date | date: 'd MMM y':scheduleValue.timeZone.timeValue }}
         </div>
         <div class="times-wrapper">
-            <div class="time-wrapper" *ngFor="let dayTimeRange of exclusionDate.dayTimeRanges">
-                {{ formatTime(dayTimeRange.start) }}-{{ formatTime(dayTimeRange.end) }}
+            <div class="time-wrapper" *ngFor="let dayTimeRange of exclusionTimeRangesDisplay.connectedExclusionTimeRanges">
+                {{ dayTimeRange.start | exclusionTime: scheduleValue.timeZone:exclusionTimeRangesDisplay.date }}-{{
+                dayTimeRange.end | exclusionTime: scheduleValue.timeZone:exclusionTimeRangesDisplay.date }}
             </div>
         </div>
-        <i class="fa-regular fa-circle-xmark xmark fa-xl" (click)="deleteExclusionDate(i)"></i>
+        <i class="fa-regular fa-circle-xmark xmark fa-xl" (click)="deleteExclusionTimeRange(exclusionTimeRangesDisplay)"></i>
         <hr />
     </div>
 </div>

@@ -1,9 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '@core/base/base.component';
-import { TimeRangeValidator } from '@core/helpers/time-helper';
-import { getDateWithoutLocalOffset } from '@core/helpers/time-zone-helper';
+import {
+    getFullDayTimeRange,
+    getTimeOnlyFromString,
+    getTimeZoneHours,
+    TimeRangeValidator,
+} from '@core/helpers/time-helper';
+import { getDateStringWithoutLocalOffset } from '@core/helpers/time-zone-helper';
+import { ITimeZone } from '@core/models/ITimeZone';
+import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
 import { hourMinutesRegex } from '@shared/constants/model-validation';
 
 @Component({
@@ -24,7 +31,10 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
 
     readonly endRangeIdentifier = 'endRange';
 
-    constructor(private dialogRef: MatDialogRef<ExclusionDatesPickerComponent>) {
+    constructor(
+        private dialogRef: MatDialogRef<ExclusionDatesPickerComponent>,
+        @Inject(MAT_DIALOG_DATA) private scheduleTimeZone: ITimeZone,
+    ) {
         super();
     }
 
@@ -44,7 +54,9 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
     removeTimeItem(controlsIdentifier: number) {
         this.formGroup.removeControl(controlsIdentifier.toString() + this.startRangeIdentifier);
         this.formGroup.removeControl(controlsIdentifier.toString() + this.endRangeIdentifier);
-        this.timeControlsIdentifiers = this.timeControlsIdentifiers.filter(identifier => identifier !== controlsIdentifier);
+        this.timeControlsIdentifiers = this.timeControlsIdentifiers.filter(
+            (identifier) => identifier !== controlsIdentifier,
+        );
     }
 
     clickApply() {
@@ -53,10 +65,18 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
 
             return;
         }
-        this.dialogRef.close({
-            selectedDate: getDateWithoutLocalOffset(this.selected).toJSON(),
-            dayTimeRanges: this.getValidDayTimeRanges(),
-        });
+        this.dialogRef.close(
+            this.getTimeRanges().map((range) => ({
+                start: getDateStringWithoutLocalOffset(
+                    new Date(this.selected!.setHours(range.start.hour, range.start.minute, 0, 0)),
+                    getTimeZoneHours(this.scheduleTimeZone.timeValue),
+                ),
+                end: getDateStringWithoutLocalOffset(
+                    new Date(this.selected!.setHours(range.end.hour, range.end.minute, 0, 0)),
+                    getTimeZoneHours(this.scheduleTimeZone.timeValue),
+                ),
+            })),
+        );
     }
 
     clickCancel() {
@@ -66,10 +86,22 @@ export class ExclusionDatesPickerComponent extends BaseComponent implements OnIn
     getValidDayTimeRanges = () =>
         this.timeControlsIdentifiers
             .map((number) => ({
-                start: this.formGroup.get(number.toString() + this.startRangeIdentifier)?.value as string | null,
-                end: this.formGroup.get(number.toString() + this.endRangeIdentifier)?.value as string | null,
+                start: this.formGroup.get(number.toString() + this.startRangeIdentifier)?.value ?? ('' as string),
+                end: this.formGroup.get(number.toString() + this.endRangeIdentifier)?.value ?? ('' as string),
             }))
-            .filter((range) => range.start && range.end);
+            .filter((range) => range.start && range.end)
+            .map((range) => ({
+                start: getTimeOnlyFromString(range.start),
+                end: getTimeOnlyFromString(range.end),
+            }));
+
+    getTimeRanges(): IDayTimeRange[] {
+        const validTimeRanges = this.getValidDayTimeRanges();
+
+        return validTimeRanges.length
+            ? validTimeRanges
+            : [getFullDayTimeRange()];
+    }
 
     private getDefaultFormGroup = () => {
         const [firstTimeControl, secondTimeControl] = this.getTimeFormControls();

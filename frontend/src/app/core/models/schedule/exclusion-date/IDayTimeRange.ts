@@ -1,4 +1,6 @@
+import { ITimeOnly } from '@core/models/ITimeOnly';
+
 export interface IDayTimeRange {
-    start: string;
-    end: string;
+    start: ITimeOnly;
+    end: ITimeOnly;
 }

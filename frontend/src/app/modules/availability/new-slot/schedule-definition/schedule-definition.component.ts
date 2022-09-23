@@ -1,15 +1,10 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, EventEmitter, Input, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent } from '@core/base/base.component';
 import { getDefaultSchedule } from '@core/helpers/default-schedule-helper';
 import { getDisplayDays } from '@core/helpers/display-days-helper';
-import { FindSameExclusionDateHelper } from '@core/helpers/find-same-exclusion-date-helper';
-import { TimeRangesMergeHelper } from '@core/helpers/time-ranges-merge-helper';
-import { IDayTimeRange } from '@core/models/schedule/exclusion-date/IDayTimeRange';
-import { IExclusionDate } from '@core/models/schedule/exclusion-date/IExclusionDate';
 import { ISchedule } from '@core/models/schedule/ISchedule';
 import { UserService } from '@core/services/user.service';
-import { ExclusionDatesPickerComponent } from '@modules/exclusion-dates/exclusion-dates-picker/exclusion-dates-picker.component';
+import { ExclusionDateComponent } from '@modules/availability/new-slot/schedule-definition/exclusion-date/exclusion-date.component';
 import { TimeFormat } from '@shared/enums/timeFormat';
 
 @Component({
@@ -24,19 +19,17 @@ export class ScheduleDefinitionComponent extends BaseComponent implements OnInit
         this.scheduleValue = value ?? getDefaultSchedule(false);
     }
 
-    public scheduleValue: ISchedule;
-
     @Input() disabled: boolean = false;
+
+    @ViewChild(ExclusionDateComponent) exclusionDateComponent: ExclusionDateComponent;
+
+    scheduleValue: ISchedule;
 
     displayDays: string[] = getDisplayDays();
 
     timeFormat?: TimeFormat;
 
-    public checkZone(): boolean {
-        return !this.scheduleValue.timeZone.nameValue;
-    }
-
-    constructor(private dialog: MatDialog, private userService: UserService) {
+    constructor(private userService: UserService) {
         super();
     }
 
@@ -46,39 +39,5 @@ export class ScheduleDefinitionComponent extends BaseComponent implements OnInit
         });
     }
 
-    showExclusionDatesWindow() {
-        this.dialog
-            .open<ExclusionDatesPickerComponent, IExclusionDate, IExclusionDate | undefined>(ExclusionDatesPickerComponent)
-            .afterClosed()
-            .subscribe((newExclusionDate) => {
-                if (newExclusionDate) {
-                    this.sortDayTimeRanges(newExclusionDate.dayTimeRanges);
-                    newExclusionDate.dayTimeRanges = TimeRangesMergeHelper(newExclusionDate.dayTimeRanges);
-
-                    if (!this.mergeExistingExclusionDates(newExclusionDate)) {
-                        this.scheduleValue.exclusionDates = [...this.scheduleValue.exclusionDates, newExclusionDate];
-                    }
-                }
-            });
-    }
-
-    private sortDayTimeRanges(ranges: IDayTimeRange[]) {
-        return ranges.sort((firstRange, secondRange) => firstRange.start.localeCompare(secondRange.start));
-    }
-
-    private mergeExistingExclusionDates(newExclusionDate: IExclusionDate) {
-        const sameDate = FindSameExclusionDateHelper(this.scheduleValue.exclusionDates, newExclusionDate);
-
-        if (sameDate) {
-            sameDate.dayTimeRanges = this.sortDayTimeRanges([
-                ...sameDate.dayTimeRanges,
-                ...newExclusionDate.dayTimeRanges,
-            ]);
-            sameDate.dayTimeRanges = TimeRangesMergeHelper(sameDate.dayTimeRanges);
-
-            return true;
-        }
-
-        return false;
-    }
+    checkZone = () => !this.scheduleValue.timeZone.nameValue;
 }

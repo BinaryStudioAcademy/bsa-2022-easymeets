@@ -5,6 +5,7 @@
             <div class="input">
                 <ng-moment-timezone-picker
                     [(ngModel)]="scheduleValue.timeZone"
+                    (ngModelChange)="exclusionDateComponent.updateExclusionTimeRangesDisplay()"
                     customPlaceholderText=""
                     [disabled]="disabled"
                     [getUserZone]="checkZone()">
@@ -53,7 +54,7 @@
             <span> Exclusion Dates </span>
             <mat-icon matTooltip="Specify exclusion dates for availability slot"> help_outline </mat-icon>
         </div>
-        <button mat-flat-button [disabled]="disabled" (click)="showExclusionDatesWindow()">
+        <button mat-flat-button [disabled]="disabled" (click)="exclusionDateComponent.showExclusionTimeRangesWindow()">
             <i class="fa-regular fa-plus"></i>
             Add Exclusion Date(s)
         </button>

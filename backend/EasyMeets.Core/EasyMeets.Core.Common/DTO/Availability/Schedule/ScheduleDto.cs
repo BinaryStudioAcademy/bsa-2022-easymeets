@@ -1,4 +1,4 @@
-﻿using EasyMeets.Core.Common.DTO.Availability.Schedule.ExclusionDate;
+﻿using EasyMeets.Core.Common.DTO.Availability.Schedule.ExclusionTImeRange;
 using EasyMeets.Core.Common.DTO.Common;
 
 namespace EasyMeets.Core.Common.DTO.Availability.Schedule;
@@ -10,5 +10,5 @@ public class ScheduleDto
     public bool DefinedExternally { get; set; }
     public string? DefinedBy { get; set; }
     public List<ScheduleItemDto> ScheduleItems { get; set; } = new();
-    public List<ExclusionDateDto> ExclusionDates { get; set; } = new();
+    public List<ExclusionTimeRangeDto> ExclusionTimeRanges { get; set; } = new();
 }

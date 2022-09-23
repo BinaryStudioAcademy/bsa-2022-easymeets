@@ -10,8 +10,6 @@ using EasyMeets.Core.WebAPI.DTO;
 using FirebaseAdmin;
 using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
-using AutoMapper;
-using EasyMeets.Core.Common.DTO.Zoom;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -20,7 +18,6 @@ using RabbitMQ.Client;
 using EasyMeets.RabbitMQ.Settings;
 using EasyMeets.RabbitMQ.Service;
 using Newtonsoft.Json.Converters;
-using EasyMeets.RabbitMQ.Interface;
 using EasyMeets.Core.BLL.Services.Queue;
 using Quartz;
 using Quartz.Spi;
@@ -37,7 +34,7 @@ namespace EasyMeets.Core.WebAPI.Extentions
                 .AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
-                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
                 });
             services.AddTransient<ISampleService, SampleService>();

@@ -27,7 +27,6 @@ namespace EasyMeets.Core.DAL.Context
         {
             var availabilitySlots = GenerateAvailabilitySlots();
             var schedules = GenerateSchedules();
-            var exclusionDates = GenerateExclusionDates(schedules);
 
             modelBuilder.Entity<User>().HasData(GenerateUsers());
             modelBuilder.Entity<Team>().HasData(GenerateTeams());
@@ -43,8 +42,7 @@ namespace EasyMeets.Core.DAL.Context
             modelBuilder.Entity<CalendarVisibleForTeam>().HasData(GenerateCalendarVisibleForTeams());
             modelBuilder.Entity<Schedule>().HasData(schedules);
             modelBuilder.Entity<ScheduleItem>().HasData(GenerateScheduleItems());
-            modelBuilder.Entity<ExclusionDate>().HasData(exclusionDates);
-            modelBuilder.Entity<DayTimeRange>().HasData(GenerateDateTimeRanges(exclusionDates));
+            modelBuilder.Entity<ExclusionTimeRange>().HasData(GenerateExclusionDates(schedules));
         }
 
         private static IList<User> GenerateUsers(int count = 10)
@@ -316,28 +314,16 @@ namespace EasyMeets.Core.DAL.Context
                 .Generate(count);
         }
 
-        private static IList<ExclusionDate> GenerateExclusionDates(ICollection<Schedule> schedules, int count = 10)
+        private static IList<ExclusionTimeRange> GenerateExclusionDates(ICollection<Schedule> schedules, int count = 10)
         {
             var id = 1;
-            return new Faker<ExclusionDate>()
+            return new Faker<ExclusionTimeRange>()
                 .UseSeed(SeedNumber)
                 .RuleFor(i => i.Id, _ => id++)
                 .RuleFor(i => i.IsDeleted, _ => false)
                 .RuleFor(i => i.ScheduleId, f => f.PickRandom(schedules).Id)
-                .RuleFor(i => i.SelectedDate, f => f.Date.Future())
-                .Generate(count);
-        }
-
-        private static IList<DayTimeRange> GenerateDateTimeRanges(ICollection<ExclusionDate> exclusionDates, int count = 5)
-        {
-            var id = 1;
-            return new Faker<DayTimeRange>()
-                .UseSeed(SeedNumber)
-                .RuleFor(i => i.Id, _ => id++)
-                .RuleFor(i => i.IsDeleted, _ => false)
-                .RuleFor(i => i.ExclusionDateId, f => f.PickRandom(exclusionDates).Id)
-                .RuleFor(i => i.Start, f => TimeSpan.FromHours(f.Random.Int(8, 12)))
-                .RuleFor(i => i.End, f => TimeSpan.FromHours(f.Random.Int(15, 18)))
+                .RuleFor(i => i.Start, f => f.Date.FutureDateOnly().ToDateTime(new TimeOnly(13, 0)))
+                .RuleFor(i => i.End, (_, r) => r.Start.AddHours(2)) 
                 .Generate(count);
         }
     }

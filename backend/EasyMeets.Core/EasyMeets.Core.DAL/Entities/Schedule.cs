@@ -16,7 +16,7 @@ public class Schedule : Entity<long>, IValidatableObject
 
     public ICollection<SlotMember> Members { get; set; } = new List<SlotMember>();
     public ICollection<ScheduleItem> ScheduleItems { get; set; } = new List<ScheduleItem>();
-    public ICollection<ExclusionDate> ExclusionDates { get; set; } = new List<ExclusionDate>();
+    public ICollection<ExclusionTimeRange> ExclusionTimeRanges { get; set; } = new List<ExclusionTimeRange>();
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if (DefinedBy is not null && !DefinedBy.IsValidEmail())
