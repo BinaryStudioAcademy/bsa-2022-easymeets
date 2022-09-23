@@ -7,6 +7,7 @@ import { MaterialModule } from '@shared/material/material.module';
 import { SharedModule } from '@shared/shared.module';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { MomentTimezonePickerModule } from 'moment-timezone-picker';
 
 import { EditMeetingComponent } from './edit-meeting/edit-meeting.component';
 import { NewMeetingComponent } from './new-meeting/new-meeting.component';
@@ -27,6 +28,7 @@ import { MeetingRoutingModule } from './meeting-routing.module';
         HeaderModule,
         SideMenuModule,
         SharedModule,
+        MomentTimezonePickerModule,
         CalendarModule.forRoot({
             provide: DateAdapter,
             useFactory: adapterFactory,

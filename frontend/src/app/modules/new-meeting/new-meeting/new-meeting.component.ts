@@ -5,7 +5,7 @@ import { BaseComponent } from '@core/base/base.component';
 import { getDisplayDuration } from '@core/helpers/display-duration-helper';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
 import { removeExcessiveSpaces } from '@core/helpers/string-helper';
-import { convertLocalDateToUTCWithUserSelectedTimeZone, getDefaultTimeZone } from '@core/helpers/time-zone-helper';
+import { convertDateToUTCUsingCustomTimeZone, getCurrentDate, getDefaultTimeZone } from '@core/helpers/time-zone-helper';
 import { IDuration } from '@core/models/IDuration';
 import { IMeeting } from '@core/models/IMeeting';
 import { INewMeeting } from '@core/models/INewMeeting';
@@ -50,9 +50,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     currentTeamId?: number;
 
-    date: Date = new Date();
+    date: Date = getCurrentDate();
 
     userId: bigint | undefined;
+
+    public currentMember?: INewMeetingMember;
 
     currentMemberId: bigint | undefined;
 
@@ -148,7 +150,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 locationType: form.value.location,
                 meetingRoom: form.value.meetingRoom,
                 duration: this.duration.minutes!,
-                startTime: convertLocalDateToUTCWithUserSelectedTimeZone(form.value.date, getDefaultTimeZone()),
+                startTime: convertDateToUTCUsingCustomTimeZone(new Date(form.value.date), getDefaultTimeZone()),
                 meetingLink: form.value.meetingName.trim(),
                 meetingMembers: this.addedMembers,
                 createdAt: new Date(),
@@ -183,7 +185,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 locationType: form.value.location,
                 meetingRoom: form.value.meetingRoom,
                 duration: this.duration.minutes!,
-                startTime: convertLocalDateToUTCWithUserSelectedTimeZone(form.value.date, getDefaultTimeZone()),
+                startTime: convertDateToUTCUsingCustomTimeZone(form.value.date, getDefaultTimeZone()),
                 meetingLink: form.value.meetingName.trim(),
                 meetingMembers: this.addedMembers,
             };
@@ -285,6 +287,11 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         );
     }
 
+    removeAll() {
+        this.addedMembers = this.currentMember ? [this.currentMember] : [];
+        this.memberUnavailability = this.currentMember?.unavailabilityItems ?? [];
+    }
+
     isMemberInList(member: INewMeetingMember) {
         return this.addedMembers.map((m) => m.id).includes(member.id);
     }
@@ -323,6 +330,10 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
         this.router.navigate(['/bookings']);
     }
 
+    goBack() {
+        this.router.navigate(['/availability']);
+    }
+
     trimInputValue(control: FormControl) {
         control.patchValue(removeExcessiveSpaces(control.value));
     }
@@ -355,6 +366,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             .subscribe((resp) => {
                 this.addMemberToList(resp);
 
+                this.currentMember = resp;
                 this.currentMemberId = resp.id;
             });
     }
@@ -373,7 +385,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     }
 
     private validateDateIsInFuture(control: AbstractControl): ValidationErrors | null {
-        const isDateInPast = new Date(control.value).getTime() < Date.now();
+        const isDateInPast = new Date(control.value).getTime() < getCurrentDate().getTime();
 
         return isDateInPast ? { invalid: true } : null;
     }
