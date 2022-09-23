@@ -31,7 +31,7 @@
     justify-content: center
     padding: 0 20px
     background-color: $white
-    box-shadow: $athens-gray 0px 1px 2px 2px, $silver-chalice 0px 2px 6px 0px
+    box-shadow: $athens-gray 0 1px 2px 2px, $silver-chalice 0px 2px 6px 0px
     border-radius: 32px
     height: 100%
     @media screen and (max-width: $desktop-min-width)
@@ -65,11 +65,7 @@
     img
         height: 78px
         width: 78px
-        border-radius: 100%
-    .team-img
-        border-radius: 0
-        width: 130px
-        height: 50px
+        clip-path: circle()
     .sidebar-list
         display: flex
         flex-direction: column
@@ -80,23 +76,6 @@
             flex-direction: row
             .sidebar-list-item
                 margin-right: 5%
-        .sidebar-list-item
-            width: 100%
-            img
-                width: 31px
-                height: 31px
-                margin-left: 0
-            .selected-member
-                width: 100%
-                display: flex
-                .selected-member-name
-                    display: flex
-                    width: 120px
-                    margin-top: 5px
-                    padding-left: 5px
-                .selected-member-img
-                    display: inline
-                    float: left
     .logo-wrapper
         position: absolute
         left: 10px
@@ -110,6 +89,7 @@
             border-radius: 0
             margin-bottom: 0
             margin-right: 5px
+            clip-path: none
         .product-name
             font-size: 24px
             color: $logo-color
@@ -117,6 +97,37 @@
     .welcome-message
         @media screen and (max-width: $desktop-min-width)
             display: none
+
+.participants-avatars .avatar
+    width: 32px
+    height: 32px
+    border: 2px solid $white
+    border-radius: 200px
+    position: relative
+    margin-left: -12px
+    display: none
+.participants-avatars .avatar:nth-child(-n+10)
+    display: inline-flex
+.participants-avatars .avatar:first-child
+    margin-left: -2px
+
+.avatar .left-participants
+    background: $em-ghost-white
+    border: 2px solid $white
+    border-radius: 200px
+    width: 32px
+    height: 32px
+    display: inline-flex
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 500
+    font-size: 14px
+    line-height: 32px
+    color: $em-bright-grey
+    position: absolute
+    margin-left: -12px
+    p
+        line-height: 32px
 
 h1, h2, h3, h4, h5
     font-family: 'Inter'

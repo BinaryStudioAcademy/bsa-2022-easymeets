@@ -1,20 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '@core/base/base.component';
+import { SlotType } from '@core/enums/slot-type.enum';
 import { LocationTypeMapping } from '@core/helpers/location-type-mapping';
+import { userEmailQuestionText, userFullNameQuestionText } from '@core/helpers/questions-mandatory-helper';
 import { getDefaultTimeZone } from '@core/helpers/time-zone-helper';
-import { IAvailabilitySlotMember } from '@core/models/IAvailabilitySlotMember';
 import { IExternalBookingSideMenu } from '@core/models/IExtendBookingSideMenu';
-import { IExternalAnswers } from '@core/models/IExternalAnswers';
 import { IExternalAttendee } from '@core/models/IExternalAttendee';
 import { IExternalAttendeeMeeting } from '@core/models/IExternalAttendeeMeeting';
 import { IExternalAvailabilitySlot } from '@core/models/IExternalAvailabilitySlot';
 import { IExternalMeeting } from '@core/models/IExternalMeeting';
 import { IExternalUser } from '@core/models/IExternalUser';
+import { IQuestion } from '@core/models/IQuestion';
+import { ISlotMember } from '@core/models/save-availability-slot/ISlotMember';
 import { ExternalAttendeeService } from '@core/services/external-attendee.service';
 import { NotificationService } from '@core/services/notification.service';
 import { SpinnerService } from '@core/services/spinner.service';
+import { TeamService } from '@core/services/team.service';
 import { LocationType } from '@shared/enums/locationType';
+import { SlotParticipationOption } from '@shared/enums/slotParticipationOption';
 import { TZone } from 'moment-timezone-picker';
 
 @Component({
@@ -33,7 +37,11 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
 
     locationTypeOffice = LocationType.Office;
 
+    slotDataLoaded: boolean = false;
+
     locationTypeMapping = LocationTypeMapping;
+
+    maxAvatarNumber: number = 10;
 
     constructor(
         public spinnerService: SpinnerService,
@@ -41,6 +49,7 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         private notificationService: NotificationService,
         public router: Router,
         private route: ActivatedRoute,
+        private teamService: TeamService,
     ) {
         super();
     }
@@ -112,8 +121,12 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         teamId?: bigint;
         duration: number;
         location: LocationType;
+        questions: IQuestion[];
         meetingRoom?: string;
         name: string;
+        slotType?: SlotType;
+        participationRule?: SlotParticipationOption;
+        slotMembers: ISlotMember[]
     }): void {
         this.menu = {
             ...this.menu,
@@ -123,7 +136,20 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             slotId: data.slotId,
             teamId: data.teamId,
             slotName: data.name,
+            questions: data.questions,
+            slotType: data.slotType,
+            participationRule: data.participationRule,
+            slotMembers: this.slotDataLoaded ? this.menu.slotMembers : data.slotMembers,
         };
+        this.getTeam();
+        if (this.menu.slotType === SlotType.Team &&
+            this.menu.participationRule === SlotParticipationOption.One &&
+            data.slotMembers.length > 1 &&
+            !this.slotDataLoaded) {
+            this.router.navigate(['/external-booking/choose-team-members']);
+        } else {
+            this.slotDataLoaded = true;
+        }
     }
 
     public addTimeAndDateInMenu(data: { date: Date; timeFinish: Date; timeZone: TZone }): void {
@@ -155,11 +181,13 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         this.getUserAndSlots();
     }
 
-    public addMembersInMenu(selectedMembers: IAvailabilitySlotMember[]) {
+    public selectSLotMember(member: ISlotMember) {
         this.menu = {
             ...this.menu,
-            teamSlotMembers: selectedMembers,
+            slotMembers: [member],
         };
+        this.slotDataLoaded = true;
+        this.router.navigate([`/external-booking/choose-time/${this.link}`]);
     }
 
     public addTeamId(id: bigint) {
@@ -169,12 +197,13 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
         };
     }
 
-    public confirmBookingByExternalAttendee(answers: IExternalAnswers) {
+    public confirmBookingByExternalAttendee(userAnswers: IQuestion[]) {
         const meeting: IExternalMeeting = {
             teamId: this.menu.teamId,
             availabilitySlotId: this.menu.slotId,
             createdBy: this.menu.user.id,
-            name: `Meeting with ${answers.externalName}`,
+            name: `Meeting with ${this.getAttendeeName(userAnswers)}`,
+            answers: userAnswers,
             locationType: this.menu.location,
             meetingRoom: this.menu.meetingRoom,
             duration: this.menu.duration,
@@ -182,12 +211,13 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
             startTime: this.menu.date,
             createdAt: new Date(),
             updatedAt: new Date(),
+            members: this.menu.slotMembers,
         };
 
         const attendee: IExternalAttendee = {
             availabilitySlotId: this.menu.slotId,
-            name: answers.externalName,
-            email: answers.externalEmail,
+            name: this.getAttendeeName(userAnswers),
+            email: this.getAttendeeEmail(userAnswers),
             timeZoneValue: this.menu.timeZone?.timeValue,
             timeZoneName: this.menu.timeZone?.nameValue,
         };
@@ -259,10 +289,30 @@ export class ExternalBookingPageComponent extends BaseComponent implements OnIni
     }
 
     isTeamBooking(): boolean {
-        return this.router.url.includes('/team/') || !!this.menu.team;
+        return this.menu.slotType === SlotType.Team && !!this.menu.team;
     }
 
     isConfirmedRoute(): boolean {
         return this.router.url.includes('/external-booking/confirmed-booking');
+    }
+
+    isChooseMembersRoute(): boolean {
+        return this.router.url.includes('/external-booking/choose-team-members');
+    }
+
+    private getTeam() {
+        this.teamService.getTeamById(Number(this.menu.teamId))
+            .pipe(this.untilThis)
+            .subscribe(team => {
+                this.menu.team = team;
+            });
+    }
+
+    private getAttendeeName(userAnswers: IQuestion[]) {
+        return userAnswers.find(a => a.questionText === userFullNameQuestionText)?.answer ?? '';
+    }
+
+    private getAttendeeEmail(userAnswers: IQuestion[]) {
+        return userAnswers.find(a => a.questionText === userEmailQuestionText)?.answer ?? '';
     }
 }

@@ -36,17 +36,23 @@
                 {{ slot.size }} min, {{ slot.authorName }}, {{ locationTypeMapping(slot.locationType) }}
             </p>
             <p *ngIf="!hasOwner">
-                {{ slot.size }} min, 1 of {{ slot.members.length }} members,
+                {{ slot.size }} min, {{ slot.members.length }} Team Members,
                 {{ locationTypeMapping(slot.locationType) }}
             </p>
-            <div class="avatar-list">
-                <div *ngFor="let member of slot.members">
-                    <img *ngIf="member.memberImage; else noAvatar" [src]="member.memberImage" class="avatar" />
-                </div>
-                <img *ngIf="!slot.members.length" src="assets/header/avatar-icon.png" class="avatar" />
-                <ng-template #noAvatar>
-                    <img class="avatar" src="assets/header/avatar-icon.png" />
-                </ng-template>
+            <div class="participants-avatars">
+                <ng-container *ngFor="let member of slot.members">
+                    <ng-container *ngIf="member.memberImage; else noImageMember">
+                        <span class="avatar"><img [src]="member.memberImage" alt="member" /></span>
+                    </ng-container>
+                    <ng-template #noImageMember>
+                        <span class="avatar"><img src="assets/header/avatar-icon.png" alt="member" /></span>
+                    </ng-template>
+                </ng-container>
+                <span class="avatar" *ngIf="slot.members.length > 10">
+                    <div class="left-participants">
+                        <h4>+{{ slot.members.length - maxVisibleMembers }}</h4>
+                    </div>
+                </span>
             </div>
         </div>
         <div class="options">
@@ -102,13 +108,20 @@
                 {{ slot.size }} min, 1 of {{ slot.members.length }} members,
                 {{ locationTypeMapping(slot.locationType) }}
             </p>
-            <div class="avatar-list">
-                <div *ngFor="let member of slot.members">
-                    <img *ngIf="member.memberImage; else noAvatar" [src]="member.memberImage" class="avatar" />
-                </div>
-                <ng-template #noAvatar>
-                    <img class="avatar" src="assets/header/avatar-icon.png" />
-                </ng-template>
+            <div class="participants-avatars">
+                <ng-container *ngFor="let member of slot.members">
+                    <ng-container *ngIf="member.memberImage; else noImageMember">
+                        <span class="avatar"><img [src]="member.memberImage" alt="member" /></span>
+                    </ng-container>
+                    <ng-template #noImageMember>
+                        <span class="avatar"><img src="assets/header/avatar-icon.png" alt="member" /></span>
+                    </ng-template>
+                </ng-container>
+                <span class="avatar" *ngIf="slot.members.length > 10">
+                    <div class="left-participants">
+                        <h4>+{{ slot.members.length - maxVisibleMembers }}</h4>
+                    </div>
+                </span>
             </div>
         </div>
         <div class="options">

@@ -6,7 +6,7 @@ export const getUserSettingsMenuItems = (): SideMenuGroup[] => [
         items: [
             { text: 'Personal', routerLink: 'account/personal' },
             { text: 'Login & Password', routerLink: 'default-route' },
-            { text: 'Payments', routerLink: 'default-route' },
+            { text: 'Default Shedule', routerLink: 'default-route' },
         ],
     },
     {
@@ -14,7 +14,6 @@ export const getUserSettingsMenuItems = (): SideMenuGroup[] => [
         items: [
             { text: 'Calendars', routerLink: 'integrations/calendars' },
             { text: 'Video Conferencing', routerLink: 'integrations/video-conferencing' },
-            { text: 'Mailing', routerLink: 'default-route' },
             { text: 'API & Tokens', routerLink: 'default-route' },
         ],
     },

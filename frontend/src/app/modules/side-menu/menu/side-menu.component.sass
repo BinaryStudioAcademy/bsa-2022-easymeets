@@ -1,28 +1,59 @@
 @import 'src/styles/color-variables.sass'
 
-.group-header, .group-button
-    color: $loblolly
+.side-list
+    padding-right: 1px
+    & *
+        font-family: "Inter"
+        font-size: 14px
 
-.group-button:hover
-    background-color: $white
+.group:not(:last-child)
+    margin-bottom: 27px
 
-.mat-list-base .mat-list-item, .mat-list-base .mat-subheader
-    height: 1em
-    margin: 12px 0
-    padding: 10px 0
-    border-radius: 4px
-    font-size: 14px
+.group-header
+    align-items: flex-end
+    gap: 10px
+    padding-inline: 12px
+    padding-top: 0
+    padding-bottom: 8px
+    color: $em-nepal
+    & *
+        font-size: 12px
 
-.mat-nav-list a.side-list-item-active
-    color: $royal-blue
-    background-color: $light-blue
-    font-weight: 700
+.group-button
+    border-color: $em-nepal
+    color: $em-raven
+    line-height: normal
+    &:hover
+        background-color: $em-ghost-white
+    ::ng-deep .mat-button-wrapper
+        display: flex
+        align-items: center
 
-a.list-item
-    color: $dark-gray
+.btn-rounded
+    border-radius: 24px
+
+.mat-list-base .mat-subheader
+    height: auto
+
+.mat-list-item.list-item
+    border-top: 1px solid transparent
+    border-right: 0
+    border-bottom: 1px solid transparent
+    border-left: 1px solid transparent
+    height: 2.6em
+    color: $em-raven
+    &.item-link-active
+        border-top: 1px solid $em-solitude-dark
+        border-bottom: 1px solid $em-solitude-dark
+        border-left: 2px solid $em-black
+        background-color: white
+        color: $em-black
+        font-weight: 700
+        ::ng-deep .mat-list-item-content
+            padding-left: 15px
+    &:hover:not(.item-link-active)
+        background-color: $em-ghost-white
     span
         overflow: hidden
         white-space: nowrap
         text-overflow: ellipsis
-.side-list
-    margin: 0 1em

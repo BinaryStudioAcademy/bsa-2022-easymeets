@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BaseComponent } from '@core/base/base.component';
 import { AuthFormService } from '@core/services/auth-form.service';
 import { NotificationService } from '@core/services/notification.service';
 import { TeamService } from '@core/services/team.service';
@@ -11,7 +12,7 @@ import { switchMap } from 'rxjs';
     templateUrl: './auth-card.component.html',
     styleUrls: ['./auth-card.component.sass'],
 })
-export class AuthCardComponent {
+export class AuthCardComponent extends BaseComponent {
     teamId: number = 0;
 
     constructor(
@@ -21,9 +22,11 @@ export class AuthCardComponent {
         private teamService: TeamService,
         private notificationService: NotificationService,
     ) {
+        super();
         this.authService
             .teamMemberAddedEmitted$
             .pipe(
+                this.untilThis,
                 switchMap(resp => this.teamService.createTeamMember(resp)),
             )
             .subscribe({ next: () => {

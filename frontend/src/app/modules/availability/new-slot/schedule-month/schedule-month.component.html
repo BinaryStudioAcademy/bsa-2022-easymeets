@@ -1,0 +1,26 @@
+<ng-template #customCellTemplate let-day="day">
+    <div class="menu-trigger" [matMenuTriggerFor]="menu">
+        <div class="cal-cell-top">
+            <span class="cal-day-number">{{ day.date | date :"d" }}</span>
+            <i class="fa-solid fa-repeat" *ngIf="getWeekScheduleTime(day.date).length"></i>
+        </div>
+        <div>
+            <div class="cal-content">
+                <p *ngIf="!getWeekScheduleTime(day.date).length">Unavailable</p>
+                <p *ngFor="let time of getWeekScheduleTime(day.date)">{{time}}</p>
+            </div>
+        </div>
+        <div class="schedule-month-drop-down-menu">
+            <mat-menu #menu="matMenu" class="schedule-month-drop-down-menu">
+                <button mat-menu-item class="btn share" (click)="openDialog(day.date)">
+                    <i class="fa-solid fa-pen"></i>Edit all {{ day.date | date :"EEEE" }}s
+                </button>
+            </mat-menu>
+        </div>
+    </div>
+</ng-template>
+
+<mwl-calendar-month-view
+    [viewDate]="viewDate"
+    [cellTemplate]="customCellTemplate">
+</mwl-calendar-month-view>

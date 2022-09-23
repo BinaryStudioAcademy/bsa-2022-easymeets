@@ -3,20 +3,25 @@
 
 .schedule-calendar-wrapper
     max-height: 60vh
-    .cal-event-container
-        display: flex
-        justify-content: center
     .cal-week-view .cal-time-events .cal-event
         width: 30px
+        margin: auto
         background-color: $white-color
-        border-color: $button-border
+        border-color: $em-nepal
     .cal-week-view .cal-time-events .cal-resize-handle
         width: 50px
         border-radius: 4px
-        background-color: $raven
+        background-color: $em-raven
         height: 5px
+    .cal-resize-handle-before-start
+        left: 50%
+        transform: translate(-50%, -50%)
+    .cal-resize-handle-after-end
+        left: 50%
+        transform: translate(-50%, -50%)
     @media screen and (max-width: $desktop-max-width-exclusion-tab)
         .cal-week-view .cal-time-events .cal-event
             width: 20px
+            margin: auto
         .cal-week-view .cal-time-events .cal-resize-handle
             width: 30px
