@@ -15,7 +15,7 @@
                 type="submit"
                 mat-flat-button
                 class="new-meeting-header-button"
-                [disabled]="meetingForm.invalid || !meetingForm.touched || !addedMembers.length">
+                [disabled]="meetingForm.invalid || !meetingForm.touched || !addedMembers.length || submitRequestInProgress">
                 {{ isEditing ? 'Edit' : 'Create' }}
             </button>
         </div>

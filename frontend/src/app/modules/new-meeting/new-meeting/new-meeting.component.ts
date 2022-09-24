@@ -24,7 +24,7 @@ import { LocationType } from '@shared/enums/locationType';
 import { UnitOfTime } from '@shared/enums/unitOfTime';
 import { CalendarEvent } from 'angular-calendar';
 import addMinutes from 'date-fns/addMinutes';
-import { debounceTime, map, Observable, of, Subscription, switchMap } from 'rxjs';
+import { debounceTime, finalize, map, Observable, of, Subscription, switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-new-meeting',
@@ -54,7 +54,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     userId: bigint | undefined;
 
-    public currentMember?: INewMeetingMember;
+    currentMember?: INewMeetingMember;
 
     currentMemberId: bigint | undefined;
 
@@ -70,7 +70,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
 
     locations: LocationType[] = [LocationType.Office];
 
-    public locationOffice = LocationType.Office;
+    locationOffice = LocationType.Office;
 
     unitOfTime = Object.keys(UnitOfTime);
 
@@ -89,6 +89,8 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     memberFilterCtrl: FormControl = new FormControl('');
 
     locationControl: FormControl = new FormControl();
+
+    submitRequestInProgress = false;
 
     event: CalendarEvent;
 
@@ -157,9 +159,10 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
                 createdAt: new Date(),
             };
 
+            this.submitRequestInProgress = true;
             this.newMeetingService
                 .saveNewMeeting(newMeeting)
-                .pipe(this.untilThis)
+                .pipe(this.untilThis, finalize(() => { this.submitRequestInProgress = false; }))
                 .subscribe((value) => {
                     this.createdMeeting = value;
                     this.showConfirmWindow('Meeting Created !');
