@@ -100,10 +100,12 @@
         </div>
         <div class="email-definition" *ngIf="state === 'EmailDefining'">
             <div class="info-header">
-                <button mat-icon-button (click)="returnToSchedule()">
-                    <mat-icon>arrow_back</mat-icon>
-                </button>
-                <p class="info-label">Please, enter your Email</p>
+                <div class="label-wrapper">
+                    <button mat-icon-button (click)="returnToSchedule()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    <p class="info-label">Please, enter your Email</p>
+                </div>
                 <button
                     mat-flat-button
                     color="primary"
