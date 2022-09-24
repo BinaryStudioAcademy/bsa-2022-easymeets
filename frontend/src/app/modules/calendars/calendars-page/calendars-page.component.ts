@@ -130,16 +130,6 @@ export class CalendarsPageComponent extends BaseComponent implements OnInit {
                     label: 'Google Calendar',
                     onClickEvent: this.connectGoogleCalendar,
                 },
-                {
-                    class: 'confirm-accept-button',
-                    label: 'Outlook',
-                    onClickEvent: this.connectOutlookCalendar,
-                },
-                {
-                    class: 'confirm-accept-button',
-                    label: 'Apple Calendar',
-                    onClickEvent: this.connectAppleCalendar,
-                },
             ],
             title: 'Select Calendar',
             message:
