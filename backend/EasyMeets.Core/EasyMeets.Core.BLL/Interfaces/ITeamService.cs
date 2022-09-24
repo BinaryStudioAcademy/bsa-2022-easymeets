@@ -18,7 +18,7 @@ public interface ITeamService
     Task<NewMeetingMemberDto> GetTeamMembersByIdAsync(long userId, long teamId);
     Task<ICollection<NewMeetingMemberDto>> GetNewTeamMembersAsync(long teamId, int count);
     Task<List<TeamMemberDto>> GetTeamMembersAsync(long id);
-    Task CreateTeamMemberAsync(TeamMemberDto teamMemberDto, long teamId);
+    Task CreateTeamMembersAsync(TeamMemberDto[] teamMembersDto, long teamId);
     Task UpdateTeamMemberRoleAsync(TeamMemberDto teamMemberDto);
     Task DeleteTeamMemberAsync(long teamMemberId);
 }
