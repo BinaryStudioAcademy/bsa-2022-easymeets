@@ -20,7 +20,7 @@ namespace EasyMeets.Core.BLL.Services.Quartz
         {
             if (_lastSentTime == DateTime.MinValue)
             {
-                _lastSentTime = DateTime.Now.AddMinutes(-1);
+                _lastSentTime = DateTime.UtcNow.AddMinutes(-1);
             }
 
             using var scope = _provider.CreateScope();
@@ -28,7 +28,7 @@ namespace EasyMeets.Core.BLL.Services.Quartz
 
             await emailDelayService.CheckForNotify(TemplateType.FollowUp, _lastSentTime);
 
-            _lastSentTime = DateTime.Now;
+            _lastSentTime = DateTime.UtcNow;
         }
     }
 }
