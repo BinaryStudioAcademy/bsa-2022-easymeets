@@ -15,7 +15,9 @@
                     mat-flat-button
                     color="primary"
                     class="save-activate-button"
-                    (click)="saveChanges()"
+                    appDebounceClick
+                    [debounceTime]="1000"
+                    (debounceClick)="saveChanges()"
                     disabled="false"
                     [disabled]="isInvalid()">
                     Save and Activate
