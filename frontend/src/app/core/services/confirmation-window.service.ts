@@ -22,6 +22,7 @@ export class ConfirmationWindowService {
         return this.dialog
             .open(ConfirmationWindowComponent, {
                 data,
+                disableClose: true,
             })
             .afterClosed();
     }
