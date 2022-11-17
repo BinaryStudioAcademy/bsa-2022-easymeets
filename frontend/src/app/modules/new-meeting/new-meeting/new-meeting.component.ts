@@ -294,7 +294,7 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
     }
 
     isMemberInList(member: INewMeetingMember) {
-        return this.addedMembers.map((m) => m.id).includes(member.id);
+        return this.addedMembers.some((m) => m.name === member.name);
     }
 
     reset() {
@@ -344,13 +344,14 @@ export class NewMeetingComponent extends BaseComponent implements OnInit, OnDest
             .pipe(
                 switchMap((teamId) => {
                     this.currentTeamId = teamId;
+                    this.removeAll();
 
                     return this.getDefaultTeamMembers(teamId);
                 }),
                 this.untilThis,
             )
             .subscribe((members) => {
-                this.defaultMembers = members;
+                this.defaultMembers = members.filter((member) => member.id !== this.currentMember?.id);
             });
     }
 
