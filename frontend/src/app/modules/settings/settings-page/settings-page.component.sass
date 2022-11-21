@@ -56,8 +56,10 @@
         height: auto
 
 .menu-item-container
-    flex-grow: 1
-    padding: 25px 0
+    width: calc(100% - 176px)
+    padding: 40px 0
+    @media screen and ( max-width: $tablet-min-width )
+        width: 100%
 
 .sidebar
     max-width: 176px
